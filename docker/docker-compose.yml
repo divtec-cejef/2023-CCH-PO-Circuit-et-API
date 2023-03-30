@@ -20,6 +20,7 @@ services:
       - DB_URL=db-1:5432
     networks:
       - db-network
+    command: npm start
 
 volumes:
   db-data:
