@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getCars = () => {
-	return true;
+export const getCars = async () => {
+	return await prisma.car.findMany();
 };
 
 type IdVoiture = string | number;
@@ -16,7 +16,7 @@ export const getCar = async (id_voiture: IdVoiture) => {
 };
 
 const getCarWithString = async (idVoiture: string) => {
-	const car = await prisma.voiture.findFirst({
+	const car = await prisma.car.findFirst({
 		where: {
 			url: idVoiture
 		}
@@ -26,9 +26,9 @@ const getCarWithString = async (idVoiture: string) => {
 };
 
 async function getCarWithNumber(idVoiture: number) {
-	const car = await prisma.voiture.findFirst({
+	const car = await prisma.car.findFirst({
 		where: {
-			id_voiture: idVoiture
+			id_car: idVoiture
 		}
 	});
 
