@@ -15,12 +15,12 @@ services:
       - ../api:/app
     working_dir: /app
     ports:
-      - 3001:3001
-    environment:
-      - DB_URL=db-1:5432
+      - ${API_PORT}:3000
     networks:
       - db-network
     command: npm start
+    depends_on:
+      - db
 
 volumes:
   db-data:
