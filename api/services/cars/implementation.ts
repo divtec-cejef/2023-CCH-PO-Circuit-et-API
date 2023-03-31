@@ -3,7 +3,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getCars = async () => {
-	return await prisma.car.findMany();
+	return await prisma.car.findMany({
+		select: {
+			id_car: true,
+			url: true,
+			pseudo: true,
+			id_avatar: true,
+		}
+	});
 };
 
 type IdVoiture = string | number;
@@ -19,6 +26,12 @@ const getCarWithString = async (idVoiture: string) => {
 	const car = await prisma.car.findFirst({
 		where: {
 			url: idVoiture
+		},
+		select: {
+			id_car: true,
+			url: true,
+			pseudo: true,
+			id_avatar: true,
 		}
 	});
 
@@ -29,6 +42,12 @@ async function getCarWithNumber(idVoiture: number) {
 	const car = await prisma.car.findFirst({
 		where: {
 			id_car: idVoiture
+		},
+		select: {
+			id_car: true,
+			url: true,
+			pseudo: true,
+			id_avatar: true,
 		}
 	});
 
