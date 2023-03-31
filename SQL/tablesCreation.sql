@@ -5,52 +5,52 @@ CREATE TABLE Avatar(
    PRIMARY KEY(id_avatar)
 );
 
-CREATE TABLE Voiture(
-   id_voiture SERIAL,
-   mdp VARCHAR(50) ,
+CREATE TABLE Car(
+   id_car SERIAL,
+   password VARCHAR(50) ,
    url VARCHAR(100) ,
    pseudo VARCHAR(50) ,
    id_avatar INTEGER NOT NULL,
-   PRIMARY KEY(id_voiture),
+   PRIMARY KEY(id_car),
    FOREIGN KEY(id_avatar) REFERENCES Avatar(id_avatar)
 );
 
 CREATE TABLE Section(
    id_section SERIAL,
-   nom VARCHAR(50) ,
+   label VARCHAR(50) ,
    PRIMARY KEY(id_section)
 );
 
-CREATE TABLE Manche(
-   id_manche SERIAL,
-   numéro INTEGER,
-   id_voiture INTEGER NOT NULL,
-   PRIMARY KEY(id_manche),
-   FOREIGN KEY(id_voiture) REFERENCES Voiture(id_voiture)
+CREATE TABLE Run(
+   id_run SERIAL,
+   number INTEGER,
+   id_car INTEGER NOT NULL,
+   PRIMARY KEY(id_run),
+   FOREIGN KEY(id_car) REFERENCES Car(id_car)
 );
 
-CREATE TABLE Temps(
-   id_temps SERIAL,
-   secteur INTEGER,
-   temps TIME(3),
-   id_manche INTEGER NOT NULL,
-   PRIMARY KEY(id_temps),
-   FOREIGN KEY(id_manche) REFERENCES Manche(id_manche)
+CREATE TABLE Measured_time(
+   id_measured_time SERIAL,
+   sector INTEGER,
+   measured_time TIME(3),
+   id_run INTEGER NOT NULL,
+   PRIMARY KEY(id_measured_time),
+   FOREIGN KEY(id_run) REFERENCES Run(id_run)
 );
 
-CREATE TABLE Activite(
-   id_activite SERIAL,
-   nom VARCHAR(50) ,
+CREATE TABLE Activity(
+   id_activity SERIAL,
+   label VARCHAR(50) ,
    id_section INTEGER NOT NULL,
-   PRIMARY KEY(id_activite),
+   PRIMARY KEY(id_activity),
    FOREIGN KEY(id_section) REFERENCES Section(id_section)
 );
 
-CREATE TABLE realiser(
-   id_voiture SERIAL,
-   id_activite INTEGER,
-   date_heure TIMESTAMP,
-   PRIMARY KEY(id_voiture, id_activite),
-   FOREIGN KEY(id_voiture) REFERENCES Voiture(id_voiture),
-   FOREIGN KEY(id_activite) REFERENCES Activite(id_activite)
+CREATE TABLE realise(
+   id_car SERIAL,
+   id_activity INTEGER,
+   date_time TIMESTAMP,
+   PRIMARY KEY(id_car, id_activity),
+   FOREIGN KEY(id_car) REFERENCES Car(id_car),
+   FOREIGN KEY(id_activity) REFERENCES Activity(id_activity)
 );
