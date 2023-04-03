@@ -30,7 +30,7 @@ model activity {
 model car {
   id_car    Int       @id @default(autoincrement())
   password  String?   @db.VarChar(50)
-  url       String?   @db.VarChar(100)
+  query_id  String?   @db.VarChar(100)
   pseudo    String?   @db.VarChar(50)
   id_avatar Int
   avatar    avatar    @relation(fields: [id_avatar], references: [id_avatar], onDelete: NoAction, onUpdate: NoAction)
