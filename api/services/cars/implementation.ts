@@ -16,7 +16,7 @@ export const getCars = async () => {
 type CarId = string;
 
 export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
-	if (searchByPk)
+	if (!searchByPk)
 		return await getCarByQueryId(carId);
 	else
 		return await getCarByPk(parseInt(carId));
