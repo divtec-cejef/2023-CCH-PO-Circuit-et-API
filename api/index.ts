@@ -1,8 +1,11 @@
 import express from "express";
 import fs from "fs";
-
+import cors from "cors";
 
 const app = express();
+app.use(cors({
+	origin: "*"
+}));
 
 const recursiveDirRead = (dir: string) => {
 	const files = fs.readdirSync(dir, { withFileTypes: true });
