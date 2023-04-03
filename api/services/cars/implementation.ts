@@ -6,30 +6,30 @@ export const getCars = async () => {
 	return await prisma.car.findMany({
 		select: {
 			id_car: true,
-			url: true,
+			query_id: true,
 			pseudo: true,
 			id_avatar: true,
 		}
 	});
 };
 
-type IdVoiture = string | number;
+type CarId = string;
 
-export const getCar = async (id_voiture: IdVoiture) => {
-	if (typeof id_voiture == 'string')
-		return await getCarWithString(id_voiture);
+export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
+	if (searchByPk)
+		return await getCarByQueryId(carId);
 	else
-		return await getCarWithNumber(id_voiture);
+		return await getCarByPk(parseInt(carId));
 };
 
-const getCarWithString = async (idVoiture: string) => {
+const getCarByQueryId = async (carQueryId: string) => {
 	const car = await prisma.car.findFirst({
 		where: {
-			url: idVoiture
+			query_id: carQueryId
 		},
 		select: {
 			id_car: true,
-			url: true,
+			query_id: true,
 			pseudo: true,
 			id_avatar: true,
 		}
@@ -38,14 +38,14 @@ const getCarWithString = async (idVoiture: string) => {
 	return car;
 };
 
-async function getCarWithNumber(idVoiture: number) {
+async function getCarByPk(carPk: number) {
 	const car = await prisma.car.findFirst({
 		where: {
-			id_car: idVoiture
+			id_car: carPk
 		},
 		select: {
 			id_car: true,
-			url: true,
+			query_id: true,
 			pseudo: true,
 			id_avatar: true,
 		}
@@ -54,10 +54,10 @@ async function getCarWithNumber(idVoiture: number) {
 	return car;
 }
 
-export const updateCar = (id_voiture: number) => {
+export const updateCar = (carId: number) => {
 
 };
 
-export const deleteCar = (id_voiture: number) => {
+export const deleteCar = (carId: number) => {
 
 };

@@ -2,8 +2,8 @@ SET search_path TO course;
 INSERT INTO avatar(image) VALUES ('image1');
 INSERT INTO avatar(image) VALUES ('image2');
 
-INSERT INTO car(password, url, pseudo, id_avatar) VALUES ('1234', '4356', 'PlayerOne', 1);
-INSERT INTO car(password, url, pseudo, id_avatar) VALUES ('4321', '4357', 'PlayerTwo', 2);
+INSERT INTO car(password, query_id, pseudo, id_avatar) VALUES ('1234', '4356', 'PlayerOne', 1);
+INSERT INTO car(password, query_id, pseudo, id_avatar) VALUES ('4321', '4357', 'PlayerTwo', 2);
 
 INSERT INTO section(label) VALUES ('Informatique');
 INSERT INTO section(label) VALUES ('Automatique');
