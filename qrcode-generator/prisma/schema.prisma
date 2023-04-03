@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model activity {
+  id_activity Int       @id @default(autoincrement())
+  label       String?   @db.VarChar(50)
+  id_section  Int
+  section     section   @relation(fields: [id_section], references: [id_section], onDelete: NoAction, onUpdate: NoAction)
+  realise     realise[]
+}
+
+model avatar {
+  id_avatar Int     @id @default(autoincrement())
+  image     String? @db.VarChar(100)
+  car       car[]
+}
+
+model car {
+  id_car    Int       @id @default(autoincrement())
+  password  String?   @db.VarChar(50)
+  query_id  String?   @db.VarChar(100)
+  pseudo    String?   @db.VarChar(50)
+  id_avatar Int
+  avatar    avatar    @relation(fields: [id_avatar], references: [id_avatar], onDelete: NoAction, onUpdate: NoAction)
+  realise   realise[]
+  run       run[]
+}
+
+model measured_time {
+  id_measured_time Int       @id @default(autoincrement())
+  sector           Int?
+  measured_time    DateTime? @db.Time(3)
+  id_run           Int
+  run              run       @relation(fields: [id_run], references: [id_run], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model realise {
+  id_car      Int       @default(autoincrement())
+  id_activity Int
+  date_time   DateTime? @db.Timestamp(6)
+  activity    activity  @relation(fields: [id_activity], references: [id_activity], onDelete: NoAction, onUpdate: NoAction)
+  car         car       @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id_car, id_activity])
+}
+
+model run {
+  id_run        Int             @id @default(autoincrement())
+  number        Int?
+  id_car        Int
+  measured_time measured_time[]
+  car           car             @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model section {
+  id_section Int        @id @default(autoincrement())
+  label      String?    @db.VarChar(50)
+  activity   activity[]
+}
