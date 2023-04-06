@@ -35,7 +35,8 @@ let routApi = computed(() => `http://192.168.1.101:3001/car?id=${idCAr.value}`);
 async function onDecode(result: string) {
   console.log(result)
   let url = new URL(result);
-  idCAr.value = url.searchParams.get("id") || ""
+  idCAr.value = url.pathname || ""
+  console.log(idCAr.value)
   let res = await fetch(routApi.value);
   data.value = await res.json();
 }
