@@ -10,13 +10,20 @@ app.use(cors({
 const recursiveDirRead = (dir: string) => {
 	const files = fs.readdirSync(dir, { withFileTypes: true });
 	files.forEach((file) => {
-		const path = `${dir}/${file.name.split(".")[0]}`;
+		let splittedName = file.name.split(".");
+		if (splittedName.length > 1)
+			splittedName = splittedName.slice(0, -1);
+		const path = `${dir}/${splittedName.join(".")}`;
 		if (file.isDirectory()) {
 			recursiveDirRead(path);
 		} else {
+			if (file.name.split('.')[2] === 'disabled')
+				return;
 			const route = require(path);
 			try {
-				const routePath = "/" + path.split("/").slice(2, -1).join("/");
+				let routePath = "/" + path.split("/").slice(2, -1).join("/").split(".")[0];
+				if (file.name.split(".")[1] === "slug")
+					routePath += "/:slug";
 				console.log("inserting route: " + routePath);
 
 				type AppKey = keyof typeof app;
