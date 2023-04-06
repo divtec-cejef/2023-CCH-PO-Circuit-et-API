@@ -1,6 +1,11 @@
 import {computed, ref} from "vue";
 
 export namespace api {
+    export enum ReturnCodes {
+        NoCode = 0,
+        Success= 200,
+        NotFound = 404,
+    }
 
     const routeApi = ref('http://192.168.1.101:3001/');
 
