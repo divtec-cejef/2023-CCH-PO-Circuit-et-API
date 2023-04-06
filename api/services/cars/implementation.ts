@@ -75,6 +75,25 @@ export const updateCar = (carId: number) => {
 
 };
 
-export const deleteCar = (carId: number) => {
+export const deleteCarByQueryId = async (carQueryId: string) => {
+	const car = await prisma.car.deleteMany({
+		where: {
+			query_id: carQueryId
+		}
+	})
+};
 
+export const deleteCarByPk = async (carPK: number) => {
+	const car = await prisma.car.delete({
+		where: {
+			id_car: carPK
+		}
+	})
+};
+
+export const deleteCar = async (carId: CarId, searchByPk: boolean | undefined) => {
+	if (!searchByPk)
+		return await deleteCarByQueryId(carId);
+	else
+		return await getCarByPk(parseInt(carId));
 };
