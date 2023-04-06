@@ -14,6 +14,8 @@ const recursiveDirRead = (dir: string) => {
 		if (file.isDirectory()) {
 			recursiveDirRead(path);
 		} else {
+			if (file.name.split('.')[2] === 'disabled')
+				return;
 			const route = require(path);
 			try {
 				const routePath = "/" + path.split("/").slice(2, -1).join("/");
