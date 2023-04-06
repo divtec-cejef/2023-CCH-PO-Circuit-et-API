@@ -1,15 +1,15 @@
 <template>
-  <div v-if="codeBackApi === 0">
+  <div v-if="codeBackApi === api.ReturnCodes.NoCode">
     Chargement...
   </div>
 
-  <div v-else-if="codeBackApi === 200">
+  <div v-else-if="codeBackApi === api.ReturnCodes.Success">
     <h1>{{ userCar.pseudo }}</h1>
     <p>Voiture numéro : {{ userCar.idCar }}</p>
     <p>Accessible au code : {{ userCar.idQuery }}</p>
   </div>
 
-  <div v-else-if="codeBackApi === 404">
+  <div v-else-if="codeBackApi === api.ReturnCodes.NotFound">
     Erreur, impossible de trouver la voiture
   </div>
 
@@ -23,6 +23,7 @@
 import {computed, ref} from "vue";
 import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
+import api from "../../models/api";
 
 let userCar = useCarStore()
 let status = userCar.initUserCarUrl(useRouter().currentRoute.value.params.id);

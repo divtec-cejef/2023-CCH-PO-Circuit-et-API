@@ -3,16 +3,21 @@
     <qrcode-stream class="qrcode-reader" @decode="onDecode" @init="onInit"/>
   </div>
 
-  <div v-if="codeBackApi === 200">
+  <div v-if="codeBackApi === api.ReturnCodes.Success">
     <h1>{{ userCar.pseudo }}</h1>
     <p>Voiture numéro : {{ userCar.idCar }}</p>
     <p>Accessible au code : {{ userCar.idQuery }}</p>
+  </div>
+  <div v-else-if="codeBackApi !== 0">
+    Erreur, vous avez fumé
   </div>
 </template>
 
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import { QrcodeStream } from 'vue-qrcode-reader/src'
+import api from "../../models/api";
+
 
 import {useCarStore} from '@/stores/car'
 
