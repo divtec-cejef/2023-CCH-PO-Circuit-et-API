@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
-const prisma = new PrismaClient();
 
 export const getCars = async () => {
 	return await prisma.car.findMany({
@@ -8,8 +8,13 @@ export const getCars = async () => {
 			id_car: true,
 			query_id: true,
 			pseudo: true,
-			id_avatar: true,
-		}
+			avatar: {
+				select: {
+					id_avatar: true,
+					image: true,
+				},
+			},
+		},
 	});
 };
 
@@ -32,6 +37,12 @@ const getCarByQueryId = async (carQueryId: string) => {
 			query_id: true,
 			pseudo: true,
 			id_avatar: true,
+			avatar: {
+				select: {
+					id_avatar: true,
+					image: true,
+				},
+			},
 		}
 	});
 
@@ -48,6 +59,12 @@ async function getCarByPk(carPk: number) {
 			query_id: true,
 			pseudo: true,
 			id_avatar: true,
+			avatar: {
+				select: {
+					id_avatar: true,
+					image: true,
+				},
+			},
 		}
 	});
 
