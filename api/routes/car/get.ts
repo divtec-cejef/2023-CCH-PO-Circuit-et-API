@@ -2,7 +2,7 @@ import type { routeHandler } from '../../models/types';
 import { getCar, getCars } from '../../services/cars/implementation';
 
 const route: routeHandler = async (req, res) => {
-	console.log("ok")
+
 	if (!req.query.id) {
 		res.json(await getCars());
 		return;
