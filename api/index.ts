@@ -32,13 +32,12 @@ const recursiveDirRead = (dir: string) => {
 				let routePath = "/" + path.split("/").slice(2, -1).join("/").split(".")[0];
 				if (file.name.split(".")[1] === "slug")
 					routePath += "/:slug";
-				console.log("inserting route: " + routePath);
 
 				type AppKey = keyof typeof app;
 				const method = file.name.split(".")[0] as AppKey;
 				app[method](routePath, route.default);
 
-				console.log("inserted route: " + routePath);
+				console.log(`inserted [${method}] route: ` + routePath);
 			} catch (e) {
 				if (e instanceof TypeError) {
 					console.log(`Error: ${path} is not a valid route`);
