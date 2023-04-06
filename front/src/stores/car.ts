@@ -11,9 +11,10 @@ export const useCarStore = defineStore('car', () => {
     /**
      * Initialisation de la voiture en fonction de l'URL actuel
      */
-    async function initUserCarUrl() {
-        const idCar = ref(useRouter().currentRoute.value.params.id)
-        let {json: dataUserCar, status} = await api.getDataOneCar(idCar.value.toString())
+    async function initUserCarUrl(idCar : string | string[] ) {
+
+        //Récupère les informations de la voiture
+        let {json: dataUserCar, status} = await api.getDataOneCar(idCar.toString())
 
         //Remplissage des champs de la voiture
         userCar.idCar.value = dataUserCar["id_car"];

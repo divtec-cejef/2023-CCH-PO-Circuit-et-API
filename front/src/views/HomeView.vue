@@ -22,9 +22,10 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import {useCarStore} from '@/stores/car'
+import {useRouter} from "vue-router";
 
 let userCar = useCarStore()
-let status = userCar.initUserCarUrl();
+let status = userCar.initUserCarUrl(useRouter().currentRoute.value.params.id);
 
 let codeBackApi = ref(0);
 status.then(value => codeBackApi.value = value)
