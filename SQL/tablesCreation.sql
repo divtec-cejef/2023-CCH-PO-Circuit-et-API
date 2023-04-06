@@ -1,4 +1,4 @@
-SET search_path TO course;
+SET search_path TO cars;
 
 CREATE TABLE
     Avatar(
@@ -11,7 +11,7 @@ CREATE TABLE
     Car(
         id_car SERIAL,
         password VARCHAR(50),
-        query_id VARCHAR(100),
+        query_id VARCHAR(100) UNIQUE,
         pseudo VARCHAR(50),
         id_avatar INTEGER NOT NULL,
         PRIMARY KEY(id_car),
