@@ -7,6 +7,14 @@ app.use(cors({
 	origin: "*"
 }));
 
+app.all("*", (req, _, next) => {
+	console.log(`\n\n${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}`);
+	console.log(`query: ${JSON.stringify(req.query, null, 2)}`);
+	console.log(`body: ${JSON.stringify(req.body, null, 2)}`);
+	console.log(`headers: ${JSON.stringify(req.headers, null, 2)}\n`);
+	next();
+});
+
 const recursiveDirRead = (dir: string) => {
 	const files = fs.readdirSync(dir, { withFileTypes: true });
 	files.forEach((file) => {
