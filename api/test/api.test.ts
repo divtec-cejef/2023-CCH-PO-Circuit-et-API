@@ -1,18 +1,22 @@
+// ajouts des variables d'environnement
 process.env.NODE_ENV = "test";
-import "../index";
-import * as models from "../models";
 
-//Require the dev-dependencies
+// importation des modules
+import "../index";
 import chai from 'chai';
 import chaiHttp from "chai-http";
 import "mocha";
-const should = chai.should();
 
+// configuration de chai
 chai.use(chaiHttp);
-
 const expect = chai.expect;
 
+
+
+// Test de la racine de l'API
 describe("Root", () => {
+
+    // test du fonctionnement de l'API
     it("should return 'It works'", (done) => {
         chai.request("localhost:3000").get("/")
             .then((res) => {
@@ -23,7 +27,10 @@ describe("Root", () => {
     })
 })
 
+// Test des voitures de l'API
 describe("Car", () => {
+
+    // Obtenir toutes les voitures
     it("should return an array of cars", (done) => {
         chai.request("localhost:3000").get("/car")
             .then((res) => {
@@ -32,6 +39,9 @@ describe("Car", () => {
                 done();
             })
     })
+
+
+    // Obtenir une voiture à partir de son id
     it("should return a car", (done) => {
         chai.request("localhost:3000").get("/car/1")
             .then((res) => {
@@ -40,6 +50,8 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Obtenir une voiture à partir de son id avec un id invalide
     it("should return an error if invalid id is given", (done) => {
         chai.request("localhost:3000").get("/car/adsf")
             .then((res) => {
@@ -48,6 +60,8 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Obtenir une voiture qui n'existe pas
     it("should return an error if car is not found", (done) => {
         chai.request("localhost:3000").get("/car/999")
             .then((res) => {
@@ -56,6 +70,8 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Obtenir une voiture avec un query id
     it("should return a car on search with query id", (done) => {
         chai.request("localhost:3000").get("/car/query-id/4356")
             .then((res) => {
@@ -64,6 +80,8 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Obtenir une voiture sans query id ou avec un query id invalide
     it("should return an error if invalid/no query id is given", (done) => {
         chai.request("localhost:3000").get("/car/query-id/")
             .then((res) => {
@@ -72,6 +90,8 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Obtenir une voiture avec un query id qui n'existe pas
     it("should return an error if car is not found on search with query id", (done) => {
         chai.request("localhost:3000").get("/car/query-id/adsfasf")
             .then((res) => {
