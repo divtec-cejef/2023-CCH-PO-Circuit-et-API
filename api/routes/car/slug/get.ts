@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../models';
-import { getCarById, getCars } from '../../../services/cars/implementation';
+import { getCarById, getCars } from '../../../services/car/implementation';
 
 const route: routeHandler = async (req, res) => {
 
