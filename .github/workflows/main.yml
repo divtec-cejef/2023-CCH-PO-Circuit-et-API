@@ -26,8 +26,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - run: |
-          apt-get update
-          apt-get install --yes --no-install-recommends postgresql-client
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends postgresql-client
           cd SQL
           psql -h postgres -U posgres -d postgres -w -a -f schemaCreation.sql
           psql -h postgres -U posgres -d postgres -w -a -f tablesCreation.sql
