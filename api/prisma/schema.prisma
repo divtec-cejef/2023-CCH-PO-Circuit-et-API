@@ -30,7 +30,7 @@ model activity {
 model car {
   id_car    Int       @id @default(autoincrement())
   password  String?   @db.VarChar(50)
-  query_id  String?   @db.VarChar(100)
+  query_id  String?   @unique @db.VarChar(100)
   pseudo    String?   @db.VarChar(50)
   id_avatar Int
   avatar    avatar    @relation(fields: [id_avatar], references: [id_avatar], onDelete: NoAction, onUpdate: NoAction)
@@ -43,7 +43,7 @@ model measured_time {
   sector           Int?
   measured_time    DateTime? @db.Time(3)
   id_run           Int
-  run              run       @relation(fields: [id_run], references: [id_run], onDelete: NoAction, onUpdate: NoAction)
+  run              run       @relation(fields: [id_run], references: [id_run], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model realise {
@@ -51,7 +51,7 @@ model realise {
   id_activity Int
   date_time   DateTime? @db.Timestamp(6)
   activity    activity  @relation(fields: [id_activity], references: [id_activity], onDelete: NoAction, onUpdate: NoAction)
-  car         car       @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
+  car         car       @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([id_car, id_activity])
 }
@@ -61,5 +61,5 @@ model run {
   number        Int?
   id_car        Int
   measured_time measured_time[]
-  car           car             @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
+  car           car             @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 }
