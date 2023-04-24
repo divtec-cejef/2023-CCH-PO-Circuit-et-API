@@ -1,6 +1,12 @@
 import type { routeHandler } from '../../../models';
 import { getCarById, getCars } from '../../../services/car/implementation';
 
+/**
+ * Controller pour la route /car/:slug
+ * @param req Requete
+ * @param res Reponse
+ * @returns une voiture correspondant à son ID
+ */
 const route: routeHandler = async (req, res) => {
 
 	const id = parseInt(req.params.slug);
