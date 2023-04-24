@@ -1,4 +1,4 @@
-SET search_path TO course;
+SET search_path TO cars;
 
 CREATE TABLE
     Avatar(
@@ -11,7 +11,7 @@ CREATE TABLE
     Car(
         id_car SERIAL,
         password VARCHAR(50),
-        query_id VARCHAR(100),
+        query_id VARCHAR(100) UNIQUE,
         pseudo VARCHAR(50),
         id_avatar INTEGER NOT NULL,
         PRIMARY KEY(id_car),
@@ -31,7 +31,7 @@ CREATE TABLE
         number INTEGER,
         id_car INTEGER NOT NULL,
         PRIMARY KEY(id_run),
-        FOREIGN KEY(id_car) REFERENCES Car(id_car)
+        FOREIGN KEY(id_car) REFERENCES Car(id_car) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -41,7 +41,7 @@ CREATE TABLE
         measured_time TIME(3),
         id_run INTEGER NOT NULL,
         PRIMARY KEY(id_measured_time),
-        FOREIGN KEY(id_run) REFERENCES Run(id_run)
+        FOREIGN KEY(id_run) REFERENCES Run(id_run) ON DELETE CASCADE
     );
 
 CREATE TABLE
