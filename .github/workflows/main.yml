@@ -1,0 +1,40 @@
+on: 
+  push:
+    branches:
+    - main
+    
+jobs:
+  testing:
+    name: Run api tests
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node_version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node_version }}
+
+    - name: npm install and test
+      run: |
+        npm install
+        npm run test
+    
+  deploy:
+    name: Deploy to dist
+    runs-on: ubuntu-22.04
+    needs: testing
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        base: dist
+        labels: automerge
+        
+    - id: automerge
+      name: automerge
+      uses: "pascalgn/automerge-action@v0.15.6"
+    
