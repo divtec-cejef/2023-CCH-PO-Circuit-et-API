@@ -68,4 +68,5 @@ jobs:
         head: main
         base: dist
         title: "An automatically created PR!"
+        labels: automerge
 
