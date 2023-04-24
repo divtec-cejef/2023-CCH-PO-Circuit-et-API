@@ -62,6 +62,7 @@ jobs:
         ref: main
 
     - name: Create Pull Request
+      id: cpr
       uses: thomaseizinger/create-pull-request@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,9 +71,8 @@ jobs:
         title: "An automatically created PR!"
         labels: automerge
 
-    - id: automerge
-      name: automerge
+    - name: Merge
       uses: "pascalgn/automerge-action@v0.15.6"
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        BASE_BRANCHES: dist
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PULL_REQUEST: ${{ steps.cpr.outputs.number }}
