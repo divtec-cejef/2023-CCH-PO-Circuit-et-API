@@ -72,3 +72,6 @@ jobs:
     - id: automerge
       name: automerge
       uses: "pascalgn/automerge-action@v0.15.6"
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
