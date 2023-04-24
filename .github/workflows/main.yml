@@ -21,6 +21,10 @@ jobs:
               --health-interval 10s
               --health-timeout 5s
               --health-retries 5
+            ports:
+              # Maps tcp port 5432 on service container to the host
+              - 5432:5432
+
     name: Run api tests
     runs-on: ubuntu-22.04
     steps:
@@ -46,7 +50,7 @@ jobs:
         npx prisma generate
         npm run test --if-present
       env:
-        DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres?schema=cars
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
     
   deploy:
     name: Deploy to dist
