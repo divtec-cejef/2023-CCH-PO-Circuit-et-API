@@ -1,4 +1,4 @@
-SET search_path TO course;
+SET search_path TO cars;
 INSERT INTO avatar(image) VALUES ('image1');
 INSERT INTO avatar(image) VALUES ('image2');
 
