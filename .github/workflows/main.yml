@@ -33,9 +33,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends postgresql-client
           cd SQL
-          psql -h postgres -U posgres -d postgres -w -a -f schemaCreation.sql
-          psql -h postgres -U posgres -d postgres -w -a -f tablesCreation.sql
-          psql -h postgres -U posgres -d postgres -w -a -f testDataInsertion.sql
+          psql -h localhost -U posgres -d postgres -w -a -f schemaCreation.sql
+          psql -h localhost -U posgres -d postgres -w -a -f tablesCreation.sql
+          psql -h localhost -U posgres -d postgres -w -a -f testDataInsertion.sql
           cd ..
       name: Initialise db
     - name: Use Node.js ${{ matrix.node_version }}
