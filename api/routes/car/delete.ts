@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../models/types';
-import { getCar, getCars } from '../../services/cars/implementation';
+import {deleteCar, getCar, getCars} from '../../services/cars/implementation';
 
 const route: routeHandler = async (req, res) => {
 	if (!req.query.id) {
@@ -12,14 +12,12 @@ const route: routeHandler = async (req, res) => {
 		res.status(400).json({ error: 'Invalid id' });
 		return;
 	}
-
-	const car = await getCar(id, by_pk === 'true');
+    const car = await deleteCar(id, by_pk === 'true');
 
 	if (!car) {
 		res.status(404).json({ error: 'Car not found' });
 		return;
 	}
-
-	res.json(car);
+    res.status(200).json(car);
 };
 export default route;
