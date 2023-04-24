@@ -2,7 +2,8 @@ on:
   push:
     branches:
     - main
-    
+  workflow_dispatch:
+
 jobs:
   testing:
     name: Run api tests
