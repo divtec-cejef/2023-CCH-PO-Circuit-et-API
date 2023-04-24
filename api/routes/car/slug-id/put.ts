@@ -1,4 +1,4 @@
-import { routeHandler } from '../../../models/types';
+import { routeHandler } from '../../../models';
 
 export const route: routeHandler = (req, res) => {
 	res.send('Hello World!');
