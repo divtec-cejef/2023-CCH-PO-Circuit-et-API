@@ -42,6 +42,8 @@ jobs:
       run: |
         cd api
         npm install
+        npx prisma db pull -y
+        npx prisma generate
         npm run test --if-present
       env:
         DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres?schema=cars
