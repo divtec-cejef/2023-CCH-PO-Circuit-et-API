@@ -46,7 +46,7 @@ jobs:
       run: |
         cd api
         npm install
-        npx prisma db pull -y
+        npx prisma db pull
         npx prisma generate
         npm run test --if-present
       env:
