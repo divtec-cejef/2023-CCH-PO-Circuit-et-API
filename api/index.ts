@@ -17,7 +17,7 @@ app.use((req, _, next) => {
 
 const recursiveDirRead = (dir: string) => {
 	const files = fs.readdirSync(dir, { withFileTypes: true });
-	files.forEach((file) => {
+	for (const file of files) {
 		let splittedName = file.name.split(".");
 		if (splittedName.length > 1)
 			splittedName = splittedName.slice(0, -1);
@@ -26,7 +26,7 @@ const recursiveDirRead = (dir: string) => {
 			recursiveDirRead(path);
 		} else {
 			if (file.name.split('.')[2] === 'disabled')
-				return;
+				continue;
 			const route = require(path);
 			try {
 				let routePath = "/" + path.split("/").slice(2, -1).join("/").split(".")[0];
@@ -46,7 +46,7 @@ const recursiveDirRead = (dir: string) => {
 				console.error(e);
 			}
 		}
-	});
+	};
 };
 
 recursiveDirRead("./routes");
