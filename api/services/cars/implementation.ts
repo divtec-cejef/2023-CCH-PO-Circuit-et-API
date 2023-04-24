@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 
 export const getCars = async () => {
@@ -20,14 +20,14 @@ export const getCars = async () => {
 
 type CarId = string;
 
-export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
-	if (!searchByPk)
-		return await getCarByQueryId(carId);
-	else
-		return await getCarByPk(parseInt(carId));
-};
+// export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
+// 	if (!searchByPk)
+// 		return await getCarByQueryId(carId);
+// 	else
+// 		return await getCarByPk(parseInt(carId));
+// };
 
-const getCarByQueryId = async (carQueryId: string) => {
+export const getCarByQueryId = async (carQueryId: string) => {
 	const car = await prisma.car.findFirst({
 		where: {
 			query_id: carQueryId
@@ -49,7 +49,7 @@ const getCarByQueryId = async (carQueryId: string) => {
 	return car;
 };
 
-async function getCarByPk(carPk: number) {
+export const getCarById = async (carPk: number) => {
 	const car = await prisma.car.findFirst({
 		where: {
 			id_car: carPk
@@ -81,7 +81,7 @@ export const deleteCarByQueryId = async (carQueryId: string) => {
 			query_id: carQueryId
 		},
 
-	})
+	});
 };
 
 export const deleteCarByPk = async (carPK: number) => {
@@ -89,7 +89,7 @@ export const deleteCarByPk = async (carPK: number) => {
 		where: {
 			id_car: carPK
 		}
-	})
+	});
 };
 
 export const deleteCar = async (carId: CarId, searchByPk: boolean | undefined) => {
@@ -98,8 +98,8 @@ export const deleteCar = async (carId: CarId, searchByPk: boolean | undefined) =
 			return await deleteCarByQueryId(carId);
 		else
 			return await deleteCarByPk(parseInt(carId));
-	}catch (e) {
-		console.log(e);
+	} catch (e) {
+		console.error(e);
 		return null;
 	}
 };
