@@ -21,7 +21,7 @@ const recursiveDirRead = (dir: string) => {
 		let splittedName = file.name.split(".");
 		if (splittedName.length > 1)
 			splittedName = splittedName.slice(0, -1);
-		const path = `${dir}/${splittedName.join(".")}`;
+		let path = `${dir}/${splittedName.join(".")}`;
 		if (file.isDirectory()) {
 			recursiveDirRead(path);
 		} else {
@@ -30,8 +30,9 @@ const recursiveDirRead = (dir: string) => {
 			const route = require(path);
 			try {
 				let routePath = "/" + path.split("/").slice(2, -1).join("/").split(".")[0];
-				if (file.name.split(".")[1] === "slug")
-					routePath += "/:slug";
+
+				routePath = routePath.replace(/\/slug-/g, "/:");
+				routePath = routePath.replace(/\/slug/g, "/:slug");
 
 				type AppKey = keyof typeof app;
 				const method = file.name.split(".")[0] as AppKey;
