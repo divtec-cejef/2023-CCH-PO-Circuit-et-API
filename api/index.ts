@@ -43,7 +43,7 @@ const recursiveDirRead = (dir: string) => {
 				if (e instanceof TypeError) {
 					console.log(`Error: ${path} is not a valid route`);
 				}
-				console.log(e);
+				console.error(e);
 			}
 		}
 	});
