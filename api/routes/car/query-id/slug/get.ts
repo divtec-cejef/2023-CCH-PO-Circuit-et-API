@@ -1,6 +1,12 @@
 import type { routeHandler } from '../../../../models';
 import { getCarByQueryId } from '../../../../services/car/implementation';
 
+/**
+ * Controller pour la route /car/query-id/:slug
+ * @param req Requete
+ * @param res Reponse
+ * @returns une voiture correspondant à l'ID de query
+ */
 const route: routeHandler = async (req, res) => {
 
 	if (!req.params.slug) {
@@ -9,7 +15,6 @@ const route: routeHandler = async (req, res) => {
 	}
 
 	const id = req.params.slug;
-
 	const car = await getCarByQueryId(id);
 
 	if (!car) {
