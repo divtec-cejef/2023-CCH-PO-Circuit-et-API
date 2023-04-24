@@ -67,6 +67,7 @@ jobs:
         source_branch: main
         target_branch: dist
         label: automerge
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         
     - id: automerge
       name: automerge
