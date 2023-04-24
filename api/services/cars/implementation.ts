@@ -20,14 +20,14 @@ export const getCars = async () => {
 
 type CarId = string;
 
-export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
-	if (!searchByPk)
-		return await getCarByQueryId(carId);
-	else
-		return await getCarByPk(parseInt(carId));
-};
+// export const getCar = async (carId: CarId, searchByPk: boolean | undefined) => {
+// 	if (!searchByPk)
+// 		return await getCarByQueryId(carId);
+// 	else
+// 		return await getCarByPk(parseInt(carId));
+// };
 
-const getCarByQueryId = async (carQueryId: string) => {
+export const getCarByQueryId = async (carQueryId: string) => {
 	const car = await prisma.car.findFirst({
 		where: {
 			query_id: carQueryId
@@ -49,7 +49,7 @@ const getCarByQueryId = async (carQueryId: string) => {
 	return car;
 };
 
-async function getCarByPk(carPk: number) {
+export const getCarById = async (carPk: number) => {
 	const car = await prisma.car.findFirst({
 		where: {
 			id_car: carPk
