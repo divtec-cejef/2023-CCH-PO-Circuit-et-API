@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../../models/types';
-import { getCarByQueryId } from '../../../../services/cars/implementation';
+import { getCarByQueryId } from '../../../../services/car/implementation';
 
 const route: routeHandler = async (req, res) => {
 
