@@ -77,6 +77,9 @@ header.open {
     li {
       font-size: 25px;
       margin-top: 10px;
+      font-family: 'SF Pro Display', sans-serif;
+      font-weight: bold;
+      font-style: normal;
     }
   }
 }
