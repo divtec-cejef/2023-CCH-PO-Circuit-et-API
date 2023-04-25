@@ -1,13 +1,38 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import {useCarStore} from '@/stores/car'
+import {ref} from "vue";
 
+const userCar = useCarStore();
 
+const userCarId = localStorage.getItem("userCarId");
+
+if (userCarId) {
+    userCar.initUserCarUrl(userCarId)
+}
+
+let menuIsClicked = ref(false);
 </script>
 
 <template>
 
-  <RouterView />
+    <header>
+        <img src="./assets/logo.svg" alt="Logo du Vue pour test">
+        <img src="./assets/img/volant.png" alt="Volant pour le menu">
+        <RouterView />
+    </header>
+
+
+    <header>
+        <nav>
+            <RouterLink :to="`/${userCar.idQuery}`">Accueil</RouterLink>
+            <RouterLink to="/scan">Scan</RouterLink>
+        </nav>
+    </header>
+
+
 </template>
+
 
 <style scoped>
 header {
