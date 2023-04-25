@@ -2,7 +2,17 @@ import express from "express";
 import fs from "fs";
 import cors from "cors";
 
-const dateTimeId = (() => {
+for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
+	if (file.name.endsWith('.current.log'))
+		fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`);
+}
+
+const getLogFile = () => {
+	for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
+		if (file.name.endsWith('.current.log'))
+			return file.name;
+	}
+
 	const date = new Date(Date.now());
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
@@ -11,8 +21,8 @@ const dateTimeId = (() => {
 	const minutes = date.getMinutes();
 	const seconds = date.getSeconds();
 	const milliseconds = date.getMilliseconds();
-	return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
-})();
+	return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}-${milliseconds}.current.log`;
+};
 
 const app = express();
 app.use(cors({
@@ -21,10 +31,11 @@ app.use(cors({
 
 app.use((req, _, next) => {
 	console.log(`\n\n${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}`);
-	fs.appendFile(`./logs/${dateTimeId}.log`, `${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}\n`, () => { });
-	fs.appendFile(`./logs/${dateTimeId}.log`, `query: ${JSON.stringify(req.query, null, 2)}\n`, () => { });
-	fs.appendFile(`./logs/${dateTimeId}.log`, `body: ${JSON.stringify(req.body, null, 2)}\n`, () => { });
-	fs.appendFile(`./logs/${dateTimeId}.log`, `headers: ${JSON.stringify(req.headers, null, 2)}\n\n`, () => { });
+	const logFile = getLogFile();
+	fs.appendFileSync(`./logs/${logFile}`, `${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}\n`);
+	fs.appendFileSync(`./logs/${logFile}`, `query: ${JSON.stringify(req.query, null, 2)}\n`);
+	fs.appendFileSync(`./logs/${logFile}`, `body: ${JSON.stringify(req.body, null, 2)}\n`);
+	fs.appendFileSync(`./logs/${logFile}`, `headers: ${JSON.stringify(req.headers, null, 2)}\n\n`);
 	next();
 });
 
