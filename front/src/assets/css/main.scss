@@ -1,0 +1,42 @@
+@import "normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Karla:wght@300&family=Roboto:wght@300&family=Source+Code+Pro&display=swap');
+
+* {
+  box-sizing: border-box;
+
+  --black: #161715;
+  --white: #FFFFFF;
+  --blue: #0C345A;
+  --red: #AD3828;
+
+}
+
+body {
+  margin: 0;
+  background-color: var(--white);
+  font-family: Roboto, sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Karla', sans-serif;
+}
+
+img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+div.content {
+  padding: 0 35px;
+}
