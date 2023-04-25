@@ -51,7 +51,7 @@ model realise {
   id_activity Int
   date_time   DateTime? @db.Timestamp(6)
   activity    activity  @relation(fields: [id_activity], references: [id_activity], onDelete: NoAction, onUpdate: NoAction)
-  car         car       @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
+  car         car       @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([id_car, id_activity])
 }
