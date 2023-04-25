@@ -2,6 +2,18 @@ import express from "express";
 import fs from "fs";
 import cors from "cors";
 
+const dateTimeId = (() => {
+	const date = new Date(Date.now());
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const hours = date.getHours();
+	const minutes = date.getMinutes();
+	const seconds = date.getSeconds();
+	const milliseconds = date.getMilliseconds();
+	return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
+})();
+
 const app = express();
 app.use(cors({
 	origin: "*"
@@ -9,9 +21,10 @@ app.use(cors({
 
 app.use((req, _, next) => {
 	console.log(`\n\n${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}`);
-	console.log(`query: ${JSON.stringify(req.query, null, 2)}`);
-	console.log(`body: ${JSON.stringify(req.body, null, 2)}`);
-	console.log(`headers: ${JSON.stringify(req.headers, null, 2)}\n`);
+	fs.appendFile(`./logs/${dateTimeId}.log`, `${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}\n`, () => { });
+	fs.appendFile(`./logs/${dateTimeId}.log`, `query: ${JSON.stringify(req.query, null, 2)}\n`, () => { });
+	fs.appendFile(`./logs/${dateTimeId}.log`, `body: ${JSON.stringify(req.body, null, 2)}\n`, () => { });
+	fs.appendFile(`./logs/${dateTimeId}.log`, `headers: ${JSON.stringify(req.headers, null, 2)}\n\n`, () => { });
 	next();
 });
 
