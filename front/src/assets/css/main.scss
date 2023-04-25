@@ -1,5 +1,6 @@
 @import "normalize.css";
-@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Karla:wght@300&family=Roboto:wght@300&family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import "font.scss";
 
 * {
   box-sizing: border-box;
@@ -14,11 +15,11 @@
 body {
   margin: 0;
   background-color: var(--white);
-  font-family: Roboto, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1, h2, h3 {
-  font-family: 'Karla', sans-serif;
+  font-family: '', sans-serif;
 }
 
 img {
