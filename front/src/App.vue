@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
 import {ref} from "vue";
 
@@ -12,88 +12,66 @@ if (userCarId) {
 }
 
 let menuIsClicked = ref(false);
+
 </script>
 
 <template>
 
-    <header>
-        <img src="./assets/logo.svg" alt="Logo du Vue pour test">
-        <img src="./assets/img/volant.png" alt="Volant pour le menu">
-        <RouterView />
-    </header>
+    <div v-if="menuIsClicked">
+        <header class="closed">
+            <img src="./assets/logo.svg" alt="Logo du Vue pour test">
+            <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
+        </header>
 
+        <RouterView/>
+    </div>
 
-    <header>
+    <header class="open" v-else>
         <nav>
-            <RouterLink :to="`/${userCar.idQuery}`">Accueil</RouterLink>
-            <RouterLink to="/scan">Scan</RouterLink>
+            <ul>
+                <li>
+                    <RouterLink :to="`/${userCar.idQuery}`">Accueil</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/course">Course</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/historique">Historique</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/apropos">A Propos</RouterLink>
+                </li>
+            </ul>
         </nav>
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
     </header>
-
-
 </template>
 
 
-<style scoped>
+<style scoped lang="scss">
+
 header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+  display: flex;
+  justify-content: space-between;
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+  background-color: red;
+  padding: 35px;
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  img {
+    width: 45px;
+    height: 45px;
   }
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+header.closed {
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+header.open {
+  height: 100vh;
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  ul {
+    padding: 0;
+    list-style: none;
   }
 }
 </style>
