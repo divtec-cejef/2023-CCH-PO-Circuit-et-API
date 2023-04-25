@@ -2,6 +2,8 @@ import express from "express";
 import fs from "fs";
 import cors from "cors";
 
+fs.existsSync('./logs') || fs.mkdirSync('./logs');
+
 for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
 	if (file.name.endsWith('.current.log'))
 		fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`);
