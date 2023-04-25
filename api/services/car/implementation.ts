@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import buildClient from "./client";
 
+const prisma = buildClient();
 
 export const getCars = async () => {
 	return await prisma.car.findMany({
@@ -69,7 +69,7 @@ export const getCarById = async (carPk: number) => {
 	});
 
 	return car;
-}
+};
 
 export const updateCar = (carId: number) => {
 
