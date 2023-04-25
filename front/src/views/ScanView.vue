@@ -18,11 +18,13 @@ import {computed, ref} from "vue";
 import { QrcodeStream } from 'vue-qrcode-reader/src'
 import api from "../../models/api";
 
+
 import {useCarStore} from '@/stores/car'
 
 let userCar = useCarStore()
 let codeBackApi = ref(0);
 const error = ref<String>()
+
 
 /**
  * Décode le code qr, parse l'URL pour récupérer les informations de la voiture en passant par l'API

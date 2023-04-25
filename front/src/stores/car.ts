@@ -22,8 +22,6 @@ export const useCarStore = defineStore('car', () => {
         userCar.idQuery.value = dataUserCar["query_id"];
         userCar.avatar.value = dataUserCar["id_avatar"];
 
-        localStorage.setItem("userCarId", idCar.toString())
-
         return status
     }
 
