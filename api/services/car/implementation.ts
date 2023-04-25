@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import buildClient from "./client";
 
+const prisma = buildClient();
 
 /**
  * Retourne toutes les voitures de la db
@@ -74,7 +74,7 @@ export const getCarById = async (carId: number) => {
 	});
 
 	return car;
-}
+};
 
 /**
  * Supprimer une voiture en fonction de son ID de query
