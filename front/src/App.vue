@@ -53,9 +53,7 @@ let menuIsClicked = ref(false);
 header {
   display: flex;
   justify-content: space-between;
-
-  background-color: red;
-  padding: 35px;
+  padding: 25px 35px;
 
   img {
     width: 45px;
@@ -64,14 +62,22 @@ header {
 }
 
 header.closed {
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  margin-bottom: 30px;
 }
 
 header.open {
   height: 100vh;
 
   ul {
+    margin-top: 40px;
     padding: 0;
     list-style: none;
+
+    li {
+      font-size: 25px;
+      margin-top: 10px;
+    }
   }
 }
 </style>
