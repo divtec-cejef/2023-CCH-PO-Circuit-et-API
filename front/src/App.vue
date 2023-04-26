@@ -17,7 +17,7 @@ let menuIsClicked = ref(false);
 
 <template>
 
-    <div v-if="menuIsClicked">
+    <div v-if="!menuIsClicked">
         <header class="closed">
             <img src="./assets/logo.svg" alt="Logo du Vue pour test">
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">

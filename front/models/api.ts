@@ -7,7 +7,7 @@ export namespace api {
         NotFound = 404,
     }
 
-    const routeApi = ref('https://Voiture.divtec.me:3000/');
+    const routeApi = ref('http://192.168.1.101:3001/');
 
     /**
      * Retourne les données d'une voiture en fonction de son ID

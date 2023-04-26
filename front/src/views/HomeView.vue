@@ -1,23 +1,35 @@
 <template>
-  <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
-    Chargement...
-  </div>
+  <!--  <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">-->
+  <!--    Chargement...-->
+  <!--  </div>-->
 
-  <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
-      <img src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
-      <p>
-        Bievenue {{ userCar.pseudo }} <br>
-          Tu trouveras tout ce dont tu as besoin sur ces pages...
-      </p>
-  </div>
+  <!--  <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">-->
+  <!--      <img src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">-->
+  <!--      <p>-->
+  <!--        Bievenue {{ userCar.pseudo }} <br>-->
+  <!--          Tu trouveras tout ce dont tu as besoin sur ces pages...-->
+  <!--      </p>-->
+  <!--  </div>-->
 
-  <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
-    Erreur, impossible de trouver la voiture
-  </div>
+  <!--  <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">-->
+  <!--    Erreur, impossible de trouver la voiture-->
+  <!--  </div>-->
 
-  <div class="error" v-else>
-    Erreur innatendue
-  </div>
+  <!--  <div class="error" v-else>-->
+  <!--    Erreur innatendue-->
+  <!--  </div>-->
+
+    <div class="user-data">
+        <div>
+            <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
+            <p>
+                Bievenue <span>Chlochlo</span> <br>
+                Tu trouveras tout ce dont tu as besoin sur ces pages...
+            </p>
+        </div>
+
+        <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
+    </div>
 
 </template>
 
@@ -42,7 +54,30 @@ div.loading {
 }
 
 div.user-data {
+  div {
+    margin: auto;
+    max-width: 300px;
+  }
 
+  img#avatar {
+    display: block;
+    max-width: 160px;
+    margin: 0 auto 20px auto;
+  }
+
+  img#car {
+    display: block;
+    max-width: 300px;
+    margin: auto;
+  }
+
+  p {
+    text-align: center;
+
+    span {
+      font-weight: bold;
+    }
+  }
 }
 
 div.error {
