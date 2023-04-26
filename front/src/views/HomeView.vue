@@ -4,13 +4,11 @@
   </div>
 
   <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
-
       <img src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
       <p>
         Bievenue {{ userCar.pseudo }} <br>
           Tu trouveras tout ce dont tu as besoin sur ces pages...
       </p>
-
   </div>
 
   <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
