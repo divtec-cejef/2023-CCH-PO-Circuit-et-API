@@ -71,9 +71,9 @@ describe("Car", () => {
             })
     })
 
-    // Obtenir une voiture avec un query id
-    it("should return a car on search with query id", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/4356")
+    // Supprimer une voiture à l'aide de son id
+    it("should delete a car and return it", (done) => {
+        chai.request("localhost:3000").delete("/car/1")
             .then((res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object");
@@ -81,9 +81,9 @@ describe("Car", () => {
             })
     })
 
-    // Obtenir une voiture sans query id ou avec un query id invalide
-    it("should return an error if invalid/no query id is given", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/")
+    // Supprimer une voiture à partir de son id avec un id invalide
+    it("should return an error if invalid id is given on delete", (done) => {
+        chai.request("localhost:3000").delete("/car/adsf")
             .then((res) => {
                 expect(res).to.have.status(400);
                 expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }))
@@ -91,9 +91,49 @@ describe("Car", () => {
             })
     })
 
+    // Supprimer une voiture qui n'existe pas
+    it("should return an error if car is not found", (done) => {
+        chai.request("localhost:3000").delete("/car/999")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
+                done();
+            })
+    })
+
+    // Obtenir une voiture avec un query id
+    it("should return a car on search with query id", (done) => {
+        chai.request("localhost:3000").get("/car/query-id/4357")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("object");
+                done();
+            })
+    })
+
     // Obtenir une voiture avec un query id qui n'existe pas
     it("should return an error if car is not found on search with query id", (done) => {
         chai.request("localhost:3000").get("/car/query-id/adsfasf")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
+                done();
+            })
+    })
+
+    // Supprimer une voiture avec un query id
+    it("should delete a car and return it on search with query id", (done) => {
+        chai.request("localhost:3000").delete("/car/query-id/4357")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("object");
+                done();
+            })
+    })
+
+    // Supprimer une voiture avec un query id qui n'existe pas
+    it("should return an error if car is not found on search with query id on delete", (done) => {
+        chai.request("localhost:3000").delete("/car/query-id/adsfasf")
             .then((res) => {
                 expect(res).to.have.status(404);
                 expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
