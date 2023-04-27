@@ -9,7 +9,7 @@
   --white: #FFFFFF;
   --blue: #0C345A;
   --red: #E33821;
-  --light-green: #B0DE9B;
+  --light-green: #A9EC89;
   --dark-green: #386641;
 }
 
@@ -20,7 +20,9 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: '', sans-serif;
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: bold;
+  font-style: normal;
 }
 
 img {
