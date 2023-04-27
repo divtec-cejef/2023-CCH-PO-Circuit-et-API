@@ -22,26 +22,18 @@ CREATE TABLE
     Section(
         id_section SERIAL,
         label VARCHAR(50),
+        password VARCHAR(64),
         PRIMARY KEY(id_section)
     );
 
 CREATE TABLE
-    Run(
+    Race(
         id_run SERIAL,
-        number INTEGER,
+        realisation_date_time TIMESTAMP,
+        sector_one TIME(3),
         id_car INTEGER NOT NULL,
         PRIMARY KEY(id_run),
         FOREIGN KEY(id_car) REFERENCES Car(id_car) ON DELETE CASCADE
-    );
-
-CREATE TABLE
-    Measured_time(
-        id_measured_time SERIAL,
-        sector INTEGER,
-        measured_time TIME(3),
-        id_run INTEGER NOT NULL,
-        PRIMARY KEY(id_measured_time),
-        FOREIGN KEY(id_run) REFERENCES Run(id_run) ON DELETE CASCADE
     );
 
 CREATE TABLE
