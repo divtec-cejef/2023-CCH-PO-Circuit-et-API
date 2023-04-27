@@ -24,6 +24,14 @@ let menuIsClicked = ref(false);
         </header>
 
         <RouterView/>
+
+        <footer>
+            <p>EMT Porrentruy, Portes ouvertes 2023</p>
+            <div>
+                <a href=""><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
+                <a href=""><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
+            </div>
+        </footer>
     </div>
 
     <header class="open" v-else>
@@ -48,6 +56,8 @@ let menuIsClicked = ref(false);
         </nav>
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
     </header>
+
+
 </template>
 
 
@@ -59,7 +69,7 @@ header {
   padding: 25px 35px;
 
   img {
-    height: 45px;
+    height: 55px;
   }
 }
 
@@ -82,6 +92,35 @@ header.open {
       font-family: 'SF Pro Display', sans-serif;
       font-weight: bold;
       font-style: normal;
+    }
+  }
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 75px;
+  background-color: var(--gray);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 35px;
+
+  div {
+    justify-self: end;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    img {
+      width: 35px;
+    }
+
+    img:nth-child(1) {
+      margin-right: 15px;
     }
   }
 }
