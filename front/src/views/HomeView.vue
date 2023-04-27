@@ -1,34 +1,26 @@
 <template>
-  <!--  <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">-->
-  <!--    Chargement...-->
-  <!--  </div>-->
+    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
+      Chargement...
+    </div>
 
-  <!--  <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">-->
-  <!--      <img src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">-->
-  <!--      <p>-->
-  <!--        Bievenue {{ userCar.pseudo }} <br>-->
-  <!--          Tu trouveras tout ce dont tu as besoin sur ces pages...-->
-  <!--      </p>-->
-  <!--  </div>-->
-
-  <!--  <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">-->
-  <!--    Erreur, impossible de trouver la voiture-->
-  <!--  </div>-->
-
-  <!--  <div class="error" v-else>-->
-  <!--    Erreur innatendue-->
-  <!--  </div>-->
-
-    <div class="user-data">
-        <div>
+    <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
+        <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
             <p>
-                Bievenue <span>Chlochlo</span> <br>
+                Bievenue <span>{{ userCar.pseudo }}</span> <br>
                 Tu trouveras tout ce dont tu as besoin sur ces pages...
             </p>
         </div>
 
         <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
+    </div>
+
+    <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+      Erreur, impossible de trouver la voiture
+    </div>
+
+    <div class="error" v-else>
+      Erreur innatendue
     </div>
 
 </template>
@@ -49,12 +41,22 @@ status.then(value => codeBackApi.value = value)
 
 <style scoped lang="scss">
 
-div.loading {
 
+div.error {
+    color: var(--red);
+}
+
+div.loading, div.error {
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 100px);
+    width: 200px;
 }
 
 div.user-data {
-  div {
+  div.avatar-txt {
     margin: auto;
     max-width: 300px;
   }
