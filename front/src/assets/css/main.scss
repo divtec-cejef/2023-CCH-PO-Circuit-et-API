@@ -21,6 +21,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+div.content {
+  padding: 0 35px;
+}
+
 h1, h2, h3 {
   font-family: 'SF Pro Display', sans-serif;
   font-weight: bold;
@@ -43,6 +47,4 @@ a {
   font-weight: normal;
 }
 
-div.content {
-  padding: 0 35px;
-}
+
