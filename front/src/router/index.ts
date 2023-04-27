@@ -1,11 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/UserView.vue'
-import home from "@/views/UserView.vue";
-import ScanView from "@/views/ScanView.vue";
+import HomeView from '../views/HomeView.vue'
 import HistoryView from "@/views/HistoryView.vue";
 import AboutView from "@/views/AboutView.vue";
 import CourseView from "@/views/CourseView.vue";
-import TestView from "@/views/HomeView.vue";
 import GraphicsView from "@/views/GraphicsView.vue";
 import UserView from "@/views/UserView.vue";
 
@@ -13,21 +10,20 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/:id',
+      name: 'utilisateur',
+      component: UserView
+    },
+    {
       path: '/',
       name: 'home',
       component: HomeView
-    },
-    {
-      path: '/:id',
-      name: 'voiture-utilisateur',
-      component: UserView
     },
     {
       path: '/historique',
       name: 'historique',
       component: HistoryView
     },
-
     {
       path: '/course',
       name: 'course',

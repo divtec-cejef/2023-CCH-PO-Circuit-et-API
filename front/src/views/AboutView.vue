@@ -2,10 +2,8 @@
 
 </template>
 
-<script>
-export default {
-    name: "aboutView"
-}
+<script setup lang="ts">
+
 </script>
 
 <style scoped>

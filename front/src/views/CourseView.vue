@@ -2,10 +2,8 @@
 
 </template>
 
-<script>
-export default {
-    name: "CourseView"
-}
+<script setup lang="ts">
+
 </script>
 
 <style scoped>
