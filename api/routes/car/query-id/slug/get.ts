@@ -2,7 +2,7 @@ import type { routeHandler } from '../../../../models';
 import { getCarByQueryId } from '../../../../services/car/implementation';
 
 /**
- * Controller pour la route /car/query-id/:slug
+ * Controller get pour la route /car/query-id/:slug
  * @param req Requete
  * @param res Reponse
  * @returns une voiture correspondant à l'ID de query
