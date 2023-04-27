@@ -19,7 +19,7 @@ let menuIsClicked = ref(false);
 
     <div v-if="!menuIsClicked">
         <header class="closed">
-            <img src="./assets/logo.png" alt="Logo du Vue pour test">
+            <img src="./assets/img/logo-d.png" alt="Logo du Vue pour test">
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
         </header>
 
@@ -97,11 +97,9 @@ header.open {
 }
 
 footer {
-  position: fixed;
-  left: 0;
   bottom: 0;
   width: 100%;
-  height: 75px;
+  height: 65px;
   background-color: var(--gray);
   color: var(--white);
   display: flex;
