@@ -59,6 +59,6 @@ CREATE TABLE
         id_activity INTEGER,
         date_time TIMESTAMP,
         PRIMARY KEY(id_car, id_activity),
-        FOREIGN KEY(id_car) REFERENCES Car(id_car),
+        FOREIGN KEY(id_car) REFERENCES Car(id_car) ON DELETE CASCADE,
         FOREIGN KEY(id_activity) REFERENCES Activity(id_activity)
     );
