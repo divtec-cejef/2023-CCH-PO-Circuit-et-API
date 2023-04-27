@@ -17,7 +17,7 @@
             <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
 
             <h2>Tableau de bord</h2>
-            <p>Clique sur n'importe quel de ces badges, ils te permetteront </p>
+            <p>Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
             <div class="badges">
                 <div>
                     <img src="../assets/img/course.png" alt="Badge course">
@@ -121,6 +121,7 @@ div.user-data {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 85%;
+    margin-top: 20px;
 
     p {
       margin: 5px 0;
