@@ -21,10 +21,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
-div.content {
-  padding: 0 35px;
-  margin: 0 auto 75px;
-
+main {
+  padding: 35px;
+  width: 100%;
+  min-height: calc(100vh - 105px - 65px)
 }
 
 h1, h2, h3 {
