@@ -7,7 +7,7 @@
         <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
             <p>
-                Bievenue <span>{{ userCar.pseudo }}</span> <br>
+                Bievenue <span>{{ userCar.pseudo }}</span> !<br>
                 Tu trouveras tout ce dont tu as besoin sur ces pages...
             </p>
         </div>

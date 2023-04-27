@@ -41,6 +41,9 @@ let menuIsClicked = ref(false);
                 <li>
                     <RouterLink to="/apropos">A Propos</RouterLink>
                 </li>
+                <li>
+                    <RouterLink to="/graphics">Graphics</RouterLink>
+                </li>
             </ul>
         </nav>
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
