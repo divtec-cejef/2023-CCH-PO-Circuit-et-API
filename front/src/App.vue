@@ -17,22 +17,20 @@ let menuIsClicked = ref(false);
 
 <template>
 
-    <div v-if="!menuIsClicked">
-        <header class="closed">
-            <img src="./assets/img/logo-d.png" alt="Logo du Vue pour test">
-            <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
-        </header>
+    <header v-if="!menuIsClicked" class="closed">
+        <img src="./assets/img/logo-d.png" alt="Logo du Vue pour test">
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
+    </header>
 
-        <RouterView/>
+    <RouterView v-if="!menuIsClicked"/>
 
-        <footer>
-            <p>EMT Porrentruy, Portes ouvertes 2023</p>
-            <div>
-                <a href=""><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
-                <a href=""><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
-            </div>
-        </footer>
-    </div>
+    <footer v-if="!menuIsClicked">
+        <p>EMT Porrentruy, Portes ouvertes 2023</p>
+        <div>
+            <a href=""><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
+            <a href=""><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
+        </div>
+    </footer>
 
     <header class="open" v-else>
         <nav>
@@ -67,7 +65,6 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
-
   img {
     height: 55px;
   }
@@ -75,7 +72,7 @@ header {
 
 header.closed {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  margin-bottom: 30px;
+  height: 100px;
 }
 
 header.open {

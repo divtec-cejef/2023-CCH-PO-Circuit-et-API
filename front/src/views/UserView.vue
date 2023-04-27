@@ -1,6 +1,6 @@
 <template>
 
-    <div class="content">
+    <main>
         <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
             Chargement...
         </div>
@@ -54,7 +54,7 @@
         <div class="error" v-else>
             Erreur innatendue
         </div>
-    </div>
+    </main>
 </template>
 
 <script setup lang="ts">

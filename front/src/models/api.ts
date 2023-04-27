@@ -7,7 +7,7 @@ export namespace api {
 		NotFound = 404,
 	}
 
-	const routeApi = ref(import.meta.env.VITE_ROUTE_API);
+	const routeApi = import.meta.env.VITE_ROUTE_API;
 
 	/**
 	 * Retourne les données d'une voiture en fonction de son ID
@@ -15,7 +15,7 @@ export namespace api {
 	 */
 	export async function getDataOneCar(idCar: number | string) {
 		const routeCar = `${routeApi.value}car?id=${idCar}`;
-		let res = await fetch(routeCar);
+		const res = await fetch(routeCar);
 		return { json: (await res.json()), status: res.status };
 	}
 }

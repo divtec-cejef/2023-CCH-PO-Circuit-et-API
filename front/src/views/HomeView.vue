@@ -1,8 +1,8 @@
 <template>
-    <div class="content">
+    <main>
         <p>Bienvenue sur Divtec tuture !</p>
         <p>Tu n'as pas encore scanné de voiture...</p>
-    </div>
+    </main>
 
 
 </template>
@@ -17,7 +17,5 @@ div.content {
   p {
     text-align: center;
   }
-
-
 }
 </style>
