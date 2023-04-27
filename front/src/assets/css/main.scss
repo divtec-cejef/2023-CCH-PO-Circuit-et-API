@@ -15,7 +15,7 @@
   --dark-green: #386641;
 }
 
-body {
+#app {
   margin: 0;
   background-color: var(--white);
   font-family: 'Poppins', sans-serif;
@@ -23,6 +23,8 @@ body {
 
 div.content {
   padding: 0 35px;
+  margin: 0 auto 75px;
+
 }
 
 h1, h2, h3 {
