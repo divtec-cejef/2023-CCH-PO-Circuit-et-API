@@ -10,11 +10,13 @@
             quid rerum ordo postulat ignorare dissimulantem formidine tenus iusserim custodiri.</p>
 
         <div class="color">
-            <div class="deux"></div>
-            <div class="trois"></div>
-            <div class="quatre"></div>
-            <div class="cinq"></div>
-            <div class="six"></div>
+            <div class="white"></div>
+            <div class="red"></div>
+            <div class="blue"></div>
+            <div class="green"></div>
+            <div class="gray"></div>
+            <div class="yellow"></div>
+            <div class="black"></div>
         </div>
     </div>
 </template>
@@ -37,26 +39,33 @@ div.color {
         margin: 10px;
     }
 
+    div.white {
+        background-color: var(--white);
+        border: 1px solid var(--gray)
+    }
 
-    div.deux {
+    div.red {
         background-color: var(--red);
     }
 
-    div.trois {
+    div.blue {
         background-color: var(--blue);
     }
 
-    div.quatre {
+    div.green {
         background-color: var(--dark-green);
     }
 
-    div.cinq {
-        background-color: var(--light-green);
+    div.black {
+        background-color: var(--black);
     }
 
-    div.six {
-        background-color: var(--black);
-        align-self: center;
+    div.gray {
+        background-color: var(--gray);
+    }
+
+    div.yellow {
+        background-color: var(--yellow);
     }
 }
 
