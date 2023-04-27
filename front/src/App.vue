@@ -7,7 +7,7 @@ const userCar = useCarStore();
 
 const userCarId = localStorage.getItem("userCarId");
 
-if (userCarId) {
+if (userCarId !== null) {
     userCar.initUserCarUrl(userCarId)
 }
 
@@ -19,7 +19,7 @@ let menuIsClicked = ref(false);
 
     <div v-if="!menuIsClicked">
         <header class="closed">
-            <img src="./assets/logo.svg" alt="Logo du Vue pour test">
+            <img src="./assets/logo.png" alt="Logo du Vue pour test">
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
         </header>
 
@@ -59,7 +59,6 @@ header {
   padding: 25px 35px;
 
   img {
-    width: 45px;
     height: 45px;
   }
 }

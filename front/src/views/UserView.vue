@@ -29,9 +29,10 @@
 import {ref} from "vue";
 import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
-import api from "../../models/api";
+import api from "../models/api";
 
 let userCar = useCarStore()
+console.log(useRouter().currentRoute.value.params.id)
 let status = userCar.initUserCarUrl(useRouter().currentRoute.value.params.id);
 
 let codeBackApi = ref(0);
