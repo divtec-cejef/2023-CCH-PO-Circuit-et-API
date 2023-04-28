@@ -5,13 +5,13 @@ INSERT INTO avatar(image) VALUES ('image2');
 INSERT INTO car(id_car, password, query_id, pseudo, id_avatar) VALUES (1,'1234', '4356', 'PlayerOne', 1);
 INSERT INTO car(id_car, password, query_id, pseudo, id_avatar) VALUES (2,'4321', '4357', 'PlayerTwo', 2);
 
-INSERT INTO section(label, password) VALUES ('Informatique', 'cc66fe07ac67e3cc177b5bd170ba7c6fd599db256905aed1af5223e8fc8557c5');
-INSERT INTO section(label, password) VALUES ('Automatique', '9c0c10f84ec795823c96180e7390f45e2ab16ebbb8abf734956b72670a3c6e52');
-INSERT INTO section(label, password) VALUES ('Horlogerie', 'fbde7a74b78dfb0e6611636001ed70e28505b512f9c737f7dbb68ffd1f47b69c');
-INSERT INTO section(label, password) VALUES ('Electronique', 'a83e7936fece90e34061c08dd305ca4db0077c09bf6913af73f8506784243e41');
-INSERT INTO section(label, password) VALUES ('Micromécanique', '812f3ddaf90a09f380e5f91bd104a4db34d02559dbc1e590c7d8dcbb7b419392');
-INSERT INTO section(label, password) VALUES ('Laborantin', '78f78420d844032ae31a00ff55ed966179290715f1bead618d1fb7fb4615059c');
-INSERT INTO section(label, password) VALUES ('Dessinateur', 'deb7fcbfce0ffb633de4accaa92fb573e5d6ffa802617360adc67c7dcc6cd29f');
+INSERT INTO section(label, password) VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
+INSERT INTO section(label, password) VALUES ('Automatique', '$2a$12$ZqkedbzE3tPHR.xTX2pgmu9DEF2ErmbU/SfzH4EB8ZOQPRzhx0fY2');
+INSERT INTO section(label, password) VALUES ('Horlogerie', '$2a$12$9.wBt3QzyLOpPLJulJ82e.zd1ZS2UIaoZJJRuBskvZyJn2/0lXjxS');
+INSERT INTO section(label, password) VALUES ('Electronique', '$2a$12$xE2VXGD6E7C56oa.Yeq1DOu5B3w.zk98IF..yqsyQFb/kmsAMaCD6');
+INSERT INTO section(label, password) VALUES ('Micromécanique', '$2a$12$L9HsTZhPjQveaGL/owD83eHsx9xCMzUKDkyEVD94BSvxMhBqTTHsm');
+INSERT INTO section(label, password) VALUES ('Laborantin', '$2a$12$yNRyGjnlgDqsFuE9JqvMCO4kDXP0hTO08w1ld6L9uum7GwOSXbaQK');
+INSERT INTO section(label, password) VALUES ('Dessinateur', '$2a$12$dkt1tp0LW54GtQ6qoPYwgOkBMj1/x/qb/1nLeNa2hvGsdBqCYLlNm');
 
 INSERT INTO activity(label, id_section) VALUES ('Informer', 1);
 INSERT INTO activity(label, id_section) VALUES ('Automatiser', 2);
