@@ -5,7 +5,7 @@ const prisma = buildClient();
 /**
  * Retourne les manches d'une course d'une voiture donnée
  * @param id id de la voiture
- * @returns un tableau des manches
+ * @returns une liste des manches
  */
 export const getRacesByCar = async (id: number) => {
     return await prisma.race.findMany({

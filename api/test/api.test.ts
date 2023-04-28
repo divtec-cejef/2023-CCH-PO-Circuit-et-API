@@ -1,4 +1,6 @@
 // ajouts des variables d'environnement
+import {it} from "mocha";
+
 process.env.NODE_ENV = "test";
 
 // importation des modules
@@ -140,4 +142,34 @@ describe("Car", () => {
                 done();
             })
     })
+})
+
+describe("race", () => {
+    it("should return all races from a car", (done) => {
+        chai.request("localhost:3000").get("/race/1")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("array");
+                done();
+            })
+    })
+
+    it("should return an error if invalid id is given on search for races", (done) => {
+        chai.request("localhost:3000").get("/race/adsf")
+            .then((res) => {
+                expect(res).to.have.status(400);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
+                done();
+            })
+    })
+
+    it('should return an error if no car is found when searching all races from it',  (done) => {
+        chai.request("localhost:3000").get("/race/999")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+                done();
+            })
+
+    });
 })
