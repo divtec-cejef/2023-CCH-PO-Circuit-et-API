@@ -144,7 +144,9 @@ describe("Car", () => {
     })
 })
 
+// Test des manches de courses de l'API
 describe("race", () => {
+    // Obtenir toutes les manches de courses d'une voiture
     it("should return all races from a car", (done) => {
         chai.request("localhost:3000").get("/race/1")
             .then((res) => {
@@ -154,6 +156,7 @@ describe("race", () => {
             })
     })
 
+    // Obtenir toutes les manches de courses d'une voiture avec un id invalide
     it("should return an error if invalid id is given on search for races", (done) => {
         chai.request("localhost:3000").get("/race/adsf")
             .then((res) => {
@@ -163,6 +166,7 @@ describe("race", () => {
             })
     })
 
+    // Obtenir toutes les manches de courses d'une voiture qui n'existe pas
     it('should return an error if no car is found when searching all races from it',  (done) => {
         chai.request("localhost:3000").get("/race/999")
             .then((res) => {
@@ -170,6 +174,5 @@ describe("race", () => {
                 expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
                 done();
             })
-
     });
 })
