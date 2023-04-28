@@ -50,7 +50,7 @@ model realise {
 }
 
 model race {
-  id_run                Int       @id @default(autoincrement())
+  id_race               Int       @id @default(autoincrement())
   realisation_date_time DateTime? @db.Timestamp(6)
   sector_one            DateTime? @db.Time(3)
   id_car                Int
