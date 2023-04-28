@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import buildClient from "../client";
 
 const prisma = buildClient();
@@ -33,10 +34,12 @@ export const getShortestRaces = async () => {
 		},
 	});
 
-	return races.map(async (v, k) => {
-		return await prisma.race.findUnique({
+	let res: { id_race: number; sector_one: Date | null; car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; }; }[] = [];
+
+	for (const k in races) {
+		res[k] = await prisma.race.findUniqueOrThrow({
 			where: {
-				id_race: v.id_race
+				id_race: races[k].id_race
 			},
 			select: {
 				id_race: true,
@@ -54,5 +57,7 @@ export const getShortestRaces = async () => {
 				}
 			}
 		});
-	});
+	};
+
+	return res;
 };
