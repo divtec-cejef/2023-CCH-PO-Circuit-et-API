@@ -22,7 +22,7 @@
                 <p>km/h</p>
             </div>
 
-            <div class="temps-inter">
+            <div class="time-inter">
                 <div>Temps <br>
                     intermédiaires :
                 </div>
@@ -38,11 +38,14 @@
                 </ul>
             </div>
         </div>
+        <RouterLink to="course">Autres courses >></RouterLink>
     </div>
 </template>
 
 <script setup lang="ts">
 import NumberTime from "@/components/NumberTime.vue";
+import {RouterLink, RouterView} from 'vue-router'
+
 </script>
 
 <style scoped lang="scss">
@@ -104,7 +107,7 @@ div.best-race {
     display: flex;
     justify-content: space-between;
 
-    div.temps-inter {
+    div.time-inter {
       width: 165px;
       display: flex;
       flex-direction: column;
@@ -144,6 +147,11 @@ div.best-race {
     }
   }
 
+  a {
+    margin-top: 25px;
+    text-align: right;
+    font-style: italic;
+  }
 }
 
 
