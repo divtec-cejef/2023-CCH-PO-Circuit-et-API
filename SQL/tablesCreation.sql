@@ -28,11 +28,11 @@ CREATE TABLE
 
 CREATE TABLE
     Race(
-        id_race SERIAL,
+        id_run SERIAL,
         realisation_date_time TIMESTAMP,
         sector_one TIME(3),
         id_car INTEGER NOT NULL,
-        PRIMARY KEY(id_race),
+        PRIMARY KEY(id_run),
         FOREIGN KEY(id_car) REFERENCES Car(id_car) ON DELETE CASCADE
     );
 
