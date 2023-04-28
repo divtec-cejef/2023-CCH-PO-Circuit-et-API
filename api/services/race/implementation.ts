@@ -28,7 +28,7 @@ export const getRacesByCar = async (id: number) => {
  */
 export const getShortestRaces = async () => {
 	const races = await prisma.race.groupBy({
-		by: ["id_car", "id_race"],
+		by: ["id_car"],
 		_min: {
 			sector_one: true,
 		},
@@ -37,9 +37,9 @@ export const getShortestRaces = async () => {
 	let res: { id_race: number; sector_one: Date | null; car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; }; }[] = [];
 
 	for (const k in races) {
-		res[k] = await prisma.race.findUniqueOrThrow({
+		res[k] = await prisma.race.findFirstOrThrow({
 			where: {
-				id_race: races[k].id_race
+				sector_one: races[k]._min.sector_one,
 			},
 			select: {
 				id_race: true,
