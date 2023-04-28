@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div>Temps intermédiaires :</div>
+        <div class="temps-inter">Temps intermédiaires :</div>
         <ul>
             <li>
                 <NumberTime number="1" color="var(--dark-green)"/>
@@ -61,28 +61,29 @@ div.best-race {
   width: fit-content;
   margin: 20px auto 0 auto;
 
+  div.temps-inter {
+    width: fit-content;
+    align-self: end;
+  }
+
   div:nth-child(1) {
     display: flex;
     align-items: center;
   }
 
   ul {
+    margin: 0;
     padding: 0;
-    margin: 0 35px 0;
     width: fit-content;
     align-self: end;
     list-style: none;
 
-    li:nth-child(1) {
-      margin-top: 0;
-    }
-
     li {
       display: flex;
-        align-items: center;
+      align-items: center;
       font-family: 'Digital-7 Mono', sans-serif;
       width: fit-content;
-      font-size: 22px;
+      font-size: 26px;
       margin-top: 10px;
     }
   }
@@ -96,7 +97,7 @@ div.best-time {
 
   div.race-time {
     font-family: 'Digital-7 Mono', sans-serif;
-    font-size: 30px;
+    font-size: 40px;
     text-align: end;
     margin-right: 5px;
   }
