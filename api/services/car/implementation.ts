@@ -74,7 +74,7 @@ export const getCarById = async (carId: number) => {
 	});
 
 	return car;
-}
+};
 
 export const updateCar = (carId: number) => {
 
@@ -108,6 +108,9 @@ export const deleteCarById = async (carId: number) => {
 			where: {
 				id_car: carId
 			},
+			include: {
+				"avatar": true
+			}
 		});
 	} catch (e) {
 		return null;
