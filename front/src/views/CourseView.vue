@@ -28,7 +28,7 @@
                 </div>
                 <ul>
                     <li>
-                        <NumberTime number="1" color="var(--dark-green)"/>
+                        <NumberTime number="1" color="var(--red)"/>
                         <p>03:23:08</p>
                     </li>
                     <li>
@@ -62,17 +62,23 @@ div.best-race {
 
     div.rang {
       display: flex;
-      flex: 2;
+      justify-content: center;
+      align-items: center;
       box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-      border-radius: 100px;
+      border-radius: 200px;
       padding: 14px;
+      margin-top: 5px;
+      background-color: var(--dark-green);
+      color: var(--white);
+      width: 90px;
+      height: 90px;
 
       span:nth-child(1) {
-        font-size: 28px;
+        font-size: 26px;
       }
 
       span:nth-child(2) {
-        font-size: 56px;
+        font-size: 54px;
       }
     }
 
@@ -81,7 +87,6 @@ div.best-race {
       display: flex;
       flex-direction: column;
       margin-left: 45px;
-      flex: 6;
 
       div.race-time {
         font-family: 'Digital-7 Mono', sans-serif;
@@ -114,7 +119,7 @@ div.best-race {
       width: fit-content;
       align-items: end;
       margin-bottom: 15px;
-      margin-left: 15px;
+      margin-left: 10px;
 
       p:nth-child(1) {
         font-size: 45px;
@@ -122,7 +127,7 @@ div.best-race {
     }
 
     ul {
-      margin: 0;
+      margin: 0 10px 0 0;
       padding: 0;
       width: fit-content;
       align-self: end;
