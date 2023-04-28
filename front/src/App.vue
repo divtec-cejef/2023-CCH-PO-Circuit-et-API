@@ -1,28 +1,12 @@
-<script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
-import {useCarStore} from '@/stores/car'
-import {ref} from "vue";
-
-const userCar = useCarStore();
-
-const userCarId = localStorage.getItem("userCarId");
-
-if (userCarId !== null) {
-    userCar.initUserCarUrl(userCarId)
-}
-
-let menuIsClicked = ref(false);
-
-</script>
-
 <template>
-
     <header v-if="!menuIsClicked" class="closed">
         <img src="./assets/img/logo-d.png" alt="Logo du Vue pour test">
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
     </header>
 
-    <RouterView v-if="!menuIsClicked"/>
+    <main v-if="!menuIsClicked">
+        <RouterView/>
+    </main>
 
     <footer v-if="!menuIsClicked">
         <p>EMT Porrentruy, Portes ouvertes 2023</p>
@@ -54,10 +38,24 @@ let menuIsClicked = ref(false);
         </nav>
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
     </header>
-
-
 </template>
 
+<script setup lang="ts">
+import {RouterLink, RouterView} from 'vue-router'
+import {useCarStore} from '@/stores/car'
+import {ref} from "vue";
+
+const userCar = useCarStore();
+
+const userCarId = localStorage.getItem("userCarId");
+
+if (userCarId) {
+    userCar.initUserCarUrl(userCarId)
+}
+
+let menuIsClicked = ref(false);
+
+</script>
 
 <style scoped lang="scss">
 

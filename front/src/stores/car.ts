@@ -17,12 +17,14 @@ export const useCarStore = defineStore('car', () => {
         let {json: dataUserCar, status} = await api.getDataOneCar(idCar.toString())
 
         //Remplissage des champs de la voiture
+        console.dir(dataUserCar)
         userCar.idCar.value = dataUserCar["id_car"];
         userCar.pseudo.value = dataUserCar["pseudo"];
         userCar.idQuery.value = dataUserCar["query_id"];
         userCar.avatar.value = dataUserCar["id_avatar"];
 
         localStorage.setItem("userCarId", idCar.toString())
+
         return status
     }
 

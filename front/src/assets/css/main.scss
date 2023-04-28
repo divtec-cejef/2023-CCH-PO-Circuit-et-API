@@ -24,13 +24,17 @@
 main {
   padding: 35px;
   width: 100%;
-  min-height: calc(100vh - 105px - 65px)
+  min-height: calc(100vh - 100px - 65px)
 }
 
 h1, h2, h3 {
   font-family: 'SF Pro Display', sans-serif;
   font-weight: bold;
   font-style: normal;
+}
+
+h1 {
+  margin: 10px 0;
 }
 
 h2 {
