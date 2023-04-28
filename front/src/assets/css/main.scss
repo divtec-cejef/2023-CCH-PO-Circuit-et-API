@@ -1,0 +1,52 @@
+@import "normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import "font.scss";
+
+* {
+  box-sizing: border-box;
+
+  --black: #161715;
+  --white: #FFFFFF;
+  --gray: #7f7f7f;
+  --yellow: #FEC000;
+  --blue: #0C345A;
+  --red: #E33821;
+  --light-green: #A9EC89;
+  --dark-green: #386641;
+}
+
+#app {
+  margin: 0;
+  background-color: var(--white);
+  font-family: 'Poppins', sans-serif;
+}
+
+div.content {
+  padding: 0 35px;
+  margin: 0 auto 75px;
+
+}
+
+h1, h2, h3 {
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: bold;
+  font-style: normal;
+}
+
+img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+
