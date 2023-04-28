@@ -1,5 +1,5 @@
 // ajouts des variables d'environnement
-import {it} from "mocha";
+import { it } from "mocha";
 
 process.env.NODE_ENV = "test";
 
@@ -18,161 +18,159 @@ const expect = chai.expect;
 // Test de la racine de l'API
 describe("Root", () => {
 
-    // test du fonctionnement de l'API
-    it("should return 'It works'", (done) => {
-        chai.request("localhost:3000").get("/")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.text).to.equal("It works");
-                done();
-            })
-    })
-})
+	// test du fonctionnement de l'API
+	it("should return 'It works'", async () => {
+		const res = await chai.request("localhost:3000").get("/");
+
+		expect(res).to.have.status(200);
+		expect(res.text).to.equal("It works");
+	});
+});
 
 // Test des voitures de l'API
 describe("Car", () => {
 
-    // Obtenir toutes les voitures
-    it("should return an array of cars", (done) => {
-        chai.request("localhost:3000").get("/car")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("array");
-                done();
-            })
-    })
+	// Obtenir toutes les voitures
+	it("should return an array of cars", async () => {
+		const res = await chai.request("localhost:3000").get("/car");
+
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("array");
+
+	});
 
 
-    // Obtenir une voiture à partir de son id
-    it("should return a car", (done) => {
-        chai.request("localhost:3000").get("/car/1")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("object");
-                done();
-            })
-    })
+	// Obtenir une voiture à partir de son id
+	it("should return a car", async () => {
+		const res = await chai.request("localhost:3000").get("/car/1");
 
-    // Obtenir une voiture à partir de son id avec un id invalide
-    it("should return an error if invalid id is given", (done) => {
-        chai.request("localhost:3000").get("/car/adsf")
-            .then((res) => {
-                expect(res).to.have.status(400);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }))
-                done();
-            })
-    })
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("object");
 
-    // Obtenir une voiture qui n'existe pas
-    it("should return an error if car is not found", (done) => {
-        chai.request("localhost:3000").get("/car/999")
-            .then((res) => {
-                expect(res).to.have.status(404);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
-                done();
-            })
-    })
+	});
 
-    // Supprimer une voiture à l'aide de son id
-    it("should delete a car and return it", (done) => {
-        chai.request("localhost:3000").delete("/car/1")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("object");
-                done();
-            })
-    })
+	// Obtenir une voiture à partir de son id avec un id invalide
+	it("should return an error if invalid id is given", async () => {
+		const res = await chai.request("localhost:3000").get("/car/adsf");
 
-    // Supprimer une voiture à partir de son id avec un id invalide
-    it("should return an error if invalid id is given on delete", (done) => {
-        chai.request("localhost:3000").delete("/car/adsf")
-            .then((res) => {
-                expect(res).to.have.status(400);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }))
-                done();
-            })
-    })
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
 
-    // Supprimer une voiture qui n'existe pas
-    it("should return an error if car is not found", (done) => {
-        chai.request("localhost:3000").delete("/car/999")
-            .then((res) => {
-                expect(res).to.have.status(404);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
-                done();
-            })
-    })
+	});
 
-    // Obtenir une voiture avec un query id
-    it("should return a car on search with query id", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/4357")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("object");
-                done();
-            })
-    })
+	// Obtenir une voiture qui n'existe pas
+	it("should return an error if car is not found", async () => {
+		const res = await chai.request("localhost:3000").get("/car/999");
 
-    // Obtenir une voiture avec un query id qui n'existe pas
-    it("should return an error if car is not found on search with query id", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/adsfasf")
-            .then((res) => {
-                expect(res).to.have.status(404);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
-                done();
-            })
-    })
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
 
-    // Supprimer une voiture avec un query id
-    it("should delete a car and return it on search with query id", (done) => {
-        chai.request("localhost:3000").delete("/car/query-id/4357")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("object");
-                done();
-            })
-    })
+	});
 
-    // Supprimer une voiture avec un query id qui n'existe pas
-    it("should return an error if car is not found on search with query id on delete", (done) => {
-        chai.request("localhost:3000").delete("/car/query-id/adsfasf")
-            .then((res) => {
-                expect(res).to.have.status(404);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
-                done();
-            })
-    })
-})
+	// Supprimer une voiture à l'aide de son id
+	it("should delete a car and return it", async () => {
+		const res = await chai.request("localhost:3000").delete("/car/1");
+
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("object");
+
+	});
+
+	// Supprimer une voiture à partir de son id avec un id invalide
+	it("should return an error if invalid id is given on delete", async () => {
+		const res = await chai.request("localhost:3000").delete("/car/adsf");
+
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
+
+	});
+
+	// Supprimer une voiture qui n'existe pas
+	it("should return an error if car is not found", async () => {
+		const res = await chai.request("localhost:3000").delete("/car/999");
+
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+
+	});
+
+	// Obtenir une voiture avec un query id
+	it("should return a car on search with query id", async () => {
+		const res = await chai.request("localhost:3000").get("/car/query-id/4357");
+
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("object");
+
+	});
+
+	// Obtenir une voiture avec un query id qui n'existe pas
+	it("should return an error if car is not found on search with query id", async () => {
+		const res = await chai.request("localhost:3000").get("/car/query-id/adsfasf");
+
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+
+	});
+
+	// Supprimer une voiture avec un query id
+	it("should delete a car and return it on search with query id", async () => {
+		const res = await chai.request("localhost:3000").delete("/car/query-id/4357");
+
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("object");
+
+	});
+
+	// Supprimer une voiture avec un query id qui n'existe pas
+	it("should return an error if car is not found on search with query id on delete", async () => {
+		const res = await chai.request("localhost:3000").delete("/car/query-id/adsfasf");
+
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+
+	});
+});
 
 // Test des manches de courses de l'API
 describe("race", () => {
-    // Obtenir toutes les manches de courses d'une voiture
-    it("should return all races from a car", (done) => {
-        chai.request("localhost:3000").get("/race/1")
-            .then((res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an("array");
-                done();
-            })
-    })
+	it("should return the quickest races for each car", async () => {
+		const res = await chai.request("localhost:3000").get("/race");
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("array");
+		expect(res.body).to.have.lengthOf(2);
+		expect(res.body[0]).to.have.property("id_race");
+		expect(res.body[0]).to.have.property("sector_one");
+		expect(res.body[0]).to.have.property("car");
+		expect(res.body[0].car).to.have.property("id_car");
+		expect(res.body[0].car).to.have.property("pseudo");
+		expect(res.body[0].car).to.have.property("avatar");
+		expect(res.body[0].car.avatar).to.have.property("image");
+	});
 
-    // Obtenir toutes les manches de courses d'une voiture avec un id invalide
-    it("should return an error if invalid id is given on search for races", (done) => {
-        chai.request("localhost:3000").get("/race/adsf")
-            .then((res) => {
-                expect(res).to.have.status(400);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
-                done();
-            })
-    })
+	// Obtenir toutes les manches de courses d'une voiture
+	it("should return all races from a car", async () => {
+		const res = await chai.request("localhost:3000").get("/race/1");
 
-    // Obtenir toutes les manches de courses d'une voiture qui n'existe pas
-    it('should return an error if no car is found when searching all races from it',  (done) => {
-        chai.request("localhost:3000").get("/race/999")
-            .then((res) => {
-                expect(res).to.have.status(404);
-                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
-                done();
-            })
-    });
-})
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("array");
+
+	});
+
+	// Obtenir toutes les manches de courses d'une voiture avec un id invalide
+	it("should return an error if invalid id is given on search for races", async () => {
+		const res = await chai.request("localhost:3000").get("/race/adsf");
+
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
+
+	});
+
+	// Obtenir toutes les manches de courses d'une voiture qui n'existe pas
+	it('should return an error if no car is found when searching all races from it', async () => {
+		const res = await chai.request("localhost:3000").get("/race/999");
+
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+
+	});
+});
