@@ -1,4 +1,6 @@
 // ajouts des variables d'environnement
+import {it} from "mocha";
+
 process.env.NODE_ENV = "test";
 
 // importation des modules
@@ -71,9 +73,9 @@ describe("Car", () => {
             })
     })
 
-    // Obtenir une voiture avec un query id
-    it("should return a car on search with query id", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/4356")
+    // Supprimer une voiture à l'aide de son id
+    it("should delete a car and return it", (done) => {
+        chai.request("localhost:3000").delete("/car/1")
             .then((res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object");
@@ -81,12 +83,32 @@ describe("Car", () => {
             })
     })
 
-    // Obtenir une voiture sans query id ou avec un query id invalide
-    it("should return an error if invalid/no query id is given", (done) => {
-        chai.request("localhost:3000").get("/car/query-id/")
+    // Supprimer une voiture à partir de son id avec un id invalide
+    it("should return an error if invalid id is given on delete", (done) => {
+        chai.request("localhost:3000").delete("/car/adsf")
             .then((res) => {
                 expect(res).to.have.status(400);
                 expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }))
+                done();
+            })
+    })
+
+    // Supprimer une voiture qui n'existe pas
+    it("should return an error if car is not found", (done) => {
+        chai.request("localhost:3000").delete("/car/999")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
+                done();
+            })
+    })
+
+    // Obtenir une voiture avec un query id
+    it("should return a car on search with query id", (done) => {
+        chai.request("localhost:3000").get("/car/query-id/4357")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("object");
                 done();
             })
     })
@@ -100,4 +122,57 @@ describe("Car", () => {
                 done();
             })
     })
+
+    // Supprimer une voiture avec un query id
+    it("should delete a car and return it on search with query id", (done) => {
+        chai.request("localhost:3000").delete("/car/query-id/4357")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("object");
+                done();
+            })
+    })
+
+    // Supprimer une voiture avec un query id qui n'existe pas
+    it("should return an error if car is not found on search with query id on delete", (done) => {
+        chai.request("localhost:3000").delete("/car/query-id/adsfasf")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }))
+                done();
+            })
+    })
+})
+
+// Test des manches de courses de l'API
+describe("race", () => {
+    // Obtenir toutes les manches de courses d'une voiture
+    it("should return all races from a car", (done) => {
+        chai.request("localhost:3000").get("/race/1")
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an("array");
+                done();
+            })
+    })
+
+    // Obtenir toutes les manches de courses d'une voiture avec un id invalide
+    it("should return an error if invalid id is given on search for races", (done) => {
+        chai.request("localhost:3000").get("/race/adsf")
+            .then((res) => {
+                expect(res).to.have.status(400);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
+                done();
+            })
+    })
+
+    // Obtenir toutes les manches de courses d'une voiture qui n'existe pas
+    it('should return an error if no car is found when searching all races from it',  (done) => {
+        chai.request("localhost:3000").get("/race/999")
+            .then((res) => {
+                expect(res).to.have.status(404);
+                expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+                done();
+            })
+    });
 })
