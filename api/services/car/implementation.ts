@@ -1,4 +1,4 @@
-import buildClient from "./client";
+import buildClient from "../client";
 
 const prisma = buildClient();
 
