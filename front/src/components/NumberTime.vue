@@ -29,6 +29,7 @@ div.number {
   height: 21px;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-right: 15px;
 }
 
