@@ -27,6 +27,50 @@ describe("Root", () => {
 	});
 });
 
+// Test des manches de courses de l'API
+describe("race", () => {
+	it("should return the quickest races for each car", async () => {
+		const res = await chai.request("localhost:3000").get("/race");
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("array");
+		expect(res.body).to.have.lengthOf(2);
+		expect(res.body[0]).to.have.property("id_race");
+		expect(res.body[0]).to.have.property("sector_one");
+		expect(res.body[0]).to.have.property("car");
+		expect(res.body[0].car).to.have.property("id_car");
+		expect(res.body[0].car).to.have.property("pseudo");
+		expect(res.body[0].car).to.have.property("avatar");
+		expect(res.body[0].car.avatar).to.have.property("image");
+	});
+
+	// Obtenir toutes les manches de courses d'une voiture
+	it("should return all races from a car", async () => {
+		const res = await chai.request("localhost:3000").get("/race/1");
+
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("array");
+
+	});
+
+	// Obtenir toutes les manches de courses d'une voiture avec un id invalide
+	it("should return an error if invalid id is given on search for races", async () => {
+		const res = await chai.request("localhost:3000").get("/race/adsf");
+
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
+
+	});
+
+	// Obtenir toutes les manches de courses d'une voiture qui n'existe pas
+	it('should return an error if no car is found when searching all races from it', async () => {
+		const res = await chai.request("localhost:3000").get("/race/999");
+
+		expect(res).to.have.status(404);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
+
+	});
+});
+
 // Test des voitures de l'API
 describe("Car", () => {
 
@@ -124,50 +168,6 @@ describe("Car", () => {
 	// Supprimer une voiture avec un query id qui n'existe pas
 	it("should return an error if car is not found on search with query id on delete", async () => {
 		const res = await chai.request("localhost:3000").delete("/car/query-id/adsfasf");
-
-		expect(res).to.have.status(404);
-		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
-
-	});
-});
-
-// Test des manches de courses de l'API
-describe("race", () => {
-	it("should return the quickest races for each car", async () => {
-		const res = await chai.request("localhost:3000").get("/race");
-		expect(res).to.have.status(200);
-		expect(res.body).to.be.an("array");
-		expect(res.body).to.have.lengthOf(2);
-		expect(res.body[0]).to.have.property("id_race");
-		expect(res.body[0]).to.have.property("sector_one");
-		expect(res.body[0]).to.have.property("car");
-		expect(res.body[0].car).to.have.property("id_car");
-		expect(res.body[0].car).to.have.property("pseudo");
-		expect(res.body[0].car).to.have.property("avatar");
-		expect(res.body[0].car.avatar).to.have.property("image");
-	});
-
-	// Obtenir toutes les manches de courses d'une voiture
-	it("should return all races from a car", async () => {
-		const res = await chai.request("localhost:3000").get("/race/1");
-
-		expect(res).to.have.status(200);
-		expect(res.body).to.be.an("array");
-
-	});
-
-	// Obtenir toutes les manches de courses d'une voiture avec un id invalide
-	it("should return an error if invalid id is given on search for races", async () => {
-		const res = await chai.request("localhost:3000").get("/race/adsf");
-
-		expect(res).to.have.status(400);
-		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid id" }));
-
-	});
-
-	// Obtenir toutes les manches de courses d'une voiture qui n'existe pas
-	it('should return an error if no car is found when searching all races from it', async () => {
-		const res = await chai.request("localhost:3000").get("/race/999");
 
 		expect(res).to.have.status(404);
 		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
