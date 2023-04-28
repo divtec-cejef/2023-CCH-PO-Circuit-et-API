@@ -2,8 +2,8 @@ SET search_path TO cars;
 INSERT INTO avatar(image) VALUES ('image1');
 INSERT INTO avatar(image) VALUES ('image2');
 
-INSERT INTO car(password, query_id, pseudo, id_avatar) VALUES ('1234', '4356', 'PlayerOne', 1);
-INSERT INTO car(password, query_id, pseudo, id_avatar) VALUES ('4321', '4357', 'PlayerTwo', 2);
+INSERT INTO car(id_car, password, query_id, pseudo, id_avatar) VALUES (1,'1234', '4356', 'PlayerOne', 1);
+INSERT INTO car(id_car, password, query_id, pseudo, id_avatar) VALUES (2,'4321', '4357', 'PlayerTwo', 2);
 
 INSERT INTO section(label, password) VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
 INSERT INTO section(label, password) VALUES ('Automatique', '$2a$12$ZqkedbzE3tPHR.xTX2pgmu9DEF2ErmbU/SfzH4EB8ZOQPRzhx0fY2');
