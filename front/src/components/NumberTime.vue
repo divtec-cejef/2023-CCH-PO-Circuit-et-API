@@ -21,11 +21,12 @@ const props = defineProps({
 div.number {
   font-family: 'Poppins', sans-serif;
   color: var(--white);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
   padding: 10px;
   border-radius: 200px;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   display: flex;
   justify-content: center;
   margin-right: 15px;
