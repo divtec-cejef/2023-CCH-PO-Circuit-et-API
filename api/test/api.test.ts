@@ -8,7 +8,7 @@ import "../index";
 import chai from 'chai';
 import chaiHttp from "chai-http";
 import "mocha";
-import chaiStructure from "./type-checking";
+import chaiStructure from "chai-check-struct";
 
 // configuration de chai
 chai.use(chaiHttp);
