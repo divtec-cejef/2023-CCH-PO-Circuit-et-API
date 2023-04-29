@@ -8,11 +8,12 @@ import "../index";
 import chai from 'chai';
 import chaiHttp from "chai-http";
 import "mocha";
+import chaiStructure from "./type-checking";
 
 // configuration de chai
 chai.use(chaiHttp);
+chai.use(chaiStructure);
 const expect = chai.expect;
-
 
 
 // Test de la racine de l'API
@@ -34,13 +35,17 @@ describe("race", () => {
 		expect(res).to.have.status(200);
 		expect(res.body).to.be.an("array");
 		expect(res.body).to.have.lengthOf(2);
-		expect(res.body[0]).to.have.property("id_race");
-		expect(res.body[0]).to.have.property("sector_one");
-		expect(res.body[0]).to.have.property("car");
-		expect(res.body[0].car).to.have.property("id_car");
-		expect(res.body[0].car).to.have.property("pseudo");
-		expect(res.body[0].car).to.have.property("avatar");
-		expect(res.body[0].car.avatar).to.have.property("image");
+		expect(res.body[0]).to.have.that.structure({
+			id_race: Number,
+			sector_one: Date,
+			car: {
+				id_car: Number,
+				pseudo: String,
+				avatar: {
+					image: String
+				}
+			}
+		});
 	});
 
 	// Obtenir toutes les manches de courses d'une voiture
