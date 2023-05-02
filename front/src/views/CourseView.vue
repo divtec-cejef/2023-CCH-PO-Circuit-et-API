@@ -38,6 +38,41 @@
                 </ul>
             </div>
         </div>
+        <DropDown name="Voir les autres courses">
+            <table>
+                <tr>
+                    <th>N°</th>
+                    <th>Rang</th>
+                    <th>Heure</th>
+                    <th>Vitesse</th>
+                    <th colspan="2">Temps</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>34</td>
+                    <td>12:23:23</td>
+                    <td>33</td>
+                    <td></td>
+                    <td>123</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><NumberTime number="1" color="var(--red)" /></td>
+                    <td>123</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><NumberTime number="2" color="var(--blue)" /></td>
+                    <td>123</td>
+                </tr>
+            </table>
+        </DropDown>
         <RouterLink to="course">Autres courses >></RouterLink>
     </div>
 </template>
@@ -45,6 +80,7 @@
 <script setup lang="ts">
 import NumberTime from "@/components/NumberTime.vue";
 import {RouterLink, RouterView} from 'vue-router'
+import DropDown from "@/components/DropDown.vue";
 
 </script>
 
