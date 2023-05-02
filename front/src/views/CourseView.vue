@@ -28,17 +28,17 @@
                 </div>
                 <ul>
                     <li>
-                        <NumberTime number="1" color="var(--red)"/>
+                        <NumberTime class="num-race" number="1" color="var(--red)"/>
                         <p>03:23:08</p>
                     </li>
                     <li>
-                        <NumberTime number="2" color="var(--blue)"/>
+                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
                         <p>03:23:08</p>
                     </li>
                 </ul>
             </div>
         </div>
-        <DropDown name="Voir les autres courses">
+        <DropDown name="Autres courses">
             <table>
                 <tr>
                     <th>N°</th>
@@ -60,7 +60,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><NumberTime number="1" color="var(--red)" /></td>
+                    <td>
+                        <NumberTime number="1" color="var(--red)"/>
+                    </td>
                     <td>123</td>
                 </tr>
                 <tr>
@@ -68,12 +70,13 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><NumberTime number="2" color="var(--blue)" /></td>
+                    <td>
+                        <NumberTime number="2" color="var(--blue)"/>
+                    </td>
                     <td>123</td>
                 </tr>
             </table>
         </DropDown>
-        <RouterLink to="course">Autres courses >></RouterLink>
     </div>
 </template>
 
@@ -150,9 +153,10 @@ div.best-race {
       p:nth-child(1) {
         font-size: 40px;
       }
-        NumberTime {
-            margin-right: 15px;
-        }
+
+      .num-race {
+        margin-right: 10px;
+      }
     }
 
     div.speed-max {
