@@ -50,7 +50,6 @@ import {RouterLink, RouterView} from 'vue-router'
 
 <style scoped lang="scss">
 
-
 div.best-race {
   display: flex;
   flex-direction: column;
@@ -115,6 +114,9 @@ div.best-race {
       p:nth-child(1) {
         font-size: 40px;
       }
+        NumberTime {
+            margin-right: 15px;
+        }
     }
 
     div.speed-max {

@@ -30,7 +30,6 @@ div.number {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 15px;
 }
 
 </style>
