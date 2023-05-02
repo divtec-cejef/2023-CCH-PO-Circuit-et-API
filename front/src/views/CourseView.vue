@@ -38,46 +38,46 @@
                 </ul>
             </div>
         </div>
-        <DropDown name="Autres courses">
-            <table>
-                <tr>
-                    <th>N°</th>
-                    <th>Rang</th>
-                    <th>Heure</th>
-                    <th>Vitesse</th>
-                    <th colspan="2">Temps</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>34</td>
-                    <td>12:23:23</td>
-                    <td>33</td>
-                    <td></td>
-                    <td>123</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <NumberTime number="1" color="var(--red)"/>
-                    </td>
-                    <td>123</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <NumberTime number="2" color="var(--blue)"/>
-                    </td>
-                    <td>123</td>
-                </tr>
-            </table>
-        </DropDown>
     </div>
+    <DropDown class="drop-down-course" name="Autres courses">
+        <table>
+            <tr>
+                <th>N°</th>
+                <th>Rang</th>
+                <th>Heure</th>
+                <th>Vitesse</th>
+                <th colspan="2">Temps</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>34</td>
+                <td>12:23:23</td>
+                <td>33</td>
+                <td></td>
+                <td>123</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <NumberTime number="1" color="var(--red)"/>
+                </td>
+                <td>123</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <NumberTime number="2" color="var(--blue)"/>
+                </td>
+                <td>123</td>
+            </tr>
+        </table>
+    </DropDown>
 </template>
 
 <script setup lang="ts">
@@ -139,6 +139,7 @@ div.best-race {
         width: 35px;
       }
     }
+
   }
 
   div.content-2 {
@@ -195,6 +196,11 @@ div.best-race {
     font-style: italic;
   }
 }
+
+.drop-down-course {
+    margin-top: 20px;
+}
+
 
 
 </style>
