@@ -7,8 +7,11 @@
     <div class="best-race">
         <div class="content-1">
             <div class="rang">
-                <span>#</span>
-                <span>4</span>
+                <span>Rang</span>
+                <div>
+                    <span>#</span>
+                    <span>4</span>
+                </div>
             </div>
             <div class="best-time">
                 <div>Temps de manche :</div>
@@ -53,8 +56,8 @@
                 <td>34</td>
                 <td>12:23:23</td>
                 <td>33</td>
-                <td></td>
-                <td>123</td>
+                <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
+                <td>01:12:12</td>
             </tr>
             <tr>
                 <td></td>
@@ -64,7 +67,7 @@
                 <td>
                     <NumberTime number="1" color="var(--red)"/>
                 </td>
-                <td>123</td>
+                <td>01:12:12</td>
             </tr>
             <tr>
                 <td></td>
@@ -74,7 +77,7 @@
                 <td>
                     <NumberTime number="2" color="var(--blue)"/>
                 </td>
-                <td>123</td>
+                <td>01:12:12</td>
             </tr>
         </table>
     </DropDown>
@@ -103,7 +106,7 @@ div.best-race {
 
     div.rang {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
       border-radius: 200px;
@@ -114,13 +117,25 @@ div.best-race {
       width: 90px;
       height: 90px;
 
-      span:nth-child(1) {
-        font-size: 26px;
+      > span {
+        font-size: 12px;
+        margin-bottom: -6px;
       }
 
-      span:nth-child(2) {
-        font-size: 54px;
+      div {
+        display: flex;
+        align-items: center;
+
+        span:nth-child(1) {
+          font-size: 26px;
+        }
+
+        span:nth-child(2) {
+          font-size: 54px;
+          margin-bottom: 10px;
+        }
       }
+
     }
 
     div.best-time {
@@ -198,9 +213,20 @@ div.best-race {
 }
 
 .drop-down-course {
-    margin-top: 20px;
-}
+  margin-top: 20px;
 
+  table {
+    text-align: center;
+
+    th {
+      text-align: left;
+    }
+
+    img.flag-start {
+      width: 18px;
+    }
+  }
+}
 
 
 </style>

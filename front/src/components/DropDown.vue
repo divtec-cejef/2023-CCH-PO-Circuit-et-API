@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import {computed, ref} from "vue";
+
 defineProps(['name'])
 
 
@@ -32,32 +33,29 @@ let isClicked = ref(true);
 <style scoped lang="scss">
 
 div.button-checked {
-    margin-bottom: 15px;
-    label {
-        display: flex;
-        justify-content: end;
-        align-items: center;
+  margin-bottom: 15px;
 
-        img {
-            width: 12px;
-            height: 12px;
-            margin-left: 5px;
-            margin-top: 2px;
-        }
+  label {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    img {
+      width: 12px;
+      height: 12px;
+      margin-left: 5px;
+      margin-top: 2px;
     }
-    input {
-        display: none;
-    }
+  }
+
+  input {
+    display: none;
+  }
 }
 
 div.drop-down-content {
-    display: flex;
-    justify-content: end;
-    table {
-        text-align: center;
-        width: auto;
-        margin: auto;
-    }
+  display: flex;
+  justify-content: end;
 
 }
 
