@@ -6,6 +6,7 @@
 
     <h2>Meilleure manche</h2>
     <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
+
     <div class="best-race">
         <div class="content-1">
             <div class="rank">
@@ -44,6 +45,15 @@
             </div>
         </div>
     </div>
+
+    <div class="informations">
+        <p>N° Manche : 1</p>
+        <div>
+            <img src="../assets/img/clock.png" alt="Icon d'horloge">
+            <p class="hour">12h13</p>
+        </div>
+    </div>
+
     <DropDown class="drop-down-course" name="Autres courses">
         <table>
             <tr>
@@ -52,6 +62,7 @@
                 <th>Heure</th>
                 <th>Vitesse</th>
                 <th colspan="2">Temps</th>
+                <th>Vidéo</th>
             </tr>
             <tr>
                 <td>1</td>
@@ -60,6 +71,8 @@
                 <td>33</td>
                 <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
                 <td>01:12:12</td>
+                <td><img class="video" src="../assets/img/film.png"
+                         alt="Icon de film pour visionner la vidéo de la course"></td>
             </tr>
             <tr>
                 <td></td>
@@ -70,6 +83,7 @@
                     <NumberTime number="1" color="var(--red)"/>
                 </td>
                 <td>01:12:12</td>
+                <td></td>
             </tr>
             <tr>
                 <td></td>
@@ -80,6 +94,7 @@
                     <NumberTime number="2" color="var(--blue)"/>
                 </td>
                 <td>01:12:12</td>
+                <td></td>
             </tr>
         </table>
     </DropDown>
@@ -263,6 +278,29 @@ div.best-race {
   }
 }
 
+div.informations {
+  margin: 25px 10px;
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+  align-items: center;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    margin-right: 8px;
+    width: 25px;
+  }
+
+  p.hour {
+    flex: 1;
+    margin-right: 10px;
+  }
+}
+
 .drop-down-course {
   margin-top: 20px;
 
@@ -271,6 +309,10 @@ div.best-race {
 
     th {
       text-align: left;
+    }
+
+    img.video {
+      width: 25px;
     }
 
     img.flag-start {
@@ -302,7 +344,7 @@ div.button-classement {
     height: 40px;
     margin: 0 15px;
   }
-
 }
+
 
 </style>
