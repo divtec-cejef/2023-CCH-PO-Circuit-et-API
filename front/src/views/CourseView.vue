@@ -54,6 +54,8 @@
         </div>
     </div>
 
+    <div class="video"></div>
+
     <DropDown class="drop-down-course" name="Autres courses">
         <table>
             <tr>
@@ -197,7 +199,6 @@ div.best-race {
           margin-bottom: 10px;
         }
       }
-
     }
 
     div.best-time {
@@ -301,10 +302,19 @@ div.informations {
   }
 }
 
+div.video {
+    width: 100%;
+    height: 200px;
+    background-color: var(--black);
+    border-radius: 2px;
+}
+
 .drop-down-course {
   margin-top: 20px;
+  max-width: 100%;
 
   table {
+
     text-align: center;
 
     th {
@@ -345,6 +355,5 @@ div.button-classement {
     margin: 0 15px;
   }
 }
-
 
 </style>
