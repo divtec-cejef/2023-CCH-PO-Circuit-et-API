@@ -54,6 +54,7 @@ div.button-checked {
 }
 
 div.drop-down-content {
+
   display: flex;
   justify-content: end;
 
