@@ -4,9 +4,11 @@
     <p>Sur cette page, tu pourras voir tes temps réalisés ainsi que ceux des autres.
         N'oublie pas non plus de revoir la vidéo de ta course...</p>
 
+    <h2>Meilleure manche</h2>
+    <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
     <div class="best-race">
         <div class="content-1">
-            <div class="rang">
+            <div class="rank">
                 <span>Rang</span>
                 <div>
                     <span>#</span>
@@ -46,7 +48,7 @@
         <table>
             <tr>
                 <th>N°</th>
-                <th>Rang</th>
+                <th>rank</th>
                 <th>Heure</th>
                 <th>Vitesse</th>
                 <th colspan="2">Temps</th>
@@ -81,12 +83,57 @@
             </tr>
         </table>
     </DropDown>
+
+    <h2>Classement</h2>
+    <p>Alors les autres ils en sont où ?
+        Tu peux te comparer ici avec le temps des autres.
+        Clique sur n'importe quel utilisateur pour voir son parcours...</p>
+    <div class="button-classement">
+        <button class="classement-user">Moi</button>
+        <button class="classement-top" @click="setScrollTop"></button>
+    </div>
+    <div ref="classement" class="classement">
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+        <ClassementElement/>
+    </div>
+
 </template>
 
 <script setup lang="ts">
 import NumberTime from "@/components/NumberTime.vue";
 import {RouterLink, RouterView} from 'vue-router'
 import DropDown from "@/components/DropDown.vue";
+import ClassementElement from "@/components/ClassementElement.vue";
+import {onMounted, ref} from "vue";
+import CourseView from "@/views/CourseView.vue";
+
+let classement = ref(null);
+let userRace = ref(null);
+
+onMounted(() => {
+
+    if (classement.value !== null) {
+        classement.value.scrollTop = 100;
+    }
+
+    if (userRace.value !== null) {
+        console.log(userRace.value.scrollTop);
+    }
+})
+
+
+/**
+ * Change la position de scroll du classement
+ */
+function setScrollTop() {
+    classement.value.scrollTop = 0;
+}
 
 </script>
 
@@ -104,7 +151,7 @@ div.best-race {
     display: flex;
     align-items: center;
 
-    div.rang {
+    div.rank {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -170,6 +217,10 @@ div.best-race {
         font-size: 40px;
       }
 
+      ul li p {
+        font-size: 22px;
+      }
+
       .num-race {
         margin-right: 10px;
       }
@@ -228,5 +279,30 @@ div.best-race {
   }
 }
 
+div.classement {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+div.button-classement {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  margin-top: 20px;
+
+  button.classement-top {
+    background-color: transparent;
+    border: none;
+    border-radius: 100px;
+    background-image: url("../assets/img/top-10.png");
+    background-position: center;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    margin: 0 15px;
+  }
+
+}
 
 </style>
