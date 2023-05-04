@@ -22,6 +22,11 @@ const route: routeHandler = async (req, res) => {
         return;
     }
 
-    res.json({...(await getRacesByCar(id)), rank: await getRankByCar(id)});
+    res.json({
+        races: [...
+            (await getRacesByCar(id))
+        ],
+        rank: await getRankByCar(id)
+    });
 };
 export default route;
