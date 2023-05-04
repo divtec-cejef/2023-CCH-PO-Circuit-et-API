@@ -10,7 +10,7 @@ import {getCarById} from "../../services/car/implementation";
  * @returns le temps créé
  */
 export const route: routeHandler = async (req, res) => {
-    const race = await req.body.json();
+    const race = req.body;
 
     // Vérification de la structure de la requête
     try {
@@ -25,7 +25,7 @@ export const route: routeHandler = async (req, res) => {
     }
 
     // Vérification de l'existence de la voiture
-    if (await getCarById(race.id_car) === null) {
+    if (await getCarById(parseInt(race.id_car)) === null) {
         res.status(404).json({ error: 'Car not found' });
         return;
     }
