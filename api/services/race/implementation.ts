@@ -69,8 +69,8 @@ export const getShortestRaces = async () => {
 export const createRace = async (race: any) => {
 	return await prisma.race.create({
 		data: {
-			realisation_date_time: race.realisation_date_time,
-			sector_one: race.sector_one,
+			realisation_date_time: new Date(race.realisation_date_time),
+			sector_one: new Date(race.sector_one),
 			id_car: race.id_car,
 		}
 	});
