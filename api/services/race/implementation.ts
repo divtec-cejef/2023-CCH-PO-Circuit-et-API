@@ -65,6 +65,11 @@ export const getShortestRaces = async () => {
 	return res;
 };
 
+/**
+ * Retourne le classement d'une voiture
+ * @param id identifiant de la voiture
+ * @returns le classement de la voiture ou null si elle n'est pas classée
+ */
 export const getRankByCar = async (id: number) => {
 	const shortestRaces = await getShortestRaces();
 	for (let i = 0; i < shortestRaces.length; i++) {
