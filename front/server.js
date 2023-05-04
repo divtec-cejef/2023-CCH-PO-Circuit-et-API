@@ -1,5 +1,5 @@
 const http = require('express');
-const httpPort = 80;
+const httpPort = 8080;
 
 const app = http();
 app.use('/assets', http.static('dist/assets'));
