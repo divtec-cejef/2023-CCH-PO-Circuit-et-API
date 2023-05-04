@@ -12,14 +12,36 @@ export default class Car {
 
 
     /**
+     * Determine la position de chaque manche en fonction du temps
+     * Rempli donc le champs NumRace pour chaque manche
+     */
+    determinePositionOfRaces() {
+        let listSortByNum = this.listRace.sort((a, b) => {
+            return a.sectorOne.getTime() - b.sectorOne.getTime();
+        });
+
+        listSortByNum.forEach((race: Race, index) => {
+            let raceToChange = ref(this.listRace.find(raceToChange => raceToChange.idRace == race.idRace))
+            if(raceToChange.value !== undefined) {
+                raceToChange.value.numRace = index;
+            }
+        });
+    }
+
+    getTime(date?: Date) {
+        return date != null ? date.getTime() : 0;
+    }
+
+    /**
      * Tri la liste en fonction de
      */
-    public sortListRace() {
+    sortListRace() {
         this.listRace = this.listRace.sort((a, b) =>
             a.idRace - b.idRace);
 
         console.log(this.listRace)
     }
+
 
     /**
      * Retourne la course la plus rapide de la voiture
