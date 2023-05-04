@@ -64,3 +64,14 @@ export const getShortestRaces = async () => {
 
 	return res;
 };
+
+export const getRankByCar = async (id: number) => {
+	const shortestRaces = await getShortestRaces();
+	for (let i = 0; i < shortestRaces.length; i++) {
+		if(shortestRaces[i].car.id_car === id) {
+			return i+1;
+		}
+	}
+
+	return null;
+}
