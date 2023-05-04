@@ -31,6 +31,8 @@ app.use(cors({
 	origin: "*"
 }));
 
+app.use(express.json());
+
 app.use((req, _, next) => {
 	console.log(`\n\n${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}`);
 	const logFile = getLogFile();
