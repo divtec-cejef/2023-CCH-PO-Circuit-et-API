@@ -1,7 +1,8 @@
 import {raceToCreate, routeHandler} from "../../models";
-import {createRace} from "../../services/race/implementation";
+import {createRace, getShortestRaces} from "../../services/race/implementation";
 import {checkStructureOrThrow} from "check-structure";
 import {getCarById} from "../../services/car/implementation";
+import type {Server} from "socket.io";
 
 /**
  * Controller post pour la route /race
@@ -43,6 +44,8 @@ export const route: routeHandler = async (req, res) => {
         res.status(500).json({ error: e.message });
         return
     }
+
+    res.app.get<Server>("socketio").emit("updatedRaces", await getShortestRaces())
 };
 
 export default route;
