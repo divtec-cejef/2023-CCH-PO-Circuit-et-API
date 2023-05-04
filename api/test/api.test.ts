@@ -53,7 +53,7 @@ describe("race", () => {
 		const res = await chai.request("localhost:3000").get("/race/1");
 
 		expect(res).to.have.status(200);
-		expect(res.body).to.be.an("array");
+		expect(res.body).to.be.an("object");
 
 	});
 
