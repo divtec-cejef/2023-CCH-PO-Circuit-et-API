@@ -57,6 +57,7 @@ export const useCarStore = defineStore('car', () => {
     async function initUserAllRaceCar() {
         let {json: dataUserRaceCar, status} = await api.getAllRaceOneCar(car.value.idCar);
 
+        console.log(dataUserRaceCar)
         //Récupération du rang de la voiture
         car.value.rank = dataUserRaceCar['rank'];
 
@@ -66,6 +67,8 @@ export const useCarStore = defineStore('car', () => {
                 new Race(race['id_race'], new Date(race['realisation_date_time']), new Date(race['sector_one']))
             )
         })
+
+        car.value.determinePositionOfRaces();
 
         return status;
     }

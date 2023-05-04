@@ -13,7 +13,7 @@
                     <span>Rang</span>
                     <div>
                         <span>#</span>
-                        <span>4</span>
+                        <span>{{ userCar.car.rank }}</span>
                     </div>
                 </div>
                 <div class="best-time">
@@ -136,11 +136,11 @@ async function initDataUserCar() {
     const userCarId = localStorage.getItem("userCarId");
     if (userCarId) {
         await userCar.initUserCarId(userCarId)
-        console.log(userCar)
         return await userCar.initUserAllRaceCar();
     }
     return 0;
 }
+
 //Récupère le code de réponse de l'api
 
 const userCar = useCarStore();
@@ -190,7 +190,8 @@ div.best-race {
         }
 
         span:nth-child(2) {
-          font-size: 54px;
+          font-size: 52px;
+          margin-top: 2px;
           margin-bottom: 10px;
         }
       }

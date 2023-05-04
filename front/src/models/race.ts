@@ -5,6 +5,7 @@ export default class Race {
     idRace: number = 0;
     hour: Date = new Date;
     sectorOne : Date = new Date();
+    numRace : number = 0;
 
     /**
      * Constructeur d'une course
