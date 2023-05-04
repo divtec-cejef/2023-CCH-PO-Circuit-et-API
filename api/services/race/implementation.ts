@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import buildClient from "../client";
+import {raceToCreate} from "../../models";
 
 const prisma = buildClient();
 
@@ -86,54 +87,28 @@ export const getRankByCar = async (id: number) => {
  * @param race Manche à créer
  * @returns la manche créée
  */
-export const createRace = async (race: {[index: string]: unknown | null}) => {
-	interface validatedRace {
-		realisation_date_time?: Date;
-		sector_one?: Date;
-		id_car?: number;
-	}
-	const obj: validatedRace = {};
-	try {
-		validateDate(race.realisation_date_time)
-	} catch (e) {
-		throw new Error('Invalid realisation_date_time')
-	}
-	obj.realisation_date_time = new Date(race.realisation_date_time)
-
-	try {
-		validateDate(race.sector_one)
-	} catch (e) {
-		throw new Error('Invalid sector_one')
-	}
-	obj.sector_one = new Date(race.sector_one)
-
-	try {
-		validateNumber(race.id_car)
-	} catch (e) {
-		throw new Error('Invalid id_car')
-	}
-	obj.id_car = race.id_car
+export const createRace = async (race: raceToCreate) => {
 
 	return await prisma.race.create({
 		data: {
-			realisation_date_time: obj.realisation_date_time,
-			sector_one: obj.sector_one,
-			id_car: obj.id_car
+			realisation_date_time: race.realisation_date_time,
+			sector_one: race.sector_one,
+			id_car: race.id_car
 		}
 	});
 }
-
-function validateDate(date: unknown): asserts date is string {
-	if (typeof date !== 'string') {
-		throw new Error('Invalid date')
-	}
-	const validDate = new Date(date)
-	if (isNaN(validDate.valueOf()))
-		throw new Error('Invalid date')
-}
-
-function validateNumber(number: unknown): asserts number is number {
-	if (typeof number !== 'number') {
-		throw new Error('Invalid number')
-	}
-}
+//
+// function validateDate(date: unknown): asserts date is string {
+// 	if (typeof date !== 'string') {
+// 		throw new Error('Invalid date')
+// 	}
+// 	const validDate = new Date(date)
+// 	if (isNaN(validDate.valueOf()))
+// 		throw new Error('Invalid date')
+// }
+//
+// function validateNumber(number: unknown): asserts number is number {
+// 	if (typeof number !== 'number') {
+// 		throw new Error('Invalid number')
+// 	}
+// }

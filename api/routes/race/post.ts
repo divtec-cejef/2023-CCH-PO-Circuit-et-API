@@ -1,4 +1,4 @@
-import { routeHandler } from "../../models";
+import {raceToCreate, routeHandler} from "../../models";
 import {createRace} from "../../services/race/implementation";
 import {checkStructureOrThrow} from "check-structure";
 import {getCarById} from "../../services/car/implementation";
@@ -30,9 +30,15 @@ export const route: routeHandler = async (req, res) => {
         return;
     }
 
+    const raceToCreate: raceToCreate = {
+        realisation_date_time: new Date(race.realisation_date_time),
+        sector_one: new Date(race.sector_one),
+        id_car: race.id_car,
+    }
+
     // Création de la manche
     try {
-        res.json(await createRace(race));
+        res.json(await createRace(raceToCreate));
     } catch (e: any) {
         res.status(500).json({ error: e.message });
         return
