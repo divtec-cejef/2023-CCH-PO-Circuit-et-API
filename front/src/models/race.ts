@@ -2,20 +2,20 @@ import {ref} from "vue";
 import type {Ref} from "vue";
 
 export default class Race {
-    idRace: Ref<number> = ref(0);
-    hour: Ref<Date> = ref(new Date);
-    sectoreOne : Ref<Date> = ref(new Date());
+    idRace: number = 0;
+    hour: Date = new Date;
+    sectorOne : Date = new Date();
 
     /**
      * Constructeur d'une course
      * @param idRace Id de la course
      * @param hour Heure à laquelle la course à été fait
-     * @param sectoreOne Temps de la course
+     * @param sectorOne Temps de la course
      */
-    constructor(idRace: Ref<number>, hour: Ref<Date>, sectoreOne: Ref<Date[]>) {
+    constructor(idRace: number, hour: Date, sectorOne: Date) {
         this.idRace = idRace;
         this.hour = hour;
-        this.sectoreOne = sectoreOne;
+        this.sectorOne = sectorOne;
     }
 }
 
