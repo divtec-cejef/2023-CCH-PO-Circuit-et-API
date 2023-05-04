@@ -97,18 +97,4 @@ export const createRace = async (race: raceToCreate) => {
 		}
 	});
 }
-//
-// function validateDate(date: unknown): asserts date is string {
-// 	if (typeof date !== 'string') {
-// 		throw new Error('Invalid date')
-// 	}
-// 	const validDate = new Date(date)
-// 	if (isNaN(validDate.valueOf()))
-// 		throw new Error('Invalid date')
-// }
-//
-// function validateNumber(number: unknown): asserts number is number {
-// 	if (typeof number !== 'number') {
-// 		throw new Error('Invalid number')
-// 	}
-// }
+
