@@ -10,8 +10,9 @@ import {getCarById} from "../../services/car/implementation";
  * @returns le temps créé
  */
 export const route: routeHandler = async (req, res) => {
-    const race = req.body;
 
+    const race = req.body;
+console.log(race)
     // Vérification de la structure de la requête
     try {
         checkStructureOrThrow(race, {
