@@ -6,7 +6,7 @@ const prisma = buildClient();
 /**
  * Retourne les manches d'une course d'une voiture donnée
  * @param id id de la voiture
- * @returns une liste des manches
+ * @returns une liste des manches dans l'ordre croissant
  */
 export const getRacesByCar = async (id: number) => {
 	return await prisma.race.findMany({
@@ -18,6 +18,9 @@ export const getRacesByCar = async (id: number) => {
 			realisation_date_time: true,
 			sector_one: true,
 			id_car: true,
+		},
+		orderBy: {
+			sector_one: Prisma.SortOrder.asc
 		}
 	});
 };
