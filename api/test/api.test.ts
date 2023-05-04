@@ -51,10 +51,14 @@ describe("race", () => {
 	// Obtenir toutes les manches de courses d'une voiture
 	it("should return all races from a car", async () => {
 		const res = await chai.request("localhost:3000").get("/race/1");
-
 		expect(res).to.have.status(200);
 		expect(res.body).to.be.an("object");
-
+		expect(res.body.races[0]).to.have.that.structure({
+			id_race: Number,
+			realisation_date_time: Date,
+			sector_one: Date,
+			id_car: Number
+		});
 	});
 
 	// Obtenir toutes les manches de courses d'une voiture avec un id invalide
@@ -74,6 +78,56 @@ describe("race", () => {
 		expect(res.error.text).to.equal(JSON.stringify({ error: "Car not found" }));
 
 	});
+
+	// Obtenir une manche de course avec des paramètres valides
+	it('should return a created car if all parameters are valid', async () => {
+		const res = await chai.request("localhost:3000").post("/race").send({
+			realisation_date_time: "2021-10-10T10:10:10.000Z",
+			sector_one: "2021-10-10T10:10:10.000Z",
+			id_car: 1
+		});
+		expect(res).to.have.status(200);
+		expect(res.body).to.be.an("object");
+		expect(res.body).to.have.that.structure({
+			id_race: Number,
+			realisation_date_time: Date,
+			sector_one: Date,
+			id_car: Number
+		});
+	})
+
+	// Obtenir une manche de course avec realisation_date_time invalide
+	it('should return an error if realisation_date_time is invalid', async () => {
+		const res = await chai.request("localhost:3000").post("/race").send({
+			realisation_date_time: "0000-00-00T10:10:10.000Z",
+			sector_one: "2021-10-10T10:10:10.000Z",
+			id_car: 1
+		});
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid date (not parsable)" }));
+	})
+
+	// Obtenir une manche de course avec sector_one invalide
+	it('should return an error if sector_one is invalid', async () => {
+		const res = await chai.request("localhost:3000").post("/race").send({
+			realisation_date_time: "2016-01-17T08:44:29",
+			sector_one: "0000-00-00T10:10:10.000Z",
+			id_car: 1
+		});
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "Invalid date (not parsable)" }));
+	})
+
+	// Obtenir une manche de course avec id_car invalide
+	it('should return an error if sector_one is invalid', async () => {
+		const res = await chai.request("localhost:3000").post("/race").send({
+			realisation_date_time: "2016-01-17T08:44:29",
+			sector_one: "2021-10-10T10:10:10.000Z",
+			id_car: "adsf"
+		});
+		expect(res).to.have.status(400);
+		expect(res.error.text).to.equal(JSON.stringify({ error: "id_car is not of type number" }));
+	})
 });
 
 // Test des voitures de l'API
