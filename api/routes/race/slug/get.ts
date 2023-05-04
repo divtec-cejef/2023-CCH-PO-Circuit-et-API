@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../models';
-import { getRacesByCar } from '../../../services/race/implementation';
+import { getRacesByCar, getRankByCar } from '../../../services/race/implementation';
 import { getCarById } from '../../../services/car/implementation';
 
 /**
@@ -22,6 +22,6 @@ const route: routeHandler = async (req, res) => {
         return;
     }
 
-    res.json(await getRacesByCar(id));
+    res.json({...(await getRacesByCar(id)), rank: await getRankByCar(id)});
 };
 export default route;
