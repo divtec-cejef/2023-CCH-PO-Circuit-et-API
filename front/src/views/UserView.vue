@@ -61,13 +61,14 @@ import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
 import api from "../models/api";
 
+//Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore()
-console.log(useRouter().currentRoute.value.params.id)
-let status = userCar.initUserCarUrl(useRouter().currentRoute.value.params.id);
+let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
+//Récupère le code de réponse de l'api
 let codeBackApi = ref(0);
 status.then(value => codeBackApi.value = value)
-console.log(codeBackApi.value)
+
 </script>
 
 <style scoped lang="scss">

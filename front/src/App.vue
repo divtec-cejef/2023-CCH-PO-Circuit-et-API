@@ -45,14 +45,16 @@ import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
 import {ref} from "vue";
 
+//Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
-
 const userCarId = localStorage.getItem("userCarId");
 
 if (userCarId) {
-    userCar.initUserCarUrl(userCarId)
+    console.log("Initialisation au lancement de l'application avec l'id stocké " + userCarId)
+    userCar.initUserCarId(userCarId)
 }
 
+//Initialisation des variables
 let menuIsClicked = ref(false);
 
 </script>

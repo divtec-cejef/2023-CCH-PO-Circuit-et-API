@@ -1,9 +1,6 @@
 <template>
 
     <h1>Course</h1>
-    <p>Sur cette page, tu pourras voir tes temps réalisés ainsi que ceux des autres.
-        N'oublie pas non plus de revoir la vidéo de ta course...</p>
-
     <h2>Meilleure manche</h2>
     <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
@@ -60,7 +57,7 @@
         <table>
             <tr>
                 <th>N°</th>
-                <th>rank</th>
+                <th>Rang</th>
                 <th>Heure</th>
                 <th>Vitesse</th>
                 <th colspan="2">Temps</th>
@@ -69,7 +66,7 @@
             <tr>
                 <td>1</td>
                 <td>34</td>
-                <td>12:23:23</td>
+                <td>12:23</td>
                 <td>33</td>
                 <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
                 <td>01:12:12</td>
@@ -102,9 +99,6 @@
     </DropDown>
 
     <h2>Classement</h2>
-    <p>Alors les autres ils en sont où ?
-        Tu peux te comparer ici avec le temps des autres.
-        Clique sur n'importe quel utilisateur pour voir son parcours...</p>
     <div class="button-classement">
         <button class="classement-user">Moi</button>
         <button class="classement-top" @click="setScrollTop"></button>
@@ -124,11 +118,14 @@
 
 <script setup lang="ts">
 import NumberTime from "@/components/NumberTime.vue";
-import {RouterLink, RouterView} from 'vue-router'
 import DropDown from "@/components/DropDown.vue";
 import ClassementElement from "@/components/ClassementElement.vue";
 import {onMounted, ref} from "vue";
-import CourseView from "@/views/CourseView.vue";
+import {useCarStore} from "@/stores/car";
+
+//Initialisation des courses de la voiture
+const userCar = useCarStore();
+initDataUserCar();
 
 let classement = ref(null);
 let userRace = ref(null);
@@ -152,6 +149,18 @@ function setScrollTop() {
     classement.value.scrollTop = 0;
 }
 
+
+/**
+ * Initialise les données de la voiture de l'utilisateur
+ */
+async function initDataUserCar() {
+    const userCarId = localStorage.getItem("userCarId");
+    if (userCarId) {
+        await userCar.initUserCarId(userCarId)
+        console.log(JSON.parse(JSON.stringify(userCar)))
+        await userCar.initUserAllRaceCar();
+    }
+}
 </script>
 
 <style scoped lang="scss">
@@ -217,7 +226,6 @@ div.best-race {
         width: 35px;
       }
     }
-
   }
 
   div.content-2 {
@@ -303,10 +311,10 @@ div.informations {
 }
 
 div.video {
-    width: 100%;
-    height: 200px;
-    background-color: var(--black);
-    border-radius: 2px;
+  width: 100%;
+  height: 200px;
+  background-color: var(--black);
+  border-radius: 2px;
 }
 
 .drop-down-course {
