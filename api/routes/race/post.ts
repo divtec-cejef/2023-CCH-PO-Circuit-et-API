@@ -45,6 +45,7 @@ export const route: routeHandler = async (req, res) => {
         return
     }
 
+    // Envoi les données de classement aux clients
     res.app.get<Server>("socketio").emit("updatedRaces", await getShortestRaces())
 };
 
