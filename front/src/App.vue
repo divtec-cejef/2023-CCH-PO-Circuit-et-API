@@ -50,7 +50,6 @@ const userCar = useCarStore();
 const userCarId = localStorage.getItem("userCarId");
 
 if (userCarId) {
-    console.log("Initialisation au lancement de l'application avec l'id stocké " + userCarId)
     userCar.initUserCarId(userCarId)
 }
 

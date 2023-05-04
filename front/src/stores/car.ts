@@ -7,7 +7,7 @@ import Race from "@/models/race";
 
 export const useCarStore = defineStore('car', () => {
 
-    let userCar = new Car();
+    let car = ref(new Car());
 
     /**
      * Initialisation de la voiture en fonction de l'URL actuel
@@ -18,14 +18,19 @@ export const useCarStore = defineStore('car', () => {
         let {json: dataUserCar, status} = await api.getDataOneCarQueryId(queryId.toString())
 
         //Remplissage des champs de la voiture
-        userCar.idCar.value = dataUserCar["id_car"];
-        userCar.pseudo.value = dataUserCar["pseudo"];
-        userCar.idQuery.value = dataUserCar["query_id"];
-        userCar.avatar.value = dataUserCar["id_avatar"];
+        car.value.idCar = dataUserCar["id_car"];
+        car.value.pseudo = dataUserCar["pseudo"];
+        car.value.idQuery = dataUserCar["query_id"];
+        car.value.avatar = dataUserCar["id_avatar"];
 
-        localStorage.setItem("userCarId", userCar.idCar.value.toString())
+        /**
+         * Si on trouve la voiture alors on renvoit le code
+         */
+        if (status.valueOf() === 200) {
+            localStorage.setItem("userCarId", car.value.idCar.toString())
+        }
 
-        return status
+        return status;
     }
 
 
@@ -38,12 +43,11 @@ export const useCarStore = defineStore('car', () => {
         let {json: dataUserCar, status} = await api.getDataOneCarId(idCar.toString())
 
         //Remplissage des champs de la voiture
-        userCar.idCar.value = await dataUserCar["id_car"];
-        userCar.pseudo.value = await dataUserCar["pseudo"];
-        userCar.idQuery.value = await dataUserCar["query_id"];
-        userCar.avatar.value = await dataUserCar["id_avatar"];
+        car.value.idCar = dataUserCar["id_car"];
+        car.value.pseudo = dataUserCar["pseudo"];
+        car.value.idQuery = dataUserCar["query_id"];
+        car.value.avatar = dataUserCar["id_avatar"];
 
-        console.log(userCar.idCar.value)
         return status;
     }
 
@@ -51,16 +55,20 @@ export const useCarStore = defineStore('car', () => {
      * Initialisation des courses de l'utilisateur dans le store
      */
     async function initUserAllRaceCar() {
-        let {json: dataUserRaceCar, status} = await api.getAllRaceOneCar(userCar.idCar.value);
-        console.log(dataUserRaceCar)
-        dataUserRaceCar.forEach(function (race:any) {
-            userCar.listRace.value.push(
-                new Race(race['id_race'], race['realisation_date_time'], race['sectore_one'])
+        let {json: dataUserRaceCar, status} = await api.getAllRaceOneCar(car.value.idCar);
+
+        //Récupération du rang de la voiture
+        car.value.rank = dataUserRaceCar['rank'];
+
+        //Remplissage de la liste de course
+        dataUserRaceCar['races'].forEach(function (race:any) {
+            car.value.listRace.push(
+                new Race(race['id_race'], new Date(race['realisation_date_time']), new Date(race['sector_one']))
             )
         })
-        console.log(dataUserRaceCar[0]['realisation_date_time'])
+
         return status;
     }
 
-    return {...userCar, initUserCarId, initUserCarQueryId, initUserAllRaceCar};
+    return {car, initUserCarId, initUserCarQueryId, initUserAllRaceCar};
 })

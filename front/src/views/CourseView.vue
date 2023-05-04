@@ -1,117 +1,121 @@
 <template>
 
     <h1>Course</h1>
-    <h2>Meilleure manche</h2>
-    <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
-    <div class="best-race">
-        <div class="content-1">
-            <div class="rank">
-                <span>Rang</span>
-                <div>
-                    <span>#</span>
-                    <span>4</span>
+    <div v-if="codeBackApi === api.ReturnCodes.Success">
+
+        <h2>Meilleure manche</h2>
+        <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
+
+        <div class="best-race">
+            <div class="content-1">
+                <div class="rank">
+                    <span>Rang</span>
+                    <div>
+                        <span>#</span>
+                        <span>4</span>
+                    </div>
+                </div>
+                <div class="best-time">
+                    <div>Temps de manche :</div>
+                    <div class="race-time">{{ userCar.car.listRace[0].sectorOne.getTime() }}</div>
                 </div>
             </div>
-            <div class="best-time">
-                <div>Temps de manche :</div>
-                <div class="race-time">12:00:00</div>
-            </div>
-        </div>
 
-        <div class="content-2">
-            <div class="speed-max">
-                <p>65</p>
-                <p>km/h</p>
-            </div>
-
-            <div class="time-inter">
-                <div>Temps <br>
-                    intermédiaires :
+            <div class="content-2">
+                <div class="speed-max">
+                    <p>65</p>
+                    <p>km/h</p>
                 </div>
-                <ul>
-                    <li>
-                        <NumberTime class="num-race" number="1" color="var(--red)"/>
-                        <p>03:23:08</p>
-                    </li>
-                    <li>
-                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                        <p>03:23:08</p>
-                    </li>
-                </ul>
+
+                <div class="time-inter">
+                    <div>Temps <br>
+                        intermédiaires :
+                    </div>
+                    <ul>
+                        <li>
+                            <NumberTime class="num-race" number="1" color="var(--red)"/>
+                            <p>03:23:08</p>
+                        </li>
+                        <li>
+                            <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                            <p>03:23:08</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="informations">
-        <p>N° Manche : 1</p>
-        <div>
-            <img src="../assets/img/clock.png" alt="Icon d'horloge">
-            <p class="hour">12h13</p>
+        <div class="informations">
+            <p>N° Manche : 1</p>
+            <div>
+                <img src="../assets/img/clock.png" alt="Icon d'horloge">
+                <p class="hour">12h13</p>
+            </div>
         </div>
-    </div>
 
-    <div class="video"></div>
+        <div class="video"></div>
 
-    <DropDown class="drop-down-course" name="Autres courses">
-        <table>
-            <tr>
-                <th>N°</th>
-                <th>Rang</th>
-                <th>Heure</th>
-                <th>Vitesse</th>
-                <th colspan="2">Temps</th>
-                <th>Vidéo</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>34</td>
-                <td>12:23</td>
-                <td>33</td>
-                <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
-                <td>01:12:12</td>
-                <td><img class="video" src="../assets/img/film.png"
-                         alt="Icon de film pour visionner la vidéo de la course"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <NumberTime number="1" color="var(--red)"/>
-                </td>
-                <td>01:12:12</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <NumberTime number="2" color="var(--blue)"/>
-                </td>
-                <td>01:12:12</td>
-                <td></td>
-            </tr>
-        </table>
-    </DropDown>
+        <DropDown class="drop-down-course" name="Autres courses">
+            <table>
+                <tr>
+                    <th>N°</th>
+                    <th>Rang</th>
+                    <th>Heure</th>
+                    <th>Vitesse</th>
+                    <th colspan="2">Temps</th>
+                    <th>Vidéo</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>34</td>
+                    <td>12:23</td>
+                    <td>33</td>
+                    <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
+                    <td>01:12:12</td>
+                    <td><img class="video" src="../assets/img/film.png"
+                             alt="Icon de film pour visionner la vidéo de la course"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <NumberTime number="1" color="var(--red)"/>
+                    </td>
+                    <td>01:12:12</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <NumberTime number="2" color="var(--blue)"/>
+                    </td>
+                    <td>01:12:12</td>
+                    <td></td>
+                </tr>
+            </table>
+        </DropDown>
 
-    <h2>Classement</h2>
-    <div class="button-classement">
-        <button class="classement-user">Moi</button>
-        <button class="classement-top" @click="setScrollTop"></button>
-    </div>
-    <div ref="classement" class="classement">
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
-        <ClassementElement/>
+        <h2>Classement</h2>
+        <div class="button-classement">
+            <button class="classement-user">Moi</button>
+            <button class="classement-top"></button>
+        </div>
+        <div ref="classement" class="classement">
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+            <ClassementElement/>
+        </div>
     </div>
 
 </template>
@@ -120,47 +124,29 @@
 import NumberTime from "@/components/NumberTime.vue";
 import DropDown from "@/components/DropDown.vue";
 import ClassementElement from "@/components/ClassementElement.vue";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import {useCarStore} from "@/stores/car";
-
-//Initialisation des courses de la voiture
-const userCar = useCarStore();
-initDataUserCar();
-
-let classement = ref(null);
-let userRace = ref(null);
-
-onMounted(() => {
-
-    if (classement.value !== null) {
-        classement.value.scrollTop = 100;
-    }
-
-    if (userRace.value !== null) {
-        console.log(userRace.value.scrollTop);
-    }
-})
-
-
-/**
- * Change la position de scroll du classement
- */
-function setScrollTop() {
-    classement.value.scrollTop = 0;
-}
-
+import api from "@/models/api";
 
 /**
  * Initialise les données de la voiture de l'utilisateur
  */
 async function initDataUserCar() {
+
     const userCarId = localStorage.getItem("userCarId");
     if (userCarId) {
         await userCar.initUserCarId(userCarId)
-        console.log(JSON.parse(JSON.stringify(userCar)))
-        await userCar.initUserAllRaceCar();
+        console.log(userCar)
+        return await userCar.initUserAllRaceCar();
     }
+    return 0;
 }
+//Récupère le code de réponse de l'api
+
+const userCar = useCarStore();
+let codeBackApi = ref(0);
+initDataUserCar().then(value => codeBackApi.value = value);
+
 </script>
 
 <style scoped lang="scss">
