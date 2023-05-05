@@ -92,11 +92,14 @@ header.open {
     list-style: none;
 
     li {
-      font-size: 25px;
-      margin-top: 10px;
+      margin-top: 12px;
       font-family: 'SF Pro Display', sans-serif;
       font-weight: bold;
       font-style: normal;
+
+      * {
+        font-size: 27px;
+      }
     }
   }
 }
