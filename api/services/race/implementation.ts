@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import {Prisma, PrismaClient} from "@prisma/client";
 import buildClient from "../client";
 import {raceToCreate} from "../../models";
 
@@ -10,20 +10,23 @@ const prisma = buildClient();
  * @returns une liste des manches dans l'ordre croissant
  */
 export const getRacesByCar = async (id: number) => {
-	return await prisma.race.findMany({
-		where: {
-			id_car: id
-		},
-		select: {
-			id_race: true,
-			realisation_date_time: true,
-			sector_one: true,
-			id_car: true,
-		},
-		orderBy: {
-			sector_one: Prisma.SortOrder.asc
-		}
-	});
+    const newPrisma = new PrismaClient();
+
+
+    return await prisma.race.findMany({
+        where: {
+            id_car: id
+        },
+        select: {
+            id_race: true,
+            race_start: true,
+            race_finish: true,
+            id_car: true,
+            totalTime: true,
+        }
+    }).then(r => r.sort((a, b) => {
+        return a.totalTime.valueOf() - b.totalTime.valueOf()
+    }))
 };
 
 /**
@@ -31,39 +34,55 @@ export const getRacesByCar = async (id: number) => {
  * @returns une liste des manches les plus courtes
  */
 export const getShortestRaces = async () => {
-	const races = await prisma.race.groupBy({
-		by: ["id_car"],
-		_min: {
-			sector_one: true,
-		},
-	});
+    const races = await prisma.race.findMany().then(r => {
+            const res: typeof r = [];
+            r.forEach((v) => {
+                for (let race of r) {
+                    if (race.id_car !== v.id_car) continue;
+                    if (race.id_race === v.id_race) continue;
+                    if (v.totalTime.valueOf() > race.totalTime.valueOf())
+                        return
+                }
+                if (res.every(race => v.id_car !== race.id_car))
+                    res.push(v)
+            })
 
-	let res: { id_race: number; sector_one: Date | null; car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; }; }[] = [];
+            return res;
+        }
+    );
 
-	for (const k in races) {
-		res[k] = await prisma.race.findFirstOrThrow({
-			where: {
-				sector_one: races[k]._min.sector_one,
-			},
-			select: {
-				id_race: true,
-				sector_one: true,
-				car: {
-					select: {
-						id_car: true,
-						pseudo: true,
-						avatar: {
-							select: {
-								image: true
-							}
-						}
-					}
-				}
-			}
-		});
-	};
+    let res: {
+        id_race: number;
+        totalTime: Date;
+        car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
+    }[] = [];
 
-	return res;
+    for (const k in races) {
+        res[k] = await prisma.race.findUniqueOrThrow({
+            where: {
+                id_race: races[k].id_race
+            },
+            select: {
+                id_race: true,
+                totalTime: true,
+                car: {
+                    select: {
+                        id_car: true,
+                        pseudo: true,
+                        avatar: {
+                            select: {
+                                image: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    return res.sort((a, b) => {
+        return a.totalTime.valueOf() - b.totalTime.valueOf()
+    });
 };
 
 /**
@@ -72,14 +91,14 @@ export const getShortestRaces = async () => {
  * @returns le classement de la voiture ou null si elle n'est pas classée
  */
 export const getRankByCar = async (id: number) => {
-	const shortestRaces = await getShortestRaces();
-	for (let i = 0; i < shortestRaces.length; i++) {
-		if(shortestRaces[i].car.id_car === id) {
-			return i+1;
-		}
-	}
+    const shortestRaces = await getShortestRaces();
+    for (let i = 0; i < shortestRaces.length; i++) {
+        if (shortestRaces[i].car.id_car === id) {
+            return i + 1;
+        }
+    }
 
-	return null;
+    return null;
 }
 
 /**
@@ -89,12 +108,12 @@ export const getRankByCar = async (id: number) => {
  */
 export const createRace = async (race: raceToCreate) => {
 
-	return await prisma.race.create({
-		data: {
-			realisation_date_time: race.realisation_date_time,
-			sector_one: race.sector_one,
-			id_car: race.id_car
-		}
-	});
+    return await prisma.race.create({
+        data: {
+            race_start: race.race_start,
+            race_finish: race.race_finish,
+            id_car: race.id_car
+        }
+    });
 }
 
