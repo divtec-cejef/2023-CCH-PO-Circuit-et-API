@@ -3,7 +3,7 @@
     <h1>Course</h1>
 
     <p>Date :</p>
-    <p>{{ 'hihi' }}</p>
+    <p>{{  }}</p>
     <div v-if="codeBackApi === api.ReturnCodes.Success">
 
         <h2>Meilleure manche</h2>
