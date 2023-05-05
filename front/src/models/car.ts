@@ -3,7 +3,6 @@ import {ref} from "vue";
 import {format, compareAsc} from 'date-fns'
 import type Race from "@/models/race";
 
-
 export default class Car {
     idCar: number = 0;
     pseudo: string = '';
@@ -11,7 +10,6 @@ export default class Car {
     avatar: string = '';
     listRace: Race[] = [];
     rank: number = 0;
-
 
     /**
      * Determine la position de chaque manche en fonction du temps
@@ -25,37 +23,18 @@ export default class Car {
             return Number(a.hour) - Number(b.hour);
         });
 
+        //Remplissage de la liste pour chaque course
         listSortByNum.forEach((race: Race, index) => {
-            let raceToChange = ref(this.listRace.find( function(raceToChange) {
+            let raceToChange = ref(this.listRace.find(function (raceToChange) {
                 return raceToChange.idRace === race.idRace;
             }));
 
-            if(raceToChange.value !== undefined) {
+            //Remplissage de la liste si le champ n'est pas undefined
+            if (raceToChange.value !== undefined) {
                 raceToChange.value.numRace = index;
             }
         });
-
-        console.log("Liste triée : ")
-        console.log(listSortByNum)
-        console.log("Liste de course : ")
-        console.log(this.listRace)
     }
-
-    getTime(date?: Date) {
-        return date != null ? date.getTime() : 0;
-    }
-
-    /**
-     * Tri la liste en fonction de
-     */
-    sortListRace() {
-        this.listRace = this.listRace.sort((a, b) =>
-            a.idRace - b.idRace);
-
-        console.log(this.listRace)
-    }
-
-
 }
 
 
