@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -50,9 +51,9 @@ model realise {
 }
 
 model race {
-  id_race               Int       @id @default(autoincrement())
-  realisation_date_time DateTime? @db.Timestamp(6)
-  sector_one            DateTime? @db.Time(3)
-  id_car                Int
-  car                   car       @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
+  id_race     Int      @id @default(autoincrement())
+  race_start  DateTime
+  race_finish DateTime
+  id_car      Int
+  car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 }

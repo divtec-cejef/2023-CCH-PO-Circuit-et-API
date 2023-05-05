@@ -65,7 +65,22 @@ export const buildClient = () => {
 		fs.appendFileSync(`./logs/${currentLog}`, '\tOn: ' + e.target + 'ms\n\n');
 	});
 
-	return prisma;
+	const xprisma = prisma.$extends({
+		result: {
+			race: {
+				totalTime: {
+					// the dependencies
+					needs: { race_start: true, race_finish: true },
+					compute: (race) => {
+						// the computation logic
+						return new Date(race.race_finish.valueOf() - race.race_start.valueOf())
+					},
+				},
+			},
+		},
+	})
+
+	return xprisma;
 };
 
 
