@@ -1,6 +1,8 @@
 import type {Ref} from "vue";
 import {ref} from "vue";
+import {format, compareAsc} from 'date-fns'
 import type Race from "@/models/race";
+
 
 export default class Car {
     idCar: number = 0;
@@ -16,8 +18,31 @@ export default class Car {
      * Rempli donc le champ NumRace pour chaque manche
      */
     determinePositionOfRaces() {
-        let listSortByNum = this.listRace.sort((a, b) => {
-            return a.sectorOne.getTime() + b.sectorOne.getTime();
+        // let listSortByNum = this.listRace.sort((a, b) => {
+        //     return a.sectorOne.getTime() + b.sectorOne.getTime();
+        // });
+        //
+        // listSortByNum.forEach((race: Race, index) => {
+        //     let raceToChange = ref(this.listRace.find(raceToChange => raceToChange.idRace == race.idRace))
+        //     if(raceToChange.value !== undefined) {
+        //         raceToChange.value.numRace = index;
+        //     }
+        // });
+
+        let listSortByNum = [...this.listRace];
+
+        // console.log("Liste triée : ")
+        // listSortByNum.push(new Race(345, new Date(), new Date()))
+        // console.log(JSON.parse(JSON.stringify(listSortByNum)))
+        // console.log("Liste de course : ")
+        // console.log(JSON.parse(JSON.stringify(this.listRace)))
+
+
+
+        listSortByNum.sort(function compare(a, b) {
+            let dateA = new Date(a.hour);
+            let dateB = new Date(b.hour);
+            return dateA.valueOf() + dateB.valueOf();
         });
 
         listSortByNum.forEach((race: Race, index) => {
@@ -26,6 +51,11 @@ export default class Car {
                 raceToChange.value.numRace = index;
             }
         });
+
+        console.log("Liste triée : ")
+        console.log(listSortByNum)
+        console.log("Liste de course : ")
+        console.log(this.listRace)
     }
 
     getTime(date?: Date) {
@@ -43,24 +73,6 @@ export default class Car {
     }
 
 
-    /**
-     * Retourne la course la plus rapide de la voiture
-     */
-    getBestRace() {
-        //Test si la liste est vide
-        if (this.listRace.length == 0) {
-            return
-        }
-
-        //Boucle sur toutes les courses pour trouver la plus rapide
-        let bestRace = this.listRace[0];
-        this.listRace.forEach(function (race: Race) {
-            if (race.sectorOne < bestRace.sectorOne) {
-                bestRace = race;
-            }
-        });
-        return bestRace;
-    }
 }
 
 
