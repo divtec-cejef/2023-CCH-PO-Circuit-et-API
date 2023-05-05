@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import buildClient from "../client";
+import {raceToCreate} from "../../models";
 
 const prisma = buildClient();
 
@@ -80,3 +81,20 @@ export const getRankByCar = async (id: number) => {
 
 	return null;
 }
+
+/**
+ * Crée une manche de course
+ * @param race Manche à créer
+ * @returns la manche créée
+ */
+export const createRace = async (race: raceToCreate) => {
+
+	return await prisma.race.create({
+		data: {
+			realisation_date_time: race.realisation_date_time,
+			sector_one: race.sector_one,
+			id_car: race.id_car
+		}
+	});
+}
+
