@@ -22,10 +22,10 @@ export const getRacesByCar = async (id: number) => {
             race_start: true,
             race_finish: true,
             id_car: true,
-            totalTime: true,
+            total_time: true,
         }
     }).then(r => r.sort((a, b) => {
-        return a.totalTime.valueOf() - b.totalTime.valueOf()
+        return a.total_time.valueOf() - b.total_time.valueOf()
     }))
 };
 
@@ -40,7 +40,7 @@ export const getShortestRaces = async () => {
                 for (let race of r) {
                     if (race.id_car !== v.id_car) continue;
                     if (race.id_race === v.id_race) continue;
-                    if (v.totalTime.valueOf() > race.totalTime.valueOf())
+                    if (v.total_time.valueOf() > race.total_time.valueOf())
                         return
                 }
                 if (res.every(race => v.id_car !== race.id_car))
@@ -53,7 +53,7 @@ export const getShortestRaces = async () => {
 
     let res: {
         id_race: number;
-        totalTime: Date;
+        total_time: Date;
         car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
     }[] = [];
 
@@ -64,7 +64,7 @@ export const getShortestRaces = async () => {
             },
             select: {
                 id_race: true,
-                totalTime: true,
+                total_time: true,
                 car: {
                     select: {
                         id_car: true,
@@ -81,7 +81,7 @@ export const getShortestRaces = async () => {
     }
 
     return res.sort((a, b) => {
-        return a.totalTime.valueOf() - b.totalTime.valueOf()
+        return a.total_time.valueOf() - b.total_time.valueOf()
     });
 };
 
