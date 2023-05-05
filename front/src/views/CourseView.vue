@@ -1,9 +1,6 @@
 <template>
 
     <h1>Course</h1>
-
-    <p>Date :</p>
-    <p>{{  }}</p>
     <div v-if="codeBackApi === api.ReturnCodes.Success">
 
         <h2>Meilleure manche</h2>
@@ -20,7 +17,7 @@
                 </div>
                 <div class="best-time">
                     <div>Temps de manche :</div>
-                    <div class="race-time">{{ car.listRace[0].sectorOne.getTime() }}</div>
+                    <div class="race-time">{{ car.listRace[0].formatTime(car.listRace[0].sectorOne) }}</div>
                 </div>
             </div>
 
@@ -52,7 +49,7 @@
             <p>N° Manche : {{ car.listRace[0].numRace }}</p>
             <div>
                 <img src="../assets/img/clock.png" alt="Icon d'horloge">
-                <p class="hour">12h13</p>
+                <p class="hour">{{  car.listRace[0].formatHour() }}</p>
             </div>
         </div>
 
@@ -143,14 +140,12 @@ async function initDataUserCar() {
     return 0;
 }
 
-//Récupère le code de réponse de l'api
-
+//Initialisation des données
 const userCar = useCarStore();
 const { car } = userCar;
 let codeBackApi = ref(0);
 
-initDataUserCar().then(value => codeBackApi.value = value)
-    .then( c => console.log(userCar.car.listRace));
+initDataUserCar().then(value => codeBackApi.value = value);
 
 </script>
 

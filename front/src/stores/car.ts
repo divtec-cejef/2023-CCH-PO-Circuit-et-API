@@ -68,7 +68,9 @@ export const useCarStore = defineStore('car', () => {
             )
         })
 
+        //Remplissage des numéros de courses
         car.value.determinePositionOfRaces();
+
         return status;
     }
 
