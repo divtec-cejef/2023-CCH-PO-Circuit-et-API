@@ -25,9 +25,9 @@ export const useCarStore = defineStore('car', () => {
         car.value.avatar = dataUserCar["id_avatar"];
 
         /**
-         * Si on trouve la voiture alors on renvoit le code
+         * Si on trouve la voiture alors, on renvoie le code
          */
-        if (status.valueOf() === 200) {
+        if (status.valueOf() === api.ReturnCodes.Success) {
             localStorage.setItem("userCarId", car.value.idCar.toString())
         }
 
