@@ -17,7 +17,7 @@ export default class Car {
      */
     determinePositionOfRaces() {
         let listSortByNum = this.listRace.sort((a, b) => {
-            return a.sectorOne.getTime() - b.sectorOne.getTime();
+            return a.sectorOne.getTime() + b.sectorOne.getTime();
         });
 
         listSortByNum.forEach((race: Race, index) => {
