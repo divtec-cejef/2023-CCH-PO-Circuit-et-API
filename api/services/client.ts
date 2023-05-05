@@ -68,7 +68,7 @@ export const buildClient = () => {
 	const xprisma = prisma.$extends({
 		result: {
 			race: {
-				totalTime: {
+				total_time: {
 					// the dependencies
 					needs: { race_start: true, race_finish: true },
 					compute: (race) => {

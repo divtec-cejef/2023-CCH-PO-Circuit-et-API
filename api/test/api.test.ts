@@ -37,7 +37,7 @@ describe("race", () => {
         expect(res.body).to.have.that.structure([
             {
                 id_race: Number,
-                totalTime: Date,
+                total_time: Date,
                 car: {
                     id_car: Number,
                     pseudo: String,
@@ -58,7 +58,7 @@ describe("race", () => {
                 id_race: Number,
                 race_start: Date,
                 race_finish: Date,
-                totalTime: Date,
+                total_time: Date,
                 id_car: Number
             }],
             rank: Number
