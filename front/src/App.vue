@@ -18,7 +18,7 @@
 
     <header class="open" v-else>
         <nav>
-            <ul>
+            <ul @click="clickMenu">
                 <li>
                     <RouterLink :to="`/${ userCar.car }`">Accueil</RouterLink>
                 </li>
@@ -36,14 +36,24 @@
                 </li>
             </ul>
         </nav>
-        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
     </header>
 </template>
 
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
-import {ref} from "vue";
+import {computed, ref} from "vue";
+
+
+//Gérer le menu
+localStorage.setItem('menuIsClicked', 'false')
+let menuIsClicked = ref(false);
+
+function clickMenu() {
+    localStorage.setItem('menuIsClicked', menuIsClicked ? "false" : "true")
+    menuIsClicked.value = !menuIsClicked
+}
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
@@ -53,8 +63,6 @@ if (userCarId) {
     userCar.initUserCarId(userCarId)
 }
 
-//Initialisation des variables
-let menuIsClicked = ref(false);
 
 </script>
 
@@ -64,6 +72,7 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
+
   img {
     height: 55px;
   }

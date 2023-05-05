@@ -26,7 +26,7 @@ const rotateImage = computed(() => {
     return isClicked.value ? '90' : '0'
 })
 
-let isClicked = ref(true);
+let isClicked = ref(false);
 
 </script>
 
