@@ -83,6 +83,56 @@ describe("race", () => {
 
     });
 
+    // Créer une manche de course avec des paramètres valides à l'aide du query_id de la voiture
+    it('should return a created race if all parameters are valid on create with query_id', async () => {
+        const res = await chai.request("localhost:3000").post("/race/query-id/").send({
+            race_start: "2021-10-10T10:10:10.000Z",
+            race_finish: "2021-10-10T10:10:10.000Z",
+            query_id: "4356"
+        });
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an("object");
+        expect(res.body).to.have.that.structure({
+            id_race: Number,
+            race_start: Date,
+            race_finish: Date,
+            id_car: Number
+        });
+    })
+
+    // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
+    it('should return an error if race_start is invalid on create with query_id', async () => {
+        const res = await chai.request("localhost:3000").post("/race/query-id/").send({
+            race_start: "0000-00-00T10:10:10.000Z",
+            race_finish: "2021-10-10T10:10:10.000Z",
+            query_id: "4356"
+        });
+        expect(res).to.have.status(400);
+        expect(res.error.text).to.equal(JSON.stringify({error: "Invalid date (not parsable)"}));
+    })
+
+    // Créer une manche de course à l'aide que query_id avec sector_one invalide
+    it('should return an error if race_finish is invalid on create with query_id', async () => {
+        const res = await chai.request("localhost:3000").post("/race/query-id/").send({
+            race_start: "2016-01-17T08:44:29",
+            race_finish: "0000-00-00T10:10:10.000Z",
+            query_id: "4356"
+        });
+        expect(res).to.have.status(400);
+        expect(res.error.text).to.equal(JSON.stringify({error: "Invalid date (not parsable)"}));
+    })
+
+    // Créer une manche de course avec un query_id invalide
+    it('should return an error if query_id is invalid', async () => {
+        const res = await chai.request("localhost:3000").post("/race/query-id/").send({
+            race_start: "2016-01-17T08:44:29",
+            race_finish: "2021-10-10T10:10:10.000Z",
+            query_id: 4356
+        });
+        expect(res).to.have.status(400);
+        expect(res.error.text).to.equal(JSON.stringify({error: "query_id is not of type string"}));
+    })
+
     // Créer une manche de course avec des paramètres valides
     it('should return a created race if all parameters are valid', async () => {
         const res = await chai.request("localhost:3000").post("/race").send({
