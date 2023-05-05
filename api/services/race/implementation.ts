@@ -1,6 +1,6 @@
 import {Prisma, PrismaClient} from "@prisma/client";
 import buildClient from "../client";
-import {raceToCreate} from "../../models";
+import {raceToCreate, raceToCreateWithQueryId} from "../../models";
 
 const prisma = buildClient();
 
@@ -113,6 +113,26 @@ export const createRace = async (race: raceToCreate) => {
             race_start: race.race_start,
             race_finish: race.race_finish,
             id_car: race.id_car
+        }
+    });
+}
+
+/**
+ * Crée une manche de course à l'aide de l'ID de query de la voiture
+ * @param race Manche à créer
+ * @returns la manche créée
+ */
+export const createRaceWithQueryId = async (race: raceToCreateWithQueryId) => {
+
+    return await prisma.race.create({
+        data: {
+            race_start: race.race_start,
+            race_finish: race.race_finish,
+            car: {
+                connect: {
+                    query_id: race.query_id
+                }
+            }
         }
     });
 }

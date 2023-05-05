@@ -8,3 +8,9 @@ export interface raceToCreate {
     race_finish: Date;
     id_car: number;
 }
+
+export interface raceToCreateWithQueryId {
+    race_start: Date;
+    race_finish: Date;
+    query_id: string;
+}
