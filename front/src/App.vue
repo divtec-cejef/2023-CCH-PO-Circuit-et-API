@@ -9,10 +9,10 @@
     </main>
 
     <footer v-if="!menuIsClicked">
-        <p>EMT Porrentruy, Portes ouvertes 2023</p>
+        <p>EMT, Portes ouvertes 2023</p>
         <div>
-            <a href=""><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
-            <a href=""><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
+            <a href="https://www.instagram.com/emtporrentruy/"><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
+            <a href="https://www.facebook.com/DivtecCEJEF/"><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
         </div>
     </footer>
 
@@ -122,7 +122,7 @@ footer {
     flex-direction: row;
 
     img {
-      width: 35px;
+      width: 25px;
     }
 
     img:nth-child(1) {
