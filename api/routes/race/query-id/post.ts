@@ -1,5 +1,5 @@
 import {raceToCreate, raceToCreateWithQueryId, routeHandler} from "../../../models";
-import {createRace, getShortestRaces} from "../../../services/race/implementation";
+import {createRace, createRaceWithQueryId, getShortestRaces} from "../../../services/race/implementation";
 import {checkStructureOrThrow} from "check-structure";
 import {getCarByQueryId} from "../../../services/car/implementation";
 import type {Server} from "socket.io";
@@ -39,7 +39,7 @@ export const route: routeHandler = async (req, res) => {
 
     // Création de la manche
     try {
-        res.json(await createRace(raceToCreate));
+        res.json(await createRaceWithQueryId(raceToCreate));
     } catch (e: any) {
         res.status(500).json({ error: e.message });
         return
