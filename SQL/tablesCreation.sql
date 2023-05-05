@@ -29,8 +29,8 @@ CREATE TABLE
 CREATE TABLE
     Race(
         id_race SERIAL,
-        race_start TIMESTAMP(3),
-        race_finish TIMESTAMP(3),
+        race_start TIMESTAMP(3) NOT NULL,
+        race_finish TIMESTAMP(3) NOT NULL,
         id_car INTEGER NOT NULL,
         PRIMARY KEY(id_race),
         FOREIGN KEY(id_car) REFERENCES Car(id_car) ON DELETE CASCADE

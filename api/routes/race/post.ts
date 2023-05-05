@@ -16,8 +16,8 @@ export const route: routeHandler = async (req, res) => {
     // Vérification de la structure de la requête
     try {
         checkStructureOrThrow(race, {
-            realisation_date_time: Date,
-            sector_one: Date,
+            race_start: Date,
+            race_finish: Date,
             id_car: Number,
         })
     } catch (e: any) {
@@ -32,8 +32,8 @@ export const route: routeHandler = async (req, res) => {
     }
 
     const raceToCreate: raceToCreate = {
-        realisation_date_time: new Date(race.realisation_date_time),
-        sector_one: new Date(race.sector_one),
+        race_start: new Date(race.race_start),
+        race_finish: new Date(race.race_finish),
         id_car: race.id_car,
     }
 
