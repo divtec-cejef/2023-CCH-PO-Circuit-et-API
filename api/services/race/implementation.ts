@@ -1,6 +1,6 @@
 import {Prisma, PrismaClient} from "@prisma/client";
 import buildClient from "../client";
-import {raceToCreate} from "../../models";
+import {raceToCreate, raceToCreateWithQueryId} from "../../models";
 
 const prisma = buildClient();
 
@@ -22,10 +22,10 @@ export const getRacesByCar = async (id: number) => {
             race_start: true,
             race_finish: true,
             id_car: true,
-            totalTime: true,
+            total_time: true,
         }
     }).then(r => r.sort((a, b) => {
-        return a.totalTime.valueOf() - b.totalTime.valueOf()
+        return a.total_time.valueOf() - b.total_time.valueOf()
     }))
 };
 
@@ -40,7 +40,7 @@ export const getShortestRaces = async () => {
                 for (let race of r) {
                     if (race.id_car !== v.id_car) continue;
                     if (race.id_race === v.id_race) continue;
-                    if (v.totalTime.valueOf() > race.totalTime.valueOf())
+                    if (v.total_time.valueOf() > race.total_time.valueOf())
                         return
                 }
                 if (res.every(race => v.id_car !== race.id_car))
@@ -53,7 +53,7 @@ export const getShortestRaces = async () => {
 
     let res: {
         id_race: number;
-        totalTime: Date;
+        total_time: Date;
         car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
     }[] = [];
 
@@ -64,7 +64,7 @@ export const getShortestRaces = async () => {
             },
             select: {
                 id_race: true,
-                totalTime: true,
+                total_time: true,
                 car: {
                     select: {
                         id_car: true,
@@ -81,7 +81,7 @@ export const getShortestRaces = async () => {
     }
 
     return res.sort((a, b) => {
-        return a.totalTime.valueOf() - b.totalTime.valueOf()
+        return a.total_time.valueOf() - b.total_time.valueOf()
     });
 };
 
@@ -113,6 +113,26 @@ export const createRace = async (race: raceToCreate) => {
             race_start: race.race_start,
             race_finish: race.race_finish,
             id_car: race.id_car
+        }
+    });
+}
+
+/**
+ * Crée une manche de course à l'aide de l'ID de query de la voiture
+ * @param race Manche à créer
+ * @returns la manche créée
+ */
+export const createRaceWithQueryId = async (race: raceToCreateWithQueryId) => {
+
+    return await prisma.race.create({
+        data: {
+            race_start: race.race_start,
+            race_finish: race.race_finish,
+            car: {
+                connect: {
+                    query_id: race.query_id
+                }
+            }
         }
     });
 }
