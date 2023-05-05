@@ -11,8 +11,8 @@
     <footer v-if="!menuIsClicked">
         <p>EMT, Portes ouvertes 2023</p>
         <div>
-            <a href="https://www.instagram.com/emtporrentruy/"><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
-            <a href="https://www.facebook.com/DivtecCEJEF/"><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
+            <a target="_blank" href="https://www.instagram.com/emtporrentruy/"><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
+            <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/"><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
         </div>
     </footer>
 

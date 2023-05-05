@@ -17,7 +17,7 @@
                 </div>
                 <div class="best-time">
                     <div>Temps de manche :</div>
-                    <div class="race-time">{{ car.listRace[0].formatTime(car.listRace[0].sectorOne) }}</div>
+                    <div class="race-time">{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sectorOne) }}</div>
                 </div>
             </div>
 
@@ -43,17 +43,19 @@
                     </ul>
                 </div>
             </div>
-        </div>
 
-        <div class="informations">
-            <p>N° Manche : {{ car.listRace[0].numRace }}</p>
-            <div>
-                <img src="../assets/img/clock.png" alt="Icon d'horloge">
-                <p class="hour">{{ car.listRace[0].formatHour() }}</p>
+            <div class="informations">
+                <p>N° Manche : {{ car.listRace[BEST_TIME_INDEX].numRace }}</p>
+                <div>
+                    <img src="../assets/img/clock.png" alt="Icon d'horloge">
+                    <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
+                </div>
             </div>
+
+            <div class="video"></div>
+
         </div>
 
-        <div class="video"></div>
 
         <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
             <table>
@@ -103,6 +105,9 @@ import ClassementElement from "@/components/ClassementElement.vue";
 import {ref} from "vue";
 import {useCarStore} from "@/stores/car";
 import api from "@/models/api";
+
+
+const BEST_TIME_INDEX = 0;
 
 /**
  * Initialise les données de la voiture de l'utilisateur
@@ -190,6 +195,36 @@ div.best-race {
         width: 35px;
       }
     }
+
+    div.informations {
+      margin: 25px 10px;
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+      align-items: center;
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        margin-right: 8px;
+        width: 25px;
+      }
+
+      p.hour {
+        flex: 1;
+        margin-right: 10px;
+      }
+    }
+
+    div.video {
+      width: 100%;
+      height: 200px;
+      background-color: var(--black);
+      border-radius: 2px;
+    }
   }
 
   div.content-2 {
@@ -249,36 +284,6 @@ div.best-race {
     text-align: right;
     font-style: italic;
   }
-}
-
-div.informations {
-  margin: 25px 10px;
-  display: flex;
-  justify-content: space-between;
-  font-style: italic;
-  align-items: center;
-
-  div {
-    display: flex;
-    align-items: center;
-  }
-
-  img {
-    margin-right: 8px;
-    width: 25px;
-  }
-
-  p.hour {
-    flex: 1;
-    margin-right: 10px;
-  }
-}
-
-div.video {
-  width: 100%;
-  height: 200px;
-  background-color: var(--black);
-  border-radius: 2px;
 }
 
 .drop-down-course {
