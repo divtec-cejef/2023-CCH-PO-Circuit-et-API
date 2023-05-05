@@ -18,35 +18,18 @@ export default class Car {
      * Rempli donc le champ NumRace pour chaque manche
      */
     determinePositionOfRaces() {
-        // let listSortByNum = this.listRace.sort((a, b) => {
-        //     return a.sectorOne.getTime() + b.sectorOne.getTime();
-        // });
-        //
-        // listSortByNum.forEach((race: Race, index) => {
-        //     let raceToChange = ref(this.listRace.find(raceToChange => raceToChange.idRace == race.idRace))
-        //     if(raceToChange.value !== undefined) {
-        //         raceToChange.value.numRace = index;
-        //     }
-        // });
-
         let listSortByNum = [...this.listRace];
 
-        // console.log("Liste triée : ")
-        // listSortByNum.push(new Race(345, new Date(), new Date()))
-        // console.log(JSON.parse(JSON.stringify(listSortByNum)))
-        // console.log("Liste de course : ")
-        // console.log(JSON.parse(JSON.stringify(this.listRace)))
-
-
-
+        //Tri de la liste en fonction
         listSortByNum.sort(function compare(a, b) {
-            let dateA = new Date(a.hour);
-            let dateB = new Date(b.hour);
-            return dateA.valueOf() + dateB.valueOf();
+            return Number(a.hour) - Number(b.hour);
         });
 
         listSortByNum.forEach((race: Race, index) => {
-            let raceToChange = ref(this.listRace.find(raceToChange => raceToChange.idRace == race.idRace))
+            let raceToChange = ref(this.listRace.find( function(raceToChange) {
+                return raceToChange.idRace === race.idRace;
+            }));
+
             if(raceToChange.value !== undefined) {
                 raceToChange.value.numRace = index;
             }
