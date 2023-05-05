@@ -16,15 +16,8 @@ export default class Car {
      * Rempli donc le champ NumRace pour chaque manche
      */
     determinePositionOfRaces() {
-        let listSortByNum = [...this.listRace];
-
-        //Tri de la liste en fonction
-        listSortByNum.sort(function compare(a, b) {
-            return Number(a.hour) - Number(b.hour);
-        });
-
         //Remplissage de la liste pour chaque course
-        listSortByNum.forEach((race: Race, index) => {
+        this.sortListByOrderHour().forEach((race: Race, index) => {
             let raceToChange = ref(this.listRace.find(function (raceToChange) {
                 return raceToChange.idRace === race.idRace;
             }));
@@ -34,7 +27,20 @@ export default class Car {
                 raceToChange.value.numRace = index + 1;
             }
         });
+    }
 
+    /**
+     * Tri une liste en fonction de l'heure de réalisation
+     */
+    sortListByOrderHour () {
+        let listSortByNum = [...this.listRace];
+
+        //Tri de la liste en fonction
+        listSortByNum.sort(function compare(a, b) {
+            return Number(a.hour) - Number(b.hour);
+        });
+
+        return listSortByNum;
     }
 }
 

@@ -49,13 +49,13 @@
             <p>N° Manche : {{ car.listRace[0].numRace }}</p>
             <div>
                 <img src="../assets/img/clock.png" alt="Icon d'horloge">
-                <p class="hour">{{  car.listRace[0].formatHour() }}</p>
+                <p class="hour">{{ car.listRace[0].formatHour() }}</p>
             </div>
         </div>
 
         <div class="video"></div>
 
-        <DropDown class="drop-down-course" name="Autres courses">
+        <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
             <table>
                 <tr>
                     <th>N°</th>
@@ -65,37 +65,14 @@
                     <th colspan="2">Temps</th>
                     <th>Vidéo</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>34</td>
-                    <td>12:23</td>
+                <tr v-for="race in car.sortListByOrderHour()">
+                    <td>{{ race.numRace }}</td>
+                    <td>{{ race.formatHour() }}</td>
                     <td>33</td>
                     <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
-                    <td>01:12:12</td>
+                    <td>{{ race.formatTime(race.sectorOne) }}</td>
                     <td><img class="video" src="../assets/img/film.png"
                              alt="Icon de film pour visionner la vidéo de la course"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <NumberTime number="1" color="var(--red)"/>
-                    </td>
-                    <td>01:12:12</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <NumberTime number="2" color="var(--blue)"/>
-                    </td>
-                    <td>01:12:12</td>
-                    <td></td>
                 </tr>
             </table>
         </DropDown>
@@ -142,7 +119,7 @@ async function initDataUserCar() {
 
 //Initialisation des données
 const userCar = useCarStore();
-const { car } = userCar;
+const {car} = userCar;
 let codeBackApi = ref(0);
 
 initDataUserCar().then(value => codeBackApi.value = value);
