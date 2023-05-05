@@ -18,7 +18,7 @@ export const route: routeHandler = async (req, res) => {
         checkStructureOrThrow(race, {
             race_start: Date,
             race_finish: Date,
-            query_id: Number,
+            query_id: String,
         })
     } catch (e: any) {
         res.status(400).json({ error: e.message });
