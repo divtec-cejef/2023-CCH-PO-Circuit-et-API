@@ -3,7 +3,7 @@
     <h1>Course</h1>
 
     <p>Date :</p>
-    <p>{{ output }}</p>
+    <p>{{ 'hihi' }}</p>
     <div v-if="codeBackApi === api.ReturnCodes.Success">
 
         <h2>Meilleure manche</h2>
@@ -15,12 +15,12 @@
                     <span>Rang</span>
                     <div>
                         <span>#</span>
-                        <span>{{ userCar.car.rank }}</span>
+                        <span>{{ car.rank }}</span>
                     </div>
                 </div>
                 <div class="best-time">
                     <div>Temps de manche :</div>
-                    <div class="race-time">{{ userCar.car.listRace[0].sectorOne.getTime() }}</div>
+                    <div class="race-time">{{ car.listRace[0].sectorOne.getTime() }}</div>
                 </div>
             </div>
 
@@ -130,22 +130,6 @@ import {ref} from "vue";
 import {useCarStore} from "@/stores/car";
 import api from "@/models/api";
 
-
-import { zonedTimeToUtc, utcToZonedTime, format } from 'date-fns';
-
-// Set the date to "2018-09-01T16:01:36.386Z"
-const utcDate = zonedTimeToUtc('2018-09-01 18:01:36.386', 'Europe/Berlin')
-
-// Obtain a Date instance that will render the equivalent Berlin time for the UTC date
-const date = new Date('2018-09-01T16:01:36.386Z')
-const timeZone = 'Europe/Berlin'
-const zonedDate = utcToZonedTime(date, timeZone)
-// zonedDate could be used to initialize a date picker or display the formatted local date/time
-
-// Set the output to "1.9.2018 18:01:36.386 GMT+02:00 (CEST)"
-const pattern = 'd.M.yyyy HH:mm:ss.SSS \'GMT\' XXX (z)'
-const output = ref(format(zonedDate, pattern, { timeZone: 'Europe/Berlin' }))
-
 /**
  * Initialise les données de la voiture de l'utilisateur
  */
@@ -162,7 +146,9 @@ async function initDataUserCar() {
 //Récupère le code de réponse de l'api
 
 const userCar = useCarStore();
+const { car } = userCar;
 let codeBackApi = ref(0);
+
 initDataUserCar().then(value => codeBackApi.value = value);
 
 </script>

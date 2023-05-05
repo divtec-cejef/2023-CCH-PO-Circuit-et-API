@@ -7,7 +7,7 @@
         <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
             <p>
-                Bievenue <span>{{ userCar.pseudo }}</span> !<br>
+                Bievenue <span>{{ car.pseudo }}</span> !<br>
                 Tu trouveras tout ce dont tu as besoin sur ces pages...
             </p>
         </div>
@@ -60,10 +60,14 @@ import {ref} from "vue";
 import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
 import api from "../models/api";
+import {storeToRefs} from "pinia";
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore()
-let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
+const { car } = userCar;
+
+
+let status =  userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
 let codeBackApi = ref(0);

@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import {computed, ref} from "vue";
+import type {Ref} from "vue";
 import Car from "../models/car";
 import api from "../models/api";
 import {useRouter} from "vue-router";
@@ -7,7 +8,7 @@ import Race from "@/models/race";
 
 export const useCarStore = defineStore('car', () => {
 
-    let car = ref(new Car());
+    let car: Ref<Car> = ref(new Car());
 
     /**
      * Initialisation de la voiture en fonction de l'URL actuel

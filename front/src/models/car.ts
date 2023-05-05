@@ -13,7 +13,7 @@ export default class Car {
 
     /**
      * Determine la position de chaque manche en fonction du temps
-     * Rempli donc le champs NumRace pour chaque manche
+     * Rempli donc le champ NumRace pour chaque manche
      */
     determinePositionOfRaces() {
         let listSortByNum = this.listRace.sort((a, b) => {
