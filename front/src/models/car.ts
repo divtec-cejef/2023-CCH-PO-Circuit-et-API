@@ -31,9 +31,10 @@ export default class Car {
 
             //Remplissage de la liste si le champ n'est pas undefined
             if (raceToChange.value !== undefined) {
-                raceToChange.value.numRace = index;
+                raceToChange.value.numRace = index + 1;
             }
         });
+
     }
 }
 

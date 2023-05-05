@@ -49,7 +49,7 @@
         </div>
 
         <div class="informations">
-            <p>N° Manche : 1</p>
+            <p>N° Manche : {{ car.listRace[0].numRace }}</p>
             <div>
                 <img src="../assets/img/clock.png" alt="Icon d'horloge">
                 <p class="hour">12h13</p>
@@ -149,7 +149,8 @@ const userCar = useCarStore();
 const { car } = userCar;
 let codeBackApi = ref(0);
 
-initDataUserCar().then(value => codeBackApi.value = value);
+initDataUserCar().then(value => codeBackApi.value = value)
+    .then( c => console.log(userCar.car.listRace));
 
 </script>
 
