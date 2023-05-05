@@ -69,7 +69,7 @@ export const useCarStore = defineStore('car', () => {
         })
 
         car.value.determinePositionOfRaces();
-
+        console.log(car.value.listRace)
         return status;
     }
 
