@@ -1,7 +1,7 @@
 <template>
     <header v-if="!menuIsClicked" class="closed">
         <RouterLink to="/"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec"></RouterLink>
-        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
     </header>
 
     <main v-if="!menuIsClicked">
@@ -11,8 +11,12 @@
     <footer v-if="!menuIsClicked">
         <p>EMT, Portes ouvertes 2023</p>
         <div>
-            <a target="_blank" href="https://www.instagram.com/emtporrentruy/"><img src="./assets/img/instagram.png" alt="Logo instagram"></a>
-            <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/"><img src="./assets/img/facebook.png" alt="Logo faceboook"></a>
+            <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
+                <img src="./assets/img/instagram.png"
+                     alt="Logo instagram"></a>
+            <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
+                <img src="./assets/img/facebook.png"
+                     alt="Logo faceboook"></a>
         </div>
     </footer>
 
@@ -20,7 +24,7 @@
         <nav>
             <ul @click="clickMenu">
                 <li>
-                    <RouterLink to="/">Accueil</RouterLink>
+                    <RouterLink :to="`/${car.idQuery}`">Accueil</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/course">Course</RouterLink>
@@ -44,23 +48,30 @@
 import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
 import {ref} from "vue";
+import {tr} from "date-fns/locale";
 
-//Gérer le menu
-localStorage.setItem('menuIsClicked', 'false')
-let menuIsClicked = ref(false);
-
+/**
+ * Gère le clic sur le menu
+ */
 function clickMenu() {
-    localStorage.setItem('menuIsClicked', menuIsClicked ? "false" : "true")
-    menuIsClicked.value = !menuIsClicked
+    menuIsClicked.value = !menuIsClicked.value
+    localStorage.setItem('menuIsClicked', menuIsClicked.value ? "true" : "false")
 }
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
-const { car } = userCar;
+const {car} = userCar;
 const userCarId = localStorage.getItem("userCarId");
 
 if (userCarId) {
     userCar.initUserCarId(userCarId)
+}
+
+//Si aucune donnée n'est dans le localstorage alors initialisation
+let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
+if (!localStorage.getItem('menuIsClicked')) {
+    localStorage.setItem('menuIsClicked', 'false')
+    menuIsClicked.value = false;
 }
 
 
