@@ -1,13 +1,13 @@
 import {defineStore} from 'pinia'
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import type {Ref} from "vue";
 import Car from "../models/car";
 import api from "../models/api";
-import {useRouter} from "vue-router";
 import Race from "@/models/race";
 
 export const useCarStore = defineStore('car', () => {
 
+    //Initialisation des variables
     let car: Ref<Car> = ref(new Car());
 
     /**
@@ -64,15 +64,13 @@ export const useCarStore = defineStore('car', () => {
         //Remplissage de la liste de course
         dataUserRaceCar['races'].forEach(function (race:any) {
             car.value.listRace.push(
-                new Race(race['id_race'], new Date(race['realisation_date_time']), new Date(race['sector_one']))
+                new Race(race['id_race'], new Date(race['race_start']), new Date(race['total_time']))
             )
         })
-
-        //Remplissage des numéros de courses
-        car.value.determinePositionOfRaces();
 
         return status;
     }
 
     return {car, initUserCarId, initUserCarQueryId, initUserAllRaceCar};
 })
+

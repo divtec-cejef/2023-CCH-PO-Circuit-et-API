@@ -1,8 +1,6 @@
 <template>
-
     <h1>Course</h1>
     <div v-if="codeBackApi === api.ReturnCodes.Success">
-
         <h2>Meilleure manche</h2>
         <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
@@ -17,7 +15,9 @@
                 </div>
                 <div class="best-time">
                     <div>Temps de manche :</div>
-                    <div class="race-time">{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sectorOne) }}</div>
+                    <div class="race-time">
+                        {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
+                    </div>
                 </div>
             </div>
 
@@ -45,15 +45,14 @@
             </div>
 
             <div class="informations">
-                <p>N° Manche : {{ car.listRace[BEST_TIME_INDEX].numRace }}</p>
+                <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
                 <div>
-                    <img src="../assets/img/clock.png" alt="Icon d'horloge">
+                    <img class="hour" src="../assets/img/clock.png" alt="Icon d'horloge">
                     <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
                 </div>
             </div>
 
             <div class="video"></div>
-
         </div>
 
 
@@ -61,18 +60,17 @@
             <table>
                 <tr>
                     <th>N°</th>
-                    <th>Rang</th>
                     <th>Heure</th>
                     <th>Vitesse</th>
                     <th colspan="2">Temps</th>
                     <th>Vidéo</th>
                 </tr>
                 <tr v-for="race in car.sortListByOrderHour()">
-                    <td>{{ race.numRace }}</td>
+                    <td>{{ car.getNumRace(race) }}</td>
                     <td>{{ race.formatHour() }}</td>
                     <td>33</td>
                     <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
-                    <td>{{ race.formatTime(race.sectorOne) }}</td>
+                    <td>{{ race.formatTime(race.totalTime) }}</td>
                     <td><img class="video" src="../assets/img/film.png"
                              alt="Icon de film pour visionner la vidéo de la course"></td>
                 </tr>
@@ -95,7 +93,6 @@
             <ClassementElement/>
         </div>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -106,7 +103,7 @@ import {ref} from "vue";
 import {useCarStore} from "@/stores/car";
 import api from "@/models/api";
 
-
+//Initialisation des constantes
 const BEST_TIME_INDEX = 0;
 
 /**
@@ -127,7 +124,7 @@ const userCar = useCarStore();
 const {car} = userCar;
 let codeBackApi = ref(0);
 
-initDataUserCar().then(value => codeBackApi.value = value);
+initDataUserCar().then(value => codeBackApi.value = value).then(c => console.log(car.listRace));
 
 </script>
 
@@ -196,29 +193,6 @@ div.best-race {
       }
     }
 
-    div.informations {
-      margin: 25px 10px;
-      display: flex;
-      justify-content: space-between;
-      font-style: italic;
-      align-items: center;
-
-      div {
-        display: flex;
-        align-items: center;
-      }
-
-      img {
-        margin-right: 8px;
-        width: 25px;
-      }
-
-      p.hour {
-        flex: 1;
-        margin-right: 10px;
-      }
-    }
-
     div.video {
       width: 100%;
       height: 200px;
@@ -277,12 +251,36 @@ div.best-race {
         margin-top: 10px;
       }
     }
+
   }
 
   a {
     margin-top: 25px;
     text-align: right;
     font-style: italic;
+  }
+
+  div.informations {
+    margin: 25px 10px;
+    display: flex;
+    justify-content: space-between;
+    font-style: italic;
+    align-items: center;
+
+    div {
+      display: flex;
+      align-items: center;
+    }
+
+    img.hour {
+      margin-right: 8px;
+      width: 25px;
+    }
+
+    p.hour {
+      flex: 1;
+      margin-right: 10px;
+    }
   }
 }
 

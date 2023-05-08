@@ -7,7 +7,7 @@
         <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
             <p>
-                Bievenue <span>{{ car.pseudo }}</span> !<br>
+                Bienvenue <span>{{ car.pseudo }}</span> !<br>
                 Tu trouveras tout ce dont tu as besoin sur ces pages...
             </p>
         </div>
@@ -55,12 +55,11 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterLink} from 'vue-router'
 import {ref} from "vue";
 import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
 import api from "../models/api";
-import {storeToRefs} from "pinia";
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore()
