@@ -1,6 +1,4 @@
-import type {Ref} from "vue";
 import {ref} from "vue";
-import {format, compareAsc} from 'date-fns'
 import type Race from "@/models/race";
 
 export default class Car {
@@ -12,27 +10,9 @@ export default class Car {
     rank: number = 0;
 
     /**
-     * Determine la position de chaque manche en fonction du temps
-     * Rempli donc le champ NumRace pour chaque manche
-     */
-    determinePositionOfRaces() {
-        //Remplissage de la liste pour chaque course
-        this.sortListByOrderHour().forEach((race: Race, index) => {
-            let raceToChange = ref(this.listRace.find(function (raceToChange) {
-                return raceToChange.idRace === race.idRace;
-            }));
-
-            //Remplissage de la liste si le champ n'est pas undefined
-            if (raceToChange.value !== undefined) {
-                raceToChange.value.numRace = index + 1;
-            }
-        });
-    }
-
-    /**
      * Tri une liste en fonction de l'heure de réalisation
      */
-    sortListByOrderHour () {
+    sortListByOrderHour() {
         let listSortByNum = [...this.listRace];
 
         //Tri de la liste en fonction
@@ -41,6 +21,15 @@ export default class Car {
         });
 
         return listSortByNum;
+    }
+
+    /**
+     * Obtient le numéro de course
+     * @param raceToSearch Course à rechercher
+     */
+    getNumRace(raceToSearch: Race) {
+        console.log(raceToSearch.idRace)
+        return this.sortListByOrderHour().findIndex(race => race.idRace == raceToSearch.idRace) + 1
     }
 }
 
