@@ -58,6 +58,10 @@ export namespace models {
     },
     total_time: Date | string,
   }
+
+  export interface raceObject extends racesData {
+    total_time: Date,
+  }
 }
 
 export default implementation;
