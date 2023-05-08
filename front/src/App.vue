@@ -1,6 +1,6 @@
 <template>
     <header v-if="!menuIsClicked" class="closed">
-        <img src="./assets/img/logo-d.png" alt="Logo du Vue pour test">
+        <RouterLink to="/"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec"></RouterLink>
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="menuIsClicked = !menuIsClicked">
     </header>
 
@@ -20,7 +20,7 @@
         <nav>
             <ul @click="clickMenu">
                 <li>
-                    <RouterLink :to="`/${ userCar.car }`">Accueil</RouterLink>
+                    <RouterLink to="/">Accueil</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/course">Course</RouterLink>
@@ -43,8 +43,7 @@
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
-import {computed, ref} from "vue";
-
+import {ref} from "vue";
 
 //Gérer le menu
 localStorage.setItem('menuIsClicked', 'false')
@@ -57,6 +56,7 @@ function clickMenu() {
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
+const { car } = userCar;
 const userCarId = localStorage.getItem("userCarId");
 
 if (userCarId) {
