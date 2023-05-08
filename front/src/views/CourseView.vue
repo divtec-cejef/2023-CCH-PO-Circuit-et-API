@@ -75,7 +75,7 @@
             </table>
         </DropDown>
 
-        <h2>Classement</h2>
+        <h2 id="classement" >Classement</h2>
         <div class="button-classement">
             <button class="classement-user">Moi</button>
             <button class="classement-top"></button>

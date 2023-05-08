@@ -15,7 +15,7 @@
         <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
-        <p>Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
+        <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
         <div class="badges">
             <RouterLink to="/course">
                 <img src="../assets/img/course.png" alt="Badge course">
@@ -63,10 +63,10 @@ import api from "../models/api";
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore()
-const { car } = userCar;
+const {car} = userCar;
 
 
-let status =  userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
+let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
 let codeBackApi = ref(0);
@@ -118,6 +118,14 @@ div.user-data {
     }
   }
 
+  h2 {
+    align-self: start;
+  }
+
+  p.intro-badge {
+    text-align: left;
+  }
+
   div.badges {
     display: flex;
     flex-wrap: wrap;
@@ -132,6 +140,14 @@ div.user-data {
     img {
       width: 110px;
       height: 110px;
+    }
+
+    :nth-child(odd) {
+      margin-left: 5px;
+    }
+
+    :nth-child(even) {
+      margin-right: 5px;
     }
 
     :nth-child(3),
