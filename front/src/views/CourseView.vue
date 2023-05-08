@@ -55,7 +55,7 @@
       <div class="video"></div>
     </div>
 
-    <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
+    <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Toutes les courses">
       <table>
         <tr>
           <th>N°</th>
