@@ -55,21 +55,19 @@
             <div class="video"></div>
         </div>
 
-
         <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
             <table>
                 <tr>
                     <th>N°</th>
                     <th>Heure</th>
                     <th>Vitesse</th>
-                    <th colspan="2">Temps</th>
+                    <th>Temps</th>
                     <th>Vidéo</th>
                 </tr>
                 <tr v-for="race in car.sortListByOrderHour()">
                     <td>{{ car.getNumRace(race) }}</td>
                     <td>{{ race.formatHour() }}</td>
                     <td>33</td>
-                    <td><img class="flag-start" src="../assets/img/race-flag.png" alt="Drapeau de course"></td>
                     <td>{{ race.formatTime(race.totalTime) }}</td>
                     <td><img class="video" src="../assets/img/film.png"
                              alt="Icon de film pour visionner la vidéo de la course"></td>
@@ -289,8 +287,12 @@ div.best-race {
   max-width: 100%;
 
   table {
-
     text-align: center;
+
+    tr td:nth-child(4) {
+      font-family: 'Digital-7 Mono', sans-serif;
+      font-size: 22px;
+    }
 
     th {
       text-align: left;
