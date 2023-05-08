@@ -34,11 +34,33 @@
       }
     }
   }
+
+  div.best-race {
+    width: 300px !important;
+    margin: 0 auto;
+    div.content-1 {
+
+    }
+  }
 }
 
 /* Tablette grande */
 @media screen and (min-width: 1024px) {
+
+  p, a {
+    font-size: 16px;
+  }
+
   #app {
+
+    h1 {
+      font-size: 32px;
+    }
+
+    h2 {
+      font-size: 25px;
+    }
+
     div.user-data {
       display: flex;
       align-items: center;
