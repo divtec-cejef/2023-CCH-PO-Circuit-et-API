@@ -1,6 +1,6 @@
 <template>
     <header v-if="!menuIsClicked" class="closed">
-        <RouterLink to="/"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec"></RouterLink>
+        <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec"></RouterLink>
         <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
     </header>
 
@@ -34,9 +34,6 @@
                 </li>
                 <li>
                     <RouterLink to="/apropos">A Propos</RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/graphics">Graphics</RouterLink>
                 </li>
             </ul>
         </nav>
