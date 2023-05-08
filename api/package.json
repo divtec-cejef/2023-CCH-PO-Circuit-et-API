@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.ts",
 	"scripts": {
-		"test": "npx mocha -r ts-node/register **/*.test.ts --exit -p",
+		"test": "npx mocha -r ts-node/register **/*.test.ts --exit",
 		"start": "npm i && prisma db pull && prisma generate && npx nodemon ./index.ts"
 	},
 	"author": "",
