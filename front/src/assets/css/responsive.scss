@@ -5,7 +5,35 @@
 
 /* Tablette */
 @media screen and (min-width: 760px) {
+  .large-content {
+    align-items: center;
 
+    header {
+      nav {
+        display: flex;
+        align-items: center;
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          vertical-align: center;
+
+          li {
+            font-family: 'SF Pro Display', sans-serif;
+            display: inline-block;
+            font-weight: bold;
+            font-style: normal;
+            margin: 0 10px;
+
+            * {
+              font-size: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 /* Tablette grande */
@@ -36,6 +64,7 @@
     img#car {
       margin-top: -10px;
     }
+
     p.intro-badge {
       width: 470px;
       align-self: start;
