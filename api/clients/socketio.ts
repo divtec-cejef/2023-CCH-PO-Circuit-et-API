@@ -1,5 +1,5 @@
 import sio from 'socket.io';
-import { getShortestRaces } from "/services/race/implementation";
+import { getShortestRaces } from "../services/race/implementation";
 
 const io = new sio.Server({
 	cors: {
