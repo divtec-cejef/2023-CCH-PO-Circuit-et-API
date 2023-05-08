@@ -81,14 +81,8 @@
       <button class="classement-top"></button>
     </div>
     <div ref="classement" class="classement">
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
-      <ClassementElement />
+      <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar.image" :rank="key + 1"
+        :pseudo="race.car.pseudo" :time="race.total_time" />
     </div>
   </div>
 </template>
@@ -100,6 +94,7 @@ import ClassementElement from "@/components/ClassementElement.vue";
 import { ref } from "vue";
 import { useCarStore } from "@/stores/car";
 import api from "@/models/api";
+import type { models } from "@/models/api";
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -124,6 +119,19 @@ let codeBackApi = ref(0);
 
 initDataUserCar().then(value => codeBackApi.value = value);
 
+const listRace = ref<models.raceObject[]>([]);
+
+api.onRankingRecieved((data) => {
+
+  listRace.value = data.map((d) => {
+    return {
+      car: d.car,
+      id_race: d.id_race,
+      total_time: new Date(d.total_time),
+    };
+  });
+  console.log(listRace.value);
+});
 </script>
 
 <style scoped lang="scss">
