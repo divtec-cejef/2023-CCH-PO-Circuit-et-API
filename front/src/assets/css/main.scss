@@ -1,6 +1,7 @@
 @import "normalize.css";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 @import "font.scss";
+@import "responsive.scss";
 
 * {
   box-sizing: border-box;
@@ -24,7 +25,9 @@
 main {
   padding: 35px;
   width: 100%;
-  min-height: calc(100vh - 100px - 65px)
+  min-height: calc(100vh - 100px - 65px);
+  max-width: 1000px;
+  margin: auto;
 }
 
 h1, h2, h3 {

@@ -1,0 +1,80 @@
+/* Téléphone */
+@media screen and (min-width: 400px) {
+
+}
+
+/* Tablette */
+@media screen and (min-width: 760px) {
+
+}
+
+/* Tablette grande */
+@media screen and (min-width: 1024px) {
+  #app {
+    div.user-data {
+      display: flex;
+      align-items: center;
+      align-content: space-between;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 580px;
+      width: 100%;
+      margin-top: 65px;
+    }
+
+    div.avatar-txt {
+      margin-left: 10px;
+    }
+
+    h2 {
+      width: 470px;
+      align-self: start;
+      margin-right: 10px;
+      margin-top: 15px;
+    }
+
+    img#car {
+      margin-top: -10px;
+    }
+    p.intro-badge {
+      width: 470px;
+      align-self: start;
+      margin-right: 10px;
+    }
+
+    div.badges {
+      display: flex;
+      flex-direction: row;
+      width: 470px;
+      flex-wrap: wrap;
+      margin-top: 60px;
+      align-self: start;
+      margin-right: 10px;
+
+      * {
+        margin-top: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      :nth-child(4),
+      :nth-child(5),
+      :nth-child(6) {
+        margin-top: 25px;
+      }
+    }
+  }
+
+}
+
+/* Petit ordinateur */
+@media screen and (min-width: 1280px) {
+
+
+}
+
+
+/* Grand ordinateur */
+@media screen and (max-width: 1440px) {
+
+}
