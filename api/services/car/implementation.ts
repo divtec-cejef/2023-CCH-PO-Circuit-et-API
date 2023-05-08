@@ -1,6 +1,4 @@
-import buildClient from "../client";
-
-const prisma = buildClient();
+import prisma from "/clients/prismadb";
 
 /**
  * Retourne toutes les voitures de la db
