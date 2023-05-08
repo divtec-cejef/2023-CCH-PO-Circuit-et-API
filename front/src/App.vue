@@ -1,5 +1,5 @@
 <template>
-    <div v-if="getWidthScreen <= 760">
+    <div class="thin-content" v-if="getWidthScreen <= 760">
         <header v-if="!menuIsClicked" class="closed">
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
@@ -99,7 +99,6 @@ function clickMenu() {
 
 //Récupère la largeur de l'écran
 const getWidthScreen = computed(() => {
-    console.log(window.innerWidth)
     return window.innerWidth;
 })
 
@@ -119,7 +118,6 @@ if (!localStorage.getItem('menuIsClicked')) {
     menuIsClicked.value = false;
 }
 
-
 </script>
 
 <style scoped lang="scss">
@@ -134,13 +132,13 @@ header {
   }
 }
 
-header.closed,
+.thin-content header.closed,
 div.large-content header {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   height: 100px;
 }
 
-header.open, {
+.thin-content header.open, {
   height: 100vh;
 
   ul {
