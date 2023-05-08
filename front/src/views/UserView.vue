@@ -6,10 +6,8 @@
     <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
-            <p>
-                Bienvenue <span>{{ car.pseudo }}</span> !<br>
-                Tu trouveras tout ce dont tu as besoin sur ces pages...
-            </p>
+            <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
+            <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
         <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
@@ -99,6 +97,10 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
+
+    p:nth-child(2) {
+      font-size: 18px;
+    }
   }
 
   img#avatar {
@@ -124,6 +126,8 @@ div.user-data {
 
   p.intro-badge {
     text-align: left;
+    width: fit-content;
+    align-self: start;
   }
 
   div.badges {
@@ -159,8 +163,8 @@ div.user-data {
   }
 }
 
-/****************************/
-/****** RESPONSIVE **********/
-/****************************/
+/******************************/
+/******** RESPONSIVE **********/
+/******************************/
 
 </style>
