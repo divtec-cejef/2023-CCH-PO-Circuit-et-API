@@ -1,8 +1,11 @@
 <template>
-    <div class="content">
-        <p>Bienvenue sur Divtec tuture !</p>
+    <div class="intro">
+        <h1>Bienvenue !</h1>
         <p>Tu n'as pas encore scanné de voiture...</p>
+        <p>C'est par ici !</p>
     </div>
+
+    <img class="qr-code" src="../assets/img/qrCode.gif" alt="">
 
 
 </template>
@@ -12,12 +15,18 @@
 </script>
 
 <style scoped lang="scss">
+div.intro {
+  text-align: center;
 
-div.content {
-  p {
-    text-align: center;
+  p:nth-child(3) {
+    margin-top: 10px;
+    font-weight: bold;
   }
+}
 
-
+img.qr-code {
+  width: 200px;
+  display: block;
+  margin: 0 auto;
 }
 </style>
