@@ -1,4 +1,4 @@
-import prisma from "/clients/prismadb";
+import prisma from "../../clients/prismadb";
 
 /**
  * Retourne toutes les voitures de la db
