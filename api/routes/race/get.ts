@@ -1,5 +1,5 @@
-import { routeHandler } from "../../models";
-import { getShortestRaces } from "../../services/race/implementation";
+import { routeHandler } from "/models";
+import { getShortestRaces } from "/services/race/implementation";
 
 /**
  * Controller get pour la route /race

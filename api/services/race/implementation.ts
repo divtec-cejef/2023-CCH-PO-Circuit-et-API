@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import prisma from "../../clients/prismadb";
-import { raceToCreate, raceToCreateWithQueryId } from "../../models";
+import prisma from "/clients/prismadb";
+import { raceToCreate, raceToCreateWithQueryId } from "/models";
 
 /**
  * Retourne les manches d'une course d'une voiture donnée
