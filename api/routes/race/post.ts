@@ -1,7 +1,7 @@
-import { raceToCreate, routeHandler } from "/models";
-import { createRace, getShortestRaces } from "/services/race/implementation";
+import { raceToCreate, routeHandler } from "../../models";
+import { createRace, getShortestRaces } from "../../services/race/implementation";
 import { checkStructureOrThrow } from "check-structure";
-import { getCarById } from "/services/car/implementation";
+import { getCarById } from "../../services/car/implementation";
 import type { Server } from "socket.io";
 
 /**
