@@ -1,104 +1,104 @@
 <template>
-    <h1>Course</h1>
-    <div v-if="codeBackApi === api.ReturnCodes.Success">
-        <h2>Meilleure manche</h2>
-        <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
+  <h1>Course</h1>
+  <div v-if="codeBackApi === api.ReturnCodes.Success">
+    <h2>Meilleure manche</h2>
+    <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
-        <div class="best-race">
-            <div class="content-1">
-                <div class="rank">
-                    <span>Rang</span>
-                    <div>
-                        <span>#</span>
-                        <span>{{ car.rank }}</span>
-                    </div>
-                </div>
-                <div class="best-time">
-                    <div>Temps de manche :</div>
-                    <div class="race-time">
-                        {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
-                    </div>
-                </div>
-            </div>
+    <div class="best-race">
+      <div class="content-1">
+        <div class="rank">
+          <span>Rang</span>
+          <div>
+            <span>#</span>
+            <span>{{ car.rank }}</span>
+          </div>
+        </div>
+        <div class="best-time">
+          <div>Temps de manche :</div>
+          <div class="race-time">
+            {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
+          </div>
+        </div>
+      </div>
 
-            <div class="content-2">
-                <div class="speed-max">
-                    <p>65</p>
-                    <p>km/h</p>
-                </div>
-
-                <div class="time-inter">
-                    <div>Temps <br>
-                        intermédiaires :
-                    </div>
-                    <ul>
-                        <li>
-                            <NumberTime class="num-race" number="1" color="var(--red)"/>
-                            <p>03:23:08</p>
-                        </li>
-                        <li>
-                            <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                            <p>03:23:08</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="informations">
-                <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
-                <div>
-                    <img class="hour" src="../assets/img/clock.png" alt="Icon d'horloge">
-                    <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
-                </div>
-            </div>
-
-            <div class="video"></div>
+      <div class="content-2">
+        <div class="speed-max">
+          <p>65</p>
+          <p>km/h</p>
         </div>
 
-        <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
-            <table>
-                <tr>
-                    <th>N°</th>
-                    <th>Heure</th>
-                    <th>Vitesse</th>
-                    <th>Temps</th>
-                    <th>Vidéo</th>
-                </tr>
-                <tr v-for="race in car.sortListByOrderHour()">
-                    <td>{{ car.getNumRace(race) }}</td>
-                    <td>{{ race.formatHour() }}</td>
-                    <td>33</td>
-                    <td>{{ race.formatTime(race.totalTime) }}</td>
-                    <td><img class="video" src="../assets/img/film.png"
-                             alt="Icon de film pour visionner la vidéo de la course"></td>
-                </tr>
-            </table>
-        </DropDown>
+        <div class="time-inter">
+          <div>Temps <br>
+            intermédiaires :
+          </div>
+          <ul>
+            <li>
+              <NumberTime class="num-race" number="1" color="var(--red)" />
+              <p>03:23:08</p>
+            </li>
+            <li>
+              <NumberTime class="num-race" number="2" color="var(--blue)" />
+              <p>03:23:08</p>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-        <h2 id="classement" >Classement</h2>
-        <div class="button-classement">
-            <button class="classement-user">Moi</button>
-            <button class="classement-top"></button>
+      <div class="informations">
+        <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
+        <div>
+          <img class="hour" src="../assets/img/clock.png" alt="Icon d'horloge">
+          <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
         </div>
-        <div ref="classement" class="classement">
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-            <ClassementElement/>
-        </div>
+      </div>
+
+      <div class="video"></div>
     </div>
+
+    <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Autres courses">
+      <table>
+        <tr>
+          <th>N°</th>
+          <th>Heure</th>
+          <th>Vitesse</th>
+          <th>Temps</th>
+          <th>Vidéo</th>
+        </tr>
+        <tr v-for="(race, key) in car.sortListByOrderHour()" :key="key">
+          <td>{{ car.getNumRace(race) }}</td>
+          <td>{{ race.formatHour() }}</td>
+          <td>33</td>
+          <td>{{ race.formatTime(race.totalTime) }}</td>
+          <td><img class="video" src="../assets/img/film.png" alt="Icon de film pour visionner la vidéo de la course">
+          </td>
+        </tr>
+      </table>
+    </DropDown>
+
+    <h2 id="classement">Classement</h2>
+    <div class="button-classement">
+      <button class="classement-user">Moi</button>
+      <button class="classement-top"></button>
+    </div>
+    <div ref="classement" class="classement">
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+      <ClassementElement />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import NumberTime from "@/components/NumberTime.vue";
 import DropDown from "@/components/DropDown.vue";
 import ClassementElement from "@/components/ClassementElement.vue";
-import {ref} from "vue";
-import {useCarStore} from "@/stores/car";
+import { ref } from "vue";
+import { useCarStore } from "@/stores/car";
 import api from "@/models/api";
 
 //Initialisation des constantes
@@ -109,25 +109,24 @@ const BEST_TIME_INDEX = 0;
  */
 async function initDataUserCar() {
 
-    const userCarId = localStorage.getItem("userCarId");
-    if (userCarId) {
-        await userCar.initUserCarId(userCarId)
-        return await userCar.initUserAllRaceCar();
-    }
-    return 0;
+  const userCarId = localStorage.getItem("userCarId");
+  if (userCarId) {
+    await userCar.initUserCarId(userCarId);
+    return await userCar.initUserAllRaceCar();
+  }
+  return 0;
 }
 
 //Initialisation des données
 const userCar = useCarStore();
-const {car} = userCar;
+const { car } = userCar;
 let codeBackApi = ref(0);
 
-initDataUserCar().then(value => codeBackApi.value = value).then(c => console.log(car.listRace));
+initDataUserCar().then(value => codeBackApi.value = value);
 
 </script>
 
 <style scoped lang="scss">
-
 div.best-race {
   display: flex;
   flex-direction: column;
@@ -153,7 +152,7 @@ div.best-race {
       width: 90px;
       height: 90px;
 
-      > span {
+      >span {
         font-size: 12px;
         margin-bottom: -6px;
       }
@@ -332,5 +331,4 @@ div.button-classement {
     margin: 0 15px;
   }
 }
-
 </style>
