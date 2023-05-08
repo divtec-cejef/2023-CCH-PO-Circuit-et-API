@@ -4,7 +4,7 @@ import { it } from "mocha";
 process.env.NODE_ENV = "test";
 
 // importation des modules
-import "/index";
+import "../index";
 import chai from 'chai';
 import chaiHttp from "chai-http";
 import "mocha";
