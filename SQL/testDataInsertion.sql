@@ -1,19 +1,23 @@
 SET
     search_path TO cars;
 
+TRUNCATE race CASCADE;
+TRUNCATE realise CASCADE;
+TRUNCATE car CASCADE;
+TRUNCATE activity CASCADE;
 TRUNCATE avatar CASCADE;
+TRUNCATE section CASCADE;
+
 INSERT INTO avatar (image)
 VALUES ('image1');
 INSERT INTO avatar (image)
 VALUES ('image2');
 
-TRUNCATE car CASCADE;
 INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', 1);
 INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
 VALUES (2, '4321', '4357', 'PlayerTwo', 2);
 
-TRUNCATE section CASCADE;
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
 INSERT INTO section (label, password)
@@ -30,7 +34,6 @@ VALUES ('Laborantin', '$2a$12$yNRyGjnlgDqsFuE9JqvMCO4kDXP0hTO08w1ld6L9uum7GwOSXb
 INSERT INTO section (label, password)
 VALUES ('Dessinateur', '$2a$12$dkt1tp0LW54GtQ6qoPYwgOkBMj1/x/qb/1nLeNa2hvGsdBqCYLlNm');
 
-TRUNCATE activity CASCADE;
 INSERT INTO activity (label, id_section)
 VALUES ('Informer', 1);
 INSERT INTO activity (label, id_section)
@@ -46,7 +49,6 @@ VALUES ('Laborantiser', 6);
 INSERT INTO activity (label, id_section)
 VALUES ('Dessiner', 7);
 
-TRUNCATE realise CASCADE;
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)
@@ -70,7 +72,6 @@ VALUES (2, 2, '2023-03-31 11:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (2, 7, '2023-03-31 11:55:32');
 
-TRUNCATE race CASCADE;
 INSERT INTO race (id_car, race_start, race_finish)
 VALUES (1, '2023-03-31 12:55:32.125', '2023-03-31 12:56:12.389');
 INSERT INTO race (id_car, race_start, race_finish)
