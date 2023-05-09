@@ -55,24 +55,8 @@
       <div class="video"></div>
     </div>
 
-    <DropDown v-if="car.listRace.length > 1" class="drop-down-course" name="Toutes les courses">
-      <table>
-        <tr>
-          <th>N°</th>
-          <th>Heure</th>
-          <th>Vitesse</th>
-          <th>Temps</th>
-          <th>Vidéo</th>
-        </tr>
-        <tr v-for="(race, key) in car.sortListByOrderHour()" :key="key">
-          <td>{{ car.getNumRace(race) }}</td>
-          <td>{{ race.formatHour() }}</td>
-          <td>33</td>
-          <td>{{ race.formatTime(race.totalTime) }}</td>
-          <td><img class="video" src="../assets/img/film.png" alt="Icon de film pour visionner la vidéo de la course">
-          </td>
-        </tr>
-      </table>
+    <DropDown v-if="car.listRace.length > 1 && window.innerWidth > 760" class="drop-down-course" name="Toutes les courses">
+      <TableListTime :car-user="car"/>
     </DropDown>
 
     <h2 id="classement">Classement</h2>
@@ -95,6 +79,7 @@ import { ref } from "vue";
 import { useCarStore } from "@/stores/car";
 import api from "@/models/api";
 import type { models } from "@/models/api";
+import TableListTime from "@/views/TableListTime.vue";
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -197,13 +182,6 @@ div.best-race {
         width: 35px;
       }
     }
-
-    div.video {
-      width: 100%;
-      height: 200px;
-      background-color: var(--black);
-      border-radius: 2px;
-    }
   }
 
   div.content-2 {
@@ -256,7 +234,13 @@ div.best-race {
         margin-top: 10px;
       }
     }
+  }
 
+  div.video {
+    width: 100%;
+    height: 250px;
+    background-color: var(--black);
+    border-radius: 2px;
   }
 
   a {
@@ -292,27 +276,6 @@ div.best-race {
 .drop-down-course {
   margin-top: 20px;
   max-width: 100%;
-
-  table {
-    text-align: center;
-
-    tr td:nth-child(4) {
-      font-family: 'Digital-7 Mono', sans-serif;
-      font-size: 22px;
-    }
-
-    th {
-      text-align: left;
-    }
-
-    img.video {
-      width: 25px;
-    }
-
-    img.flag-start {
-      width: 18px;
-    }
-  }
 }
 
 div.classement {
