@@ -33,6 +33,11 @@ table {
   tr td:nth-child(4) {
     font-family: 'Digital-7 Mono', sans-serif;
     font-size: 22px;
+    width: 45px;
+  }
+
+  td {
+    margin-right: 5px;
   }
 
   th {

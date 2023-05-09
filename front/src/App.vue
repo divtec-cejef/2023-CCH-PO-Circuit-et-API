@@ -1,5 +1,5 @@
 <template>
-    <div class="thin-content" v-if="getWidthScreen <= 760">
+    <div class="thin-content">
         <header v-if="!menuIsClicked" class="closed">
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
@@ -42,8 +42,7 @@
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
     </div>
-
-    <div class="large-content" v-else>
+    <div class="large-content">
         <header>
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
@@ -86,7 +85,7 @@
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {tr} from "date-fns/locale";
 
 /**
