@@ -5,41 +5,64 @@
 
 /* Tablette */
 @media screen and (min-width: 760px) {
-  .large-content {
-    align-items: center;
+  #app {
+    .large-content {
+      align-items: center;
 
-    header {
-      nav {
-        display: flex;
-        align-items: center;
+      header {
+        nav {
+          display: flex;
+          align-items: center;
 
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          vertical-align: center;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            vertical-align: center;
 
-          li {
-            font-family: 'SF Pro Display', sans-serif;
-            display: inline-block;
-            font-weight: bold;
-            font-style: normal;
-            margin: 0 10px;
+            li {
+              font-family: 'SF Pro Display', sans-serif;
+              display: inline-block;
+              font-weight: bold;
+              font-style: normal;
+              margin: 0 10px;
 
-            * {
-              font-size: 24px;
+              * {
+                font-size: 24px;
+              }
             }
           }
         }
       }
     }
-  }
 
-  div.best-race {
-    width: 300px !important;
-    margin: 0 auto;
-    div.content-1 {
+    div div.best-race {
+      width: 90%;
+      margin: 20px auto 0 auto;
+      justify-content: center;
+      flex-wrap: wrap;
+      height: 300px;
+      align-items: center;
 
+      div.content-1 {
+        justify-content: space-between; 
+        width: 40%;
+      }
+
+      div.content-2 {
+        width: 40%;
+      }
+
+
+      div.informations {
+        width: 40%;
+        margin-bottom: 0;
+      }
+
+      div.video {
+        width: 40%;
+        height: 200px;
+      }
     }
   }
 }
