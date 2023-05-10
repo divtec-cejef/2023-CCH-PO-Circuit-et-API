@@ -17,6 +17,11 @@ INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', 1);
 INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
 VALUES (2, '4321', '4357', 'PlayerTwo', 2);
+INSERT INTO car
+VALUES (3, 'Admlocal1', '4358', 'Dråfølin', 1);
+INSERT INTO car
+VALUES (4, 'Admlocal1', '4359', 'tobito', 1);
+
 
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
