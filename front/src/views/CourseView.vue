@@ -67,13 +67,13 @@
             </div>
 
             <div class="content-classement">
-                <h2 id="classement">Classement</h2>
+                <h2>Classement</h2>
                 <div class="button-classement">
-                    <button class="classement-user"></button>
-                    <button class="classement-top"></button>
+                    <button class="classement-user" @click="scrollToUser"></button>
+                    <button class="classement-top" @click="scrollToTop"></button>
                 </div>
-                <div ref="classement" class="classement-content">
-                        <Classement />
+                <div ref="classementRef" class="classement-content">
+                    <Classement/>
                 </div>
             </div>
         </div>
@@ -89,17 +89,34 @@ import api from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
 import Classement from '@/components/ClassementRace.vue';
 
-//Initialisation des constantes
-const BEST_TIME_INDEX = 0;
-const classement = ref<Element | null>(null);
-
-onMounted(() => {
-  //Changement du scroll
-  if (classement.value) {
-    classement.value.scrollTop = car.rank * 200;
+/**
+ * Change le scroll du classementRef pour le mettre à la hauteur de l'utilisateur
+ */
+function scrollToUser() {
+  //Change le scroll en fonction du rang de l'utilisateur et de son rang
+  if (!classementRef.value) {
+    return;
   }
 
+  //Changement du scroll en fonction de son rang
+  classementRef.value.scrollTop = car.rank <= 3 ? 0 : (car.rank - 2) * 50 - 20;
+}
 
+/**
+ * Change le scroll du classementRef pour le mettre en haut du classementRef
+ */
+function scrollToTop() {
+  if (classementRef.value) {
+    classementRef.value.scrollTop = 0;
+  }
+}
+
+//Initialisation des constantes
+const BEST_TIME_INDEX = 0;
+const classementRef = ref<Element | null>(null);
+
+onMounted(() => {
+  scrollToUser();
 });
 
 //Initialisation des données
@@ -107,222 +124,223 @@ const userCar = useCarStore();
 const { car } = userCar;
 let codeBackApi = ref(0);
 
+//Initialisation des courses de l'utilisateur
 userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
-
 
 </script>
 
 <style scoped lang="scss">
 div.best-race {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  width: fit-content;
-  margin: 20px auto 0 auto;
-
-  div.content-1 {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 280px;
+    flex-direction: column;
+    justify-content: start;
+    width: fit-content;
+    margin: 20px auto 0 auto;
 
-    div.rank {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-      border-radius: 200px;
-      padding: 14px;
-      margin-top: 5px;
-      background-color: var(--dark-green);
-      color: var(--white);
-      width: 90px;
-      height: 90px;
-
-      > span {
-        font-size: 12px;
-        margin-bottom: -6px;
-      }
-
-      div {
+    div.content-1 {
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        min-width: 280px;
 
-        span:nth-child(1) {
-          font-size: 26px;
+        div.rank {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+            border-radius: 200px;
+            padding: 14px;
+            margin-top: 5px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            width: 90px;
+            height: 90px;
+
+            > span {
+                font-size: 12px;
+                margin-bottom: -6px;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+
+                span:nth-child(1) {
+                    font-size: 26px;
+                }
+
+                span:nth-child(2) {
+                    font-size: 52px;
+                    margin-top: 2px;
+                    margin-bottom: 10px;
+                }
+            }
         }
 
-        span:nth-child(2) {
-          font-size: 52px;
-          margin-top: 2px;
-          margin-bottom: 10px;
+        div.best-time {
+            width: 165px;
+            display: flex;
+            flex-direction: column;
+
+            div.race-time {
+                font-family: 'Digital-7 Mono', sans-serif;
+                font-size: 45px;
+                text-align: end;
+            }
+
+            img {
+                width: 35px;
+            }
         }
-      }
     }
 
-    div.best-time {
-      width: 165px;
-      display: flex;
-      flex-direction: column;
-
-      div.race-time {
-        font-family: 'Digital-7 Mono', sans-serif;
-        font-size: 45px;
-        text-align: end;
-      }
-
-      img {
-        width: 35px;
-      }
-    }
-  }
-
-  div.content-2 {
-    display: flex;
-    justify-content: space-between;
-    min-width: 280px;
-
-    div.time-inter {
-      width: 165px;
-      display: flex;
-      flex-direction: column;
-
-      p:nth-child(1) {
-        font-size: 40px;
-      }
-
-      ul li p {
-        font-size: 22px;
-      }
-
-      .num-race {
-        margin-right: 10px;
-      }
-    }
-
-    div.speed-max {
-      display: flex;
-      width: fit-content;
-      align-items: end;
-      margin-bottom: 15px;
-      margin-left: 10px;
-
-      p:nth-child(1) {
-        font-size: 45px;
-      }
-    }
-
-    ul {
-      margin: 0 10px 0 0;
-      padding: 0;
-      width: fit-content;
-      align-self: end;
-      list-style: none;
-
-      li {
+    div.content-2 {
         display: flex;
+        justify-content: space-between;
+        min-width: 280px;
+
+        div.time-inter {
+            width: 165px;
+            display: flex;
+            flex-direction: column;
+
+            p:nth-child(1) {
+                font-size: 40px;
+            }
+
+            ul li p {
+                font-size: 22px;
+            }
+
+            .num-race {
+                margin-right: 10px;
+            }
+        }
+
+        div.speed-max {
+            display: flex;
+            width: fit-content;
+            align-items: end;
+            margin-bottom: 15px;
+            margin-left: 10px;
+
+            p:nth-child(1) {
+                font-size: 45px;
+            }
+        }
+
+        ul {
+            margin: 0 10px 0 0;
+            padding: 0;
+            width: fit-content;
+            align-self: end;
+            list-style: none;
+
+            li {
+                display: flex;
+                align-items: center;
+                font-family: 'Digital-7 Mono', sans-serif;
+                width: fit-content;
+                font-size: 26px;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    div.video {
+        width: 100%;
+        max-width: 450px;
+        height: 250px;
+        margin: 0 auto;
+        background-color: var(--black);
+        border-radius: 2px;
+    }
+
+    a {
+        margin-top: 25px;
+        text-align: right;
+        font-style: italic;
+    }
+
+    div.informations {
+        margin: 25px 10px;
+        display: flex;
+        justify-content: space-between;
+        font-style: italic;
         align-items: center;
-        font-family: 'Digital-7 Mono', sans-serif;
-        width: fit-content;
-        font-size: 26px;
-        margin-top: 10px;
-      }
+        min-width: 280px;
+        padding: 0 5px;
+
+        div {
+            display: flex;
+            align-items: center;
+        }
+
+        img.hour {
+            margin-right: 8px;
+            width: 25px;
+        }
+
+        p.hour {
+            flex: 1;
+            margin-right: 10px;
+        }
     }
-  }
-
-  div.video {
-    width: 100%;
-    max-width: 450px;
-    height: 250px;
-    margin: 0 auto;
-    background-color: var(--black);
-    border-radius: 2px;
-  }
-
-  a {
-    margin-top: 25px;
-    text-align: right;
-    font-style: italic;
-  }
-
-  div.informations {
-    margin: 25px 10px;
-    display: flex;
-    justify-content: space-between;
-    font-style: italic;
-    align-items: center;
-    min-width: 280px;
-    padding: 0 5px;
-
-    div {
-      display: flex;
-      align-items: center;
-    }
-
-    img.hour {
-      margin-right: 8px;
-      width: 25px;
-    }
-
-    p.hour {
-      flex: 1;
-      margin-right: 10px;
-    }
-  }
 }
 
 .drop-down-course {
-  margin-top: 20px;
-  max-width: 100%;
+    margin-top: 20px;
+    max-width: 100%;
 }
 
 div.classement-content {
-  overflow-y: scroll;
-  max-height: 300px;
+    overflow-y: scroll;
+    max-height: 400px;
+    margin-top: 10px;
 }
 
 div.button-classement {
-  display: flex;
-  justify-content: end;
-  margin-top: 20px;
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
 
-  button.classement-top {
-    background-color: transparent;
-    border: none;
-    border-radius: 100px;
-    background-image: url("../assets/img/top-10.png");
-    background-position: center;
-    background-size: 30px;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-    margin-right: 15px;
-    margin-left: 5px;
-  }
+    button.classement-top {
+        background-color: transparent;
+        border: none;
+        border-radius: 100px;
+        background-image: url("../assets/img/top-10.png");
+        background-position: center;
+        background-size: 30px;
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+        margin-left: 5px;
+    }
 
-  button.classement-user {
-    background-color: transparent;
-    border: none;
-    border-radius: 100px;
-    background-image: url("../assets/img/placeholder.png");
-    background-position: center;
-    background-size: 30px;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
+    button.classement-user {
+        background-color: transparent;
+        border: none;
+        border-radius: 100px;
+        background-image: url("../assets/img/placeholder.png");
+        background-position: center;
+        background-size: 30px;
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
 
-  }
+    }
 }
 
 div.large-content {
-  display: none;
+    display: none;
 }
 
 div.drop-down-course {
-  display: block;
+    display: block;
 }
 
 .table-large-content {
-  display: none;
+    display: none;
 }
 </style>
