@@ -94,11 +94,11 @@ import TableListTime from "@/components/TableListTime.vue";
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
-const classement = ref(null);
+const classement = ref<Element | null>(null);
 
 onMounted(() => {
     //Changement du scroll
-    if (classement.value !== null) {
+    if (classement.value) {
         classement.value.scrollTop = car.rank * 200;
     }
 });
