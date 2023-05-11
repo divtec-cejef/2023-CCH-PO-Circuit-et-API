@@ -85,7 +85,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 /**
  * Gère le clic sur le menu
@@ -102,10 +102,10 @@ const userCarId = localStorage.getItem('userCarId');
 
 
 onBeforeMount(async () => {
-    if (userCarId) {
-        await userCar.initUserCarId(userCarId)
-        await console.log(JSON.parse(JSON.stringify(userCar)))
-    }
+  if (userCarId) {
+    await userCar.initUserCarId(userCarId);
+    await console.log(JSON.parse(JSON.stringify(userCar)));
+  }
 });
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
