@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { QrcodeStream } from 'vue-qrcode-reader';
 import api from '../models/api';
 
@@ -23,7 +23,6 @@ import { useCarStore } from '@/stores/car';
 let userCar = useCarStore();
 const { car } = userCar;
 let codeBackApi = ref(0);
-const error = ref<String>();
 
 
 /**

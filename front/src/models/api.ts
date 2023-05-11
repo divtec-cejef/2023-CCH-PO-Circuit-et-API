@@ -1,5 +1,4 @@
 import { Socket, io } from 'socket.io-client';
-import { id } from 'date-fns/locale';
 
 export namespace implementation {
   export enum ReturnCodes {

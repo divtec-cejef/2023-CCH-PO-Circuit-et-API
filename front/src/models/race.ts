@@ -1,5 +1,3 @@
-import { ref } from 'vue';
-import type { Ref } from 'vue';
 import { format } from 'date-fns';
 
 export default class Race {

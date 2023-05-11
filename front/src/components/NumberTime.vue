@@ -1,8 +1,8 @@
 <template>
 
-    <div class="number" :style="{backgroundColor: color}">
+    <div class="number" :style="{backgroundColor: props.color}">
         <p>
-            {{ number }}
+            {{ props.number }}
         </p>
     </div>
 
