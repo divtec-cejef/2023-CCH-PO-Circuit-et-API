@@ -70,6 +70,7 @@
 
         <footer>
             <p>EMT, Portes ouvertes 2023</p>
+            <p>Inscris toi à un stage <a href="">ici</a> !</p>
             <div>
                 <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                     <img src="./assets/img/instagram.png"
@@ -104,7 +105,7 @@ const userCarId = localStorage.getItem("userCarId");
 onBeforeMount(async () => {
     if (userCarId) {
         await userCar.initUserCarId(userCarId)
-        console.log(JSON.parse(JSON.stringify(userCar)))
+        await console.log(JSON.parse(JSON.stringify(userCar)))
     }
 });
 
@@ -118,68 +119,78 @@ if (!localStorage.getItem('menuIsClicked')) {
 </script>
 
 <style scoped lang="scss">
+.large-content {
+    display: none;
+}
 
 header {
-  display: flex;
-  justify-content: space-between;
-  padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 35px;
 
-  img {
-    height: 55px;
-  }
+    img {
+        height: 55px;
+    }
 }
 
 .thin-content header.closed,
 div.large-content header {
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  height: 100px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    height: 100px;
 }
 
 .thin-content header.open, {
-  height: 100vh;
+    height: 100vh;
 
-  ul {
-    margin-top: 40px;
-    padding: 0;
-    list-style: none;
+    ul {
+        margin-top: 40px;
+        padding: 0;
+        list-style: none;
 
-    li {
-      margin-top: 12px;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: bold;
-      font-style: normal;
+        li {
+            margin-top: 12px;
+            font-family: 'SF Pro Display', sans-serif;
+            font-weight: bold;
+            font-style: normal;
 
-      * {
-        font-size: 27px;
-      }
+            * {
+                font-size: 27px;
+            }
+        }
     }
-  }
 }
 
 footer {
-  bottom: 0;
-  width: 100%;
-  height: 65px;
-  background-color: var(--gray);
-  color: var(--white);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 35px;
-
-  div {
-    justify-self: end;
-    align-items: center;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+    background-color: var(--gray);
+    color: var(--white);
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0 35px;
 
-    img {
-      width: 25px;
+    > * {
+        width: 275px;
     }
 
-    img:nth-child(1) {
-      margin-right: 15px;
+    div {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+
+        img {
+            width: 25px;
+        }
+
+        img:nth-child(1) {
+            margin-right: 15px;
+        }
+
+
     }
-  }
 }
 </style>

@@ -132,11 +132,11 @@ div.best-race {
   width: fit-content;
   margin: 20px auto 0 auto;
 
-
   div.content-1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-width: 280px;
 
     div.rank {
       display: flex;
@@ -192,6 +192,7 @@ div.best-race {
   div.content-2 {
     display: flex;
     justify-content: space-between;
+    min-width: 280px;
 
     div.time-inter {
       width: 165px;
@@ -262,6 +263,8 @@ div.best-race {
     justify-content: space-between;
     font-style: italic;
     align-items: center;
+    min-width: 280px;
+    padding: 0 5px;
 
     div {
       display: flex;
