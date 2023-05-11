@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatTime } from "@/models/race";
+import { formatTime } from '@/models/race';
 const props = defineProps<{
 	rank: number;
 	pseudo: string;
