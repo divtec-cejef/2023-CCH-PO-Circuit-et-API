@@ -8,8 +8,8 @@ import { getCarById } from '../../../services/car/implementation';
  * @param res Reponse
  * @returns Toutes les manches faites par une voiture
  */
-const route: routeHandler = async (req, res) => {
-  const id = parseInt(req.params.slug);
+const route: routeHandler<{ slug: number; }> = async (req, res) => {
+  const id = req.params.slug;
 
   if (typeof id === null || isNaN(id)) {
     res.status(400).json({ error: 'Invalid id' });
