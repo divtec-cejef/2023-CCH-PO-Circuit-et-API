@@ -20,7 +20,7 @@
                 <p>Course</p>
             </RouterLink>
             <RouterLink to="/course">
-                <img src="../assets/img/classement.png" alt="Badge classementRef">
+                <img src="../assets/img/classement.png" alt="Badge classement">
                 <p>Classement</p>
             </RouterLink>
             <RouterLink to="/course">

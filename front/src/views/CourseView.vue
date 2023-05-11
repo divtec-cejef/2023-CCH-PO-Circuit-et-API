@@ -72,7 +72,7 @@
                     <button class="classement-user" @click="scrollToUser"></button>
                     <button class="classement-top" @click="scrollToTop"></button>
                 </div>
-                <div ref="classementRef" class="classement-content">
+                <div ref="classement" class="classement-content">
                     <Classement/>
                 </div>
             </div>
@@ -90,30 +90,30 @@ import TableListTime from '@/components/TableListTime.vue';
 import Classement from '@/components/ClassementRace.vue';
 
 /**
- * Change le scroll du classementRef pour le mettre à la hauteur de l'utilisateur
+ * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
  */
 function scrollToUser() {
   //Change le scroll en fonction du rang de l'utilisateur et de son rang
-  if (!classementRef.value) {
+  if (!classement.value) {
     return;
   }
 
   //Changement du scroll en fonction de son rang
-  classementRef.value.scrollTop = car.rank <= 3 ? 0 : (car.rank - 2) * 50 - 20;
+  classement.value.scrollTop = car.rank <= 3 ? 0 : (car.rank - 2) * 50 - 20;
 }
 
 /**
- * Change le scroll du classementRef pour le mettre en haut du classementRef
+ * Change le scroll du classement pour le mettre en haut du classement
  */
 function scrollToTop() {
-  if (classementRef.value) {
-    classementRef.value.scrollTop = 0;
+  if (classement.value) {
+    classement.value.scrollTop = 0;
   }
 }
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
-const classementRef = ref<Element | null>(null);
+const classement = ref<Element | null>(null);
 
 onMounted(() => {
   scrollToUser();
