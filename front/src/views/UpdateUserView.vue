@@ -237,13 +237,11 @@ export default defineComponent({
     },
   }
 })
-
 </script>
 
 <style scoped>
-.avatar div {
+div {
     height: 500px;
     width: 500px;
 }
-
 </style>
