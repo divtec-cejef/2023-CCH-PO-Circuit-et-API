@@ -1,6 +1,4 @@
-import buildClient from "./client";
-
-const prisma = buildClient();
+import prisma from "../../clients/prismadb";
 
 /**
  * Retourne toutes les voitures de la db
@@ -76,29 +74,43 @@ export const getCarById = async (carId: number) => {
 	return car;
 };
 
+export const updateCar = (carId: number) => {
+
+};
+
 /**
  * Supprimer une voiture en fonction de son ID de query
  * @param carQueryId ID de query de la voiture
- * @returns la voiture supprimée
+ * @returns la voiture supprimée ou null si pas de voiture
  */
 export const deleteCarByQueryId = async (carQueryId: string) => {
-	return await prisma.car.delete({
-		where: {
-			query_id: carQueryId
-		},
-
-	});
+	try {
+		return await prisma.car.delete({
+			where: {
+				query_id: carQueryId
+			},
+		});
+	} catch (e) {
+		return null;
+	}
 };
 
 /**
  * Supprimer une voiture en fonction de son ID
  * @param carId id de la voiture
- * @returns la voiture supprimée
+ * @returns la voiture supprimée ou null si pas de voiture
  */
 export const deleteCarById = async (carId: number) => {
-	return await prisma.car.delete({
-		where: {
-			id_car: carId
-		}
-	});
+	try {
+		return await prisma.car.delete({
+			where: {
+				id_car: carId
+			},
+			include: {
+				"avatar": true
+			}
+		});
+	} catch (e) {
+		return null;
+	}
 };
