@@ -16,11 +16,14 @@
 	"dependencies": {
 		"@vueuse/sound": "^2.0.1",
 		"date-fns": "^2.30.0",
+		"date-fns-tz": "^2.0.0",
 		"express": "^4.18.2",
 		"pinia": "^2.0.33",
+		"socket.io-client": "^4.6.1",
 		"url-parse": "^1.5.10",
 		"vue": "^3.2.47",
-		"vue-qrcode-reader": "^3.1.5",
+		"vue-mq": "^1.0.1",
+		"vue-qrcode-reader": "^3.1.6",
 		"vue-router": "^4.1.6",
 		"vue-use-sound": "^1.1.1",
 		"vuedraggable": "^4.1.0"
