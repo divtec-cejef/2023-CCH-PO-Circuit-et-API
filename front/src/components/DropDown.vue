@@ -1,15 +1,12 @@
 <template>
     <div>
-        <div class="button-checked">
-            <label>
-                <span>{{ name }}</span>
-                <input type="checkbox" v-model.bool="isClicked">
-                <img src="../assets/img/arrow.png" alt="Flèche dépliable"
-                     :style="{transform: `rotate(${rotateImage}deg)`}">
-            </label>
+        <div class="button-checked" @click="clickDropDown">
+            <span>{{ name }}</span>
+            <img src="../assets/img/arrow.png" alt="Flèche dépliable"
+                 :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
 
-        <div class="drop-down-content" v-if="isClicked">
+        <div class="drop-down-content" v-if="dropDownIsClicked">
             <slot/>
         </div>
     </div>
@@ -20,14 +17,25 @@ import {computed, ref} from "vue";
 
 defineProps(['name'])
 
+/**
+ * Stocke si le dropdown est cliqué ou non dans le localstorage
+ */
+function clickDropDown() {
+    dropDownIsClicked.value = !dropDownIsClicked.value
+    localStorage.setItem('dropDownIsClicked', dropDownIsClicked.value ? "true" : "false")
+}
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
-    return isClicked.value ? '90' : '0'
+    return dropDownIsClicked.value ? '90' : '0'
 })
 
-let isClicked = ref(true);
-
+//Si aucune donnée n'est dans le localstorage alors initialisation
+let dropDownIsClicked = ref(localStorage.getItem('dropDownIsClicked') == 'true');
+if (!localStorage.getItem('dropDownIsClicked')) {
+    localStorage.setItem('dropDownIsClicked', 'false')
+    dropDownIsClicked.value = false;
+}
 </script>
 
 <style scoped lang="scss">
@@ -35,23 +43,22 @@ let isClicked = ref(true);
 div.button-checked {
   margin-bottom: 15px;
 
-  label {
-    display: flex;
-    justify-content: end;
-    align-items: center;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 
-    img {
-      width: 12px;
-      height: 12px;
-      margin-left: 5px;
-      margin-top: 2px;
-    }
-  }
-
-  input {
-    display: none;
+  img {
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    margin-top: 2px;
   }
 }
+
+input {
+  display: none;
+}
+
 
 div.drop-down-content {
 

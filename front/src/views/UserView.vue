@@ -6,16 +6,14 @@
     <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="avatar-txt">
             <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
-            <p>
-                Bievenue <span>{{ userCar.pseudo }}</span> !<br>
-                Tu trouveras tout ce dont tu as besoin sur ces pages...
-            </p>
+            <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
+            <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
         <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
-        <p>Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
+        <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
         <div class="badges">
             <RouterLink to="/course">
                 <img src="../assets/img/course.png" alt="Badge course">
@@ -31,7 +29,7 @@
             </RouterLink>
             <RouterLink to="/modification">
                 <img src="../assets/img/modification.png" alt="Badge modification">
-                <p>Modification</p>
+                <p>Modifier</p>
             </RouterLink>
 
             <RouterLink to="/">
@@ -55,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterLink} from 'vue-router'
 import {ref} from "vue";
 import {useCarStore} from '@/stores/car'
 import {useRouter} from "vue-router";
@@ -63,6 +61,9 @@ import api from "../models/api";
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore()
+const {car} = userCar;
+
+
 let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
@@ -96,6 +97,10 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
+
+    p:nth-child(2) {
+      font-size: 18px;
+    }
   }
 
   img#avatar {
@@ -115,6 +120,16 @@ div.user-data {
     }
   }
 
+  h2 {
+    align-self: start;
+  }
+
+  p.intro-badge {
+    text-align: left;
+    width: fit-content;
+    align-self: start;
+  }
+
   div.badges {
     display: flex;
     flex-wrap: wrap;
@@ -131,6 +146,14 @@ div.user-data {
       height: 110px;
     }
 
+    :nth-child(odd) {
+      margin-left: 5px;
+    }
+
+    :nth-child(even) {
+      margin-right: 5px;
+    }
+
     :nth-child(3),
     :nth-child(4),
     :nth-child(5),
@@ -140,8 +163,8 @@ div.user-data {
   }
 }
 
-div.error {
-
-}
+/******************************/
+/******** RESPONSIVE **********/
+/******************************/
 
 </style>
