@@ -86,7 +86,7 @@
 import NumberTime from '@/components/NumberTime.vue';
 import DropDown from '@/components/DropDown.vue';
 import ClassementElement from '@/components/ClassementElement.vue';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import api from '@/models/api';
 import type { models } from '@/models/api';
@@ -117,7 +117,9 @@ api.onRankingRecieved((data) => {
   listRace.value = data.map((d) => {
     return {
       car: d.car,
+      // eslint-disable-next-line camelcase
       id_race: d.id_race,
+      // eslint-disable-next-line camelcase
       total_time: new Date(d.total_time),
     };
   });
