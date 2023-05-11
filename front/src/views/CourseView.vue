@@ -129,7 +129,7 @@ div.best-race {
   display: flex;
   flex-direction: column;
   justify-content: start;
-    width: fit-content;
+  width: fit-content;
   margin: 20px auto 0 auto;
 
 
@@ -176,7 +176,6 @@ div.best-race {
       width: 165px;
       display: flex;
       flex-direction: column;
-      margin-left: 45px;
 
       div.race-time {
         font-family: 'Digital-7 Mono', sans-serif;
