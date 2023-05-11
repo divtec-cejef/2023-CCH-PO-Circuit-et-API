@@ -7,7 +7,7 @@ import { deleteCarById } from '../../../services/car/implementation';
  * @param res Reponse
  * @returns une voiture correspondant à l'ID de query
  */
-const route: routeHandler = async (req, res) => {
+const route: routeHandler<{ slug: string; }> = async (req, res) => {
   const id = parseInt(req.params.slug);
 
   if (typeof id === null || isNaN(id)) {
