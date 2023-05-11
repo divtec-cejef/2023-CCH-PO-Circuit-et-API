@@ -111,10 +111,6 @@ if (userCarId) {
   });
 }
 
-onBeforeMount(async () => {
-
-});
-
 //Si aucune donnée n'est dans le localstorage alors initialisation
 let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
 if (!localStorage.getItem('menuIsClicked')) {
