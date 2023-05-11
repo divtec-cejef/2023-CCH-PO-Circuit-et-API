@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    number: String,
-    color: String
-})
+  number: String,
+  color: String
+});
 </script>
 
 <style scoped lang="scss">

@@ -53,22 +53,22 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink} from 'vue-router'
-import {ref} from "vue";
-import {useCarStore} from '@/stores/car'
-import {useRouter} from "vue-router";
-import api from "../models/api";
+import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+import { useCarStore } from '@/stores/car';
+import { useRouter } from 'vue-router';
+import api from '../models/api';
 
 //Initialisation de la voiture en fonction de l'url
-let userCar = useCarStore()
-const {car} = userCar;
+let userCar = useCarStore();
+const { car } = userCar;
 
 
 let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
 let codeBackApi = ref(0);
-status.then(value => codeBackApi.value = value)
+status.then(value => codeBackApi.value = value);
 
 </script>
 
