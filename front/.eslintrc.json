@@ -29,6 +29,7 @@
 			"error",
 			"always"
 		],
-		"no-lonely-if": "error"
+		"no-lonely-if": "error",
+		"camelcase": "error"
 	}
 }
