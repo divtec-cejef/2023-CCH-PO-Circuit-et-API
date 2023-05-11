@@ -5,7 +5,6 @@ import { it } from 'mocha';
 import '../index';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import 'mocha';
 import chaiStructure from 'chai-check-struct';
 
 process.env.NODE_ENV = 'test';

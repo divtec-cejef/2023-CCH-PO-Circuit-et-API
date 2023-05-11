@@ -10,9 +10,14 @@ import { getShortestRaces } from '../../services/race/implementation';
 export const route: routeHandler = async (req, res) => {
   try {
     res.json(await getShortestRaces());
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
+  } catch (e) {
+    if (typeof e === 'string') {
+      res.status(500).json({ error: e });
+    } else if (e instanceof Error) {
+      res.status(500).json({ error: e.message });
+    } else {
+      res.status(500).send();
+    }
   }
 };
-
 export default route;

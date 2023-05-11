@@ -74,8 +74,8 @@ export const getCarById = async (carId: number) => {
   return car;
 };
 
-export const updateCar = (carId: number) => {
-
+export const updateCar = (carId: number): never => {
+  throw new Error('Not implemented. parameters:' + carId);
 };
 
 /**

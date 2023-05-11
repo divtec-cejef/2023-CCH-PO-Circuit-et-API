@@ -4,13 +4,19 @@ import { checkStructureOrThrow } from 'check-structure';
 import { getCarById } from '../../services/car/implementation';
 import type { Server } from 'socket.io';
 
+declare type raceRequest = {
+  id_car: number,
+  race_start: Date | string,
+  race_finish: Date | string;
+};
+
 /**
  * Controller post pour la route /race
  * @param req Requete
  * @param res Reponse
  * @returns le temps créé
  */
-export const route: routeHandler = async (req, res) => {
+export const route: routeHandler<null, unknown, raceRequest> = async (req, res) => {
   const race = req.body;
 
   // Vérification de la structure de la requête
@@ -20,13 +26,19 @@ export const route: routeHandler = async (req, res) => {
       race_finish: Date,
       id_car: Number
     });
-  } catch (e: any) {
-    res.status(400).json({ error: e.message });
+  } catch (e) {
+    if (typeof e === 'string') {
+      res.status(400).json({ error: e });
+    } else if (e instanceof Error) {
+      res.status(400).json({ error: e.message });
+    } else {
+      res.status(400).send();
+    }
     return;
   }
 
   // Vérification de l'existence de la voiture
-  if (await getCarById(parseInt(race.id_car)) === null) {
+  if (await getCarById(race.id_car) === null) {
     res.status(404).json({ error: 'Car not found' });
     return;
   }
@@ -40,8 +52,14 @@ export const route: routeHandler = async (req, res) => {
   // Création de la manche
   try {
     res.json(await createRace(raceToCreate));
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
+  } catch (e) {
+    if (typeof e === 'string') {
+      res.status(500).json({ error: e });
+    } else if (e instanceof Error) {
+      res.status(500).json({ error: e.message });
+    } else {
+      res.status(500).send();
+    }
     return;
   }
 
