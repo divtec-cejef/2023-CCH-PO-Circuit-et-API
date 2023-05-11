@@ -85,7 +85,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { onBeforeMount, ref } from 'vue';
+import { ref } from 'vue';
 
 /**
  * Gère le clic sur le menu
@@ -106,7 +106,6 @@ const userCarId = localStorage.getItem('userCarId');
 
 if (userCarId) {
   userCar.initUserCarId(userCarId).then(() => {
-    console.log(JSON.parse(JSON.stringify(userCar)));
     hasFinishedLoading.value = true;
   });
 }
