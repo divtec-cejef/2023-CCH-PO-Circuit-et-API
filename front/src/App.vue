@@ -70,7 +70,6 @@
 
         <footer>
             <p>EMT, Portes ouvertes 2023</p>
-            <p>Inscris toi à un stage <a href="">ici</a> !</p>
             <div>
                 <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                     <img src="./assets/img/instagram.png"
@@ -84,22 +83,22 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
-import {useCarStore} from '@/stores/car'
-import {computed, onBeforeMount, onMounted, ref} from "vue";
+import { RouterLink, RouterView } from 'vue-router';
+import { useCarStore } from '@/stores/car';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 
 /**
  * Gère le clic sur le menu
  */
 function clickMenu() {
-    menuIsClicked.value = !menuIsClicked.value
-    localStorage.setItem('menuIsClicked', menuIsClicked.value ? "true" : "false")
+  menuIsClicked.value = !menuIsClicked.value;
+  localStorage.setItem('menuIsClicked', menuIsClicked.value ? 'true' : 'false');
 }
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
-const {car} = userCar;
-const userCarId = localStorage.getItem("userCarId");
+const { car } = userCar;
+const userCarId = localStorage.getItem('userCarId');
 
 
 onBeforeMount(async () => {
@@ -112,8 +111,8 @@ onBeforeMount(async () => {
 //Si aucune donnée n'est dans le localstorage alors initialisation
 let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
 if (!localStorage.getItem('menuIsClicked')) {
-    localStorage.setItem('menuIsClicked', 'false')
-    menuIsClicked.value = false;
+  localStorage.setItem('menuIsClicked', 'false');
+  menuIsClicked.value = false;
 }
 
 </script>

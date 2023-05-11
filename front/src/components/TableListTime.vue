@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import Car from "@/models/car";
+import Car from '@/models/car';
 
 const props = defineProps({
-    carUser: Car
-})
+  carUser: Car
+});
 
 </script>
 
