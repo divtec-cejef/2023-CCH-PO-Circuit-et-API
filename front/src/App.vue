@@ -104,7 +104,7 @@ const userCarId = localStorage.getItem('userCarId');
 onBeforeMount(async () => {
   if (userCarId) {
     await userCar.initUserCarId(userCarId);
-    await console.log(JSON.parse(JSON.stringify(userCar)));
+    console.log(JSON.parse(JSON.stringify(userCar)));
   }
 });
 
