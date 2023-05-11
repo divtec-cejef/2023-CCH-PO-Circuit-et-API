@@ -1,6 +1,6 @@
 <template>
-    <div class="thin-content">
-        <header v-if="!menuIsClicked" class="closed">
+    <div v-if="hasFinishedLoading" class="thin-content">
+        <header :style="`display: ${{ stylePage }}`" v-if="!menuIsClicked" class="closed">
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
@@ -42,7 +42,7 @@
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
     </div>
-    <div class="large-content">
+    <div v-if="hasFinishedLoading" class="large-content">
         <header>
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
@@ -69,7 +69,7 @@
         </main>
 
         <footer>
-            <p>EMT, Portes ouvertes 2023</p>
+            <p id="test">EMT, Portes ouvertes 2023</p>
             <div>
                 <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                     <img src="./assets/img/instagram.png"
@@ -96,16 +96,23 @@ function clickMenu() {
 }
 
 //Récupération des données de la voiture, si elle est dans le localstorage
+
 const userCar = useCarStore();
 const { car } = userCar;
+const stylePage = ref('');
+const hasFinishedLoading = ref(false);
+
 const userCarId = localStorage.getItem('userCarId');
 
+if (userCarId) {
+  userCar.initUserCarId(userCarId).then(() => {
+    console.log(JSON.parse(JSON.stringify(userCar)));
+    hasFinishedLoading.value = true;
+  });
+}
 
 onBeforeMount(async () => {
-  if (userCarId) {
-    await userCar.initUserCarId(userCarId);
-    console.log(JSON.parse(JSON.stringify(userCar)));
-  }
+
 });
 
 //Si aucune donnée n'est dans le localstorage alors initialisation

@@ -72,10 +72,8 @@
                     <button class="classement-user"></button>
                     <button class="classement-top"></button>
                 </div>
-                <div ref="classement" class="classement">
-                    <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar.image"
-                                       :rank="key + 1"
-                                       :pseudo="race.car.pseudo" :time="race.total_time"/>
+                <div ref="classement" class="classement-content">
+                        <Classement />
                 </div>
             </div>
         </div>
@@ -85,12 +83,11 @@
 <script setup lang="ts">
 import NumberTime from '@/components/NumberTime.vue';
 import DropDown from '@/components/DropDown.vue';
-import ClassementElement from '@/components/ClassementElement.vue';
 import { onMounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import api from '@/models/api';
-import type { models } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
+import Classement from '@/components/ClassementRace.vue';
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -101,6 +98,8 @@ onMounted(() => {
   if (classement.value) {
     classement.value.scrollTop = car.rank * 200;
   }
+
+
 });
 
 //Initialisation des données
@@ -110,20 +109,7 @@ let codeBackApi = ref(0);
 
 userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
 
-const listRace = ref<models.raceObject[]>([]);
 
-api.onRankingRecieved((data) => {
-
-  listRace.value = data.map((d) => {
-    return {
-      car: d.car,
-      // eslint-disable-next-line camelcase
-      id_race: d.id_race,
-      // eslint-disable-next-line camelcase
-      total_time: new Date(d.total_time),
-    };
-  });
-});
 </script>
 
 <style scoped lang="scss">
@@ -290,7 +276,7 @@ div.best-race {
   max-width: 100%;
 }
 
-div.classement {
+div.classement-content {
   overflow-y: scroll;
   max-height: 300px;
 }
