@@ -1,4 +1,5 @@
 import sio from 'socket.io';
+import type { Socket } from 'socket.io';
 import { getShortestRaces } from '../services/race/implementation';
 
 const io = new sio.Server({
@@ -8,7 +9,7 @@ const io = new sio.Server({
   }
 });
 
-io.on('connection', async (socket: any) => {
+io.on('connection', async (socket: Socket) => {
   console.log('a user connected');
 
   // envoyer les données de classement au client

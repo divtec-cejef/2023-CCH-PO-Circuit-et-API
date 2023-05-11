@@ -51,6 +51,7 @@ const recursiveDirRead = (dir: string) => {
       recursiveDirRead(path);
     } else {
       if (file.name.split('.')[2] === 'disabled') { continue; }
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const route = require('../' + path);
       try {
         let routePath = '/' + path.split('/').slice(2, -1).join('/').split('.')[0];
@@ -58,11 +59,11 @@ const recursiveDirRead = (dir: string) => {
         routePath = routePath.replace(/\/slug-/g, '/:');
         routePath = routePath.replace(/\/slug/g, '/:slug');
 
-				type AppKey = keyof typeof app;
-				const method = file.name.split('.')[0] as AppKey;
-				app[method](routePath, route.default);
+        type AppKey = keyof typeof app;
+        const method = file.name.split('.')[0] as AppKey;
+        app[method](routePath, route.default);
 
-				console.log(`inserted [${method}] route: ` + routePath);
+        console.log(`inserted [${method}] route: ` + routePath);
       } catch (e) {
         if (e instanceof TypeError) {
           console.log(`Error: ${path} is not a valid route`);

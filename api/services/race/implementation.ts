@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from '@prisma/client';
 import prisma from '../../clients/prismadb';
 import { raceToCreate, raceToCreateWithQueryId } from '../../models';
 
@@ -8,8 +7,6 @@ import { raceToCreate, raceToCreateWithQueryId } from '../../models';
  * @returns une liste des manches dans l'ordre croissant
  */
 export const getRacesByCar = async (id: number) => {
-  const newPrisma = new PrismaClient();
-
   return await prisma.race.findMany({
     where: {
       id_car: id
@@ -47,10 +44,10 @@ export const getShortestRaces = async () => {
   );
 
   const res: {
-		id_race: number;
-		total_time: Date;
-		car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
-	}[] = [];
+    id_race: number;
+    total_time: Date;
+    car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
+  }[] = [];
 
   for (const k in races) {
     res[k] = await prisma.race.findUniqueOrThrow({
