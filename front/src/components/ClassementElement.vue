@@ -1,4 +1,3 @@
-import { formatTime } from '../models/race';
 <template>
 	<div class="classement-element">
 		<div class="rank">{{ props.rank }}</div>

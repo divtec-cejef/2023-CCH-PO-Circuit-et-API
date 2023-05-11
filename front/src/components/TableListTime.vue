@@ -7,8 +7,8 @@
             <th>Temps</th>
             <th>Vidéo</th>
         </tr>
-        <tr v-for="(race, key) in carUser?.sortListByOrderHour()" :key="key">
-            <td>{{ carUser.getNumRace(race).valueOf() }}</td>
+        <tr v-for="(race, key) in props.carUser?.sortListByOrderHour()" :key="key">
+            <td>{{ props.carUser.getNumRace(race).valueOf() }}</td>
             <td>{{ race.formatHour() }}</td>
             <td>33</td>
             <td>{{ race.formatTime(race.totalTime) }}</td>
@@ -21,9 +21,10 @@
 <script setup lang="ts">
 import Car from "@/models/car";
 
-defineProps({
+const props = defineProps({
     carUser: Car
-});
+})
+
 </script>
 
 <style scoped lang="scss">

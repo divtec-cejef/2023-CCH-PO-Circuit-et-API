@@ -69,7 +69,7 @@
             <div class="content-classement">
                 <h2 id="classement">Classement</h2>
                 <div class="button-classement">
-                    <button class="classement-user">Moi</button>
+                    <button class="classement-user"></button>
                     <button class="classement-top"></button>
                 </div>
                 <div ref="classement" class="classement">
@@ -86,7 +86,7 @@
 import NumberTime from "@/components/NumberTime.vue";
 import DropDown from "@/components/DropDown.vue";
 import ClassementElement from "@/components/ClassementElement.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useCarStore} from "@/stores/car";
 import api from "@/models/api";
 import type {models} from "@/models/api";
@@ -94,26 +94,21 @@ import TableListTime from "@/components/TableListTime.vue";
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
+const classement = ref(null);
 
-/**
- * Initialise les données de la voiture de l'utilisateur
- */
-async function initDataUserCar() {
-
-    const userCarId = localStorage.getItem("userCarId");
-    if (userCarId) {
-        await userCar.initUserCarId(userCarId);
-        return await userCar.initUserAllRaceCar();
+onMounted(() => {
+    //Changement du scroll
+    if (classement.value !== null) {
+        classement.value.scrollTop = car.rank * 200;
     }
-    return 0;
-}
+});
 
 //Initialisation des données
 const userCar = useCarStore();
 const {car} = userCar;
 let codeBackApi = ref(0);
 
-initDataUserCar().then(value => codeBackApi.value = value);
+userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
 
 const listRace = ref<models.raceObject[]>([]);
 
@@ -126,7 +121,6 @@ api.onRankingRecieved((data) => {
             total_time: new Date(d.total_time),
         };
     });
-    console.log(listRace.value);
 });
 </script>
 
@@ -135,12 +129,13 @@ div.best-race {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: fit-content;
+    width: fit-content;
   margin: 20px auto 0 auto;
 
 
   div.content-1 {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 
     div.rank {
@@ -249,7 +244,9 @@ div.best-race {
 
   div.video {
     width: 100%;
+    max-width: 450px;
     height: 250px;
+    margin: 0 auto;
     background-color: var(--black);
     border-radius: 2px;
   }
@@ -309,7 +306,21 @@ div.button-classement {
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;
-    margin: 0 15px;
+    margin-right: 15px;
+    margin-left: 5px;
+  }
+
+  button.classement-user {
+    background-color: transparent;
+    border: none;
+    border-radius: 100px;
+    background-image: url("../assets/img/placeholder.png");
+    background-position: center;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+
   }
 }
 

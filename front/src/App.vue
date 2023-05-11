@@ -85,8 +85,7 @@
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import {useCarStore} from '@/stores/car'
-import {computed, onMounted, ref} from "vue";
-import {tr} from "date-fns/locale";
+import {computed, onBeforeMount, onMounted, ref} from "vue";
 
 /**
  * Gère le clic sur le menu
@@ -96,19 +95,18 @@ function clickMenu() {
     localStorage.setItem('menuIsClicked', menuIsClicked.value ? "true" : "false")
 }
 
-//Récupère la largeur de l'écran
-const getWidthScreen = computed(() => {
-    return window.innerWidth;
-})
-
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCar = useCarStore();
 const {car} = userCar;
 const userCarId = localStorage.getItem("userCarId");
 
-if (userCarId) {
-    userCar.initUserCarId(userCarId)
-}
+
+onBeforeMount(async () => {
+    if (userCarId) {
+        await userCar.initUserCarId(userCarId)
+        console.log(JSON.parse(JSON.stringify(userCar)))
+    }
+});
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
 let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
