@@ -1,11 +1,18 @@
 <template>
-<div></div>
+    <ClassementRace/>
 </template>
 
 <script setup lang="ts">
 
+import ClassementRace from '@/components/ClassementRace.vue';
+
+
+
+
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+
 
 </style>

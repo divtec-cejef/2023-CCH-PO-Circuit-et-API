@@ -37,10 +37,10 @@ export const useCarStore = defineStore('car', () => {
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
     //Remplissage des champs de la voiture
-    car.value.idCar = await dataUserCar['id_car'];
-    car.value.pseudo = await dataUserCar['pseudo'];
-    car.value.idQuery = await dataUserCar['query_id'];
-    car.value.avatar = await dataUserCar['id_avatar'];
+    car.value.idCar = dataUserCar['id_car'];
+    car.value.pseudo =  dataUserCar['pseudo'];
+    car.value.idQuery = dataUserCar['query_id'];
+    car.value.avatar =  dataUserCar['id_avatar'];
 
     /**
          * Si on trouve la voiture alors, on renvoie le code
@@ -61,7 +61,9 @@ export const useCarStore = defineStore('car', () => {
     //Récupération du rang de la voiture
     car.value.rank = dataUserRaceCar['rank'];
 
+    //Vide la liste de course
     car.value.listRace = [];
+
     //Remplissage de la liste de course
     await dataUserRaceCar['races'].forEach(function (race:any) {
       car.value.listRace.push(
