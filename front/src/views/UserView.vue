@@ -29,7 +29,7 @@
             </RouterLink>
             <RouterLink to="/modification">
                 <img src="../assets/img/modification.png" alt="Badge modification">
-                <p>Modification</p>
+                <p>Modifier</p>
             </RouterLink>
 
             <RouterLink to="/">

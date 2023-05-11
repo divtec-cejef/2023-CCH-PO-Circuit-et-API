@@ -28,7 +28,6 @@ export default class Car {
      * @param raceToSearch Course à rechercher
      */
     getNumRace(raceToSearch: Race) {
-        console.log(raceToSearch.idRace)
         return this.sortListByOrderHour().findIndex(race => race.idRace == raceToSearch.idRace) + 1
     }
 }
