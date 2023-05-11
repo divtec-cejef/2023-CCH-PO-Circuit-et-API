@@ -36,8 +36,8 @@ const router = createRouter({
       component: AboutView
     },
     {
-      path: '/classementRef',
-      name: 'classementRef',
+      path: '/classement',
+      name: 'classement',
       component: ClassementView
     },
     {
