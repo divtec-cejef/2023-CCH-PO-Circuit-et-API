@@ -12,6 +12,7 @@ const route: routeHandler<{ slug: string; }> = async (req, res) => {
 
   if (typeof id === null || isNaN(id)) {
     res.status(400).json({ error: 'Invalid id' });
+
     return;
   }
 
