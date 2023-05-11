@@ -83,29 +83,29 @@
 </template>
 
 <script setup lang="ts">
-import NumberTime from "@/components/NumberTime.vue";
-import DropDown from "@/components/DropDown.vue";
-import ClassementElement from "@/components/ClassementElement.vue";
-import {computed, onMounted, ref} from "vue";
-import {useCarStore} from "@/stores/car";
-import api from "@/models/api";
-import type {models} from "@/models/api";
-import TableListTime from "@/components/TableListTime.vue";
+import NumberTime from '@/components/NumberTime.vue';
+import DropDown from '@/components/DropDown.vue';
+import ClassementElement from '@/components/ClassementElement.vue';
+import { computed, onMounted, ref } from 'vue';
+import { useCarStore } from '@/stores/car';
+import api from '@/models/api';
+import type { models } from '@/models/api';
+import TableListTime from '@/components/TableListTime.vue';
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
 const classement = ref<Element | null>(null);
 
 onMounted(() => {
-    //Changement du scroll
-    if (classement.value) {
-        classement.value.scrollTop = car.rank * 200;
-    }
+  //Changement du scroll
+  if (classement.value) {
+    classement.value.scrollTop = car.rank * 200;
+  }
 });
 
 //Initialisation des données
 const userCar = useCarStore();
-const {car} = userCar;
+const { car } = userCar;
 let codeBackApi = ref(0);
 
 userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
@@ -114,13 +114,13 @@ const listRace = ref<models.raceObject[]>([]);
 
 api.onRankingRecieved((data) => {
 
-    listRace.value = data.map((d) => {
-        return {
-            car: d.car,
-            id_race: d.id_race,
-            total_time: new Date(d.total_time),
-        };
-    });
+  listRace.value = data.map((d) => {
+    return {
+      car: d.car,
+      id_race: d.id_race,
+      total_time: new Date(d.total_time),
+    };
+  });
 });
 </script>
 

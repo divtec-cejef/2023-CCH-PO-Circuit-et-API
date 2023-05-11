@@ -13,17 +13,17 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import { QrcodeStream } from 'vue-qrcode-reader'
-import api from "../models/api";
+import { computed, ref } from 'vue';
+import { QrcodeStream } from 'vue-qrcode-reader';
+import api from '../models/api';
 
 
-import {useCarStore} from '@/stores/car'
+import { useCarStore } from '@/stores/car';
 
-let userCar = useCarStore()
+let userCar = useCarStore();
 const { car } = userCar;
 let codeBackApi = ref(0);
-const error = ref<String>()
+const error = ref<String>();
 
 
 /**
@@ -42,9 +42,9 @@ async function onDecode(result: string) {
  */
 async function onInit(promise:any) {
   try {
-    await promise
+    await promise;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

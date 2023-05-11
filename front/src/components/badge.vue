@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps(['action'])
+defineProps(['action']);
 
-let pathImage = '../assets/img/' + ['action'] + ".png"
+let pathImage = '../assets/img/' + ['action'] + '.png';
 
 </script>
 
