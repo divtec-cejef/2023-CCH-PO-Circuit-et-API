@@ -1,8 +1,12 @@
 {
 	"root": true,
 	"extends": [
-		"semistandard"
+		"semistandard",
+		"plugin:@typescript-eslint/recommended"
 	],
+	"parserOptions": {
+		"ecmaVersion": "latest"
+	},
 	"rules": {
 		"indent": [
 			"error",
@@ -26,5 +30,9 @@
 		],
 		"no-lonely-if": "error",
 		"camelcase": "error"
-	}
+	},
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint"
+	]
 }
