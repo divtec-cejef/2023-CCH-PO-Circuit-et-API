@@ -1,11 +1,4 @@
 SET search_path TO cars;
-DROP TABLE IF EXISTS avatar CASCADE;
-CREATE TABLE avatar
-(
-    id_avatar SERIAL,
-    image     VARCHAR(100),
-    PRIMARY KEY (id_avatar)
-);
 
 DROP TABLE IF EXISTS car CASCADE;
 CREATE TABLE car
@@ -14,6 +7,7 @@ CREATE TABLE car
     password  VARCHAR(50),
     query_id  VARCHAR(100) UNIQUE,
     pseudo    VARCHAR(50),
+    avatar    json,
     id_avatar INTEGER NOT NULL,
     PRIMARY KEY (id_car),
     FOREIGN KEY (id_avatar) REFERENCES avatar (id_avatar)

@@ -5,13 +5,7 @@ TRUNCATE race CASCADE;
 TRUNCATE realise CASCADE;
 TRUNCATE car CASCADE;
 TRUNCATE activity CASCADE;
-TRUNCATE avatar CASCADE;
 TRUNCATE section CASCADE;
-
-INSERT INTO avatar (image)
-VALUES ('image1');
-INSERT INTO avatar (image)
-VALUES ('image2');
 
 INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', 1);
