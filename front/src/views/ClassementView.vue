@@ -34,8 +34,8 @@ const userCar = useCarStore();
 <style scoped lang="scss">
 
 .classement {
-    margin-top: 20px;
     width: 90%;
+    margin: 20px auto 0 auto;
 }
 
 div.button-classement {
@@ -43,6 +43,8 @@ div.button-classement {
     display: flex;
     justify-content: end;
     margin-top: -30px;
+    position: sticky;
+    top: 20px
 }
 
 button.classement-top {
@@ -70,5 +72,6 @@ button.classement-user {
     width: 40px;
     height: 40px;
 }
+
 
 </style>
