@@ -1,6 +1,6 @@
 <template>
     <div class="avatar">
-        <v-runtime-template :template="template"/>
+        <v-runtime-template :template="template" />
     </div>
 
 </template>
