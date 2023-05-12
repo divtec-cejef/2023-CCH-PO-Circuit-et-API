@@ -1,5 +1,5 @@
 <template>
-    <div v-if="hasFinishedLoading" class="thin-content">
+    <div  class="thin-content">
         <header v-if="!menuIsClicked" class="closed">
             <RouterLink :to="`/${car.idQuery}`">
                 <img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
@@ -7,7 +7,7 @@
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
 
-        <main v-if="!menuIsClicked">
+        <main v-if="!menuIsClicked && hasFinishedLoading">
             <RouterView/>
         </main>
 
@@ -18,14 +18,14 @@
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
     </div>
-    <div v-if="hasFinishedLoading" class="large-content">
+    <div  class="large-content">
         <header>
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
             <HeaderApp :screen-width="'large'"></HeaderApp>
         </header>
 
-        <main>
+        <main v-if="hasFinishedLoading">
             <RouterView/>
         </main>
 
@@ -59,6 +59,8 @@ if (userCarId) {
   userCar.initUserCarId(userCarId).then(() => {
     hasFinishedLoading.value = true;
   });
+} else {
+  hasFinishedLoading.value = true;
 }
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
