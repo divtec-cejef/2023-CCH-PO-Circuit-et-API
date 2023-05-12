@@ -18,6 +18,8 @@ io.on('connection', async (socket: Socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
+  socket.data.carId = socket.handshake.query.carId;
 });
 
 export default io;
