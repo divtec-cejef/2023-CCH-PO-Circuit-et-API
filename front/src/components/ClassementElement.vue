@@ -46,7 +46,7 @@ div.classement-element {
 	div.time {
 		justify-self: end;
 		font-family: 'Digital-7 Mono', sans-serif;
-		font-size: 20px;
+		font-size: 22px;
 	}
 }
 </style>
