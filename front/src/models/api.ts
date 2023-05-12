@@ -1,4 +1,4 @@
-import { Socket, io } from "socket.io-client";
+import { Socket, io } from 'socket.io-client';
 
 export namespace implementation {
   export enum ReturnCodes {
@@ -42,7 +42,7 @@ export namespace implementation {
 
   export const onRankingRecieved = (callback: (data: models.racesData[]) => void): (() => Socket) => {
     const socket = io(routeApi);
-    socket.on("updatedRaces", callback);
+    socket.on('updatedRaces', callback);
     return socket.close;
   };
 }

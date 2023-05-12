@@ -1,4 +1,3 @@
-import { formatTime } from '../models/race';
 <template>
 	<div class="classement-element">
 		<div class="rank">{{ props.rank }}</div>
@@ -9,7 +8,7 @@ import { formatTime } from '../models/race';
 </template>
 
 <script setup lang="ts">
-import { formatTime } from "@/models/race";
+import { formatTime } from '@/models/race';
 const props = defineProps<{
 	rank: number;
 	pseudo: string;
@@ -46,6 +45,8 @@ div.classement-element {
 
 	div.time {
 		justify-self: end;
+		font-family: 'Digital-7 Mono', sans-serif;
+		font-size: 22px;
 	}
 }
 </style>
