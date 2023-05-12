@@ -111,6 +111,27 @@
                 margin-left: 50px;
             }
         }
+
+        div.badges {
+            display: flex;
+            flex-direction: row;
+            width: 470px;
+            flex-wrap: wrap;
+            margin: 50px auto 0 auto;
+            align-self: start;
+
+            * {
+                margin-top: 0;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            :nth-child(4),
+            :nth-child(5),
+            :nth-child(6) {
+                margin-top: 25px;
+            }
+        }
     }
 }
 
