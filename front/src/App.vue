@@ -1,7 +1,8 @@
 <template>
     <div v-if="hasFinishedLoading" class="thin-content">
-        <header :style="`display: ${{ stylePage }}`" v-if="!menuIsClicked" class="closed">
-            <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
+        <header v-if="!menuIsClicked" class="closed">
+            <RouterLink :to="`/${car.idQuery}`">
+                <img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
@@ -10,35 +11,10 @@
             <RouterView/>
         </main>
 
-        <footer v-if="!menuIsClicked">
-            <p>EMT, Portes ouvertes 2023</p>
-            <div>
-                <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-                    <img src="./assets/img/instagram.png"
-                         alt="Logo instagram"></a>
-                <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-                    <img src="./assets/img/facebook.png"
-                         alt="Logo faceboook"></a>
-            </div>
-        </footer>
+        <FooterApp :screen-width="'large'" v-if="!menuIsClicked"/>
 
         <header class="open" v-else>
-            <nav>
-                <ul @click="clickMenu">
-                    <li>
-                        <RouterLink :to="`/${car.idQuery}`">Accueil</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/course">Course</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/historique">Historique</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/apropos">A Propos</RouterLink>
-                    </li>
-                </ul>
-            </nav>
+            <HeaderApp></HeaderApp>
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
     </div>
@@ -46,39 +22,14 @@
         <header>
             <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
             </RouterLink>
-            <nav>
-                <ul>
-                    <li>
-                        <RouterLink :to="`/${car.idQuery}`">Accueil</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/course">Course</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/historique">Historique</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/apropos">A Propos</RouterLink>
-                    </li>
-                </ul>
-            </nav>
+            <HeaderApp :screen-width="'large'"></HeaderApp>
         </header>
 
         <main>
             <RouterView/>
         </main>
 
-        <footer>
-            <p id="test">EMT, Portes ouvertes 2023</p>
-            <div>
-                <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-                    <img src="./assets/img/instagram.png"
-                         alt="Logo instagram"></a>
-                <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-                    <img src="./assets/img/facebook.png"
-                         alt="Logo faceboook"></a>
-            </div>
-        </footer>
+        <FooterApp :screen-width="'large'"/>
     </div>
 </template>
 
@@ -86,6 +37,8 @@
 import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
+import HeaderApp from '@/components/HeaderApp.vue';
+import FooterApp from '@/components/FooterApp.vue';
 
 /**
  * Gère le clic sur le menu
@@ -95,15 +48,13 @@ function clickMenu() {
   localStorage.setItem('menuIsClicked', menuIsClicked.value ? 'true' : 'false');
 }
 
-//Récupération des données de la voiture, si elle est dans le localstorage
-
+//Initialisation de la voiture
 const userCar = useCarStore();
 const { car } = userCar;
-const stylePage = ref('');
 const hasFinishedLoading = ref(false);
 
+//Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
-
 if (userCarId) {
   userCar.initUserCarId(userCarId).then(() => {
     hasFinishedLoading.value = true;
@@ -140,58 +91,11 @@ div.large-content header {
     height: 100px;
 }
 
-.thin-content header.open, {
+.thin-content header.open {
     height: 100vh;
 
-    ul {
-        margin-top: 40px;
-        padding: 0;
-        list-style: none;
 
-        li {
-            margin-top: 12px;
-            font-family: 'SF Pro Display', sans-serif;
-            font-weight: bold;
-            font-style: normal;
-
-            * {
-                font-size: 27px;
-            }
-        }
-    }
 }
 
-footer {
-    bottom: 0;
-    width: 100%;
-    height: 65px;
-    background-color: var(--gray);
-    color: var(--white);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    padding: 0 35px;
 
-    > * {
-        width: 275px;
-    }
-
-    div {
-        align-items: center;
-        display: flex;
-        flex-direction: row;
-        justify-content: end;
-
-        img {
-            width: 25px;
-        }
-
-        img:nth-child(1) {
-            margin-right: 15px;
-        }
-
-
-    }
-}
 </style>
