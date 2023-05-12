@@ -33,6 +33,9 @@ footer {
     align-items: center;
     text-align: center;
     padding: 0 35px;
+    p {
+        font-size: 16px;
+    }
 
     > * {
         width: 275px;
