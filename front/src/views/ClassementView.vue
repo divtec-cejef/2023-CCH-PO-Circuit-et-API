@@ -18,12 +18,18 @@
 
 import ClassementRace from '@/components/ClassementRace.vue';
 
+/**
+ * Scroll à l'élément de l'utilisateur
+ */
 function scrollToUser() {
   let screenHeight = window.innerHeight;
   console.log(screenHeight);
   window.scrollTo(0, 10 * 50 + 250 - screenHeight / 2);
 }
 
+/**
+ * Scroll jusqu'au haut de la page
+ */
 function scrollToTop() {
   window.scrollTo(0, document.body.scrollTop);
 }
