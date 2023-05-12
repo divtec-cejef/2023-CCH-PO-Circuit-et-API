@@ -53,7 +53,7 @@ describe('race', () => {
             noseType: String,
             mouthType: String,
             shirtType: String,
-            eyebrowType: String,
+            eyeBrowType: String,
             glassesType: String,
             shape: String
           }
@@ -71,24 +71,26 @@ describe('race', () => {
         id_race: Number,
         race_start: Date,
         race_finish: Date,
-        avatar: {
-          bgColor: String,
-          hatColor: String,
-          faceColor: String,
-          hairColor: String,
-          shirtColor: String,
-          hairColorRandom: Boolean,
-          sex: String,
-          earSize: String,
-          hatType: String,
-          eyeType: String,
-          hairType: String,
-          noseType: String,
-          mouthType: String,
-          shirtType: String,
-          eyebrowType: String,
-          glassesType: String,
-          shape: String
+        car: {
+          avatar: {
+            bgColor: String,
+            hatColor: String,
+            faceColor: String,
+            hairColor: String,
+            shirtColor: String,
+            hairColorRandom: Boolean,
+            sex: String,
+            earSize: String,
+            hatType: String,
+            eyeType: String,
+            hairType: String,
+            noseType: String,
+            mouthType: String,
+            shirtType: String,
+            eyeBrowType: String,
+            glassesType: String,
+            shape: String
+          }
         },
         total_time: Date,
         id_car: Number
