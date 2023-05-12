@@ -88,6 +88,7 @@ import { useCarStore } from '@/stores/car';
 import api from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
 import Classement from '@/components/ClassementRace.vue';
+import router from '@/router';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
@@ -97,7 +98,6 @@ function scrollToUser() {
   if (!classement.value) {
     return;
   }
-
   //Changement du scroll en fonction de son rang
   classement.value.scrollTop = car.rank <= 3 ? 0 : (car.rank - 2) * 50 - 20;
 }
@@ -114,18 +114,21 @@ function scrollToTop() {
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
 const classement = ref<Element | null>(null);
+const userCar = useCarStore();
+const { car } = userCar;
+let codeBackApi = ref(0);
 
 onMounted(() => {
   scrollToUser();
 });
 
-//Initialisation des données
-const userCar = useCarStore();
-const { car } = userCar;
-let codeBackApi = ref(0);
-
-//Initialisation des courses de l'utilisateur
-userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
+//Si aucune voiture n'est initialisée alors redirection
+if (userCar.car.idCar == 0) {
+  router.push({ path: '/' });
+} else {
+  //Initialisation des courses de l'utilisateur
+  userCar.initUserAllRaceCar().then(value => codeBackApi.value = value);
+}
 
 </script>
 
