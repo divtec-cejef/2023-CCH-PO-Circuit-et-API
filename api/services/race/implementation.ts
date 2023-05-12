@@ -1,5 +1,6 @@
 import prisma from '../../clients/prismadb';
 import { raceToCreate, raceToCreateWithQueryId } from '../../models';
+import { Prisma } from '@prisma/client';
 
 /**
  * Retourne les manches d'une course d'une voiture donnée
@@ -15,6 +16,11 @@ export const getRacesByCar = async (id: number) => {
       id_race: true,
       race_start: true,
       race_finish: true,
+      car: {
+        select: {
+          avatar: true
+        }
+      },
       id_car: true,
       total_time: true
     }
@@ -46,7 +52,7 @@ export const getShortestRaces = async () => {
   const res: {
     id_race: number;
     total_time: Date;
-    car: { id_car: number; pseudo: string | null; avatar: { image: string | null; }; };
+    car: { id_car: number; pseudo: string | null; avatar: Prisma.JsonValue };
   }[] = [];
 
   for (const k in races) {
@@ -61,11 +67,7 @@ export const getShortestRaces = async () => {
           select: {
             id_car: true,
             pseudo: true,
-            avatar: {
-              select: {
-                image: true
-              }
-            }
+            avatar: true
           }
         }
       }
