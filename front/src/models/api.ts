@@ -43,7 +43,7 @@ export namespace implementation {
   export const onRankingRecieved = (callback: (data: models.racesData[]) => void): (() => Socket) => {
     const socket = io(routeApi);
     socket.on('updatedRaces', callback);
-    return socket.close;
+    return () => socket.close();
   };
 }
 export namespace models {
