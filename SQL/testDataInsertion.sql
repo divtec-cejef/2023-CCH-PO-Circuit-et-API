@@ -9,9 +9,9 @@ TRUNCATE section CASCADE;
 
 INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', '{
-        "bgColor": "#FFF",
+        "bgColor": "#DDD",
         "hatColor": "#000",
-        "faceColor": "",
+        "faceColor": "#EEE",
         "hairColor": "#000",
         "shirtColor": "#DDD",
         "hairColorRandom": false,
@@ -31,7 +31,7 @@ INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (2, '4321', '4357', 'PlayerTwo', '{
         "bgColor": "#000",
         "hatColor": "#000",
-        "faceColor": "",
+        "faceColor": "#EEE",
         "hairColor": "#000",
         "shirtColor": "#DDD",
         "hairColorRandom": false,
@@ -49,9 +49,9 @@ VALUES (2, '4321', '4357', 'PlayerTwo', '{
             }');
 INSERT INTO car
 VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
-        "bgColor": "#FFF",
+        "bgColor": "#EEE",
         "hatColor": "#000",
-        "faceColor": "",
+        "faceColor": "#EEE",
         "hairColor": "#000",
         "shirtColor": "#DDD",
         "hairColorRandom": false,
@@ -71,7 +71,7 @@ INSERT INTO car
 VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "bgColor": "#FFF",
         "hatColor": "#000",
-        "faceColor": "",
+        "faceColor": "#EEE",
         "hairColor": "#000",
         "shirtColor": "#DDD",
         "hairColorRandom": false,
