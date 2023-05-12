@@ -29,7 +29,7 @@
             </RouterLink>
             <RouterLink to="/modification">
                 <img src="../assets/img/modification.png" alt="Badge modification">
-                <p>Modification</p>
+                <p>Modifier</p>
             </RouterLink>
 
             <RouterLink to="/">
@@ -53,114 +53,114 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink} from 'vue-router'
-import {ref} from "vue";
-import {useCarStore} from '@/stores/car'
-import {useRouter} from "vue-router";
-import api from "../models/api";
+import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+import { useCarStore } from '@/stores/car';
+import { useRouter } from 'vue-router';
+import api from '../models/api';
 
 //Initialisation de la voiture en fonction de l'url
-let userCar = useCarStore()
-const {car} = userCar;
+let userCar = useCarStore();
+const { car } = userCar;
 
 
 let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
 let codeBackApi = ref(0);
-status.then(value => codeBackApi.value = value)
+status.then(value => codeBackApi.value = value);
 
 </script>
 
 <style scoped lang="scss">
 
 div.error {
-  color: var(--red);
+    color: var(--red);
 }
 
 div.loading, div.error {
-  text-align: center;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 100px);
-  width: 200px;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 100px);
+    width: 200px;
 }
 
 div.user-data {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  div.avatar-txt {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 300px;
 
-    p:nth-child(2) {
-      font-size: 18px;
+    div.avatar-txt {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 300px;
+
+        p:nth-child(2) {
+            font-size: 18px;
+        }
     }
-  }
 
-  img#avatar {
-    max-width: 160px;
-    margin-bottom: 20px;
-  }
-
-  img#car {
-    max-width: 300px;
-  }
-
-  p {
-    text-align: center;
-
-    span {
-      font-weight: bold;
+    img#avatar {
+        max-width: 160px;
+        margin-bottom: 20px;
     }
-  }
 
-  h2 {
-    align-self: start;
-  }
-
-  p.intro-badge {
-    text-align: left;
-    width: fit-content;
-    align-self: start;
-  }
-
-  div.badges {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 85%;
-    margin-top: 30px;
+    img#car {
+        max-width: 300px;
+    }
 
     p {
-      margin: 5px 0;
+        text-align: center;
+
+        span {
+            font-weight: bold;
+        }
     }
 
-    img {
-      width: 110px;
-      height: 110px;
+    h2 {
+        align-self: start;
     }
 
-    :nth-child(odd) {
-      margin-left: 5px;
+    p.intro-badge {
+        text-align: left;
+        width: fit-content;
+        align-self: start;
     }
 
-    :nth-child(even) {
-      margin-right: 5px;
-    }
+    div.badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 85%;
+        margin-top: 30px;
 
-    :nth-child(3),
-    :nth-child(4),
-    :nth-child(5),
-    :nth-child(6) {
-      margin-top: 20px;
+        p {
+            margin: 5px 0;
+        }
+
+        img {
+            width: 110px;
+            height: 110px;
+        }
+
+        :nth-child(odd) {
+            margin-left: 5px;
+        }
+
+        :nth-child(even) {
+            margin-right: 5px;
+        }
+
+        :nth-child(3),
+        :nth-child(4),
+        :nth-child(5),
+        :nth-child(6) {
+            margin-top: 20px;
+        }
     }
-  }
 }
 
 /******************************/

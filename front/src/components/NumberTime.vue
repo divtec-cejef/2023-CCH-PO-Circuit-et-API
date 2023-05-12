@@ -1,8 +1,8 @@
 <template>
 
-    <div class="number" :style="{backgroundColor: color}">
+    <div class="number" :style="{backgroundColor: props.color}">
         <p>
-            {{ number }}
+            {{ props.number }}
         </p>
     </div>
 
@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    number: String,
-    color: String
-})
+  number: String,
+  color: String
+});
 </script>
 
 <style scoped lang="scss">
