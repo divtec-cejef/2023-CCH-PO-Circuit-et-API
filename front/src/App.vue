@@ -2,7 +2,7 @@
     <div  class="thin-content">
         <header v-if="!menuIsClicked" class="closed">
             <RouterLink :to="`/${car.idQuery}`">
-                <img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
+                <img src="./assets/img/logo.png" alt="Logo tuture divtec">
             </RouterLink>
             <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
         </header>
@@ -20,7 +20,7 @@
     </div>
     <div  class="large-content">
         <header>
-            <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo-d.png" alt="Logo tuture divtec">
+            <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo.png" alt="Logo tuture divtec">
             </RouterLink>
             <HeaderApp :screen-width="'large'"></HeaderApp>
         </header>
