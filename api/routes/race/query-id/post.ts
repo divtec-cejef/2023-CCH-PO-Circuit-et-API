@@ -1,8 +1,14 @@
-import { raceToCreate, raceToCreateWithQueryId, routeHandler } from "../../../models";
-import { createRace, createRaceWithQueryId, getShortestRaces } from "../../../services/race/implementation";
-import { checkStructureOrThrow } from "check-structure";
-import { getCarByQueryId } from "../../../services/car/implementation";
-import type { Server } from "socket.io";
+import { raceToCreateWithQueryId, routeHandler } from '../../../models';
+import { createRaceWithQueryId, getShortestRaces } from '../../../services/race/implementation';
+import { checkStructureOrThrow } from 'check-structure';
+import { getCarByQueryId } from '../../../services/car/implementation';
+import type { Server } from 'socket.io';
+
+declare type raceRequest = {
+  query_id: string,
+  race_start: Date | string,
+  race_finish: Date | string;
+};
 
 /**
  * Controller post pour la route /race/query-id
@@ -10,43 +16,55 @@ import type { Server } from "socket.io";
  * @param res Reponse
  * @returns le temps créé
  */
-export const route: routeHandler = async (req, res) => {
-	const race = req.body;
+export const route: routeHandler<null, unknown, raceRequest> = async (req, res) => {
+  const race = req.body;
 
-	// Vérification de la structure de la requête
-	try {
-		checkStructureOrThrow(race, {
-			race_start: Date,
-			race_finish: Date,
-			query_id: String,
-		});
-	} catch (e: any) {
-		res.status(400).json({ error: e.message });
-		return;
-	}
+  // Vérification de la structure de la requête
+  try {
+    checkStructureOrThrow(race, {
+      race_start: Date,
+      race_finish: Date,
+      query_id: String
+    });
+  } catch (e) {
+    if (typeof e === 'string') {
+      res.status(400).json({ error: e });
+    } else if (e instanceof Error) {
+      res.status(400).json({ error: e.message });
+    } else {
+      res.status(400).send();
+    }
+    return;
+  }
 
-	// Vérification de l'existence de la voiture
-	if (await getCarByQueryId(race.query_id) === null) {
-		res.status(404).json({ error: 'Car not found' });
-		return;
-	}
+  // Vérification de l'existence de la voiture
+  if (await getCarByQueryId(race.query_id) === null) {
+    res.status(404).json({ error: 'Car not found' });
+    return;
+  }
 
-	const raceToCreate: raceToCreateWithQueryId = {
-		race_start: new Date(race.race_start),
-		race_finish: new Date(race.race_finish),
-		query_id: race.query_id,
-	};
+  const raceToCreate: raceToCreateWithQueryId = {
+    race_start: new Date(race.race_start),
+    race_finish: new Date(race.race_finish),
+    query_id: race.query_id
+  };
 
-	// Création de la manche
-	try {
-		res.json(await createRaceWithQueryId(raceToCreate));
-	} catch (e: any) {
-		res.status(500).json({ error: e.message });
-		return;
-	}
+  // Création de la manche
+  try {
+    res.json(await createRaceWithQueryId(raceToCreate));
+  } catch (e) {
+    if (typeof e === 'string') {
+      res.status(400).json({ error: e });
+    } else if (e instanceof Error) {
+      res.status(400).json({ error: e.message });
+    } else {
+      res.status(400).send();
+    }
+    return;
+  }
 
-	// Envoi les données de classement aux clients
-	res.app.get<Server>("socketio").emit("updatedRaces", await getShortestRaces());
+  // Envoi les données de classement aux clients
+  res.app.get<Server>('socketio').emit('updatedRaces', await getShortestRaces());
 };
 
 export default route;

@@ -8,6 +8,6 @@ import { getCars } from '../../services/car/implementation';
  * @returns toutes les voitures
  */
 const route: routeHandler = async (req, res) => {
-	res.json(await getCars());
+  res.json(await getCars());
 };
 export default route;

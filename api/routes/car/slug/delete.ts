@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../models/';
-import {deleteCarById} from '../../../services/car/implementation';
+import { deleteCarById } from '../../../services/car/implementation';
 
 /**
  * Controller delete pour la route /car/query-id/:slug
@@ -7,21 +7,21 @@ import {deleteCarById} from '../../../services/car/implementation';
  * @param res Reponse
  * @returns une voiture correspondant à l'ID de query
  */
-const route: routeHandler = async (req, res) => {
-    const id = parseInt(req.params.slug);
+const route: routeHandler<{ slug: string; }> = async (req, res) => {
+  const id = parseInt(req.params.slug);
 
-    if (typeof id === null || isNaN(id)) {
-        res.status(400).json({ error: 'Invalid id' });
-        return;
-    }
+  if (typeof id === null || isNaN(id)) {
+    res.status(400).json({ error: 'Invalid id' });
+    return;
+  }
 
-    const car = await deleteCarById(id);
+  const car = await deleteCarById(id);
 
-    if (!car) {
-        res.status(404).json({ error: 'Car not found' });
-        return;
-    }
+  if (!car) {
+    res.status(404).json({ error: 'Car not found' });
+    return;
+  }
 
-    res.json(car);
+  res.json(car);
 };
 export default route;
