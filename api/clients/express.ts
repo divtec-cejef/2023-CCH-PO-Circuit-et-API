@@ -35,6 +35,8 @@ app.use(express.json());
 
 app.use((req, _, next) => {
 	console.log(`\n\n${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}`);
+	console.log(`query: ${JSON.stringify(req.query, null, 2)}\n`);
+	console.log(`body: ${JSON.stringify(req.body, null, 2)}\n`);
 	const logFile = getLogFile();
 	fs.appendFileSync(`./logs/${logFile}`, `${new Date(Date.now()).toISOString()} - [${req.method}] ON ${req.path}\n`);
 	fs.appendFileSync(`./logs/${logFile}`, `query: ${JSON.stringify(req.query, null, 2)}\n`);
