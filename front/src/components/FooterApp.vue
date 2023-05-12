@@ -1,7 +1,7 @@
 <template>
     <footer>
         <p>EMT, Portes ouvertes 2023</p>
-        <div v-if="props.screenWidth == 'large' ">Inscris toi à un stage ici !</div>
+        <div v-if="props.screenWidth == 'large'">Inscris toi à un stage <a href="">ici</a> !</div>
         <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                 <img src="@/assets/img/instagram.png"
