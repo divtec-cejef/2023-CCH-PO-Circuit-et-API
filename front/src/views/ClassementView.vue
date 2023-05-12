@@ -3,8 +3,10 @@
     <p>Ici tu vois tout les temps des pilotes !</p>
 
     <div class="button-classement">
-        <button class="classement-user" @click="scrollToUser"></button>
-        <button class="classement-top" @click="scrollToTop"></button>
+        <div>
+            <button class="classement-user" @click="scrollToUser"></button>
+            <button class="classement-top" @click="scrollToTop"></button>
+        </div>
     </div>
 
     <div class="classement">
@@ -15,7 +17,6 @@
 <script setup lang="ts">
 
 import ClassementRace from '@/components/ClassementRace.vue';
-import { useCarStore } from '@/stores/car';
 
 function scrollToUser() {
   let screenHeight = window.innerHeight;
@@ -27,7 +28,6 @@ function scrollToTop() {
   window.scrollTo(0, document.body.scrollTop);
 }
 
-const userCar = useCarStore();
 
 </script>
 
@@ -39,12 +39,21 @@ const userCar = useCarStore();
 }
 
 div.button-classement {
-    width: 100%;
+    width: 90%;
+    margin: -30px auto 0 auto;
     display: flex;
     justify-content: end;
-    margin-top: -30px;
     position: sticky;
-    top: 20px
+    top: 40px;
+
+    div {
+        background-color: var(--white);
+        border-radius: 20px;
+        padding: 4px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+        margin-right: 10px;
+    }
+
 }
 
 button.classement-top {
@@ -57,7 +66,6 @@ button.classement-top {
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;
-    margin-right: 15px;
     margin-left: 5px;
 }
 
