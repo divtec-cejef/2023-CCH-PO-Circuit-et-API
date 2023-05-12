@@ -10,12 +10,7 @@ export const getCars = async () => {
       id_car: true,
       query_id: true,
       pseudo: true,
-      avatar: {
-        select: {
-          id_avatar: true,
-          image: true
-        }
-      }
+      avatar: true
     }
   });
 };
@@ -34,13 +29,7 @@ export const getCarByQueryId = async (carQueryId: string) => {
       id_car: true,
       query_id: true,
       pseudo: true,
-      id_avatar: true,
-      avatar: {
-        select: {
-          id_avatar: true,
-          image: true
-        }
-      }
+      avatar: true
     }
   });
 
@@ -61,13 +50,7 @@ export const getCarById = async (carId: number) => {
       id_car: true,
       query_id: true,
       pseudo: true,
-      id_avatar: true,
-      avatar: {
-        select: {
-          id_avatar: true,
-          image: true
-        }
-      }
+      avatar: true
     }
   });
 
@@ -105,9 +88,6 @@ export const deleteCarById = async (carId: number) => {
     return await prisma.car.delete({
       where: {
         id_car: carId
-      },
-      include: {
-        avatar: true
       }
     });
   } catch (e) {

@@ -8,12 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model avatar {
-  id_avatar Int     @id @default(autoincrement())
-  image     String? @db.VarChar(100)
-  car       car[]
-}
-
 model section {
   id_section Int        @id @default(autoincrement())
   label      String?    @db.VarChar(50)
@@ -30,14 +24,13 @@ model activity {
 }
 
 model car {
-  id_car    Int       @id @default(autoincrement())
-  password  String?   @db.VarChar(50)
-  query_id  String?   @unique @db.VarChar(100)
-  pseudo    String?   @db.VarChar(50)
-  id_avatar Int
-  avatar    avatar    @relation(fields: [id_avatar], references: [id_avatar], onDelete: NoAction, onUpdate: NoAction)
-  race      race[]
-  realise   realise[]
+  id_car   Int       @id @default(autoincrement())
+  password String?   @db.VarChar(50)
+  query_id String?   @unique @db.VarChar(100)
+  pseudo   String?   @db.VarChar(50)
+  avatar   Json?     @db.Json
+  race     race[]
+  realise  realise[]
 }
 
 model realise {
