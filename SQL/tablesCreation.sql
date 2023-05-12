@@ -8,7 +8,6 @@ CREATE TABLE car
     query_id  VARCHAR(100) UNIQUE,
     pseudo    VARCHAR(50),
     avatar    json,
-    id_avatar INTEGER NOT NULL,
     PRIMARY KEY (id_car)
 );
 

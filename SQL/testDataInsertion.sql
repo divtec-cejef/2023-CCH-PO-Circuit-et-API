@@ -7,7 +7,7 @@ TRUNCATE car CASCADE;
 TRUNCATE activity CASCADE;
 TRUNCATE section CASCADE;
 
-INSERT INTO car (id_car, password, query_id, pseudo, avatar, id_avatar)
+INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', '{
         "bgColor": "#FFF",
         "hatColor": "#000",
@@ -26,8 +26,8 @@ VALUES (1, '1234', '4356', 'PlayerOne', '{
         "eyeBrowType": "upMale",
         "glassesType": "square",
         "shape": "circle"
-            }', 1);
-INSERT INTO car (id_car, password, query_id, pseudo, avatar, id_avatar)
+            }');
+INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (2, '4321', '4357', 'PlayerTwo', '{
         "bgColor": "#000",
         "hatColor": "#000",
@@ -46,7 +46,7 @@ VALUES (2, '4321', '4357', 'PlayerTwo', '{
         "eyeBrowType": "upMale",
         "glassesType": "square",
         "shape": "circle"
-            }', 2);
+            }');
 INSERT INTO car
 VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
         "bgColor": "#FFF",
@@ -66,7 +66,7 @@ VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
         "eyeBrowType": "upMale",
         "glassesType": "square",
         "shape": "circle"
-            }', 1);
+            }');
 INSERT INTO car
 VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "bgColor": "#FFF",
@@ -86,7 +86,7 @@ VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "eyeBrowType": "upMale",
         "glassesType": "square",
         "shape": "circle"
-            }', 1);
+            }');
 
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
