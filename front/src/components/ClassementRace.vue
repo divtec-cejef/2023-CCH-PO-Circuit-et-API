@@ -1,5 +1,4 @@
 <template>
-    <div class="classement">
         <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar.image"
                            :rank="key + 1"
                            :pseudo="race.car.pseudo" :time="race.total_time"/>
@@ -24,7 +23,6 @@
         <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar.image"
                            :rank="key + 1"
                            :pseudo="race.car.pseudo" :time="race.total_time"/>
-    </div>
 </template>
 
 <script setup lang="ts">
