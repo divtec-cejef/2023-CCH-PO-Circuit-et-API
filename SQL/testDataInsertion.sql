@@ -5,23 +5,88 @@ TRUNCATE race CASCADE;
 TRUNCATE realise CASCADE;
 TRUNCATE car CASCADE;
 TRUNCATE activity CASCADE;
-TRUNCATE avatar CASCADE;
 TRUNCATE section CASCADE;
 
-INSERT INTO avatar (image)
-VALUES ('image1');
-INSERT INTO avatar (image)
-VALUES ('image2');
-
-INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
-VALUES (1, '1234', '4356', 'PlayerOne', 1);
-INSERT INTO car (id_car, password, query_id, pseudo, id_avatar)
-VALUES (2, '4321', '4357', 'PlayerTwo', 2);
+INSERT INTO car (id_car, password, query_id, pseudo, avatar)
+VALUES (1, '1234', '4356', 'PlayerOne', '{
+        "bgColor": "#DDD",
+        "hatColor": "#000",
+        "faceColor": "#EEE",
+        "hairColor": "#000",
+        "shirtColor": "#DDD",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+            }');
+INSERT INTO car (id_car, password, query_id, pseudo, avatar)
+VALUES (2, '4321', '4357', 'PlayerTwo', '{
+        "bgColor": "#000",
+        "hatColor": "#000",
+        "faceColor": "#EEE",
+        "hairColor": "#000",
+        "shirtColor": "#DDD",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+            }');
 INSERT INTO car
-VALUES (3, 'Admlocal1', '4358', 'Dråfølin', 1);
+VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
+        "bgColor": "#EEE",
+        "hatColor": "#000",
+        "faceColor": "#EEE",
+        "hairColor": "#000",
+        "shirtColor": "#DDD",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+            }');
 INSERT INTO car
-VALUES (4, 'Admlocal1', '4359', 'tobito', 1);
-
+VALUES (4, 'Admlocal1', '4359', 'tobito', '{
+        "bgColor": "#FFF",
+        "hatColor": "#000",
+        "faceColor": "#EEE",
+        "hairColor": "#000",
+        "shirtColor": "#DDD",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+            }');
 
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
