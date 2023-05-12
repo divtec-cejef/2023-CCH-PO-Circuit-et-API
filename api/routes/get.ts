@@ -1,5 +1,5 @@
 import type { routeHandler } from '../models';
-import type { Server } from "socket.io";
+import type { Server } from 'socket.io';
 
 /**
  * Controller pour la route de test à la racine
@@ -8,7 +8,7 @@ import type { Server } from "socket.io";
  * @returns "It works" si l'api est en ligne
  */
 const route: routeHandler = (req, res) => {
-	res.send('It works');
-	req.app.get<Server>("socketio").emit("hello", "world");
+  res.send('It works');
+  req.app.get<Server>('socketio').emit('hello', 'world');
 };
 export default route;

@@ -1,23 +1,23 @@
-import prisma from "../../clients/prismadb";
+import prisma from '../../clients/prismadb';
 
 /**
  * Retourne toutes les voitures de la db
  * @returns les voitures sous forme de liste
  */
 export const getCars = async () => {
-	return await prisma.car.findMany({
-		select: {
-			id_car: true,
-			query_id: true,
-			pseudo: true,
-			avatar: {
-				select: {
-					id_avatar: true,
-					image: true,
-				},
-			},
-		},
-	});
+  return await prisma.car.findMany({
+    select: {
+      id_car: true,
+      query_id: true,
+      pseudo: true,
+      avatar: {
+        select: {
+          id_avatar: true,
+          image: true
+        }
+      }
+    }
+  });
 };
 
 /**
@@ -26,25 +26,25 @@ export const getCars = async () => {
  * @returns la voiture
  */
 export const getCarByQueryId = async (carQueryId: string) => {
-	const car = await prisma.car.findFirst({
-		where: {
-			query_id: carQueryId
-		},
-		select: {
-			id_car: true,
-			query_id: true,
-			pseudo: true,
-			id_avatar: true,
-			avatar: {
-				select: {
-					id_avatar: true,
-					image: true,
-				},
-			},
-		}
-	});
+  const car = await prisma.car.findFirst({
+    where: {
+      query_id: carQueryId
+    },
+    select: {
+      id_car: true,
+      query_id: true,
+      pseudo: true,
+      id_avatar: true,
+      avatar: {
+        select: {
+          id_avatar: true,
+          image: true
+        }
+      }
+    }
+  });
 
-	return car;
+  return car;
 };
 
 /**
@@ -53,29 +53,29 @@ export const getCarByQueryId = async (carQueryId: string) => {
  * @returns la voiture
  */
 export const getCarById = async (carId: number) => {
-	const car = await prisma.car.findFirst({
-		where: {
-			id_car: carId
-		},
-		select: {
-			id_car: true,
-			query_id: true,
-			pseudo: true,
-			id_avatar: true,
-			avatar: {
-				select: {
-					id_avatar: true,
-					image: true,
-				},
-			},
-		}
-	});
+  const car = await prisma.car.findFirst({
+    where: {
+      id_car: carId
+    },
+    select: {
+      id_car: true,
+      query_id: true,
+      pseudo: true,
+      id_avatar: true,
+      avatar: {
+        select: {
+          id_avatar: true,
+          image: true
+        }
+      }
+    }
+  });
 
-	return car;
+  return car;
 };
 
-export const updateCar = (carId: number) => {
-
+export const updateCar = (carId: number): never => {
+  throw new Error('Not implemented. parameters:' + carId);
 };
 
 /**
@@ -84,15 +84,15 @@ export const updateCar = (carId: number) => {
  * @returns la voiture supprimée ou null si pas de voiture
  */
 export const deleteCarByQueryId = async (carQueryId: string) => {
-	try {
-		return await prisma.car.delete({
-			where: {
-				query_id: carQueryId
-			},
-		});
-	} catch (e) {
-		return null;
-	}
+  try {
+    return await prisma.car.delete({
+      where: {
+        query_id: carQueryId
+      }
+    });
+  } catch (e) {
+    return null;
+  }
 };
 
 /**
@@ -101,16 +101,16 @@ export const deleteCarByQueryId = async (carQueryId: string) => {
  * @returns la voiture supprimée ou null si pas de voiture
  */
 export const deleteCarById = async (carId: number) => {
-	try {
-		return await prisma.car.delete({
-			where: {
-				id_car: carId
-			},
-			include: {
-				"avatar": true
-			}
-		});
-	} catch (e) {
-		return null;
-	}
+  try {
+    return await prisma.car.delete({
+      where: {
+        id_car: carId
+      },
+      include: {
+        avatar: true
+      }
+    });
+  } catch (e) {
+    return null;
+  }
 };
