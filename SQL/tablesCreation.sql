@@ -9,8 +9,7 @@ CREATE TABLE car
     pseudo    VARCHAR(50),
     avatar    json,
     id_avatar INTEGER NOT NULL,
-    PRIMARY KEY (id_car),
-    FOREIGN KEY (id_avatar) REFERENCES avatar (id_avatar)
+    PRIMARY KEY (id_car)
 );
 
 DROP TABLE IF EXISTS section CASCADE;
