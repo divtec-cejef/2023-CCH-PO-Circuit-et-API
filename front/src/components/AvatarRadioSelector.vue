@@ -1,5 +1,5 @@
 <template>
-  <fieldset @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, $event.target.value ?? '')">
+  <fieldset @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event !== null ? $event.target.value : ''))">
       <legend>{{ props.avatarProperty.propNameFr }}</legend>
       <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
           <input type="radio" :name=props.avatarProperty.propNameSnakeCase :id=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase) :value=item.propValueEn :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
@@ -19,7 +19,7 @@ const emit = defineEmits(['regenerateAvatar']);
 
 <style scoped>
 input[type=radio] {
-    /*display: none;*/
+    display: none;
 }
 
 .radio-avatar {
