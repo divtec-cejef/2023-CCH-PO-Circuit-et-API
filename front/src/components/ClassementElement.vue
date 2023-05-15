@@ -2,7 +2,7 @@
     <div :class="'classement-element '+ classUserCarElement">
         <div v-if="props.rank > 3" class="rank">{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: 'url(' + 2 + ')' }"></div>
-        <img :src="null" alt="Avatar de l'élément">
+        <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
@@ -13,6 +13,7 @@ import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
 import type { models } from '@/models/api';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 const props = defineProps<{
   rank: number;
@@ -62,6 +63,15 @@ div.classement-element {
 }
 
 div.user-element {
-    border: 1px solid var(--light-green);
+    border: 1px solid var(--blue);
+
+    div.time {
+        font-size: 24px;
+    }
+}
+
+div.avatar {
+    width: 45px;
+    height: 45px;
 }
 </style>
