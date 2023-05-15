@@ -2,7 +2,7 @@
     <footer>
         <p>EMT, Portes ouvertes 2023</p>
         <div class="stage">Inscris toi à un stage <a href="">ici</a> !</div>
-        <div class="img">
+        <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                 <img src="@/assets/img/instagram.png"
                      alt="Logo instagram"></a>
@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-
 
 </script>
 
@@ -43,7 +42,11 @@ footer {
         text-align: left;
     }
 
-    div.img {
+    div.stage {
+        display: none;
+    }
+
+    div:nth-child(3) {
         align-items: center;
         display: flex;
         flex-direction: row;
@@ -56,10 +59,6 @@ footer {
         img:nth-child(1) {
             margin-right: 15px;
         }
-    }
-
-    div.stage {
-        display: none;
     }
 }
 </style>
