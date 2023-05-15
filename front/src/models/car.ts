@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 import type Race from '@/models/race';
 
 export default class Car {

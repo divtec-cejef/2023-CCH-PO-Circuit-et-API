@@ -1,13 +1,14 @@
 import { Socket, io } from 'socket.io-client';
 
-export namespace implementation {
+const routeApi: string = import.meta.env.VITE_ROUTE_API;
+
+export namespace restful {
   export enum ReturnCodes {
     NoCode = 0,
     Success = 200,
     NotFound = 404,
   }
 
-  const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
@@ -39,29 +40,82 @@ export namespace implementation {
     const res = await fetch(routeRaceCar);
     return { json: (await res.json()), status: res.status };
   }
-
-  export const onRankingRecieved = (callback: (data: models.racesData[]) => void): (() => Socket) => {
-    const socket = io(routeApi);
-    socket.on('updatedRaces', callback);
-    return () => socket.close();
-  };
 }
+
+export class websocket {
+  socket: Socket;
+  carId?: number;
+
+  constructor(carId?: number) {
+    this.socket = io(routeApi, carId ? {
+      query: {
+        carId,
+      },
+    }: undefined);
+    this.carId = carId;
+  }
+
+  destroy() {
+    this.socket.disconnect();
+  }
+
+  onRankingRecieved(callback: (data: models.rankingData) => void) {
+    this.socket.on('updatedRaces', callback);
+    return this;
+  }
+
+  onUserRace(callback: (data: models.racesData) => void) {
+    if (this.carId === undefined)
+      throw new Error('carId is undefined');
+    this.socket.on('updatedUserRaces', callback);
+    return this;
+  }
+}
+
+
 export namespace models {
   export interface racesData {
+   races: [
+     {
+       id_race: number,
+       race_start: Date | string,
+       race_finish: Date | string,
+       id_car: number,
+       total_time: Date | string
+     }
+   ],
+    rank: number
+  }
+
+  export interface Avatar {
+    bgColor: string,
+    hatColor:  string,
+    faceColor:  string,
+    hairColor:  string,
+    shirtColor:  string,
+    hairColorRandom: boolean,
+    sex: string,
+    earSize: string,
+    hatType: string,
+    eyeType: string,
+    hairType: string,
+    noseType: string,
+    mouthType: string,
+    shirtType: string,
+    eyeBrowType: string,
+    glassesType: string,
+    shape: string
+  }
+
+  export type rankingData = {
     id_race: number,
     car: {
       id_car: number,
       pseudo: string,
-      avatar: {
-        image: string;
-      };
+      avatar: Avatar,
     },
-    total_time: Date | string,
-  }
-
-  export interface raceObject extends racesData {
-    total_time: Date,
-  }
+    total_time: Date | string
+  }[]
 }
 
-export default implementation;
+export default restful;
