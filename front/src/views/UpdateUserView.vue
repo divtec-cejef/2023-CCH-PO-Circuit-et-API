@@ -8,14 +8,14 @@
 </template>
 
 <script lang="ts">
-import {genConfig} from "holiday-avatar";
-import {defineComponent} from "vue";
-import AvatarRadioSelector from "@/components/AvatarRadioSelector.vue";
-import AutoRegeneratedAvatar from "@/components/AutoRegeneratedAvatar.vue";
+import { genConfig } from 'holiday-avatar';
+import { defineComponent } from 'vue';
+import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 export default defineComponent({
   data() {
-    const config = genConfig({bgColor: '#FFF', mouthType: 'laugh'})
+    const config = genConfig({ bgColor: '#FFF', mouthType: 'laugh' });
     return {
       template: '<Avatar v-bind="{...config}"  />',
       config,
@@ -202,7 +202,7 @@ export default defineComponent({
         },
 
       ],
-    }
+    };
   },
 
   components: {
@@ -211,9 +211,12 @@ export default defineComponent({
   },
   methods: {
     regenerateAvatar(parameter: string, value: any) {
+      console.log(parameter, value);
+
       if (parameter in this.config) {
         (this.config as { [index: string]: any })[parameter] = value;
       }
+      console.log(this.config);
       this.config = genConfig({
         bgColor: this.config.bgColor,
         hatColor: this.config.hatColor,
@@ -236,12 +239,9 @@ export default defineComponent({
 
     },
   }
-})
+});
 </script>
 
 <style scoped>
-div {
-    height: 500px;
-    width: 500px;
-}
+
 </style>
