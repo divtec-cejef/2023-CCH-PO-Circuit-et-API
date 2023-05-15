@@ -1,7 +1,7 @@
 <template>
     <nav>
         <ul>
-            <li v-if="props.screenWidth == 'thin'">
+            <li class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
             <li v-if="userCar.car.idCar !== 0">
@@ -18,16 +18,11 @@
             </li>
         </ul>
     </nav>
-
 </template>
 
 <script setup lang="ts">
 
 import { useCarStore } from '@/stores/car';
-
-const props = defineProps({
-  screenWidth: String
-});
 
 //Récupération de la voiture
 const userCar = useCarStore();

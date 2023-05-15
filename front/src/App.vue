@@ -1,42 +1,35 @@
 <template>
-    <div  class="thin-content">
-        <header v-if="!menuIsClicked" class="closed">
-            <RouterLink :to="`/${car.idQuery}`">
-                <img src="./assets/img/logo.png" alt="Logo tuture divtec">
-            </RouterLink>
-            <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
-        </header>
+    <header v-if="menuIsClicked" class="closed thin">
+        <RouterLink :to="`/${car.idQuery}`">
+            <img src="./assets/img/logo.png" alt="Logo tuture divtec">
+        </RouterLink>
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
+    </header>
 
-        <main v-if="!menuIsClicked && hasFinishedLoading">
-            <RouterView/>
-        </main>
+    <header class="large">
+        <RouterLink :to="`/${car.idQuery}`">
+            <img src="./assets/img/logo.png" alt="Logo tuture divtec">
+        </RouterLink>
+        <HeaderApp></HeaderApp>
+    </header>
 
-        <FooterApp :screen-width="'large'" v-if="!menuIsClicked"/>
+    <main :class="classMenuClicked" v-if="hasFinishedLoading">
+        <RouterView/>
+    </main>
 
-        <header class="open" v-else>
-            <HeaderApp></HeaderApp>
-            <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
-        </header>
-    </div>
-    <div  class="large-content">
-        <header>
-            <RouterLink :to="`/${car.idQuery}`"><img src="./assets/img/logo.png" alt="Logo tuture divtec">
-            </RouterLink>
-            <HeaderApp :screen-width="'large'"></HeaderApp>
-        </header>
+    <FooterApp id="footer" :class="classMenuClicked"/>
 
-        <main v-if="hasFinishedLoading">
-            <RouterView/>
-        </main>
+    <header v-if="!menuIsClicked" class="open thin">
+        <HeaderApp></HeaderApp>
+        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
+    </header>
 
-        <FooterApp :screen-width="'large'"/>
-    </div>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 
@@ -48,10 +41,37 @@ function clickMenu() {
   localStorage.setItem('menuIsClicked', menuIsClicked.value ? 'true' : 'false');
 }
 
+/**
+ * Change la valeur de la taille de l'écran
+ */
+const getWidthScreen = () => {
+  widthScreen.value = window.innerWidth;
+};
+
+// Change la classe des éléments des menus pour le petit contenu
+const classMenuClicked = computed(() => {
+  if (widthScreen.value < LIMIT_LARGE_CONTENT) {
+    return menuIsClicked.value ? 'display' : 'none';
+  } else {
+    return 'display';
+  }
+});
+
+//Ecoute du resize de la page pour changer la largeur
+onMounted(() => {
+  window.addEventListener('resize', getWidthScreen);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getWidthScreen);
+});
+
 //Initialisation de la voiture
 const userCar = useCarStore();
 const { car } = userCar;
 const hasFinishedLoading = ref(false);
+let widthScreen = ref(window.innerWidth);
+const LIMIT_LARGE_CONTENT = 700;
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
@@ -73,8 +93,23 @@ if (!localStorage.getItem('menuIsClicked')) {
 </script>
 
 <style scoped lang="scss">
-.large-content {
+
+//Le contenu large est caché pour les petits écran
+.large {
     display: none;
+}
+
+//Elelement qui doivent disparaître
+.none {
+    display: none;
+}
+
+footer#footer.display {
+    display: flex;
+}
+
+.display {
+    display: block;
 }
 
 header {
@@ -87,17 +122,13 @@ header {
     }
 }
 
-.thin-content header.closed,
-div.large-content header {
+header.closed.thin,
+header.large {
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
     height: 100px;
 }
 
-.thin-content header.open {
+header.open.thin {
     height: 100vh;
-
-
 }
-
-
 </style>
