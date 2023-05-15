@@ -203,6 +203,31 @@ describe('Car', () => {
 
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([
+      {
+        id_car: Number,
+        query_id: String,
+        pseudo: String,
+        avatar: {
+          bgColor: String,
+          hatColor: String,
+          faceColor: String,
+          hairColor: String,
+          shirtColor: String,
+          hairColorRandom: Boolean,
+          sex: String,
+          earSize: String,
+          hatType: String,
+          eyeType: String,
+          hairType: String,
+          noseType: String,
+          mouthType: String,
+          shirtType: String,
+          eyeBrowType: String,
+          glassesType: String,
+          shape: String
+        }
+      }]);
   });
 
   // Obtenir une voiture à partir de son id
@@ -211,6 +236,30 @@ describe('Car', () => {
 
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_car: Number,
+      query_id: String,
+      pseudo: String,
+      avatar: {
+        bgColor: String,
+        hatColor: String,
+        faceColor: String,
+        hairColor: String,
+        shirtColor: String,
+        hairColorRandom: Boolean,
+        sex: String,
+        earSize: String,
+        hatType: String,
+        eyeType: String,
+        hairType: String,
+        noseType: String,
+        mouthType: String,
+        shirtType: String,
+        eyeBrowType: String,
+        glassesType: String,
+        shape: String
+      }
+    });
   });
 
   // Obtenir une voiture à partir de son id avec un id invalide
@@ -235,6 +284,30 @@ describe('Car', () => {
 
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_car: Number,
+      query_id: String,
+      pseudo: String,
+      avatar: {
+        bgColor: String,
+        hatColor: String,
+        faceColor: String,
+        hairColor: String,
+        shirtColor: String,
+        hairColorRandom: Boolean,
+        sex: String,
+        earSize: String,
+        hatType: String,
+        eyeType: String,
+        hairType: String,
+        noseType: String,
+        mouthType: String,
+        shirtType: String,
+        eyeBrowType: String,
+        glassesType: String,
+        shape: String
+      }
+    });
   });
 
   // Supprimer une voiture à partir de son id avec un id invalide
@@ -259,6 +332,30 @@ describe('Car', () => {
 
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_car: Number,
+      query_id: String,
+      pseudo: String,
+      avatar: {
+        bgColor: String,
+        hatColor: String,
+        faceColor: String,
+        hairColor: String,
+        shirtColor: String,
+        hairColorRandom: Boolean,
+        sex: String,
+        earSize: String,
+        hatType: String,
+        eyeType: String,
+        hairType: String,
+        noseType: String,
+        mouthType: String,
+        shirtType: String,
+        eyeBrowType: String,
+        glassesType: String,
+        shape: String
+      }
+    });
   });
 
   // Obtenir une voiture avec un query id qui n'existe pas
@@ -275,6 +372,30 @@ describe('Car', () => {
 
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_car: Number,
+      query_id: String,
+      pseudo: String,
+      avatar: {
+        bgColor: String,
+        hatColor: String,
+        faceColor: String,
+        hairColor: String,
+        shirtColor: String,
+        hairColorRandom: Boolean,
+        sex: String,
+        earSize: String,
+        hatType: String,
+        eyeType: String,
+        hairType: String,
+        noseType: String,
+        mouthType: String,
+        shirtType: String,
+        eyeBrowType: String,
+        glassesType: String,
+        shape: String
+      }
+    });
   });
 
   // Supprimer une voiture avec un query id qui n'existe pas
