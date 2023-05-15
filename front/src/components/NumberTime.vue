@@ -9,10 +9,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  number: String,
-  color: String
-});
+const props = defineProps<{
+    number: string;
+    color: string;
+}>();
 </script>
 
 <style scoped lang="scss">
