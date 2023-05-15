@@ -78,6 +78,9 @@
             </div>
         </div>
     </div>
+    <div v-else>
+        <h2>Chargement en cours...</h2>
+    </div>
 </template>
 
 <script setup lang="ts">
