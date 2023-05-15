@@ -1,13 +1,13 @@
 import { Socket, io } from 'socket.io-client';
+const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
-export namespace implementation {
+export namespace restful {
   export enum ReturnCodes {
     NoCode = 0,
     Success = 200,
     NotFound = 404,
   }
 
-  const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
@@ -39,13 +39,39 @@ export namespace implementation {
     const res = await fetch(routeRaceCar);
     return { json: (await res.json()), status: res.status };
   }
-
-  export const onRankingRecieved = (callback: (data: models.racesData[]) => void): (() => Socket) => {
-    const socket = io(routeApi);
-    socket.on('updatedRaces', callback);
-    return () => socket.close();
-  };
 }
+
+export class websocket {
+  socket: Socket;
+  carId?: number;
+
+  constructor(carId?: number) {
+    this.socket = io(routeApi, {
+      query: {
+        carId,
+      },
+    });
+    this.carId = carId;
+  }
+
+  destroy() {
+    this.socket.disconnect();
+  }
+
+  onRankingRecieved(callback: (data: models.racesData[]) => void) {
+    this.socket.on('updatedRaces', callback);
+    return this;
+  }
+
+  onUserRace(callback: (data: models.racesData[]) => void) {
+    if (this.carId === undefined)
+      throw new Error('carId is undefined');
+    this.socket.on('updatedUserRaces', callback);
+    return this;
+  }
+}
+
+
 export namespace models {
   export interface racesData {
     id_race: number,
@@ -64,4 +90,4 @@ export namespace models {
   }
 }
 
-export default implementation;
+export default restful;

@@ -19,13 +19,15 @@
 
 <script setup lang="ts">
 import ClassementElement from '@/components/ClassementElement.vue';
-import api from '@/models/api';
+import { websocket } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
 import type { models } from '@/models/api';
 
 const listRace = ref<models.raceObject[]>([]);
 
-const cleanup = api.onRankingRecieved((data) => {
+const socket = new websocket();
+
+socket.onRankingRecieved((data) => {
 
   listRace.value = data.map((d) => {
     return {
@@ -40,7 +42,7 @@ const cleanup = api.onRankingRecieved((data) => {
 
 onUnmounted(() => {
   console.log('cleanup');
-  cleanup();
+  socket.destroy();
 });
 
 </script>
