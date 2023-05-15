@@ -1,7 +1,7 @@
 import sio from 'socket.io';
 import type { Socket } from 'socket.io';
-import { getShortestRaces, getRacesByCar } from '../services/race/implementation';
-import { getCarByQueryId } from '../services/car/implementation';
+import { getShortestRaces, getRacesByCar, getRankByCar } from '../services/race/implementation';
+import { getCarById, getCarByQueryId } from '../services/car/implementation';
 
 const io = new sio.Server({
   cors: {
@@ -18,11 +18,18 @@ io.on('connection', async (socket: Socket) => {
     return;
   }
 
-  socket.data.carId = (await getCarByQueryId(socket.handshake.query.carId))?.id_car;
+  socket.data.carId = parseInt(socket.handshake.query.carId);
+  if (!await getCarById(socket.data.carId)) {
+    socket.send({ status: 404, message: 'car not found' }).disconnect();
+    return;
+  }
   // envoyer les données de classement au client
   socket.emit('updatedRaces', await getShortestRaces());
   // envoyer les données de manches au client
-  socket.emit('updatedUserRaces', await getRacesByCar(socket.data.carId));
+  socket.emit('updatedUserRaces', {
+    races: await getRacesByCar(socket.data.carId),
+    rank: await getRankByCar(socket.data.carId)
+  });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
