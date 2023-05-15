@@ -21,9 +21,9 @@
 <script setup lang="ts">
 import Car from '@/models/car';
 
-const props = defineProps({
-  carUser: Car
-});
+const props = defineProps<{
+    carUser: Car;
+}>();
 
 </script>
 
