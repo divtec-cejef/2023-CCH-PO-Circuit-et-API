@@ -9,12 +9,11 @@
 import { Avatar, genConfig } from 'holiday-avatar';
 import VRuntimeTemplate from 'vue3-runtime-template';
 import { defineComponent } from 'vue';
-import type Configs from 'holiday-avatar/dist/index';
 
 export default defineComponent({
   props: ['avatarConfig'],
   watch: {
-    avatarConfig: function (newVal: Configs) {
+    avatarConfig: function (newVal) {
       console.log(newVal);
       this.regenerateAvatar(newVal);
     }
