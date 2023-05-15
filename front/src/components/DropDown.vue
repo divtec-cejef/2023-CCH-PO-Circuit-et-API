@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="button-checked" @click="clickDropDown">
-            <span>{{ name }}</span>
+            <span>{{ props.name }}</span>
             <img src="../assets/img/arrow.png" alt="Flèche dépliable"
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
@@ -15,7 +15,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-defineProps(['name']);
+const props = defineProps<{
+    name: string;
+}>();
 
 /**
  * Stocke si le dropdown est cliqué ou non dans le localstorage

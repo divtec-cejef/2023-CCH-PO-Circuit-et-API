@@ -29,8 +29,8 @@ export const useCarStore = defineStore('car', () => {
 
 
   /**
-   * Initialisation de la voiture en fonction de l'URL actuel
-   */
+     * Initialisation de la voiture en fonction de l'URL actuel
+     */
   async function initUserCarId(idCar: string | string[]) {
 
     //Récupère les informations de la voiture
