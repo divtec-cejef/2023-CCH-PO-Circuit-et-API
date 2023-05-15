@@ -24,6 +24,13 @@ export const useCarStore = defineStore('car', () => {
     car.value.idQuery = dataUserCar['query_id'];
     car.value.avatar = dataUserCar['avatar'];
 
+    /**
+     * Si on trouve la voiture alors, on renvoie le code
+     */
+    if (status.valueOf() === api.ReturnCodes.Success) {
+      localStorage.setItem('userCarId', car.value.idCar.toString());
+    }
+
     return status;
   }
 
