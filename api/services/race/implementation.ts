@@ -16,11 +16,6 @@ export const getRacesByCar = async (id: number) => {
       id_race: true,
       race_start: true,
       race_finish: true,
-      car: {
-        select: {
-          avatar: true
-        }
-      },
       id_car: true,
       total_time: true
     }
