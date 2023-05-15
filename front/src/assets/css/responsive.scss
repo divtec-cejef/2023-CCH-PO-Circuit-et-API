@@ -1,7 +1,7 @@
 /* Téléphone */
 @media screen and (max-width: 400px) {
     #app {
-        .large-content {
+        .large {
             display: none;
         }
     }
@@ -10,6 +10,10 @@
 /* Tablette */
 @media screen and (min-width: 700px) {
     #app {
+
+        header.open, header.closed {
+            display: none;
+        }
 
         .table-large-content {
             width: 40%;
@@ -20,40 +24,47 @@
             display: none;
         }
 
-        .thin-content {
+        .thin {
             display: none;
         }
 
-        .large-content {
-            align-items: center;
+        .large {
             display: block;
+        }
 
-            header {
-                nav {
-                    display: flex;
-                    align-items: center;
+        header.large {
+            display: flex;
+            flex-direction: row;
 
-                    ul {
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                        vertical-align: center;
+            ul li.accueil {
+                display: none;
+            }
+            nav {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
 
-                        li {
-                            font-family: 'SF Pro Display', sans-serif;
-                            display: inline-block;
-                            font-weight: bold;
-                            font-style: normal;
-                            margin: 0 10px;
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    vertical-align: center;
 
-                            * {
-                                font-size: 24px;
-                            }
+                    li {
+                        font-family: 'SF Pro Display', sans-serif;
+                        display: inline-block;
+                        font-weight: bold;
+                        font-style: normal;
+                        margin: 0 10px;
+
+                        * {
+                            font-size: 24px;
                         }
                     }
                 }
             }
         }
+
 
         div div.best-race {
             width: 100%;
@@ -131,6 +142,10 @@
             :nth-child(6) {
                 margin-top: 25px;
             }
+        }
+
+        footer#footer div.stage {
+            display: block;
         }
     }
 }

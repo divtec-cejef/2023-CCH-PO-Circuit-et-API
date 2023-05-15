@@ -1,10 +1,11 @@
 import type Race from '@/models/race';
+import type { Configs } from 'holiday-avatar';
 
 export default class Car {
   idCar: number = 0;
   pseudo: string = '';
   idQuery: number | string = '';
-  avatar: string = '';
+  avatar: Configs | undefined = undefined;
   listRace: Race[] = [];
   rank: number = 0;
 

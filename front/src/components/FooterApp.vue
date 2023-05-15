@@ -1,7 +1,7 @@
 <template>
     <footer>
         <p>EMT, Portes ouvertes 2023</p>
-        <div v-if="props.screenWidth == 'large'">Inscris toi à un stage <a href="">ici</a> !</div>
+        <div class="stage">Inscris toi à un stage <a href="">ici</a> !</div>
         <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                 <img src="@/assets/img/instagram.png"
@@ -14,10 +14,6 @@
 </template>
 
 <script setup lang="ts">
-
-const props = defineProps({
-  screenWidth: String
-});
 
 </script>
 
@@ -44,6 +40,10 @@ footer {
 
     p:nth-child(1) {
         text-align: left;
+    }
+
+    div.stage {
+        display: none;
     }
 
     div:nth-child(3) {
