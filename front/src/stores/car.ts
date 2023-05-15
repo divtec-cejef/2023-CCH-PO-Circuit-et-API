@@ -19,10 +19,10 @@ export const useCarStore = defineStore('car', () => {
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
     //Remplissage des champs de la voiture
-    car.value.idCar = await dataUserCar['id_car'];
-    car.value.pseudo = await dataUserCar['pseudo'];
-    car.value.idQuery = await dataUserCar['query_id'];
-    car.value.avatar = await dataUserCar['id_avatar'];
+    car.value.idCar = dataUserCar['id_car'];
+    car.value.pseudo = dataUserCar['pseudo'];
+    car.value.idQuery = dataUserCar['query_id'];
+    car.value.avatar = dataUserCar['id_avatar'];
 
     return status;
   }
