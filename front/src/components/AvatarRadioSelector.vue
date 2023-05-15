@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type {radioProperty} from "@/models/avatar";
+import type { radioProperty } from '@/models/avatar';
 
 const props = defineProps<{avatarProperty: radioProperty}>();
 console.log(props.avatarProperty);
@@ -19,7 +19,7 @@ const emit = defineEmits(['regenerateAvatar']);
 
 <style scoped>
 input[type=radio] {
-    display: none;
+    /*display: none;*/
 }
 
 .radio-avatar {

@@ -6,25 +6,25 @@
 </template>
 
 <script lang="ts">
-import {Avatar, genConfig} from "holiday-avatar";
-import VRuntimeTemplate from "vue3-runtime-template";
-import {defineComponent} from "vue";
-import type Configs from "holiday-avatar/dist/index";
+import { Avatar, genConfig } from 'holiday-avatar';
+import VRuntimeTemplate from 'vue3-runtime-template';
+import { defineComponent } from 'vue';
+import type Configs from 'holiday-avatar/dist/index';
 
 export default defineComponent({
   props: ['avatarConfig'],
   watch: {
     avatarConfig: function (newVal: Configs) {
-      console.log(newVal)
-      this.regenerateAvatar(newVal)
+      console.log(newVal);
+      this.regenerateAvatar(newVal);
     }
   },
   data() {
-    const config = genConfig({bgColor: '#FFF', mouthType: 'laugh'})
+    const config = genConfig({ bgColor: '#FFF', mouthType: 'laugh' });
     return {
       template: '<Avatar v-bind="{...config}"  />',
       config,
-    }
+    };
   },
 
   components: {
@@ -34,12 +34,12 @@ export default defineComponent({
   },
   methods: {
     regenerateAvatar(newConfig: any) {
-      console.log(newConfig)
-      this.config = newConfig
+      console.log(newConfig);
+      this.config = newConfig;
       this.template = '<Avatar v-bind="{...config}"  />';
     },
   }
-})
+});
 
 </script>
 
