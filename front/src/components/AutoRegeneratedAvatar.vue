@@ -14,12 +14,11 @@ export default defineComponent({
   props: ['avatarConfig'],
   watch: {
     avatarConfig: function (newVal) {
-      console.log(newVal);
       this.regenerateAvatar(newVal);
     }
   },
   data() {
-    const config = genConfig({ bgColor: '#FFF', mouthType: 'laugh' });
+    const config = genConfig(this.avatarConfig);
     return {
       template: '<Avatar v-bind="{...config}"  />',
       config,
