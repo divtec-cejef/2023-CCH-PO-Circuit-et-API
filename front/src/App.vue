@@ -44,7 +44,7 @@ function clickMenu() {
 /**
  * Change la valeur de la taille de l'écran
  */
-const getWidthScreen = () => {
+const changeWidthScreen = () => {
   widthScreen.value = window.innerWidth;
 };
 
@@ -59,11 +59,11 @@ const classMenuClicked = computed(() => {
 
 //Ecoute du resize de la page pour changer la largeur
 onMounted(() => {
-  window.addEventListener('resize', getWidthScreen);
+  window.addEventListener('resize', changeWidthScreen);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', getWidthScreen);
+  window.removeEventListener('resize', changeWidthScreen);
 });
 
 //Initialisation de la voiture
