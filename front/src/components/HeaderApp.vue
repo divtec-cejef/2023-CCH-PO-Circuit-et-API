@@ -5,6 +5,9 @@
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
             <li v-if="userCar.car.idCar !== 0">
+                <RouterLink to="/modifier">Modifier</RouterLink>
+            </li>
+            <li v-if="userCar.car.idCar !== 0">
                 <RouterLink to="/course">Course</RouterLink>
             </li>
             <li>
