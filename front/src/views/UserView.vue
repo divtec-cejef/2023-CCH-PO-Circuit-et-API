@@ -5,7 +5,7 @@
 
     <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="avatar-txt">
-            <img id="avatar" src="../assets/img/avatar.png" alt="Avatar de l'utilisateur">
+            <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
             <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
             <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
@@ -58,6 +58,7 @@ import { ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import api from '../models/api';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -100,6 +101,12 @@ div.user-data {
 
         p:nth-child(2) {
             font-size: 18px;
+        }
+
+        div.avatar {
+            width: 190px;
+            height: 190px;
+            margin-bottom: 10px;
         }
     }
 
