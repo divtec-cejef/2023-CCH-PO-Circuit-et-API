@@ -18,6 +18,8 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
+    console.log(dataUserCar);
+
     //Remplissage des champs de la voiture
     car.value.idCar = dataUserCar['id_car'];
     car.value.pseudo = dataUserCar['pseudo'];
@@ -36,6 +38,7 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
+    console.log(dataUserCar);
     //Remplissage des champs de la voiture
     car.value.idCar = dataUserCar['id_car'];
     car.value.pseudo = dataUserCar['pseudo'];
