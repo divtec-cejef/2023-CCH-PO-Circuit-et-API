@@ -13,13 +13,14 @@ export default defineComponent({
   props: ['avatarConfig'],
   watch: {
     avatarConfig: function (newVal) {
+      console.log('Change', newVal);
       this.regenerateAvatar(newVal);
     }
   },
   data() {
     const config = genConfig(this.avatarConfig);
     return {
-      template: '<Avatar v-bind="{...config}"  />',
+      template: '<Avatar v-bind="{...config}" />',
       config,
     };
   },
@@ -31,9 +32,8 @@ export default defineComponent({
   },
   methods: {
     regenerateAvatar(newConfig: any) {
-      console.log(newConfig);
       this.config = newConfig;
-      this.template = '<Avatar v-bind="{...config}"  />';
+      this.template = '<Avatar v-bind="{...config}" />';
     },
   }
 });
