@@ -51,4 +51,4 @@ jobs:
         npm run test --if-present
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
-    
+        PORT: 3000

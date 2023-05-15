@@ -16,6 +16,8 @@ services:
     working_dir: /app
     ports:
       - ${API_PORT}:3000
+    environment:
+      - PORT=3000
     networks:
       - db-network
     command: npm start
