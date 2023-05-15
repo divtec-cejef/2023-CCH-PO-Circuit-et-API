@@ -48,7 +48,7 @@ export const useCarStore = defineStore('car', () => {
     car.value.idCar = dataUserCar['id_car'];
     car.value.pseudo = dataUserCar['pseudo'];
     car.value.idQuery = dataUserCar['query_id'];
-    car.value.avatar = dataUserCar['id_avatar'];
+    car.value.avatar = dataUserCar['avatar'];
 
     /**
      * Si on trouve la voiture alors, on renvoie le code
