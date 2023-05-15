@@ -5,7 +5,7 @@ export default class Car {
   idCar: number = 0;
   pseudo: string = '';
   idQuery: number | string = '';
-  avatar: Configs | null = null;
+  avatar: Configs | undefined = undefined;
   listRace: Race[] = [];
   rank: number = 0;
 
