@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import Car from '@/models/car';
+import type Car from '@/models/car';
 
 const props = defineProps<{
     carUser: Car;
