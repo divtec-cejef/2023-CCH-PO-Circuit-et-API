@@ -1,7 +1,7 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement">
         <div v-if="props.rank > 3" class="rank">{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: 'url(' + 2 + ')' }"></div>
+        <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.png)`}"></div>
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
@@ -41,8 +41,18 @@ div.classement-element {
     padding: 9px;
     border-radius: 4px;
 
+    div.rank-image {
+        width: 30px;
+        height: 30px;
+        background-size: 30px 30px;
+        background-position: center;
+        margin-right: 10px;
+        margin-left: 5px;
+    }
+
     div.rank {
         margin-left: 5px;
+        margin-right: 10px;
     }
 
     img {
