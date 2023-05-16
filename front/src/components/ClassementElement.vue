@@ -1,6 +1,6 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement">
-        <div v-if="props.rank > 3" class="rank">{{ props.rank }}</div>
+        <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.png)`}"></div>
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
@@ -24,6 +24,7 @@ const props = defineProps<{
 
 const userCar = useCarStore();
 let classUserCarElement = ref('');
+const PODIUM = 4;
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
@@ -51,6 +52,12 @@ div.classement-element {
     }
 
     div.rank {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        width: 30px;
+        height: 30px;
         margin-left: 5px;
         margin-right: 10px;
     }
