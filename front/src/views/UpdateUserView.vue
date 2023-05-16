@@ -1,8 +1,37 @@
 <template>
-    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+    <h1>Modifier</h1>
+    <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
+        imagination...</p>
+    <div class="modify-avatar">
+        <div class="tab">
+            <div class="title">
+                <div class="tab1" @click="clickTab(1)">
+                    <img src="../assets/img/face.png" alt="Icon visage homme">
+                </div>
+                <div class="tab2" @click="clickTab(2)">
+                    <img src="../assets/img/hanger.png" alt="Icon de ceintre">
+                </div>
+            </div>
 
-    <div v-for="(item, key) in avatarProperties" :key="key">
-        <AvatarRadioSelector :avatar-property=item @regenerateAvatar="regenerateAvatar"></AvatarRadioSelector>
+            <div class="tab-content">
+                <div v-if="numTabOpen == 1">
+                    <div class="rd-bt" v-for="(index, key) in 5" :key="key">
+                        <AvatarRadioSelector :avatar-property=avatarProperties[index]
+                                             @regenerateAvatar="regenerateAvatar"></AvatarRadioSelector>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="rd-bt" v-for="(index, key) in 3" :key="key">
+                        <AvatarRadioSelector :avatar-property=avatarProperties[index+5]
+                                             @regenerateAvatar="regenerateAvatar"></AvatarRadioSelector>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-avatar">
+            <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+        </div>
     </div>
 </template>
 
@@ -12,7 +41,6 @@ import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
-
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -237,12 +265,86 @@ const avatarProperties = [
 ];
 
 
+/**
+ * Fonction déclencher au clic sur une tab
+ * Change la valeur du tab cliqué
+ * @param numTab Numéro de la tab cliqué
+ */
+function clickTab(numTab: number) {
+  numTabOpen.value = numTab;
+}
+
+//Initialisation des variables
+let numTabOpen = ref(1);
+
 </script>
 
 <style scoped lang="scss">
 
-div.avatar {
-    width: 200px;
-    height: 200px;
+div.modify-avatar {
+    width: 95%;
+    margin: 25px auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+
+    div.content-avatar {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+
+        div.avatar {
+            width: 300px;
+            height: 300px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+            border-radius: 200px;
+        }
+    }
+
+    div.tab {
+        display: flex;
+        width: 50%;
+        min-height: 355px;
+
+        div.title {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+            border-right: 1px solid var(--gray);
+            padding-right: 12px;
+
+            > div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+            }
+
+            img {
+                width: 45px;
+            }
+        }
+
+        div.tab-content {
+            display: flex;
+            flex-direction: column;
+
+            > div:nth-child(1) {
+                height: 100%;
+            }
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: start;
+            }
+            .rd-bt {
+                width: fit-content;
+            }
+        }
+    }
 }
 </style>
