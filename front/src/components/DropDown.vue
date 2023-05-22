@@ -2,7 +2,7 @@
     <div>
         <div class="button-checked" @click="clickDropDown">
             <span>{{ props.name }}</span>
-            <img src="../assets/img/arrow.png" alt="Flèche dépliable"
+            <img src="../assets/img/arrow.webp" alt="Flèche dépliable"
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
 

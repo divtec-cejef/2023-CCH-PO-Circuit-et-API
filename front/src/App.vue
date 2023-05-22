@@ -1,14 +1,14 @@
 <template>
     <header v-if="menuIsClicked" class="closed thin">
         <RouterLink :to="`/${car.idQuery}`">
-            <img src="./assets/img/logo.png" alt="Logo tuture divtec">
+            <img src="./assets/img/logo.webp" alt="Logo tuture divtec">
         </RouterLink>
-        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
+        <img src="./assets/img/volant.webp" alt="Volant pour le menu" @click="clickMenu">
     </header>
 
     <header class="large">
         <RouterLink :to="`/${car.idQuery}`">
-            <img src="./assets/img/logo.png" alt="Logo tuture divtec">
+            <img src="./assets/img/logo.webp" alt="Logo tuture divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>
     </header>
@@ -21,7 +21,7 @@
 
     <header v-if="!menuIsClicked" class="open thin">
         <HeaderApp></HeaderApp>
-        <img src="./assets/img/volant.png" alt="Volant pour le menu" @click="clickMenu">
+        <img src="./assets/img/volant.webp" alt="Volant pour le menu" @click="clickMenu">
     </header>
 
 </template>
