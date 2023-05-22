@@ -9,10 +9,10 @@ TRUNCATE section CASCADE;
 
 INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (1, '1234', '4356', 'PlayerOne', '{
-        "bgColor": "#DDD",
-        "hatColor": "#000",
-        "faceColor": "#EEE",
-        "hairColor": "#000",
+        "bgColor": "#1EA",
+        "hatColor": "#024",
+        "faceColor": "#156",
+        "hairColor": "#2F4",
         "shirtColor": "#DDD",
         "hairColorRandom": false,
         "sex": "female",
@@ -29,11 +29,11 @@ VALUES (1, '1234', '4356', 'PlayerOne', '{
             }');
 INSERT INTO car (id_car, password, query_id, pseudo, avatar)
 VALUES (2, '4321', '4357', 'PlayerTwo', '{
-        "bgColor": "#000",
-        "hatColor": "#000",
-        "faceColor": "#EEE",
-        "hairColor": "#000",
-        "shirtColor": "#DDD",
+        "bgColor": "#456",
+        "hatColor": "#FD5",
+        "faceColor": "#E6E",
+        "hairColor": "#8D1",
+        "shirtColor": "#231",
         "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
@@ -49,11 +49,11 @@ VALUES (2, '4321', '4357', 'PlayerTwo', '{
             }');
 INSERT INTO car
 VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
-        "bgColor": "#EEE",
-        "hatColor": "#000",
-        "faceColor": "#EEE",
+        "bgColor": "#E81",
+        "hatColor": "#3B8",
+        "faceColor": "#1A7",
         "hairColor": "#000",
-        "shirtColor": "#DDD",
+        "shirtColor": "#9CD",
         "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
@@ -70,10 +70,10 @@ VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
 INSERT INTO car
 VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "bgColor": "#FFF",
-        "hatColor": "#000",
-        "faceColor": "#EEE",
-        "hairColor": "#000",
-        "shirtColor": "#DDD",
+        "hatColor": "#D60",
+        "faceColor": "#321",
+        "hairColor": "#8BE",
+        "shirtColor": "#F45",
         "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
@@ -87,6 +87,26 @@ VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "glassesType": "square",
         "shape": "circle"
             }');
+INSERT INTO car
+VALUES (5, 'Admlocal1', '4360', 'Chlore', '{
+        "bgColor": "#234",
+        "hatColor": "#F1A",
+        "faceColor": "#A89",
+        "hairColor": "#29A",
+        "shirtColor": "#21A",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
 
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
@@ -145,6 +165,20 @@ VALUES (2, 7, '2023-03-31 11:55:32');
 INSERT INTO race (id_car, race_start, race_finish)
 VALUES (1, '2023-03-31 12:55:32.125', '2023-03-31 12:56:12.389');
 INSERT INTO race (id_car, race_start, race_finish)
-VALUES (2, '2023-03-31 13:01:25.256', '2023-03-31 13:02:02.895');
+VALUES (1, '2023-03-31 13:01:25.256', '2023-03-31 13:02:02.895');
 INSERT INTO race (id_car, race_start, race_finish)
-VALUES (1, '2023-03-31 13:18:56.724', '2023-03-31 13:20:06.915');
+VALUES (2, '2023-03-31 13:18:56.624', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (2, '2023-03-31 13:18:56.124', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (3, '2023-03-31 13:18:56.224', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (3, '2023-03-31 13:18:55.724', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (4, '2023-03-31 13:18:52.724', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (4, '2023-03-31 13:18:51.724', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (5, '2023-03-31 13:18:53.724', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, race_finish)
+VALUES (5, '2023-03-31 13:18:59.724', '2023-03-31 13:20:06.915');

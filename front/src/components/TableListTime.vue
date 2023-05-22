@@ -8,7 +8,7 @@
                 <th>Temps</th>
                 <th>Vidéo</th>
             </tr>
-            <tr v-for="(race, key) in props.carUser?.sortListByOrderHour()" :key="key">
+            <tr v-for="(race, key) in props.carUser.sortListByOrderHour()" :key="key">
                 <td>{{ props.carUser.getNumRace(race).valueOf() }}</td>
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
