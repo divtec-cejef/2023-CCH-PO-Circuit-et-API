@@ -40,17 +40,22 @@ input[type=radio] {
 }
 
 .radio-avatar:hover {
+    box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
+
     border: solid 3px var(--white);
 }
 
 input[type=radio]:checked + label.Blanc {
     border: solid 3px var(--black);
 }
+
 label.Blanc:hover {
     border: solid 3px var(--black);
 }
 
 input[type=radio]:checked + label {
+    box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
+
     border: solid 3px var(--white);
 }
 
