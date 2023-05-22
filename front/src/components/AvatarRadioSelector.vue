@@ -47,9 +47,11 @@ input[type=radio]:checked + label {
 }
 
 fieldset {
+    width: 100%;
     margin-top: 10px;
     display: flex;
     flex-direction: row;
+    justify-content: start;
     align-items: center;
     border: 0;
     padding: 0;
@@ -61,12 +63,14 @@ fieldset {
     }
 
     div.img-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         height: 100%;
     }
 
     div.rdbt-choice {
         width: fit-content;
-        max-width: 320px;
     }
 }
 </style>
