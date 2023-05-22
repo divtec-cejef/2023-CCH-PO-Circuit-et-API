@@ -21,16 +21,18 @@
 
             <div class="tab-content">
                 <div v-if="numTabOpen == 1">
-                    <div class="rd-bt" v-for="(index, key) in 5" :key="key">
-                        <AvatarRadioSelector :avatar-property=avatarProperties[index]
-                                             @regenerateAvatar="regenerateAvatar"></AvatarRadioSelector>
-                    </div>
+                    <template v-for="(props, key) in avatarPropertiesHead" :key="key">
+                        <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                             @regenerateAvatar="regenerateAvatar"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"/>
+                    </template>
                 </div>
                 <div v-else>
-                    <div class="rd-bt" v-for="(index, key) in 3" :key="key">
-                        <AvatarRadioSelector :avatar-property=avatarProperties[index+5]
-                                             @regenerateAvatar="regenerateAvatar"></AvatarRadioSelector>
-                    </div>
+                    <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
+                        <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                             @regenerateAvatar="regenerateAvatar"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"/>
+                    </template>
                 </div>
             </div>
         </div>
@@ -38,9 +40,6 @@
         <div class="content-avatar">
             <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
         </div>
-    </div>
-    <div v-for="(item, key) in avatarColorProperties" :key="key">
-        <AvatarColorPicker :avatar-property=item @regenerateAvatar="regenerateAvatar"></AvatarColorPicker>
     </div>
 </template>
 
@@ -91,31 +90,18 @@ function regenerateAvatar(parameter: string, value: any) {
   });
 }
 
+const NAME_HEAD_PROPS = 'head';
+const NAME_CLOTHES_PROPS = 'clothes';
+const TYPE_PROPS_TXT = 'txt';
+const TYPE_PROPS_COLOR = 'color';
+
 const avatarProperties = [
-  {
-    propNameFr: 'Type de bouche',
-    propNameEn: 'mouthType',
-    propNameSnakeCase: 'mouth-type',
-    propValues: [
-      {
-        propValueEn: 'laugh',
-        propValueFr: 'Rire',
-      },
-      {
-        propValueEn: 'smile',
-        propValueFr: 'Sourire',
-      },
-      {
-        propValueEn: 'peace',
-        propValueFr: 'Normal',
-      }
-    ],
-    selectedValueEn: config.value.mouthType
-  },
   {
     propNameFr: 'Genre',
     propNameEn: 'sex',
     propNameSnakeCase: 'sex',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
     propValues: [
       {
         propValueEn: 'male',
@@ -129,25 +115,49 @@ const avatarProperties = [
     selectedValueEn: config.value.sex
   },
   {
-    propNameFr: 'Taille des oreilles',
-    propNameEn: 'earSize',
-    propNameSnakeCase: 'ear-size',
+    propNameFr: 'Couleur du visage',
+    propNameEn: 'faceColor',
+    propNameSnakeCase: 'face-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_HEAD_PROPS,
     propValues: [
       {
-        propValueEn: 'small',
-        propValueFr: 'Petites',
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
       },
       {
-        propValueEn: 'big',
-        propValueFr: 'Grandes',
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#ECB',
+        propValueFr: 'Beige1',
+      },
+      {
+        propValueEn: '#C87',
+        propValueFr: 'Beige2',
+      },
+      {
+        propValueEn: '#B74',
+        propValueFr: 'Beige3',
+      },
+      {
+        propValueEn: '#853',
+        propValueFr: 'Beige4',
+      },
+      {
+        propValueEn: '#321',
+        propValueFr: 'Noir2',
       }
     ],
-    selectedValueEn: config.value.earSize
+    selectedValueEn: config.value.faceColor
   },
   {
     propNameFr: 'Type des yeux',
     propNameEn: 'eyeType',
     propNameSnakeCase: 'eye-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
     propValues: [
       {
         propValueEn: 'circle',
@@ -165,9 +175,111 @@ const avatarProperties = [
     selectedValueEn: config.value.eyeType
   },
   {
+    propNameFr: 'Type de nez',
+    propNameEn: 'noseType',
+    propNameSnakeCase: 'nose-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: 'short',
+        propValueFr: 'Court',
+      },
+      {
+        propValueEn: 'long',
+        propValueFr: 'Long',
+      },
+      {
+        propValueEn: 'round',
+        propValueFr: 'Rond',
+      }
+    ],
+    selectedValueEn: config.value.noseType
+  },
+  {
+    propNameFr: 'Type de bouche',
+    propNameEn: 'mouthType',
+    propNameSnakeCase: 'mouth-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: 'laugh',
+        propValueFr: 'Rire',
+      },
+      {
+        propValueEn: 'smile',
+        propValueFr: 'Sourire',
+      },
+      {
+        propValueEn: 'peace',
+        propValueFr: 'Normal',
+      }
+    ],
+    selectedValueEn: config.value.mouthType
+  },
+  {
+    propNameFr: 'Taille des oreilles',
+    propNameEn: 'earSize',
+    propNameSnakeCase: 'ear-size',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: 'small',
+        propValueFr: 'Petites',
+      },
+      {
+        propValueEn: 'big',
+        propValueFr: 'Grandes',
+      }
+    ],
+    selectedValueEn: config.value.earSize
+  },
+  {
+    propNameFr: 'Couleur de fond',
+    propNameEn: 'bgColor',
+    propNameSnakeCase: 'bg-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_CLOTHES_PROPS,
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      },
+      {
+        propValueEn: '#80F',
+        propValueFr: 'Violet',
+      }
+    ],
+    selectedValueEn: config.value.bgColor
+  },
+  {
     propNameFr: 'Type de cheveux',
     propNameEn: 'hairType',
     propNameSnakeCase: 'hair-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
         propValueEn: 'normal',
@@ -193,49 +305,49 @@ const avatarProperties = [
     selectedValueEn: config.value.hairType
   },
   {
-    propNameFr: 'Type de chapeau',
-    propNameEn: 'hatType',
-    propNameSnakeCase: 'hat-type',
+    propNameFr: 'Couleur de cheveux',
+    propNameEn: 'hairColor',
+    propNameSnakeCase: 'hair-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: 'none',
-        propValueFr: 'Aucun',
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
       },
       {
-        propValueEn: 'beanie',
-        propValueFr: 'Bonnet',
+        propValueEn: '#000',
+        propValueFr: 'Noir',
       },
       {
-        propValueEn: 'turban',
-        propValueFr: 'Turban',
+        propValueEn: '#E71',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#FFB',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#643',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#C96',
+        propValueFr: 'Jaune',
+      },
+      {
+        propValueEn: '#61C',
+        propValueFr: 'Jaune',
       }
     ],
-    selectedValueEn: config.value.hatType
-  },
-  {
-    propNameFr: 'Type de nez',
-    propNameEn: 'noseType',
-    propNameSnakeCase: 'nose-type',
-    propValues: [
-      {
-        propValueEn: 'short',
-        propValueFr: 'Court',
-      },
-      {
-        propValueEn: 'long',
-        propValueFr: 'Long',
-      },
-      {
-        propValueEn: 'round',
-        propValueFr: 'Rond',
-      }
-    ],
-    selectedValueEn: config.value.noseType
+    selectedValueEn: config.value.hairColor
   },
   {
     propNameFr: 'Type de haut',
     propNameEn: 'shirtType',
     propNameSnakeCase: 'shirt-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
         propValueEn: 'hoody',
@@ -253,9 +365,49 @@ const avatarProperties = [
     selectedValueEn: config.value.shirtType
   },
   {
+    propNameFr: 'Couleur du haut (habit)',
+    propNameEn: 'shirtColor',
+    propNameSnakeCase: 'shirt-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_CLOTHES_PROPS,
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#44B',
+        propValueFr: 'Violet',
+      },
+      {
+        propValueEn: '#1CC',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#0A3',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      },
+      {
+        propValueEn: '#D22',
+        propValueFr: 'Rouge',
+      }
+    ],
+    selectedValueEn: config.value.shirtColor
+  },
+  {
     propNameFr: 'Type de lunettes',
     propNameEn: 'glassesType',
     propNameSnakeCase: 'glasses-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
         propValueEn: 'none',
@@ -271,9 +423,77 @@ const avatarProperties = [
       }
     ],
     selectedValueEn: config.value.glassesType
+  },
+  {
+    propNameFr: 'Type de chapeau',
+    propNameEn: 'hatType',
+    propNameSnakeCase: 'hat-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_CLOTHES_PROPS,
+    propValues: [
+      {
+        propValueEn: 'none',
+        propValueFr: 'Aucun',
+      },
+      {
+        propValueEn: 'beanie',
+        propValueFr: 'Bonnet',
+      },
+      {
+        propValueEn: 'turban',
+        propValueFr: 'Turban',
+      }
+    ],
+    selectedValueEn: config.value.hatType
+  },
+  {
+    propNameFr: 'Couleur de chapeau',
+    propNameEn: 'hatColor',
+    propNameSnakeCase: 'hat-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_CLOTHES_PROPS,
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#CCC',
+        propValueFr: 'Gris',
+      },
+      {
+        propValueEn: '#965',
+        propValueFr: 'Rose',
+      },
+      {
+        propValueEn: '#193',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FBB',
+        propValueFr: 'Rose',
+      },
+      {
+        propValueEn: '#43B',
+        propValueFr: 'Violet',
+      }
+    ],
+    selectedValueEn: config.value.hatColor
   }
 ];
 
+//Tri de l'interface pour les deux tabs
+const avatarPropertiesHead = avatarProperties.filter(props => props.propGroups === NAME_HEAD_PROPS);
+const avatarPropertiesClothes = avatarProperties.filter(props => props.propGroups === NAME_CLOTHES_PROPS);
+
+/**
+ * Fonction qui change la valeur du tab cliqué
+ * @param numTab Numéro de la tab cliqué
+ */
 function clickTab(numTab: number) {
   numTabOpen.value = numTab;
   localStorage.setItem('numTabOpen', numTabOpen.value.toString());
@@ -281,172 +501,9 @@ function clickTab(numTab: number) {
 
 //Initialisation des variables
 let numTabOpen = ref(1);
-if(localStorage.getItem('numTabOpen')) {
+if (localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }
-const avatarColorProperties = [
-  {
-    propNameFr: 'Couleur de fond',
-    propNameEn: 'bgColor',
-    propNameSnakeCase: 'bg-color',
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.bgColor
-  },
-  {
-    propNameFr: 'Couleur de chapeau',
-    propNameEn: 'hatColor',
-    propNameSnakeCase: 'hat-color',
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.hatColor
-  },
-  {
-    propNameFr: 'Couleur du visage',
-    propNameEn: 'faceColor',
-    propNameSnakeCase: 'face-color',
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.faceColor
-  },
-  {
-    propNameFr: 'Couleur de cheveux',
-    propNameEn: 'hairColor',
-    propNameSnakeCase: 'hair-color',
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.hairColor
-  },
-  {
-    propNameFr: 'Couleur du haut (habit)',
-    propNameEn: 'shirtColor',
-    propNameSnakeCase: 'shirt-color',
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.shirtColor
-  }
-];
-
 
 </script>
 
@@ -462,9 +519,9 @@ div.modify-avatar {
     padding: 20px;
 
     div.content-avatar {
-        width: 50%;
+        width: 40%;
         display: flex;
-        justify-content: center;
+        justify-content: end;
 
         div.avatar {
             width: 300px;
@@ -476,8 +533,8 @@ div.modify-avatar {
 
     div.tab {
         display: flex;
-        width: 50%;
-        min-height: 355px;
+        width: 60%;
+        min-height: 480px;
 
         div.title {
             display: flex;
@@ -494,8 +551,8 @@ div.modify-avatar {
 
                 label {
                     cursor: pointer;
+                    width: 50px;
                 }
-
 
                 input {
                     display: none;
@@ -504,6 +561,7 @@ div.modify-avatar {
                         filter: grayscale(1);
                         opacity: 0.7;
                         transition: 0.2s ease-in-out;
+
                     }
 
                     ~ img:hover {
@@ -529,6 +587,7 @@ div.modify-avatar {
             flex-direction: column;
 
             > div:nth-child(1) {
+                width: 100%;
                 height: 100%;
             }
 
@@ -539,9 +598,18 @@ div.modify-avatar {
                 align-items: start;
             }
 
-            .rd-bt {
-                width: fit-content;
+            fieldset.color {
+                padding-left: 30px;
             }
+
+            fieldset {
+                width: 100%;
+                padding-right: 30px;
+            }
+
+           fieldset:nth-child(1) {
+               padding-left: 0;
+           }
         }
     }
 }

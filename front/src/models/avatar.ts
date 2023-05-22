@@ -6,6 +6,8 @@ export interface propValues {
 export type radioProperty = {
     propNameFr: string;
     propNameEn: string;
+    propType: string;
+    propGroups: string;
     propNameSnakeCase: string;
     propValues: propValues[];
     selectedValueEn?: string;
