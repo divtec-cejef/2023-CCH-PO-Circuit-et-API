@@ -13,7 +13,6 @@
         <ClassementRace/>
     </div>
 </template>
-
 <script setup lang="ts">
 
 import ClassementRace from '@/components/ClassementRace.vue';
@@ -66,7 +65,7 @@ button.classement-top {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/top-10.png");
+    background-image: url("../assets/img/top-10.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;
@@ -79,7 +78,7 @@ button.classement-user {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/placeholder.png");
+    background-image: url("../assets/img/placeholder.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;

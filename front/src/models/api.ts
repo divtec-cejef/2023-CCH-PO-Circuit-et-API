@@ -47,7 +47,7 @@ export class websocket {
   carId?: number;
 
   constructor(carId?: number) {
-    this.socket = io(`https://${(new URL(routeApi)).host}`, carId ? {
+    this.socket = io(`http://${(new URL(routeApi)).host}`, carId ? {
       query: {
         carId,
       },
