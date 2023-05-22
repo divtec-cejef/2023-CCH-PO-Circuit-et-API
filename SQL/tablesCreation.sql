@@ -25,7 +25,7 @@ CREATE TABLE race
 (
     id_race     SERIAL,
     race_start  TIMESTAMP(3) NOT NULL,
-    sector1     TIMESTAMP(3) NOT NULL,
+    sector1     TIMESTAMP(3),
     race_finish TIMESTAMP(3) NOT NULL,
     id_car      INTEGER      NOT NULL,
     PRIMARY KEY (id_race),
