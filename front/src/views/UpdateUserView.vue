@@ -5,11 +5,17 @@
     <div class="modify-avatar">
         <div class="tab">
             <div class="title">
-                <div class="tab1" @click="clickTab(1)">
-                    <img src="../assets/img/face.png" alt="Icon visage homme">
+                <div class="tab1">
+                    <label>
+                        <input @click="clickTab(1)" name="tab" type="radio" :checked="numTabOpen == 1">
+                        <img src="../assets/img/face.png" alt="Icon visage homme">
+                    </label>
                 </div>
-                <div class="tab2" @click="clickTab(2)">
-                    <img src="../assets/img/hanger.png" alt="Icon de ceintre">
+                <div class="tab2">
+                    <label>
+                        <input @click="clickTab(2)" name="tab" type="radio" :checked="numTabOpen == 2">
+                        <img src="../assets/img/hanger.png" alt="Icon de ceintre">
+                    </label>
                 </div>
             </div>
 
@@ -264,18 +270,16 @@ const avatarProperties = [
   }
 ];
 
-
-/**
- * Fonction déclencher au clic sur une tab
- * Change la valeur du tab cliqué
- * @param numTab Numéro de la tab cliqué
- */
 function clickTab(numTab: number) {
   numTabOpen.value = numTab;
+  localStorage.setItem('numTabOpen', numTabOpen.value.toString());
 }
 
 //Initialisation des variables
 let numTabOpen = ref(1);
+if(localStorage.getItem('numTabOpen')) {
+  numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
+}
 
 </script>
 
@@ -320,6 +324,32 @@ div.modify-avatar {
                 justify-content: center;
                 align-items: center;
                 flex: 1;
+
+                label {
+                    cursor: pointer;
+                }
+
+
+                input {
+                    display: none;
+
+                    ~ img {
+                        filter: grayscale(1);
+                        opacity: 0.7;
+                        transition: 0.2s ease-in-out;
+                    }
+
+                    ~ img:hover {
+                        filter: none;
+                        opacity: 1;
+                        transition: 0.2s ease-in-out;
+                    }
+                }
+
+                input:checked ~ img {
+                    filter: none;
+                    opacity: 1;
+                }
             }
 
             img {
@@ -341,6 +371,7 @@ div.modify-avatar {
                 justify-content: center;
                 align-items: start;
             }
+
             .rd-bt {
                 width: fit-content;
             }
