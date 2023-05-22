@@ -100,6 +100,7 @@ export const createRace = async (race: raceToCreate) => {
   return await prisma.race.create({
     data: {
       race_start: race.race_start,
+      sector1: race.sector1,
       race_finish: race.race_finish,
       id_car: race.id_car
     }
@@ -115,6 +116,7 @@ export const createRaceWithQueryId = async (race: raceToCreateWithQueryId) => {
   return await prisma.race.create({
     data: {
       race_start: race.race_start,
+      sector1: race.sector1,
       race_finish: race.race_finish,
       car: {
         connect: {
