@@ -1,7 +1,7 @@
 <template>
     <fieldset @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
         <div class="img-avatar">
-            <img :src="`../src/assets/img/${props.avatarProperty.propNameSnakeCase}.png`"
+            <img :src="`../src/assets/img/${props.avatarProperty.propNameSnakeCase}.webp`"
                 :alt="`Icon changeant l'avatar ${props.avatarProperty.propNameFr}`">
         </div>
         <div class="rdbt-choice">

@@ -47,7 +47,7 @@
             <div class="informations">
                 <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
                 <div>
-                    <img class="hour" src="../assets/img/clock.png" alt="Icon d'horloge">
+                    <img class="hour" src="../assets/img/clock.webp" alt="Icon d'horloge">
                     <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
                 </div>
             </div>
@@ -317,7 +317,7 @@ div.button-classement {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/top-10.png");
+    background-image: url("../assets/img/top-10.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;
@@ -331,7 +331,7 @@ div.button-classement {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/placeholder.png");
+    background-image: url("../assets/img/placeholder.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;

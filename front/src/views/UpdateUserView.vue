@@ -8,13 +8,13 @@
                 <div class="tab1">
                     <label>
                         <input @click="clickTab(1)" name="tab" type="radio" :checked="numTabOpen == 1">
-                        <img src="../assets/img/face.png" alt="Icon visage homme">
+                        <img src="../assets/img/face.webp" alt="Icon visage homme">
                     </label>
                 </div>
                 <div class="tab2">
                     <label>
                         <input @click="clickTab(2)" name="tab" type="radio" :checked="numTabOpen == 2">
-                        <img src="../assets/img/hanger.png" alt="Icon de ceintre">
+                        <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
                     </label>
                 </div>
             </div>
