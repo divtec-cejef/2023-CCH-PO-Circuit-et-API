@@ -46,6 +46,7 @@ model realise {
 model race {
   id_race     Int      @id @default(autoincrement())
   race_start  DateTime
+  sector1     DateTime
   race_finish DateTime
   id_car      Int
   car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
