@@ -2,7 +2,7 @@
     <div :class="'classement-element '+ classUserCarElement">
         <div v-if="props.rank > 3" class="rank">{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: 'url(' + 2 + ')' }"></div>
-        <img :src="null" alt="Avatar de l'élément">
+        <img :src="undefined" alt="Avatar de l'élément">
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>

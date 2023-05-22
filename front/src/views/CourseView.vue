@@ -88,9 +88,8 @@ import NumberTime from '@/components/NumberTime.vue';
 import DropDown from '@/components/DropDown.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
-import { websocket } from '@/models/api';
+import type { websocket } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
-import Classement from '@/components/ClassementRace.vue';
 import router from '@/router';
 
 /**
