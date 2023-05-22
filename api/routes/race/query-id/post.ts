@@ -4,10 +4,13 @@ import { checkStructureOrThrow } from 'check-structure';
 import { getCarByQueryId } from '../../../services/car/implementation';
 import type { Server } from 'socket.io';
 
+declare type datable = Date | string
+
 declare type raceRequest = {
   query_id: string,
-  race_start: Date | string,
-  race_finish: Date | string;
+  race_start: datable,
+  sector1: datable
+  race_finish: datable;
 };
 
 /**
@@ -23,6 +26,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
   try {
     checkStructureOrThrow(race, {
       race_start: Date,
+      sector1: Date,
       race_finish: Date,
       query_id: String
     });
@@ -45,6 +49,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
 
   const raceToCreate: raceToCreateWithQueryId = {
     race_start: new Date(race.race_start),
+    sector1: new Date(race.sector1),
     race_finish: new Date(race.race_finish),
     query_id: race.query_id
   };
