@@ -13,7 +13,6 @@ export default defineComponent({
   props: ['avatarConfig'],
   watch: {
     avatarConfig: function (newVal) {
-      console.log('Change', newVal);
       this.regenerateAvatar(newVal);
     }
   },

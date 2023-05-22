@@ -1,8 +1,8 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement">
-        <div v-if="props.rank > 3" class="rank">{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: 'url(' + 2 + ')' }"></div>
-        <img :src="undefined" alt="Avatar de l'élément">
+        <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
+        <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.png)`}"></div>
+        <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
@@ -13,6 +13,7 @@ import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
 import type { models } from '@/models/api';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 const props = defineProps<{
   rank: number;
@@ -23,6 +24,7 @@ const props = defineProps<{
 
 const userCar = useCarStore();
 let classUserCarElement = ref('');
+const PODIUM = 4;
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
@@ -40,8 +42,24 @@ div.classement-element {
     padding: 9px;
     border-radius: 4px;
 
-    div.rank {
+    div.rank-image {
+        width: 30px;
+        height: 30px;
+        background-size: 30px 30px;
+        background-position: center;
+        margin-right: 10px;
         margin-left: 5px;
+    }
+
+    div.rank {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        width: 30px;
+        height: 30px;
+        margin-left: 5px;
+        margin-right: 10px;
     }
 
     img {
@@ -62,6 +80,15 @@ div.classement-element {
 }
 
 div.user-element {
-    border: 1px solid var(--light-green);
+    border: 1px solid var(--blue);
+
+    div.time {
+        font-size: 24px;
+    }
+}
+
+div.avatar {
+    width: 45px;
+    height: 45px;
 }
 </style>
