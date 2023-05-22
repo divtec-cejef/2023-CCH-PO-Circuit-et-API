@@ -98,6 +98,7 @@ describe('race', () => {
   it('should return a created race if all parameters are valid on create with query_id', async () => {
     const res = await chai.request('localhost:3000').post('/race/query-id/').send({
       race_start: '2021-10-10T10:10:10.000Z',
+      sector1: '2021-10-10T10:10:10.000Z',
       race_finish: '2021-10-10T10:10:10.000Z',
       query_id: '4356'
     });
@@ -126,6 +127,7 @@ describe('race', () => {
   it('should return an error if race_finish is invalid on create with query_id', async () => {
     const res = await chai.request('localhost:3000').post('/race/query-id/').send({
       race_start: '2016-01-17T08:44:29',
+      sector1: '2016-01-17T08:44:30',
       race_finish: '0000-00-00T10:10:10.000Z',
       query_id: '4356'
     });
@@ -137,6 +139,7 @@ describe('race', () => {
   it('should return an error if query_id is invalid', async () => {
     const res = await chai.request('localhost:3000').post('/race/query-id/').send({
       race_start: '2016-01-17T08:44:29',
+      sector1: '2016-01-17T08:44:40',
       race_finish: '2021-10-10T10:10:10.000Z',
       query_id: 4356
     });
@@ -148,6 +151,7 @@ describe('race', () => {
   it('should return a created race if all parameters are valid', async () => {
     const res = await chai.request('localhost:3000').post('/race').send({
       race_start: '2021-10-10T10:10:10.000Z',
+      sector1: '2021-10-10T10:10:10.000Z',
       race_finish: '2021-10-10T10:10:10.000Z',
       id_car: 1
     });
@@ -176,6 +180,7 @@ describe('race', () => {
   it('should return an error if race_finish is invalid', async () => {
     const res = await chai.request('localhost:3000').post('/race').send({
       race_start: '2016-01-17T08:44:29',
+      sector1: '2016-01-17T08:44:29',
       race_finish: '0000-00-00T10:10:10.000Z',
       id_car: 1
     });
@@ -187,6 +192,7 @@ describe('race', () => {
   it('should return an error if id_car is invalid', async () => {
     const res = await chai.request('localhost:3000').post('/race').send({
       race_start: '2016-01-17T08:44:29',
+      sector1: '2016-01-17T08:44:29',
       race_finish: '2021-10-10T10:10:10.000Z',
       id_car: 'adsf'
     });
