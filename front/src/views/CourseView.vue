@@ -73,7 +73,7 @@
                     <button class="classement-top" @click="scrollToTop"></button>
                 </div>
                 <div ref="classement" class="classement-content">
-                    <Classement/>
+                    <ClassementRace/>
                 </div>
             </div>
         </div>
@@ -91,6 +91,7 @@ import { useCarStore } from '@/stores/car';
 import type { websocket } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
 import router from '@/router';
+import ClassementRace from "@/components/ClassementRace.vue";
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
