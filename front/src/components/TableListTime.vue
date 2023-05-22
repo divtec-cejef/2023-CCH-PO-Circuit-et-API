@@ -13,7 +13,7 @@
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><img class="video" src="../assets/img/film.png"
+                <td><img class="video" src="../assets/img/film.webp"
                          alt="Icon de film pour visionner la vidéo de la course">
                 </td>
             </tr>

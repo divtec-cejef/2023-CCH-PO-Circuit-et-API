@@ -10,34 +10,34 @@
             <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
-        <img id="car" src="../assets/img/car.bmp" alt="Voiture de l'utilisateur">
+        <img id="car" src="../assets/img/car.webp" alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
         <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
         <div class="badges">
             <RouterLink to="/course">
-                <img src="../assets/img/course.png" alt="Badge course">
+                <img src="../assets/img/course.webp" alt="Badge course">
                 <p>Course</p>
             </RouterLink>
             <RouterLink to="/course">
-                <img src="../assets/img/classement.png" alt="Badge classement">
+                <img src="../assets/img/classement.webp" alt="Badge classement">
                 <p>Classement</p>
             </RouterLink>
             <RouterLink to="/course">
-                <img src="../assets/img/video.png" alt="Badge vidéo">
+                <img src="../assets/img/video.webp" alt="Badge vidéo">
                 <p>Video</p>
             </RouterLink>
             <RouterLink to="/modification">
-                <img src="../assets/img/modification.png" alt="Badge modification">
+                <img src="../assets/img/modification.webp" alt="Badge modification">
                 <p>Modifier</p>
             </RouterLink>
 
             <RouterLink to="/">
-                <img src="../assets/img/stage.png" alt="Badge inscription stage">
+                <img src="../assets/img/stage.webp" alt="Badge inscription stage">
                 <p>Stage</p>
             </RouterLink>
             <RouterLink to="/">
-                <img src="../assets/img/live.png" alt="Badge live">
+                <img src="../assets/img/live.webp" alt="Badge live">
                 <p>Live</p>
             </RouterLink>
         </div>

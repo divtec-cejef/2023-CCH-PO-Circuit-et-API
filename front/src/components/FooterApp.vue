@@ -4,10 +4,10 @@
         <div class="stage">Inscris toi à un stage <a href="">ici</a> !</div>
         <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-                <img src="@/assets/img/instagram.png"
+                <img src="@/assets/img/instagram.webp"
                      alt="Logo instagram"></a>
             <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-                <img src="@/assets/img/facebook.png"
+                <img src="@/assets/img/facebook.webp"
                      alt="Logo faceboook"></a>
         </div>
     </footer>

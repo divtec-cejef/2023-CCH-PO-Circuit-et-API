@@ -1,7 +1,7 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement">
         <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.png)`}"></div>
+        <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.webp)`}"></div>
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
