@@ -142,9 +142,9 @@ VALUES (2, 2, '2023-03-31 11:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (2, 7, '2023-03-31 11:55:32');
 
-INSERT INTO race (id_car, race_start, race_finish)
-VALUES (1, '2023-03-31 12:55:32.125', '2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, race_finish)
-VALUES (2, '2023-03-31 13:01:25.256', '2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, race_finish)
-VALUES (1, '2023-03-31 13:18:56.724', '2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (1, '2023-03-31 12:55:32.125', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (2, '2023-03-31 13:01:25.256', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (1, '2023-03-31 13:18:56.724', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
