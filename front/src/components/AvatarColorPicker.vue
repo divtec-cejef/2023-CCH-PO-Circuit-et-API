@@ -2,6 +2,7 @@
     <fieldset class="color"
               @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
         <img v-if="avatarProperty.propNameEn == 'bgColor' " class="background" src="../assets/img/color.png" alt="Palette de couleurs">
+        <img v-if="avatarProperty.propNameEn == 'faceColor' " class="faceSkin" src="../assets/img/skin.png" alt="Couleur de peau">
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
                    :name=props.avatarProperty.propNameSnakeCase
@@ -64,8 +65,12 @@ fieldset {
     width: 100%;
 }
 
-img.background {
+img.background, img.faceSkin {
     width: 25px;
     height: 25px;
+}
+
+img.faceSkin {
+    margin-right: 5px;
 }
 </style>

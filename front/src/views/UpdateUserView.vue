@@ -607,9 +607,14 @@ div.modify-avatar {
                 padding-right: 30px;
             }
 
-           fieldset:nth-child(1) {
-               padding-left: 0;
-           }
+            fieldset:nth-child(1) {
+                padding-left: 0;
+            }
+
+            div fieldset:nth-child(2) {
+                padding-left: 0;
+
+            }
         }
     }
 }
