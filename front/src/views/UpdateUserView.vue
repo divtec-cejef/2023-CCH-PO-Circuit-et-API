@@ -73,9 +73,9 @@ function regenerateAvatar(parameter: string, value: any) {
     bgColor: config.value.bgColor,
     hatColor: config.value.hatColor,
     faceColor: config.value.faceColor,
+    hairColorRandom: true,
     hairColor: config.value.hairColor,
     shirtColor: config.value.shirtColor,
-    hairColorRandom: config.value.hairColorRandom,
     sex: config.value.sex,
     earSize: config.value.earSize,
     hatType: config.value.hatType,
@@ -90,6 +90,7 @@ function regenerateAvatar(parameter: string, value: any) {
   });
 }
 
+//Initialisation des constantes
 const NAME_HEAD_PROPS = 'head';
 const NAME_CLOTHES_PROPS = 'clothes';
 const TYPE_PROPS_TXT = 'txt';
@@ -283,7 +284,7 @@ const avatarProperties = [
     propValues: [
       {
         propValueEn: 'normal',
-        propValueFr: 'Normals',
+        propValueFr: 'Normaux',
       },
       {
         propValueEn: 'thick',
@@ -321,23 +322,23 @@ const avatarProperties = [
       },
       {
         propValueEn: '#E71',
-        propValueFr: 'Bleu',
+        propValueFr: 'Roux',
       },
       {
         propValueEn: '#FFB',
-        propValueFr: 'Rouge',
+        propValueFr: 'Blond',
       },
       {
         propValueEn: '#643',
-        propValueFr: 'Vert',
+        propValueFr: 'Brun',
       },
       {
         propValueEn: '#C96',
-        propValueFr: 'Jaune',
+        propValueFr: 'Chatin',
       },
       {
         propValueEn: '#61C',
-        propValueFr: 'Jaune',
+        propValueFr: 'Violet',
       }
     ],
     selectedValueEn: config.value.hairColor
