@@ -39,6 +39,9 @@
             <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
         </div>
     </div>
+    <div v-for="(item, key) in avatarColorProperties" :key="key">
+        <AvatarColorPicker :avatar-property=item @regenerateAvatar="regenerateAvatar"></AvatarColorPicker>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -47,6 +50,7 @@ import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
+import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -280,6 +284,169 @@ let numTabOpen = ref(1);
 if(localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }
+const avatarColorProperties = [
+  {
+    propNameFr: 'Couleur de fond',
+    propNameEn: 'bgColor',
+    propNameSnakeCase: 'bg-color',
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      }
+    ],
+    selectedValueEn: config.value.bgColor
+  },
+  {
+    propNameFr: 'Couleur de chapeau',
+    propNameEn: 'hatColor',
+    propNameSnakeCase: 'hat-color',
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      }
+    ],
+    selectedValueEn: config.value.hatColor
+  },
+  {
+    propNameFr: 'Couleur du visage',
+    propNameEn: 'faceColor',
+    propNameSnakeCase: 'face-color',
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      }
+    ],
+    selectedValueEn: config.value.faceColor
+  },
+  {
+    propNameFr: 'Couleur de cheveux',
+    propNameEn: 'hairColor',
+    propNameSnakeCase: 'hair-color',
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      }
+    ],
+    selectedValueEn: config.value.hairColor
+  },
+  {
+    propNameFr: 'Couleur du haut (habit)',
+    propNameEn: 'shirtColor',
+    propNameSnakeCase: 'shirt-color',
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#014',
+        propValueFr: 'Bleu',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#1A2',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      }
+    ],
+    selectedValueEn: config.value.shirtColor
+  }
+];
+
 
 </script>
 
