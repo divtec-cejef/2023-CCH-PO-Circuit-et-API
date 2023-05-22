@@ -10,7 +10,7 @@
             <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
-        <img id="car" src="../assets/img/car.png" alt="Voiture de l'utilisateur">
+        <img id="car" src="../assets/img/car.bmp" alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
         <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
@@ -64,7 +64,6 @@ import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 let userCar = useCarStore();
 const { car } = userCar;
 
-
 let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
 
 //Récupère le code de réponse de l'api
@@ -116,6 +115,7 @@ div.user-data {
     }
 
     img#car {
+        margin-top: 45px;
         max-width: 300px;
     }
 
@@ -169,9 +169,5 @@ div.user-data {
         }
     }
 }
-
-/******************************/
-/******** RESPONSIVE **********/
-/******************************/
 
 </style>
