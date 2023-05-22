@@ -53,7 +53,7 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
         PORT: 3000
   type-checking:
-    name: Run type checking
+    name: Run type checking on front
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v1
@@ -65,4 +65,4 @@ jobs:
       run: |
         cd front
         npm install
-        npx vue-tsc --noemit
+        npx vue-tsc --noemit && echo "Type checking succeeded"
