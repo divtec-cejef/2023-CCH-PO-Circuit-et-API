@@ -73,10 +73,13 @@
                     <button class="classement-top" @click="scrollToTop"></button>
                 </div>
                 <div ref="classement" class="classement-content">
-                    <Classement/>
+                    <ClassementRace/>
                 </div>
             </div>
         </div>
+    </div>
+    <div v-else>
+        <h2>Chargement en cours...</h2>
     </div>
 </template>
 
@@ -85,10 +88,10 @@ import NumberTime from '@/components/NumberTime.vue';
 import DropDown from '@/components/DropDown.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
-import { websocket } from '@/models/api';
+import type { websocket } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
-import Classement from '@/components/ClassementRace.vue';
 import router from '@/router';
+import ClassementRace from '@/components/ClassementRace.vue';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
