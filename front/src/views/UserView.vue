@@ -10,34 +10,34 @@
             <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
-        <img id="car" src="../assets/img/car.webp" alt="Voiture de l'utilisateur">
+        <img id="car" :src=carImage alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
         <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
         <div class="badges">
             <RouterLink to="/course">
-                <img src="../assets/img/course.webp" alt="Badge course">
+                <img :src=badgeCourse alt="Badge course">
                 <p>Course</p>
             </RouterLink>
             <RouterLink to="/course">
-                <img src="../assets/img/classement.webp" alt="Badge classement">
+                <img :src=badgeClassement alt="Badge classement">
                 <p>Classement</p>
             </RouterLink>
             <RouterLink to="/course">
-                <img src="../assets/img/video.webp" alt="Badge vidéo">
+                <img :src=badgeVideo alt="Badge vidéo">
                 <p>Video</p>
             </RouterLink>
             <RouterLink to="/modification">
-                <img src="../assets/img/modification.webp" alt="Badge modification">
+                <img :src=badgeModif alt="Badge modification">
                 <p>Modifier</p>
             </RouterLink>
 
             <RouterLink to="/">
-                <img src="../assets/img/stage.webp" alt="Badge inscription stage">
+                <img :src=badgeStage alt="Badge inscription stage">
                 <p>Stage</p>
             </RouterLink>
             <RouterLink to="/">
-                <img src="../assets/img/live.webp" alt="Badge live">
+                <img :src=badgeLive alt="Badge live">
                 <p>Live</p>
             </RouterLink>
         </div>
@@ -59,6 +59,14 @@ import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import api from '../models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import carImage from '../assets/img/car.webp';
+import badgeCourse from '../assets/img/course.webp';
+import badgeClassement from '../assets/img/classement.webp';
+import badgeModif from '../assets/img/modification.webp';
+import badgeVideo from '../assets/img/video.webp';
+import badgeStage from '../assets/img/stage.webp';
+import badgeLive from '../assets/img/live.webp';
+
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
