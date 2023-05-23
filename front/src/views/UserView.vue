@@ -10,7 +10,7 @@
             <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
         </div>
 
-        <img id="car" :src=carImage alt="Voiture de l'utilisateur">
+        <img id="car" :src=carImg alt="Voiture de l'utilisateur">
 
         <h2>Tableau de bord</h2>
         <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
@@ -59,7 +59,7 @@ import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import api from '../models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import carImage from '../assets/img/car.webp';
+import carImg from '../assets/img/car.webp';
 import badgeCourse from '../assets/img/course.webp';
 import badgeClassement from '../assets/img/classement.webp';
 import badgeModif from '../assets/img/modification.webp';

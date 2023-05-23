@@ -47,7 +47,7 @@
             <div class="informations">
                 <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
                 <div>
-                    <img class="hour" src="../assets/img/clock.webp" alt="Icon d'horloge">
+                    <img class="hour" :src=hourImg alt="Icon d'horloge">
                     <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
                 </div>
             </div>
@@ -69,8 +69,8 @@
             <div class="content-classement">
                 <h2>Classement</h2>
                 <div class="button-classement">
-                    <button class="classement-user" @click="scrollToUser"></button>
-                    <button class="classement-top" @click="scrollToTop"></button>
+                    <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg});`}"></button>
+                    <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg});`}"></button>
                 </div>
                 <div ref="classement" class="classement-content">
                     <ClassementRace/>
@@ -92,6 +92,9 @@ import type { websocket } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
 import router from '@/router';
 import ClassementRace from '@/components/ClassementRace.vue';
+import hourImg from '@/assets/img/clock.webp';
+import placeHolderImg from '../assets/img/placeholder.webp';
+import topImg from '../assets/img/placeholder.webp';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
@@ -317,7 +320,6 @@ div.button-classement {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/top-10.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;
@@ -331,7 +333,6 @@ div.button-classement {
     background-color: transparent;
     border: none;
     border-radius: 100px;
-    background-image: url("../assets/img/placeholder.webp");
     background-position: center;
     background-size: 30px;
     background-repeat: no-repeat;
