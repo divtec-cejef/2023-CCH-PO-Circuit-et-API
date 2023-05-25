@@ -3,45 +3,61 @@
         Chargement...
     </div>
 
-    <div class="user-data" v-else-if="codeBackApi === api.ReturnCodes.Success">
-        <div class="avatar-txt">
-            <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
-            <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-            <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
-        </div>
+    <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+        <div class="user-data">
+            <div class="avatar-txt">
+                <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+                <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
+                <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
+            </div>
 
-        <img id="car" src="../assets/img/car.webp" alt="Voiture de l'utilisateur">
+            <vue3d-loader filePath="../src/assets/other/car.stl"
+                          :height="250"
+                          :width="400"
+                          file-type="stl"
+                          :controlsOptions="{
+                       enablePan,
+                       enableZoom,
+                       enableRotate,
+                      }"
+                          :position="position"
+                          :rotation="rotation"
+                          @load="onLoad()"
+            />
 
-        <h2>Tableau de bord</h2>
-        <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite !</p>
-        <div class="badges">
-            <RouterLink to="/course">
-                <img src="../assets/img/course.webp" alt="Badge course">
-                <p>Course</p>
-            </RouterLink>
-            <RouterLink to="/course">
-                <img src="../assets/img/classement.webp" alt="Badge classement">
-                <p>Classement</p>
-            </RouterLink>
-            <RouterLink to="/course">
-                <img src="../assets/img/video.webp" alt="Badge vidéo">
-                <p>Video</p>
-            </RouterLink>
-            <RouterLink to="/modification">
-                <img src="../assets/img/modification.webp" alt="Badge modification">
-                <p>Modifier</p>
-            </RouterLink>
+            <h2>Tableau de bord</h2>
+            <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
+                !</p>
+            <div class="badges">
+                <RouterLink to="/course">
+                    <img src="../assets/img/course.webp" alt="Badge course">
+                    <p>Course</p>
+                </RouterLink>
+                <RouterLink to="/course">
+                    <img src="../assets/img/classement.webp" alt="Badge classement">
+                    <p>Classement</p>
+                </RouterLink>
+                <RouterLink to="/course">
+                    <img src="../assets/img/video.webp" alt="Badge vidéo">
+                    <p>Video</p>
+                </RouterLink>
+                <RouterLink to="/modification">
+                    <img src="../assets/img/modification.webp" alt="Badge modification">
+                    <p>Modifier</p>
+                </RouterLink>
 
-            <RouterLink to="/">
-                <img src="../assets/img/stage.webp" alt="Badge inscription stage">
-                <p>Stage</p>
-            </RouterLink>
-            <RouterLink to="/">
-                <img src="../assets/img/live.webp" alt="Badge live">
-                <p>Live</p>
-            </RouterLink>
+                <RouterLink to="/">
+                    <img src="../assets/img/stage.webp" alt="Badge inscription stage">
+                    <p>Stage</p>
+                </RouterLink>
+                <RouterLink to="/">
+                    <img src="../assets/img/live.webp" alt="Badge live">
+                    <p>Live</p>
+                </RouterLink>
+            </div>
         </div>
     </div>
+
 
     <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
         Erreur, impossible de trouver la voiture
@@ -59,6 +75,8 @@ import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import api from '../models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import { vue3dLoader } from 'vue-3d-loader';
+//import car3dImg from '../src/assets/other/car.ply';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -70,6 +88,36 @@ let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id
 let codeBackApi = ref(0);
 status.then(value => codeBackApi.value = value);
 
+
+//Configuration
+const enablePan = ref(false);
+const enableZoom = ref(false);
+const enableRotate = ref(true);
+
+//Position de la voiture
+const position = ref();
+position.value = {
+  x: 0,
+  y: 0,
+  z: -8
+};
+
+//Rotation de la voiture
+const rotation = ref();
+rotation.value = {
+  x: 0.25,
+  y: 0,
+  z: 0,
+};
+
+function onLoad() {
+  rotate();
+}
+
+function rotate() {
+  requestAnimationFrame(rotate);
+  rotation.value.y -= 0.0035;
+}
 </script>
 
 <style scoped lang="scss">
@@ -96,10 +144,14 @@ div.user-data {
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 300px;
+        max-width: 400px;
 
         p:nth-child(2) {
             font-size: 18px;
+        }
+
+        p:nth-child(3) {
+            width: 80%;
         }
 
         div.avatar {
