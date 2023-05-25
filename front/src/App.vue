@@ -1,14 +1,14 @@
 <template>
     <header v-if="menuIsClicked" class="closed thin">
         <RouterLink :to="`/${car.idQuery}`">
-            <img src="./assets/img/logo.webp" alt="Logo tuture divtec">
+            <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
-        <img src="./assets/img/volant.webp" alt="Volant pour le menu" @click="clickMenu">
+        <img :src=menuImg alt="Volant pour le menu" @click="clickMenu">
     </header>
 
     <header class="large">
         <RouterLink :to="`/${car.idQuery}`">
-            <img src="./assets/img/logo.webp" alt="Logo tuture divtec">
+            <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>
     </header>
@@ -21,7 +21,7 @@
 
     <header v-if="!menuIsClicked" class="open thin">
         <HeaderApp></HeaderApp>
-        <img src="./assets/img/volant.webp" alt="Volant pour le menu" @click="clickMenu">
+        <img :src=menuImg alt="Volant pour le menu" @click="clickMenu">
     </header>
 
 </template>
@@ -32,6 +32,8 @@ import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
+import menuImg from '@/assets/img/volant.webp';
+import logoImg from '@/assets/img/logo.webp';
 
 /**
  * Gère le clic sur le menu

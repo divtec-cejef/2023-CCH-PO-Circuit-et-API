@@ -4,17 +4,18 @@
         <div class="stage">Inscris toi à un stage <a href="">ici</a> !</div>
         <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-                <img src="@/assets/img/instagram.webp"
+                <img :src=instaImg
                      alt="Logo instagram"></a>
             <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-                <img src="@/assets/img/facebook.webp"
+                <img :src=facebookImg
                      alt="Logo faceboook"></a>
         </div>
     </footer>
 </template>
 
 <script setup lang="ts">
-
+import instaImg from '../assets/img/instagram.webp';
+import facebookImg from '../assets/img/facebook.webp';
 </script>
 
 <style scoped lang="scss">
