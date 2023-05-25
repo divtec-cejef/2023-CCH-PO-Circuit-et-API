@@ -220,20 +220,20 @@ VALUES (10, 'Admlocal1', '4365', 'Rayanito', '{
 
 
 INSERT INTO section (label, password)
-VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
+VALUES ('Informatique', '$2y$10$br6MJibZDs/6j7JK.1gmsONwxy7PnuvWEsC8GqFCSFQHjUjyxbW8S');
 INSERT INTO section (label, password)
-VALUES ('Automatique', '$2a$12$ZqkedbzE3tPHR.xTX2pgmu9DEF2ErmbU/SfzH4EB8ZOQPRzhx0fY2');
+VALUES ('Automatique', '$2y$10$HqUYTH4UcseSgm2rIdV4dOGCLYfc06GFXEABHZcnP4YP3v7B9KhWS');
 INSERT INTO section (label, password)
-VALUES ('Horlogerie', '$2a$12$9.wBt3QzyLOpPLJulJ82e.zd1ZS2UIaoZJJRuBskvZyJn2/0lXjxS');
+VALUES ('Horlogerie', '$2y$10$Xf2ApHEtuP4wTgFtjkX8eeMDR5tgwCYfaQusolI.Pyuz3i49Nl7Hy');
 INSERT INTO section (label, password)
-VALUES ('Electronique', '$2a$12$xE2VXGD6E7C56oa.Yeq1DOu5B3w.zk98IF..yqsyQFb/kmsAMaCD6');
+VALUES ('Electronique', '$2y$10$mnjqToV95TJA/iatEXMPZOrImK70rWfSGgE4KfRWPoFftxWg0X/tS');
 INSERT INTO section (label, password)
 VALUES ('Micromécanique',
-        '$2a$12$L9HsTZhPjQveaGL/owD83eHsx9xCMzUKDkyEVD94BSvxMhBqTTHsm');
+        '$2y$10$xWEzKchyHMfzm4aJ0QLPiONILGcj.ke8sTCfK40h/bhgNE65jQwIK');
 INSERT INTO section (label, password)
-VALUES ('Laborantin', '$2a$12$yNRyGjnlgDqsFuE9JqvMCO4kDXP0hTO08w1ld6L9uum7GwOSXbaQK');
+VALUES ('Laborantin', '$2y$10$GhXLlHno3GykMAMMCjYvwOjdSMvm8d.vdtH2n6DgCxhE5W0reZ81m');
 INSERT INTO section (label, password)
-VALUES ('Dessinateur', '$2a$12$dkt1tp0LW54GtQ6qoPYwgOkBMj1/x/qb/1nLeNa2hvGsdBqCYLlNm');
+VALUES ('Dessinateur', '$2y$10$EJjzK6Nb9wvFqltH30qJu.d0c.1He0dMCbI.vlV8f4OEOKocbM0gK');
 
 INSERT INTO activity (label, id_section)
 VALUES ('Informer', 1);
