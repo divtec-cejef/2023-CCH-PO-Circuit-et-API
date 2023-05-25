@@ -412,3 +412,31 @@ describe('Car', () => {
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
 });
+
+describe('Activity', () => {
+  it('should return all activities from one section', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_activity: Number,
+      label: String,
+      id_section: Number
+    }]);
+  });
+
+  it('should return an error if invalid section id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if section is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
+  });
+});
