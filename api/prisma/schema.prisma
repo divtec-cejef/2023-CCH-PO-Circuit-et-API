@@ -11,7 +11,7 @@ datasource db {
 model section {
   id_section Int        @id @default(autoincrement())
   label      String?    @db.VarChar(50)
-  password   String?    @db.VarChar(64)
+  token      String?    @db.VarChar(64)
   activity   activity[]
 }
 
