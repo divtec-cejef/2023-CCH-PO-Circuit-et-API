@@ -27,5 +27,6 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Vérification de l'existence de l'activité
-
 };
+
+export default route;
