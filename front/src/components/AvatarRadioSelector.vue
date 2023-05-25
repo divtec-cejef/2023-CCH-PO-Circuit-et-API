@@ -1,8 +1,8 @@
 <template>
     <fieldset @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
         <div class="img-avatar">
-            <img :src="`../src/assets/img/${props.avatarProperty.propNameSnakeCase}.webp`"
-                :alt="`Icon changeant l'avatar ${props.avatarProperty.propNameFr}`">
+            <img :src="imgRd?.default"
+                 :alt="`Icon changeant l'avatar ${props.avatarProperty.propNameFr}`">
         </div>
         <div class="rdbt-choice">
             <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
@@ -18,9 +18,22 @@
 
 <script setup lang="ts">
 import type { radioProperty } from '@/models/avatar';
+import { ref } from 'vue';
 
 const props = defineProps<{ avatarProperty: radioProperty }>();
 const emit = defineEmits(['regenerateAvatar']);
+const imgRd = ref();
+
+//Importation de l'image de rank
+async function importImage() {
+  return await import(`../assets/img/${props.avatarProperty.propNameSnakeCase}.webp`);
+}
+
+//Si l'utilisateur est sur le podium alors import image
+importImage().then((v) => {
+  imgRd.value = v;
+});
+
 </script>
 
 <style scoped lang="scss">
