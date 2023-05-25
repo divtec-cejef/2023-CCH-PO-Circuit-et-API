@@ -7,6 +7,8 @@ import ClassementView from '@/views/ClassementView.vue';
 import HomeView from '@/views/HomeView.vue';
 import ScanView from '@/views/ScanView.vue';
 import UpdateUserView from '@/views/UpdateUserView.vue';
+import ActivityAdminView from '@/views/ActivityAdminView.vue';
+import ScannActivityView from '@/views/ScannActivityView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +52,16 @@ const router = createRouter({
       path: '/modifier',
       name: 'modifier',
       component: UpdateUserView
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: ActivityAdminView
+    },
+    {
+      path: '/admin/scan',
+      name: 'admin-scan',
+      component: ScannActivityView
     }
   ]
 });
