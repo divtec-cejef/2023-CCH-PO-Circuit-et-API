@@ -69,7 +69,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
   }
 
   // Envoi les données de classement aux clients
-  res.app.get<Server>('socketio').emit('updatedRaces', await getShortestRaces());
+  (res.app.get('socketio') as Server).emit('updatedRaces', await getShortestRaces());
   const sockets = await (res.app.get('socketio') as Server).fetchSockets();
   for (const s1 of sockets.filter(s => s.data.carId === race.id_car)) {
     s1.emit('updatedUserRaces', {
