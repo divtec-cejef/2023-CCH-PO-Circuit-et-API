@@ -11,10 +11,9 @@
                 <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
             </div>
 
-            <vue3d-loader filePath="../src/assets/other/car.stl"
+            <vue3d-loader filePath="../src/assets/other/car.glb"
                           :height="250"
                           :width="400"
-                          file-type="stl"
                           :controlsOptions="{
                        enablePan,
                        enableZoom,
@@ -91,7 +90,7 @@ status.then(value => codeBackApi.value = value);
 
 //Configuration
 const enablePan = ref(false);
-const enableZoom = ref(false);
+const enableZoom = ref(true);
 const enableRotate = ref(true);
 
 //Position de la voiture
