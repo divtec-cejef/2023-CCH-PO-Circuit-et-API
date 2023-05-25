@@ -7,7 +7,7 @@ TRUNCATE car CASCADE;
 TRUNCATE activity CASCADE;
 TRUNCATE section CASCADE;
 
-INSERT INTO car (id_car, password, query_id, pseudo, avatar)
+INSERT INTO car
 VALUES (1, '1234', '4356', 'PlayerOne', '{
         "bgColor": "#1EA",
         "hatColor": "#024",
@@ -27,7 +27,8 @@ VALUES (1, '1234', '4356', 'PlayerOne', '{
         "glassesType": "square",
         "shape": "circle"
             }');
-INSERT INTO car (id_car, password, query_id, pseudo, avatar)
+
+INSERT INTO car
 VALUES (2, '4321', '4357', 'PlayerTwo', '{
         "bgColor": "#456",
         "hatColor": "#FD5",
@@ -47,6 +48,7 @@ VALUES (2, '4321', '4357', 'PlayerTwo', '{
         "glassesType": "square",
         "shape": "circle"
             }');
+
 INSERT INTO car
 VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
         "bgColor": "#E81",
@@ -67,6 +69,7 @@ VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
         "glassesType": "square",
         "shape": "circle"
             }');
+
 INSERT INTO car
 VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "bgColor": "#FFF",
@@ -87,6 +90,7 @@ VALUES (4, 'Admlocal1', '4359', 'tobito', '{
         "glassesType": "square",
         "shape": "circle"
             }');
+
 INSERT INTO car
 VALUES (5, 'Admlocal1', '4360', 'Chlore', '{
         "bgColor": "#234",
@@ -107,6 +111,113 @@ VALUES (5, 'Admlocal1', '4360', 'Chlore', '{
         "glassesType": "square",
         "shape": "circle"
 }');
+
+INSERT INTO car
+VALUES (6, 'Admlocal1', '4361', 'Mathilde', '{
+        "bgColor": "#234",
+        "hatColor": "#121",
+        "faceColor": "#D12",
+        "hairColor": "#234",
+        "shirtColor": "#21A",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
+
+INSERT INTO car
+VALUES (7, 'Admlocal1', '4362', 'Max', '{
+        "bgColor": "#111",
+        "hatColor": "#F1A",
+        "faceColor": "#387",
+        "hairColor": "#29A",
+        "shirtColor": "#2A3",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
+
+INSERT INTO car
+VALUES (8, 'Admlocal1', '4363', 'Titi', '{
+        "bgColor": "#ABC",
+        "hatColor": "#F1A",
+        "faceColor": "#8D1",
+        "hairColor": "#29A",
+        "shirtColor": "#21A",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
+
+INSERT INTO car
+VALUES (9, 'Admlocal1', '4364', 'Alex7', '{
+        "bgColor": "#8DA",
+        "hatColor": "#F1A",
+        "faceColor": "#9A2",
+        "hairColor": "#29A",
+        "shirtColor": "#21A",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
+
+INSERT INTO car
+VALUES (10, 'Admlocal1', '4365', 'Rayanito', '{
+        "bgColor": "#78A",
+        "hatColor": "#F1A",
+        "faceColor": "#923",
+        "hairColor": "#29A",
+        "shirtColor": "#21A",
+        "hairColorRandom": false,
+        "sex": "female",
+        "earSize": "small",
+        "hatType": "none",
+        "eyeType": "circle",
+        "hairType": "normal",
+        "noseType": "round",
+        "mouthType": "smile",
+        "shirtType": "hoody",
+        "eyeBrowType": "upMale",
+        "glassesType": "square",
+        "shape": "circle"
+}');
+
+
 
 INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
@@ -163,8 +274,71 @@ INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (2, 7, '2023-03-31 11:55:32');
 
 INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (1, '2023-03-31 12:55:32.125', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+VALUES (1, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
 INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (2, '2023-03-31 13:01:25.256', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+VALUES (1, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
 INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (1, '2023-03-31 13:18:56.724', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+VALUES (1, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (2, '2023-03-31 12:55:32.122', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (2, '2023-03-31 13:01:25.252', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (2, '2023-03-31 13:18:56.742', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (3, '2023-03-31 12:55:32.123', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (3, '2023-03-31 13:01:25.253', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (3, '2023-03-31 13:18:56.723', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (4, '2023-03-31 12:55:32.124', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (4, '2023-03-31 13:01:25.254', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (4, '2023-03-31 13:18:56.724', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (5, '2023-03-31 12:55:32.125', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (5, '2023-03-31 13:01:25.255', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (5, '2023-03-31 13:18:56.725', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (6, '2023-03-31 12:55:32.126', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (6, '2023-03-31 13:01:25.256', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (6, '2023-03-31 13:18:56.726', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (7, '2023-03-31 12:55:32.127', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (7, '2023-03-31 13:01:25.257', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (7, '2023-03-31 13:18:56.727', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (8, '2023-03-31 12:55:32.128', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (8, '2023-03-31 13:01:25.258', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (8, '2023-03-31 13:18:56.728', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (9, '2023-03-31 12:55:32.129', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (9, '2023-03-31 13:01:25.259', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (9, '2023-03-31 13:18:56.729', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (10, '2023-03-31 12:55:32.120', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (10, '2023-03-31 13:01:25.250', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
+INSERT INTO race (id_car, race_start, sector1, race_finish)
+VALUES (10, '2023-03-31 13:18:56.720', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
