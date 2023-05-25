@@ -4,8 +4,8 @@
 
     <div class="button-classement">
         <div>
-            <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg});`}"></button>
-            <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg});`}"></button>
+            <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+            <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
         </div>
     </div>
 
@@ -14,17 +14,15 @@
     </div>
 </template>
 <script setup lang="ts">
-
 import ClassementRace from '@/components/ClassementRace.vue';
-import placeHolderImg from '@/assets/img/placeholder.webp';
-import topImg from '@/assets/img/placeholder.webp';
+import placeHolderImg from '../assets/img/placeholder.webp';
+import topImg from '../assets/img/top-10.webp';
 
 /**
  * Scroll à l'élément de l'utilisateur
  */
 function scrollToUser() {
   let screenHeight = window.innerHeight;
-  console.log(screenHeight);
   window.scrollTo(0, 10 * 50 + 250 - screenHeight / 2);
 }
 
