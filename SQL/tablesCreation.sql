@@ -3,11 +3,11 @@ SET search_path TO cars;
 DROP TABLE IF EXISTS car CASCADE;
 CREATE TABLE car
 (
-    id_car    SERIAL,
-    password  VARCHAR(50),
-    query_id  VARCHAR(100) UNIQUE,
-    pseudo    VARCHAR(50),
-    avatar    json,
+    id_car   SERIAL,
+    password VARCHAR(50),
+    query_id VARCHAR(100) UNIQUE,
+    pseudo   VARCHAR(50),
+    avatar   json,
     PRIMARY KEY (id_car)
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE section
 (
     id_section SERIAL,
     label      VARCHAR(50),
-    token   VARCHAR(64),
+    token      VARCHAR(64) NOT NULL,
     PRIMARY KEY (id_section)
 );
 
