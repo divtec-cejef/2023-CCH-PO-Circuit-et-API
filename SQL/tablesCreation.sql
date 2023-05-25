@@ -16,7 +16,7 @@ CREATE TABLE section
 (
     id_section SERIAL,
     label      VARCHAR(50),
-    password   VARCHAR(64),
+    token   VARCHAR(64),
     PRIMARY KEY (id_section)
 );
 
