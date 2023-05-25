@@ -69,8 +69,8 @@
             <div class="content-classement">
                 <h2>Classement</h2>
                 <div class="button-classement">
-                    <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg});`}"></button>
-                    <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg});`}"></button>
+                    <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+                    <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
                 </div>
                 <div ref="classement" class="classement-content">
                     <ClassementRace/>
@@ -94,7 +94,7 @@ import router from '@/router';
 import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
-import topImg from '../assets/img/placeholder.webp';
+import topImg from '../assets/img/top-10.webp';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
