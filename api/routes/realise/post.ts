@@ -1,5 +1,6 @@
 import { routeHandler } from '../../models';
 import { checkStructureOrThrow } from 'check-structure';
+import { getActivityById } from '../../services/activity/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -27,6 +28,10 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Vérification de l'existence de l'activité
+  if (await getActivityById(realisedActivity.id_activity) === null) {
+    res.status(404).json({ error: 'Activity not found' });
+    return;
+  }
 };
 
 export default route;
