@@ -5,11 +5,12 @@
         <p>C'est par ici !</p>
     </div>
 
-    <img class="qr-code" src="../assets/img/qrCode.webp" alt="Animation qr code">
+    <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+
 </template>
 
 <script setup lang="ts">
-
+import qrCodeImg from '../assets/img/qrCode.gif';
 </script>
 
 <style scoped lang="scss">

@@ -13,7 +13,7 @@
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><img class="video" src="../assets/img/film.webp"
+                <td><img class="video" :src=video
                          alt="Icon de film pour visionner la vidéo de la course">
                 </td>
             </tr>
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import type Car from '@/models/car';
+import video from '../assets/img/film.webp';
 
 const props = defineProps<{
   carUser: Car;
