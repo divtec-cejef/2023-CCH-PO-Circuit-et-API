@@ -6,6 +6,7 @@
     </div>
 
     <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+
 </template>
 
 <script setup lang="ts">

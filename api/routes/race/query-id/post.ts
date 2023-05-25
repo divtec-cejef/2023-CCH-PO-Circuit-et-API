@@ -1,5 +1,10 @@
 import { raceToCreateWithQueryId, routeHandler } from '../../../models';
-import { createRaceWithQueryId, getShortestRaces } from '../../../services/race/implementation';
+import {
+  createRaceWithQueryId,
+  getRacesByCar,
+  getRankByCar,
+  getShortestRaces
+} from '../../../services/race/implementation';
 import { checkStructureOrThrow } from 'check-structure';
 import { getCarByQueryId } from '../../../services/car/implementation';
 import type { Server } from 'socket.io';
@@ -68,10 +73,21 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     return;
   }
 
+  const car = await getCarByQueryId(race.query_id);
+  if (car === null) {
+    res.status(500).json({ error: "Can't find car." });
+    return;
+  }
+
   // Envoi les données de classement aux clients
   (res.app.get('socketio') as Server).emit('updatedRaces', await getShortestRaces());
   const sockets = await (res.app.get('socketio') as Server).fetchSockets();
-  sockets.filter(async s => s.data.carId === (await getCarByQueryId(race.query_id))?.id_car).forEach(async s => s.emit('updatedUserRaces', await getShortestRaces()));
+  for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
+    s1.emit('updatedUserRaces', {
+      races: await getRacesByCar(s1.data.carId),
+      rank: await getRankByCar(s1.data.carId)
+    });
+  }
 };
 
 export default route;
