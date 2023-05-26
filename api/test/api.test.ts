@@ -202,6 +202,62 @@ describe('race', () => {
   });
 });
 
+describe('Activity', () => {
+  it('should return all activities from one section', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_activity: Number,
+      label: String,
+      id_section: Number
+    }]);
+  });
+
+  it('should return an error if invalid section id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if section is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
+  });
+
+  it('should return all activities from one car', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_activity: Number,
+      label_activity: String,
+      date_time: Date,
+      id_section: Number,
+      label_section: String
+    }]);
+  });
+
+  it('should return an error if invalid car id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if car is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Car not found' })));
+  });
+});
+
 // Test des voitures de l'API
 describe('Car', () => {
   // Obtenir toutes les voitures
@@ -411,34 +467,6 @@ describe('Car', () => {
 
     expect(res).to.have.status(404);
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
-  });
-});
-
-describe('Activity', () => {
-  it('should return all activities from one section', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/1');
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('array');
-    expect(res.body).to.have.that.structure([{
-      id_activity: Number,
-      label: String,
-      id_section: Number
-    }]);
-  });
-
-  it('should return an error if invalid section id is given', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
-
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
-  });
-
-  it('should return an error if section is not found', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/999');
-
-    expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
   });
 });
 

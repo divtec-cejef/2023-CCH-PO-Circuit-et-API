@@ -35,3 +35,16 @@ export const getActivityById = async (id: number) => {
     }
   });
 };
+
+/**
+ * Donne les activités qui ont été réalisées par le propriétaire d'une voiture
+ * @param id id de la voiture
+ * @returns une liste d'activités réalisées par le propriétaire d'une voiture
+ */
+export const getActivitiesByCarId = async (id: number) => {
+  return await prisma.$queryRaw`SELECT realise.id_activity, activity.label AS label_activity, date_time, section.id_section, section.label AS label_section
+                                FROM activity INNER JOIN realise ON activity.id_activity = realise.id_activity 
+                                INNER JOIN car ON realise.id_car = car.id_car 
+                                INNER JOIN section ON section.id_section = activity.id_section 
+                                WHERE car.id_car = ${id}`;
+};
