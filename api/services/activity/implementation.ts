@@ -42,7 +42,7 @@ export const getActivityById = async (id: number) => {
  * @returns une liste d'activités réalisées par le propriétaire d'une voiture
  */
 export const getActivitiesByCarId = async (id: number) => {
-  return await prisma.$queryRaw`SELECT realise.id_activity, activity.label AS label_activity, section.id_section, section.label AS label_section
+  return await prisma.$queryRaw`SELECT realise.id_activity, activity.label AS label_activity, date_time, section.id_section, section.label AS label_section
                                 FROM activity INNER JOIN realise ON activity.id_activity = realise.id_activity 
                                 INNER JOIN car ON realise.id_car = car.id_car 
                                 INNER JOIN section ON section.id_section = activity.id_section 
