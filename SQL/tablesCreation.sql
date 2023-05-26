@@ -65,9 +65,9 @@ CREATE TABLE token
 );
 
 CREATE VIEW classement AS
-SELECT id_race, (race_finish - race.race_start) as total_time, id_car
+SELECT id_race, (race_finish - race.race_start) AS total_time, id_car
 FROM race
-WHERE (id_car, (race_finish - race.race_start)) in
+WHERE (id_car, (race_finish - race.race_start)) IN
       (select id_car, min(race_finish - race_start) AS total_time FROM race GROUP BY id_car)
 ORDER BY total_time;
 
