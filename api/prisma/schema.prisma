@@ -55,7 +55,7 @@ model race {
 
 model token {
   id_token        Int      @id @default(autoincrement())
-  token           String   @db.VarChar(64)
+  token           String   @unique @db.VarChar(64)
   expiration_date DateTime @db.Date
   id_section      Int
   section         section  @relation(fields: [id_section], references: [id_section], onDelete: NoAction, onUpdate: NoAction)
