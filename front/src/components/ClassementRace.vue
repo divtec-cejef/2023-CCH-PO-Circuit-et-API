@@ -15,7 +15,7 @@
 import ClassementElement from '@/components/ClassementElement.vue';
 import { websocket } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
-import type { models } from '@/models/api';
+import type { models } from '@/models/namespace';
 
 const hasLoaded = ref(false);
 const listRace = ref<models.rankingData>();
