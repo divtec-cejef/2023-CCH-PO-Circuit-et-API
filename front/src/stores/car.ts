@@ -43,7 +43,6 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
-    console.log(dataUserCar);
     //Remplissage des champs de la voiture
     car.value.idCar = dataUserCar['id_car'];
     car.value.pseudo = dataUserCar['pseudo'];
@@ -74,7 +73,7 @@ export const useCarStore = defineStore('car', () => {
       car.value.listRace = [];
 
       car.value.listRace = races.races.map((race) =>
-        new Race(race.id_race, new Date(race.race_start), new Date(race.total_time))
+        new Race(race.id_race, new Date(race.race_start), new Date(race.total_time), new Date(race.sector1))
       );
     });
 

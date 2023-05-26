@@ -34,7 +34,7 @@
                     <ul>
                         <li>
                             <NumberTime class="num-race" number="1" color="var(--red)"/>
-                            <p>03:23:08</p>
+                            <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)}}</p>
                         </li>
                         <li>
                             <NumberTime class="num-race" number="2" color="var(--blue)"/>
