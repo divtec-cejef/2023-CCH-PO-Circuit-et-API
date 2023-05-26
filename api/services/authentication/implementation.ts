@@ -9,7 +9,10 @@ import bcrypt from 'bcrypt';
 export const getPasswordBySectionName = async (name: string) => {
   const section = await prisma.section.findFirstOrThrow({
     where: {
-      label: name
+      label: {
+        equals: name,
+        mode: 'insensitive'
+      }
     }
   });
 
@@ -22,13 +25,22 @@ export const authenticateSection = async (section: string, password: string) => 
   const unameHash = await bcrypt.hash(section + pwdHash, 10);
   const finalHash = await bcrypt.hash(now + unameHash, 10);
 
+  const sectionName = (await prisma.section.findFirstOrThrow({
+    where: {
+      label: {
+        equals: section,
+        mode: 'insensitive'
+      }
+    }
+  })).label;
+
   await prisma.token.create({
     data: {
       token: finalHash,
       expiration_date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2),
       section: {
         connect: {
-          label: section
+          label: sectionName
         }
       }
     }
