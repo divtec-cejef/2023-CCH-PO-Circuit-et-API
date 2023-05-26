@@ -52,6 +52,7 @@ jobs:
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
         PORT: 3000
+        CONTEXT: testing
   type-checking:
     name: Run type checking on front
     runs-on: ubuntu-22.04

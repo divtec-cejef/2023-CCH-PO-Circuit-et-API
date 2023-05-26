@@ -6,6 +6,7 @@ import '../index';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiStructure from 'chai-check-struct';
+import cjs from 'crypto-js';
 
 process.env.NODE_ENV = 'test';
 
@@ -256,68 +257,6 @@ describe('Activity', () => {
     expect(res.error.text).to.equal(JSON.stringify(({ error: 'Car not found' })));
   });
 });
-describe('Realise', () => {
-  it('should return an added activity to a car on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 6,
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('object');
-    expect(res.body).to.have.that.structure({
-      id_activity: Number,
-      id_car: Number,
-      date_time: Date
-    });
-  });
-  it('should return an error if id_activity is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 'adsf',
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if id_car is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: '3',
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if date_time is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: 3,
-      date_time: '2023-05-26T09:asdfasdfasdf'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if id_activity does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 999,
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(404);
-  });
-  it('should return an error if id_car does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: 999,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(404);
-  });
-});
 
 // Test des voitures de l'API
 describe('Car', () => {
@@ -535,7 +474,7 @@ describe('Authentication', () => {
   it('Should return a 401 error if the section is invalid', async () => {
     const res = await chai.request('localhost:3000').post('/authentication').send({
       section: 'test1234',
-      password: 'salutodin'
+      password: cjs.SHA256('Admlocal1').toString()
     });
 
     expect(res).to.have.status(401);
@@ -547,7 +486,7 @@ describe('Authentication', () => {
 
   it('Should return a 401 error if the password is invalid', async () => {
     const res = await chai.request('localhost:3000').post('/authentication').send({
-      section: 'informatique',
+      section: 'test',
       password: 'salutodin'
     });
 
@@ -580,5 +519,102 @@ describe('Authentication', () => {
       message: String
     });
     expect(res.body.message).to.equal('Key password is not in the source object');
+  });
+
+  it('Should return a token if the credentials are valid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.that.structure({
+      token: String
+    });
+  });
+});
+
+describe('Realise', () => {
+  const token = chai.request('localhost:3000').post('/authentication').send({
+    section: 'test',
+    password: 'Admlocal1'
+  });
+
+  it('should return an added activity to a car on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 8,
+        id_car: 3,
+        date_time: '2023-05-26T09:16:00'
+      });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_activity: Number,
+      id_car: Number,
+      date_time: Date
+    });
+  });
+
+  it('should return an error if id_activity is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 'adsf',
+        id_car: 3,
+        date_time: '2023-05-26T09:16:00'
+      });
+
+    expect(res).to.have.status(400);
+  });
+
+  it('should return an error if id_car is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 1,
+        id_car: '3',
+        date_time: '2023-05-26T09:16:00'
+      });
+
+    expect(res).to.have.status(400);
+  });
+
+  it('should return an error if date_time is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 1,
+        id_car: 3,
+        date_time: '2023-05-26T09:asdfasdfasdf'
+      });
+
+    expect(res).to.have.status(400);
+  });
+
+  it('should return an error if id_activity does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 999,
+        id_car: 3,
+        date_time: '2023-05-26T09:16:00'
+      });
+
+    expect(res).to.have.status(404);
+  });
+
+  it('should return an error if id_car does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_activity: 8,
+        id_car: 999,
+        date_time: '2023-05-26T09:16:00'
+      });
+
+    expect(res).to.have.status(404);
   });
 });
