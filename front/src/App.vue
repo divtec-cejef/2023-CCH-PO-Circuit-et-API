@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 import menuImg from '@/assets/img/volant.webp';
@@ -74,12 +74,6 @@ const { car } = userCar;
 const hasFinishedLoading = ref(false);
 let widthScreen = ref(window.innerWidth);
 const LIMIT_LARGE_CONTENT = 700;
-const route = useRoute();
-
-//Ecoute sur le changement de lien
-watch(route, async () => {
-  clickMenu();
-});
 
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
