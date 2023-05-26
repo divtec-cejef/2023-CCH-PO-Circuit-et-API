@@ -219,20 +219,20 @@ VALUES (10, 'Admlocal1', '4365', 'Rayanito', '{
 
 
 
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Informatique', '$2a$12$gtnqqRe8dLCkTAyN9nmMF.Ugvc6gr2a2fqD.TYLJ3onjKFxgqWhmW');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Automatique', '$2a$12$ZqkedbzE3tPHR.xTX2pgmu9DEF2ErmbU/SfzH4EB8ZOQPRzhx0fY2');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Horlogerie', '$2a$12$9.wBt3QzyLOpPLJulJ82e.zd1ZS2UIaoZJJRuBskvZyJn2/0lXjxS');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Electronique', '$2a$12$xE2VXGD6E7C56oa.Yeq1DOu5B3w.zk98IF..yqsyQFb/kmsAMaCD6');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Micromécanique',
         '$2a$12$L9HsTZhPjQveaGL/owD83eHsx9xCMzUKDkyEVD94BSvxMhBqTTHsm');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Laborantin', '$2a$12$yNRyGjnlgDqsFuE9JqvMCO4kDXP0hTO08w1ld6L9uum7GwOSXbaQK');
-INSERT INTO section (label, token)
+INSERT INTO section (label, password)
 VALUES ('Dessinateur', '$2a$12$dkt1tp0LW54GtQ6qoPYwgOkBMj1/x/qb/1nLeNa2hvGsdBqCYLlNm');
 
 INSERT INTO activity (label, id_section)

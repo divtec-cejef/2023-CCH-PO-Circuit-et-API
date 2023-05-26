@@ -16,7 +16,7 @@ CREATE TABLE section
 (
     id_section SERIAL,
     label      VARCHAR(50),
-    token      VARCHAR(64) NOT NULL,
+    password      VARCHAR(64) NOT NULL,
     PRIMARY KEY (id_section)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE token
 (
     id_token        SERIAL,
     token           VARCHAR(60) NOT NULL,
-    expiration_date DATE,
+    expiration_date DATE        NOT NULL ,
     id_section      INTEGER     NOT NULL,
     PRIMARY KEY (id_token),
     FOREIGN KEY (id_section) REFERENCES section (id_section)
