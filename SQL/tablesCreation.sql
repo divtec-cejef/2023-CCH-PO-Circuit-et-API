@@ -52,3 +52,14 @@ CREATE TABLE realise
     FOREIGN KEY (id_car) REFERENCES car (id_car) ON DELETE CASCADE,
     FOREIGN KEY (id_activity) REFERENCES activity (id_activity)
 );
+
+DROP TABLE IF EXISTS token CASCADE;
+CREATE TABLE token
+(
+    id_token        SERIAL,
+    token           VARCHAR(60) NOT NULL,
+    expiration_date DATE,
+    id_section      INTEGER     NOT NULL,
+    PRIMARY KEY (id_token),
+    FOREIGN KEY (id_section) REFERENCES section (id_section)
+);
