@@ -19,6 +19,11 @@ export const getPasswordBySectionName = async (name: string) => {
   return section.password;
 };
 
+/**
+ * Crée un token d'authentification et l'enregistre dans la base de données.
+ * @param section
+ * @param password
+ */
 export const authenticateSection = async (section: string, password: string) => {
   const now = new Date().toString();
   const pwdHash = SHA256(password).toString();
@@ -33,6 +38,10 @@ export const authenticateSection = async (section: string, password: string) => 
       }
     }
   })).label;
+
+  if (pwdHash !== await getPasswordBySectionName(section)) {
+    throw new Error('invalid password!');
+  }
 
   await prisma.token.create({
     data: {
