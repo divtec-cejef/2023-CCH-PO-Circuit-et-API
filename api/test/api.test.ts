@@ -444,7 +444,7 @@ describe('Realise', () => {
   it('should return an added activity to a car on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 6,
-      id_car: 1,
+      id_car: 3,
       date_time: '2023-05-26T09:16:00'
     });
 
@@ -459,7 +459,7 @@ describe('Realise', () => {
   it('should return an error if id_activity is invalid on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 'adsf',
-      id_car: 1,
+      id_car: 3,
       date_time: '2023-05-26T09:16:00'
     });
 
@@ -468,7 +468,7 @@ describe('Realise', () => {
   it('should return an error if id_car is invalid on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 1,
-      id_car: '1',
+      id_car: '3',
       date_time: '2023-05-26T09:16:00'
     });
 
@@ -477,7 +477,7 @@ describe('Realise', () => {
   it('should return an error if date_time is invalid on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 1,
-      id_car: 2,
+      id_car: 3,
       date_time: '2023-05-26T09:asdfasdfasdf'
     });
 
@@ -486,7 +486,7 @@ describe('Realise', () => {
   it('should return an error if id_activity does not exist on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 999,
-      id_car: 1,
+      id_car: 3,
       date_time: '2023-05-26T09:16:00'
     });
 
