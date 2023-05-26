@@ -10,7 +10,6 @@ export namespace restful {
     NotFound = 404,
   }
 
-
   /**
    * Retourne les données d'une voiture en fonction de son ID
    * @param queryId Query id de la voiture à retourner
@@ -20,7 +19,6 @@ export namespace restful {
     const res = await fetch(routeCar);
     return { json: (await res.json()), status: res.status };
   }
-
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
