@@ -63,3 +63,11 @@ CREATE TABLE token
     PRIMARY KEY (id_token),
     FOREIGN KEY (id_section) REFERENCES section (id_section)
 );
+
+CREATE VIEW classement AS
+SELECT id_race, (race_finish - race.race_start) as total_time, id_car
+FROM race
+WHERE (id_car, (race_finish - race.race_start)) in
+      (select id_car, min(race_finish - race_start) AS total_time FROM race GROUP BY id_car)
+ORDER BY total_time;
+
