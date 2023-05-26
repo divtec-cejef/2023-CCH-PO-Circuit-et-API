@@ -444,7 +444,7 @@ describe('Realise', () => {
   it('should return an added activity to a car on activity adding', async () => {
     const res = await chai.request('localhost:3000').post('/realise').send({
       id_activity: 6,
-      id_car: 2,
+      id_car: 1,
       date_time: '2023-05-26T09:16:00'
     });
 
