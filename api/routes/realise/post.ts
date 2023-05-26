@@ -4,6 +4,7 @@ import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
 import { createRealisedActivity } from '../../services/realise/implementation';
 import { getCarById } from '../../services/car/implementation';
+import validateSection from '../../services/validate-token/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -13,6 +14,12 @@ declare type realisedActivityRequest = {
 
 export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
+
+  const { authorization } = req.headers;
+  const sectId = await validateSection(res, authorization);
+  if (!sectId) {
+    return;
+  }
 
   // Vérification de la structure de la requête
   try {
@@ -33,9 +40,14 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Vérification de l'existence de l'activité
-  if (await getActivityById(realisedActivity.id_activity) === null) {
+  const activity = await getActivityById(realisedActivity.id_activity);
+  if (activity === null) {
     res.status(404).json({ error: 'Activity not found' });
     return;
+  }
+
+  if (activity.id_section !== sectId) {
+    res.status(403).json({ error: 'You are not allowed to perform this action.' });
   }
 
   // Création de l'activité
