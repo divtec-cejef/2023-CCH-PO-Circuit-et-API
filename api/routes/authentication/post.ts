@@ -19,7 +19,8 @@ export const route: routeHandler<null, unknown, {section: string, password:strin
     }
   }
 
-  const { section, password } = req.body;
+  const { password } = req.body;
+  const section = req.body.section.toLowerCase();
 
   const reqToken = await bcrypt.hash(password, 10);
   let dbPass = '';
