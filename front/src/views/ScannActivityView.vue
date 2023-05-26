@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { QrcodeStream } from 'vue-qrcode-reader/src';
 import { ref } from 'vue';
 
