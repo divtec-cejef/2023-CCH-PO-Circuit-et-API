@@ -1,6 +1,11 @@
 <template>
-    <div class="qr-code">
-        <qrcode-stream @decode="(r) => result = r" :track="paintOutline" />
+
+    <div class="fullscreen">
+        <qrcode-stream @init="onInit" v-if="!destroyed" @decode="(r) => result = r" :track="paintOutline">
+            <div class="loading-indicator" v-if="loading">
+                Chargement...
+            </div>
+        </qrcode-stream>
     </div>
 </template>
 
@@ -33,17 +38,33 @@ function paintOutline (detectedCodes:any, ctx: CanvasRenderingContext2D) {
   }
 }
 
+async function onInit (promise: Promise<any>) {
+  loading.value = true;
+
+  try {
+    await promise;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+const loading = ref(false);
+const destroyed = ref(false);
 const result = ref('');
+
 </script>
 
 <style scoped lang="scss">
 
-div.qr-code {
-    position: fixed;
-    top: 0;
-    left: 0;
+.loading-indicator {
     width: 100%;
     height: 100%;
-}
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+}
 </style>
