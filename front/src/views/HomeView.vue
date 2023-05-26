@@ -11,6 +11,15 @@
 
 <script setup lang="ts">
 import qrCodeImg from '../assets/img/qrCode.gif';
+import { useCarStore } from '@/stores/car';
+import router from '@/router';
+
+//Test si un utilisateur est déjà enregistré
+const userCar = useCarStore();
+if(userCar.car.idCar != 0) {
+  router.push({ path: `/${userCar.car.idQuery}` });
+}
+
 </script>
 
 <style scoped lang="scss">
