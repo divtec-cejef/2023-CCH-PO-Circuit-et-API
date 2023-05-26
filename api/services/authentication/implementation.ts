@@ -72,7 +72,8 @@ export const verifyToken = async (token: string) => {
       token: true,
       section: {
         select: {
-          label: true
+          label: true,
+          id_section: true
         }
       }
     }

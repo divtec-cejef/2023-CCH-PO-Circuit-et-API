@@ -4,8 +4,7 @@ import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
 import { createRealisedActivity } from '../../services/realise/implementation';
 import { getCarById } from '../../services/car/implementation';
-import { verifyToken } from '../../services/authentication/implementation';
-import { getSectionById } from '../../services/section/implementation';
+import validate from '../../services/validate-token/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -17,39 +16,8 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   const realisedActivity = req.body;
 
   const { authorization } = req.headers;
-
-  // Vérifie si l'authentification est disponible
-  if (authorization === undefined) {
-    res.status(401)
-      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
-      .json({ error: 'Unauthorised.' });
-    return;
-  }
-
-  // Vérifie si l'authentification est de type Bearer
-  if (!authorization.startsWith('Bearer')) {
-    res.status(401)
-      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
-      .json({ error: 'Unauthorised.' });
-    return;
-  }
-
-  // Vérifie si le token existe
-  let auth;
-  try {
-    auth = await verifyToken(authorization.slice(7));
-  } catch (e) {
-    res.status(401)
-      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
-      .json({ error: 'Invalid token.' });
-    return;
-  }
-
-  // Vérification de la période de validité du token
-  if (auth.expiration_date < new Date()) {
-    res.status(401)
-      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
-      .json({ error: 'Token expired.' });
+  const sectId = await validate(res, authorization);
+  if (!sectId) {
     return;
   }
 
@@ -78,10 +46,8 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
-  // Vérification des authorisations de l'utilisateur
-  if ((await getSectionById(activity.id_section))?.label.toLowerCase() !== auth.section.label.toLowerCase()) {
-    res.status(403).json({ error: 'Forbidden.' });
-    return;
+  if (activity.id_section !== sectId) {
+    res.status(403).json({ error: 'You are not allowed to perform this action.' });
   }
 
   // Création de l'activité
