@@ -4,7 +4,7 @@ import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
 import { createRealisedActivity } from '../../services/realise/implementation';
 import { getCarById } from '../../services/car/implementation';
-import validate from '../../services/validate-token/implementation';
+import validateSection from '../../services/validate-token/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -16,7 +16,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   const realisedActivity = req.body;
 
   const { authorization } = req.headers;
-  const sectId = await validate(res, authorization);
+  const sectId = await validateSection(res, authorization);
   if (!sectId) {
     return;
   }
