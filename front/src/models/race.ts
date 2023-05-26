@@ -2,19 +2,30 @@ import { format } from 'date-fns';
 
 export default class Race {
   idRace: number = 0;
-  hour: Date = new Date;
+  startTime: Date = new Date;
   totalTime: Date = new Date();
+  sector1: Date = new  Date();
 
   /**
-	 * Constructeur d'une course
-	 * @param idRace Id de la course
-	 * @param hour Heure à laquelle la course a été faite
-	 * @param totalTime Temps de la course
-	 */
-  constructor(idRace: number, hour: Date, totalTime: Date) {
+   * Constructeur d'une course
+   * @param idRace Id de la course
+   * @param startTime Heure à laquelle la course a été faite
+   * @param totalTime Temps de la course
+   * @param sector1 Premier temps intermédiaire
+   */
+  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date) {
     this.idRace = idRace;
-    this.hour = hour;
+    this.startTime = startTime;
     this.totalTime = totalTime;
+    this.sector1 = this.calculateSector(sector1);
+  }
+
+  /**
+   * Calcul du temps intermédiaire
+   * @param sector Temps du temps intermédiaire
+   */
+  calculateSector(sector : Date) {
+    return new Date(sector.getTime() - this.startTime.getTime());
   }
 
   /**
@@ -26,7 +37,7 @@ export default class Race {
   }
 
   formatHour() {
-    return format(this.hour, 'kk:mm');
+    return format(this.startTime, 'kk:mm');
   }
 }
 
