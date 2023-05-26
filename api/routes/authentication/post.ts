@@ -17,6 +17,7 @@ export const route: routeHandler<null, unknown, {section: string, password:strin
     } else {
       res.status(400).send();
     }
+    return;
   }
 
   const { password } = req.body;
@@ -29,6 +30,7 @@ export const route: routeHandler<null, unknown, {section: string, password:strin
     dbPass = await getPasswordBySectionName(section);
   } catch (e) {
     res.status(401).json({ message: 'Invalid credentials.' });
+    return;
   }
 
   if (dbPass !== reqToken) {
@@ -48,6 +50,7 @@ export const route: routeHandler<null, unknown, {section: string, password:strin
     } else {
       res.status(500).send();
     }
+    return;
   }
 
   res.status(200).json({ token });
