@@ -236,6 +236,7 @@ describe('Activity', () => {
     expect(res.body).to.have.that.structure([{
       id_activity: Number,
       label_activity: String,
+      date_time: Date,
       id_section: Number,
       label_section: String
     }]);
