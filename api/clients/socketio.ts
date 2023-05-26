@@ -45,13 +45,11 @@ export default function buildSioServer (server: http.Server) {
 
     socket.prependAny((eventName, ...args) => {
       console.log('Caught incoming Event: ' + eventName);
-      console.log('Arguments: ' + args);
       console.log('\n');
     });
 
     socket.prependAnyOutgoing((eventName, ...args) => {
       console.log('Caught outgoing Event: ' + eventName);
-      console.log('Arguments: ' + args);
       console.log('\n');
     });
   });
