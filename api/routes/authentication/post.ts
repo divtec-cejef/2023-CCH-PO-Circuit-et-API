@@ -1,7 +1,7 @@
 import { routeHandler } from '../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { authenticateSection, getPasswordBySectionName } from '../../services/authentication/implementation';
-import bcrypt from 'bcrypt';
+import { SHA256 } from 'crypto-js';
 
 export const route: routeHandler<null, unknown, {section: string, password:string}> = async (req, res) => {
   try {
@@ -22,7 +22,7 @@ export const route: routeHandler<null, unknown, {section: string, password:strin
   const { password } = req.body;
   const section = req.body.section.toLowerCase();
 
-  const reqToken = await bcrypt.hash(password, 10);
+  const reqToken = SHA256(password).toString();
   let dbPass = '';
 
   try {
