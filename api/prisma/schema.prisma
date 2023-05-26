@@ -8,6 +8,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model section {
+  id_section Int        @id @default(autoincrement())
+  label      String     @unique @db.VarChar(50)
+  password   String     @db.VarChar(64)
+  activity   activity[]
+  token      token[]
+}
+
 model activity {
   id_activity Int       @id @default(autoincrement())
   label       String?   @db.VarChar(50)
@@ -26,15 +34,6 @@ model car {
   realise  realise[]
 }
 
-model race {
-  id_race     Int      @id @default(autoincrement())
-  race_start  DateTime
-  sector1     DateTime
-  race_finish DateTime
-  id_car      Int
-  car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
-}
-
 model realise {
   id_car      Int       @default(autoincrement())
   id_activity Int
@@ -45,12 +44,13 @@ model realise {
   @@id([id_car, id_activity])
 }
 
-model section {
-  id_section Int        @id @default(autoincrement())
-  label      String     @unique @db.VarChar(50)
-  password   String     @db.VarChar(64)
-  activity   activity[]
-  token      token[]
+model race {
+  id_race     Int      @id @default(autoincrement())
+  race_start  DateTime
+  sector1     DateTime
+  race_finish DateTime
+  id_car      Int
+  car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model token {
