@@ -1,5 +1,5 @@
 import prisma from '../../clients/prismadb';
-import bcrypt from 'bcrypt';
+import { SHA256 } from 'crypto-js';
 
 /**
  * Permet d'obtenir le mot de passe d'une section en fonction de son nom
@@ -21,9 +21,9 @@ export const getPasswordBySectionName = async (name: string) => {
 
 export const authenticateSection = async (section: string, password: string) => {
   const now = new Date().toString();
-  const pwdHash = await bcrypt.hash(password, 10);
-  const unameHash = await bcrypt.hash(section + pwdHash, 10);
-  const finalHash = await bcrypt.hash(now + unameHash, 10);
+  const pwdHash = SHA256(password).toString();
+  const unameHash = SHA256(section + pwdHash).toString();
+  const finalHash = SHA256(now + unameHash).toString();
 
   const sectionName = (await prisma.section.findFirstOrThrow({
     where: {
