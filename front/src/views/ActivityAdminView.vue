@@ -1,5 +1,6 @@
 <template>
 
+    <h1>Scan des activités</h1>
     <div class="activity-list">
         <activity-admin @click="openScan"/>
         <activity-admin />
