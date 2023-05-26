@@ -1,5 +1,5 @@
 import { Socket, io } from 'socket.io-client';
-import type { models } from '@/models/namespace';
+import type { models } from '@/models/interface';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -40,7 +40,11 @@ export namespace restful {
     return { json: (await res.json()), status: res.status };
   }
 
-  export async function getAllActivityOneSection(idSection: number | string) {
+  /**
+   * Obtient toutes les activités présente dans une section
+   * @param idSection Id de la section
+   */
+  export async function getAllActivityOneSection(idSection: number | string)  {
     const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
     const res = await fetch(routeRaceCar);
     return { json: (await res.json()), status: res.status };
