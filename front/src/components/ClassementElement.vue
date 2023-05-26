@@ -13,7 +13,7 @@
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
-import type { models } from '@/models/api';
+import type { models } from '@/models/namespace';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 const props = defineProps<{
