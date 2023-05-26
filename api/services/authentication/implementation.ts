@@ -21,8 +21,8 @@ export const getPasswordBySectionName = async (name: string) => {
 
 /**
  * Crée un token d'authentification et l'enregistre dans la base de données.
- * @param section
- * @param password
+ * @param section La section à laquelle appartient le token
+ * @param password Le mot de passe avec le quel authentifier le token
  */
 export const authenticateSection = async (section: string, password: string) => {
   const now = new Date().toString();
@@ -56,4 +56,25 @@ export const authenticateSection = async (section: string, password: string) => 
   });
 
   return finalHash;
+};
+
+/**
+ * Permet de vérifier si un token est valide. Retourne la date d'exiration et la section a la quelle se rapporte le token.
+ * @param token Le token a vérifier.
+ */
+export const verifyToken = async (token: string) => {
+  return await prisma.token.findUniqueOrThrow({
+    where: {
+      token
+    },
+    select: {
+      expiration_date: true,
+      token: true,
+      section: {
+        select: {
+          label: true
+        }
+      }
+    }
+  });
 };
