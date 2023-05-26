@@ -3,7 +3,7 @@ import { checkStructureOrThrow } from 'check-structure';
 import { authenticateSection, getPasswordBySectionName } from '../../services/authentication/implementation';
 import bcrypt from 'bcrypt';
 
-export const route: routeHandler<null, unknown, {section: string, password:string}> = async (req, res, next) => {
+export const route: routeHandler<null, unknown, {section: string, password:string}> = async (req, res) => {
   try {
     checkStructureOrThrow(req.body, {
       section: String,
