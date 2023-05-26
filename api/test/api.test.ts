@@ -440,3 +440,65 @@ describe('Activity', () => {
     expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
   });
 });
+describe('Realise', () => {
+  it('should return an added activity to a car on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 6,
+      id_car: 2,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_activity: Number,
+      id_car: Number,
+      date_time: Date
+    });
+  });
+  it('should return an error if id_activity is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 'adsf',
+      id_car: 1,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if id_car is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: '1',
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if date_time is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: 2,
+      date_time: '2023-05-26T09:asdfasdfasdf'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if id_activity does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 999,
+      id_car: 1,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(404);
+  });
+  it('should return an error if id_car does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: 999,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(404);
+  });
+});

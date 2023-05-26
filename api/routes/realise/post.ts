@@ -3,6 +3,7 @@ import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
 import { createRealisedActivity } from '../../services/realise/implementation';
+import { getCarById } from '../../services/car/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -28,6 +29,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     } else {
       res.status(400).send();
     }
+    return;
   }
 
   // Vérification de l'existence de l'activité
@@ -43,6 +45,13 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     date_time: new Date(realisedActivity.date_time)
   };
 
+  // vérification de l'existence de la voiture
+  if (await getCarById(realisedActivity.id_car) === null) {
+    res.status(404).json({ error: 'Car not found' });
+    return;
+  }
+
+  // Création de lien entre activité et voiture
   try {
     res.json(await createRealisedActivity(realisedActivityToCreate));
   } catch (e) {
