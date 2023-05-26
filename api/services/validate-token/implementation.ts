@@ -40,4 +40,4 @@ export const validateSection = async (res: Response, authorization: string | und
   return auth.section.id_section;
 };
 
-export default validate;
+export default validateSection;
