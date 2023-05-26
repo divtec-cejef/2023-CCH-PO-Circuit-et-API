@@ -201,6 +201,123 @@ describe('race', () => {
   });
 });
 
+describe('Activity', () => {
+  it('should return all activities from one section', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_activity: Number,
+      label: String,
+      id_section: Number
+    }]);
+  });
+
+  it('should return an error if invalid section id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if section is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-section/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
+  });
+
+  it('should return all activities from one car', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_activity: Number,
+      label_activity: String,
+      id_section: Number,
+      label_section: String
+    }]);
+  });
+
+  it('should return an error if invalid car id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if car is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/activity/by-car/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Car not found' })));
+  });
+});
+describe('Realise', () => {
+  it('should return an added activity to a car on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 6,
+      id_car: 3,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_activity: Number,
+      id_car: Number,
+      date_time: Date
+    });
+  });
+  it('should return an error if id_activity is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 'adsf',
+      id_car: 3,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if id_car is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: '3',
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if date_time is invalid on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: 3,
+      date_time: '2023-05-26T09:asdfasdfasdf'
+    });
+
+    expect(res).to.have.status(400);
+  });
+  it('should return an error if id_activity does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 999,
+      id_car: 3,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(404);
+  });
+  it('should return an error if id_car does not exist on activity adding', async () => {
+    const res = await chai.request('localhost:3000').post('/realise').send({
+      id_activity: 1,
+      id_car: 999,
+      date_time: '2023-05-26T09:16:00'
+    });
+
+    expect(res).to.have.status(404);
+  });
+});
+
 // Test des voitures de l'API
 describe('Car', () => {
   // Obtenir toutes les voitures
@@ -410,96 +527,6 @@ describe('Car', () => {
 
     expect(res).to.have.status(404);
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
-  });
-});
-
-describe('Activity', () => {
-  it('should return all activities from one section', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/1');
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('array');
-    expect(res.body).to.have.that.structure([{
-      id_activity: Number,
-      label: String,
-      id_section: Number
-    }]);
-  });
-
-  it('should return an error if invalid section id is given', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
-
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
-  });
-
-  it('should return an error if section is not found', async () => {
-    const res = await chai.request('localhost:3000').get('/activity/by-section/999');
-
-    expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
-  });
-});
-describe('Realise', () => {
-  it('should return an added activity to a car on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 6,
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('object');
-    expect(res.body).to.have.that.structure({
-      id_activity: Number,
-      id_car: Number,
-      date_time: Date
-    });
-  });
-  it('should return an error if id_activity is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 'adsf',
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if id_car is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: '3',
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if date_time is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: 3,
-      date_time: '2023-05-26T09:asdfasdfasdf'
-    });
-
-    expect(res).to.have.status(400);
-  });
-  it('should return an error if id_activity does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 999,
-      id_car: 3,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(404);
-  });
-  it('should return an error if id_car does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise').send({
-      id_activity: 1,
-      id_car: 999,
-      date_time: '2023-05-26T09:16:00'
-    });
-
-    expect(res).to.have.status(404);
   });
 });
 
