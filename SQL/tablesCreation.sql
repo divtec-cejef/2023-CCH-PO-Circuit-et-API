@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS token CASCADE;
 CREATE TABLE token
 (
     id_token        SERIAL,
-    token           VARCHAR(64) NOT NULL,
+    token           VARCHAR(64) NOT NULL UNIQUE,
     expiration_date DATE        NOT NULL,
     id_section      INTEGER     NOT NULL,
     PRIMARY KEY (id_token),
