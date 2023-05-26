@@ -17,6 +17,7 @@ if (process.env.CONTEXT === 'testing') {
     await prisma.section.create({
       data: {
         label: 'test',
+        id_section: 8,
         password: cjs.SHA256('Admlocal1').toString()
       }
     });
@@ -24,11 +25,8 @@ if (process.env.CONTEXT === 'testing') {
     await prisma.activity.create({
       data: {
         label: 'tester',
-        section: {
-          connect: {
-            label: 'test'
-          }
-        }
+        id_section: 8,
+        id_activity: 8
       }
     });
   })();
