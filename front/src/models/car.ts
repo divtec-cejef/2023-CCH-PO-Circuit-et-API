@@ -17,7 +17,7 @@ export default class Car {
 
     //Tri de la liste en fonction
     listSortByNum.sort(function compare(a, b) {
-      return Number(a.hour) - Number(b.hour);
+      return Number(a.startTime) - Number(b.startTime);
     });
 
     return listSortByNum;
