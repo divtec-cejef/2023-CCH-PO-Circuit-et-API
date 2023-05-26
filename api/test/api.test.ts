@@ -412,3 +412,55 @@ describe('Car', () => {
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
 });
+
+describe('Authentication', () => {
+  it('Should return a 401 error if the section is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication').send({
+      section: 'test1234',
+      password: 'salutodin'
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 401 error if the password is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication').send({
+      section: 'informatique',
+      password: 'salutodin'
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 400 error if the section is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication').send({
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key section is not in the source object');
+  });
+
+  it('Should return a 400 error if the password is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication').send({
+      section: 'informatique'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key password is not in the source object');
+  });
+});
