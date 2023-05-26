@@ -424,7 +424,7 @@ describe('Authentication', () => {
     expect(res.body).to.have.that.structure({
       message: String
     });
-    expect(res.body.message).to.equal('Invalid credentials');
+    expect(res.body.message).to.equal('Invalid credentials.');
   });
 
   it('Should return a 401 error if the password is invalid', async () => {
@@ -437,7 +437,7 @@ describe('Authentication', () => {
     expect(res.body).to.have.that.structure({
       message: String
     });
-    expect(res.body.message).to.equal('Invalid credentials');
+    expect(res.body.message).to.equal('Invalid credentials.');
   });
 
   it('Should return a 400 error if the section is missing', async () => {
