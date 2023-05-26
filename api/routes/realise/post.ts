@@ -18,6 +18,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
 
   const { authorization } = req.headers;
 
+  // Vérifie si l'authentification est disponible
   if (authorization === undefined) {
     res.status(401)
       .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
@@ -25,6 +26,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
+  // Vérifie si l'authentification est de type Bearer
   if (!authorization.startsWith('Bearer')) {
     res.status(401)
       .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
@@ -32,6 +34,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
+  // Vérifie si le token existe
   let auth;
   try {
     auth = await verifyToken(authorization.slice(7));
@@ -42,6 +45,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
+  // Vérification de la période de validité du token
   if (auth.expiration_date < new Date()) {
     res.status(401)
       .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
@@ -74,6 +78,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
+  // Vérification des authorisations de l'utilisateur
   if ((await getSectionById(activity.id_section))?.label.toLowerCase() !== auth.section.label.toLowerCase()) {
     res.status(403).json({ error: 'Forbidden.' });
     return;
