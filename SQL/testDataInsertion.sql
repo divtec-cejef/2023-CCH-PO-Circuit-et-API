@@ -1,6 +1,7 @@
 SET
     search_path TO cars;
 
+TRUNCATE token CASCADE;
 TRUNCATE race CASCADE;
 TRUNCATE realise CASCADE;
 TRUNCATE car CASCADE;
@@ -220,20 +221,20 @@ VALUES (10, 'Admlocal1', '4365', 'Rayanito', '{
 
 
 INSERT INTO section (label, password)
-VALUES ('Informatique', '$2y$10$br6MJibZDs/6j7JK.1gmsONwxy7PnuvWEsC8GqFCSFQHjUjyxbW8S');
+VALUES ('Informatique', '756b86d14c1ea1941e91468ad9838f550ed56d14730a1b86221d187b60b50888');
 INSERT INTO section (label, password)
-VALUES ('Automatique', '$2y$10$HqUYTH4UcseSgm2rIdV4dOGCLYfc06GFXEABHZcnP4YP3v7B9KhWS');
+VALUES ('Automatique', '45e1a3c5cad23b11382cc7f1af593e80b420a8523855b3f83f698fc0234ca3db');
 INSERT INTO section (label, password)
-VALUES ('Horlogerie', '$2y$10$Xf2ApHEtuP4wTgFtjkX8eeMDR5tgwCYfaQusolI.Pyuz3i49Nl7Hy');
+VALUES ('Horlogerie', 'e229cdd135b8014d69025d7aaf04bd5316e8de9181a2973694de9514b0d40074');
 INSERT INTO section (label, password)
-VALUES ('Electronique', '$2y$10$mnjqToV95TJA/iatEXMPZOrImK70rWfSGgE4KfRWPoFftxWg0X/tS');
+VALUES ('Electronique', 'b614cd5a268540d1ab11aea45bed86ee5002488a32bff0840582a65e6affedcc');
 INSERT INTO section (label, password)
 VALUES ('Micromécanique',
-        '$2y$10$xWEzKchyHMfzm4aJ0QLPiONILGcj.ke8sTCfK40h/bhgNE65jQwIK');
+        'fe829e5c54c84f7e55b5754baea10bc5d8a117c9d66e7c385877d303d44beda1');
 INSERT INTO section (label, password)
-VALUES ('Laborantin', '$2y$10$GhXLlHno3GykMAMMCjYvwOjdSMvm8d.vdtH2n6DgCxhE5W0reZ81m');
+VALUES ('Laborantin', 'a70d7c214b845c2c05a508649250d7707daa35a08c88b42b6c4c4d74589c4713');
 INSERT INTO section (label, password)
-VALUES ('Dessinateur', '$2y$10$EJjzK6Nb9wvFqltH30qJu.d0c.1He0dMCbI.vlV8f4OEOKocbM0gK');
+VALUES ('Dessinateur', '7117e1cf54893b6c3ec43b1aa59422503a749b5c084d401e9041b4d9105df848');
 
 INSERT INTO activity (label, id_section)
 VALUES ('Informer', 1);
