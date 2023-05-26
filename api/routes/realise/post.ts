@@ -4,6 +4,8 @@ import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
 import { createRealisedActivity } from '../../services/realise/implementation';
 import { getCarById } from '../../services/car/implementation';
+import { verifyToken } from '../../services/authentication/implementation';
+import { getSectionById } from '../../services/section/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -13,6 +15,39 @@ declare type realisedActivityRequest = {
 
 export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
+
+  const { authorization } = req.headers;
+
+  if (authorization === undefined) {
+    res.status(401)
+      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
+      .json({ error: 'Unauthorised.' });
+    return;
+  }
+
+  if (!authorization.startsWith('Bearer')) {
+    res.status(401)
+      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
+      .json({ error: 'Unauthorised.' });
+    return;
+  }
+
+  let auth;
+  try {
+    auth = await verifyToken(authorization.slice(7));
+  } catch (e) {
+    res.status(401)
+      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
+      .json({ error: 'Invalid token.' });
+    return;
+  }
+
+  if (auth.expiration_date < new Date()) {
+    res.status(401)
+      .header('WWW-Authenticate', 'POST /authentication with section name and password to login')
+      .json({ error: 'Token expired.' });
+    return;
+  }
 
   // Vérification de la structure de la requête
   try {
@@ -33,8 +68,14 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Vérification de l'existence de l'activité
-  if (await getActivityById(realisedActivity.id_activity) === null) {
+  const activity = await getActivityById(realisedActivity.id_activity);
+  if (activity === null) {
     res.status(404).json({ error: 'Activity not found' });
+    return;
+  }
+
+  if ((await getSectionById(activity.id_section))?.label.toLowerCase() !== auth.section.label.toLowerCase()) {
+    res.status(403).json({ error: 'Forbidden.' });
     return;
   }
 
