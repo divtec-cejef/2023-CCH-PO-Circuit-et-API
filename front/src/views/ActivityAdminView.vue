@@ -18,12 +18,21 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { activity } from '@/models/activity';
 import type { models } from '@/models/interface';
+import restful from '@/models/api';
+import { useAdminPostStore } from '@/stores/adminPost';
 
 //Initialisation des variables
 const listActivity : Ref<models.activity[]>= ref([]);
+const adminPost = useAdminPostStore();
 
 //Initialise les données en fonction de l'id de la section
 activity.initAllActivityOneSection(1).then(c => listActivity.value = c);
+
+
+adminPost.sectionName = 'Informatique';
+adminPost.mdp = 'Gie3nRaGpEuQFuYvBFr26nZVPmtUH7lw94f40A4UMwCbBcTWVSJ8YNPwwVlq1oEz';
+
+restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then(v => adminPost.token = v);
 
 /**
  * Ouvre la page de scan en passant l'id de l'activité

@@ -49,6 +49,63 @@ export namespace restful {
     const res = await fetch(routeRaceCar);
     return { json: (await res.json()), status: res.status };
   }
+
+  /**
+   * Lance une requête POST pour récupérer un token d'authentification
+   * @param sectionName Nom de la section
+   * @param pwd Mot de passe de la section
+   */
+  export async function authenticationSectionPwd(sectionName: string, pwd: string) {
+
+    //Construction des options de requête
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        section: sectionName,
+        // eslint-disable-next-line camelcase
+        password: pwd
+      })
+    };
+    const response = await fetch(`${routeApi}authentication`, requestOptions);
+    return await response.json();
+  }
+
+  /**
+   * Lance une requête POST pour l'ajout d'une nouvelle activité pour une voiture
+   * @param idActivity Nom de la section
+   * @param idCar
+   * @param token
+   */
+  export async function addRealisationCar(idActivity: number, idCar: number, token: string) {
+
+    //Récupération d'un token d'identification
+
+    // POST request using fetch with async/await
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token}`
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        id_activity: idActivity,
+        // eslint-disable-next-line camelcase
+        id_car: idCar,
+        // eslint-disable-next-line camelcase
+        date_time: new Date()
+      })
+    };
+    const response = await fetch(routeApi, requestOptions);
+    const data = await response.json();
+    console.log(data);
+  }
 }
 
 export class websocket {
