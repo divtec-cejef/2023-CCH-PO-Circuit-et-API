@@ -8,7 +8,7 @@ import HomeView from '@/views/HomeView.vue';
 import ScanView from '@/views/ScanView.vue';
 import UpdateUserView from '@/views/UpdateUserView.vue';
 import ActivityAdminView from '@/views/ActivityAdminView.vue';
-import ScannActivityView from '@/views/ScannActivityView.vue';
+import ScanActivityView from '@/views/ScanActivityView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,7 +61,7 @@ const router = createRouter({
     {
       path: '/admin/scan',
       name: 'admin-scan',
-      component: ScannActivityView
+      component: ScanActivityView
     }
   ]
 });
