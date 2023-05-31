@@ -1,7 +1,7 @@
 <template>
 
     <div class="fullscreen">
-        <qrcode-stream @init="onInit" v-if="!destroyed" @decode="(r) => result = r" :track="paintOutline">
+        <qrcode-stream @init="onInit" v-if="!destroyed" @decode="onDecode" :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
                 Chargement...
             </div>
@@ -12,6 +12,8 @@
 <script setup lang="ts">
 import { QrcodeStream } from 'vue-qrcode-reader/src';
 import { ref } from 'vue';
+import restful from '@/models/api';
+import addRealisationCar = restful.addRealisationCar;
 
 /**
  * Dessine le tour du code qr sur l'image de celui la
@@ -49,6 +51,10 @@ async function onInit (promise: Promise<any>) {
   }
 }
 
+async function onDecode(value : string) {
+  let token = await restful.authenticationSectionPwd('test', 'sj');
+  addRealisationCar(1, 1, token);
+}
 const loading = ref(false);
 const destroyed = ref(false);
 const result = ref('');
