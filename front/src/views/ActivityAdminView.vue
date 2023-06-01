@@ -10,7 +10,7 @@
             <template v-else>
                 <h1>Scan des activités</h1>
                 <div class="activity-list">
-                    <activity-admin v-for="(activity, key) in listActivity"
+                    <activity-admin v-for="(activity, key) in adminPost.listActivity"
                                     @click="openScan(activity.idActivity)"
                                     :name="activity.name"
                                     :key="key"
@@ -26,31 +26,31 @@
 import ActivityAdmin from '@/components/ActivityAdmin.vue';
 import router from '@/router';
 import { ref } from 'vue';
-import type { Ref } from 'vue';
-import { activity } from '@/models/activity';
-import type { models } from '@/models/interface';
 import restful from '@/models/api';
 import { useAdminPostStore } from '@/stores/adminPost';
 
 //Initialisation des variables
-const listActivity: Ref<models.activity[]> = ref([]);
 const adminPost = useAdminPostStore();
 const loading = ref(true);
 
 //Récupération des données de l'url
-const actualUrl = router.currentRoute;
-adminPost.sectionName = (actualUrl.value.query.section || '').toString();
-adminPost.mdp = (actualUrl.value.query.mdp || '').toString();
+if(adminPost.token === '') {
+  const actualUrl = router.currentRoute;
+  adminPost.sectionName = (actualUrl.value.query.section || '').toString();
+  adminPost.mdp = (actualUrl.value.query.mdp || '').toString();
 
-//Récupération du Token avec le nom et mot de passe de l'url
-restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then((v) => {
-  if (v.token !== undefined) {
-    //Initialise les données en fonction de l'id de la section
-    adminPost.token = v.token;
-    activity.initAllActivityOneSection(1).then(c => listActivity.value = c);
-  }
+  //Récupération du Token avec le nom et mot de passe de l'url
+  restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then((v) => {
+    if (v.token !== undefined) {
+      //Initialise les données en fonction de l'id de la section
+      adminPost.token = v.token;
+      adminPost.initAllActivityOneSection(1);
+    }
+    loading.value = false;
+  });
+} else {
   loading.value = false;
-});
+}
 
 /**
  * Ouvre la page de scan en passant l'id de l'activité
