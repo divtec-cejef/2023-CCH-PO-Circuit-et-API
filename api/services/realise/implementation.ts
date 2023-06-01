@@ -9,9 +9,17 @@ import { realisedActivityToCreate } from '../../models';
 export const createRealisedActivity = async (realisedActivity: realisedActivityToCreate) => {
   return await prisma.realise.create({
     data: {
-      id_activity: realisedActivity.id_activity,
-      id_car: realisedActivity.id_car,
-      date_time: realisedActivity.date_time
+      activity: {
+        connect: {
+          id_activity: realisedActivity.id_activity
+        }
+      },
+      date_time: realisedActivity.date_time,
+      car: {
+        connect: {
+          query_id: realisedActivity.query_id
+        }
+      }
     }
   });
 };
@@ -25,7 +33,9 @@ export const realisationExists = async (toCheck: realisedActivityToCreate) => {
   return await prisma.realise.findFirst({
     where: {
       id_activity: toCheck.id_activity,
-      id_car: toCheck.id_car
+      car: {
+        query_id: toCheck.query_id
+      }
     }
   }) !== null;
 };
