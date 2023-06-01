@@ -13,8 +13,8 @@
         <HeaderApp></HeaderApp>
     </header>
 
-    <main :class="classMenuClicked" v-if="hasFinishedLoading">
-        <RouterView/>
+    <main :class="classMenuClicked" >
+        <RouterView v-if="hasFinishedLoading"/>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
