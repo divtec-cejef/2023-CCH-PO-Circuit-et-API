@@ -28,11 +28,12 @@ const adminPost = useAdminPostStore();
 //Initialise les données en fonction de l'id de la section
 activity.initAllActivityOneSection(1).then(c => listActivity.value = c);
 
-
 adminPost.sectionName = 'Informatique';
 adminPost.mdp = 'Gie3nRaGpEuQFuYvBFr26nZVPmtUH7lw94f40A4UMwCbBcTWVSJ8YNPwwVlq1oEz';
 
-restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then(v => adminPost.token = v);
+restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then((v) =>  {
+  adminPost.token = v.token;
+});
 
 /**
  * Ouvre la page de scan en passant l'id de l'activité
