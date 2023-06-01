@@ -2,7 +2,7 @@ import { routeHandler } from '../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../models';
-import { createRealisedActivity } from '../../services/realise/implementation';
+import { createRealisedActivity, realisationExists } from '../../services/realise/implementation';
 import { getCarById } from '../../services/car/implementation';
 import validateSection from '../../services/validate-token/implementation';
 
@@ -57,7 +57,13 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     date_time: new Date(realisedActivity.date_time)
   };
 
+  if (await realisationExists(realisedActivityToCreate)) {
+    res.status(409).json({ message: 'Activity is already realised for specified car!' });
+    return;
+  }
+
   // vérification de l'existence de la voiture
+
   if (await getCarById(realisedActivity.id_car) === null) {
     res.status(404).json({ error: 'Car not found' });
     return;
