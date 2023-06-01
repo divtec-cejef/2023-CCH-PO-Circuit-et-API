@@ -3,7 +3,6 @@ import buildSioServer from './clients/socketio';
 import prisma from './clients/prismadb';
 import http from 'http';
 import dotenv from 'dotenv';
-import cjs from 'crypto-js';
 
 dotenv.config();
 
