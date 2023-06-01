@@ -48,6 +48,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
 
   if (activity.id_section !== sectId) {
     res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    return;
   }
 
   // Création de l'activité
