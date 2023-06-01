@@ -1,6 +1,6 @@
 <template>
     <div class="fullscreen">
-        <div class="return-back" v-if="!loading">
+        <div @click="quitPage" class="return-back" v-if="!loading">
             <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
         </div>
         <qrcode-stream :camera="camera" @init="onInit" v-if="!destroyed" @decode="onDecode" :track="paintOutline">
@@ -64,7 +64,15 @@ async function onInit(promise: Promise<any>) {
  */
 async function onDecode(value: string) {
   result.value = addRealisationCar(1, 1, adminPost.token);
+  quitPage();
+}
+
+/**
+ * Quitte la page et éteinds la camerae
+ */
+async function quitPage() {
   camera.value = 'off';
+  console.log('test');
   await router.push({ path: '/admin' });
 }
 
