@@ -30,49 +30,22 @@ export const getRacesByCar = async (id: number) => {
  * @returns une liste des manches les plus courtes
  */
 export const getShortestRaces = async () => {
-  const races = await prisma.race.findMany().then(r => {
-    const res: typeof r = [];
-    r.forEach((v) => {
-      for (const race of r) {
-        if (race.id_car !== v.id_car) continue;
-        if (race.id_race === v.id_race) continue;
-        if (v.total_time.valueOf() > race.total_time.valueOf()) { return; }
-      }
-      if (res.every(race => v.id_car !== race.id_car)) { res.push(v); }
-    });
+  const ranking:{id_race:number, total_time:Date, id_car:number}[] = await prisma.$queryRaw`SELECT * FROM ranking`;
 
-    return res;
-  }
-  );
+  const cars:{id_car:number, pseudo:string, avatar:Prisma.JsonValue}[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar FROM car WHERE id_car IN (SELECT id_car FROM ranking)`;
 
-  const res: {
-    id_race: number;
-    total_time: Date;
-    car: { id_car: number; pseudo: string | null; avatar: Prisma.JsonValue };
-  }[] = [];
-
-  for (const k in races) {
-    res[k] = await prisma.race.findUniqueOrThrow({
-      where: {
-        id_race: races[k].id_race
-      },
-      select: {
-        id_race: true,
-        total_time: true,
-        car: {
-          select: {
-            id_car: true,
-            pseudo: true,
-            avatar: true
-          }
-        }
-      }
+  const rankingRes = [];
+  for (const i in ranking) {
+    const car = cars.find(car => car.id_car === ranking[i].id_car);
+    if (!car) throw new Error('Car not found');
+    rankingRes.push({
+      id_race: ranking[i].id_race,
+      total_time: ranking[i].total_time,
+      car
     });
   }
 
-  return res.sort((a, b) => {
-    return a.total_time.valueOf() - b.total_time.valueOf();
-  });
+  return rankingRes;
 };
 
 /**
