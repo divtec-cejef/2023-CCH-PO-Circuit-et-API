@@ -15,3 +15,17 @@ export const createRealisedActivity = async (realisedActivity: realisedActivityT
     }
   });
 };
+
+/**
+ * Permet de définir si une activité a déjà été réalisée par une voiture
+ * @param toCheck L'activité à réaliser.
+ * @returns true si l'activité a été réalisée, false sinon.
+ */
+export const realisationExists = async (toCheck: realisedActivityToCreate) => {
+  return await prisma.realise.findFirst({
+    data: {
+      id_activity: toCheck.id_activity,
+      id_car: toCheck.id_car
+    }
+  }) !== null;
+};
