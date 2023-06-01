@@ -4,7 +4,7 @@
         <div class="return-back" v-if="!loading">
             <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
         </div>
-        <qrcode-stream @init="onInit" v-if="!destroyed" @decode="onDecode" :track="paintOutline">
+        <qrcode-stream :camera="camera" @init="onInit" v-if="!destroyed" @decode="onDecode" :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
                 Chargement...
             </div>
@@ -18,6 +18,7 @@ import { ref } from 'vue';
 import restful from '@/models/api';
 import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
+import router from '@/router';
 
 /**
  * Dessine le tour du code qr sur l'image de celui la
@@ -64,12 +65,18 @@ async function onInit(promise: Promise<any>) {
  */
 async function onDecode(value: string) {
   result.value = addRealisationCar(1, 1, adminPost.token);
+  camera.value = 'off';
+  await router.push({ path: '/admin' });
 }
+
 
 const loading = ref(false);
 const destroyed = ref(false);
 const result = ref();
 const adminPost = useAdminPostStore();
+const camera = ref('auto');
+
+
 
 </script>
 
