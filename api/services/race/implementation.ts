@@ -30,10 +30,11 @@ export const getRacesByCar = async (id: number) => {
  * @returns une liste des manches les plus courtes
  */
 export const getShortestRaces = async () => {
+  // récupération des informations de la course et de la voiture
   const ranking:{id_race:number, total_time:Date, id_car:number}[] = await prisma.$queryRaw`SELECT * FROM ranking`;
-
   const cars:{id_car:number, pseudo:string, avatar:Prisma.JsonValue}[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar FROM car WHERE id_car IN (SELECT id_car FROM ranking)`;
 
+  // création du résultat
   const rankingRes = [];
   for (const i in ranking) {
     const car = cars.find(car => car.id_car === ranking[i].id_car);
