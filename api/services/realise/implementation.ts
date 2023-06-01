@@ -23,7 +23,7 @@ export const createRealisedActivity = async (realisedActivity: realisedActivityT
  */
 export const realisationExists = async (toCheck: realisedActivityToCreate) => {
   return await prisma.realise.findFirst({
-    data: {
+    where: {
       id_activity: toCheck.id_activity,
       id_car: toCheck.id_car
     }
