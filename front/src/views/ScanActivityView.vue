@@ -1,5 +1,4 @@
 <template>
-
     <div class="fullscreen">
         <div class="return-back" v-if="!loading">
             <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
@@ -69,14 +68,16 @@ async function onDecode(value: string) {
   await router.push({ path: '/admin' });
 }
 
-
 const loading = ref(false);
 const destroyed = ref(false);
 const result = ref();
 const adminPost = useAdminPostStore();
 const camera = ref('auto');
 
-
+//S'il n'y a pas d'authentification retour à la page admin
+if(adminPost.token == '') {
+  router.push({ path: '/admin' });
+}
 
 </script>
 
