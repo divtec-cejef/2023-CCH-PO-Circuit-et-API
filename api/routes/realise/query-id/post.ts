@@ -1,20 +1,27 @@
-import { routeHandler } from '../../models';
+import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
-import { getActivityById } from '../../services/activity/implementation';
-import type { realisedActivityToCreate } from '../../models';
-import { createRealisedActivity, realisationExists } from '../../services/realise/implementation';
-import { getCarById } from '../../services/car/implementation';
-import validateSection from '../../services/validate-token/implementation';
+import { getActivityById } from '../../../services/activity/implementation';
+import type { realisedActivityToCreate } from '../../../models';
+import { createRealisedActivity, realisationExists } from '../../../services/realise/implementation';
+import { getCarByQueryId } from '../../../services/car/implementation';
+import validateSection from '../../../services/validate-token/implementation';
 
 declare type realisedActivityRequest = {
   id_activity: number,
-  id_car: number,
+  query_id: string,
   date_time: string,
 }
 
+/**
+ * Controller post pour la route /realise/query-id
+ * @param req Requete
+ * @param res Reponse
+ * @returns l'activité réalisée
+ */
 export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
+  // vérification de l'authentification
   const { authorization } = req.headers;
   const sectId = await validateSection(res, authorization);
   if (!sectId) {
@@ -25,7 +32,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   try {
     checkStructureOrThrow(realisedActivity, {
       id_activity: Number,
-      id_car: Number,
+      query_id: String,
       date_time: Date
     });
   } catch (e) {
@@ -51,22 +58,21 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     return;
   }
 
+  // vérification de l'existence de la voiture
+  if (await getCarByQueryId(realisedActivity.query_id) === null) {
+    res.status(404).json({ error: 'Car not found' });
+    return;
+  }
+
   // Création de l'activité
   const realisedActivityToCreate: realisedActivityToCreate = {
     id_activity: realisedActivity.id_activity,
-    id_car: realisedActivity.id_car,
+    query_id: realisedActivity.query_id,
     date_time: new Date(realisedActivity.date_time)
   };
 
   if (await realisationExists(realisedActivityToCreate)) {
     res.status(409).json({ message: 'Activity is already realised for specified car!' });
-    return;
-  }
-
-  // vérification de l'existence de la voiture
-
-  if (await getCarById(realisedActivity.id_car) === null) {
-    res.status(404).json({ error: 'Car not found' });
     return;
   }
 
