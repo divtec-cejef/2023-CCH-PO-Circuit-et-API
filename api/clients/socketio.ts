@@ -1,7 +1,7 @@
 import sio from 'socket.io';
 import type { Socket } from 'socket.io';
 import { getShortestRaces, getRacesByCar, getRankByCar } from '../services/race/implementation';
-import { getCarById, getCarByQueryId } from '../services/car/implementation';
+import { getCarById } from '../services/car/implementation';
 import http from 'http';
 
 export default function buildSioServer (server: http.Server) {
@@ -31,16 +31,26 @@ export default function buildSioServer (server: http.Server) {
         rank: await getRankByCar(socket.data.carId)
       });
 
-      console.log(`User connected with car id ${socket.handshake.query.carId}`);
+      console.log(`User connected with car id ${socket.handshake.query.carId}\n`);
     } else {
-      console.log('User connected anonymously');
+      console.log('User connected anonymously\n');
     }
 
     // envoyer les données de classement au client
     socket.emit('updatedRaces', await getShortestRaces());
 
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      console.log('user disconnected\n');
+    });
+
+    socket.prependAny((eventName, ...args) => {
+      console.log('Caught incoming Event: ' + eventName);
+      console.log('\n');
+    });
+
+    socket.prependAnyOutgoing((eventName, ...args) => {
+      console.log('Caught outgoing Event: ' + eventName);
+      console.log('\n');
     });
   });
   return io;

@@ -1,7 +1,8 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement">
         <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: `url(../src/assets/img/rank${props.rank}.webp)`}"></div>
+        <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
+        </div>
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
@@ -12,7 +13,7 @@
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
-import type { models } from '@/models/api';
+import type { models } from '@/models/namespace';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 const props = defineProps<{
@@ -23,11 +24,25 @@ const props = defineProps<{
 }>();
 
 const userCar = useCarStore();
-let classUserCarElement = ref('');
+const classUserCarElement = ref('');
 const PODIUM = 4;
+const backgroundImage = ref();
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
+
+//Importation de l'image de rank
+async function importImage() {
+  return await import(`../assets/img/rank${props.rank}.webp`);
+}
+
+//Si l'utilisateur est sur le podium alors import image
+if(props.rank <= PODIUM) {
+  importImage().then((v) => {
+    backgroundImage.value = v;
+  });
+}
+
 
 </script>
 
