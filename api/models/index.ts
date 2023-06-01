@@ -19,6 +19,6 @@ export interface raceToCreateWithQueryId {
 
 export interface realisedActivityToCreate {
   id_activity: number;
-  id_car: number;
+  query_id: string;
   date_time: Date;
 }
