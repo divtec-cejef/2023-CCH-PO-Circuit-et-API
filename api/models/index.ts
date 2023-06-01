@@ -16,3 +16,9 @@ export interface raceToCreateWithQueryId {
   race_finish: Date;
   query_id: string;
 }
+
+export interface realisedActivityToCreate {
+  id_activity: number;
+  query_id: string;
+  date_time: Date;
+}

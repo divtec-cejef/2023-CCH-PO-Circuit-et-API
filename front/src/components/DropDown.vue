@@ -2,7 +2,7 @@
     <div>
         <div class="button-checked" @click="clickDropDown">
             <span>{{ props.name }}</span>
-            <img src="../assets/img/arrow.webp" alt="Flèche dépliable"
+            <img :src=arrowImg alt="Flèche dépliable"
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
 
@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import arrowImg from '../assets/img/arrow.webp';
 
 const props = defineProps<{
     name: string;

@@ -10,9 +10,10 @@ datasource db {
 
 model section {
   id_section Int        @id @default(autoincrement())
-  label      String?    @db.VarChar(50)
-  password   String?    @db.VarChar(64)
+  label      String     @unique @db.VarChar(50)
+  password   String     @db.VarChar(64)
   activity   activity[]
+  token      token[]
 }
 
 model activity {
@@ -50,4 +51,12 @@ model race {
   race_finish DateTime
   id_car      Int
   car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model token {
+  id_token        Int      @id @default(autoincrement())
+  token           String   @unique @db.VarChar(64)
+  expiration_date DateTime @db.Date
+  id_section      Int
+  section         section  @relation(fields: [id_section], references: [id_section], onDelete: NoAction, onUpdate: NoAction)
 }
