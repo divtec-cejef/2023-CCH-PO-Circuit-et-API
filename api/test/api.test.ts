@@ -202,6 +202,33 @@ describe('race', () => {
   });
 });
 
+describe('Section', () => {
+  it('should return a section with the given id', async () => {
+    const res = await chai.request('localhost:3000').get('/section/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_section: Number,
+      label: String
+    });
+  });
+
+  it('should return an error if invalid id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/section/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+  });
+
+  it('should return an error if section is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/section/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify({ error: 'Section not found' }));
+  });
+});
+
 describe('Activity', () => {
   it('should return all activities from one section', async () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/1');
@@ -541,11 +568,11 @@ describe('Realise', () => {
   });
 
   it('should return an added activity to a car on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 8,
-        id_car: 3,
+        query_id: '4358',
         date_time: '2023-05-26T09:16:00'
       });
 
@@ -559,11 +586,11 @@ describe('Realise', () => {
   });
 
   it('should return an error if id_activity is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 'adsf',
-        id_car: 3,
+        query_id: '4358',
         date_time: '2023-05-26T09:16:00'
       });
 
@@ -571,11 +598,11 @@ describe('Realise', () => {
   });
 
   it('should return an error if id_car is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 1,
-        id_car: '3',
+        query_id: 3,
         date_time: '2023-05-26T09:16:00'
       });
 
@@ -583,11 +610,11 @@ describe('Realise', () => {
   });
 
   it('should return an error if date_time is invalid on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 1,
-        id_car: 3,
+        query_id: '4358',
         date_time: '2023-05-26T09:asdfasdfasdf'
       });
 
@@ -595,11 +622,11 @@ describe('Realise', () => {
   });
 
   it('should return an error if id_activity does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 999,
-        id_car: 3,
+        query_id: '4358',
         date_time: '2023-05-26T09:16:00'
       });
 
@@ -607,11 +634,11 @@ describe('Realise', () => {
   });
 
   it('should return an error if id_car does not exist on activity adding', async () => {
-    const res = await chai.request('localhost:3000').post('/realise')
+    const res = await chai.request('localhost:3000').post('/realise/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_activity: 8,
-        id_car: 999,
+        query_id: '999',
         date_time: '2023-05-26T09:16:00'
       });
 
