@@ -78,19 +78,17 @@ export namespace restful {
   /**
    * Lance une requête POST pour l'ajout d'une nouvelle activité pour une voiture
    * @param idActivity Nom de la section
-   * @param idCar
-   * @param token
+   * @param idCar Id de la voiture
+   * @param token Token d'identification
    */
   export async function addRealisationCar(idActivity: number, idCar: number, token: string) {
-
-    //Récupération d'un token d'identification
 
     // POST request using fetch with async/await
     const requestOptions = {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${token}`
+        'Authorization' : `Bearer ${token.toString()}`
       },
 
       body: JSON.stringify({
@@ -102,9 +100,8 @@ export namespace restful {
         date_time: new Date()
       })
     };
-    const response = await fetch(routeApi, requestOptions);
+    const response = await fetch(`${routeApi}realise`, requestOptions);
     const data = await response.json();
-    console.log(data);
   }
 }
 
