@@ -12,6 +12,12 @@ declare type realisedActivityRequest = {
   date_time: string,
 }
 
+/**
+ * Controller post pour la route /realise/query-id
+ * @param req Requete
+ * @param res Reponse
+ * @returns l'activité réalisée
+ */
 export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
