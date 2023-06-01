@@ -3,9 +3,9 @@
         <template v-if="!loading">
             <div class="no-authentification" v-if="adminPost.token.toString().length == 0">
                 <h1>Erreur</h1>
-                <p>Vous n'êtes pas authentifier...</p>
+                <p>Vous n'êtes pas authentifié...</p>
 
-                <div>Accueil</div>
+                <div @click="openHome" >Accueil</div>
             </div>
             <template v-else>
                 <h1>Scan des activités</h1>
@@ -58,6 +58,14 @@ restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then((v) 
 function openScan(idActivity: number) {
   router.push({ path: '/admin/scan', query: { idActivity: idActivity.toString() } });
 }
+
+/**
+ * Ouvre la page d'accueil
+ */
+function openHome() {
+  router.push({ path: '/' });
+}
+
 </script>
 
 <style scoped lang="scss">
