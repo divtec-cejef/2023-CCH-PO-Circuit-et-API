@@ -36,6 +36,7 @@ jobs:
           psql -h localhost -U postgres -d postgres -w -a -f schemaCreation.sql
           psql -h localhost -U postgres -d postgres -w -a -f tablesCreation.sql
           psql -h localhost -U postgres -d postgres -w -a -f testDataInsertion.sql
+          psql -h localhost -U postgres -d postgres -w -a -f testSectionInsertion.sql
           cd ..
       name: Initialise db
     - name: Use Node.js ${{ matrix.node_version }}
@@ -52,7 +53,6 @@ jobs:
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
         PORT: 3000
-        CONTEXT: testing
   type-checking:
     name: Run type checking on front
     runs-on: ubuntu-22.04
