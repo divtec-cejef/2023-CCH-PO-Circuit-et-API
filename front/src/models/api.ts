@@ -8,6 +8,7 @@ export namespace restful {
     NoCode = 0,
     Success = 200,
     NotFound = 404,
+    Conflict = 409,
   }
 
   /**
@@ -78,15 +79,15 @@ export namespace restful {
   /**
    * Lance une requête POST pour l'ajout d'une nouvelle activité pour une voiture
    * @param idActivity Nom de la section
-   * @param idCar Id de la voiture
+   * @param queryId Query id de la voiture
    * @param token Token d'identification
    */
-  export async function addRealisationCar(idActivity: number, idCar: number, token: string) {
+  export async function addRealisationCar(idActivity: number, queryId: number | string, token: string) {
 
     // POST request using fetch with async/await
     const requestOptions = {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${token.toString()}`
       },
@@ -95,13 +96,13 @@ export namespace restful {
         // eslint-disable-next-line camelcase
         id_activity: idActivity,
         // eslint-disable-next-line camelcase
-        id_car: idCar,
+        query_id: queryId,
         // eslint-disable-next-line camelcase
         date_time: new Date()
       })
     };
-    const response = await fetch(`${routeApi}realise`, requestOptions);
-    const data = await response.json();
+    const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
+    return response.status;
   }
 }
 

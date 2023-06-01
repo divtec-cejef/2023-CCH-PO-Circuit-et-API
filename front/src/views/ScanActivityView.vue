@@ -3,11 +3,24 @@
         <div @click="quitPage" class="return-back" v-if="!loading">
             <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
         </div>
-        <qrcode-stream :camera="camera" @init="onInit" v-if="!destroyed" @decode="onDecode" :track="paintOutline">
+        <qrcode-stream :camera="camera" @init="onInit" @decode="onDecode" :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
                 Chargement...
             </div>
         </qrcode-stream>
+
+        <template v-if="validateScan">
+            <div v-if="addActivitySuccess" class="message">
+                <img src="../assets/img/checked.png" alt="Icône de succès">
+                <p>Activité ajoutée avec succès !</p>
+            </div>
+            <div v-else class="message">
+                <img src="../assets/img/cancel.png" alt="Icône d'erreur">
+                <p>{{ errorMessage }}</p>
+
+                <button @click="quitPage" class="button-return">OK</button>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -63,8 +76,28 @@ async function onInit(promise: Promise<any>) {
  * @param value Valeur décodé
  */
 async function onDecode(value: string) {
-  result.value = addRealisationCar(1, 1, adminPost.token);
-  quitPage();
+  //Récupération des données de l'url
+  let urlQrCode = new URL(value).href;
+  let queryId = urlQrCode.substring(urlQrCode.lastIndexOf('/') + 1);
+  let idActivity = Number(router.currentRoute.value.query.idActivity || 0);
+
+  //Lancement de la requête
+  const result = await addRealisationCar(idActivity, queryId, adminPost.token);
+
+  //Traitement de la réponse
+  validateScan.value = true;
+  if (result == restful.ReturnCodes.Success) {
+    addActivitySuccess.value = true;
+    waitPopPupResult();
+
+  } else if (result == restful.ReturnCodes.Conflict) {
+    addActivitySuccess.value = false;
+    errorMessage.value = 'L\'activité à déjà été réalisé par cette voiture !';
+
+  } else {
+    addActivitySuccess.value = false;
+    errorMessage.value = 'Erreur indéterminée !';
+  }
 }
 
 /**
@@ -72,18 +105,29 @@ async function onDecode(value: string) {
  */
 async function quitPage() {
   camera.value = 'off';
-  console.log('test');
   await router.push({ path: '/admin' });
 }
 
+/**
+ * Lance un timer pour afficher le résultat du scan
+ * Le ferme après un certain temps.
+ */
+function waitPopPupResult() {
+  setTimeout(() => {
+    validateScan.value = false;
+    quitPage();
+  }, 1500);
+}
+
 const loading = ref(false);
-const destroyed = ref(false);
-const result = ref();
 const adminPost = useAdminPostStore();
 const camera = ref('auto');
+const validateScan = ref(false);
+const errorMessage = ref('');
+const addActivitySuccess = ref(true);
 
 //S'il n'y a pas d'authentification retour à la page admin
-if(adminPost.token == '') {
+if (adminPost.token == '') {
   router.push({ path: '/admin' });
 }
 
@@ -117,7 +161,37 @@ div.return-back {
   margin-left: 25px;
 
   img {
+    margin-right: -3px;
     width: 25px;
+  }
+}
+
+div.message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: absolute;
+  align-items: center;
+  z-index: 1002;
+  padding: 10px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  width: 180px;
+  height: 250px;
+  top: calc(50% - 125px);
+  left: calc(50% - 90px);
+  text-align: center;
+
+  img {
+    width: 70px;
+  }
+
+  button {
+    background-color: var(--white);
+    border: 1px solid var(--gray);
+      border-radius: 10px;
+      padding: 4px 8px;
   }
 }
 </style>
