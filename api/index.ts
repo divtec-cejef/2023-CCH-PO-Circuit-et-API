@@ -13,22 +13,27 @@ expressServer.set('socketio', buildSioServer(server));
 expressServer.set('prismadb', prisma);
 
 if (process.env.CONTEXT === 'testing') {
+  const sectionTest = async () => {
+    return await prisma.section.findFirst({ where: { label: 'test' } });
+  };
   (async () => {
-    await prisma.section.create({
-      data: {
-        label: 'test',
-        id_section: 8,
-        password: cjs.SHA256('Admlocal1').toString()
-      }
-    });
+    if (await sectionTest() !== null) {
+      console.info('Test section already exists');
+      return;
+    }
 
     await prisma.activity.create({
       data: {
         label: 'tester',
-        id_section: 8,
-        id_activity: 8
+        section: {
+          create: {
+            label: 'test',
+            password: cjs.SHA256('Admlocal1').toString()
+          }
+        }
       }
     });
+    console.info('Created test section');
   })();
 }
 
