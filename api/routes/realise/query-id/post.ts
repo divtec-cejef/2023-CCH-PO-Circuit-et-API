@@ -2,7 +2,7 @@ import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../../models';
-import { createRealisedActivity } from '../../../services/realise/implementation';
+import { createRealisedActivity, realisationExists } from '../../../services/realise/implementation';
 import { getCarByQueryId } from '../../../services/car/implementation';
 import validateSection from '../../../services/validate-token/implementation';
 
@@ -55,6 +55,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
 
   if (activity.id_section !== sectId) {
     res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    return;
   }
 
   // vérification de l'existence de la voiture
@@ -69,6 +70,11 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     query_id: realisedActivity.query_id,
     date_time: new Date(realisedActivity.date_time)
   };
+
+  if (await realisationExists(realisedActivityToCreate)) {
+    res.status(409).json({ message: 'Activity is already realised for specified car!' });
+    return;
+  }
 
   // Création de lien entre activité et voiture
   try {
