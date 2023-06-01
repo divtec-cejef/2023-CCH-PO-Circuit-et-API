@@ -63,3 +63,11 @@ CREATE TABLE token
     PRIMARY KEY (id_token),
     FOREIGN KEY (id_section) REFERENCES section (id_section)
 );
+
+CREATE VIEW ranking AS
+SELECT id_race , ('1970-01-01 00:00:00'::timestamp + (race_finish - race.race_start)::interval)::timestamp AS total_time , id_car
+FROM race
+WHERE (id_car, (race_finish - race.race_start)) IN
+      (select id_car, min(race_finish - race_start) AS total_time FROM race GROUP BY id_car)
+ORDER BY total_time;
+
