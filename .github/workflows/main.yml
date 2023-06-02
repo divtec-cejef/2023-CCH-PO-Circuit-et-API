@@ -36,7 +36,7 @@ jobs:
           psql -h localhost -U postgres -d postgres -w -a -f schemaCreation.sql
           psql -h localhost -U postgres -d postgres -w -a -f tablesCreation.sql
           psql -h localhost -U postgres -d postgres -w -a -f testDataInsertion.sql
-          psql -h localhost -U postgres -d postgres -w -a -f testSectionInsertion.sql
+          psql -h localhost -U postgres -d postgres -w -a -f testAccountsInsertion.sql
           cd ..
       name: Initialise db
     - name: Use Node.js ${{ matrix.node_version }}
