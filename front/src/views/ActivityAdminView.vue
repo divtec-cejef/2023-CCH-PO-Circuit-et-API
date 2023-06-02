@@ -74,8 +74,15 @@ if (idSectionUrl != 0 && mdpUrl != '') {
 /**
  * Ouvre la page de scan en passant l'id de l'activité
  */
-function openScan(idActivity: number, nameActivity : string) {
-  router.push({ path: '/admin/scan', query: { idActivity: idActivity.toString(), nameActivity: nameActivity.toString() } });
+function openScan(idActivity: number, nameActivity: string) {
+  router.push(
+    {
+      path: '/admin/scan',
+      query: {
+        idActivity: idActivity.toString(),
+        nameActivity: nameActivity.toString()
+      }
+    });
 }
 
 /**
