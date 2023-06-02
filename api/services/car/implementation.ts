@@ -1,4 +1,5 @@
 import prisma from '../../clients/prismadb';
+import { carToUpdate } from '../../models';
 
 /**
  * Retourne toutes les voitures de la db
@@ -57,10 +58,6 @@ export const getCarById = async (carId: number) => {
   return car;
 };
 
-export const updateCar = (carId: number): never => {
-  throw new Error('Not implemented. parameters:' + carId);
-};
-
 /**
  * Supprimer une voiture en fonction de son ID de query
  * @param carQueryId ID de query de la voiture
@@ -110,4 +107,21 @@ export const getPasswordByQueryId = async (carQueryId: string) => {
   });
 
   return car.password;
+};
+
+/**
+ * Permet la mise à jour d'une voiture
+ * @param carToUpdate la voiture à mettre à jour
+ * @returns la voiture mise à jour
+ */
+export const updateCar = async (carToUpdate: carToUpdate) => {
+  return await prisma.car.update({
+    where: {
+      id_car: carToUpdate.id_car
+    },
+    data: {
+      pseudo: carToUpdate.pseudo,
+      avatar: carToUpdate.avatar
+    }
+  });
 };

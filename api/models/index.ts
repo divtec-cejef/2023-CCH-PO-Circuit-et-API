@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import QueryString from 'qs';
+import prismadb from '../clients/prismadb';
+import { Prisma } from '@prisma/client';
 
 export type routeHandler<SlugParams = unknown, ResBody = unknown, ReqBody = unknown> = RequestHandler<SlugParams, ResBody, ReqBody, QueryString.ParsedQs, Record<string, unknown>>;
 
@@ -26,5 +28,5 @@ export interface realisedActivityToCreate {
 export interface carToUpdate {
   id_car: number;
   pseudo: string;
-  avatar: string;
+  avatar: Prisma.JsonObject;
 }
