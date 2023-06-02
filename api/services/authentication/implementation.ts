@@ -25,7 +25,7 @@ export const getPasswordBySectionName = async (name: string) => {
  * @param password Le mot de passe avec le quel authentifier le token
  */
 export const authenticateSection = async (section: string, password: string) => {
-  const now = new Date().toString();
+  const now = new Date().toISOString();
   const pwdHash = SHA256(password).toString();
   const unameHash = SHA256(section + pwdHash).toString();
   const finalHash = SHA256(now + unameHash).toString();
@@ -72,7 +72,8 @@ export const verifyToken = async (token: string) => {
       token: true,
       section: {
         select: {
-          label: true
+          label: true,
+          id_section: true
         }
       }
     }
