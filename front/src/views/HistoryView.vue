@@ -1,6 +1,6 @@
 <template>
     <div class="trois-d">
-        <vue3d-loader filePath="../src/assets/other/car.stl"
+        <!--vue3d-loader filePath="../src/assets/other/car.stl"
                       :texture-image="'../src/assets/img/color.wepb'"
                       :height="400"
                       file-type="stl"
@@ -16,14 +16,13 @@
                       :camera-rotation="cameraRotation"
                       :position="position"
                       @load="onLoad()"
-        />
+        /-->
     </div>
     <Slider v-model="slideValue"/>
 </template>
 
 <script setup lang="ts">
 
-import { vue3dLoader } from 'vue-3d-loader';
 import { ref } from 'vue';
 import Slider from '@vueform/slider';
 
