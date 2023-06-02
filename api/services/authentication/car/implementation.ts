@@ -1,5 +1,6 @@
 import prisma from '../../../clients/prismadb';
 import { SHA256 } from 'crypto-js';
+import { verifyToken } from '../implementation';
 
 /**
  * Crée un token d'authentification et l'enregistre dans la base de données.
@@ -26,4 +27,26 @@ export const authenticateCar = async (queryId: string, password: string) => {
   });
 
   return finalHash;
+};
+
+/**
+ * Vérifie qu'un token est valide et retourne les informations de la voiture associée et la date d'expiration du token.
+ * @param token
+ */
+export const verifyCarToken = async (token: string) => {
+  return await prisma.car_token.findFirstOrThrow({
+    where: {
+      token
+    },
+    select: {
+      expiration_date: true,
+      token: true,
+      car: {
+        select: {
+          query_id: true,
+          id_car: true
+        }
+      }
+    }
+  });
 };
