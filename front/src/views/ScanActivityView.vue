@@ -8,7 +8,10 @@
                 <p>{{ nameActivity }}</p>
             </div>
         </div>
-        <qrcode-stream :camera="camera" @init="onInit" @decode="onDecode" :track="paintOutline">
+        <qrcode-stream :camera="camera"
+                       @init="onInit"
+                       @decode="onDecode"
+                       :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
                 Chargement...
             </div>
@@ -23,7 +26,11 @@
                 <img src="../assets/img/cancel.png" alt="Icône d'erreur">
                 <p>{{ errorMessage }}</p>
 
-                <button @click="quitPage" class="button-return">OK</button>
+                <button @click="() => {
+                    validateScan = false
+                    addActivitySuccess = true
+                }" class="button-return">OK
+                </button>
             </div>
         </template>
     </div>
@@ -62,7 +69,7 @@ function paintOutline(detectedCodes: any, ctx: CanvasRenderingContext2D) {
 }
 
 /**
- * Fonction lancée à l'intialisation du composant de scan pour gérer les erreurs
+ * Fonction lancée à l'initialisation du composant de scan pour gérer les erreurs
  * @param promise Objet retourner par l'initialisation
  */
 async function onInit(promise: Promise<any>) {
@@ -106,6 +113,14 @@ async function onDecode(value: string) {
 }
 
 /**
+ * Quitte la page et éteinds la camerae
+ */
+async function quitPage() {
+  camera.value = 'off';
+  await router.push({ path: '/admin' });
+}
+
+/**
  * Lance un timer pour afficher le résultat du scan
  * Le ferme après un certain temps.
  */
@@ -131,6 +146,7 @@ if (adminPost.token == '') {
 //Récupération du nom de l'activité
 nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 
+
 </script>
 
 <style scoped lang="scss">
@@ -145,39 +161,39 @@ nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 }
 
 div.up-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 35px;
+
+  div.return-back {
+    background-color: var(--white);
+    rotate: 180deg;
+    border-radius: 20px;
+    padding: 8px;
+    width: 45px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 35px;
+    justify-content: center;
 
-    div.return-back {
-        background-color: var(--white);
-        rotate: 180deg;
-        border-radius: 20px;
-        padding: 8px;
-        width: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img {
-            margin-right: -3px;
-            width: 25px;
-        }
+    img {
+      margin-right: -3px;
+      width: 25px;
     }
+  }
 
-    div.name-activity {
-        font-style: italic;
-        border-radius: 20px;
-        padding: 7px 15px;
-        color: var(--white);
-    }
+  div.name-activity {
+    font-style: italic;
+    border-radius: 20px;
+    padding: 7px 15px;
+    color: var(--white);
+  }
 }
 
 div.message {
@@ -204,8 +220,9 @@ div.message {
   button {
     background-color: var(--white);
     border: 1px solid var(--gray);
-      border-radius: 10px;
-      padding: 4px 8px;
+    border-radius: 10px;
+    padding: 4px 8px;
   }
 }
+
 </style>
