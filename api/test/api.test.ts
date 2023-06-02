@@ -285,6 +285,254 @@ describe('Activity', () => {
   });
 });
 
+describe('CarAuthentication', () => {
+  it('Should return a 400 error if the query_id is invalid type', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: 1,
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return a 400 error if the password is invalid type', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: '9999',
+      password: 1
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return a 401 error if the query_id is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: 'adlsfjladsfkj',
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 401 error if the password is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: '9999',
+      password: 'adsf'
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 400 error if the query_id is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key query_id is not in the source object');
+  });
+
+  it('Should return a 400 error if the password is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: '9999'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key password is not in the source object');
+  });
+
+  it('Should return a token if the credentials are valid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/car').send({
+      query_id: '9999',
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.that.structure({
+      token: String
+    });
+  });
+});
+
+describe('CarPut', () => {
+  const token = chai.request('localhost:3000').post('/authentication/car').send({
+    query_id: '9999',
+    password: 'Admlocal1'
+  });
+
+  it('Should return a 400 error if the id_car is invalid type', async () => {
+    const res = await chai.request('localhost:3000').put('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: '11',
+        pseudo: 'Michel',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          hairColorRandom: false,
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square',
+          shape: 'circle'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return a 400 error if the pseudo is invalid type', async () => {
+    const res = await chai.request('localhost:3000').put('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: 12,
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          hairColorRandom: false,
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square',
+          shape: 'circle'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return a 400 error if the avatar is invalid type', async () => {
+    const res = await chai.request('localhost:3000').put('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: '11',
+        pseudo: 'Michel',
+        avatar: {
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          hairColorRandom: false,
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square',
+          shape: 'circle'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return an updated car', async () => {
+    const res = await chai.request('localhost:3000').put('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: 'Michel',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          hairColorRandom: false,
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square',
+          shape: 'circle'
+        }
+      });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_car: Number,
+      query_id: String,
+      pseudo: String,
+      avatar: {
+        bgColor: String,
+        hatColor: String,
+        faceColor: String,
+        hairColor: String,
+        shirtColor: String,
+        hairColorRandom: Boolean,
+        sex: String,
+        earSize: String,
+        hatType: String,
+        eyeType: String,
+        hairType: String,
+        noseType: String,
+        mouthType: String,
+        shirtType: String,
+        eyeBrowType: String,
+        glassesType: String,
+        shape: String
+      }
+    });
+  });
+});
+
 // Test des voitures de l'API
 describe('Car', () => {
   // Obtenir toutes les voitures
