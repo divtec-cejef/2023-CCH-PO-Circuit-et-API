@@ -41,9 +41,9 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
     });
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ error: e });
+      res.status(400).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ message: e.message });
     } else {
       res.status(400).send();
     }
@@ -67,9 +67,9 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
     res.status(200).send(await updateCar(carToUpdate));
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(500).json({ error: e });
+      res.status(500).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({ message: e.message });
     } else {
       res.status(500).send();
     }
