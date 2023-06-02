@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
-import { GltfModel, Renderer, Camera, AmbientLight, Scene } from 'troisjs';
+import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
 import api from '../models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import badgeCourse from '../assets/img/course.webp';
@@ -37,11 +37,16 @@ status.then(value => codeBackApi.value = value);
         <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
       </div>
 
-      <Renderer id="car" ref="renderer" antialias :orbit-ctrl="{ autoRotate: true, autoRotateSpeed: 2.0, enableDamping: true, dampingFactor: 0.05 }"
+      <Renderer id="car" ref="renderer" antialias :orbit-ctrl="{ autoRotate: true, autoRotateSpeed: -2.0, enableDamping: true, dampingFactor: 0.05 }"
                 width="400px" height="250px">
         <Camera :position="{ x: 1, y: 0.5, z: 0 }" :fov="5"/>
         <Scene background="#fff">
-          <AmbientLight></AmbientLight>
+          <PointLight :position="{x: 10}" :intensity="1"></PointLight>
+          <PointLight :position="{x: -10}" :intensity="1"></PointLight>
+          <PointLight :position="{y: 10}" :intensity="1"></PointLight>
+          <PointLight :position="{y: -10}" :intensity="1"></PointLight>
+          <PointLight :position="{z: 10}" :intensity="1"></PointLight>
+          <PointLight :position="{z: -10}" :intensity="1"></PointLight>
           <GltfModel ref="object" src="src/assets/other/car.gltf"/>
         </Scene>
       </Renderer>
