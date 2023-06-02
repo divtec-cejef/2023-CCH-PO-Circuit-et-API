@@ -64,6 +64,17 @@ CREATE TABLE token
     FOREIGN KEY (id_section) REFERENCES section (id_section)
 );
 
+DROP TABLE IF EXISTS car_token CASCADE;
+CREATE TABLE car_token
+(
+    id_token        SERIAL,
+    token           VARCHAR(64) NOT NULL UNIQUE,
+    expiration_date DATE        NOT NULL,
+    id_car      INTEGER     NOT NULL,
+    PRIMARY KEY (id_token),
+    FOREIGN KEY (id_car) REFERENCES car (id_car)
+);
+
 CREATE VIEW ranking AS
 SELECT id_race , ('1970-01-01 00:00:00'::timestamp + (race_finish - race.race_start)::interval)::timestamp AS total_time , id_car
 FROM race
