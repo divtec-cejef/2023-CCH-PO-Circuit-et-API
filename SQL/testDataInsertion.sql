@@ -2,6 +2,7 @@ SET
     search_path TO cars;
 
 TRUNCATE token CASCADE;
+TRUNCATE car_token CASCADE;
 TRUNCATE race CASCADE;
 TRUNCATE realise CASCADE;
 TRUNCATE car CASCADE;
