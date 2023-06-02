@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS car CASCADE;
 CREATE TABLE car
 (
     id_car   SERIAL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     query_id VARCHAR(100) NOT NULL UNIQUE,
-    pseudo   VARCHAR(64) NOT NULL,
+    pseudo   VARCHAR(50) NOT NULL,
     avatar   json NOT NULL,
     PRIMARY KEY (id_car)
 );
