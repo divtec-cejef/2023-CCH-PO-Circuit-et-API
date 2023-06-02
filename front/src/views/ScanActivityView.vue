@@ -1,7 +1,12 @@
 <template>
     <div class="fullscreen">
-        <div @click="quitPage" class="return-back" v-if="!loading">
-            <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
+        <div class="up-screen">
+            <div @click="quitPage" class="return-back" v-if="!loading">
+                <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
+            </div>
+            <div class="name-activity">
+                <p>{{ nameActivity }}</p>
+            </div>
         </div>
         <qrcode-stream :camera="camera" @init="onInit" @decode="onDecode" :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
@@ -101,21 +106,12 @@ async function onDecode(value: string) {
 }
 
 /**
- * Quitte la page et éteinds la camerae
- */
-async function quitPage() {
-  camera.value = 'off';
-  await router.push({ path: '/admin' });
-}
-
-/**
  * Lance un timer pour afficher le résultat du scan
  * Le ferme après un certain temps.
  */
 function waitPopPupResult() {
   setTimeout(() => {
     validateScan.value = false;
-    quitPage();
   }, 1500);
 }
 
@@ -125,11 +121,15 @@ const camera = ref('auto');
 const validateScan = ref(false);
 const errorMessage = ref('');
 const addActivitySuccess = ref(true);
+const nameActivity = ref('');
 
 //S'il n'y a pas d'authentification retour à la page admin
 if (adminPost.token == '') {
   router.push({ path: '/admin' });
 }
+
+//Récupération du nom de l'activité
+nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 
 </script>
 
@@ -144,26 +144,40 @@ if (adminPost.token == '') {
   justify-content: center;
 }
 
-div.return-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: var(--white);
-  z-index: 1001;
-  rotate: 180deg;
-  border-radius: 20px;
-  padding: 8px;
-  width: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 25px;
-  margin-left: 25px;
+div.up-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 35px;
 
-  img {
-    margin-right: -3px;
-    width: 25px;
-  }
+    div.return-back {
+        background-color: var(--white);
+        rotate: 180deg;
+        border-radius: 20px;
+        padding: 8px;
+        width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            margin-right: -3px;
+            width: 25px;
+        }
+    }
+
+    div.name-activity {
+        font-style: italic;
+        border-radius: 20px;
+        padding: 7px 15px;
+        color: var(--white);
+    }
 }
 
 div.message {
