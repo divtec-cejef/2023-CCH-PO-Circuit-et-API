@@ -10,7 +10,7 @@ TRUNCATE activity CASCADE;
 TRUNCATE section CASCADE;
 
 INSERT INTO car
-VALUES (1, '1234', '4356', 'PlayerOne', '{
+VALUES (1, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '4356', 'PlayerOne', '{
         "bgColor": "#1EA",
         "hatColor": "#024",
         "faceColor": "#156",
@@ -31,7 +31,7 @@ VALUES (1, '1234', '4356', 'PlayerOne', '{
             }');
 
 INSERT INTO car
-VALUES (2, '4321', '4357', 'PlayerTwo', '{
+VALUES (2, 'fe2592b42a727e977f055947385b709cc82b16b9a87f88c6abf3900d65d0cdc3', '4357', 'PlayerTwo', '{
         "bgColor": "#456",
         "hatColor": "#FD5",
         "faceColor": "#E6E",
@@ -52,7 +52,7 @@ VALUES (2, '4321', '4357', 'PlayerTwo', '{
             }');
 
 INSERT INTO car
-VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
+VALUES (3, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4358', 'Dråfølin', '{
         "bgColor": "#E81",
         "hatColor": "#3B8",
         "faceColor": "#1A7",
@@ -73,7 +73,7 @@ VALUES (3, 'Admlocal1', '4358', 'Dråfølin', '{
             }');
 
 INSERT INTO car
-VALUES (4, 'Admlocal1', '4359', 'tobito', '{
+VALUES (4, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4359', 'tobito', '{
         "bgColor": "#FFF",
         "hatColor": "#D60",
         "faceColor": "#321",
@@ -94,7 +94,7 @@ VALUES (4, 'Admlocal1', '4359', 'tobito', '{
             }');
 
 INSERT INTO car
-VALUES (5, 'Admlocal1', '4360', 'Chlore', '{
+VALUES (5, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4360', 'Chlore', '{
         "bgColor": "#234",
         "hatColor": "#F1A",
         "faceColor": "#A89",
@@ -115,7 +115,7 @@ VALUES (5, 'Admlocal1', '4360', 'Chlore', '{
 }');
 
 INSERT INTO car
-VALUES (6, 'Admlocal1', '4361', 'Mathilde', '{
+VALUES (6, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4361', 'Mathilde', '{
         "bgColor": "#234",
         "hatColor": "#121",
         "faceColor": "#D12",
@@ -136,7 +136,7 @@ VALUES (6, 'Admlocal1', '4361', 'Mathilde', '{
 }');
 
 INSERT INTO car
-VALUES (7, 'Admlocal1', '4362', 'Max', '{
+VALUES (7, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4362', 'Max', '{
         "bgColor": "#111",
         "hatColor": "#F1A",
         "faceColor": "#387",
@@ -157,7 +157,7 @@ VALUES (7, 'Admlocal1', '4362', 'Max', '{
 }');
 
 INSERT INTO car
-VALUES (8, 'Admlocal1', '4363', 'Titi', '{
+VALUES (8, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4363', 'Titi', '{
         "bgColor": "#ABC",
         "hatColor": "#F1A",
         "faceColor": "#8D1",
@@ -178,7 +178,7 @@ VALUES (8, 'Admlocal1', '4363', 'Titi', '{
 }');
 
 INSERT INTO car
-VALUES (9, 'Admlocal1', '4364', 'Alex7', '{
+VALUES (9, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4364', 'Alex7', '{
         "bgColor": "#8DA",
         "hatColor": "#F1A",
         "faceColor": "#9A2",
@@ -199,7 +199,7 @@ VALUES (9, 'Admlocal1', '4364', 'Alex7', '{
 }');
 
 INSERT INTO car
-VALUES (10, 'Admlocal1', '4365', 'Rayanito', '{
+VALUES (10, 'ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '4365', 'Rayanito', '{
         "bgColor": "#78A",
         "hatColor": "#F1A",
         "faceColor": "#923",
