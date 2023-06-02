@@ -1,11 +1,11 @@
 <template>
     <div class="content">
         <template v-if="!loading">
-            <div class="no-authentification" v-if="adminPost.token.toString().length == 0">
+            <div class="no-authentification" v-if="adminPost.token == ''">
                 <h1>Erreur</h1>
                 <p>Vous n'êtes pas authentifié...</p>
 
-                <div @click="openHome" >Accueil</div>
+                <div @click="openHome">Accueil</div>
             </div>
             <template v-else>
                 <h1>Scan des activités</h1>
@@ -33,23 +33,42 @@ import { useAdminPostStore } from '@/stores/adminPost';
 const adminPost = useAdminPostStore();
 const loading = ref(true);
 
-//Récupération des données de l'url
-if(adminPost.token === '') {
-  const actualUrl = router.currentRoute;
-  adminPost.sectionName = (actualUrl.value.query.section || '').toString();
-  adminPost.mdp = (actualUrl.value.query.mdp || '').toString();
+//Si quelque chose est dans l'URL suppression du token
+const actualUrl = router.currentRoute;
+const idSectionUrl = Number(actualUrl.value.query.id || 0);
+const mdpUrl = (actualUrl.value.query.mdp || '').toString();
 
-  //Récupération du Token avec le nom et mot de passe de l'url
-  restful.authenticationSectionPwd(adminPost.sectionName, adminPost.mdp).then((v) => {
-    if (v.token !== undefined) {
-      //Initialise les données en fonction de l'id de la section
-      adminPost.token = v.token;
-      adminPost.initAllActivityOneSection(1);
+//Si quelque chose est dans l'URL alors, on relance une authentification
+if (idSectionUrl != 0 && mdpUrl != '') {
+
+  //Récupère le nom de la section en fonction de son id
+  adminPost.getNameSectionById(idSectionUrl).then(async (v) => {
+
+    //Récupération du Token avec le nom et mot de passe de l'URL
+    let valueToken = await restful.authenticationSectionPwd(v, mdpUrl);
+
+    //Initialise les données en fonction de l'id de la section
+    if (valueToken.token != undefined) {
+      adminPost.idSection = idSectionUrl;
+      localStorage.setItem('idSection', (adminPost.idSection).toString());
+
+      adminPost.token = valueToken.token;
+      localStorage.setItem('tokenPost', adminPost.token);
+
+      await adminPost.initAllActivityOneSection(adminPost.idSection);
     }
     loading.value = false;
   });
+
 } else {
-  loading.value = false;
+  //Chargement des données depuis le localstorage
+  adminPost.token = localStorage.getItem('tokenPost') || '';
+  adminPost.idSection = Number(localStorage.getItem('idSection') || 0);
+
+  //Initialisation des données d'activités
+  adminPost.initAllActivityOneSection(adminPost.idSection).then(() => {
+    loading.value = false;
+  });
 }
 
 /**
@@ -75,8 +94,9 @@ div.activity-list div {
 }
 
 div.content {
-    height: calc(100vh - var(--height-screen-diff));
+  height: calc(100vh - var(--height-screen-diff));
 }
+
 div.no-authentification {
   display: flex;
   justify-content: center;

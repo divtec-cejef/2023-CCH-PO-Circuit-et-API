@@ -42,6 +42,16 @@ export namespace restful {
   }
 
   /**
+   * Obtient le nom d'une section en fonction de son id
+   * @param idSection Id de la section
+   */
+  export async function getNameSectionById(idSection: number | string) {
+    const routeRaceCar = `${routeApi}section/${idSection}`;
+    const res = await fetch(routeRaceCar);
+    return { json: (await res.json()), status: res.status };
+  }
+
+  /**
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
