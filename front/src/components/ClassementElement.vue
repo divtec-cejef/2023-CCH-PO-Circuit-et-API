@@ -13,14 +13,15 @@
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
-import type { models } from '@/models/namespace';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import type { Avatar } from 'holiday-avatar';
+
 
 const props = defineProps<{
   rank: number;
   pseudo: string;
   time: Date;
-  avatar: models.Avatar;
+  avatar: typeof Avatar ;
 }>();
 
 const userCar = useCarStore();
@@ -42,7 +43,6 @@ if(props.rank <= PODIUM) {
     backgroundImage.value = v;
   });
 }
-
 
 </script>
 

@@ -616,6 +616,7 @@ describe('Car', () => {
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
 
+  /* DISABLED: route disabled
   // Supprimer une voiture à l'aide de son id
   it('should delete a car and return it', async () => {
     const res = await chai.request('localhost:3000').delete('/car/1');
@@ -647,7 +648,9 @@ describe('Car', () => {
       }
     });
   });
+  */
 
+  /* DISABLED: route disabled
   // Supprimer une voiture à partir de son id avec un id invalide
   it('should return an error if invalid id is given on delete', async () => {
     const res = await chai.request('localhost:3000').delete('/car/adsf');
@@ -655,7 +658,9 @@ describe('Car', () => {
     expect(res).to.have.status(400);
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
   });
+   */
 
+  /* DISABLED: route disabled
   // Supprimer une voiture qui n'existe pas
   it('should return an error if car is not found', async () => {
     const res = await chai.request('localhost:3000').delete('/car/999');
@@ -663,6 +668,7 @@ describe('Car', () => {
     expect(res).to.have.status(404);
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
+   */
 
   // Obtenir une voiture avec un query id
   it('should return a car on search with query id', async () => {
@@ -704,6 +710,7 @@ describe('Car', () => {
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
 
+  /* DISABLED: route disabled
   // Supprimer une voiture avec un query id
   it('should delete a car and return it on search with query id', async () => {
     const res = await chai.request('localhost:3000').delete('/car/query-id/4357');
@@ -735,7 +742,9 @@ describe('Car', () => {
       }
     });
   });
+  */
 
+  /* DISABLED: route disabled
   // Supprimer une voiture avec un query id qui n'existe pas
   it('should return an error if car is not found on search with query id on delete', async () => {
     const res = await chai.request('localhost:3000').delete('/car/query-id/adsfasf');
@@ -743,6 +752,7 @@ describe('Car', () => {
     expect(res).to.have.status(404);
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
+   */
 });
 
 describe('Authentication', () => {

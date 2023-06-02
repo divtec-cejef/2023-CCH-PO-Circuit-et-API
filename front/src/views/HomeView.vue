@@ -16,7 +16,7 @@ import router from '@/router';
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
-if(userCar.car.idCar != 0) {
+if(userCar.car.idCar != undefined && userCar.car.idCar != 0) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
