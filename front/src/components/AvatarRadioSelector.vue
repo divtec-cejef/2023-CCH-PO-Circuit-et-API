@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { models } from '@/models/interface';
-import radioProperty = models.radioProperty;
+import  { models } from '@/models/interface';
+import type radioProperty = models.radioProperty;
 import { ref } from 'vue';
 
 const props = defineProps<{ avatarProperty: radioProperty }>();
