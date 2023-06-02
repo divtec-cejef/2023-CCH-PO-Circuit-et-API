@@ -19,10 +19,9 @@
 <script setup lang="ts">
 import colorImg from '../assets/img/color.webp';
 import faceImg from '../assets/img/skin.webp';
-import { models } from '@/models/interface';
-import type radioProperty = models.radioProperty;
+import type { models } from '@/models/interface';
 
-const props = defineProps<{ avatarProperty: radioProperty }>();
+const props = defineProps<{ avatarProperty: models.radioProperty }>();
 
 const emit = defineEmits(['regenerateAvatar']);
 </script>

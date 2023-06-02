@@ -17,11 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import  { models } from '@/models/interface';
-import type radioProperty = models.radioProperty;
+import type { models } from '@/models/interface';
 import { ref } from 'vue';
 
-const props = defineProps<{ avatarProperty: radioProperty }>();
+const props = defineProps<{ avatarProperty: models.radioProperty }>();
 const emit = defineEmits(['regenerateAvatar']);
 const imgRd = ref();
 
