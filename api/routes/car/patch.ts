@@ -3,6 +3,12 @@ import validateCarAuthorization from '../../services/validate-token/car/implemen
 import { checkStructureOrThrow } from 'check-structure';
 import { getCarById, updateCar } from '../../services/car/implementation';
 
+/**
+ * Controller update pour la route /car
+ * @param req Requete
+ * @param res Reponse
+ * @returns la voiture modifiée
+ */
 export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) => {
   const carToUpdate = req.body;
 
