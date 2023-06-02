@@ -17,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import type { radioProperty } from '@/models/avatar';
 import colorImg from '../assets/img/color.webp';
 import faceImg from '../assets/img/skin.webp';
+import { models } from '@/models/interface';
+import radioProperty = models.radioProperty;
 
 const props = defineProps<{ avatarProperty: radioProperty }>();
 
