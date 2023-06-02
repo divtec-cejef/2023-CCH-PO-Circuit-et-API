@@ -18,28 +18,29 @@ model section {
 
 model activity {
   id_activity Int       @id @default(autoincrement())
-  label       String?   @db.VarChar(50)
+  label       String    @db.VarChar(50)
   id_section  Int
   section     section   @relation(fields: [id_section], references: [id_section], onDelete: NoAction, onUpdate: NoAction)
   realise     realise[]
 }
 
 model car {
-  id_car   Int       @id @default(autoincrement())
-  password String?   @db.VarChar(50)
-  query_id String?   @unique @db.VarChar(100)
-  pseudo   String?   @db.VarChar(50)
-  avatar   Json?     @db.Json
-  race     race[]
-  realise  realise[]
+  id_car    Int         @id @default(autoincrement())
+  password  String      @db.VarChar(64)
+  query_id  String      @unique @db.VarChar(100)
+  pseudo    String      @db.VarChar(50)
+  avatar    Json        @db.Json
+  car_token car_token[]
+  race      race[]
+  realise   realise[]
 }
 
 model realise {
-  id_car      Int       @default(autoincrement())
-  id_activity Int
-  date_time   DateTime? @db.Timestamp(6)
-  activity    activity  @relation(fields: [id_activity], references: [id_activity], onDelete: NoAction, onUpdate: NoAction)
-  car         car       @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
+  id_car      Int      @default(autoincrement())
+  id_activity Int      @default(autoincrement())
+  date_time   DateTime @db.Timestamp(6)
+  activity    activity @relation(fields: [id_activity], references: [id_activity], onDelete: NoAction, onUpdate: NoAction)
+  car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([id_car, id_activity])
 }
@@ -59,4 +60,12 @@ model token {
   expiration_date DateTime @db.Date
   id_section      Int
   section         section  @relation(fields: [id_section], references: [id_section], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model car_token {
+  id_token        Int      @id @default(autoincrement())
+  token           String   @unique @db.VarChar(64)
+  expiration_date DateTime @db.Date
+  id_car          Int
+  car             car      @relation(fields: [id_car], references: [id_car], onDelete: NoAction, onUpdate: NoAction)
 }
