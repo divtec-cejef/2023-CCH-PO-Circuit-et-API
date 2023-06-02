@@ -16,6 +16,9 @@
             <li>
                 <RouterLink to="/historique">Historique</RouterLink>
             </li>
+            <li v-if="adminPost.token !== ''">
+                <RouterLink to="/admin">Admin</RouterLink>
+            </li>
             <li>
                 <RouterLink to="/apropos">A Propos</RouterLink>
             </li>
@@ -26,9 +29,11 @@
 <script setup lang="ts">
 
 import { useCarStore } from '@/stores/car';
+import { useAdminPostStore } from '@/stores/adminPost';
 
 //Récupération de la voiture
 const userCar = useCarStore();
+const adminPost = useAdminPostStore();
 
 </script>
 

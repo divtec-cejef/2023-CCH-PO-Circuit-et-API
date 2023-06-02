@@ -8,9 +8,9 @@ import VueQrcodeReader from 'vue-qrcode-reader';
 
 const app = createApp(App);
 const pinia = createPinia();
+
 app.use(router);
 app.use(pinia);
 app.use(VueQrcodeReader);
+
 app.mount('#app');
-
-

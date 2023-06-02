@@ -1,58 +1,31 @@
 <template>
-  <div>
-    <qrcode-stream class="qrcode-reader" @decode="onDecode" @init="onInit"/>
-  </div>
+    <div>
+        <p class="decode-result">Last result: <b>{{ result }}</b></p>
 
-  <div v-if="codeBackApi === api.ReturnCodes.Success">
-    <h1>{{ car.pseudo }}</h1>
-    <p>Accessible au code : {{ userCar }}</p>
-  </div>
-  <div v-else-if="codeBackApi !== 0">
-    Erreur, vous avez fumé
-  </div>
+        <QrcodeStream @decode="onDecode"  />
+    </div>
 </template>
 
 <script setup lang="ts">
+import { QrcodeStream } from 'vue-qrcode-reader/src';
 import { ref } from 'vue';
-import { QrcodeStream } from 'vue-qrcode-reader';
-import api from '../models/api';
 
-
-import { useCarStore } from '@/stores/car';
-
-let userCar = useCarStore();
-const { car } = userCar;
-let codeBackApi = ref(0);
-
+const result = ref();
 
 /**
- * Décode le code qr, parse l'URL pour récupérer les informations de la voiture en passant par l'API
- * @param result Résultat du scann du code QR
+ * Récupère la valeur du scan
+ * @param resultScan
  */
-async function onDecode(result: string) {
-  let url = new URL(result);
-  let idCAr = ref(url.pathname.substring(1, url.pathname.length));
-  codeBackApi.value = await userCar.initUserCarId(idCAr.value);
+function onDecode(resultScan:any) {
+  result.value = resultScan;
 }
 
-/**
- * Fonction d'initialisation pour le scan du code qr
- * @param promise
- */
-async function onInit(promise:any) {
-  try {
-    await promise;
-  } catch (error) {
-    console.log(error);
-  }
-}
+defineExpose({
+  result : result
+});
 
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
-.qrcode-reader {
-  width: 400px;
-  height: 400px;
-}
 </style>

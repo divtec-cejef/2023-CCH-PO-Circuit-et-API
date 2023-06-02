@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS car CASCADE;
 CREATE TABLE car
 (
     id_car   SERIAL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     query_id VARCHAR(100) NOT NULL UNIQUE,
     pseudo   VARCHAR(50) NOT NULL,
     avatar   json NOT NULL,
@@ -62,6 +62,17 @@ CREATE TABLE token
     id_section      INTEGER     NOT NULL,
     PRIMARY KEY (id_token),
     FOREIGN KEY (id_section) REFERENCES section (id_section)
+);
+
+DROP TABLE IF EXISTS car_token CASCADE;
+CREATE TABLE car_token
+(
+    id_token        SERIAL,
+    token           VARCHAR(64) NOT NULL UNIQUE,
+    expiration_date DATE        NOT NULL,
+    id_car      INTEGER     NOT NULL,
+    PRIMARY KEY (id_token),
+    FOREIGN KEY (id_car) REFERENCES car (id_car)
 );
 
 CREATE VIEW ranking AS
