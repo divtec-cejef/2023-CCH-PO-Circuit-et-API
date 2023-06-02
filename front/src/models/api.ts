@@ -1,5 +1,5 @@
 import { Socket, io } from 'socket.io-client';
-import type { models } from '@/models/namespace';
+import type { models } from '@/models/interface';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -8,6 +8,7 @@ export namespace restful {
     NoCode = 0,
     Success = 200,
     NotFound = 404,
+    Conflict = 409,
   }
 
   /**
@@ -38,6 +39,80 @@ export namespace restful {
     const routeRaceCar = `${routeApi}race/${idCar}`;
     const res = await fetch(routeRaceCar);
     return { json: (await res.json()), status: res.status };
+  }
+
+  /**
+   * Obtient le nom d'une section en fonction de son id
+   * @param idSection Id de la section
+   */
+  export async function getNameSectionById(idSection: number | string) {
+    const routeRaceCar = `${routeApi}section/${idSection}`;
+    const res = await fetch(routeRaceCar);
+    return { json: (await res.json()), status: res.status };
+  }
+
+  /**
+   * Obtient toutes les activités présente dans une section
+   * @param idSection Id de la section
+   */
+  export async function getAllActivityOneSection(idSection: number | string)  {
+    const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
+    const res = await fetch(routeRaceCar);
+    return { json: (await res.json()), status: res.status };
+  }
+
+  /**
+   * Lance une requête POST pour récupérer un token d'authentification
+   * @param sectionName Nom de la section
+   * @param pwd Mot de passe de la section
+   */
+  export async function authenticationSectionPwd(sectionName: string, pwd: string) {
+
+    //Construction des options de requête
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        section: sectionName,
+        // eslint-disable-next-line camelcase
+        password: pwd
+      })
+    };
+    const response = await fetch(`${routeApi}authentication`, requestOptions);
+    return await response.json();
+  }
+
+  /**
+   * Lance une requête POST pour l'ajout d'une nouvelle activité pour une voiture
+   * @param idActivity Nom de la section
+   * @param queryId Query id de la voiture
+   * @param token Token d'identification
+   */
+  export async function addRealisationCar(idActivity: number, queryId: number | string, token: string) {
+
+    // POST request using fetch with async/await
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token.toString()}`
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        id_activity: idActivity,
+        // eslint-disable-next-line camelcase
+        query_id: queryId,
+        // eslint-disable-next-line camelcase
+        date_time: new Date()
+      })
+    };
+    const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
+    return response.status;
   }
 }
 

@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import type { radioProperty } from '@/models/avatar';
 import colorImg from '../assets/img/color.webp';
 import faceImg from '../assets/img/skin.webp';
+import type { models } from '@/models/interface';
 
-const props = defineProps<{ avatarProperty: radioProperty }>();
+const props = defineProps<{ avatarProperty: models.radioProperty }>();
 
 const emit = defineEmits(['regenerateAvatar']);
 </script>
