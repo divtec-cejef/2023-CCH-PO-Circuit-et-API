@@ -139,7 +139,9 @@ const addActivitySuccess = ref(true);
 const nameActivity = ref('');
 
 //S'il n'y a pas d'authentification retour à la page admin
-if (!localStorage.getItem('tokenPost')) {
+if (!localStorage.getItem('tokenPost') ||
+    router.currentRoute.value.query.idActivity?.length == undefined ||
+    router.currentRoute.value.query.nameActivity?.length == undefined) {
   router.push({ path: '/admin' });
 }
 
