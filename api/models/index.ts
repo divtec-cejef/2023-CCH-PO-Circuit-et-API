@@ -22,3 +22,9 @@ export interface realisedActivityToCreate {
   query_id: string;
   date_time: Date;
 }
+
+export interface carToUpdate {
+  id_car: number;
+  pseudo: string;
+  avatar: string;
+}

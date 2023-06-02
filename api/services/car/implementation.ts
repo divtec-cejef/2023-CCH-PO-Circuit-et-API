@@ -94,3 +94,20 @@ export const deleteCarById = async (carId: number) => {
     return null;
   }
 };
+
+/**
+ * Permet d'obtenir le hash du mot de passe d'une voiture en fonction de son ID de query
+ * @param carQueryId ID de query de la voiture
+ * @returns le hash du mot de passe de la voiture
+ */
+export const getPasswordByQueryId = async (carQueryId: string) => {
+  const car = await prisma.car.findFirstOrThrow({
+    where: {
+      query_id: {
+        equals: carQueryId
+      }
+    }
+  });
+
+  return car.password;
+};
