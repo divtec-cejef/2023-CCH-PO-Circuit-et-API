@@ -18,17 +18,36 @@ services:
       - ${API_PORT}:3000
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:Admlocal1@db:5432/postgres?schema=cars
     networks:
       - db-network
+      - internet
     command: npm start
     depends_on:
       - db
     stdin_open: true # docker run -i
     tty: true # docker run -t
+  front:
+    image: node:16.19.1
+    volumes:
+      - ../front:/app
+    working_dir: /app
+    ports:
+      - 80:8080
+    networks:
+      - internet
+    depends_on:
+      - api
+      - db
+    command: npm start
+    stdin_open: true
+    tty: true
+    environment:
+      - VITE_ROUTE_API=http://localhost:${API_PORT}/
 
 volumes:
   db-data:
 
-
 networks:
   db-network:
+  internet:
