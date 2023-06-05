@@ -373,14 +373,14 @@ describe('CarAuthentication', () => {
   });
 });
 
-describe('CarPut', () => {
+describe('CarPatch', () => {
   const token = chai.request('localhost:3000').post('/authentication/car').send({
     query_id: '9999',
     password: 'Admlocal1'
   });
 
   it('Should return a 400 error if the id_car is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: '11',
@@ -413,7 +413,7 @@ describe('CarPut', () => {
   });
 
   it('Should return a 400 error if the pseudo is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: 11,
@@ -446,7 +446,7 @@ describe('CarPut', () => {
   });
 
   it('Should return a 400 error if the avatar is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: '11',
@@ -478,7 +478,7 @@ describe('CarPut', () => {
   });
 
   it('Should return an updated car', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: 11,
