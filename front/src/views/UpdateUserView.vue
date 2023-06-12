@@ -688,15 +688,15 @@ div.modify-avatar {
     .error {
       display: block;
       height: 1em;
-      color: #E33821;
+      color: var(--red);
       font-size: 1em;
       font-style: italic;
       margin-bottom: 1em;
     }
 
     button[type="submit"] {
-      background-color: #FFFFFF;
-      border: 3px solid #000000;
+      background-color: var(--white);
+      border: 3px solid var(--black);
       padding: .5em;
       border-radius: .2em;
       cursor: pointer;
@@ -707,8 +707,7 @@ div.modify-avatar {
       cursor: pointer;
       background-color: unset;
       border: none;
-      color: #E33821;
-      font-style: italic;
+      color: var(--red);
     }
 
     div.button-container {
