@@ -3,7 +3,7 @@
         <RouterLink :to="`/${car.idQuery}`">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
-        <img :src=menuImg alt="Volant pour le menu" @click="clickMenu">
+        <img class="img-menu" :src=menuImg alt="Volant pour le menu" @click="clickMenu">
     </header>
 
     <header class="large">
@@ -20,8 +20,8 @@
     <FooterApp id="footer" :class="classMenuClicked"/>
 
     <header v-if="!menuIsClicked" class="open thin">
-        <HeaderApp></HeaderApp>
-        <img :src=menuImg alt="Volant pour le menu" @click="clickMenu">
+        <HeaderApp @clickMenu="menuIsClicked = $event"></HeaderApp>
+        <img class="img-menu" :src=menuImg alt="Volant pour le menu" @click="clickMenu">
     </header>
 
 </template>
@@ -32,7 +32,7 @@ import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
-import menuImg from '@/assets/img/volant.webp';
+import menuImg from '@/assets/img/logoMenu.svg';
 import logoImg from '@/assets/img/logo.webp';
 
 /**
@@ -122,6 +122,10 @@ header {
     img {
         height: 55px;
     }
+
+    .img-menu {
+        width: 57px;
+    }
 }
 
 header.closed.thin,
@@ -132,5 +136,6 @@ header.large {
 
 header.open.thin {
     height: 100vh;
+
 }
 </style>

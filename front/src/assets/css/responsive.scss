@@ -4,6 +4,24 @@
         .large {
             display: none;
         }
+
+        footer {
+            p {
+                width: fit-content;
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+/* Téléphone */
+@media screen and (min-width: 500px) {
+    #app {
+        div.badges {
+            :nth-child(3) {
+                margin-top: 0;
+            }
+        }
     }
 }
 
@@ -136,7 +154,9 @@
                 margin-left: 10px;
                 margin-right: 10px;
             }
-
+            :nth-child(3) {
+                margin-top: 0 !important;
+            }
             :nth-child(4),
             :nth-child(5),
             :nth-child(6) {
@@ -212,6 +232,10 @@
                 margin-top: 0;
                 margin-left: 10px;
                 margin-right: 10px;
+            }
+
+            :nth-child(3) {
+                margin-top: 0;
             }
 
             :nth-child(4),

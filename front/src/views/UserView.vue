@@ -161,11 +161,11 @@ div.user-data {
             height: 110px;
         }
 
-        :nth-child(odd) {
+        > :nth-child(odd) {
             margin-left: 5px;
         }
 
-        :nth-child(even) {
+        > :nth-child(even) {
             margin-right: 5px;
         }
 
