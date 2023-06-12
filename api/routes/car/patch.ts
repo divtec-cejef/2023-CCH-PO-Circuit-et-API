@@ -31,7 +31,6 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
