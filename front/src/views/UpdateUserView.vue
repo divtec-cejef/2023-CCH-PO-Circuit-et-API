@@ -1,12 +1,12 @@
 <template>
     <dialog id="connection-dialog" ref="dialog">
-        <h2>Connection</h2>
+        <h2>Connexion</h2>
         <form @submit.prevent="() => connect(car.idQuery, password)">
             <label for="password">Code de la voiture </label>
             <input type="text" id="password" name="password" v-model="password">
             <p class="error">{{ error }}</p>
             <div class="button-container">
-                <button @click.prevent="abort" class="abort">Annuler</button>
+                <button @click.prevent="cancel" class="abort">Annuler</button>
                 <button type="submit">Se connecter</button>
             </div>
         </form>
@@ -97,11 +97,11 @@ async function connect(queryId: string, password: string) {
     dialog.value?.close();
     error.value = '';
   } else {
-    error.value = 'Code de la voiture incorrect';
+    error.value = '* Code de la voiture incorrect';
   }
 }
 
-function abort() {
+function cancel() {
   window.location.href = '/';
 }
 
@@ -691,13 +691,14 @@ div.modify-avatar {
       color: #E33821;
       font-size: 1em;
       font-style: italic;
+      margin-bottom: 1em;
     }
 
     button[type="submit"] {
       background-color: #FFFFFF;
       border: 3px solid #000000;
       padding: .5em;
-      border-radius: .3em;
+      border-radius: .2em;
       cursor: pointer;
       margin-left: auto;
     }
