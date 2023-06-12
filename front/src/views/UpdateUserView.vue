@@ -59,8 +59,8 @@
         <label for="pseudo">Pseudo : </label>
         <input type="text" id="pseudo" name="pseudo" v-model="pseudo">
     </div>
-    <div class="button-container">
-        <button @click.prevent="updateUser">Valider</button>
+    <div class="update-container">
+        <button @click.prevent="() => updateUser(config, pseudo,  userCar)">Enregistrer</button>
     </div>
 </template>
 
@@ -116,7 +116,7 @@ async function updateUser(config: {}, pseudo: string, userCar: any) {
   userCar.car.avatar = config;
   userCar.car.pseudo = pseudo;
 
-  await restful.updateCar(userCar);
+  console.log(await restful.updateCar(userCar));
 }
 
 /**
@@ -149,7 +149,7 @@ function regenerateAvatar(parameter: string, value: any) {
     shirtType: config.value.shirtType,
     eyeBrowType: config.value.eyeBrowType,
     glassesType: config.value.glassesType,
-    shape: config.value.shape
+    shape: config.value.shape,
   });
 }
 
@@ -748,6 +748,18 @@ div.modify-pseudo {
   input {
     display: block;
     margin: .5em 0;
+  }
+}
+
+div.update-container{
+
+  button {
+    background-color: var(--blue);
+    border: 2px solid var(--black);
+    padding: .5em;
+    border-radius: .2em;
+    cursor: pointer;
+    color: var(--white);
   }
 }
 </style>
