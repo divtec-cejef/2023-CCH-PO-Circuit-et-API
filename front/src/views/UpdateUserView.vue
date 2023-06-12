@@ -1,12 +1,14 @@
 <template>
     <dialog id="connection-dialog" ref="dialog">
-        <h2>Connexion</h2>
+        <div class="header">
+            <h2>Connexion</h2>
+            <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
+        </div>
         <form @submit.prevent="() => connect(car.idQuery, password)">
             <label for="password">Code de la voiture </label>
             <input type="text" id="password" name="password" v-model="password">
             <p class="error">{{ error }}</p>
             <div class="button-container">
-                <button @click.prevent="cancel" class="abort">Annuler</button>
                 <button type="submit">Se connecter</button>
             </div>
         </form>
@@ -67,6 +69,7 @@ import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import restful from '@/models/api';
+import cancelIcon from '@/assets/img/cancel.png';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -674,6 +677,24 @@ div.modify-avatar {
   border: none;
   border-radius: 1em;
 
+  div.header {
+    h2 {
+      width: unset;
+    }
+    button {
+      img {
+        height: 2.5em;
+      }
+      background-color: unset;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    display: flex;
+    justify-content: space-between;
+  }
+
+
   form {
     label,
     input {
@@ -683,6 +704,7 @@ div.modify-avatar {
 
     input {
       margin-bottom: .1em;
+      border-color: var(--black);
     }
 
     .error {
@@ -696,28 +718,17 @@ div.modify-avatar {
 
     button[type="submit"] {
       background-color: var(--white);
-      border: 3px solid var(--black);
+      border: 2px solid var(--black);
       padding: .5em;
       border-radius: .2em;
       cursor: pointer;
-      margin-left: auto;
-    }
-
-    button.abort {
-      cursor: pointer;
-      background-color: unset;
-      border: none;
-      color: var(--red);
+      color: var(--black);
     }
 
     div.button-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
-  }
-
-  h2 {
-    width: unset;
   }
 }
 </style>
