@@ -4,7 +4,7 @@ import { checkStructureOrThrow } from 'check-structure';
 import { getCarById, updateCar } from '../../services/car/implementation';
 
 /**
- * Controller update pour la route /car
+ * Controller patch pour la route /car
  * @param req Requete
  * @param res Reponse
  * @returns la voiture modifiée
@@ -31,7 +31,6 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -41,8 +40,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   } catch (e) {
