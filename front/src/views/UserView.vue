@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
