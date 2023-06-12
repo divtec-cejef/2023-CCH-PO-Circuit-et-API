@@ -1,5 +1,6 @@
 import { Socket, io } from 'socket.io-client';
 import type { models } from '@/models/interface';
+import type Car from '@/models/car';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -137,6 +138,29 @@ export namespace restful {
       })
     };
     const response = await fetch(`${routeApi}authentication/car`, requestOptions);
+    return await response.json();
+  }
+
+
+  export async function updateCar(userCar: any) {
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userCar.token}`
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        id_car: userCar.car.idCar,
+        // eslint-disable-next-line camelcase
+        pseudo: userCar.car.pseudo,
+        // eslint-disable-next-line camelcase
+        avatar: userCar.car.avatar,
+      })
+    };
+
+    const response = await fetch(`${routeApi}/car`, requestOptions);
     return await response.json();
   }
 }

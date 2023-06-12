@@ -56,8 +56,11 @@
         </div>
     </div>
     <div class="modify-pseudo">
-        <label for="pseudo">Pseudo :</label>
+        <label for="pseudo">Pseudo : </label>
         <input type="text" id="pseudo" name="pseudo" v-model="pseudo">
+    </div>
+    <div class="button-container">
+        <button @click.prevent="updateUser">Valider</button>
     </div>
 </template>
 
@@ -68,8 +71,9 @@ import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
-import restful from '@/models/api';
+import { restful } from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
+import type Car from '@/models/car';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -106,6 +110,13 @@ async function connect(queryId: string, password: string) {
 
 function cancel() {
   window.location.href = '/';
+}
+
+async function updateUser(config: {}, pseudo: string, userCar: any) {
+  userCar.car.avatar = config;
+  userCar.car.pseudo = pseudo;
+
+  await restful.updateCar(userCar);
 }
 
 /**
@@ -729,6 +740,14 @@ div.modify-avatar {
       display: flex;
       justify-content: center;
     }
+  }
+}
+
+div.modify-pseudo {
+  label,
+  input {
+    display: block;
+    margin: .5em 0;
   }
 }
 </style>
