@@ -43,7 +43,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - VITE_ROUTE_API=http://localhost:${API_PORT}/
+      - VITE_ROUTE_API=http://${API_HOSTNAME}:${API_PORT}/
 
 volumes:
   db-data:
