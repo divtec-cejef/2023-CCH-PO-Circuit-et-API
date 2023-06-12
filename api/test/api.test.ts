@@ -54,8 +54,7 @@ describe('race', () => {
             mouthType: String,
             shirtType: String,
             eyeBrowType: String,
-            glassesType: String,
-            shape: String
+            glassesType: String
           }
         }
       }
@@ -390,7 +389,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -400,8 +398,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -423,7 +420,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -433,8 +429,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -455,7 +450,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -465,8 +459,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -488,7 +481,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -498,8 +490,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -515,7 +506,6 @@ describe('CarPatch', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -525,8 +515,7 @@ describe('CarPatch', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -560,8 +549,7 @@ describe('Car', () => {
           mouthType: String,
           shirtType: String,
           eyeBrowType: String,
-          glassesType: String,
-          shape: String
+          glassesType: String
         }
       }]);
   });
@@ -591,8 +579,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -692,8 +679,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
