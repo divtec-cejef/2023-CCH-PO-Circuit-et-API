@@ -173,13 +173,17 @@
             align-content: space-between;
             flex-direction: column;
             flex-wrap: wrap;
-            height: 500px;
+            height: 550px;
             width: 100%;
             margin-top: 65px;
         }
 
         div.avatar-txt {
-            margin-left: 10px;
+
+            .avatar {
+                width: 200px;
+                height: 200px;
+            }
         }
 
         h2 {
