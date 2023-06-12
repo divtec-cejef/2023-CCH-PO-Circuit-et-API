@@ -22,6 +22,8 @@ let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id
 //Récupère le code de réponse de l'api
 let codeBackApi = ref(0);
 status.then(value => codeBackApi.value = value);
+
+const modelLoaded = ref(false);
 </script>
 
 <template>
@@ -37,27 +39,33 @@ status.then(value => codeBackApi.value = value);
         <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
       </div>
 
-      <Renderer id="car" ref="renderer" antialias
-                :orbit-ctrl="{
-                    autoRotate: true,
-                    autoRotateSpeed: -2.0,
-                    enableDamping: true,
-                    dampingFactor: 0.05,
-                    minDistance:.5,
-                    maxDistance: 2
-                }"
-                width="400px" height="250px">
-        <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-        <Scene background="#fff">
-          <PointLight :position="{x: 10}" :intensity="1"></PointLight>
-          <PointLight :position="{x: -10}" :intensity="1"></PointLight>
-          <PointLight :position="{y: 10}" :intensity="1"></PointLight>
-          <PointLight :position="{y: -10}" :intensity="1"></PointLight>
-          <PointLight :position="{z: 10}" :intensity="1"></PointLight>
-          <PointLight :position="{z: -10}" :intensity="1"></PointLight>
-          <GltfModel ref="object" src="src/assets/other/car.gltf" :scale="{x:10, y:10, z:10}"/>
-        </Scene>
-      </Renderer>
+      <div class="car-3d">
+        <span :class="`loading${modelLoaded?' loaded':''}`">Chargement en cours...</span>
+        <div :class="modelLoaded?'':'hidden'">
+          <Renderer id="car" ref="renderer" antialias
+                    :orbit-ctrl="{
+                           autoRotate: true,
+                           autoRotateSpeed: -2.0,
+                           enableDamping: true,
+                           dampingFactor: 0.05,
+                           minDistance:.5,
+                           maxDistance: 2
+                       }"
+                    width="400px" height="250px">
+            <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
+            <Scene background="#fff">
+              <PointLight :position="{x: 10}" :intensity="1"></PointLight>
+              <PointLight :position="{x: -10}" :intensity="1"></PointLight>
+              <PointLight :position="{y: 10}" :intensity="1"></PointLight>
+              <PointLight :position="{y: -10}" :intensity="1"></PointLight>
+              <PointLight :position="{z: 10}" :intensity="1"></PointLight>
+              <PointLight :position="{z: -10}" :intensity="1"></PointLight>
+              <GltfModel ref="object" src="src/assets/other/car.gltf" :scale="{x:10, y:10, z:10}"
+                         @load="() => modelLoaded = true"/>
+            </Scene>
+          </Renderer>
+        </div>
+      </div>
 
       <h2>Tableau de bord</h2>
       <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
@@ -200,6 +208,26 @@ div.user-data {
     :nth-child(5),
     :nth-child(6) {
       margin-top: 20px;
+    }
+  }
+}
+
+div.hidden {
+  opacity: 0;
+}
+
+div.car-3d {
+  position:relative;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  span.loading {
+    font-size: 2em;
+    font-weight:bolder;
+    position: absolute;
+
+    &.loaded{
+      display: none;
     }
   }
 }
