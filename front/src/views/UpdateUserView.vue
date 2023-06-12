@@ -4,8 +4,11 @@
         <form @submit.prevent="() => connect(car.idQuery, password)">
             <label for="password">Code de la voiture </label>
             <input type="text" id="password" name="password" v-model="password">
-            <button type="submit">Se connecter</button>
-            <p>{{ error }}</p>
+            <p class="error">{{ error }}</p>
+            <div class="button-container">
+                <button @click.prevent="abort" class="abort">Annuler</button>
+                <button type="submit">Se connecter</button>
+            </div>
         </form>
     </dialog>
     <h1>Modifier</h1>
@@ -91,6 +94,10 @@ async function connect(queryId: string, password: string) {
   } else {
     error.value = 'Code de la voiture incorrect';
   }
+}
+
+function abort() {
+  window.location.href = '/';
 }
 
 /**
