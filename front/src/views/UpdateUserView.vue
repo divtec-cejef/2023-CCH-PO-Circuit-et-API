@@ -53,6 +53,10 @@
             <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
         </div>
     </div>
+    <div class="modify-pseudo">
+        <label for="pseudo">Pseudo :</label>
+        <input type="text" id="pseudo" name="pseudo" v-model="pseudo">
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +74,7 @@ const { car } = userCar;
 const config = ref(genConfig(car.avatar));
 const password = ref('');
 const error = ref('');
+const pseudo = ref(car.pseudo);
 
 const dialog = ref<HTMLDialogElement | null>(null);
 
