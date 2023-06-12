@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
@@ -37,9 +37,17 @@ status.then(value => codeBackApi.value = value);
         <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
       </div>
 
-      <Renderer id="car" ref="renderer" antialias :orbit-ctrl="{ autoRotate: true, autoRotateSpeed: -2.0, enableDamping: true, dampingFactor: 0.05 }"
+      <Renderer id="car" ref="renderer" antialias
+                :orbit-ctrl="{
+                    autoRotate: true,
+                    autoRotateSpeed: -2.0,
+                    enableDamping: true,
+                    dampingFactor: 0.05,
+                    minDistance:.5,
+                    maxDistance: 2
+                }"
                 width="400px" height="250px">
-        <Camera :position="{ x: 1, y: 0.5, z: 0 }" :fov="5"/>
+        <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
         <Scene background="#fff">
           <PointLight :position="{x: 10}" :intensity="1"></PointLight>
           <PointLight :position="{x: -10}" :intensity="1"></PointLight>
@@ -47,7 +55,7 @@ status.then(value => codeBackApi.value = value);
           <PointLight :position="{y: -10}" :intensity="1"></PointLight>
           <PointLight :position="{z: 10}" :intensity="1"></PointLight>
           <PointLight :position="{z: -10}" :intensity="1"></PointLight>
-          <GltfModel ref="object" src="src/assets/other/car.gltf"/>
+          <GltfModel ref="object" src="src/assets/other/car.gltf" :scale="{x:10, y:10, z:10}"/>
         </Scene>
       </Renderer>
 
