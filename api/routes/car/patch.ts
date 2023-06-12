@@ -4,7 +4,7 @@ import { checkStructureOrThrow } from 'check-structure';
 import { getCarById, updateCar } from '../../services/car/implementation';
 
 /**
- * Controller update pour la route /car
+ * Controller patch pour la route /car
  * @param req Requete
  * @param res Reponse
  * @returns la voiture modifiée
