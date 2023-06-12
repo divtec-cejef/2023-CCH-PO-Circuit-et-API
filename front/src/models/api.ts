@@ -160,7 +160,7 @@ export namespace restful {
       })
     };
 
-    const response = await fetch(`${routeApi}/car`, requestOptions);
+    const response = await fetch(`${routeApi}car`, requestOptions);
     return await response.json();
   }
 }
