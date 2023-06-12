@@ -114,6 +114,31 @@ export namespace restful {
     const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
     return response.status;
   }
+
+  /**
+   * Lance une requête POST pour récupérer un token d'authentification
+   * @param queryId Identifiant d'url de la voiture
+   * @param pwd Mot de passe de la voiture
+   */
+  export async function authenticationQueryIdPwd(queryId: string, pwd: string) {
+
+    //Construction des options de requête
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        query_id: queryId,
+        // eslint-disable-next-line camelcase
+        password: pwd
+      })
+    };
+    const response = await fetch(`${routeApi}authentication/car`, requestOptions);
+    return await response.json();
+  }
 }
 
 export class websocket {
