@@ -663,4 +663,56 @@ div.modify-avatar {
     }
   }
 }
+
+
+#connection-dialog {
+  border: none;
+  border-radius: 1em;
+
+  form {
+    label,
+    input {
+      display: block;
+      margin: 1em 0;
+    }
+
+    input {
+      margin-bottom: .1em;
+    }
+
+    .error {
+      display: block;
+      height: 1em;
+      color: #E33821;
+      font-size: 1em;
+      font-style: italic;
+    }
+
+    button[type="submit"] {
+      background-color: #FFFFFF;
+      border: 3px solid #000000;
+      padding: .5em;
+      border-radius: .3em;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
+    button.abort {
+      cursor: pointer;
+      background-color: unset;
+      border: none;
+      color: #E33821;
+      font-style: italic;
+    }
+
+    div.button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  h2 {
+    width: unset;
+  }
+}
 </style>
