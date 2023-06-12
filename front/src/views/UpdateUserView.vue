@@ -1,4 +1,13 @@
 <template>
+    <dialog id="connection-dialog" ref="dialog">
+        <h2>Connection</h2>
+        <form @submit.prevent="() => connect(car.idQuery, password)">
+            <label for="password">Code de la voiture </label>
+            <input type="text" id="password" name="password" v-model="password">
+            <button type="submit">Se connecter</button>
+            <p>{{ error }}</p>
+        </form>
+    </dialog>
     <h1>Modifier</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
@@ -48,13 +57,41 @@ import { genConfig } from 'holiday-avatar';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
+import restful from '@/models/api';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
 const { car } = userCar;
 const config = ref(genConfig(car.avatar));
+const password = ref('');
+const error = ref('');
+
+const dialog = ref<HTMLDialogElement | null>(null);
+
+userCar.token = localStorage.getItem('carToken') || '';
+onMounted(() => {
+  if (userCar.token === '') {
+    dialog.value?.showModal();
+  }
+});
+
+async function connect(queryId: string, password: string) {
+  //Récupération du Token avec le nom et mot de passe de l'URL
+  let valueToken = await restful.authenticationQueryIdPwd(queryId, password);
+
+  //Si le token est valide
+  if (valueToken.token !== undefined) {
+    userCar.token = valueToken.token;
+    localStorage.setItem('carToken', userCar.token);
+
+    dialog.value?.close();
+    error.value = '';
+  } else {
+    error.value = 'Code de la voiture incorrect';
+  }
+}
 
 /**
  * Regénère l'avatar
@@ -511,112 +548,112 @@ if (localStorage.getItem('numTabOpen')) {
 <style scoped lang="scss">
 
 div.modify-avatar {
-    width: 95%;
-    margin: 25px auto 0 auto;
+  width: 95%;
+  margin: 25px auto 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+
+  div.content-avatar {
+    width: 40%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: end;
 
-    div.content-avatar {
-        width: 40%;
+    div.avatar {
+      width: 300px;
+      height: 300px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+      border-radius: 200px;
+    }
+  }
+
+  div.tab {
+    display: flex;
+    width: 60%;
+    min-height: 480px;
+
+    div.title {
+      display: flex;
+      flex-direction: column;
+      margin-right: 20px;
+      border-right: 1px solid var(--gray);
+      padding-right: 12px;
+
+      > div {
         display: flex;
-        justify-content: end;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
 
-        div.avatar {
-            width: 300px;
-            height: 300px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-            border-radius: 200px;
+        label {
+          cursor: pointer;
+          width: 50px;
         }
+
+        input {
+          display: none;
+
+          ~ img {
+            filter: grayscale(1);
+            opacity: 0.7;
+            transition: 0.2s ease-in-out;
+
+          }
+
+          ~ img:hover {
+            filter: none;
+            opacity: 1;
+            transition: 0.2s ease-in-out;
+          }
+        }
+
+        input:checked ~ img {
+          filter: none;
+          opacity: 1;
+        }
+      }
+
+      img {
+        width: 45px;
+      }
     }
 
-    div.tab {
+    div.tab-content {
+      display: flex;
+      flex-direction: column;
+
+      > div:nth-child(1) {
+        width: 100%;
+        height: 100%;
+      }
+
+      > div {
         display: flex;
-        width: 60%;
-        min-height: 480px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+      }
 
-        div.title {
-            display: flex;
-            flex-direction: column;
-            margin-right: 20px;
-            border-right: 1px solid var(--gray);
-            padding-right: 12px;
+      fieldset.color {
+        padding-left: 30px;
+      }
 
-            > div {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex: 1;
+      fieldset {
+        width: 100%;
+        padding-right: 30px;
+      }
 
-                label {
-                    cursor: pointer;
-                    width: 50px;
-                }
+      fieldset:nth-child(1) {
+        padding-left: 0;
+      }
 
-                input {
-                    display: none;
+      div fieldset:nth-child(2) {
+        padding-left: 0;
 
-                    ~ img {
-                        filter: grayscale(1);
-                        opacity: 0.7;
-                        transition: 0.2s ease-in-out;
-
-                    }
-
-                    ~ img:hover {
-                        filter: none;
-                        opacity: 1;
-                        transition: 0.2s ease-in-out;
-                    }
-                }
-
-                input:checked ~ img {
-                    filter: none;
-                    opacity: 1;
-                }
-            }
-
-            img {
-                width: 45px;
-            }
-        }
-
-        div.tab-content {
-            display: flex;
-            flex-direction: column;
-
-            > div:nth-child(1) {
-                width: 100%;
-                height: 100%;
-            }
-
-            > div {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: start;
-            }
-
-            fieldset.color {
-                padding-left: 30px;
-            }
-
-            fieldset {
-                width: 100%;
-                padding-right: 30px;
-            }
-
-            fieldset:nth-child(1) {
-                padding-left: 0;
-            }
-
-            div fieldset:nth-child(2) {
-                padding-left: 0;
-
-            }
-        }
+      }
     }
+  }
 }
 </style>
