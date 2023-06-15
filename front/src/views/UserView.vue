@@ -28,85 +28,85 @@ const modelLoaded = ref(false);
 </script>
 
 <template>
-  <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
-    Chargement...
-  </div>
+    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
+        Chargement...
+    </div>
 
-  <div v-else-if="codeBackApi === api.ReturnCodes.Success">
-    <div class="user-data">
-      <div class="avatar-txt">
-        <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
-        <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-        <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
-      </div>
+    <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+        <div class="user-data">
+            <div class="avatar-txt">
+                <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+                <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
+                <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
+            </div>
 
-      <div class="car-3d">
-        <span :class="`loading${modelLoaded?' loaded':''}`">Chargement en cours...</span>
-        <div :class="modelLoaded?'':'hidden'">
-          <Renderer id="car" ref="renderer" antialias
-                    :orbit-ctrl="{
+            <div class="car-3d">
+                <span :class="`loading${modelLoaded?' loaded':''}`">Chargement en cours...</span>
+                <div :class="modelLoaded?'':'hidden'">
+                    <Renderer id="car" ref="renderer" antialias
+                              :orbit-ctrl="{
                            autoRotate: true,
                            autoRotateSpeed: -2.0,
                            enableDamping: true,
                            dampingFactor: 0.05
                        }"
                     width="400px" height="250px">
-            <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-            <Scene :background="'#fff'">
-              <PointLight :position="{x: 10}" :intensity="2"></PointLight>
-              <PointLight :position="{x: -10}" :intensity="2"></PointLight>
-              <PointLight :position="{y: 10}" :intensity="2"></PointLight>
-              <PointLight :position="{y: -10}" :intensity="2"></PointLight>
-              <PointLight :position="{z: 10}" :intensity="2"></PointLight>
-              <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-              <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
-                         @load="() => modelLoaded = true"/>
-            </Scene>
-          </Renderer>
+                      <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
+                      <Scene :background="'#fff'">
+                        <PointLight :position="{x: 10}" :intensity="2"></PointLight>
+                        <PointLight :position="{x: -10}" :intensity="2"></PointLight>
+                        <PointLight :position="{y: 10}" :intensity="2"></PointLight>
+                        <PointLight :position="{y: -10}" :intensity="2"></PointLight>
+                        <PointLight :position="{z: 10}" :intensity="2"></PointLight>
+                        <PointLight :position="{z: -10}" :intensity="2"></PointLight>
+                        <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
+                                   @load="() => modelLoaded = true"/>
+                      </Scene>
+                    </Renderer>
+                </div>
+            </div>
+
+            <h2>Tableau de bord</h2>
+            <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
+                !</p>
+            <div class="badges">
+                <RouterLink to="/course">
+                    <img :src=badgeCourse alt="Badge course">
+                    <p>Course</p>
+                </RouterLink>
+                <RouterLink to="/course">
+                    <img :src=badgeClassement alt="Badge classement">
+                    <p>Classement</p>
+                </RouterLink>
+                <RouterLink to="/course">
+                    <img :src=badgeVideo alt="Badge vidéo">
+                    <p>Video</p>
+                </RouterLink>
+                <RouterLink to="/modification">
+                    <img :src=badgeModif alt="Badge modification">
+                    <p>Modifier</p>
+                </RouterLink>
+
+                <RouterLink to="/">
+                    <img :src=badgeStage alt="Badge inscription stage">
+                    <p>Stage</p>
+                </RouterLink>
+                <RouterLink to="/">
+                    <img :src=badgeLive alt="Badge live">
+                    <p>Live</p>
+                </RouterLink>
+            </div>
         </div>
-      </div>
-
-      <h2>Tableau de bord</h2>
-      <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
-        !</p>
-      <div class="badges">
-        <RouterLink to="/course">
-          <img :src=badgeCourse alt="Badge course">
-          <p>Course</p>
-        </RouterLink>
-        <RouterLink to="/course">
-          <img :src=badgeClassement alt="Badge classement">
-          <p>Classement</p>
-        </RouterLink>
-        <RouterLink to="/course">
-          <img :src=badgeVideo alt="Badge vidéo">
-          <p>Video</p>
-        </RouterLink>
-        <RouterLink to="/modification">
-          <img :src=badgeModif alt="Badge modification">
-          <p>Modifier</p>
-        </RouterLink>
-
-        <RouterLink to="/">
-          <img :src=badgeStage alt="Badge inscription stage">
-          <p>Stage</p>
-        </RouterLink>
-        <RouterLink to="/">
-          <img :src=badgeLive alt="Badge live">
-          <p>Live</p>
-        </RouterLink>
-      </div>
     </div>
-  </div>
 
 
-  <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
-    Erreur, impossible de trouver la voiture
-  </div>
+    <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+        Erreur, impossible de trouver la voiture
+    </div>
 
-  <div class="error" v-else>
-    Erreur innatendue
-  </div>
+    <div class="error" v-else>
+        Erreur innatendue
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -206,6 +206,29 @@ div.user-data {
       margin-top: 20px;
     }
   }
+
+  a {
+
+    p {
+      transition: ease-in-out 0.2s;
+
+    }
+
+    img {
+      transition: ease-in-out 0.2s;
+    }
+  }
+
+  a:hover {
+    img {
+      filter: grayscale(0.4);
+      transition: ease-in-out 0.2s;
+    }
+
+    p {
+      font-weight: bold;
+      transition: ease-in-out 0.2s;
+    }
 }
 
 div.hidden {
@@ -213,42 +236,24 @@ div.hidden {
 }
 
 div.car-3d {
-  position:relative;
+  position: relative;
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: center;
+
   span.loading {
     font-size: 2em;
-    font-weight:bolder;
+    font-weight: bolder;
     position: absolute;
 
-    a {
 
-      p {
-        transition: ease-in-out 0.2s;
 
+      &.loaded {
+        display: none;
       }
-
-      img {
-        transition: ease-in-out 0.2s;
-      }
-    }
-
-    a:hover {
-      img {
-        filter: grayscale(0.4);
-        transition: ease-in-out 0.2s;
-      }
-
-      p {
-        font-weight: bold;
-        transition: ease-in-out 0.2s;
-      }
-
-    &.loaded{
-      display: none;
     }
   }
 }
+
 
 </style>
