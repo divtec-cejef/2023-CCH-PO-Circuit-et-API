@@ -64,6 +64,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   // Vérification de l'autorisation à mettre à jour la voiture
   if (car.id_car !== carId) {
     res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    return;
   }
 
   // modification de la voiture
