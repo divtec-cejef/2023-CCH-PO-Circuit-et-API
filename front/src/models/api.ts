@@ -1,6 +1,7 @@
 import { Socket, io } from 'socket.io-client';
 import type { models } from '@/models/interface';
 import type Car from '@/models/car';
+import api from '@/models/api';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -10,6 +11,7 @@ export namespace restful {
     Success = 200,
     NotFound = 404,
     Conflict = 409,
+    Unauthorized = 401,
   }
 
   /**
@@ -161,6 +163,11 @@ export namespace restful {
     };
 
     const response = await fetch(`${routeApi}car`, requestOptions);
+
+    if (response.status === api.ReturnCodes.Unauthorized) {
+      throw new Error('Unauthorized');
+    }
+
     return await response.json();
   }
 }
