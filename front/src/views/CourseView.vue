@@ -346,6 +346,14 @@ div.button-classement {
 
   button {
     cursor: pointer;
+    transition: 0.2s filter ease-in-out;
+
+  }
+
+    
+  button:hover {
+    filter: grayscale(0.3);
+    transition: 0.2s filter ease-in-out;
   }
 }
 
