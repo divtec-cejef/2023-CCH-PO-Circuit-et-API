@@ -133,14 +133,11 @@ div.user-data {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
+    max-width: 300px;
+
 
     p:nth-child(2) {
       font-size: 18px;
-    }
-
-    p:nth-child(3) {
-      width: 80%;
     }
 
     div.avatar {
@@ -194,11 +191,11 @@ div.user-data {
       height: 110px;
     }
 
-    :nth-child(odd) {
+    > :nth-child(odd) {
       margin-left: 5px;
     }
 
-    :nth-child(even) {
+    > :nth-child(even) {
       margin-right: 5px;
     }
 
@@ -224,6 +221,29 @@ div.car-3d {
     font-size: 2em;
     font-weight:bolder;
     position: absolute;
+
+    a {
+
+      p {
+        transition: ease-in-out 0.2s;
+
+      }
+
+      img {
+        transition: ease-in-out 0.2s;
+      }
+    }
+
+    a:hover {
+      img {
+        filter: grayscale(0.4);
+        transition: ease-in-out 0.2s;
+      }
+
+      p {
+        font-weight: bold;
+        transition: ease-in-out 0.2s;
+      }
 
     &.loaded{
       display: none;
