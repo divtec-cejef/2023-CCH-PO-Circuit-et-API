@@ -3,6 +3,12 @@ import validateCarAuthorization from '../../services/validate-token/car/implemen
 import { checkStructureOrThrow } from 'check-structure';
 import { getCarById, updateCar } from '../../services/car/implementation';
 
+/**
+ * Controller patch pour la route /car
+ * @param req Requete
+ * @param res Reponse
+ * @returns la voiture modifiée
+ */
 export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) => {
   const carToUpdate = req.body;
 
@@ -10,7 +16,6 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   const { authorization } = req.headers;
   const carId = await validateCarAuthorization(res, authorization);
   if (!carId) {
-    res.status(400).json({ message: 'Invalid token' });
     return;
   }
 
@@ -25,7 +30,6 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -35,8 +39,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   } catch (e) {
@@ -60,6 +63,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   // Vérification de l'autorisation à mettre à jour la voiture
   if (car.id_car !== carId) {
     res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    return;
   }
 
   // modification de la voiture

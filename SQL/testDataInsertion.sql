@@ -16,7 +16,6 @@ VALUES ('03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '435
         "faceColor": "#156",
         "hairColor": "#2F4",
         "shirtColor": "#DDD",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -26,8 +25,7 @@ VALUES ('03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '435
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
             }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -37,7 +35,6 @@ VALUES ('fe2592b42a727e977f055947385b709cc82b16b9a87f88c6abf3900d65d0cdc3', '435
         "faceColor": "#E6E",
         "hairColor": "#8D1",
         "shirtColor": "#231",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -47,8 +44,7 @@ VALUES ('fe2592b42a727e977f055947385b709cc82b16b9a87f88c6abf3900d65d0cdc3', '435
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
             }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -58,7 +54,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '435
         "faceColor": "#1A7",
         "hairColor": "#000",
         "shirtColor": "#9CD",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -68,8 +63,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '435
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
             }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -79,7 +73,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '435
         "faceColor": "#321",
         "hairColor": "#8BE",
         "shirtColor": "#F45",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -89,8 +82,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '435
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
             }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -100,7 +92,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#A89",
         "hairColor": "#29A",
         "shirtColor": "#21A",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -110,8 +101,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -121,7 +111,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#D12",
         "hairColor": "#234",
         "shirtColor": "#21A",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -131,8 +120,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -142,7 +130,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#387",
         "hairColor": "#29A",
         "shirtColor": "#2A3",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -152,8 +139,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -163,7 +149,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#8D1",
         "hairColor": "#29A",
         "shirtColor": "#21A",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -173,8 +158,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -184,7 +168,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#9A2",
         "hairColor": "#29A",
         "shirtColor": "#21A",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -194,8 +177,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -205,7 +187,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "faceColor": "#923",
         "hairColor": "#29A",
         "shirtColor": "#21A",
-        "hairColorRandom": false,
         "sex": "female",
         "earSize": "small",
         "hatType": "none",
@@ -215,8 +196,7 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
         "mouthType": "smile",
         "shirtType": "hoody",
         "eyeBrowType": "upMale",
-        "glassesType": "square",
-        "shape": "circle"
+        "glassesType": "square"
 }');
 
 

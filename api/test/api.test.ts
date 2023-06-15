@@ -45,7 +45,6 @@ describe('race', () => {
             faceColor: String,
             hairColor: String,
             shirtColor: String,
-            hairColorRandom: Boolean,
             sex: String,
             earSize: String,
             hatType: String,
@@ -55,8 +54,7 @@ describe('race', () => {
             mouthType: String,
             shirtType: String,
             eyeBrowType: String,
-            glassesType: String,
-            shape: String
+            glassesType: String
           }
         }
       }
@@ -373,14 +371,14 @@ describe('CarAuthentication', () => {
   });
 });
 
-describe('CarPut', () => {
+describe('CarPatch', () => {
   const token = chai.request('localhost:3000').post('/authentication/car').send({
     query_id: '9999',
     password: 'Admlocal1'
   });
 
   it('Should return a 400 error if the id_car is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: '11',
@@ -391,7 +389,6 @@ describe('CarPut', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -401,8 +398,7 @@ describe('CarPut', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -413,7 +409,7 @@ describe('CarPut', () => {
   });
 
   it('Should return a 400 error if the pseudo is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: 11,
@@ -424,7 +420,6 @@ describe('CarPut', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -434,8 +429,7 @@ describe('CarPut', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -446,7 +440,7 @@ describe('CarPut', () => {
   });
 
   it('Should return a 400 error if the avatar is invalid type', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: '11',
@@ -456,7 +450,6 @@ describe('CarPut', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -466,8 +459,7 @@ describe('CarPut', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -478,7 +470,7 @@ describe('CarPut', () => {
   });
 
   it('Should return an updated car', async () => {
-    const res = await chai.request('localhost:3000').put('/car')
+    const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
         id_car: 11,
@@ -489,7 +481,6 @@ describe('CarPut', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -499,8 +490,7 @@ describe('CarPut', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -516,7 +506,6 @@ describe('CarPut', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -526,8 +515,7 @@ describe('CarPut', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -552,7 +540,6 @@ describe('Car', () => {
           faceColor: String,
           hairColor: String,
           shirtColor: String,
-          hairColorRandom: Boolean,
           sex: String,
           earSize: String,
           hatType: String,
@@ -562,8 +549,7 @@ describe('Car', () => {
           mouthType: String,
           shirtType: String,
           eyeBrowType: String,
-          glassesType: String,
-          shape: String
+          glassesType: String
         }
       }]);
   });
@@ -584,7 +570,6 @@ describe('Car', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -594,8 +579,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -686,7 +670,6 @@ describe('Car', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -696,8 +679,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
