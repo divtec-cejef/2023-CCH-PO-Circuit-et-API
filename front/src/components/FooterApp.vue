@@ -53,10 +53,13 @@ footer {
         a {
             color: var(--light-green);
             font-weight: bold;
+            transition: 0.1s ease-in-out;
         }
 
         a:hover {
             color: var(--white);
+            transition: 0.1s ease-in-out;
+
         }
     }
 
