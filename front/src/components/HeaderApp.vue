@@ -46,19 +46,28 @@ const adminPost = useAdminPostStore();
 
 <style scoped lang="scss">
 nav ul {
-    margin-top: 50px;
-    padding: 0;
-    list-style: none ;
+  margin-top: 50px;
+  padding: 0;
+  list-style: none;
 
-    li {
-        margin-top: 12px;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: bold;
-        font-style: normal;
+  li {
+    margin-top: 12px;
+    font-family: 'SF Pro Display', sans-serif;
+    font-weight: bold;
+    font-style: normal;
 
-        * {
-            font-size: 27px;
-        }
+    * {
+      font-size: 27px;
     }
+
+    a {
+      transition: ease-in-out 0.15s;
+
+      &:hover {
+        color: var(--gray);
+        transition: ease-in-out 0.15s;
+      }
+    }
+  }
 }
 </style>
