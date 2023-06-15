@@ -82,7 +82,7 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   // Obtenir toutes les manches de courses d'une voiture qui n'existe pas
@@ -90,7 +90,7 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   // Créer une manche de course avec des paramètres valides à l'aide du query_id de la voiture
@@ -119,7 +119,7 @@ describe('race', () => {
       query_id: '4356'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course à l'aide que query_id avec sector_one invalide
@@ -131,7 +131,7 @@ describe('race', () => {
       query_id: '4356'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec un query_id invalide
@@ -143,7 +143,7 @@ describe('race', () => {
       query_id: 4356
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'query_id is not of type string' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
   // Créer une manche de course avec des paramètres valides
@@ -172,7 +172,7 @@ describe('race', () => {
       id_car: 1
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ messsage: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec sector_one invalide
@@ -184,7 +184,7 @@ describe('race', () => {
       id_car: 1
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec id_car invalide
@@ -196,7 +196,7 @@ describe('race', () => {
       id_car: 'adsf'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'id_car is not of type number' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
   });
 });
 
@@ -216,14 +216,14 @@ describe('Section', () => {
     const res = await chai.request('localhost:3000').get('/section/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if section is not found', async () => {
     const res = await chai.request('localhost:3000').get('/section/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Section not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
   });
 });
 
@@ -244,14 +244,14 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if section is not found', async () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
+    expect(res.error.text).to.equal(JSON.stringify(({ message: 'Section not found' })));
   });
 
   it('should return all activities from one car', async () => {
@@ -272,14 +272,14 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if car is not found', async () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Car not found' })));
+    expect(res.error.text).to.equal(JSON.stringify(({ message: 'Car not found' })));
   });
 });
 
@@ -589,7 +589,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   // Obtenir une voiture qui n'existe pas
@@ -597,7 +597,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   /* DISABLED: route disabled
@@ -640,7 +640,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').delete('/car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
    */
 
@@ -650,7 +650,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').delete('/car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
    */
 
@@ -689,7 +689,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/query-id/adsfasf');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   /* DISABLED: route disabled

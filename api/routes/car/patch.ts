@@ -56,13 +56,13 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   // Vérification de l'existence de la voiture
   const car = await getCarById(carToUpdate.id_car);
   if (car === null) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 
   // Vérification de l'autorisation à mettre à jour la voiture
   if (car.id_car !== carId) {
-    res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    res.status(403).json({ message: 'You are not allowed to perform this action.' });
     return;
   }
 

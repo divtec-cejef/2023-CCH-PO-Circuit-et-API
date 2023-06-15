@@ -12,9 +12,9 @@ export const route: routeHandler = async (req, res) => {
     res.json(await getShortestRaces());
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(500).json({ error: e });
+      res.status(500).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({ message: e.message });
     } else {
       res.status(500).send();
     }
