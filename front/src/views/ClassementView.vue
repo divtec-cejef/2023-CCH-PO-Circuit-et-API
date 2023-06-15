@@ -84,5 +84,8 @@ button.classement-user {
     height: 40px;
 }
 
+button {
+    cursor: pointer;
+}
 
 </style>
