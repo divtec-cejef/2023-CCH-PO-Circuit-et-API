@@ -205,6 +205,29 @@ div.user-data {
       margin-top: 20px;
     }
   }
+
+  a {
+
+    p {
+      transition: ease-in-out 0.2s;
+
+    }
+
+    img {
+      transition: ease-in-out 0.2s;
+    }
+  }
+
+  a:hover {
+    img {
+      filter: grayscale(0.4);
+      transition: ease-in-out 0.2s;
+    }
+
+    p {
+      font-weight: bold;
+      transition: ease-in-out 0.2s;
+    }
 }
 
 div.hidden {
@@ -222,28 +245,7 @@ div.car-3d {
     font-weight: bolder;
     position: absolute;
 
-    a {
 
-      p {
-        transition: ease-in-out 0.2s;
-
-      }
-
-      img {
-        transition: ease-in-out 0.2s;
-      }
-    }
-
-    a:hover {
-      img {
-        filter: grayscale(0.4);
-        transition: ease-in-out 0.2s;
-      }
-
-      p {
-        font-weight: bold;
-        transition: ease-in-out 0.2s;
-      }
 
       &.loaded {
         display: none;
@@ -251,5 +253,6 @@ div.car-3d {
     }
   }
 }
+
 
 </style>
