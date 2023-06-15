@@ -4,7 +4,7 @@
 
     <div class="button-classement">
         <div>
-            <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+            <button v-if="userCar.car.idCar !== 0" class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
             <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
         </div>
     </div>
@@ -17,6 +17,7 @@
 import ClassementRace from '@/components/ClassementRace.vue';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
+import { useCarStore } from '@/stores/car';
 
 /**
  * Scroll à l'élément de l'utilisateur
@@ -33,6 +34,7 @@ function scrollToTop() {
   window.scrollTo(0, document.body.scrollTop);
 }
 
+const userCar = useCarStore();
 
 </script>
 
@@ -86,6 +88,13 @@ button.classement-user {
 
 button {
     cursor: pointer;
+    transition: 0.2s filter ease-in-out;
+}
+
+button:hover {
+    filter: grayscale(0.3);
+    transition: 0.2s filter ease-in-out;
+
 }
 
 </style>
