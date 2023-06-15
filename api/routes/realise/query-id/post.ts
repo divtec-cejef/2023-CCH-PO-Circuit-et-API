@@ -37,9 +37,9 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     });
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ error: e });
+      res.status(400).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ message: e.message });
     } else {
       res.status(400).send();
     }
@@ -49,18 +49,18 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   // Vérification de l'existence de l'activité
   const activity = await getActivityById(realisedActivity.id_activity);
   if (activity === null) {
-    res.status(404).json({ error: 'Activity not found' });
+    res.status(404).json({ message: 'Activity not found' });
     return;
   }
 
   if (activity.id_section !== sectId) {
-    res.status(403).json({ error: 'You are not allowed to perform this action.' });
+    res.status(403).json({ message: 'You are not allowed to perform this action.' });
     return;
   }
 
   // vérification de l'existence de la voiture
   if (await getCarByQueryId(realisedActivity.query_id) === null) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 
@@ -81,9 +81,9 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     res.json(await createRealisedActivity(realisedActivityToCreate));
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(500).json({ error: e });
+      res.status(500).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({ message: e.message });
     } else {
       res.status(500).send();
     }
