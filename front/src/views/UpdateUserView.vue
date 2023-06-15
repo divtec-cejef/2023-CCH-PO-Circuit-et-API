@@ -16,7 +16,7 @@
     <h1>Modifier</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
-    <div class="modify-avatar">
+    <div class="modify-avatar" @change="enableButton">
         <div class="tab">
             <div class="title">
                 <div class="tab1">
@@ -57,10 +57,10 @@
     </div>
     <div class="modify-pseudo">
         <label for="pseudo">Pseudo : </label>
-        <input type="text" id="pseudo" name="pseudo" v-model="pseudo">
+        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton">
     </div>
     <div class="update-container">
-        <button @click.prevent="() => updateUser(config, pseudo,  userCar)">Enregistrer</button>
+        <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
     </div>
 </template>
 
@@ -71,9 +71,8 @@ import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
-import { restful } from '@/models/api';
+import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
-import type Car from '@/models/car';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -81,10 +80,13 @@ const { car } = userCar;
 const config = ref(genConfig(car.avatar));
 const password = ref('');
 const error = ref('');
-const pseudo = ref(car.pseudo);
+const refPseudo = ref(car.pseudo);
 
+// éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
+const updateDisabled = ref(true);
 
+// Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
 userCar.token = localStorage.getItem('carToken') || '';
 onMounted(() => {
   if (userCar.token === '') {
@@ -92,9 +94,14 @@ onMounted(() => {
   }
 });
 
+/**
+ * Connexion de l'utilisateur
+ * @param queryId Identifiant d'url de la voiture
+ * @param password mot de passe de la voiture
+ */
 async function connect(queryId: string, password: string) {
   //Récupération du Token avec le nom et mot de passe de l'URL
-  let valueToken = await restful.authenticationQueryIdPwd(queryId, password);
+  let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
   //Si le token est valide
   if (valueToken.token !== undefined) {
@@ -105,18 +112,83 @@ async function connect(queryId: string, password: string) {
     error.value = '';
   } else {
     error.value = '* Code de la voiture incorrect';
+    return;
+  }
+
+  // Test si enregistrement des données de la voiture
+  if (refPseudo.value !== car.pseudo || !avatarEquals()) {
+    await updateUser();
   }
 }
 
+/**
+ * Compare deux avatars
+ * @returns true si les deux avatars sont identiques, false sinon
+ */
+function avatarEquals() {
+  let equlality = true;
+  Object.keys(config.value).forEach((key) => {
+    if (config.value[key] !== userCar.car.avatar[key]) {
+      console.log(key, config.value[key], userCar.car.avatar[key]);
+      equlality = false;
+    }
+  });
+  return equlality;
+}
+
+/**
+ * Active le bouton d'enregistrement si les données ont changé
+ */
+function enableButton() {
+  updateDisabled.value = avatarEquals() && refPseudo.value.toString() === car.pseudo.toString();
+  console.log(avatarEquals(), updateDisabled.value);
+}
+
+/**
+ * Quitter la page de modification
+ */
 function cancel() {
   window.location.href = '/';
 }
 
-async function updateUser(config: {}, pseudo: string, userCar: any) {
-  userCar.car.avatar = config;
-  userCar.car.pseudo = pseudo;
+/**
+ * Met à jour les données de l'utilisateur (de la voiture)
+ */
+async function updateUser() {
+  // Désactivation du bouton d'enregistrement
+  updateDisabled.value = true;
 
-  console.log(await restful.updateCar(userCar));
+  // Utilisateur Voiture pour l'enregistrement dans la db
+  const reqUserCar = {
+    token: userCar.token,
+    car: {
+      idCar: userCar.car.idCar,
+      pseudo: userCar.car.pseudo,
+      avatar: config.value
+    }
+  };
+
+  // Vérification du pseudo
+  if (refPseudo.value.length < 3) {
+    refPseudo.value = userCar.car.pseudo;
+    alert('Le pseudo doit contenir au moins 3 caractères');
+    return;
+  }
+  reqUserCar.car.pseudo = refPseudo.value;
+
+  // enregistrement de la voiture
+  try {
+    await api.updateCar(reqUserCar);
+  } catch (e) {
+    alert('La connexion a échouée, veuillez vous reconnecter');
+    localStorage.removeItem('carToken');
+    dialog.value?.showModal();
+    return;
+  }
+
+  // Enregistrement de la voiture dans Pinia
+  userCar.car.avatar = JSON.parse(JSON.stringify(reqUserCar.car.avatar));
+  userCar.car.pseudo = reqUserCar.car.pseudo;
 }
 
 /**
@@ -131,26 +203,9 @@ function regenerateAvatar(parameter: string, value: any) {
     (config.value as { [index: string]: any })[parameter] = value;
   }
 
-  //Affectation de la nouvelle config
-  config.value = genConfig({
-    bgColor: config.value.bgColor,
-    hatColor: config.value.hatColor,
-    faceColor: config.value.faceColor,
-    hairColorRandom: true,
-    hairColor: config.value.hairColor,
-    shirtColor: config.value.shirtColor,
-    sex: config.value.sex,
-    earSize: config.value.earSize,
-    hatType: config.value.hatType,
-    eyeType: config.value.eyeType,
-    hairType: config.value.hairType,
-    noseType: config.value.noseType,
-    mouthType: config.value.mouthType,
-    shirtType: config.value.shirtType,
-    eyeBrowType: config.value.eyeBrowType,
-    glassesType: config.value.glassesType,
-    shape: config.value.shape,
-  });
+  // Affectation de la nouvelle config
+  config.value = genConfig(JSON.parse(JSON.stringify(config.value)));
+
 }
 
 //Initialisation des constantes
@@ -760,6 +815,11 @@ div.update-container{
     border-radius: .2em;
     cursor: pointer;
     color: var(--white);
+  }
+
+  button:disabled {
+    background-color: var(--gray);
+    border-color: var(--gray);
   }
 }
 </style>
