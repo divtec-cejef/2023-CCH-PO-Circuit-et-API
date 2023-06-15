@@ -172,7 +172,7 @@ describe('race', () => {
       id_car: 1
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ messsage: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec sector_one invalide
