@@ -47,20 +47,18 @@ const modelLoaded = ref(false);
                            autoRotate: true,
                            autoRotateSpeed: -2.0,
                            enableDamping: true,
-                           dampingFactor: 0.05,
-                           minDistance:.5,
-                           maxDistance: 2
+                           dampingFactor: 0.05
                        }"
                     width="400px" height="250px">
             <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
             <Scene background="#fff">
-              <PointLight :position="{x: 10}" :intensity="1"></PointLight>
-              <PointLight :position="{x: -10}" :intensity="1"></PointLight>
-              <PointLight :position="{y: 10}" :intensity="1"></PointLight>
-              <PointLight :position="{y: -10}" :intensity="1"></PointLight>
-              <PointLight :position="{z: 10}" :intensity="1"></PointLight>
-              <PointLight :position="{z: -10}" :intensity="1"></PointLight>
-              <GltfModel ref="object" src="src/assets/other/car.gltf" :scale="{x:10, y:10, z:10}"
+              <PointLight :position="{x: 10}" :intensity="2"></PointLight>
+              <PointLight :position="{x: -10}" :intensity="2"></PointLight>
+              <PointLight :position="{y: 10}" :intensity="2"></PointLight>
+              <PointLight :position="{y: -10}" :intensity="2"></PointLight>
+              <PointLight :position="{z: 10}" :intensity="2"></PointLight>
+              <PointLight :position="{z: -10}" :intensity="2"></PointLight>
+              <GltfModel ref="object" src="src/assets/other/car.glb" :scale="{x:.01, y:.01, z:.01}"
                          @load="() => modelLoaded = true"/>
             </Scene>
           </Renderer>
