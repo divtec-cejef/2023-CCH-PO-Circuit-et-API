@@ -73,6 +73,7 @@ import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
+import router from '@/router';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -148,7 +149,7 @@ function enableButton() {
  * Quitter la page de modification
  */
 function cancel() {
-  window.location.href = '/';
+  router.push({ path: '/' });
 }
 
 /**
