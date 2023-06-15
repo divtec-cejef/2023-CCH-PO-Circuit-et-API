@@ -10,7 +10,7 @@ import { deleteCarByQueryId } from '../../../../services/car/implementation';
 const route: routeHandler<{ slug: string; }> = async (req, res) => {
   if (!req.params.slug) {
     console.log('No given ID');
-    res.status(400).json({ error: 'No given ID' });
+    res.status(400).json({ message: 'No given ID' });
     return;
   }
 
@@ -18,7 +18,7 @@ const route: routeHandler<{ slug: string; }> = async (req, res) => {
   const car = await deleteCarByQueryId(id);
 
   if (!car) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 

@@ -12,7 +12,7 @@ const route: routeHandler<{ slug: string; }> = async (req, res) => {
 
   // Vérification de l'id
   if (typeof id === null || isNaN(id)) {
-    res.status(400).json({ error: 'Invalid id' });
+    res.status(400).json({ message: 'Invalid id' });
     return;
   }
 
@@ -20,7 +20,7 @@ const route: routeHandler<{ slug: string; }> = async (req, res) => {
 
   // Vérification de l'existence de la section
   if (section === null) {
-    res.status(404).json({ error: 'Section not found' });
+    res.status(404).json({ message: 'Section not found' });
     return;
   }
 
