@@ -16,7 +16,6 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   const { authorization } = req.headers;
   const carId = await validateCarAuthorization(res, authorization);
   if (!carId) {
-    res.status(400).json({ message: 'Invalid token' });
     return;
   }
 
