@@ -1,25 +1,25 @@
 <template>
     <nav>
         <ul>
-            <li class="accueil">
+            <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
-            <li v-if="userCar.car.idCar !== 0">
+            <li @click="clickMenu" v-if="userCar.car.idCar !== 0">
                 <RouterLink to="/modifier">Modifier</RouterLink>
             </li>
-            <li v-if="userCar.car.idCar !== 0">
+            <li @click="clickMenu" v-if="userCar.car.idCar !== 0">
                 <RouterLink to="/course">Course</RouterLink>
             </li>
-            <li>
+            <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
             </li>
-            <li>
+            <li @click="clickMenu">
                 <RouterLink to="/historique">Historique</RouterLink>
             </li>
-            <li v-if="adminPost.token !== ''">
+            <li @click="clickMenu" v-if="adminPost.token !== ''">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
-            <li>
+            <li @click="clickMenu">
                 <RouterLink to="/apropos">A Propos</RouterLink>
             </li>
         </ul>
@@ -30,8 +30,15 @@
 
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
+import { defineEmits } from 'vue';
+
+const clickMenu = () => {
+  localStorage.setItem('menuIsClicked', 'true');
+  emit('clickMenu', true);
+};
 
 //Récupération de la voiture
+const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
 
@@ -39,19 +46,28 @@ const adminPost = useAdminPostStore();
 
 <style scoped lang="scss">
 nav ul {
-    margin-top: 40px;
-    padding: 0;
-    list-style: none ;
+  margin-top: 50px;
+  padding: 0;
+  list-style: none;
 
-    li {
-        margin-top: 12px;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: bold;
-        font-style: normal;
+  li {
+    margin-top: 12px;
+    font-family: 'SF Pro Display', sans-serif;
+    font-weight: bold;
+    font-style: normal;
 
-        * {
-            font-size: 27px;
-        }
+    * {
+      font-size: 27px;
     }
+
+    a {
+      transition: ease-in-out 0.15s;
+
+      &:hover {
+        color: var(--gray);
+        transition: ease-in-out 0.15s;
+      }
+    }
+  }
 }
 </style>

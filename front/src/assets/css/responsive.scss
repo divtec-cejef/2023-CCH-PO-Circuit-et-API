@@ -1,232 +1,262 @@
 /* Téléphone */
 @media screen and (max-width: 400px) {
-    #app {
-        .large {
-            display: none;
-        }
+  #app {
+    .large {
+      display: none;
     }
+
+    footer {
+      p {
+        width: fit-content;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 475px) {
+  #app {
+    div.badges {
+      :nth-child(3) {
+        margin-top: 0;
+      }
+
+      width: 420px;
+    }
+  }
 }
 
 /* Tablette */
 @media screen and (min-width: 700px) {
-    #app {
+  #app {
 
-        header.open, header.closed {
-            display: none;
-        }
+    header.open, header.closed {
+      display: none;
+    }
 
-        .table-large-content {
-            width: 40%;
-            display: block;
-        }
+    .table-large-content {
+      width: 40%;
+      display: block;
+    }
 
-        .drop-down-course {
-            display: none;
-        }
+    .drop-down-course {
+      display: none;
+    }
 
-        .thin {
-            display: none;
-        }
+    .thin {
+      display: none;
+    }
 
-        .large {
-            display: block;
-        }
+    .large {
+      display: block;
+    }
 
-        header.large {
-            display: flex;
-            flex-direction: row;
+    header.large {
+      display: flex;
+      flex-direction: row;
 
-            ul li.accueil {
-                display: none;
-            }
-            nav {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+      ul li.accueil {
+        display: none;
+      }
 
-                ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                    vertical-align: center;
+      nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-                    li {
-                        font-family: 'SF Pro Display', sans-serif;
-                        display: inline-block;
-                        font-weight: bold;
-                        font-style: normal;
-                        margin: 0 10px;
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          vertical-align: center;
 
-                        * {
-                            font-size: 24px;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        div div.best-race {
-            width: 100%;
-            margin: 20px auto 0 auto;
-            justify-content: center;
-            flex-wrap: wrap;
-            height: 300px;
-            align-items: center;
-
-            div.content-1 {
-                justify-content: space-between;
-                width: 32%;
-            }
-
-            div.content-2 {
-                width: 32%;
-            }
-
-
-            div.informations {
-                width: 32%;
-                margin-bottom: 0;
-            }
-
-            div.video {
-                width: 40%;
-                height: 235px;
-                margin: 0;
-            }
-        }
-
-        div.content-list-classement {
-            display: flex;
-            justify-content: space-between;
-            flex: 1;
-            margin-top: 35px;
-
-            div.table-large-content {
-                display: flex;
-                flex-direction: column;
-
-                table {
-                    align-self: end;
-                }
-            }
-
-            div.button-classement {
-                margin-top: -25px;
-            }
-
-            div.content-classement {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                margin-left: 50px;
-            }
-        }
-
-        div.badges {
-            display: flex;
-            flex-direction: row;
-            width: 470px;
-            flex-wrap: wrap;
-            margin: 50px auto 0 auto;
-            align-self: start;
+          li {
+            font-family: 'SF Pro Display', sans-serif;
+            display: inline-block;
+            font-weight: bold;
+            font-style: normal;
+            margin: 0 5px;
 
             * {
-                margin-top: 0;
-                margin-left: 10px;
-                margin-right: 10px;
+              font-size: 24px;
             }
-
-            :nth-child(4),
-            :nth-child(5),
-            :nth-child(6) {
-                margin-top: 25px;
-            }
+          }
         }
-
-        footer#footer div.stage {
-            display: block;
-        }
+      }
     }
+
+
+    div div.best-race {
+      width: 100%;
+      margin: 20px auto 0 auto;
+      justify-content: center;
+      flex-wrap: wrap;
+      height: 300px;
+      align-items: center;
+
+      div.content-1 {
+        justify-content: space-between;
+        width: 32%;
+      }
+
+      div.content-2 {
+        width: 32%;
+      }
+
+
+      div.informations {
+        width: 32%;
+        margin-bottom: 0;
+      }
+
+      div.video {
+        width: 40%;
+        height: 235px;
+        margin: 0;
+      }
+    }
+
+    div.content-list-classement {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      margin-top: 35px;
+
+      div.table-large-content {
+        display: flex;
+        flex-direction: column;
+
+        table {
+          align-self: end;
+        }
+      }
+
+      div.button-classement {
+        margin-top: -25px;
+      }
+
+      div.content-classement {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 50px;
+      }
+    }
+
+    div.badges {
+      display: flex;
+      flex-direction: row;
+      width: 470px;
+      flex-wrap: wrap;
+      margin: 50px auto 0 auto;
+      align-self: start;
+
+      * {
+        margin-top: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      :nth-child(3) {
+        margin-top: 0 !important;
+      }
+
+      :nth-child(4),
+      :nth-child(5),
+      :nth-child(6) {
+        margin-top: 25px;
+      }
+    }
+
+    footer#footer div.stage {
+      display: block;
+    }
+  }
 }
 
 /* Tablette grande */
 @media screen and (min-width: 1024px) {
 
-    p, a {
-        font-size: 16px;
+  p, a {
+    font-size: 16px;
+  }
+
+  #app {
+
+    header.large nav ul li {
+      margin: 0 10px !important;
     }
 
-    #app {
-
-        h1 {
-            font-size: 32px;
-        }
-
-        h2 {
-            font-size: 25px;
-        }
-
-        div.user-data {
-            display: flex;
-            align-items: center;
-            align-content: space-between;
-            flex-direction: column;
-            flex-wrap: wrap;
-            height: 550px;
-            width: 100%;
-            margin-top: 65px;
-        }
-
-        div.avatar-txt {
-
-            .avatar {
-                width: 200px;
-                height: 200px;
-            }
-        }
-
-        h2 {
-            width: 470px;
-            align-self: start;
-            margin-right: 10px;
-            margin-top: 15px;
-        }
-
-        img#car {
-            margin-top: 25px;
-        }
-
-        p.intro-badge {
-            width: 470px;
-            align-self: start;
-            margin-right: 10px;
-        }
-
-        div.badges {
-            display: flex;
-            flex-direction: row;
-            width: 470px;
-            flex-wrap: wrap;
-            margin-top: 60px;
-            align-self: start;
-            margin-right: 10px;
-
-            * {
-                margin-top: 0;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-
-            :nth-child(4),
-            :nth-child(5),
-            :nth-child(6) {
-                margin-top: 25px;
-            }
-        }
-
-
+    h1 {
+      font-size: 32px;
     }
+
+    h2 {
+      font-size: 25px;
+    }
+
+
+    div.user-data {
+      display: flex;
+      align-items: center;
+      align-content: space-between;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 500px;
+      width: 100%;
+      margin-top: 65px;
+    }
+
+    div.avatar-txt {
+      margin-left: 10px;
+    }
+
+    h2 {
+      width: 470px;
+      align-self: start;
+      margin-right: 10px;
+      margin-top: 15px;
+    }
+
+    img#car {
+      margin-top: 25px;
+    }
+
+    p.intro-badge {
+      width: 470px;
+      align-self: start;
+      margin-right: 10px;
+    }
+
+    div.badges {
+      display: flex;
+      flex-direction: row;
+      width: 470px;
+      flex-wrap: wrap;
+      margin-top: 60px;
+      align-self: start;
+      margin-right: 10px;
+
+      * {
+        margin-top: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      :nth-child(3) {
+        margin-top: 0;
+      }
+
+      :nth-child(4),
+      :nth-child(5),
+      :nth-child(6) {
+        margin-top: 25px;
+      }
+    }
+
+
+  }
 }
 
 /* Petit ordinateur */
