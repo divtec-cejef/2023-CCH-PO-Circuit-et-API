@@ -32,9 +32,9 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     });
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ error: e });
+      res.status(400).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ message: e.message });
     } else {
       res.status(400).send();
     }
@@ -43,7 +43,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
 
   // Vérification de l'existence de la voiture
   if (await getCarById(race.id_car) === null) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 
@@ -59,9 +59,9 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     res.json(await createRace(raceToCreate));
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(500).json({ error: e });
+      res.status(500).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({ message: e.message });
     } else {
       res.status(500).send();
     }
