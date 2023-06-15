@@ -40,8 +40,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   } catch (e) {
