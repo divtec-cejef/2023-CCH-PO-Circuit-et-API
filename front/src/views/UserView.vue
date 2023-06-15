@@ -52,7 +52,7 @@ const modelLoaded = ref(false);
                        }"
                     width="400px" height="250px">
             <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-            <Scene background="#fff">
+            <Scene :background="'#fff'">
               <PointLight :position="{x: 10}" :intensity="2"></PointLight>
               <PointLight :position="{x: -10}" :intensity="2"></PointLight>
               <PointLight :position="{y: 10}" :intensity="2"></PointLight>
