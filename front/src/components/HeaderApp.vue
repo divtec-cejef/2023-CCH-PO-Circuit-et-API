@@ -42,12 +42,11 @@ const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
 
-
 </script>
 
 <style scoped lang="scss">
 nav ul {
-    margin-top: 40px;
+    margin-top: 50px;
     padding: 0;
     list-style: none ;
 
