@@ -83,99 +83,123 @@ status.then(value => codeBackApi.value = value);
 <style scoped lang="scss">
 
 div.error {
-    color: var(--red);
+  color: var(--red);
 }
 
 div.loading, div.error {
-    text-align: center;
-    margin: auto;
-    position: absolute;
-    top: 50%;
-    left: calc(50% - 100px);
-    width: 200px;
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 100px);
+  width: 200px;
 }
 
 div.user-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div.avatar-txt {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 300px;
 
-    div.avatar-txt {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 300px;
-
-        p:nth-child(2) {
-            font-size: 18px;
-        }
-
-        div.avatar {
-            width: 190px;
-            height: 190px;
-            margin-bottom: 10px;
-        }
+    p:nth-child(2) {
+      font-size: 18px;
     }
 
-    img#avatar {
-        max-width: 160px;
-        margin-bottom: 20px;
+    div.avatar {
+      width: 190px;
+      height: 190px;
+      margin-bottom: 10px;
     }
+  }
 
-    img#car {
-        margin-top: 45px;
-        max-width: 300px;
+  img#avatar {
+    max-width: 160px;
+    margin-bottom: 20px;
+  }
+
+  img#car {
+    margin-top: 45px;
+    max-width: 300px;
+  }
+
+  p {
+    text-align: center;
+
+    span {
+      font-weight: bold;
     }
+  }
+
+  h2 {
+    align-self: start;
+  }
+
+  p.intro-badge {
+    text-align: left;
+    width: fit-content;
+    align-self: start;
+  }
+
+  div.badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 85%;
+    margin-top: 30px;
 
     p {
-        text-align: center;
-
-        span {
-            font-weight: bold;
-        }
+      margin: 5px 0;
     }
 
-    h2 {
-        align-self: start;
+    img {
+      width: 110px;
+      height: 110px;
     }
 
-    p.intro-badge {
-        text-align: left;
-        width: fit-content;
-        align-self: start;
+    > :nth-child(odd) {
+      margin-left: 5px;
     }
 
-    div.badges {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 85%;
-        margin-top: 30px;
-
-        p {
-            margin: 5px 0;
-        }
-
-        img {
-            width: 110px;
-            height: 110px;
-        }
-
-        > :nth-child(odd) {
-            margin-left: 5px;
-        }
-
-        > :nth-child(even) {
-            margin-right: 5px;
-        }
-
-        :nth-child(3),
-        :nth-child(4),
-        :nth-child(5),
-        :nth-child(6) {
-            margin-top: 20px;
-        }
+    > :nth-child(even) {
+      margin-right: 5px;
     }
+
+    :nth-child(3),
+    :nth-child(4),
+    :nth-child(5),
+    :nth-child(6) {
+      margin-top: 20px;
+    }
+
+    a {
+
+      p {
+        transition: ease-in-out 0.2s;
+
+      }
+
+      img {
+        transition: ease-in-out 0.2s;
+      }
+    }
+
+    a:hover {
+      img {
+        filter: grayscale(0.4);
+        transition: ease-in-out 0.2s;
+      }
+
+      p {
+        font-weight: bold;
+        transition: ease-in-out 0.2s;
+      }
+    }
+  }
 }
 
 </style>
