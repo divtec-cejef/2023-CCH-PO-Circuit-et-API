@@ -4,14 +4,15 @@ import { ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
-import api from '../models/api';
+import api from '@/models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import badgeCourse from '../assets/img/course.webp';
-import badgeClassement from '../assets/img/classement.webp';
-import badgeModif from '../assets/img/modification.webp';
-import badgeVideo from '../assets/img/video.webp';
-import badgeStage from '../assets/img/stage.webp';
-import badgeLive from '../assets/img/live.webp';
+import badgeCourse from '@/assets/img/course.webp';
+import badgeClassement from '@/assets/img/classement.webp';
+import badgeModif from '@/assets/img/modification.webp';
+import badgeVideo from '@/assets/img/video.webp';
+import badgeStage from '@/assets/img/stage.webp';
+import badgeLive from '@/assets/img/live.webp';
+import carModel from '@/assets/other/car.glb';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -58,7 +59,7 @@ const modelLoaded = ref(false);
               <PointLight :position="{y: -10}" :intensity="2"></PointLight>
               <PointLight :position="{z: 10}" :intensity="2"></PointLight>
               <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-              <GltfModel ref="object" src="src/assets/other/car.glb" :scale="{x:.01, y:.01, z:.01}"
+              <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
                          @load="() => modelLoaded = true"/>
             </Scene>
           </Renderer>
