@@ -82,7 +82,7 @@ export namespace restful {
         password: pwd
       })
     };
-    const response = await fetch(`${routeApi}authentication`, requestOptions);
+    const response = await fetch(`${routeApi}authentication/section`, requestOptions);
     return await response.json();
   }
 
