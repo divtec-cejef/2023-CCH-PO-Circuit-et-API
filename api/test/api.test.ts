@@ -801,7 +801,7 @@ describe('Car', () => {
 
 describe('Authentication', () => {
   it('Should return a 401 error if the section is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test1234',
       password: cjs.SHA256('Admlocal1').toString()
     });
@@ -814,7 +814,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 401 error if the password is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'salutodin'
     });
@@ -827,7 +827,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the section is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       password: 'Admlocal1'
     });
 
@@ -839,7 +839,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the password is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'informatique'
     });
 
@@ -851,7 +851,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a token if the credentials are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'Admlocal1'
     });
@@ -864,7 +864,7 @@ describe('Authentication', () => {
 });
 
 describe('Realise', () => {
-  const token = chai.request('localhost:3000').post('/authentication').send({
+  const token = chai.request('localhost:3000').post('/authentication/section').send({
     section: 'test',
     password: 'Admlocal1'
   });
