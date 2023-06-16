@@ -60,10 +60,10 @@ export const mostRealisedActivity = async () => {
     }
   });
 
-  let mostRealised: {id_activity: number, _count: { _all: number }} | undefined;
+  let mostRealised: {id_activity: number, _count: { _all: number }} | null = null;
 
   for (const activity of activities) {
-    if (mostRealised === undefined || activity._count._all > mostRealised._count._all) {
+    if (mostRealised === null || activity._count._all > mostRealised._count._all) {
       mostRealised = {
         id_activity: activity.id_activity,
         _count: {
