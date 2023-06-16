@@ -13,10 +13,10 @@
 
             <div class="car-3d">
                 <div :class="`loading${modelLoaded?' loaded':''}`">
-                    <circles-to-rhombuses-spinner
-                            :circles-num="3"
-                            :circle-size="12"
-                            color="#7f7f7f"
+                    <hollow-dots-spinner
+                        :dot-size="12"
+                        :dots-num="3"
+                        color="#7f7f7f"
                     />
                 </div>
                 <div :class="modelLoaded?'':'hidden'">
@@ -84,9 +84,7 @@
         </RouterLink>
     </div>
 
-    <div class="error" v-else>
-        Erreur innatendue
-    </div>
+    <ErrorConnection v-else></ErrorConnection>
 </template>
 
 <script setup lang="ts">
@@ -105,6 +103,8 @@ import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
 import SpinLoading from '@/components/SpinLoading.vue';
+import { HollowDotsSpinner } from 'epic-spinners';
+import ErrorConnection from '@/components/ErrorConnection.vue';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -134,22 +134,6 @@ watch(useRouter().currentRoute, async (newUrl) => {
 
 <style scoped lang="scss">
 
-div.error {
-  color: var(--red);
-}
-
-div.loading, div.error, div.error-no-car {
-  text-align: center;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 100px);
-  width: 200px;
-}
-
-div.loading {
-  left: calc(50% - 20px);
-}
 
 #app div.error-no-car {
   top: calc(50% - 75px);
