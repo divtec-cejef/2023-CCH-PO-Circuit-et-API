@@ -1,7 +1,7 @@
 <template>
-    <template v-if="!hasLoaded">
-        <h2>Chargement en cours...</h2>
-    </template>
+    <div v-if="!hasLoaded" class="loading-ranking">
+        <SpinLoading></SpinLoading>
+    </div>
     <template v-else-if="listRace?.length === 0">
         <h2>Aucune donnée n'est disponible</h2>
     </template>
@@ -16,6 +16,7 @@ import ClassementElement from '@/components/ClassementElement.vue';
 import { websocket } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
 import type { models } from '@/models/interface';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
 const listRace = ref<models.rankingData>();
@@ -35,4 +36,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
+
+.loading-ranking {
+    height: calc(60vh - var(--height-screen-diff));
+    width: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 </style>
