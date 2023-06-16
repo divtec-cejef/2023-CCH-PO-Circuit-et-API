@@ -1,8 +1,15 @@
 import sio from 'socket.io';
 import type { Socket } from 'socket.io';
-import { getShortestRaces, getRacesByCar, getRankByCar } from '../services/race/implementation';
+import {
+  getShortestRaces,
+  getRacesByCar,
+  getRankByCar,
+  getNumberRaces,
+  getShortestRace
+} from '../services/race/implementation';
 import { getCarById } from '../services/car/implementation';
 import http from 'http';
+import { getRealisationCount, mostRealisedActivity } from '../services/realise/implementation';
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -37,7 +44,17 @@ export default function buildSioServer (server: http.Server) {
     }
 
     // envoyer les données de classement au client
-    socket.emit('updatedRaces', await getShortestRaces());
+    socket.emit('updatedRaces', {
+      races: await getShortestRaces(),
+      count: await getNumberRaces(),
+      fastest: await getShortestRace()
+    });
+
+    // envoyer les données d'activité au client
+    socket.emit('updatedActivities', {
+      count: await getRealisationCount(),
+      mostPopular: await mostRealisedActivity()
+    });
 
     socket.on('disconnect', () => {
       console.log('user disconnected\n');

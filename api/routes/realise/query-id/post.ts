@@ -2,9 +2,14 @@ import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../../models';
-import { createRealisedActivity, realisationExists } from '../../../services/realise/implementation';
+import {
+  createRealisedActivity,
+  getRealisationCount, mostRealisedActivity,
+  realisationExists
+} from '../../../services/realise/implementation';
 import { getCarByQueryId } from '../../../services/car/implementation';
 import validateSection from '../../../services/validate-token/implementation';
+import { Server } from 'socket.io';
 
 declare type realisedActivityRequest = {
   id_activity: number,
@@ -88,6 +93,11 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
       res.status(500).send();
     }
   }
+
+  (res.app.get('socketio') as Server).emit('updatedActivities', {
+    count: await getRealisationCount(),
+    mostPopular: await mostRealisedActivity()
+  });
 };
 
 export default route;
