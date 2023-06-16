@@ -86,3 +86,21 @@ a {
     width: fit-content !important;
   }
 }
+
+
+div.error {
+  color: var(--red);
+}
+
+div.loading, div.error, div.error-no-car {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 100px);
+  width: 200px;
+}
+
+div.loading {
+  left: calc(50% - 20px);
+}
