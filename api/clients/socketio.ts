@@ -3,6 +3,7 @@ import type { Socket } from 'socket.io';
 import { getShortestRaces, getRacesByCar, getRankByCar, getNumberRaces } from '../services/race/implementation';
 import { getCarById } from '../services/car/implementation';
 import http from 'http';
+import { getRealisationCount } from '../services/realise/implementation';
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -40,6 +41,11 @@ export default function buildSioServer (server: http.Server) {
     socket.emit('updatedRaces', {
       races: await getShortestRaces(),
       count: await getNumberRaces()
+    });
+
+    // envoyer les données d'activité au client
+    socket.emit('updatedActivities', {
+      count: await getRealisationCount()
     });
 
     socket.on('disconnect', () => {
