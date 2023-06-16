@@ -1,7 +1,7 @@
 <template>
 
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="`/${car.idQuery}`">
+        <RouterLink v-if="menuIsClicked" :to="URL_HOME">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
@@ -88,6 +88,7 @@ const { car } = userCar;
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
+const URL_HOME = `/${car.idQuery}`;
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
