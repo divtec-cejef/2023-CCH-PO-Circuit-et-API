@@ -1,14 +1,16 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import type { Ref } from 'vue';
+import { ref } from 'vue';
 import Car from '../models/car';
-import api, { websocket } from '../models/api';
+import api, { restful, websocket } from '../models/api';
 import Race from '@/models/race';
+import ReturnCodes = restful.ReturnCodes;
 
 export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
   const car: Ref<Car> = ref(new Car());
+  const statusNetwork: Ref<ReturnCodes> = ref(ReturnCodes.NoCode);
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
@@ -81,6 +83,6 @@ export const useCarStore = defineStore('car', () => {
     return socket;
   }
 
-  return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar };
+  return { car, statusNetwork,  initUserCarId, initUserCarQueryId, initUserAllRaceCar };
 });
 
