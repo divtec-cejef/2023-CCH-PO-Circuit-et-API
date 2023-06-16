@@ -7,12 +7,12 @@ export namespace restful {
   export enum ReturnCodes {
     NoCode = 0,
     Success = 200,
-    BadRequest = 400,
     NotFound = 404,
     Conflict = 409,
+    BadGateway = 502
   }
 
-  export const ERROR_MESSAGE = 'Network error';
+  export const ERROR_MESSAGE = 'Error';
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
@@ -24,7 +24,7 @@ export namespace restful {
       const res = await fetch(routeCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -38,7 +38,7 @@ export namespace restful {
       const res = await fetch(routeCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -52,7 +52,7 @@ export namespace restful {
       const res = await fetch(routeRaceCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -66,7 +66,7 @@ export namespace restful {
       const res = await fetch(routeRaceCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -80,7 +80,7 @@ export namespace restful {
       const res = await fetch(routeRaceCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -110,7 +110,7 @@ export namespace restful {
       const response = await fetch(`${routeApi}authentication`, requestOptions);
       return await response.json();
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 
@@ -144,7 +144,7 @@ export namespace restful {
       const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
       return response.status;
     } catch (e) {
-      return ERROR_MESSAGE;
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
 }
