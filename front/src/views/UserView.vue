@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink } from 'vue-router';
 import { ref, watch } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
