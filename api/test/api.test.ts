@@ -469,6 +469,68 @@ describe('CarPatch', () => {
     });
   });
 
+  it('Should return an error if the pseudo is too short', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: 'le',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return an error if the pseudo is too long', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: '12345678910',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
   it('Should return an updated car', async () => {
     const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
