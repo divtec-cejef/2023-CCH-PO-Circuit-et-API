@@ -4,10 +4,10 @@
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar !== 0">
+            <li @click="clickMenu" v-if="localStorageidCar">
                 <RouterLink to="/modifier">Modifier</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar !== 0">
+            <li @click="clickMenu" v-if="localStorageidCar">
                 <RouterLink to="/course">Course</RouterLink>
             </li>
             <li @click="clickMenu">
@@ -41,6 +41,10 @@ const clickMenu = () => {
 const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
+
+const localStorageidCar = () => {
+  return localStorage.getItem('userCarId');
+};
 
 </script>
 
