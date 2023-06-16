@@ -22,11 +22,18 @@
     </header>
 
     <main :class="classMenuClicked">
-        <RouterView v-if="hasFinishedLoading"/>
+        <RouterView v-if="hasFinishedLoading && userCar.statusNetwork == api.ReturnCodes.Success"/>
+
+        <div v-else-if="userCar.statusNetwork === api.ReturnCodes.BadGateway" class="content-error">
+            <div class="error-no-co" >
+                <h2>Erreur</h2>
+                <p>Problème de connexion...</p>
+                <p>Ressayez.</p>
+            </div>
+        </div>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
-
 
 </template>
 
@@ -37,6 +44,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 import logoImg from '@/assets/img/logo.webp';
+import api from '@/models/api';
 
 /**
  * Gère le clic sur le menu
@@ -89,6 +97,7 @@ const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const URL_HOME = `/${car.idQuery}`;
+const status = ref();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -96,7 +105,8 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then(() => {
+  userCar.initUserCarId(userCarId).then((s) => {
+    userCar.statusNetwork = s;
     hasFinishedLoading.value = true;
   });
 } else {
@@ -109,14 +119,6 @@ if (!localStorage.getItem('menuIsClicked')) {
   localStorage.setItem('menuIsClicked', 'false');
   menuIsClicked.value = false;
 }
-
-
-// var btn = $('.btn');
-//
-// btn.on('click', function () {
-//   $(this).toggleClass('active not-active');
-// });
-//
 
 </script>
 
@@ -163,9 +165,9 @@ header {
   &.open.thin {
     height: calc(100vh + 20px);
 
-      .btn {
-          margin-top: 8px;
-      }
+    .btn {
+      margin-top: 8px;
+    }
   }
 }
 
@@ -315,4 +317,21 @@ html body div header .active span {
   }
 }
 
+
+#app div.error-no-co {
+    top: calc(50% - 75px);
+    left: calc(50% - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    text-align: center;
+
+    h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 45px;
+    }
+}
 </style>
