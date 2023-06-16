@@ -1,6 +1,6 @@
 import type { routeHandler } from '../../../models';
-import { getRacesByCar, getRankByCar } from '../../../services/race/implementation';
-import { getCarById } from '../../../services/car/implementation';
+import { getRacesByCar, getRankByCar } from '../../../services/race';
+import { getCarById } from '../../../services/car';
 
 /**
  * Controller pour la route /race/:slug

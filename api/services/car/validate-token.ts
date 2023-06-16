@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { verifyCarToken } from '../../authentication/car/implementation';
+import { verifyCarToken } from './authentication';
 
 /**
  * Vérifie l'authentification d'une voiture
