@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../models';
-import { getCarById } from '../../../services/car/implementation';
+import { getCarById } from '../../../services/car';
 
 /**
  * Controller pour la route /car/:slug

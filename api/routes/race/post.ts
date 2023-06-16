@@ -1,7 +1,7 @@
 import { raceToCreate, routeHandler } from '../../models';
-import { createRace, getRacesByCar, getRankByCar, getShortestRaces } from '../../services/race/implementation';
+import { createRace, getRacesByCar, getRankByCar, getShortestRaces } from '../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarById } from '../../services/car/implementation';
+import { getCarById } from '../../services/car';
 import type { Server } from 'socket.io';
 
 declare type datable = Date | string

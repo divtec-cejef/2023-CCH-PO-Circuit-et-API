@@ -1,10 +1,10 @@
 import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
-import { getActivityById } from '../../../services/activity/implementation';
+import { getActivityById } from '../../../services/activity/';
 import type { realisedActivityToCreate } from '../../../models';
-import { createRealisedActivity, realisationExists } from '../../../services/realise/implementation';
-import { getCarByQueryId } from '../../../services/car/implementation';
-import validateSection from '../../../services/validate-token/implementation';
+import { createRealisedActivity, realisationExists } from '../../../services/realise';
+import { getCarByQueryId } from '../../../services/car';
+import validateSection from '../../../services/section/validate-token';
 
 declare type realisedActivityRequest = {
   id_activity: number,
