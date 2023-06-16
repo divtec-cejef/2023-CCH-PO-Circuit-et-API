@@ -1,7 +1,7 @@
 import { carToUpdate, routeHandler } from '../../models';
-import validateCarAuthorization from '../../services/validate-token/car/implementation';
+import validateCarAuthorization from '../../services/car/validate-token';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarById, updateCar } from '../../services/car/implementation';
+import { getCarById, updateCar } from '../../services/car';
 
 /**
  * Controller patch pour la route /car
