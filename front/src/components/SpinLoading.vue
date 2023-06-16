@@ -2,7 +2,7 @@
     <div class="spin">
         <half-circle-spinner
                 :size="60"
-                color="#0C345A"
+                color="#7f7f7f"
         />
     </div>
 </template>
