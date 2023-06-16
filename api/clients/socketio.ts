@@ -1,7 +1,7 @@
 import sio from 'socket.io';
 import type { Socket } from 'socket.io';
-import { getShortestRaces, getRacesByCar, getRankByCar } from '../services/race/implementation';
-import { getCarById } from '../services/car/implementation';
+import { getShortestRaces, getRacesByCar, getRankByCar } from '../services/race';
+import { getCarById } from '../services/car';
 import http from 'http';
 
 export default function buildSioServer (server: http.Server) {

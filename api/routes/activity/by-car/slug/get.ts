@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../../models';
-import { getCarById } from '../../../../services/car/implementation';
+import { getCarById } from '../../../../services/car';
 import { getActivitiesByCarId } from '../../../../services/activity/implementation';
 
 /**

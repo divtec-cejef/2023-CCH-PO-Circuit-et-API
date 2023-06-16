@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { verifyToken } from '../authentication/implementation';
+import { verifyToken } from './authentication';
 
 export const validateSection = async (res: Response, authorization: string | undefined) => {
   // Vérifie si l'authentification est disponible

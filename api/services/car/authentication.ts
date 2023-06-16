@@ -1,6 +1,5 @@
-import prisma from '../../../clients/prismadb';
+import prisma from '../../clients/prismadb';
 import { SHA256 } from 'crypto-js';
-import { verifyToken } from '../implementation';
 
 /**
  * Crée un token d'authentification et l'enregistre dans la base de données.
