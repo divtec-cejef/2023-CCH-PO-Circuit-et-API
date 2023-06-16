@@ -1,6 +1,6 @@
 import prisma from '../../clients/prismadb';
 import { raceToCreate, raceToCreateWithQueryId } from '../../models';
-import { Prisma } from '@prisma/client';
+import { Prisma, race } from '@prisma/client';
 
 /**
  * Retourne les manches d'une course d'une voiture donnée
@@ -31,8 +31,15 @@ export const getRacesByCar = async (id: number) => {
  */
 export const getShortestRaces = async () => {
   // récupération des informations de la course et de la voiture
-  const ranking:{id_race:number, total_time:Date, id_car:number}[] = await prisma.$queryRaw`SELECT * FROM ranking`;
-  const cars:{id_car:number, pseudo:string, avatar:Prisma.JsonValue}[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar FROM car WHERE id_car IN (SELECT id_car FROM ranking)`;
+  const ranking: { id_race: number, total_time: Date, id_car: number }[] = await prisma.$queryRaw`SELECT *
+                                                                                                    FROM ranking`;
+  const cars: {
+        id_car: number,
+        pseudo: string,
+        avatar: Prisma.JsonValue
+    }[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar
+                                 FROM car
+                                 WHERE id_car IN (SELECT id_car FROM ranking)`;
 
   // création du résultat
   const rankingRes = [];
@@ -70,7 +77,7 @@ export const getRankByCar = async (id: number) => {
  * @param race Manche à créer
  * @returns la manche créée
  */
-export const createRace = async (race: raceToCreate) => {
+export const createRace = async (race: raceToCreate): Promise<race> => {
   return await prisma.race.create({
     data: {
       race_start: race.race_start,
@@ -86,7 +93,7 @@ export const createRace = async (race: raceToCreate) => {
  * @param race Manche à créer
  * @returns la manche créée
  */
-export const createRaceWithQueryId = async (race: raceToCreateWithQueryId) => {
+export const createRaceWithQueryId = async (race: raceToCreateWithQueryId): Promise<race> => {
   return await prisma.race.create({
     data: {
       race_start: race.race_start,
@@ -99,4 +106,12 @@ export const createRaceWithQueryId = async (race: raceToCreateWithQueryId) => {
       }
     }
   });
+};
+
+/**
+ * Retourne le nombre de courses executées
+ * @returns un nombre.
+ */
+export const getNumberRaces = async (): Promise<number> => {
+  return await prisma.race.count();
 };
