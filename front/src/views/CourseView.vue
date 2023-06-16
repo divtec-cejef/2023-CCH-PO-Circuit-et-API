@@ -1,6 +1,6 @@
 <template>
-    <h1>Course</h1>
     <div v-if="car.listRace.length !== 0">
+        <h1>Course</h1>
         <h2>Meilleure manche</h2>
         <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
@@ -80,9 +80,10 @@
             </div>
         </div>
     </div>
-    <div v-else>
-        <h2>Chargement en cours...</h2>
+    <div class="loading" v-else>
+        <SpinLoading></SpinLoading>
     </div>
+
 </template>
 
 <script setup lang="ts">
@@ -97,6 +98,7 @@ import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
