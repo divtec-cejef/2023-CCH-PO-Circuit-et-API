@@ -33,7 +33,7 @@ export namespace models {
 
   export interface activity {
     idActivity : number,
-    name : string
+    label : string
     idSection : number
   }
 
@@ -50,5 +50,10 @@ export namespace models {
     propNameSnakeCase: string;
     propValues: propValues[];
     selectedValueEn?: string;
+  }
+
+  export interface realisationData {
+    count: number,
+    mostPopular: activity & {count: number}
   }
 }
