@@ -7,18 +7,25 @@ export namespace restful {
   export enum ReturnCodes {
     NoCode = 0,
     Success = 200,
+    BadRequest = 400,
     NotFound = 404,
     Conflict = 409,
   }
+
+  export const ERROR_MESSAGE = 'Network error';
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
    * @param queryId Query id de la voiture à retourner
    */
   export async function getDataOneCarQueryId(queryId: number | string) {
-    const routeCar = `${routeApi}car/query-id/${queryId}`;
-    const res = await fetch(routeCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeCar = `${routeApi}car/query-id/${queryId}`;
+      const res = await fetch(routeCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
@@ -26,9 +33,13 @@ export namespace restful {
    * @param idCar Id de la voiture à retourner
    */
   export async function getDataOneCarId(idCar: number | string) {
-    const routeCar = `${routeApi}car/${idCar}`;
-    const res = await fetch(routeCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeCar = `${routeApi}car/${idCar}`;
+      const res = await fetch(routeCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
@@ -36,9 +47,13 @@ export namespace restful {
    * @param idCar Id de la voiture
    */
   export async function getAllRaceOneCar(idCar: number | string) {
-    const routeRaceCar = `${routeApi}race/${idCar}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeRaceCar = `${routeApi}race/${idCar}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
@@ -46,19 +61,27 @@ export namespace restful {
    * @param idSection Id de la section
    */
   export async function getNameSectionById(idSection: number | string) {
-    const routeRaceCar = `${routeApi}section/${idSection}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeRaceCar = `${routeApi}section/${idSection}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivityOneSection(idSection: number | string)  {
-    const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+  export async function getAllActivityOneSection(idSection: number | string) {
+    try {
+      const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
@@ -82,8 +105,13 @@ export namespace restful {
         password: pwd
       })
     };
-    const response = await fetch(`${routeApi}authentication`, requestOptions);
-    return await response.json();
+
+    try {
+      const response = await fetch(`${routeApi}authentication`, requestOptions);
+      return await response.json();
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 
   /**
@@ -99,7 +127,7 @@ export namespace restful {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${token.toString()}`
+        'Authorization': `Bearer ${token.toString()}`
       },
 
       body: JSON.stringify({
@@ -111,8 +139,13 @@ export namespace restful {
         date_time: new Date()
       })
     };
-    const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
-    return response.status;
+
+    try {
+      const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
+      return response.status;
+    } catch (e) {
+      return ERROR_MESSAGE;
+    }
   }
 }
 
@@ -125,7 +158,7 @@ export class websocket {
       query: {
         carId,
       },
-    }: undefined);
+    } : undefined);
     this.carId = carId;
   }
 
