@@ -47,3 +47,29 @@ export const realisationExists = async (toCheck: realisedActivityToCreate) => {
 export const getRealisationCount = async (): Promise<number> => {
   return await prisma.realise.count();
 };
+
+/**
+ * Permet d'obtenir l'activité la plus populaire
+ * @returns
+ */
+export const mostRealisedActivity = async () => {
+  const activities = await prisma.realise.groupBy({
+    by: ['id_activity'],
+    _count: {
+      _all: true
+    }
+  });
+
+  let mostRealised: {id_activity: number, _count: { _all: number }} | undefined;
+
+  for (const activity of activities) {
+    if (mostRealised === undefined || activity._count._all > mostRealised._count._all) {
+      mostRealised = {
+        id_activity: activity.id_activity,
+        _count: {
+          _all: activity._count._all
+        }
+      };
+    }
+  }
+};
