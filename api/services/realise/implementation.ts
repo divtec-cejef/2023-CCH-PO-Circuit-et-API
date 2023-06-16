@@ -39,3 +39,11 @@ export const realisationExists = async (toCheck: realisedActivityToCreate) => {
     }
   }) !== null;
 };
+
+/**
+ * Permet d'obtenir le nombre d'activités réalisées
+ * @returns le nombre d'activités réalisées
+ */
+export const getRealisationCount = async (): Promise<number> => {
+  return await prisma.realise.count();
+};
