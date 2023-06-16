@@ -54,7 +54,7 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
   }
 
   // Vérification de la longueur du pseudo
-  if (carToUpdate.pseudo.length > 20 || carToUpdate.pseudo.length < 3) {
+  if (carToUpdate.pseudo.length > 10 || carToUpdate.pseudo.length < 3) {
     res.status(400).json({ message: 'Pseudo must be between 3 and 10 characters.' });
     return;
   }
