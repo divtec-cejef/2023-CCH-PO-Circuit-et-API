@@ -12,7 +12,13 @@
             </div>
 
             <div class="car-3d">
-                <span :class="`loading${modelLoaded?' loaded':''}`">Chargement en cours...</span>
+                <div :class="`loading${modelLoaded?' loaded':''}`">
+                    <circles-to-rhombuses-spinner
+                            :circles-num="3"
+                            :circle-size="12"
+                            color="#7f7f7f"
+                    />
+                </div>
                 <div :class="modelLoaded?'':'hidden'">
                     <Renderer id="car" ref="renderer" antialias
                               :orbit-ctrl="{
@@ -104,7 +110,6 @@ import SpinLoading from '@/components/SpinLoading.vue';
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
-const codeBackApi = ref(0);
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -296,12 +301,14 @@ div.user-data {
     position: relative;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
 
-    span.loading {
+    div.loading {
       font-size: 2em;
       font-weight: bolder;
       position: absolute;
+      width: fit-content;
 
 
       &.loaded {
