@@ -22,15 +22,7 @@
     </header>
 
     <main :class="classMenuClicked">
-        <RouterView v-if="hasFinishedLoading && userCar.statusNetwork == api.ReturnCodes.Success"/>
-
-        <div v-else-if="userCar.statusNetwork === api.ReturnCodes.BadGateway" class="content-error">
-            <div class="error-no-co" >
-                <h2>Erreur</h2>
-                <p>Problème de connexion...</p>
-                <p>Ressayez.</p>
-            </div>
-        </div>
+        <RouterView v-if="hasFinishedLoading"/>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
@@ -97,7 +89,6 @@ const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const URL_HOME = `/${car.idQuery}`;
-const status = ref();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -105,12 +96,14 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then((s) => {
-    userCar.statusNetwork = s;
+  console.log('test');
+  userCar.initUserCarId(userCarId).then(() => {
     hasFinishedLoading.value = true;
+    car.idCar = Number(userCarId);
   });
 } else {
   hasFinishedLoading.value = true;
+  car.idCar = Number(userCarId);
 }
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
@@ -318,20 +311,4 @@ html body div header .active span {
 }
 
 
-#app div.error-no-co {
-    top: calc(50% - 75px);
-    left: calc(50% - 200px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 400px;
-    text-align: center;
-
-    h2 {
-        width: 100%;
-        text-align: center;
-        font-size: 45px;
-    }
-}
 </style>
