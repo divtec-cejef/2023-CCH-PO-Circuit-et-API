@@ -1,9 +1,9 @@
 <template>
-    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
-        Chargement...
+    <div class="loading" v-if="userCar.statusNetwork === api.ReturnCodes.NoCode">
+        <SpinLoading></SpinLoading>
     </div>
 
-    <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+    <div v-else-if="userCar.statusNetwork === api.ReturnCodes.Success">
         <div class="user-data">
             <div class="avatar-txt">
                 <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+    <div class="error-no-car" v-else-if="userCar.statusNetwork === api.ReturnCodes.NotFound">
         <h2>Erreur</h2>
         <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
         <RouterLink :to="`/${userCar.car.idQuery}`">
@@ -98,20 +98,28 @@ import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
-let codeBackApi = ref(0);
+const codeBackApi = ref(0);
 
-// watch works directly on a ref
+//Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
+  //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
+  if (newUrl.params.id !== car.idQuery) {
+    userCar.statusNetwork = api.ReturnCodes.Success;
+  }
+
+  //Initialisation des données
   let status = userCar.initUserCarQueryId(newUrl.params.id);
 
   //Récupère le code de réponse de l'api
-  status.then(value => codeBackApi.value = value);
-}, {
+  status.then(value => userCar.statusNetwork = value);
+},
+{
   deep: true,
   immediate: true
 });
@@ -132,6 +140,10 @@ div.loading, div.error, div.error-no-car {
   top: 50%;
   left: calc(50% - 100px);
   width: 200px;
+}
+
+div.loading {
+  left: calc(50% - 20px);
 }
 
 #app div.error-no-car {
