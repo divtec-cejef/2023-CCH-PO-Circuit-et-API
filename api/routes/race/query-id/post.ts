@@ -2,7 +2,7 @@ import { raceToCreateWithQueryId, routeHandler } from '../../../models';
 import {
   createRaceWithQueryId, getNumberRaces,
   getRacesByCar,
-  getRankByCar,
+  getRankByCar, getShortestRace,
   getShortestRaces
 } from '../../../services/race/implementation';
 import { checkStructureOrThrow } from 'check-structure';
@@ -82,7 +82,8 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
   // Envoi les données de classement aux clients
   (res.app.get('socketio') as Server).emit('updatedRaces', {
     races: await getShortestRaces(),
-    count: await getNumberRaces()
+    count: await getNumberRaces(),
+    fastest: await getShortestRace()
   });
   const sockets = await (res.app.get('socketio') as Server).fetchSockets();
   for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
