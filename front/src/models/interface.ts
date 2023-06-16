@@ -15,7 +15,7 @@ export namespace models {
     rank: number
   }
 
-  export type rankingData = {
+  export type race = {
     id_race: number,
     car: {
       id_car: number,
@@ -23,7 +23,13 @@ export namespace models {
       avatar: typeof Avatar,
     },
     total_time: Date | string
-  }[];
+  }
+
+  export type rankingData = {
+    races: race[],
+    count: number,
+    fastest: race
+  };
 
   export interface activity {
     idActivity : number,
