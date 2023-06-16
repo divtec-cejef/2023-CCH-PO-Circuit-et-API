@@ -73,9 +73,11 @@ export const mostRealisedActivity = async () => {
     }
   }
 
-  return await prisma.activity.findUnique({
+  const data = await prisma.activity.findUnique({
     where: {
       id_activity: mostRealised?.id_activity
     }
   });
+
+  return { ...data, count: mostRealised?._count._all };
 };
