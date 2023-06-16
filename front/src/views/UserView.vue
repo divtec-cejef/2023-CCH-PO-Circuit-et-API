@@ -107,7 +107,6 @@ let codeBackApi = ref(0);
 
 // watch works directly on a ref
 watch(useRouter().currentRoute, async (newUrl) => {
-  console.log('salut');
   let status = userCar.initUserCarQueryId(newUrl.params.id);
 
   //Récupère le code de réponse de l'api
