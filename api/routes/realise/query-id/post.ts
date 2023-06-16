@@ -4,7 +4,7 @@ import { getActivityById } from '../../../services/activity/implementation';
 import type { realisedActivityToCreate } from '../../../models';
 import {
   createRealisedActivity,
-  getRealisationCount,
+  getRealisationCount, mostRealisedActivity,
   realisationExists
 } from '../../../services/realise/implementation';
 import { getCarByQueryId } from '../../../services/car/implementation';
@@ -95,7 +95,8 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   (res.app.get('socketio') as Server).emit('updatedActivities', {
-    count: await getRealisationCount()
+    count: await getRealisationCount(),
+    mostPopular: await mostRealisedActivity()
   });
 };
 
