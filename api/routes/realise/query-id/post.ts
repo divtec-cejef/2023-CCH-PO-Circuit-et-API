@@ -1,6 +1,6 @@
 import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
-import { getActivityById } from '../../../services/activity/implementation';
+import { getActivityById } from '../../../services/activity/';
 import type { realisedActivityToCreate } from '../../../models';
 import { createRealisedActivity, realisationExists } from '../../../services/realise';
 import { getCarByQueryId } from '../../../services/car';
