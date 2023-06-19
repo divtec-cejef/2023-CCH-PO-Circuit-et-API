@@ -64,9 +64,11 @@
 
             <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
-
     </div>
 
+    <div v-if="saveIsInvalid" class="show-error">
+        <p>*{{ ERROR_SAVE_MSG }}</p>
+    </div>
 
 </template>
 
@@ -87,8 +89,9 @@ const { car } = userCar;
 const config = ref(genConfig(car.avatar));
 const password = ref('');
 const error = ref('');
+const ERROR_SAVE_MSG = ref('Le pseudo doit contenir au moins 3 caractères');
+const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo);
-
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
 const updateDisabled = ref(true);
@@ -148,7 +151,6 @@ function avatarEquals() {
  */
 function enableButton() {
   updateDisabled.value = avatarEquals() && refPseudo.value.toString() === car.pseudo.toString();
-  console.log(avatarEquals(), updateDisabled.value);
 }
 
 /**
@@ -178,10 +180,11 @@ async function updateUser() {
   // Vérification du pseudo
   if (refPseudo.value.length < 3) {
     refPseudo.value = userCar.car.pseudo;
-    alert('Le pseudo doit contenir au moins 3 caractères');
+    saveIsInvalid.value = true;
     return;
   }
   reqUserCar.car.pseudo = refPseudo.value;
+  saveIsInvalid.value = false;
 
   // enregistrement de la voiture
   try {
@@ -675,7 +678,7 @@ div.modify-avatar {
       }
 
       input {
-        width: 100px;
+        width: 165px;
         border-radius: 3px;
         padding: 3px;
         border: 1px solid var(--black);
@@ -875,8 +878,16 @@ div.modify-avatar {
   }
 }
 
+div.show-error {
+    margin-top: 10px;
+    color: var(--red);
+    text-align: center;
+    font-weight: bold;
 
-div.update-container {
+    p {
+        font-size: 15px;
 
+    }
 }
+
 </style>
