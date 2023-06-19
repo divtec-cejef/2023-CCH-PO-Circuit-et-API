@@ -1,5 +1,5 @@
 <template>
-    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
+    <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
         <SpinLoading></SpinLoading>
     </div>
 
@@ -115,7 +115,7 @@ const codeBackApi = ref(0);
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
   //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
-  if (newUrl.params.id !== car.idQuery) {
+  if (newUrl.params.id === car.idQuery) {
     codeBackApi.value = api.ReturnCodes.Success;
   }
 
@@ -123,7 +123,14 @@ watch(useRouter().currentRoute, async (newUrl) => {
   let status = userCar.initUserCarQueryId(newUrl.params.id);
 
   //Récupère le code de réponse de l'api
-  status.then(value => codeBackApi.value = value);
+  status.then((value) => {
+    codeBackApi.value = value;
+
+    //Si la requête est valide alors on stocke l'id dans le localstorage
+    if(codeBackApi.value == api.ReturnCodes.Success) {
+      localStorage.setItem('userCarId', userCar.car.idCar.toString());
+    }
+  });
 },
 {
   deep: true,
@@ -134,6 +141,13 @@ watch(useRouter().currentRoute, async (newUrl) => {
 </script>
 
 <style scoped lang="scss">
+
+div.loading-page {
+    height: calc(100vh - var(--height-screen-diff));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 #app div.error-no-car {
