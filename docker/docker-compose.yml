@@ -5,6 +5,7 @@ services:
       - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - ENV=DOCKER
     ports:
       - 5432:5432
     networks:
@@ -19,6 +20,7 @@ services:
     environment:
       - PORT=3000
       - DATABASE_URL=postgresql://postgres:Admlocal1@db:5432/postgres?schema=cars
+      - ENV=DOCKER
     networks:
       - db-network
       - internet
@@ -44,6 +46,7 @@ services:
     tty: true
     environment:
       - VITE_ROUTE_API=http://${API_HOSTNAME}:${API_PORT}/
+      - ENV=DOCKER
 
 volumes:
   db-data:

@@ -4,7 +4,9 @@ import prisma from './clients/prismadb';
 import http from 'http';
 import dotenv from 'dotenv';
 
-dotenv.config();
+if (process.env.ENV !== 'DOCKER') {
+  dotenv.config();
+}
 
 const server = http.createServer(expressServer);
 
