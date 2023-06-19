@@ -1,9 +1,9 @@
 <template>
-    <div class="loading" v-if="userCar.statusNetwork === api.ReturnCodes.NoCode">
+    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
         <SpinLoading></SpinLoading>
     </div>
 
-    <div v-else-if="userCar.statusNetwork === api.ReturnCodes.Success">
+    <div v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="user-data">
             <div class="avatar-txt">
                 <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div class="error-no-car" v-else-if="userCar.statusNetwork === api.ReturnCodes.NotFound">
+    <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
         <h2>Erreur</h2>
         <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
         <RouterLink :to="`/${userCar.car.idQuery}`">
@@ -110,19 +110,20 @@ import ErrorConnection from '@/components/ErrorConnection.vue';
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
+const codeBackApi = ref(0);
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
   //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
   if (newUrl.params.id !== car.idQuery) {
-    userCar.statusNetwork = api.ReturnCodes.Success;
+    codeBackApi.value = api.ReturnCodes.Success;
   }
 
   //Initialisation des données
   let status = userCar.initUserCarQueryId(newUrl.params.id);
 
   //Récupère le code de réponse de l'api
-  status.then(value => userCar.statusNetwork = value);
+  status.then(value => codeBackApi.value = value);
 },
 {
   deep: true,

@@ -10,7 +10,6 @@ export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
   const car: Ref<Car> = ref(new Car());
-  const statusNetwork: Ref<ReturnCodes> = ref(ReturnCodes.NoCode);
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
@@ -83,6 +82,6 @@ export const useCarStore = defineStore('car', () => {
     return socket;
   }
 
-  return { car, statusNetwork,  initUserCarId, initUserCarQueryId, initUserAllRaceCar };
+  return { car,  initUserCarId, initUserCarQueryId, initUserAllRaceCar };
 });
 

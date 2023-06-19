@@ -23,6 +23,7 @@
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
+        <SpinLoading v-else></SpinLoading>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
@@ -36,7 +37,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 import logoImg from '@/assets/img/logo.webp';
-import api from '@/models/api';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 /**
  * Gère le clic sur le menu
@@ -96,7 +97,6 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  console.log('test');
   userCar.initUserCarId(userCarId).then(() => {
     hasFinishedLoading.value = true;
     car.idCar = Number(userCarId);
