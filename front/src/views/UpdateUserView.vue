@@ -13,6 +13,7 @@
             </div>
         </form>
     </dialog>
+
     <h1>Modifier</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
@@ -748,15 +749,18 @@ div.modify-avatar {
     h2 {
       width: unset;
     }
+
     button {
       img {
         height: 2.5em;
       }
+
       background-color: unset;
       border: none;
       cursor: pointer;
       padding: 0;
     }
+
     display: flex;
     justify-content: space-between;
   }
@@ -771,7 +775,7 @@ div.modify-avatar {
 
     input {
       margin-bottom: .1em;
-      border-color: var(--black);
+      border: 1px solid var(--black);
     }
 
     .error {
@@ -780,16 +784,24 @@ div.modify-avatar {
       color: var(--red);
       font-size: 1em;
       font-style: italic;
-      margin-bottom: 1em;
+      margin-bottom: 1.2em;
     }
 
     button[type="submit"] {
       background-color: var(--white);
-      border: 2px solid var(--black);
-      padding: .5em;
-      border-radius: .2em;
+      border: 2px solid var(--dark-green);
+      color: var(--dark-green);
+      padding: 8px 12px;
+      border-radius: 20px;
       cursor: pointer;
-      color: var(--black);
+      transition: all ease-in-out 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: var(--dark-green);
+      border: 2px solid var(--dark-green);
+      color: var(--white);
+      transition: all ease-in-out 0.2s;
     }
 
     div.button-container {
@@ -807,11 +819,11 @@ div.modify-pseudo {
   }
 }
 
-div.update-container{
+div.update-container {
 
   button {
     background-color: var(--blue);
-    border: 2px solid var(--black);
+    border: 1px solid var(--black);
     padding: .5em;
     border-radius: .2em;
     cursor: pointer;
