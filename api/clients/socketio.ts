@@ -60,12 +60,12 @@ export default function buildSioServer (server: http.Server) {
       console.log('user disconnected\n');
     });
 
-    socket.prependAny((eventName, ...args) => {
+    socket.prependAny((eventName) => {
       console.log('Caught incoming Event: ' + eventName);
       console.log('\n');
     });
 
-    socket.prependAnyOutgoing((eventName, ...args) => {
+    socket.prependAnyOutgoing((eventName) => {
       console.log('Caught outgoing Event: ' + eventName);
       console.log('\n');
     });
