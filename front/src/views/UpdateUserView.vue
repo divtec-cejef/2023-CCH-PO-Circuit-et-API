@@ -86,6 +86,7 @@ import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
 import validateIcon from '@/assets/img/checked.png';
 import router from '@/router';
+import type { Configs } from 'holiday-avatar';
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -144,9 +145,11 @@ async function connect(queryId: string, password: string) {
 function avatarEquals() {
   let equlality = true;
   Object.keys(config.value).forEach((key) => {
-    if (config.value[key] !== userCar.car.avatar[key]) {
-      console.log(key, config.value[key], userCar.car.avatar[key]);
+    if (userCar.car.avatar === undefined)
+      return;
+    if (config.value[key as keyof Configs]  !== userCar.car.avatar[key as keyof Configs]) {
       equlality = false;
+
     }
   });
   return equlality;
