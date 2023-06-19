@@ -18,12 +18,12 @@ import { ref, onUnmounted } from 'vue';
 import type { models } from '@/models/interface';
 
 const hasLoaded = ref(false);
-const listRace = ref<models.rankingData>();
+const listRace = ref<models.race[]>();
 
 const socket = new websocket();
 
 socket.onRankingRecieved((data) => {
-  listRace.value = data;
+  listRace.value = data.races;
   hasLoaded.value = true;
 });
 

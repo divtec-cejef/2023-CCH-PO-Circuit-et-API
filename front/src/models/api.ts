@@ -144,6 +144,11 @@ export class websocket {
     this.socket.on('updatedUserRaces', callback);
     return this;
   }
+
+  onActivityRealisation(callback: (data: models.realisationData ) => void) {
+    this.socket.on('updatedActivities', callback);
+    return this;
+  }
 }
 
 export default restful;
