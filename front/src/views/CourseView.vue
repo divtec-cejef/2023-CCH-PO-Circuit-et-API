@@ -34,7 +34,7 @@
                     <ul>
                         <li>
                             <NumberTime class="num-race" number="1" color="var(--red)"/>
-                            <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)}}</p>
+                            <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
                         </li>
                         <li>
                             <NumberTime class="num-race" number="2" color="var(--blue)"/>
@@ -69,8 +69,10 @@
             <div class="content-classement">
                 <h2>Classement</h2>
                 <div class="button-classement">
-                    <button class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
-                    <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
+                    <button class="classement-user" @click="scrollToUser"
+                            :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+                    <button class="classement-top" @click="scrollToTop"
+                            :style="{ backgroundImage: `url(${topImg})`}"></button>
                 </div>
                 <div ref="classement" class="classement-content">
                     <ClassementRace/>
@@ -316,6 +318,7 @@ div.button-classement {
   justify-content: end;
   margin-top: 20px;
 
+
   button.classement-top {
     background-color: transparent;
     border: none;
@@ -339,6 +342,18 @@ div.button-classement {
     width: 40px;
     height: 40px;
 
+  }
+
+  button {
+    cursor: pointer;
+    transition: 0.2s filter ease-in-out;
+
+  }
+
+    
+  button:hover {
+    filter: grayscale(0.3);
+    transition: 0.2s filter ease-in-out;
   }
 }
 

@@ -1,12 +1,12 @@
 import { raceToCreateWithQueryId, routeHandler } from '../../../models';
 import {
-  createRaceWithQueryId,
+  createRaceWithQueryId, getNumberRaces,
   getRacesByCar,
-  getRankByCar,
+  getRankByCar, getShortestRace,
   getShortestRaces
-} from '../../../services/race/implementation';
+} from '../../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarByQueryId } from '../../../services/car/implementation';
+import { getCarByQueryId } from '../../../services/car';
 import type { Server } from 'socket.io';
 
 declare type datable = Date | string
@@ -37,9 +37,9 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     });
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ error: e });
+      res.status(400).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ message: e.message });
     } else {
       res.status(400).send();
     }
@@ -48,7 +48,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
 
   // Vérification de l'existence de la voiture
   if (await getCarByQueryId(race.query_id) === null) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 
@@ -64,9 +64,9 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     res.json(await createRaceWithQueryId(raceToCreate));
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ error: e });
+      res.status(400).json({ message: e });
     } else if (e instanceof Error) {
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ message: e.message });
     } else {
       res.status(400).send();
     }
@@ -75,12 +75,16 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
 
   const car = await getCarByQueryId(race.query_id);
   if (car === null) {
-    res.status(500).json({ error: "Can't find car." });
+    res.status(500).json({ message: "Can't find car." });
     return;
   }
 
   // Envoi les données de classement aux clients
-  (res.app.get('socketio') as Server).emit('updatedRaces', await getShortestRaces());
+  (res.app.get('socketio') as Server).emit('updatedRaces', {
+    races: await getShortestRaces(),
+    count: await getNumberRaces(),
+    fastest: await getShortestRace()
+  });
   const sockets = await (res.app.get('socketio') as Server).fetchSockets();
   for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
     s1.emit('updatedUserRaces', {

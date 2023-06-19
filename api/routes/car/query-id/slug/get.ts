@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../../models';
-import { getCarByQueryId } from '../../../../services/car/implementation';
+import { getCarByQueryId } from '../../../../services/car';
 
 /**
  * Controller get pour la route /car/query-id/:slug
@@ -9,7 +9,7 @@ import { getCarByQueryId } from '../../../../services/car/implementation';
  */
 const route: routeHandler<{ slug: string; }> = async (req, res) => {
   if (!req.params.slug) {
-    res.status(400).json({ error: 'No given ID' });
+    res.status(400).json({ message: 'No given ID' });
     return;
   }
 
@@ -17,7 +17,7 @@ const route: routeHandler<{ slug: string; }> = async (req, res) => {
   const car = await getCarByQueryId(id);
 
   if (!car) {
-    res.status(404).json({ error: 'Car not found' });
+    res.status(404).json({ message: 'Car not found' });
     return;
   }
 

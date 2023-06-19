@@ -84,7 +84,7 @@ export namespace restful {
         password: pwd
       })
     };
-    const response = await fetch(`${routeApi}authentication`, requestOptions);
+    const response = await fetch(`${routeApi}authentication/section`, requestOptions);
     return await response.json();
   }
 
@@ -177,7 +177,7 @@ export class websocket {
   carId?: number;
 
   constructor(carId?: number) {
-    this.socket = io(`http://${(new URL(routeApi)).host}`, carId ? {
+    this.socket = io(`${(new URL(routeApi)).protocol}//${(new URL(routeApi)).host}`, carId ? {
       query: {
         carId,
       },
@@ -198,6 +198,11 @@ export class websocket {
     if (this.carId === undefined)
       throw new Error('carId is undefined');
     this.socket.on('updatedUserRaces', callback);
+    return this;
+  }
+
+  onActivityRealisation(callback: (data: models.realisationData ) => void) {
+    this.socket.on('updatedActivities', callback);
     return this;
   }
 }
