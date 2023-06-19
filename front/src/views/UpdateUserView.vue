@@ -53,7 +53,11 @@
         </div>
 
         <div>
-            <div class="content-avatar">
+            <div :style="{display: displayMsgValid}" class="msg-success">
+                <img :src="validateIcon"
+                     alt="Icon de validation de l'enregistrement des données">
+            </div>
+            <div class="content-avatar" :style="{opacity: opacityAvatar}">
                 <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
             </div>
 
@@ -71,7 +75,6 @@
     </div>
 
 </template>
-
 <script setup lang="ts">
 import { genConfig } from 'holiday-avatar';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
@@ -81,6 +84,7 @@ import { onMounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
+import validateIcon from '@/assets/img/checked.png';
 import router from '@/router';
 
 //Initialisation des données de l'utilisateur
@@ -91,6 +95,9 @@ const password = ref('');
 const error = ref('');
 const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo);
+const displayMsgValid = ref('none');
+const opacityAvatar = ref('');
+
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
 const updateDisabled = ref(true);
@@ -189,11 +196,19 @@ async function updateUser() {
   try {
     await api.updateCar(reqUserCar);
   } catch (e) {
-    alert('La connexion a échouée, veuillez vous reconnecter');
     localStorage.removeItem('carToken');
     dialog.value?.showModal();
     return;
   }
+
+  opacityAvatar.value = '0.5';
+  displayMsgValid.value = 'flex';
+
+  //Affichage de l'icon de succès
+  setTimeout(() => {
+    opacityAvatar.value = '1';
+    displayMsgValid.value = 'none';
+  }, 1500);
 
   // Enregistrement de la voiture dans Pinia
   userCar.car.avatar = JSON.parse(JSON.stringify(reqUserCar.car.avatar));
@@ -645,6 +660,7 @@ div.modify-avatar {
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  transition: all ease-in-out 0.1s;
 
   > div:nth-child(2) {
     display: flex;
@@ -653,9 +669,9 @@ div.modify-avatar {
     width: 40%;
 
     div.content-avatar {
-      padding: 10px;
       display: flex;
       justify-content: end;
+      transition: all ease-in-out 0.2s;
 
       div.avatar {
         width: 300px;
@@ -666,6 +682,7 @@ div.modify-avatar {
     }
 
     div.modify-pseudo {
+      margin-top: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -886,6 +903,24 @@ div.show-error {
   p {
     font-size: 15px;
 
+  }
+}
+
+div.msg-success {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  transition: all ease-in-out 0.2s;
+  border-radius: 200px;
+  padding: 10px;
+
+  img {
+    width: 80px;
+    height: 80px;
   }
 }
 
