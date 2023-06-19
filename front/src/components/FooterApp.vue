@@ -30,6 +30,10 @@ footer {
     align-items: center;
     text-align: center;
     padding: 0 35px;
+
+
+
+
     p {
         font-size: 16px;
     }
@@ -45,6 +49,18 @@ footer {
 
     div.stage {
         display: none;
+
+        a {
+            color: var(--light-green);
+            font-weight: bold;
+            transition: 0.1s ease-in-out;
+        }
+
+        a:hover {
+            color: var(--white);
+            transition: 0.1s ease-in-out;
+
+        }
     }
 
     div:nth-child(3) {
@@ -59,6 +75,13 @@ footer {
 
         img:nth-child(1) {
             margin-right: 15px;
+            transition: 0.2s filter ease-in-out;
+        }
+
+        img:hover {
+            filter: grayscale(8%) brightness(80%) sepia(40%) hue-rotate(50deg) saturate(300%);
+            transition: 0.2s filter ease-in-out;
+
         }
     }
 }

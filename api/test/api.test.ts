@@ -45,7 +45,6 @@ describe('race', () => {
             faceColor: String,
             hairColor: String,
             shirtColor: String,
-            hairColorRandom: Boolean,
             sex: String,
             earSize: String,
             hatType: String,
@@ -55,8 +54,7 @@ describe('race', () => {
             mouthType: String,
             shirtType: String,
             eyeBrowType: String,
-            glassesType: String,
-            shape: String
+            glassesType: String
           }
         }
       }
@@ -84,7 +82,7 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   // Obtenir toutes les manches de courses d'une voiture qui n'existe pas
@@ -92,7 +90,7 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   // Créer une manche de course avec des paramètres valides à l'aide du query_id de la voiture
@@ -121,7 +119,7 @@ describe('race', () => {
       query_id: '4356'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course à l'aide que query_id avec sector_one invalide
@@ -133,7 +131,7 @@ describe('race', () => {
       query_id: '4356'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec un query_id invalide
@@ -145,7 +143,7 @@ describe('race', () => {
       query_id: 4356
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'query_id is not of type string' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
   // Créer une manche de course avec des paramètres valides
@@ -174,7 +172,7 @@ describe('race', () => {
       id_car: 1
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec sector_one invalide
@@ -186,7 +184,7 @@ describe('race', () => {
       id_car: 1
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid date (not parsable)' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec id_car invalide
@@ -198,7 +196,7 @@ describe('race', () => {
       id_car: 'adsf'
     });
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'id_car is not of type number' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
   });
 });
 
@@ -218,14 +216,14 @@ describe('Section', () => {
     const res = await chai.request('localhost:3000').get('/section/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if section is not found', async () => {
     const res = await chai.request('localhost:3000').get('/section/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Section not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
   });
 });
 
@@ -246,14 +244,14 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if section is not found', async () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Section not found' })));
+    expect(res.error.text).to.equal(JSON.stringify(({ message: 'Section not found' })));
   });
 
   it('should return all activities from one car', async () => {
@@ -274,14 +272,14 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   it('should return an error if car is not found', async () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify(({ error: 'Car not found' })));
+    expect(res.error.text).to.equal(JSON.stringify(({ message: 'Car not found' })));
   });
 });
 
@@ -391,7 +389,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -401,8 +398,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -424,7 +420,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -434,8 +429,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -456,7 +450,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -466,8 +459,69 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return an error if the pseudo is too short', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: 'le',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return an error if the pseudo is too long', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: '12345678910',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
         }
       });
 
@@ -489,7 +543,6 @@ describe('CarPatch', () => {
           faceColor: '#9A2',
           hairColor: '#29A',
           shirtColor: '#21A',
-          hairColorRandom: false,
           sex: 'female',
           earSize: 'small',
           hatType: 'none',
@@ -499,8 +552,7 @@ describe('CarPatch', () => {
           mouthType: 'smile',
           shirtType: 'hoody',
           eyeBrowType: 'upMale',
-          glassesType: 'square',
-          shape: 'circle'
+          glassesType: 'square'
         }
       });
 
@@ -516,7 +568,6 @@ describe('CarPatch', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -526,8 +577,7 @@ describe('CarPatch', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -552,7 +602,6 @@ describe('Car', () => {
           faceColor: String,
           hairColor: String,
           shirtColor: String,
-          hairColorRandom: Boolean,
           sex: String,
           earSize: String,
           hatType: String,
@@ -562,8 +611,7 @@ describe('Car', () => {
           mouthType: String,
           shirtType: String,
           eyeBrowType: String,
-          glassesType: String,
-          shape: String
+          glassesType: String
         }
       }]);
   });
@@ -584,7 +632,6 @@ describe('Car', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -594,8 +641,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -605,7 +651,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
   // Obtenir une voiture qui n'existe pas
@@ -613,7 +659,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   /* DISABLED: route disabled
@@ -656,7 +702,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').delete('/car/adsf');
 
     expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Invalid id' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
    */
 
@@ -666,7 +712,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').delete('/car/999');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
    */
 
@@ -686,7 +732,6 @@ describe('Car', () => {
         faceColor: String,
         hairColor: String,
         shirtColor: String,
-        hairColorRandom: Boolean,
         sex: String,
         earSize: String,
         hatType: String,
@@ -696,8 +741,7 @@ describe('Car', () => {
         mouthType: String,
         shirtType: String,
         eyeBrowType: String,
-        glassesType: String,
-        shape: String
+        glassesType: String
       }
     });
   });
@@ -707,7 +751,7 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/query-id/adsfasf');
 
     expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
   /* DISABLED: route disabled
@@ -757,7 +801,7 @@ describe('Car', () => {
 
 describe('Authentication', () => {
   it('Should return a 401 error if the section is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test1234',
       password: cjs.SHA256('Admlocal1').toString()
     });
@@ -770,7 +814,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 401 error if the password is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'salutodin'
     });
@@ -783,7 +827,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the section is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       password: 'Admlocal1'
     });
 
@@ -795,7 +839,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the password is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'informatique'
     });
 
@@ -807,7 +851,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a token if the credentials are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'Admlocal1'
     });
@@ -820,7 +864,7 @@ describe('Authentication', () => {
 });
 
 describe('Realise', () => {
-  const token = chai.request('localhost:3000').post('/authentication').send({
+  const token = chai.request('localhost:3000').post('/authentication/section').send({
     section: 'test',
     password: 'Admlocal1'
   });
