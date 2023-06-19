@@ -1,6 +1,5 @@
 import { Socket, io } from 'socket.io-client';
 import type { models } from '@/models/interface';
-import type Car from '@/models/car';
 import api from '@/models/api';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
