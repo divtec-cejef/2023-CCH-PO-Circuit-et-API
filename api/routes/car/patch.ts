@@ -1,7 +1,7 @@
 import { carToUpdate, routeHandler } from '../../models';
-import validateCarAuthorization from '../../services/validate-token/car/implementation';
+import validateCarAuthorization from '../../services/car/validate-token';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarById, updateCar } from '../../services/car/implementation';
+import { getCarById, updateCar } from '../../services/car';
 
 /**
  * Controller patch pour la route /car
@@ -50,6 +50,12 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
     } else {
       res.status(400).send();
     }
+    return;
+  }
+
+  // Vérification de la longueur du pseudo
+  if (carToUpdate.pseudo.length > 10 || carToUpdate.pseudo.length < 3) {
+    res.status(400).json({ message: 'Pseudo must be between 3 and 10 characters.' });
     return;
   }
 

@@ -6,8 +6,8 @@ import {
   getRankByCar,
   getNumberRaces,
   getShortestRace
-} from '../services/race/implementation';
-import { getCarById } from '../services/car/implementation';
+} from '../services/race';
+import { getCarById } from '../services/car';
 import http from 'http';
 import { getRealisationCount, mostRealisedActivity } from '../services/realise/implementation';
 

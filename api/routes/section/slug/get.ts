@@ -1,5 +1,5 @@
 import type { routeHandler } from '../../../models';
-import { getSectionById } from '../../../services/section/implementation';
+import { getSectionById } from '../../../services/section';
 
 /**
  * Controller pour la route /section/:slug

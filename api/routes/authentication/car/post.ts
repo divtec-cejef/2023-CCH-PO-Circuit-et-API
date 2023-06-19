@@ -1,8 +1,8 @@
 import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { SHA256 } from 'crypto-js';
-import { getPasswordByQueryId } from '../../../services/car/implementation';
-import { authenticateCar } from '../../../services/authentication/car/implementation';
+import { getPasswordByQueryId } from '../../../services/car';
+import { authenticateCar } from '../../../services/car/authentication';
 
 export const route: routeHandler<null, unknown, { query_id: string, password: string }> = async (req, res) => {
   // Vérification des types de données

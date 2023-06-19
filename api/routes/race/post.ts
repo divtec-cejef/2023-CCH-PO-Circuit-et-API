@@ -5,9 +5,9 @@ import {
   getRacesByCar,
   getRankByCar, getShortestRace,
   getShortestRaces
-} from '../../services/race/implementation';
+} from '../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarById } from '../../services/car/implementation';
+import { getCarById } from '../../services/car';
 import type { Server } from 'socket.io';
 
 declare type datable = Date | string
