@@ -83,6 +83,9 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
+        </div>
     </template>
     <div class="loading-race" v-else-if="socketConnected == undefined">
         <SpinLoading></SpinLoading>
