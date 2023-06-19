@@ -1,14 +1,14 @@
 import { routeHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
-import { getActivityById } from '../../../services/activity/implementation';
+import { getActivityById } from '../../../services/activity/';
 import type { realisedActivityToCreate } from '../../../models';
 import {
   createRealisedActivity,
   getRealisationCount, mostRealisedActivity,
   realisationExists
-} from '../../../services/realise/implementation';
-import { getCarByQueryId } from '../../../services/car/implementation';
-import validateSection from '../../../services/validate-token/implementation';
+} from '../../../services/realise';
+import { getCarByQueryId } from '../../../services/car';
+import validateSection from '../../../services/section/validate-token';
 import { Server } from 'socket.io';
 
 declare type realisedActivityRequest = {

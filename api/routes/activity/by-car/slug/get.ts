@@ -1,6 +1,6 @@
 import type { routeHandler } from '../../../../models';
-import { getCarById } from '../../../../services/car/implementation';
-import { getActivitiesByCarId } from '../../../../services/activity/implementation';
+import { getCarById } from '../../../../services/car';
+import { getActivitiesByCarId } from '../../../../services/activity/';
 
 /**
  * Controller pour la route /activity/:slug
