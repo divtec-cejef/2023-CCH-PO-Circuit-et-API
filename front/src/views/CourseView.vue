@@ -138,7 +138,10 @@ if (userCar.car.idCar == 0) {
 } else {
   //Initialisation des courses de l'utilisateur
   userCar.initUserAllRaceCar()
-    .then(value => socket.value = value);
+    .then(value => {
+      socket.value = value;
+      console.log(value.socket);
+    });
 }
 
 onUnmounted(() => socket.value?.destroy());
@@ -352,7 +355,7 @@ div.button-classement {
 
   }
 
-    
+
   button:hover {
     filter: grayscale(0.3);
     transition: 0.2s filter ease-in-out;
