@@ -67,7 +67,7 @@
     </div>
 
     <div v-if="saveIsInvalid" class="show-error">
-        <p>*{{ ERROR_SAVE_MSG }}</p>
+        <p>* Le pseudo doit contenir au moins 3 caractères.</p>
     </div>
 
 </template>
@@ -89,7 +89,6 @@ const { car } = userCar;
 const config = ref(genConfig(car.avatar));
 const password = ref('');
 const error = ref('');
-const ERROR_SAVE_MSG = ref('Le pseudo doit contenir au moins 3 caractères');
 const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo);
 // éléments de l'HTML
@@ -715,7 +714,7 @@ div.modify-avatar {
       border-color: var(--gray);
       opacity: 70%;
       transition: ease-in-out 0.1s;
-
+      cursor: auto;
     }
   }
 
@@ -879,15 +878,15 @@ div.modify-avatar {
 }
 
 div.show-error {
-    margin-top: 10px;
-    color: var(--red);
-    text-align: center;
-    font-weight: bold;
+  margin-top: 10px;
+  color: var(--red);
+  text-align: center;
+  font-weight: bold;
 
-    p {
-        font-size: 15px;
+  p {
+    font-size: 15px;
 
-    }
+  }
 }
 
 </style>
