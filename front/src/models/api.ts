@@ -145,6 +145,7 @@ export namespace restful {
 
 
   export async function updateCar(userCar: any) {
+
     const requestOptions = {
       method: 'PATCH',
       headers: {
@@ -164,7 +165,7 @@ export namespace restful {
 
     const response = await fetch(`${routeApi}car`, requestOptions);
 
-    if (response.status === api.ReturnCodes.Unauthorized) {
+    if (!(response.status === api.ReturnCodes.Success)) {
       throw new Error('Unauthorized');
     }
 
