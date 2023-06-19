@@ -52,17 +52,22 @@
             </div>
         </div>
 
-        <div class="content-avatar">
-            <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+        <div>
+            <div class="content-avatar">
+                <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+            </div>
+
+            <div class="modify-pseudo">
+                <label for="pseudo">Pseudo : </label>
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton" maxlength="10">
+            </div>
+
+            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
+
     </div>
-    <div class="modify-pseudo">
-        <label for="pseudo">Pseudo : </label>
-        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton">
-    </div>
-    <div class="update-container">
-        <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
-    </div>
+
+
 </template>
 
 <script setup lang="ts">
@@ -639,16 +644,75 @@ div.modify-avatar {
   justify-content: space-between;
   padding: 20px;
 
-  div.content-avatar {
-    width: 40%;
+  > div:nth-child(2) {
     display: flex;
-    justify-content: end;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
 
-    div.avatar {
-      width: 300px;
-      height: 300px;
-      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-      border-radius: 200px;
+    div.content-avatar {
+      padding: 10px;
+      display: flex;
+      justify-content: end;
+
+      div.avatar {
+        width: 300px;
+        height: 300px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+        border-radius: 200px;
+      }
+    }
+
+    div.modify-pseudo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      label,
+      input {
+        display: block;
+        margin: .5em 0;
+      }
+
+      input {
+        width: 100px;
+        border-radius: 3px;
+        padding: 3px;
+        border: 1px solid var(--black);
+      }
+
+      label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+    }
+
+    button {
+      background-color: var(--dark-green);
+      border: 1px solid var(--dark-green);
+      padding: 8px;
+      border-radius: .6em;
+      cursor: pointer;
+      color: var(--white);
+      margin-top: 10px;
+      width: 120px;
+      text-align: center;
+      transition: ease-in-out 0.1s;
+
+    }
+
+    button:not(:disabled):hover {
+      font-weight: bold;
+      border: 1px solid var(--dark-green);
+      transition: ease-in-out 0.1s;
+    }
+
+    button:disabled {
+      background-color: var(--gray);
+      border-color: var(--gray);
+      opacity: 70%;
+      transition: ease-in-out 0.1s;
+
     }
   }
 
@@ -811,28 +875,8 @@ div.modify-avatar {
   }
 }
 
-div.modify-pseudo {
-  label,
-  input {
-    display: block;
-    margin: .5em 0;
-  }
-}
 
 div.update-container {
 
-  button {
-    background-color: var(--blue);
-    border: 1px solid var(--black);
-    padding: .5em;
-    border-radius: .2em;
-    cursor: pointer;
-    color: var(--white);
-  }
-
-  button:disabled {
-    background-color: var(--gray);
-    border-color: var(--gray);
-  }
 }
 </style>
