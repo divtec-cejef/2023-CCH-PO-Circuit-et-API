@@ -10,6 +10,7 @@ export namespace restful {
     NotFound = 404,
     Conflict = 409,
     BadGateway = 502
+    Unauthorized = 401,
   }
 
   export const ERROR_MESSAGE = 'Error';
@@ -127,7 +128,7 @@ export namespace restful {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token.toString()}`
+        'Authorization' : `Bearer ${token.toString()}`
       },
 
       body: JSON.stringify({
@@ -147,6 +148,60 @@ export namespace restful {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
   }
+
+  /**
+   * Lance une requête POST pour récupérer un token d'authentification
+   * @param queryId Identifiant d'url de la voiture
+   * @param pwd Mot de passe de la voiture
+   */
+  export async function authenticationQueryIdPwd(queryId: string, pwd: string) {
+
+    //Construction des options de requête
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        query_id: queryId,
+        // eslint-disable-next-line camelcase
+        password: pwd
+      })
+    };
+    const response = await fetch(`${routeApi}authentication/car`, requestOptions);
+    return await response.json();
+  }
+
+
+  export async function updateCar(userCar: any) {
+
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userCar.token}`
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        id_car: userCar.car.idCar,
+        // eslint-disable-next-line camelcase
+        pseudo: userCar.car.pseudo,
+        // eslint-disable-next-line camelcase
+        avatar: userCar.car.avatar,
+      })
+    };
+
+    const response = await fetch(`${routeApi}car`, requestOptions);
+
+    if (!(response.status === api.ReturnCodes.Success)) {
+      throw new Error('Unauthorized');
+    }
+
+    return await response.json();
+  }
 }
 
 export class websocket {
@@ -154,7 +209,7 @@ export class websocket {
   carId?: number;
 
   constructor(carId?: number) {
-    this.socket = io(`http://${(new URL(routeApi)).host}`, carId ? {
+    this.socket = io(`${(new URL(routeApi)).protocol}//${(new URL(routeApi)).host}`, carId ? {
       query: {
         carId,
       },
@@ -175,6 +230,11 @@ export class websocket {
     if (this.carId === undefined)
       throw new Error('carId is undefined');
     this.socket.on('updatedUserRaces', callback);
+    return this;
+  }
+
+  onActivityRealisation(callback: (data: models.realisationData ) => void) {
+    this.socket.on('updatedActivities', callback);
     return this;
   }
 }

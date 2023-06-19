@@ -1,7 +1,13 @@
 import { raceToCreate, routeHandler } from '../../models';
-import { createRace, getRacesByCar, getRankByCar, getShortestRaces } from '../../services/race/implementation';
+import {
+  createRace,
+  getNumberRaces,
+  getRacesByCar,
+  getRankByCar, getShortestRace,
+  getShortestRaces
+} from '../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
-import { getCarById } from '../../services/car/implementation';
+import { getCarById } from '../../services/car';
 import type { Server } from 'socket.io';
 
 declare type datable = Date | string
@@ -69,7 +75,11 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
   }
 
   // Envoi les données de classement aux clients
-  (res.app.get('socketio') as Server).emit('updatedRaces', await getShortestRaces());
+  (res.app.get('socketio') as Server).emit('updatedRaces', {
+    races: await getShortestRaces(),
+    count: await getNumberRaces(),
+    fastest: await getShortestRace()
+  });
   const sockets = await (res.app.get('socketio') as Server).fetchSockets();
   for (const s1 of sockets.filter(s => s.data.carId === race.id_car)) {
     s1.emit('updatedUserRaces', {

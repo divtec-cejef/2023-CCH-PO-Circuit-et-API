@@ -1,6 +1,6 @@
 import type { routeHandler } from '../../../../models';
-import { getSectionById } from '../../../../services/section/implementation';
-import { getActivitiesBySectionId } from '../../../../services/activity/implementation';
+import { getSectionById } from '../../../../services/section';
+import { getActivitiesBySectionId } from '../../../../services/activity/';
 
 /**
  * Controller pour la route /activity/:slug
