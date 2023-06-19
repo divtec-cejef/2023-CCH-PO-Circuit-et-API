@@ -47,6 +47,7 @@ const recursiveDirRead = (dir: string) => {
   const files = fs.readdirSync(dir, { withFileTypes: true });
   for (const file of files) {
     let splittedName = file.name.split('.');
+    if (splittedName[0] === '') { continue; }
     if (splittedName.length > 1) { splittedName = splittedName.slice(0, -1); }
     const path = `${dir}/${splittedName.join('.')}`;
     if (file.isDirectory()) {

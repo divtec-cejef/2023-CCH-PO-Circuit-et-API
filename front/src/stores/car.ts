@@ -4,18 +4,17 @@ import { ref } from 'vue';
 import Car from '../models/car';
 import api, { restful, websocket } from '../models/api';
 import Race from '@/models/race';
-import ReturnCodes = restful.ReturnCodes;
 
 export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
   const car: Ref<Car> = ref(new Car());
+  const token : Ref<string> = ref('');
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
    */
   async function initUserCarQueryId(queryId: string | string[]) {
-
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
@@ -82,6 +81,6 @@ export const useCarStore = defineStore('car', () => {
     return socket;
   }
 
-  return { car,  initUserCarId, initUserCarQueryId, initUserAllRaceCar };
+  return { car,  initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
 });
 

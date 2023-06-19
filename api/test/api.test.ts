@@ -469,6 +469,68 @@ describe('CarPatch', () => {
     });
   });
 
+  it('Should return an error if the pseudo is too short', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: 'le',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  it('Should return an error if the pseudo is too long', async () => {
+    const res = await chai.request('localhost:3000').patch('/car')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_car: 11,
+        pseudo: '12345678910',
+        avatar: {
+          bgColor: '#8DA',
+          hatColor: '#F1A',
+          faceColor: '#9A2',
+          hairColor: '#29A',
+          shirtColor: '#21A',
+          sex: 'female',
+          earSize: 'small',
+          hatType: 'none',
+          eyeType: 'circle',
+          hairType: 'normal',
+          noseType: 'round',
+          mouthType: 'smile',
+          shirtType: 'hoody',
+          eyeBrowType: 'upMale',
+          glassesType: 'square'
+        }
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
   it('Should return an updated car', async () => {
     const res = await chai.request('localhost:3000').patch('/car')
       .auth((await token).body.token, { type: 'bearer' })
@@ -739,7 +801,7 @@ describe('Car', () => {
 
 describe('Authentication', () => {
   it('Should return a 401 error if the section is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test1234',
       password: cjs.SHA256('Admlocal1').toString()
     });
@@ -752,7 +814,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 401 error if the password is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'salutodin'
     });
@@ -765,7 +827,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the section is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       password: 'Admlocal1'
     });
 
@@ -777,7 +839,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a 400 error if the password is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'informatique'
     });
 
@@ -789,7 +851,7 @@ describe('Authentication', () => {
   });
 
   it('Should return a token if the credentials are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication').send({
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
       section: 'test',
       password: 'Admlocal1'
     });
@@ -802,7 +864,7 @@ describe('Authentication', () => {
 });
 
 describe('Realise', () => {
-  const token = chai.request('localhost:3000').post('/authentication').send({
+  const token = chai.request('localhost:3000').post('/authentication/section').send({
     section: 'test',
     password: 'Admlocal1'
   });

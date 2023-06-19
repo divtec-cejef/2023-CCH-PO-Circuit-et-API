@@ -24,7 +24,7 @@ export const useAdminPostStore = defineStore('adminPost', () => {
     dataActivity.forEach((activityTable : any) => {
       listActivity.value.push({
         idActivity: activityTable['id_activity'],
-        name: activityTable['label'],
+        label: activityTable['label'],
         idSection : activityTable['id_section']
       });
     });
