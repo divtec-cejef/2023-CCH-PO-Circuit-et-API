@@ -11,8 +11,8 @@
                 <h1>Scan des activités</h1>
                 <div class="activity-list">
                     <activity-admin v-for="(activity, key) in adminPost.listActivity"
-                                    @click="openScan(activity.idActivity, activity.name)"
-                                    :name="activity.name"
+                                    @click="openScan(activity.idActivity, activity.label)"
+                                    :name="activity.label"
                                     :key="key"
                     />
 
