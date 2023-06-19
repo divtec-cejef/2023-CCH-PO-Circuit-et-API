@@ -9,7 +9,7 @@ import {
 } from '../services/race';
 import { getCarById } from '../services/car';
 import http from 'http';
-import { getRealisationCount, mostRealisedActivity } from '../services/realise/implementation';
+import { getRealisationCount, mostRealisedActivity } from '../services/realise';
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
