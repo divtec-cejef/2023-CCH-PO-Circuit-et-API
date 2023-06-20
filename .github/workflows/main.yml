@@ -54,7 +54,7 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
         PORT: 3000
         RACE_ADDING_AUTHORIZED_SECTION:
-        - "Race"
+        - Race
   type-checking:
     name: Run type checking on front
     runs-on: ubuntu-22.04
