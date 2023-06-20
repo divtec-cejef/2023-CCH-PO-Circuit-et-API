@@ -44,8 +44,8 @@
             </div>
 
             <h2>Tableau de bord</h2>
-            <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
-                !</p>
+<!--            <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite-->
+<!--                !</p>-->
             <div class="badges">
                 <RouterLink to="/course">
                     <img :src=badgeCourse alt="Badge course">
@@ -189,6 +189,7 @@ div.loading-page {
 div.user-data {
   display: flex;
   flex-direction: column;
+    justify-content: start;
   align-items: center;
 
   div.avatar-txt {
