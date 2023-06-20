@@ -4,10 +4,10 @@
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="localStorageidCar">
+            <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
                 <RouterLink to="/modifier">Modifier</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="localStorageidCar">
+            <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
                 <RouterLink to="/course">Course</RouterLink>
             </li>
             <li @click="clickMenu">
@@ -16,7 +16,7 @@
             <li @click="clickMenu">
                 <RouterLink to="/historique">Historique</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="adminPost.token !== ''">
+            <li @click="clickMenu" v-if="isAdmin && !isNaN(adminPost.idSection)">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
             <li @click="clickMenu">
@@ -30,7 +30,7 @@
 
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
-import { defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
 
 const clickMenu = () => {
   localStorage.setItem('menuIsClicked', 'true');
@@ -41,10 +41,8 @@ const clickMenu = () => {
 const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
-
-const localStorageidCar = () => {
-  return localStorage.getItem('userCarId');
-};
+const hasOneCar = ref(localStorage.getItem('userCarId') != null);
+const isAdmin = ref(localStorage.getItem('tokenPost') != null);
 
 </script>
 
