@@ -216,6 +216,8 @@ INSERT INTO section (label, password)
 VALUES ('Laborantin', 'a70d7c214b845c2c05a508649250d7707daa35a08c88b42b6c4c4d74589c4713');
 INSERT INTO section (label, password)
 VALUES ('Dessinateur', '7117e1cf54893b6c3ec43b1aa59422503a749b5c084d401e9041b4d9105df848');
+INSERT INTO section (label, password)
+VALUES ('Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06fe');
 
 INSERT INTO activity (label, id_section)
 VALUES ('Informer', 1);
