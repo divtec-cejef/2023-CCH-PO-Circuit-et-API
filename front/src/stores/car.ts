@@ -2,14 +2,14 @@ import { defineStore } from 'pinia';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import Car from '../models/car';
-import api, { restful, websocket } from '../models/api';
+import api, { websocket } from '../models/api';
 import Race from '@/models/race';
 
 export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
   const car: Ref<Car> = ref(new Car());
-  const token : Ref<string> = ref('');
+  const token: Ref<string> = ref('');
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
@@ -66,7 +66,7 @@ export const useCarStore = defineStore('car', () => {
   async function initUserAllRaceCar() {
     const socket = new websocket(car.value.idCar);
 
-    socket.onUserRace(async (races) => {
+    await socket.onUserRace(async (races) => {
       //Récupération du rang de la voiture
       car.value.rank = races.rank;
 
@@ -79,8 +79,9 @@ export const useCarStore = defineStore('car', () => {
     });
 
     return socket;
+
   }
 
-  return { car,  initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
+  return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
 });
 

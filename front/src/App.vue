@@ -23,11 +23,10 @@
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
-        <SpinLoading v-else></SpinLoading>
+        <SpinLoading class="load-element" v-else></SpinLoading>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
-
 </template>
 
 <script setup lang="ts">
@@ -310,5 +309,11 @@ html body div header .active span {
   }
 }
 
+.load-element {
+  height: calc(100vh - var(--height-screen-diff));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 </style>

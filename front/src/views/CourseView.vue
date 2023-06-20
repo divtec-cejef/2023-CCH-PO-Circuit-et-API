@@ -1,6 +1,6 @@
 <template>
     <template v-if="socketConnected">
-        <div v-if="car.listRace.length !== 0">
+        <div v-if="car.listRace.length > 0">
             <h1>Course</h1>
             <h2>Meilleure manche</h2>
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
@@ -35,9 +35,7 @@
                         <ul>
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                <p>{{
-                                    car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)
-                                    }}</p>
+                                <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
                             </li>
                             <li>
                                 <NumberTime class="num-race" number="2" color="var(--blue)"/>
@@ -83,11 +81,11 @@
                 </div>
             </div>
         </div>
-        <div v-else>
+        <div v-else-if="hasCarRaces">
             <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
         </div>
     </template>
-    <div class="loading-race" v-else-if="socketConnected == undefined">
+    <div class="loading-race" v-else-if="socketConnected === undefined">
         <SpinLoading></SpinLoading>
     </div>
     <ErrorConnection v-else></ErrorConnection>
@@ -136,6 +134,8 @@ const userCar = useCarStore();
 const { car } = userCar;
 const socket = ref<websocket | null>();
 const socketConnected = ref();
+const hasCarRaces = ref(false);
+const displayContent = ref(false);
 
 onMounted(() => {
   scrollToUser();
@@ -146,15 +146,22 @@ if (!localStorage.getItem('userCarId')) {
   router.push({ path: '/' });
 } else {
   //Initialisation des courses de l'utilisateur
-  userCar.initUserAllRaceCar()
-    .then(value => {
-      socket.value = value;
+  userCar.initUserAllRaceCar().then((value) => {
+    socket.value = value;
 
-      //Si une erreur est rencontrée alors on affiche une erreur à l'écran
-      value.onConnected(() => {
-        socketConnected.value = false;
-      });
+    //Si une erreur est rencontrée alors, on affiche une erreur à l'écran
+    value.onConnectedError(() => {
+      socketConnected.value = false;
     });
+
+    //Au remplissage des courses, on affiche le contenu
+    value.onUserRace(() => {
+      socketConnected.value = true;
+      hasCarRaces.value = true;
+    });
+  });
+
+  displayContent.value = true;
 }
 
 onUnmounted(() => socket.value?.destroy());
@@ -390,6 +397,7 @@ div.drop-down-course {
 .loading-race {
   height: calc(100vh - var(--height-screen-diff));
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
