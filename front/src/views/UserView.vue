@@ -51,7 +51,7 @@
                     <img :src=badgeCourse alt="Badge course">
                     <p>Course</p>
                 </RouterLink>
-                <RouterLink to="/course">
+                <RouterLink to="/classement">
                     <img :src=badgeClassement alt="Badge classement">
                     <p>Classement</p>
                 </RouterLink>
