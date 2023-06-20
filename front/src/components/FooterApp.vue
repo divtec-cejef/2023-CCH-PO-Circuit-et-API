@@ -1,7 +1,10 @@
 <template>
     <footer>
         <p>EMT, Portes ouvertes 2023</p>
-        <div class="stage">Inscris toi à un stage <a href="">ici</a> !</div>
+        <div class="stage">Inscris toi à un stage <a
+            href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu">
+            ici</a> !
+        </div>
         <div>
             <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
                 <img :src=instaImg
@@ -30,9 +33,6 @@ footer {
     align-items: center;
     text-align: center;
     padding: 0 35px;
-
-
-
 
     p {
         font-size: 16px;
