@@ -51,7 +51,7 @@ div.button-classement {
     display: flex;
     justify-content: end;
     position: sticky;
-    top: 40px;
+    top: 120px;
 
     div {
         background-color: var(--white);
