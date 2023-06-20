@@ -1,88 +1,94 @@
 <template>
-    <h1>Course</h1>
-    <div v-if="car.listRace.length !== 0">
-        <h2>Meilleure manche</h2>
-        <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
+    <template v-if="socketConnected">
+        <div v-if="car.listRace.length > 0">
+            <h1>Course</h1>
+            <h2>Meilleure manche</h2>
+            <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
-        <div class="best-race">
-            <div class="content-1">
-                <div class="rank">
-                    <span>Rang</span>
+            <div class="best-race">
+                <div class="content-1">
+                    <div class="rank">
+                        <span>Rang</span>
+                        <div>
+                            <span>#</span>
+                            <span>{{ car.rank }}</span>
+                        </div>
+                    </div>
+                    <div class="best-time">
+                        <div>Temps de manche :</div>
+                        <div class="race-time">
+                            {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-2">
+                    <div class="speed-max">
+                        <p>65</p>
+                        <p>km/h</p>
+                    </div>
+
+                    <div class="time-inter">
+                        <div>Temps <br>
+                            intermédiaires :
+                        </div>
+                        <ul>
+                            <li>
+                                <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
+                            </li>
+                            <li>
+                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                <p>03:23:08</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="informations">
+                    <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
                     <div>
-                        <span>#</span>
-                        <span>{{ car.rank }}</span>
+                        <img class="hour" :src=hourImg alt="Icon d'horloge">
+                        <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
                     </div>
                 </div>
-                <div class="best-time">
-                    <div>Temps de manche :</div>
-                    <div class="race-time">
-                        {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
+
+                <div class="video"></div>
+            </div>
+
+            <div class="content-list-classement">
+                <DropDown v-if="car.listRace.length > 1" class="drop-down-course"
+                          name="Toutes les courses">
+                    <TableListTime :car-user="car"/>
+                </DropDown>
+
+                <div class="table-large-content">
+                    <h2>Liste de courses</h2>
+                    <TableListTime :car-user="car"/>
+                </div>
+
+                <div class="content-classement">
+                    <h2>Classement</h2>
+                    <div class="button-classement">
+                        <button class="classement-user" @click="scrollToUser"
+                                :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+                        <button class="classement-top" @click="scrollToTop"
+                                :style="{ backgroundImage: `url(${topImg})`}"></button>
                     </div>
-                </div>
-            </div>
-
-            <div class="content-2">
-                <div class="speed-max">
-                    <p>65</p>
-                    <p>km/h</p>
-                </div>
-
-                <div class="time-inter">
-                    <div>Temps <br>
-                        intermédiaires :
+                    <div ref="classement" class="classement-content">
+                        <ClassementRace/>
                     </div>
-                    <ul>
-                        <li>
-                            <NumberTime class="num-race" number="1" color="var(--red)"/>
-                            <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
-                        </li>
-                        <li>
-                            <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                            <p>03:23:08</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="informations">
-                <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
-                <div>
-                    <img class="hour" :src=hourImg alt="Icon d'horloge">
-                    <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
-                </div>
-            </div>
-
-            <div class="video"></div>
-        </div>
-
-        <div class="content-list-classement">
-            <DropDown v-if="car.listRace.length > 1" class="drop-down-course"
-                      name="Toutes les courses">
-                <TableListTime :car-user="car"/>
-            </DropDown>
-
-            <div class="table-large-content">
-                <h2>Liste de courses</h2>
-                <TableListTime :car-user="car"/>
-            </div>
-
-            <div class="content-classement">
-                <h2>Classement</h2>
-                <div class="button-classement">
-                    <button class="classement-user" @click="scrollToUser"
-                            :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
-                    <button class="classement-top" @click="scrollToTop"
-                            :style="{ backgroundImage: `url(${topImg})`}"></button>
-                </div>
-                <div ref="classement" class="classement-content">
-                    <ClassementRace/>
                 </div>
             </div>
         </div>
+        <div v-else-if="hasCarRaces">
+            <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
+        </div>
+    </template>
+    <div class="loading-race" v-else-if="socketConnected === undefined">
+        <SpinLoading></SpinLoading>
     </div>
-    <div v-else>
-        <h2>Chargement en cours...</h2>
-    </div>
+    <ErrorConnection v-else></ErrorConnection>
 </template>
 
 <script setup lang="ts">
@@ -97,6 +103,8 @@ import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
+import SpinLoading from '@/components/SpinLoading.vue';
+import ErrorConnection from '@/components/ErrorConnection.vue';
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
@@ -125,18 +133,35 @@ const classement = ref<Element | null>(null);
 const userCar = useCarStore();
 const { car } = userCar;
 const socket = ref<websocket | null>();
+const socketConnected = ref();
+const hasCarRaces = ref(false);
+const displayContent = ref(false);
 
 onMounted(() => {
   scrollToUser();
 });
 
 //Si aucune voiture n'est initialisée alors redirection
-if (userCar.car.idCar == 0) {
+if (!localStorage.getItem('userCarId')) {
   router.push({ path: '/' });
 } else {
   //Initialisation des courses de l'utilisateur
-  userCar.initUserAllRaceCar()
-    .then(value => socket.value = value);
+  userCar.initUserAllRaceCar().then((value) => {
+    socket.value = value;
+
+    //Si une erreur est rencontrée alors, on affiche une erreur à l'écran
+    value.onConnectedError(() => {
+      socketConnected.value = false;
+    });
+
+    //Au remplissage des courses, on affiche le contenu
+    value.onUserRace(() => {
+      socketConnected.value = true;
+      hasCarRaces.value = true;
+    });
+  });
+
+  displayContent.value = true;
 }
 
 onUnmounted(() => socket.value?.destroy());
@@ -350,7 +375,7 @@ div.button-classement {
 
   }
 
-    
+
   button:hover {
     filter: grayscale(0.3);
     transition: 0.2s filter ease-in-out;
@@ -367,5 +392,13 @@ div.drop-down-course {
 
 .table-large-content {
   display: none;
+}
+
+.loading-race {
+  height: calc(100vh - var(--height-screen-diff));
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 </style>

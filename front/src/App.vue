@@ -1,7 +1,7 @@
 <template>
 
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="`/${car.idQuery}`">
+        <RouterLink v-if="menuIsClicked" :to="URL_HOME">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
@@ -23,11 +23,10 @@
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
+        <SpinLoading class="load-element" v-else></SpinLoading>
     </main>
 
     <FooterApp id="footer" :class="classMenuClicked"/>
-
-
 </template>
 
 <script setup lang="ts">
@@ -37,6 +36,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 import logoImg from '@/assets/img/logo.webp';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 /**
  * Gère le clic sur le menu
@@ -88,6 +88,7 @@ const { car } = userCar;
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
+const URL_HOME = `/${car.idQuery}`;
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -97,9 +98,11 @@ const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
   userCar.initUserCarId(userCarId).then(() => {
     hasFinishedLoading.value = true;
+    car.idCar = Number(userCarId);
   });
 } else {
   hasFinishedLoading.value = true;
+  car.idCar = Number(userCarId);
 }
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
@@ -108,14 +111,6 @@ if (!localStorage.getItem('menuIsClicked')) {
   localStorage.setItem('menuIsClicked', 'false');
   menuIsClicked.value = false;
 }
-
-
-// var btn = $('.btn');
-//
-// btn.on('click', function () {
-//   $(this).toggleClass('active not-active');
-// });
-//
 
 </script>
 
@@ -162,9 +157,9 @@ header {
   &.open.thin {
     height: calc(100vh + 20px);
 
-      .btn {
-          margin-top: 8px;
-      }
+    .btn {
+      margin-top: 8px;
+    }
   }
 }
 
@@ -312,6 +307,13 @@ html body div header .active span {
   100% {
     transform: scale(1);
   }
+}
+
+.load-element {
+  height: calc(100vh - var(--height-screen-diff));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

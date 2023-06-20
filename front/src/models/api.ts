@@ -10,17 +10,24 @@ export namespace restful {
     Success = 200,
     NotFound = 404,
     Conflict = 409,
-    Unauthorized = 401,
+    BadGateway = 502,
+    Unauthorized = 401
   }
+
+  export const ERROR_MESSAGE = 'Error';
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
    * @param queryId Query id de la voiture à retourner
    */
   export async function getDataOneCarQueryId(queryId: number | string) {
-    const routeCar = `${routeApi}car/query-id/${queryId}`;
-    const res = await fetch(routeCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeCar = `${routeApi}car/query-id/${queryId}`;
+      const res = await fetch(routeCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -28,9 +35,13 @@ export namespace restful {
    * @param idCar Id de la voiture à retourner
    */
   export async function getDataOneCarId(idCar: number | string) {
-    const routeCar = `${routeApi}car/${idCar}`;
-    const res = await fetch(routeCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeCar = `${routeApi}car/${idCar}`;
+      const res = await fetch(routeCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -38,9 +49,13 @@ export namespace restful {
    * @param idCar Id de la voiture
    */
   export async function getAllRaceOneCar(idCar: number | string) {
-    const routeRaceCar = `${routeApi}race/${idCar}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeRaceCar = `${routeApi}race/${idCar}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -48,19 +63,27 @@ export namespace restful {
    * @param idSection Id de la section
    */
   export async function getNameSectionById(idSection: number | string) {
-    const routeRaceCar = `${routeApi}section/${idSection}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+    try {
+      const routeRaceCar = `${routeApi}section/${idSection}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivityOneSection(idSection: number | string)  {
-    const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
-    const res = await fetch(routeRaceCar);
-    return { json: (await res.json()), status: res.status };
+  export async function getAllActivityOneSection(idSection: number | string) {
+    try {
+      const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -84,8 +107,13 @@ export namespace restful {
         password: pwd
       })
     };
-    const response = await fetch(`${routeApi}authentication/section`, requestOptions);
-    return await response.json();
+
+    try {
+      const response = await fetch(`${routeApi}authentication`, requestOptions);
+      return await response.json();
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -113,8 +141,13 @@ export namespace restful {
         date_time: new Date()
       })
     };
-    const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
-    return response.status;
+
+    try {
+      const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
+      return response.status;
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
@@ -181,7 +214,7 @@ export class websocket {
       query: {
         carId,
       },
-    }: undefined);
+    } : undefined);
     this.carId = carId;
   }
 
@@ -204,6 +237,10 @@ export class websocket {
   onActivityRealisation(callback: (data: models.realisationData ) => void) {
     this.socket.on('updatedActivities', callback);
     return this;
+  }
+
+  onConnectedError(callback: (error: any) => void) {
+    this.socket.on('connect_error', callback);
   }
 }
 
