@@ -49,8 +49,8 @@ const router = createRouter({
       component: ScanView
     },
     {
-      path: '/modifier',
-      name: 'modifier',
+      path: '/pilote',
+      name: 'pilote',
       component: UpdateUserView
     },
     {
