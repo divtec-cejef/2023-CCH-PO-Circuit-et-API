@@ -36,15 +36,15 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     return;
   }
 
+  // vérifier que la section existe
   const sectionName = (await getSectionById(sectId))?.label;
-
   if (!sectionName) {
     res.status(404).json({ message: 'Section not found' });
     return;
   }
 
   let authorized = false;
-  // récupérer les section authorisées à ajouter des courses
+  // récupérer les sections authorisées à ajouter des courses
   const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '');
   console.log(sections);
   for (const section of sections) {
@@ -54,7 +54,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
       break;
     }
   }
-
+  // envoyer une erreur si la section n'est pas autorisée
   if (!authorized) {
     res.status(403).json({ message: 'Section not allowed to perform this action' });
     return;
