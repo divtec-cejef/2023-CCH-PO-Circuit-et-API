@@ -6,8 +6,8 @@
         <p>Aucune donnée n'est disponible</p>
     </template>
     <template v-else>
-    <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar" :rank="key + 1"
-                       :pseudo="race.car.pseudo" :time="new Date(race.total_time)"/>
+        <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar" :rank="key + 1"
+                           :pseudo="race.car.pseudo" :time="new Date(race.total_time)"/>
     </template>
 </template>
 
@@ -20,7 +20,6 @@ import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
 const listRace = ref<models.race[]>();
-
 const socket = new websocket();
 
 socket.onRankingRecieved((data) => {
@@ -38,10 +37,10 @@ onUnmounted(() => {
 <style scoped lang="scss">
 
 .loading-ranking {
-    height: calc(60vh - var(--height-screen-diff));
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: calc(60vh - var(--height-screen-diff));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

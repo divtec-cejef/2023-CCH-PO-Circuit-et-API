@@ -1,5 +1,6 @@
 import { Socket, io } from 'socket.io-client';
 import type { models } from '@/models/interface';
+import api from '@/models/api';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -9,8 +10,8 @@ export namespace restful {
     Success = 200,
     NotFound = 404,
     Conflict = 409,
-    BadGateway = 502
-    Unauthorized = 401,
+    BadGateway = 502,
+    Unauthorized = 401
   }
 
   export const ERROR_MESSAGE = 'Error';
@@ -236,6 +237,10 @@ export class websocket {
   onActivityRealisation(callback: (data: models.realisationData ) => void) {
     this.socket.on('updatedActivities', callback);
     return this;
+  }
+
+  onConnectedError(callback: (error: any) => void) {
+    this.socket.on('connect_error', callback);
   }
 }
 
