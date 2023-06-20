@@ -1,35 +1,6 @@
-<script setup lang="ts">
-import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
-import { useCarStore } from '@/stores/car';
-import { useRouter } from 'vue-router';
-import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
-import api from '@/models/api';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import badgeCourse from '@/assets/img/course.webp';
-import badgeClassement from '@/assets/img/classement.webp';
-import badgeModif from '@/assets/img/modification.webp';
-import badgeVideo from '@/assets/img/video.webp';
-import badgeStage from '@/assets/img/stage.webp';
-import badgeLive from '@/assets/img/live.webp';
-import carModel from '@/assets/other/car.glb';
-
-//Initialisation de la voiture en fonction de l'url
-let userCar = useCarStore();
-const { car } = userCar;
-
-let status = userCar.initUserCarQueryId(useRouter().currentRoute.value.params.id);
-
-//Récupère le code de réponse de l'api
-let codeBackApi = ref(0);
-status.then(value => codeBackApi.value = value);
-
-const modelLoaded = ref(false);
-</script>
-
 <template>
-    <div class="loading" v-if="codeBackApi === api.ReturnCodes.NoCode">
-        Chargement...
+    <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
+        <SpinLoading></SpinLoading>
     </div>
 
     <div v-else-if="codeBackApi === api.ReturnCodes.Success">
@@ -41,7 +12,13 @@ const modelLoaded = ref(false);
             </div>
 
             <div class="car-3d">
-                <span :class="`loading${modelLoaded?' loaded':''}`">Chargement en cours...</span>
+                <div :class="`loading${modelLoaded?' loaded':''}`">
+                    <hollow-dots-spinner
+                        :dot-size="12"
+                        :dots-num="3"
+                        color="#7f7f7f"
+                    />
+                </div>
                 <div :class="modelLoaded?'':'hidden'">
                     <Renderer id="car" ref="renderer" antialias
                               :orbit-ctrl="{
@@ -50,18 +27,18 @@ const modelLoaded = ref(false);
                            enableDamping: true,
                            dampingFactor: 0.05
                        }"
-                    width="400px" height="250px">
-                      <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-                      <Scene :background="'#fff'">
-                        <PointLight :position="{x: 10}" :intensity="2"></PointLight>
-                        <PointLight :position="{x: -10}" :intensity="2"></PointLight>
-                        <PointLight :position="{y: 10}" :intensity="2"></PointLight>
-                        <PointLight :position="{y: -10}" :intensity="2"></PointLight>
-                        <PointLight :position="{z: 10}" :intensity="2"></PointLight>
-                        <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-                        <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
-                                   @load="() => modelLoaded = true"/>
-                      </Scene>
+                              width="400px" height="250px">
+                        <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
+                        <Scene :background="'#fff'">
+                            <PointLight :position="{x: 10}" :intensity="2"></PointLight>
+                            <PointLight :position="{x: -10}" :intensity="2"></PointLight>
+                            <PointLight :position="{y: 10}" :intensity="2"></PointLight>
+                            <PointLight :position="{y: -10}" :intensity="2"></PointLight>
+                            <PointLight :position="{z: 10}" :intensity="2"></PointLight>
+                            <PointLight :position="{z: -10}" :intensity="2"></PointLight>
+                            <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
+                                       @load="() => modelLoaded = true"/>
+                        </Scene>
                     </Renderer>
                 </div>
             </div>
@@ -99,29 +76,113 @@ const modelLoaded = ref(false);
         </div>
     </div>
 
-
-    <div class="error" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
-        Erreur, impossible de trouver la voiture
+    <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+        <h2>Erreur</h2>
+        <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
+        <RouterLink :to="`/${userCar.car.idQuery}`">
+            <button>Accueil</button>
+        </RouterLink>
     </div>
 
-    <div class="error" v-else>
-        Erreur innatendue
-    </div>
+    <ErrorConnection v-else></ErrorConnection>
 </template>
+
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useCarStore } from '@/stores/car';
+import { useRouter } from 'vue-router';
+import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
+import api from '@/models/api';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import badgeCourse from '@/assets/img/course.webp';
+import badgeClassement from '@/assets/img/classement.webp';
+import badgeModif from '@/assets/img/modification.webp';
+import badgeVideo from '@/assets/img/video.webp';
+import badgeStage from '@/assets/img/stage.webp';
+import badgeLive from '@/assets/img/live.webp';
+import carModel from '@/assets/other/car.glb';
+import SpinLoading from '@/components/SpinLoading.vue';
+import { HollowDotsSpinner } from 'epic-spinners';
+import ErrorConnection from '@/components/ErrorConnection.vue';
+
+//Initialisation de la voiture en fonction de l'url
+let userCar = useCarStore();
+const { car } = userCar;
+const modelLoaded = ref(false);
+const codeBackApi = ref(0);
+
+//Ecoute la route
+watch(useRouter().currentRoute, async (newUrl) => {
+  //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
+  if (newUrl.params.id === car.idQuery) {
+    codeBackApi.value = api.ReturnCodes.Success;
+  }
+
+  //Initialisation des données
+  let status = userCar.initUserCarQueryId(newUrl.params.id);
+
+  //Récupère le code de réponse de l'api
+  status.then((value) => {
+    codeBackApi.value = value;
+
+    //Si la requête est valide alors on stocke l'id dans le localstorage
+    if(codeBackApi.value == api.ReturnCodes.Success) {
+      localStorage.setItem('userCarId', userCar.car.idCar.toString());
+    }
+  });
+},
+{
+  deep: true,
+  immediate: true
+});
+
+
+</script>
 
 <style scoped lang="scss">
 
-div.error {
-  color: var(--red);
+div.loading-page {
+    height: calc(100vh - var(--height-screen-diff));
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-div.loading, div.error {
+
+#app div.error-no-car {
+  top: calc(50% - 75px);
+  left: calc(50% - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
   text-align: center;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 100px);
-  width: 200px;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 45px;
+  }
+
+  button {
+    border: none;
+    color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--blue);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    margin-top: 25px;
+  }
+
+  button:hover {
+    background-color: var(--white);
+    border: 2px solid var(--blue);
+    color: var(--black);
+    transition: 0.2s ease-in-out;
+  }
 }
 
 div.user-data {
@@ -229,23 +290,24 @@ div.user-data {
       font-weight: bold;
       transition: ease-in-out 0.2s;
     }
-}
+  }
 
-div.hidden {
-  opacity: 0;
-}
+  div.hidden {
+    opacity: 0;
+  }
 
-div.car-3d {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  div.car-3d {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-  span.loading {
-    font-size: 2em;
-    font-weight: bolder;
-    position: absolute;
-
+    div.loading {
+      font-size: 2em;
+      font-weight: bolder;
+      position: absolute;
+      width: fit-content;
 
 
       &.loaded {

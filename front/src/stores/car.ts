@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import type { Ref } from 'vue';
+import { ref } from 'vue';
 import Car from '../models/car';
 import api, { websocket } from '../models/api';
 import Race from '@/models/race';
@@ -9,7 +9,7 @@ export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
   const car: Ref<Car> = ref(new Car());
-  const token : Ref<string> = ref('');
+  const token: Ref<string> = ref('');
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
@@ -18,16 +18,16 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
-    //Remplissage des champs de la voiture
-    car.value.idCar = dataUserCar['id_car'];
-    car.value.pseudo = dataUserCar['pseudo'];
-    car.value.idQuery = dataUserCar['query_id'];
-    car.value.avatar = dataUserCar['avatar'];
-
     /**
      * Si on trouve la voiture alors, on renvoie le code
      */
     if (status.valueOf() === api.ReturnCodes.Success) {
+      car.value.idCar = dataUserCar['id_car'];
+      car.value.pseudo = dataUserCar['pseudo'];
+      car.value.idQuery = dataUserCar['query_id'];
+      car.value.avatar = dataUserCar['avatar'];
+
+      //Stockage de l'id
       localStorage.setItem('userCarId', car.value.idCar.toString());
     }
 
@@ -43,16 +43,17 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
-    //Remplissage des champs de la voiture
-    car.value.idCar = dataUserCar['id_car'];
-    car.value.pseudo = dataUserCar['pseudo'];
-    car.value.idQuery = dataUserCar['query_id'];
-    car.value.avatar = dataUserCar['avatar'];
-
     /**
      * Si on trouve la voiture alors, on renvoie le code
      */
     if (status.valueOf() === api.ReturnCodes.Success) {
+      //Remplissage des champs de la voiture
+      car.value.idCar = dataUserCar['id_car'];
+      car.value.pseudo = dataUserCar['pseudo'];
+      car.value.idQuery = dataUserCar['query_id'];
+      car.value.avatar = dataUserCar['avatar'];
+
+      //Stockage de l'id
       localStorage.setItem('userCarId', car.value.idCar.toString());
     }
 
@@ -65,7 +66,7 @@ export const useCarStore = defineStore('car', () => {
   async function initUserAllRaceCar() {
     const socket = new websocket(car.value.idCar);
 
-    socket.onUserRace(async (races) => {
+    await socket.onUserRace(async (races) => {
       //Récupération du rang de la voiture
       car.value.rank = races.rank;
 
@@ -78,6 +79,7 @@ export const useCarStore = defineStore('car', () => {
     });
 
     return socket;
+
   }
 
   return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
