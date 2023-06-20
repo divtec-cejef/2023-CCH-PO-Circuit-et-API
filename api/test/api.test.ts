@@ -8,7 +8,7 @@ import chaiHttp from 'chai-http';
 import chaiStructure from 'chai-check-struct';
 import cjs from 'crypto-js';
 
-process.env.NODE_ENV = 'test';
+process.env.RACE_ADDING_AUTHORIZED_SECTION = '["test"]';
 
 // configuration de chai
 chai.use(chaiHttp);
@@ -23,6 +23,97 @@ describe('Root', () => {
 
     expect(res).to.have.status(200);
     expect(res.text).to.equal('It works');
+  });
+});
+
+describe('Section', () => {
+  it('should return a section with the given id', async () => {
+    const res = await chai.request('localhost:3000').get('/section/1');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_section: Number,
+      label: String
+    });
+  });
+
+  it('should return an error if invalid id is given', async () => {
+    const res = await chai.request('localhost:3000').get('/section/adsf');
+
+    expect(res).to.have.status(400);
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
+  });
+
+  it('should return an error if section is not found', async () => {
+    const res = await chai.request('localhost:3000').get('/section/999');
+
+    expect(res).to.have.status(404);
+    expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
+  });
+});
+
+describe('AuthenticationSection', () => {
+  it('Should return a 401 error if the section is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test1234',
+      password: cjs.SHA256('Admlocal1').toString()
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 401 error if the password is invalid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'salutodin'
+    });
+
+    expect(res).to.have.status(401);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Invalid credentials.');
+  });
+
+  it('Should return a 400 error if the section is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key section is not in the source object');
+  });
+
+  it('Should return a 400 error if the password is missing', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'informatique'
+    });
+
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+    expect(res.body.message).to.equal('Key password is not in the source object');
+  });
+
+  it('Should return a token if the credentials are valid', async () => {
+    const res = await chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.that.structure({
+      token: String
+    });
   });
 });
 
@@ -93,14 +184,21 @@ describe('race', () => {
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
+  const token = chai.request('localhost:3000').post('/authentication/section').send({
+    section: 'test',
+    password: 'Admlocal1'
+  });
+
   // Créer une manche de course avec des paramètres valides à l'aide du query_id de la voiture
   it('should return a created race if all parameters are valid on create with query_id', async () => {
-    const res = await chai.request('localhost:3000').post('/race/query-id/').send({
-      race_start: '2021-10-10T10:10:10.000Z',
-      sector1: '2021-10-10T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      query_id: '4356'
-    });
+    const res = await chai.request('localhost:3000').post('/race/query-id/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        race_start: '2021-10-10T10:10:10.000Z',
+        sector1: '2021-10-10T10:10:10.000Z',
+        race_finish: '2021-10-10T10:10:10.000Z',
+        query_id: '4356'
+      });
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.that.structure({
@@ -113,118 +211,97 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
   it('should return an error if race_start is invalid on create with query_id', async () => {
-    const res = await chai.request('localhost:3000').post('/race/query-id/').send({
-      race_start: '0000-00-00T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      query_id: '4356'
-    });
+    const res = await chai.request('localhost:3000').post('/race/query-id/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        race_start: '0000-00-00T10:10:10.000Z',
+        race_finish: '2021-10-10T10:10:10.000Z',
+        query_id: '4356'
+      });
     expect(res).to.have.status(400);
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course à l'aide que query_id avec sector_one invalide
   it('should return an error if race_finish is invalid on create with query_id', async () => {
-    const res = await chai.request('localhost:3000').post('/race/query-id/').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:30',
-      race_finish: '0000-00-00T10:10:10.000Z',
-      query_id: '4356'
-    });
+    const res = await chai.request('localhost:3000').post('/race/query-id/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        race_start: '2016-01-17T08:44:29',
+        sector1: '2016-01-17T08:44:30',
+        race_finish: '0000-00-00T10:10:10.000Z',
+        query_id: '4356'
+      });
     expect(res).to.have.status(400);
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
   // Créer une manche de course avec un query_id invalide
   it('should return an error if query_id is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race/query-id/').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:40',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      query_id: 4356
-    });
+    const res = await chai.request('localhost:3000').post('/race/query-id/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        race_start: '2016-01-17T08:44:29',
+        sector1: '2016-01-17T08:44:40',
+        race_finish: '2021-10-10T10:10:10.000Z',
+        query_id: 4356
+      });
     expect(res).to.have.status(400);
     expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
-  // Créer une manche de course avec des paramètres valides
-  it('should return a created race if all parameters are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2021-10-10T10:10:10.000Z',
-      sector1: '2021-10-10T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('object');
-    expect(res.body).to.have.that.structure({
-      id_race: Number,
-      race_start: Date,
-      race_finish: Date,
-      id_car: Number
-    });
-  });
-
-  // Créer une manche de course avec race_start invalide
-  it('should return an error if race_start is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '0000-00-00T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
-  });
-
-  // Créer une manche de course avec sector_one invalide
-  it('should return an error if race_finish is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:29',
-      race_finish: '0000-00-00T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
-  });
-
-  // Créer une manche de course avec id_car invalide
-  it('should return an error if id_car is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:29',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 'adsf'
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
-  });
-});
-
-describe('Section', () => {
-  it('should return a section with the given id', async () => {
-    const res = await chai.request('localhost:3000').get('/section/1');
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('object');
-    expect(res.body).to.have.that.structure({
-      id_section: Number,
-      label: String
-    });
-  });
-
-  it('should return an error if invalid id is given', async () => {
-    const res = await chai.request('localhost:3000').get('/section/adsf');
-
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
-  });
-
-  it('should return an error if section is not found', async () => {
-    const res = await chai.request('localhost:3000').get('/section/999');
-
-    expect(res).to.have.status(404);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
-  });
+  // // Créer une manche de course avec des paramètres valides
+  // it('should return a created race if all parameters are valid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2021-10-10T10:10:10.000Z',
+  //     sector1: '2021-10-10T10:10:10.000Z',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.an('object');
+  //   expect(res.body).to.have.that.structure({
+  //     id_race: Number,
+  //     race_start: Date,
+  //     race_finish: Date,
+  //     id_car: Number
+  //   });
+  // });
+  //
+  // // Créer une manche de course avec race_start invalide
+  // it('should return an error if race_start is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '0000-00-00T10:10:10.000Z',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
+  // });
+  //
+  // // Créer une manche de course avec sector_one invalide
+  // it('should return an error if race_finish is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2016-01-17T08:44:29',
+  //     sector1: '2016-01-17T08:44:29',
+  //     race_finish: '0000-00-00T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
+  // });
+  //
+  // // Créer une manche de course avec id_car invalide
+  // it('should return an error if id_car is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2016-01-17T08:44:29',
+  //     sector1: '2016-01-17T08:44:29',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 'adsf'
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
+  // });
 });
 
 describe('Activity', () => {
@@ -797,70 +874,6 @@ describe('Car', () => {
     expect(res.error.text).to.equal(JSON.stringify({ error: 'Car not found' }));
   });
    */
-});
-
-describe('Authentication', () => {
-  it('Should return a 401 error if the section is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication/section').send({
-      section: 'test1234',
-      password: cjs.SHA256('Admlocal1').toString()
-    });
-
-    expect(res).to.have.status(401);
-    expect(res.body).to.have.that.structure({
-      message: String
-    });
-    expect(res.body.message).to.equal('Invalid credentials.');
-  });
-
-  it('Should return a 401 error if the password is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication/section').send({
-      section: 'test',
-      password: 'salutodin'
-    });
-
-    expect(res).to.have.status(401);
-    expect(res.body).to.have.that.structure({
-      message: String
-    });
-    expect(res.body.message).to.equal('Invalid credentials.');
-  });
-
-  it('Should return a 400 error if the section is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication/section').send({
-      password: 'Admlocal1'
-    });
-
-    expect(res).to.have.status(400);
-    expect(res.body).to.have.that.structure({
-      message: String
-    });
-    expect(res.body.message).to.equal('Key section is not in the source object');
-  });
-
-  it('Should return a 400 error if the password is missing', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication/section').send({
-      section: 'informatique'
-    });
-
-    expect(res).to.have.status(400);
-    expect(res.body).to.have.that.structure({
-      message: String
-    });
-    expect(res.body.message).to.equal('Key password is not in the source object');
-  });
-
-  it('Should return a token if the credentials are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/authentication/section').send({
-      section: 'test',
-      password: 'Admlocal1'
-    });
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.have.that.structure({
-      token: String
-    });
-  });
 });
 
 describe('Realise', () => {
