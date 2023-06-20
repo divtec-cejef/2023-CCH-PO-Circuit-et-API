@@ -14,7 +14,7 @@
                 <RouterLink to="/classement">Classement</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/historique">Historique</RouterLink>
+                <RouterLink to="/historique">Bonus</RouterLink>
             </li>
             <li @click="clickMenu" v-if="isAdmin && !isNaN(adminPost.idSection)">
                 <RouterLink to="/admin">Admin</RouterLink>
