@@ -8,6 +8,8 @@ import {
 import { checkStructureOrThrow } from 'check-structure';
 import { getCarByQueryId } from '../../../services/car';
 import type { Server } from 'socket.io';
+import validateSection from '../../../services/section/validate-token';
+import { getSectionById } from '../../../services/section';
 
 declare type datable = Date | string
 
@@ -26,6 +28,37 @@ declare type raceRequest = {
  */
 export const route: routeHandler<null, unknown, raceRequest> = async (req, res) => {
   const race = req.body;
+
+  // vérification de l'authentification
+  const { authorization } = req.headers;
+  const sectId = await validateSection(res, authorization);
+  if (!sectId) {
+    return;
+  }
+
+  const sectionName = (await getSectionById(sectId))?.label;
+
+  if (!sectionName) {
+    res.status(404).json({ message: 'Section not found' });
+    return;
+  }
+
+  let authorized = false;
+  // récupérer les section authorisées à ajouter des courses
+  const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '');
+  console.log(sections);
+  for (const section of sections) {
+    console.log(sectionName, section);
+    if (section.toLowerCase() === sectionName.toLowerCase()) {
+      authorized = true;
+      break;
+    }
+  }
+
+  if (!authorized) {
+    res.status(403).json({ message: 'Section not allowed to perform this action' });
+    return;
+  }
 
   // Vérification de la structure de la requête
   try {
