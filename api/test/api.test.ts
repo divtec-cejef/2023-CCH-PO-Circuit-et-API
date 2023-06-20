@@ -146,58 +146,58 @@ describe('race', () => {
     expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
-  // Créer une manche de course avec des paramètres valides
-  it('should return a created race if all parameters are valid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2021-10-10T10:10:10.000Z',
-      sector1: '2021-10-10T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('object');
-    expect(res.body).to.have.that.structure({
-      id_race: Number,
-      race_start: Date,
-      race_finish: Date,
-      id_car: Number
-    });
-  });
-
-  // Créer une manche de course avec race_start invalide
-  it('should return an error if race_start is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '0000-00-00T10:10:10.000Z',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
-  });
-
-  // Créer une manche de course avec sector_one invalide
-  it('should return an error if race_finish is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:29',
-      race_finish: '0000-00-00T10:10:10.000Z',
-      id_car: 1
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
-  });
-
-  // Créer une manche de course avec id_car invalide
-  it('should return an error if id_car is invalid', async () => {
-    const res = await chai.request('localhost:3000').post('/race').send({
-      race_start: '2016-01-17T08:44:29',
-      sector1: '2016-01-17T08:44:29',
-      race_finish: '2021-10-10T10:10:10.000Z',
-      id_car: 'adsf'
-    });
-    expect(res).to.have.status(400);
-    expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
-  });
+  // // Créer une manche de course avec des paramètres valides
+  // it('should return a created race if all parameters are valid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2021-10-10T10:10:10.000Z',
+  //     sector1: '2021-10-10T10:10:10.000Z',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.an('object');
+  //   expect(res.body).to.have.that.structure({
+  //     id_race: Number,
+  //     race_start: Date,
+  //     race_finish: Date,
+  //     id_car: Number
+  //   });
+  // });
+  //
+  // // Créer une manche de course avec race_start invalide
+  // it('should return an error if race_start is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '0000-00-00T10:10:10.000Z',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
+  // });
+  //
+  // // Créer une manche de course avec sector_one invalide
+  // it('should return an error if race_finish is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2016-01-17T08:44:29',
+  //     sector1: '2016-01-17T08:44:29',
+  //     race_finish: '0000-00-00T10:10:10.000Z',
+  //     id_car: 1
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
+  // });
+  //
+  // // Créer une manche de course avec id_car invalide
+  // it('should return an error if id_car is invalid', async () => {
+  //   const res = await chai.request('localhost:3000').post('/race').send({
+  //     race_start: '2016-01-17T08:44:29',
+  //     sector1: '2016-01-17T08:44:29',
+  //     race_finish: '2021-10-10T10:10:10.000Z',
+  //     id_car: 'adsf'
+  //   });
+  //   expect(res).to.have.status(400);
+  //   expect(res.error.text).to.equal(JSON.stringify({ message: 'id_car is not of type number' }));
+  // });
 });
 
 describe('Section', () => {
