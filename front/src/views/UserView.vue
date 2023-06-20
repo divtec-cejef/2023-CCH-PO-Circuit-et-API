@@ -64,10 +64,11 @@
                     <p>Modifier</p>
                 </RouterLink>
 
-                <RouterLink to="/">
+                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
+                target="_blank">
                     <img :src=badgeStage alt="Badge inscription stage">
                     <p>Stage</p>
-                </RouterLink>
+                </a>
                 <RouterLink to="/">
                     <img :src=badgeLive alt="Badge live">
                     <p>Live</p>
