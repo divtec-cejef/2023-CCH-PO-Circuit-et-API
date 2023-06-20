@@ -1,31 +1,31 @@
 <template>
 
-    <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="`/${car.idQuery}`">
-            <img :src=logoImg alt="Logo tuture divtec">
-        </RouterLink>
+  <header :class="classMenuHeader">
+    <RouterLink v-if="menuIsClicked" :to="`/${car.idQuery}`">
+      <img :src=logoImg alt="Logo tuture divtec">
+    </RouterLink>
 
-        <HeaderApp v-else @clickMenu="menuIsClicked = $event"></HeaderApp>
+    <HeaderApp v-else @clickMenu="menuIsClicked = $event"></HeaderApp>
 
-        <div :class="'btn ' + classMenuIcon" @click="clickMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </header>
+    <div :class="'btn ' + classMenuIcon" @click="clickMenu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
 
-    <header class="large">
-        <RouterLink :to="`/${car.idQuery}`">
-            <img :src=logoImg alt="Logo tuture divtec">
-        </RouterLink>
-        <HeaderApp></HeaderApp>
-    </header>
+  <header class="large">
+    <RouterLink :to="`/${car.idQuery}`">
+      <img :src=logoImg alt="Logo tuture divtec">
+    </RouterLink>
+    <HeaderApp></HeaderApp>
+  </header>
 
-    <main :class="classMenuClicked">
-        <RouterView v-if="hasFinishedLoading"/>
-    </main>
+  <main :class="classMenuClicked">
+    <RouterView v-if="hasFinishedLoading"/>
+  </main>
 
-    <FooterApp id="footer" :class="classMenuClicked"/>
+  <FooterApp id="footer" :class="classMenuClicked"/>
 
 
 </template>
@@ -139,10 +139,21 @@ footer#footer.display {
   display: block;
 }
 
+main {
+  padding-top: 120px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
+  align-items: center;
+  height: 100px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  z-index: 100;
 
   img {
     height: 55px;
@@ -162,9 +173,9 @@ header {
   &.open.thin {
     height: calc(100vh + 20px);
 
-      .btn {
-          margin-top: 8px;
-      }
+    .btn {
+      margin-top: 8px;
+    }
   }
 }
 
