@@ -1,17 +1,48 @@
 <template>
-  <div class="intro">
-    <h1>Bienvenue !</h1>
-    <p>Tu n'as pas encore scanné de voiture...</p>
-    <p>C'est par ici !</p>
-  </div>
+  <div class="hero even-sep">
+    <div>
+      <div class="intro">
+        <h1>Bienvenue !</h1>
+        <p>Tu n'as pas encore scanné de voiture...</p>
+        <p>C'est par ici !</p>
+      </div>
 
-  <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+      <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+    </div>
 
-  <div class="stats">
-    <p>Nombre de courses effectuées: </p><span class="data">{{ racesRan }}</span>
-    <p>Nombre d'activités réalisées: </p><span class="data">{{ activitiesRealisations }}</span>
-    <p>Meilleur temps de course: </p><span class="data">{{ fastestRace }}</span>
-    <p>Activité préférée des utilisateurs: </p><span class="data">{{ preferredActivity }}</span>
+    <div class="stats">
+      <div>
+        <p>Nombre de courses effectuées:</p>
+        <div>
+          <img :src="raceIcon" alt="Icône de course">
+          <span class="data">{{ racesRan }}</span>
+        </div>
+      </div>
+
+      <div>
+        <p>Nombre d'activités réalisées:</p>
+        <div>
+          <img :src="activityIcon" alt="Icône d'activités">
+          <span class="data">{{ activitiesRealisations }}</span>
+        </div>
+      </div>
+
+      <div>
+        <p>Meilleur temps de course:</p>
+        <div>
+          <img :src="timeIcon" alt="Icône de temps">
+          <span class="data">{{ fastestRace }}</span>
+        </div>
+      </div>
+
+      <div>
+        <p>Activité préférée des utilisateurs:</p>
+        <div>
+          <img :src="popularityIcon" alt="Icône de popularité">
+          <span class="data">{{ preferredActivity }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +53,10 @@ import router from '@/router';
 import { onBeforeUnmount, ref } from 'vue';
 import { websocket } from '@/models/api';
 import { formatTime } from '@/models/race';
+import activityIcon from '@/assets/img/activity.png';
+import popularityIcon from '@/assets/img/popularity.png';
+import raceIcon from '@/assets/img/race-flag.webp';
+import timeIcon from '@/assets/img/clock.webp';
 
 const socketio = new websocket();
 
@@ -52,6 +87,23 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
+div.hero {
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+
+  &:only-child{
+    height: 100%;
+  }
+
+  &.even-sep {
+    > div {
+      width: 45%;
+      height: fit-content;
+    }
+  }
+}
+
 h1 {
   text-align: center;
 }
@@ -59,18 +111,43 @@ h1 {
 div.stats {
   margin: auto;
   width: fit-content;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 5px;
-  grid-auto-rows: 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 
-  :nth-child(odd) {
-    text-align: right;
-  }
+  div {
+    margin: .5em;
+    margin-bottom: 1em;
+    text-align: center;
+    width: 100%;
 
-  .data {
-    font-weight: bold;
+    &:nth-child(3) {
+      font-family: "Digital-7 Mono", "Fira Code", "ui-monospace", monospace;
+    }
+
+    p {
+      margin-bottom: .5em;
+    }
+
+    div {
+      display: grid;
+      grid-template-columns: 40px auto;
+      width: 100%;
+      align-items: center;
+
+      img {
+        height: auto;
+        width: 40px;
+        padding-left: .5em
+      }
+
+      .data {
+        font-weight: 500;
+        padding: .5em;
+        font-size: 64px;
+        justify-self: center;
+      }
+    }
   }
 }
 
