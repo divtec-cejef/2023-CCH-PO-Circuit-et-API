@@ -5,7 +5,7 @@
 
 * {
   box-sizing: border-box;
-  --height-screen-diff: 165px;
+  --height-screen-diff: 65px;
   --black: #161715;
   --white: #FFFFFF;
   --gray: #7f7f7f;
@@ -17,62 +17,66 @@
   --green: #27a53f;
 }
 
-#app {
-  margin: 0;
-  background-color: var(--white);
-  font-family: 'Poppins', sans-serif;
-}
+body {
+  overflow: auto scroll;
 
-main {
-  padding: 35px;
-  width: 100%;
-  min-height: calc(100vh - var(--height-screen-diff) + 20px);
-  max-width: 1000px;
-  margin: auto;
-}
+  #app {
+    margin: 0;
+    background-color: var(--white);
+    font-family: 'Poppins', sans-serif;
+  }
 
-h1, h2, h3 {
-  font-family: 'SF Pro Display', sans-serif;
-  font-weight: bold;
-  font-style: normal;
-  text-align: left;
-}
+  main {
+    padding: 120px 35px 35px;
+    width: 100%;
+    min-height: calc(100vh - var(--height-screen-diff));
+    max-width: 1000px;
+    margin: auto;
+  }
 
-h1 {
-  margin: 10px 0;
-  font-size: 42px;
-}
+  h1, h2, h3 {
+    font-family: 'SF Pro Display', sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    text-align: left;
+  }
 
-h2 {
-  font-size: 32px;
-  margin: 10px 0 12px 0;
-}
+  h1 {
+    margin: 10px 0;
+    font-size: 42px;
+  }
 
-p, a {
-  font-size: 18px;
-  margin: 0;
-}
+  h2 {
+    font-size: 32px;
+    margin: 10px 0 12px 0;
+  }
 
-img {
-  max-width: 100%;
-  width: auto;
-  height: auto;
-}
+  p, a {
+    font-size: 18px;
+    margin: 0;
+  }
 
-a {
-  text-decoration: none;
-  color: black;
-}
+  img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+  }
 
-#app {
-  margin: 0 auto;
-  font-weight: normal;
-}
+  a {
+    text-decoration: none;
+    color: black;
+  }
 
-.fullscreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  #app {
+    margin: 0 auto;
+    font-weight: normal;
+  }
+
+  .fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }

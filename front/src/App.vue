@@ -139,10 +139,6 @@ footer#footer.display {
   display: block;
 }
 
-main {
-  padding-top: 120px;
-}
-
 header {
   display: flex;
   justify-content: space-between;
