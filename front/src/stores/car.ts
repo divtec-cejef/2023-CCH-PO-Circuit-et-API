@@ -3,8 +3,8 @@ import type { Ref } from 'vue';
 import { ref } from 'vue';
 import Car from '../models/car';
 import api, { WebsocketConnection } from '../models/api';
+import type { models } from '@/models/api';
 import Race from '@/models/race';
-import type { models } from '@/models/interface';
 
 export const useCarStore = defineStore('car', () => {
 
