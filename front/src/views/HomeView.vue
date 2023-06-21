@@ -12,35 +12,23 @@
 
     <div class="stats">
       <div>
-        <p>Nombre de courses effectuées:</p>
-        <div>
-          <img :src="raceIcon" alt="Icône de course">
-          <span class="data">{{ racesRan }}</span>
-        </div>
+        <p class="data">{{ racesRan }}</p>
+        <p class="label">courses effectuées</p>
       </div>
 
       <div>
-        <p>Nombre d'activités réalisées:</p>
-        <div>
-          <img :src="activityIcon" alt="Icône d'activités">
-          <span class="data">{{ activitiesRealisations }}</span>
-        </div>
+        <p class="data">{{ activitiesRealisations }}</p>
+        <p class="label">activités réalisées</p>
       </div>
 
       <div>
-        <p>Meilleur temps de course:</p>
-        <div>
-          <img :src="timeIcon" alt="Icône de temps">
-          <span class="data">{{ fastestRace }}</span>
-        </div>
+        <p class="data">{{ fastestRace }}</p>
+        <p class="label">de temps de meilleure course</p>
       </div>
 
       <div>
-        <p>Activité préférée des utilisateurs:</p>
-        <div>
-          <img :src="popularityIcon" alt="Icône de popularité">
-          <span class="data">{{ preferredActivity }}</span>
-        </div>
+        <p class="data">{{ preferredActivity }}</p>
+        <p class="label">est l'activité préférée des utilisateurs</p>
       </div>
     </div>
   </div>
@@ -89,10 +77,10 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 div.hero {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: center;
 
-  &:only-child{
+  &:only-child {
     height: 100%;
   }
 
@@ -115,38 +103,36 @@ div.stats {
   flex-direction: column;
   align-items: center;
 
-  div {
+  > div {
     margin: .5em;
-    margin-bottom: 1em;
+    margin-bottom: -.5em;
+    padding-bottom: 2em;
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid lightgray;
+    }
 
     &:nth-child(3) {
-      font-family: "Digital-7 Mono", "Fira Code", "ui-monospace", monospace;
-    }
-
-    p {
-      margin-bottom: .5em;
-    }
-
-    div {
-      display: grid;
-      grid-template-columns: 40px auto;
-      width: 100%;
-      align-items: center;
-
-      img {
-        height: auto;
-        width: 40px;
-        padding-left: .5em
-      }
-
       .data {
-        font-weight: 500;
-        padding: .5em;
-        font-size: 64px;
-        justify-self: center;
+        font-family: "Digital-7 Mono", "Fira Code", "ui-monospace", monospace;
       }
+    }
+
+    .label {
+      color: gray;
+    }
+
+    .data {
+      font-weight: 500;
+      padding: .5em;
+      padding-bottom: 0;
+      font-size: 64px;
+      justify-self: center;
     }
   }
 }
