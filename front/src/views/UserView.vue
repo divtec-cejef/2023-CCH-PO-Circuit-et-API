@@ -14,9 +14,9 @@
             <div class="car-3d">
                 <div :class="`loading${modelLoaded?' loaded':''}`">
                     <hollow-dots-spinner
-                        :dot-size="12"
-                        :dots-num="3"
-                        color="#7f7f7f"
+                            :dot-size="12"
+                            :dots-num="3"
+                            color="#7f7f7f"
                     />
                 </div>
                 <div :class="modelLoaded?'':'hidden'">
@@ -27,7 +27,7 @@
                            enableDamping: true,
                            dampingFactor: 0.05
                        }"
-                              width="400px" height="250px">
+                              width="400px" height="300px">
                         <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
                         <Scene :background="'#fff'">
                             <PointLight :position="{x: 10}" :intensity="2"></PointLight>
@@ -43,15 +43,36 @@
                 </div>
             </div>
 
+            <h2>Instructions</h2>
+            <ul class="list-instruction">
+                <li>
+                    <NumberTime color="var(--blue)" number="1"></NumberTime>
+                    <p>Balade toi dans les différentes sections du bâtiment et
+                        réalise des activités pour obtenir des bonus !</p>
+                </li>
+                <li>
+                    <NumberTime color="var(--blue)" number="2"></NumberTime>
+                    <p>Modifie tes données de pilotes.</p>
+                </li>
+                <li>
+                    <NumberTime color="var(--blue)" number="3"></NumberTime>
+                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                        plus tu iras vite !</p>
+                </li>
+                <li>
+                    <NumberTime color="var(--blue)" number="4"></NumberTime>
+                    <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                </li>
+
+            </ul>
+
             <h2>Tableau de bord</h2>
-            <p class="intro-badge">Clique sur n'importe quel de ces badges, ils te serviront tout au long de ta visite
-                !</p>
             <div class="badges">
                 <RouterLink to="/course">
                     <img :src=badgeCourse alt="Badge course">
                     <p>Course</p>
                 </RouterLink>
-                <RouterLink to="/course">
+                <RouterLink to="/classement">
                     <img :src=badgeClassement alt="Badge classement">
                     <p>Classement</p>
                 </RouterLink>
@@ -64,10 +85,11 @@
                     <p>Modifier</p>
                 </RouterLink>
 
-                <RouterLink to="/">
+                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
+                   target="_blank">
                     <img :src=badgeStage alt="Badge inscription stage">
                     <p>Stage</p>
-                </RouterLink>
+                </a>
                 <RouterLink to="/">
                     <img :src=badgeLive alt="Badge live">
                     <p>Live</p>
@@ -105,6 +127,7 @@ import carModel from '@/assets/other/car.glb';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { HollowDotsSpinner } from 'epic-spinners';
 import ErrorConnection from '@/components/ErrorConnection.vue';
+import NumberTime from '@/components/NumberTime.vue';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -127,7 +150,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
     codeBackApi.value = value;
 
     //Si la requête est valide alors on stocke l'id dans le localstorage
-    if(codeBackApi.value == api.ReturnCodes.Success) {
+    if (codeBackApi.value == api.ReturnCodes.Success) {
       localStorage.setItem('userCarId', userCar.car.idCar.toString());
     }
   });
@@ -143,10 +166,10 @@ watch(useRouter().currentRoute, async (newUrl) => {
 <style scoped lang="scss">
 
 div.loading-page {
-    height: calc(100vh - var(--height-screen-diff));
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: calc(100vh - var(--height-screen-diff));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -188,6 +211,7 @@ div.loading-page {
 div.user-data {
   display: flex;
   flex-direction: column;
+  justify-content: start;
   align-items: center;
 
   div.avatar-txt {
@@ -195,16 +219,39 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
-
-
+    margin-top: 20px;
     p:nth-child(2) {
       font-size: 18px;
     }
 
     div.avatar {
-      width: 190px;
-      height: 190px;
+      width: 200px;
+      height: 200px;
       margin-bottom: 10px;
+    }
+  }
+
+  ul.list-instruction {
+    max-width: 470px;
+    padding-left: 17px;
+    margin: 10px 0;
+    list-style: none;
+
+    p {
+      text-align: left;
+    }
+
+    li:first-child {
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      margin-top: 10px;
+
+        p {
+            margin-left: 10px;
+        }
     }
   }
 
@@ -214,7 +261,7 @@ div.user-data {
   }
 
   canvas#car {
-    margin-top: 45px;
+    margin-top: 60px;
     max-width: 300px;
   }
 
@@ -302,6 +349,7 @@ div.user-data {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 
     div.loading {
       font-size: 2em;

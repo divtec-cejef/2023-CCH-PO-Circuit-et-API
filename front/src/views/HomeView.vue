@@ -31,7 +31,7 @@ const preferredActivity = ref<string>();
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
-if (userCar.car.idQuery != undefined && userCar.car.idQuery != '') {
+if (localStorage.getItem('userCarId')) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
