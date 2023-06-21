@@ -11,10 +11,10 @@
                 <RouterLink to="/course">Mes Courses</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/classement">Classement</RouterLink>
+                <RouterLink to="/historique">Bonus</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/historique">Bonus</RouterLink>
+                <RouterLink to="/classement">Classement</RouterLink>
             </li>
             <li @click="clickMenu" v-if="isAdmin && !isNaN(adminPost.idSection)">
                 <RouterLink to="/admin">Admin</RouterLink>
@@ -103,6 +103,8 @@ nav ul {
         color: var(--gray);
         transition: ease-in-out 0.15s;
       }
+
+
     }
   }
 }
