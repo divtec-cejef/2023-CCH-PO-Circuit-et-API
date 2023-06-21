@@ -1,22 +1,20 @@
 <template>
-    <footer>
-        <p>EMT, Portes ouvertes 2023</p>
-        <div class="stage">Inscris toi à un stage <a
+      <p>EMT, Portes ouvertes 2023</p>
+      <div class="stage">Inscris toi à un stage <a
                 href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu">
             ici</a> !
         </div>
-        <div>
-            <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-                <img :src=instaImg
-                     alt="Logo instagram"></a>
-            <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-                <img :src=facebookImg
-                     alt="Logo faceboook"></a>
+      <div>
+          <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
+              <img :src=instaImg
+                   alt="Logo instagram"></a>
+          <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
+              <img :src=facebookImg
+                   alt="Logo faceboook"></a>
             <RouterLink to="apropos">
                 A Propos
             </RouterLink>
-        </div>
-    </footer>
+      </div>
 </template>
 
 <script setup lang="ts">
