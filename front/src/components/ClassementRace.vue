@@ -13,20 +13,24 @@
 
 <script setup lang="ts">
 import ClassementElement from '@/components/ClassementElement.vue';
-import { websocket } from '@/models/api';
+import { WebsocketConnection } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
 import type { models } from '@/models/interface';
 import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
 const listRace = ref<models.race[]>();
-const socket = new websocket();
 
-socket.onRankingRecieved((data) => {
+// Se connecte au websocket
+const socket = new WebsocketConnection();
+
+// Met à jour les données à la réception d'évènement
+socket.onRankingReceived((data) => {
   listRace.value = data.races;
   hasLoaded.value = true;
 });
 
+// Déconnecte le websocket à la fermeture de la page
 onUnmounted(() => {
   console.log('cleanup');
   socket.destroy();
