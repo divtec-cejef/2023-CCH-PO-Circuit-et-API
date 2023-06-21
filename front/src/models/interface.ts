@@ -1,7 +1,7 @@
-import type { Avatar as HaAvatar } from 'holiday-avatar';
+import type { Configs as HaAvatar } from 'holiday-avatar';
 
 export namespace models {
-  export type Avatar = typeof HaAvatar;
+  export type Avatar = HaAvatar;
 
   /**
    * Représente les courses d'un utilisateur
