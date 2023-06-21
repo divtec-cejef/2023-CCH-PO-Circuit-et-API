@@ -2,8 +2,9 @@ import { defineStore } from 'pinia';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import Car from '../models/car';
-import api, { websocket } from '../models/api';
+import api, { WebsocketConnection } from '../models/api';
 import Race from '@/models/race';
+import type { models } from '@/models/interface';
 
 export const useCarStore = defineStore('car', () => {
 
@@ -64,7 +65,7 @@ export const useCarStore = defineStore('car', () => {
    * Initialisation des courses de l'utilisateur dans le store
    */
   async function initUserAllRaceCar() {
-    const socket = new websocket(car.value.idCar);
+    const socket = new WebsocketConnection(car.value.idCar);
 
     await socket.onUserRace(async (races) => {
       //Récupération du rang de la voiture
@@ -73,7 +74,7 @@ export const useCarStore = defineStore('car', () => {
       //Vide la liste de course
       car.value.listRace = [];
 
-      car.value.listRace = races.races.map((race) =>
+      car.value.listRace = races.races.map((race: models.racesData['races'][0]) =>
         new Race(race.id_race, new Date(race.race_start), new Date(race.total_time), new Date(race.sector1))
       );
     });
@@ -84,4 +85,3 @@ export const useCarStore = defineStore('car', () => {
 
   return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
 });
-

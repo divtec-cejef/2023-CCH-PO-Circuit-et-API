@@ -20,10 +20,10 @@ import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import router from '@/router';
 import { onBeforeUnmount, ref } from 'vue';
-import { websocket } from '@/models/api';
+import { WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
 
-const socketio = new websocket();
+const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
 const fastestRace = ref<string>();
@@ -35,7 +35,7 @@ if (localStorage.getItem('userCarId')) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
-socketio.onRankingRecieved(data => {
+socketio.onRankingReceived(data => {
   racesRan.value = data.count;
   const fastestTime = data.fastest.total_time;
   fastestRace.value = formatTime(new Date(fastestTime));
