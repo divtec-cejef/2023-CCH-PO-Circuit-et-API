@@ -15,14 +15,14 @@ import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { ref } from 'vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import type { Avatar } from 'holiday-avatar';
+import type { Configs } from 'holiday-avatar';
 
 
 const props = defineProps<{
   rank: number;
   pseudo: string;
   time: Date;
-  avatar: typeof Avatar;
+  avatar: Configs;
 }>();
 
 const userCar = useCarStore();
