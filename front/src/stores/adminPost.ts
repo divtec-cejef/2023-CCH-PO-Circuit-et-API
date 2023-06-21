@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import type { models } from '@/models/interface';
+import type { models } from '@/models/api';
 import api from '@/models/api';
 
 export const useAdminPostStore = defineStore('adminPost', () => {

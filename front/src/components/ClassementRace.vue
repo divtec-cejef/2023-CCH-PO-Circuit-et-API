@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import ClassementElement from '@/components/ClassementElement.vue';
 import { WebsocketConnection } from '@/models/api';
+import type { models } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
-import type { models } from '@/models/interface';
 import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
