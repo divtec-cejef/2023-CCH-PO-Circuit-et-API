@@ -26,15 +26,17 @@
         <SpinLoading class="load-element" v-else></SpinLoading>
     </main>
 
+  <footer>
     <FooterApp id="footer" :class="classMenuClicked"/>
+  </footer>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-import HeaderApp from '@/components/HeaderApp.vue';
-import FooterApp from '@/components/FooterApp.vue';
+import HeaderApp from '@/components/TheHeader.vue';
+import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 

@@ -129,7 +129,7 @@ export namespace restful {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${token.toString()}`
+        'Authorization': `Bearer ${token.toString()}`
       },
 
       body: JSON.stringify({
@@ -175,8 +175,17 @@ export namespace restful {
     return await response.json();
   }
 
+  declare type Car = {
+    idCar: number,
+    pseudo: string,
+    avatar: models.Avatar
+  }
 
-  export async function updateCar(userCar: any) {
+  /**
+   * Lance une requête PATCH pour modifier une voiture
+   * @param userCar la voiture de l'utilisateur, contenant le token
+   */
+  export async function updateCar(userCar: { token: string, car: Car }) {
 
     const requestOptions = {
       method: 'PATCH',
@@ -195,6 +204,7 @@ export namespace restful {
       })
     };
 
+    // Envoie la requête
     const response = await fetch(`${routeApi}car`, requestOptions);
 
     if (!(response.status === api.ReturnCodes.Success)) {
@@ -205,36 +215,74 @@ export namespace restful {
   }
 }
 
-export class websocket {
+/**
+ * Classe représentant une connexion au webSocket
+ */
+export class WebsocketConnection {
   socket: Socket;
   carId?: number;
 
+  /**
+   * Initialise une connection. Il est possible de s'identifier en passant un identifiant de voiture, ou de rester
+   * anonyme en laissant le paramètre vide.
+   * @param carId L'id de la voiture. La connection n'acceptera pas de UpdatedUserRaces si ce paramètre est vide.
+   */
   constructor(carId?: number) {
-    this.socket = io(`${(new URL(routeApi)).protocol}//${(new URL(routeApi)).host}`, carId ? {
-      query: {
-        carId,
-      },
-    } : undefined);
+    // Définis les paramètres du socket, si on doit passer la voiture ou pas
+    const parameters =
+      carId === undefined
+        ? {
+          query: {
+            carId,
+          },
+        }
+        : undefined;
+
+    // Se connecte au websocket
+    this.socket = io(`${(new URL(routeApi)).protocol}//${(new URL(routeApi)).host}`, parameters);
     this.carId = carId;
   }
 
+  /**
+   * Déconnecte le socket.
+   */
   destroy() {
     this.socket.disconnect();
   }
 
-  onRankingRecieved(callback: (data: models.rankingData) => void) {
+  /**
+   * Évènement exécuté à la mise à jour du classement
+   * @param callback Code à exécuter à la réception de l'évènement
+   * @event updatedRaces
+   */
+  onRankingReceived(callback: (data: models.rankingData) => void) {
     this.socket.on('updatedRaces', callback);
     return this;
   }
 
+  /**
+   * Évènement exécuté à la mise à jour des courses d'un utilisateur
+   * <p style="color: red; font-weight: bold;">
+   *   Il est nécessaire d'initialiser le websocket avec un carId pour utiliser cette fonction!
+   *   </p>
+   * @param callback Code à exécuter à la réception de l'évènement
+   * @event updatedUserRaces
+   */
   onUserRace(callback: (data: models.racesData) => void) {
+    // Interdit l'utilisation de l'évènement si la connexion est anonyme
     if (this.carId === undefined)
       throw new Error('carId is undefined');
+
     this.socket.on('updatedUserRaces', callback);
     return this;
   }
 
-  onActivityRealisation(callback: (data: models.realisationData ) => void) {
+  /**
+   * Évènement exécuté à la réalisation d'activités
+   * @param callback Code à exécuter à la réception de l'évènement
+   * @event updatedActivities
+   */
+  onActivityRealisation(callback: (data: models.realisationData) => void) {
     this.socket.on('updatedActivities', callback);
     return this;
   }
