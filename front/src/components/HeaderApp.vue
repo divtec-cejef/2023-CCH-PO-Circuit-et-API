@@ -5,7 +5,7 @@
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
             <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
-                <RouterLink to="/modifier">Pilote</RouterLink>
+                <RouterLink to="/pilote">Pilote</RouterLink>
             </li>
             <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
                 <RouterLink to="/course">Mes Courses</RouterLink>
