@@ -1,6 +1,11 @@
-import type { Avatar } from 'holiday-avatar';
+import type { Avatar as HaAvatar } from 'holiday-avatar';
 
 export namespace models {
+  export type Avatar = typeof HaAvatar;
+
+  /**
+   * Représente les courses d'un utilisateur
+   */
   export interface racesData {
     races: [
       {
@@ -15,40 +20,50 @@ export namespace models {
     rank: number
   }
 
+  /**
+   * Représente une course unique du classement
+   */
   export type race = {
     id_race: number,
     car: {
       id_car: number,
       pseudo: string,
-      avatar: typeof Avatar,
+      avatar: Avatar,
     },
     total_time: Date | string
   }
 
+  /**
+   * Représente le classement des courses
+   */
   export type rankingData = {
     races: race[],
     count: number,
     fastest: race
   };
 
+  /**
+   * Représente une activité
+   */
   export interface activity {
     idActivity : number,
     label : string
     idSection : number
   }
 
-  export interface propValues {
-    propValueEn: string;
-    propValueFr: string;
-  }
-
+  /**
+   *
+   */
   export type radioProperty = {
     propNameFr: string;
     propNameEn: string;
     propType: string;
     propGroups: string;
     propNameSnakeCase: string;
-    propValues: propValues[];
+    propValues: {
+      propValueEn: string;
+      propValueFr: string;
+    }[];
     selectedValueEn?: string;
   }
 
@@ -56,4 +71,5 @@ export namespace models {
     count: number,
     mostPopular: activity & {count: number}
   }
+
 }
