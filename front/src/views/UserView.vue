@@ -47,7 +47,8 @@
             <ul class="list-instruction">
                 <li>
                     <NumberTime color="var(--blue)" number="1"></NumberTime>
-                    <p>Balade toi dans les différentes sections du bâtiment et réalise des activités !</p>
+                    <p>Balade toi dans les différentes sections du bâtiment et
+                        réalise des activités pour obtenir des bonus !</p>
                 </li>
                 <li>
                     <NumberTime color="var(--blue)" number="2"></NumberTime>
@@ -55,9 +56,8 @@
                 </li>
                 <li>
                     <NumberTime color="var(--blue)" number="3"></NumberTime>
-                    <p>Participe à la course de la DIVTEC. Plus tu aurais récupérer de bonus en faisant des activités,
-                        plus
-                        tu iras vite !</p>
+                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                        plus tu iras vite !</p>
                 </li>
                 <li>
                     <NumberTime color="var(--blue)" number="4"></NumberTime>
