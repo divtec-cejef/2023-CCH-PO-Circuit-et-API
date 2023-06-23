@@ -6,24 +6,19 @@ services:
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - ENV=DOCKER
-    ports:
-      - 5432:5432
     networks:
-      - db-network
+      - intranet
   api:
     image: node:16.19.1
     volumes:
       - ../api:/app
     working_dir: /app
-    ports:
-      - ${API_PORT}:3000
     environment:
       - PORT=3000
       - DATABASE_URL=postgresql://postgres:Admlocal1@db:5432/postgres?schema=cars
       - ENV=DOCKER
     networks:
-      - db-network
-      - internet
+      - intranet
     command: npm start
     depends_on:
       - db
@@ -34,10 +29,8 @@ services:
     volumes:
       - ../front:/app
     working_dir: /app
-    ports:
-      - 80:8080
     networks:
-      - internet
+      - intranet
     depends_on:
       - api
       - db
@@ -45,12 +38,27 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - VITE_ROUTE_API=http://${API_HOSTNAME}:${API_PORT}/
+      - VITE_ROUTE_API=http://${API_HOSTNAME}/api/
       - ENV=DOCKER
+  reverse-proxy:
+    image: nginx:latest
+    volumes:
+      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 5432:5432
+    networks:
+      - intranet
+    depends_on:
+      - api
+      - front
+      - db
+    stdin_open: true
+    tty: true
 
 volumes:
   db-data:
 
+
 networks:
-  db-network:
-  internet:
+  intranet:
