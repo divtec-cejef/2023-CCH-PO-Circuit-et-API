@@ -43,13 +43,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node_version }}
-    - name: npm install and test
+    - name: yarn install and test
       run: |
         cd api
-        npm install
+        yarn install
         npx prisma db pull
         npx prisma generate
-        npm run test --if-present
+        yarn test --if-present
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=cars
         PORT: 3000
