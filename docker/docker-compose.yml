@@ -34,7 +34,7 @@ services:
     depends_on:
       - api
       - db
-    command: npm start
+    command: "yarn start"
     stdin_open: true
     tty: true
     environment:
