@@ -10,8 +10,8 @@
 		"type-check": "vue-tsc --noEmit",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"serve": "node server.cjs",
-		"start": "npm run build && npm run serve",
-		"prestart": "npm i"
+		"start": "yarn build && yarn serve",
+		"prestart": "yarn install"
 	},
 	"dependencies": {
 		"@types/socket.io-client": "^3.0.0",
