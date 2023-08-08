@@ -318,4 +318,16 @@ html body div header .active span {
   align-items: center;
 }
 
+footer {
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+    background-color: var(--gray);
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0 35px;
+}
 </style>
