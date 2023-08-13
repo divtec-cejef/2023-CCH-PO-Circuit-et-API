@@ -15,7 +15,7 @@ services:
     working_dir: /app
     environment:
       - PORT=3000
-      - DATABASE_URL=postgresql://postgres:Admlocal1@db:5432/postgres?schema=cars
+      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@db:5432/postgres?schema=cars
       - ENV=DOCKER
     networks:
       - intranet
