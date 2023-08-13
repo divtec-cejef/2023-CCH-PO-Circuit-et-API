@@ -42,6 +42,9 @@ describe('Section', () => {
     const res = await chai.request('localhost:3000').get('/section/adsf');
 
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
@@ -49,6 +52,9 @@ describe('Section', () => {
     const res = await chai.request('localhost:3000').get('/section/999');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
   });
 });
@@ -173,6 +179,9 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/adsf');
 
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
@@ -181,6 +190,9 @@ describe('race', () => {
     const res = await chai.request('localhost:3000').get('/race/999');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
@@ -219,6 +231,9 @@ describe('race', () => {
         query_id: '4356'
       });
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
@@ -233,6 +248,9 @@ describe('race', () => {
         query_id: '4356'
       });
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid date (not parsable)' }));
   });
 
@@ -247,6 +265,9 @@ describe('race', () => {
         query_id: 4356
       });
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
@@ -321,6 +342,9 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/adsf');
 
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
@@ -328,6 +352,9 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-section/999');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify(({ message: 'Section not found' })));
   });
 
@@ -349,6 +376,9 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/adsf');
 
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
@@ -356,6 +386,9 @@ describe('Activity', () => {
     const res = await chai.request('localhost:3000').get('/activity/by-car/999');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify(({ message: 'Car not found' })));
   });
 });
@@ -728,6 +761,9 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/adsf');
 
     expect(res).to.have.status(400);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Invalid id' }));
   });
 
@@ -736,6 +772,9 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/999');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
@@ -828,6 +867,9 @@ describe('Car', () => {
     const res = await chai.request('localhost:3000').get('/car/query-id/adsfasf');
 
     expect(res).to.have.status(404);
+    if (res.error === false) {
+      throw new Error('Unexpected type boolean');
+    }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
