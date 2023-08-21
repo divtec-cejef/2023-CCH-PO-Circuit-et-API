@@ -41,6 +41,7 @@ div {
 
     table {
         text-align: center;
+        border-collapse: collapse;
 
         tr td:nth-child(4) {
             font-family: 'Digital-7 Mono', sans-serif;
@@ -48,20 +49,50 @@ div {
             width: 45px;
         }
 
-        td {
-            margin-right: 5px;
+        tr:first-child {
+            td,
+            th {
+                border-top: 0;
+            }
         }
 
-        th {
-            text-align: left;
+        tr:last-child {
+            td,
+            th {
+                border-bottom: 0;
+            }
         }
 
-        img.video {
-            width: 25px;
-        }
+        tr {
+            th,
+            td {
+                border: 2px solid #e2e2e7;
+                padding: 5px 15px;
+            }
 
-        img.flag-start {
-            width: 18px;
+            td {
+                margin-right: 5px;
+                img.video {
+                    width: 25px;
+                }
+                img.flag-start {
+                     width: 18px;
+                 }
+            }
+
+            th {
+                text-align: left;
+            }
+
+            td:first-child,
+            th:first-child {
+                border-left: 0;
+            }
+
+            td:last-child,
+            th:last-child {
+                border-right: 0;
+            }
         }
     }
 }
