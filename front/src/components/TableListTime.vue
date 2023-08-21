@@ -59,6 +59,9 @@ div {
             th {
                 border-top: 0;
             }
+            th:first-child {
+                padding: 0;
+            }
         }
 
         tr:last-child {
@@ -72,7 +75,7 @@ div {
             th,
             td {
                 border: 2px solid #e2e2e7;
-                padding: 5px 15px;
+                padding: 5px 2px;
             }
 
             td {
@@ -94,6 +97,7 @@ div {
                     width: 30px;
                     min-width: 30px;
                 }
+                padding: 0;
             }
 
             td:first-child,
