@@ -59,6 +59,12 @@ export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) 
     return;
   }
 
+  // Vérifier la validité de l'id
+  if (typeof carToUpdate.id_car === null || isNaN(carToUpdate.id_car)) {
+    res.status(400).json({ message: 'Invalid id' });
+    return;
+  }
+
   // Vérification de l'existence de la voiture
   const car = await getCarById(carToUpdate.id_car);
   if (car === null) {

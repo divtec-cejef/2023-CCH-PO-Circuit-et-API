@@ -27,6 +27,12 @@ export default function buildSioServer (server: http.Server) {
       }
 
       socket.data.carId = parseInt(socket.handshake.query.carId);
+      // vérifie la validité de l'id
+      if (typeof socket.data.carId === null || isNaN(socket.data.carId)) {
+        socket.send({ status: 400, message: 'invalid car id' }).disconnect();
+        return;
+      }
+
       if (!await getCarById(socket.data.carId)) {
         socket.send({ status: 404, message: 'car not found' }).disconnect();
         return;
