@@ -230,7 +230,7 @@ export class WebsocketConnection {
   constructor(carId?: number) {
     // Définis les paramètres du socket, si on doit passer la voiture ou pas
     const parameters =
-      carId === undefined
+      carId !== undefined
         ? {
           query: {
             carId,
