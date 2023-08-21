@@ -80,7 +80,7 @@
                     <img :src=badgeVideo alt="Badge vidéo">
                     <p>Video</p>
                 </RouterLink>
-                <RouterLink to="/modification">
+                <RouterLink to="/pilote">
                     <img :src=badgeModif alt="Badge modification">
                     <p>Modifier</p>
                 </RouterLink>
