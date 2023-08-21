@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table>
+        <table class="table-list-time">
             <tr>
                 <th>N°</th>
                 <th>Heure</th>
