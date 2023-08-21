@@ -2,19 +2,19 @@
     <div>
         <table class="table-list-time">
             <tr>
-                <th>N°</th>
-                <th>Heure</th>
-                <th>Vitesse</th>
-                <th>Temps</th>
-                <th>Vidéo</th>
+                <th></th>
+                <th><img :src=clock alt="Image d'horloge qui représente l'heure"/></th>
+                <th><img :src=speed alt="Image vitesse max"></th>
+                <th><img :src=chronometer alt="Image de chronomètre"></th>
+                <th><img :src=video alt="Image de video"></th>
             </tr>
             <tr v-for="(race, key) in props.carUser.sortListByOrderHour()" :key="key">
-                <td>{{ props.carUser.getNumRace(race).valueOf() }}</td>
+                <td><NumberTime class="num-race" :number=props.carUser.getNumRace(race).valueOf().toString() color="var(--blue)"/></td>
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><a href=""><img class="video" :src=video
-                         alt="Icon de film pour visionner la vidéo de la course"></a>
+                <td><a href=""><img class="link" :src=link
+                         alt="Icon de lien pour visionner la vidéo de la course"></a>
                 </td>
             </tr>
         </table>
@@ -24,6 +24,11 @@
 <script setup lang="ts">
 import type Car from '@/models/car';
 import video from '../assets/img/film.webp';
+import clock from '../assets/img/clock.webp';
+import speed from '../assets/img/speed.png';
+import chronometer from '../assets/img/chronometer.png';
+import link from '../assets/img/link.png';
+import NumberTime from '@/components/NumberTime.vue';
 
 const props = defineProps<{
   carUser: Car;
@@ -72,8 +77,8 @@ div {
 
             td {
                 margin-right: 5px;
-                img.video {
-                    width: 25px;
+                img.link {
+                    width: 18px;
                 }
                 img.flag-start {
                      width: 18px;
@@ -81,7 +86,14 @@ div {
             }
 
             th {
-                text-align: left;
+                p {
+                    text-align: left;
+                    margin-left: 7px;
+                }
+                img {
+                    width: 30px;
+                    min-width: 30px;
+                }
             }
 
             td:first-child,
