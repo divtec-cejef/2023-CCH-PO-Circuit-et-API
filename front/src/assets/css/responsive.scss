@@ -226,6 +226,34 @@
   }
 }
 
+/* Format pour la page de modif*/
+@media screen and (max-width: 960px) {
+
+
+  #app {
+
+    fieldset.color {
+      justify-content: center !important;
+      flex-wrap: wrap;
+    }
+
+    .rd-property {
+      justify-content: center !important;
+      flex-wrap: wrap;
+      align-content: center;
+
+      align-items: center;
+
+      .rdbt-choice {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+  }
+}
+
 /* Tablette grande */
 @media screen and (min-width: 1024px) {
 

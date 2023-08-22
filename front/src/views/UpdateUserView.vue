@@ -17,13 +17,13 @@
     <h1>Modifier</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
-    <div class="modify-avatar" @change="enableButton">
+    <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
         <div class="tab">
             <div class="title">
                 <div class="tab1">
                     <label>
                         <input @click="clickTab(1)" name="tab" type="radio" :checked="numTabOpen == 1">
-                        <img src="../assets/img/face.webp" alt="Icon visage homme">
+                        <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                     </label>
                 </div>
                 <div class="tab2">
@@ -38,15 +38,15 @@
                 <div v-if="numTabOpen == 1">
                     <template v-for="(props, key) in avatarPropertiesHead" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar " :is-phone="false"/>
                     </template>
                 </div>
                 <div v-else>
                     <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
                     </template>
                 </div>
             </div>
@@ -70,6 +70,61 @@
         </div>
     </div>
 
+    <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')">
+        <div class="avatar-and-pseudo">
+            <div :style="{display: displayMsgValid}" class="msg-success">
+                <img :src="validateIcon"
+                     alt="Icon de validation de l'enregistrement des données">
+            </div>
+            <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+            </div>
+
+            <div class="modify-pseudo">
+                <label for="pseudo">Pseudo : </label>
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton" maxlength="10">
+            </div>
+
+            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+        </div>
+
+        <div class="tab">
+            <div class="title">
+                <template v-for="(props, key) in avatarProperties" :key="key">
+                    <div v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                         :class="'tab ' + `tab${key}`">
+                        <label>
+                            <input @click="clickTab(key)" name="tab-phone" type="radio" :checked="numTabOpen == key">
+                            <ImageModifPhone :image-name="props.propNameSnakeCase"
+                                             :image-name-fr="props.propNameFr"></ImageModifPhone>
+                        </label>
+                    </div>
+                </template>
+            </div>
+
+            <div class="tab-content">
+                <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
+                    <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
+                                         @regenerateAvatar="regenerateAvatar"/>
+
+                    <AvatarColorPicker
+                            v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                            && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
+                            && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
+                            :avatar-property="avatarProperties[numTabOpen + 1]"
+                            @regenerateAvatar="regenerateAvatar"
+                            :is-phone="true"/>
+                </template>
+
+                <template v-else>
+                    <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
+                                       @regenerateAvatar="regenerateAvatar" :is-phone="true"/>
+                </template>
+
+            </div>
+        </div>
+    </div>
+
     <div v-if="saveIsInvalid" class="show-error">
         <p>* Le pseudo doit contenir au moins 3 caractères.</p>
     </div>
@@ -80,13 +135,15 @@ import { genConfig } from 'holiday-avatar';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
 import validateIcon from '@/assets/img/checked.png';
-import router from '@/router';
 import type { Configs } from 'holiday-avatar';
+import router from '@/router';
+import ImageModifPhone from '@/components/ImageModifPhone.vue';
+
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -98,17 +155,32 @@ const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo);
 const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
+const widthScreen = ref(0);
+const LIMIT_LARGE_CONTENT = 960;
 
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
 const updateDisabled = ref(true);
 
-// Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
-userCar.token = localStorage.getItem('carToken') || '';
+/**
+ * Change la valeur de la taille de l'écran
+ */
+const changeValueWidthScreen = () => {
+  widthScreen.value = window.innerWidth;
+};
+
+// Change la classe des éléments des menus pour le petit contenu
+const classDisplayModif = computed(() => {
+  return widthScreen.value < LIMIT_LARGE_CONTENT;
+});
+
+//Ecoute du resize de la page pour changer la largeur
 onMounted(() => {
-  if (userCar.token === '') {
-    dialog.value?.showModal();
-  }
+  window.addEventListener('resize', changeValueWidthScreen);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', changeValueWidthScreen);
 });
 
 /**
@@ -147,9 +219,8 @@ function avatarEquals() {
   Object.keys(config.value).forEach((key) => {
     if (userCar.car.avatar === undefined)
       return;
-    if (config.value[key as keyof Configs]  !== userCar.car.avatar[key as keyof Configs]) {
+    if (config.value[key as keyof Configs] !== userCar.car.avatar[key as keyof Configs]) {
       equlality = false;
-
     }
   });
   return equlality;
@@ -645,6 +716,18 @@ function clickTab(numTab: number) {
   localStorage.setItem('numTabOpen', numTabOpen.value.toString());
 }
 
+//Lancement d'un premier calcul de la largeur de la page
+changeValueWidthScreen();
+
+
+// Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
+userCar.token = localStorage.getItem('carToken') || '';
+onMounted(() => {
+  if (userCar.token === '') {
+    dialog.value?.showModal();
+  }
+});
+
 //Initialisation des variables
 let numTabOpen = ref(1);
 if (localStorage.getItem('numTabOpen')) {
@@ -654,6 +737,60 @@ if (localStorage.getItem('numTabOpen')) {
 </script>
 
 <style scoped lang="scss">
+
+
+.none {
+  display: none !important;
+}
+
+.display {
+  display: flex !important;
+}
+
+div.modify-avatar-phone {
+  flex-direction: column;
+
+  div.content-avatar {
+    display: flex;
+    justify-content: end;
+    transition: all ease-in-out 0.2s;
+    margin-top: 20px;
+
+    div.avatar {
+      width: 250px;
+      height: 250px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+      border-radius: 200px;
+    }
+  }
+
+  div.title {
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .tab {
+      width: 45px;
+      padding: 8px;
+      border-radius: 5px;
+      margin: 5px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+      filter: grayscale(0.95);
+    }
+
+    .tab:hover {
+      filter: none;
+    }
+
+    input {
+      display: none;
+    }
+
+
+  }
+}
 
 div.modify-avatar {
   width: 95%;

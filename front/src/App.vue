@@ -88,7 +88,7 @@ onUnmounted(() => {
 const userCar = useCarStore();
 const { car } = userCar;
 const hasFinishedLoading = ref(false);
-const widthScreen = ref(0);
+const widthScreen = ref( 0);
 const LIMIT_LARGE_CONTENT = 700;
 const URL_HOME = `/${car.idQuery}`;
 
