@@ -18,10 +18,12 @@
 <script setup lang="ts">
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
-import router from '@/router';
 import { onBeforeUnmount, ref } from 'vue';
 import { WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
