@@ -97,7 +97,9 @@ div {
                     width: 30px;
                     min-width: 30px;
                 }
-                padding: 0;
+                padding: 5px 0 2px 0;
+                border-left: 0;
+                border-right: 0;
             }
 
             td:first-child,
