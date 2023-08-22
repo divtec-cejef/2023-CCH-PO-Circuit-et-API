@@ -1,8 +1,8 @@
 <template>
     <fieldset class="color"
               @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
-        <img v-if="avatarProperty.propNameEn == 'bgColor' " class="background" :src=colorImg alt="Palette de couleurs">
-        <img v-if="avatarProperty.propNameEn == 'faceColor' " class="faceSkin" :src=faceImg alt="Couleur de peau">
+        <img v-if="avatarProperty.propNameEn == 'bgColor' && !isPhone " class="background" :src=colorImg alt="Palette de couleurs">
+        <img v-if="avatarProperty.propNameEn == 'faceColor' && !isPhone " class="faceSkin" :src=faceImg alt="Couleur de peau">
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
                    :name=props.avatarProperty.propNameSnakeCase
@@ -17,11 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import colorImg from '../assets/img/color.webp';
+import colorImg from '../assets/img/bg-color.webp';
 import faceImg from '../assets/img/skin.webp';
 import type { models } from '@/models/avatar';
 
-const props = defineProps<{ avatarProperty: models.radioProperty }>();
+const props = defineProps<{
+    avatarProperty: models.radioProperty,
+    isPhone : boolean
+}>();
 
 const emit = defineEmits(['regenerateAvatar']);
 </script>
