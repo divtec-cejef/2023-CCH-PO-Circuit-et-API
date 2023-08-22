@@ -392,6 +392,10 @@ div.drop-down-course {
 
 .table-large-content {
   display: none;
+
+  h2 {
+    margin-bottom: 30px;
+  }
 }
 
 .loading-race {
