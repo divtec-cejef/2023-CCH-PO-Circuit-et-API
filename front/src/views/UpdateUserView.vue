@@ -750,6 +750,58 @@ if (localStorage.getItem('numTabOpen')) {
   display: flex !important;
 }
 
+div.modify-pseudo {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    label,
+    input {
+        display: block;
+        margin: .5em 0;
+    }
+
+    input {
+        width: 165px;
+        border-radius: 3px;
+        padding: 3px;
+        border: 1px solid var(--black);
+    }
+
+    label {
+        margin-right: 10px;
+        font-weight: bold;
+    }
+}
+
+button {
+    background-color: var(--dark-green);
+    border: 1px solid var(--dark-green);
+    padding: 8px;
+    border-radius: .6em;
+    cursor: pointer;
+    color: var(--white);
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    transition: ease-in-out 0.1s;
+}
+
+button:not(:disabled):hover {
+    font-weight: bold;
+    border: 1px solid var(--dark-green);
+    transition: ease-in-out 0.1s;
+}
+
+button:disabled {
+    background-color: var(--gray);
+    border-color: var(--gray);
+    opacity: 70%;
+    transition: ease-in-out 0.1s;
+    cursor: auto;
+}
+
 div.modify-avatar-phone {
   flex-direction: column;
 
@@ -833,59 +885,6 @@ div.modify-avatar {
         box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
         border-radius: 200px;
       }
-    }
-
-    div.modify-pseudo {
-      margin-top: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      label,
-      input {
-        display: block;
-        margin: .5em 0;
-      }
-
-      input {
-        width: 165px;
-        border-radius: 3px;
-        padding: 3px;
-        border: 1px solid var(--black);
-      }
-
-      label {
-        margin-right: 10px;
-        font-weight: bold;
-      }
-    }
-
-    button {
-      background-color: var(--dark-green);
-      border: 1px solid var(--dark-green);
-      padding: 8px;
-      border-radius: .6em;
-      cursor: pointer;
-      color: var(--white);
-      margin-top: 10px;
-      width: 120px;
-      text-align: center;
-      transition: ease-in-out 0.1s;
-
-    }
-
-    button:not(:disabled):hover {
-      font-weight: bold;
-      border: 1px solid var(--dark-green);
-      transition: ease-in-out 0.1s;
-    }
-
-    button:disabled {
-      background-color: var(--gray);
-      border-color: var(--gray);
-      opacity: 70%;
-      transition: ease-in-out 0.1s;
-      cursor: auto;
     }
   }
 
