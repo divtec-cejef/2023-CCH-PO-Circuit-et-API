@@ -1,17 +1,33 @@
 <template>
-    <div class="intro">
-        <h1>Bienvenue !</h1>
-        <p>Tu n'as pas encore scanné de voiture...</p>
-        <p>C'est par ici !</p>
-    </div>
+    <div class="root">
+        <div>
+            <div class="intro">
+                <h1>Bienvenue !</h1>
+                <p>Tu n'as pas encore scanné de voiture...</p>
+                <p>C'est par ici !</p>
+            </div>
 
-    <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+            <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+        </div>
 
-    <div class="stats">
-        <p>Nombre de courses effectuées: </p><span class="data">{{ racesRan }}</span>
-        <p>Nombre d'activités réalisées: </p><span class="data">{{ activitiesRealisations }}</span>
-        <p>Meilleur temps de course: </p><span class="data">{{ fastestRace }}</span>
-        <p>Activité préférée des utilisateurs: </p><span class="data">{{ preferredActivity }}</span>
+        <ul class="stats">
+            <li>
+                <span class="data">{{ racesRan }}</span>
+                <span class="label">Courses effectuées</span>
+            </li>
+            <li>
+                <span class="data">{{ activitiesRealisations }}</span>
+                <span class="label">Activités effectuées</span>
+            </li>
+            <li>
+                <span class="data">{{ fastestRace }}</span>
+                <span class="label">est le temps de course le plus rapide</span>
+            </li>
+            <li>
+                <span class="data">{{ preferredActivity }}</span>
+                <span class="label">est l'activité préférée des visiteurs</span>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -57,36 +73,63 @@ h1 {
   text-align: center;
 }
 
-div.stats {
-  margin: auto;
-  width: fit-content;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 5px;
-  grid-auto-rows: 1fr;
+div.root {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  height: calc(100vh - 200px);
+  justify-content: center;
 
-  :nth-child(odd) {
-    text-align: right;
+  ul.stats {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: solid 1px lightgray;
+      padding: 20px;
+
+      &:last-child, &:nth-last-child(2) {
+        border-bottom: none;
+      }
+
+      &:nth-child(odd) {
+        border-right: solid 1px lightgray;
+      }
+
+      .data {
+        font-weight: bold;
+        font-size: 56px;
+        padding-bottom: 10px;
+      }
+    }
+
+    hr {
+      width: 100%;
+      border-style: solid;
+      border-color: lightgray;
+    }
   }
 
-  .data {
-    font-weight: bold;
+  div.intro {
+    text-align: center;
+
+    p:nth-child(3) {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  }
+
+  img.qr-code {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
   }
 }
 
-div.intro {
-  text-align: center;
 
-  p:nth-child(3) {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-}
-
-img.qr-code {
-  width: 200px;
-  display: block;
-  margin: 0 auto;
-}
 </style>
