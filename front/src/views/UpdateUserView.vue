@@ -39,14 +39,16 @@
                     <template v-for="(props, key) in avatarPropertiesHead" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
                                              @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar " :is-phone="false"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar "
+                                           :is-phone="false"/>
                     </template>
                 </div>
                 <div v-else>
                     <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
                                              @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
+                                           :is-phone="false"/>
                     </template>
                 </div>
             </div>
@@ -91,8 +93,9 @@
         <div class="tab">
             <div class="title">
                 <template v-for="(props, key) in avatarProperties" :key="key">
-                    <div v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                         :class="'tab ' + `tab${key}`">
+                    <div
+                            v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                            :class="'tab ' + `tab${key}`">
                         <label>
                             <input @click="clickTab(key)" name="tab-phone" type="radio" :checked="numTabOpen == key">
                             <ImageModifPhone :image-name="props.propNameSnakeCase"
@@ -764,12 +767,28 @@ div.modify-avatar-phone {
     }
   }
 
+  hr {
+    color: var(--gray);
+    width: 75%;
+    margin: 20px auto;
+
+  }
+
+  .tab-content {
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    width: calc(80% - 10px);
+    margin: 0 auto;
+    border-radius: 7px;
+    padding: 2px 10px 8px 10px;
+  }
+
   div.title {
-    margin: 10px 0;
+    margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    width: 80%;
 
     .tab {
       width: 45px;
