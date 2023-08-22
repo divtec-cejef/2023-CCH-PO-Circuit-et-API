@@ -175,7 +175,6 @@ import { useRouter } from 'vue-router';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import type { Ref } from 'vue';
-
 const router = useRouter();
 
 //Initialisation des données de l'utilisateur
