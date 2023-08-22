@@ -95,7 +95,7 @@
                 <template v-for="(props, key) in avatarProperties" :key="key">
                     <div
                             v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                            :class="'tab ' + `tab${key}`">
+                            :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
                         <label>
                             <input @click="clickTab(key)" name="tab-phone" type="radio" :checked="numTabOpen == key">
                             <ImageModifPhone :image-name="props.propNameSnakeCase"
@@ -767,13 +767,6 @@ div.modify-avatar-phone {
     }
   }
 
-  hr {
-    color: var(--gray);
-    width: 75%;
-    margin: 20px auto;
-
-  }
-
   .tab-content {
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
     width: calc(80% - 10px);
@@ -790,17 +783,19 @@ div.modify-avatar-phone {
     justify-content: center;
     width: 80%;
 
-    .tab {
+    .tab, .not-clicked {
       width: 45px;
       padding: 8px;
       border-radius: 5px;
       margin: 5px;
       box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
       filter: grayscale(0.95);
+      transition: 0.2s ease-in-out;
     }
 
-    .tab:hover {
+    .tab:hover, .clicked {
       filter: none;
+      transition: 0.2s ease-in-out;
     }
 
     input {
