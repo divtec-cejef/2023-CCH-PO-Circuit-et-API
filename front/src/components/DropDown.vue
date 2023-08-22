@@ -17,7 +17,7 @@ import { computed, ref } from 'vue';
 import arrowImg from '../assets/img/arrow.webp';
 
 const props = defineProps<{
-    name: string;
+  name: string;
 }>();
 
 /**
