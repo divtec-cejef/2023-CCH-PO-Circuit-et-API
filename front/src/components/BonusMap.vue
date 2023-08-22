@@ -1,14 +1,8 @@
 <template>
     <img src="../assets/svg/division-plan.svg" alt="Carte de la division">
 
-    <div v-for="activity in activities" :key="activity.labelActivity" class="icon" :style="{position: 'absolute', top: 'calc('+ activity.posY + '% - 12px)', left: 'calc(' + activity.posX + '% - 12px)'}" @mouseover="activity.active.value = true" @mouseleave="activity.active.value = false">
+    <div ref="icon" v-for="activity in activities" :key="activity.labelActivity" class="icon" :style="{position: 'absolute', top: 'calc('+ activity.posY + '% - 12px)', left: 'calc(' + activity.posX + '% - 12px)'}" @mouseover="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, activity.labelActivity)" @mouseleave="props.hideLabel">
         <img src="../assets/img/clock.webp" alt="Drapeau">
-    </div>
-    <div v-for="activity in activities" :key="activity.labelActivity" :style="{position: 'absolute', top: calculatePositionY(activity.posY, 12), left: calculatePositionX(activity.posX, 12)}">
-        <div v-show="activity.active.value" :class="`bonus-label ${activity.labelActivity}`">
-            <p>Activité : {{ activity.labelActivity }}</p>
-            <p>Section : {{ activity.labelSection }}</p>
-        </div>
     </div>
 
 
@@ -16,71 +10,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+const props = defineProps(['displayLabel', 'hideLabel', 'activities']);
+// const icon = ref<HTMLElement | null>(null);
+//
+// onMounted(() => {
+//   if ('getBoundingClientRect' in icon.value) {
+//     console.log(icon.value.getBoundingClientRect().left);
+//   } else {
+//     console.log('getBoundingClientRect not in icon');
+//   }
+//   if ('getBoundingClientRect' in icon.value) {
+//     console.log(icon.value.getBoundingClientRect().top);
+//   }
+// });
 
-const divHeight = 50;
-const divWidth = 250;
-
-
-const activities = [{
-  labelActivity: 'Informer',
-  labelSection: 'Informatique',
-  posX: 22,
-  posY: 30,
-  active: ref(false),
-},{
-  labelActivity: 'Automatiser',
-  labelSection: 'Automatique',
-  posX: 45,
-  posY: 65,
-  active: ref(false),
-},{
-  labelActivity: 'Horlogifier',
-  labelSection: 'Horlogerie',
-  posX: 88,
-  posY: 65,
-  active: ref(false),
-},{
-  labelActivity: 'Electroniser',
-  labelSection: 'Electronique',
-  posX: 85,
-  posY: 20,
-  active: ref(false),
-},{
-  labelActivity: 'Micromécaniser',
-  labelSection: 'Micromécanique',
-  posX: 55,
-  posY: 15,
-  active: ref(false),
-},{
-  labelActivity: 'Laborantiser',
-  labelSection: 'Laborantin',
-  posX: 75,
-  posY: 79,
-  active: ref(false),
-},{
-  labelActivity: 'Dessiner',
-  labelSection: 'Dessinateur',
-  posX: 35,
-  posY: 20,
-  active: ref(false),
-}];
-
-function calculatePositionX(posx, dif) {
-  if (posx > 50) {
-    return 'calc(' + posx + '% - ' + (dif + divWidth) + 'px)';
-  } else {
-    return 'calc(' + posx + '% + ' + dif + 'px)';
-  }
-}
-
-function calculatePositionY(posy, dif) {
-  if (posy > 50) {
-    return 'calc(' + posy + '% - ' + (10 + dif + divHeight) + 'px)';
-  } else {
-    return 'calc(' + posy + '% + ' + (10 + dif) + 'px)';
-  }
-}
 </script>
 
 <style scoped>
