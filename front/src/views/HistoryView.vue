@@ -3,9 +3,9 @@
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :activities="allActivities"></BonusMap>
         </div>
-        <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
-            <p>{{currentActivity === null ? null : currentActivity['labelActivity']}}</p>
-        </div>
+    </div>
+    <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
+        <p>{{currentActivity === null ? null : currentActivity['labelActivity']}}</p>
     </div>
 
 </template>
@@ -79,24 +79,38 @@ const allActivities = [{
 }];
 
 function calculatePositionX(posx, dif, zoomfactor) {
-  // console.log(posx, window.innerWidth / 2);
+  console.log(posx, window.innerWidth / 2);
+  let pos;
   if (posx > window.innerWidth / 2) {
     console.log(posx, (posx - (dif + divWidth)) * zoomfactor + 'px');
-    return (posx - (divWidth)) + 'px';
+    pos = posx - divWidth;
   } else {
-    console.log(posx, (posx + dif) * zoomfactor + 'px');
-    return (posx) + 'px';
+    pos = posx + dif*zoomfactor;
   }
+  if (pos < 0) {
+    pos = 0;
+  } else if (pos > window.innerWidth - divWidth) {
+    pos = window.innerWidth - divWidth;
+  }
+
+  return pos + 'px';
 }
 
 function calculatePositionY(posy, dif, zoomfactor) {
+  let pos;
   if (posy > window.innerHeight / 2) {
     console.log(posy, (posy - (10 + dif + divHeight)) * zoomfactor + 'px');
-    return (posy) + 'px';
+    pos = posy - (10 + divHeight);
   } else {
-    console.log(posy, (posy + (10 + dif)) * zoomfactor + 'px');
-    return (posy) + 'px';
+    pos = posy + (10 + dif*zoomfactor);
   }
+  if (pos < 0) {
+    pos = 0;
+  } else if (pos > window.innerHeight - divHeight) {
+    pos = window.innerHeight - divHeight;
+  }
+
+  return pos + 'px';
 }
 
 function displayLabel(posx, posy, activityLabel) {
@@ -107,8 +121,8 @@ function displayLabel(posx, posy, activityLabel) {
     }
   }
 
-  divLeft.value = calculatePositionX(posx, 10, zoomfactor);
-  divTop.value = calculatePositionY(posy, 10, zoomfactor);
+  divLeft.value = calculatePositionX(posx, 24, zoomfactor);
+  divTop.value = calculatePositionY(posy, 24, zoomfactor);
   divDisplay.value = 'block';
 }
 
