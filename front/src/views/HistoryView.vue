@@ -33,15 +33,23 @@ const divDisplay = ref('none');
 let realisedActivity = [];
 
 // récupération de la voiture
-const { json: dataUserCar, status } = await api.getActivityOneCar(car.idCar);
+const { json: dataActivity, status } = await api.getActivityOneCar(car.idCar);
 if (status.valueOf() === api.ReturnCodes.Success) {
-  for (let activity of dataUserCar.activities) {
+  for (let activity of dataActivity.activities) {
     realisedActivity.push(activity['labelActivity']);
   }
 }
 
 // récupération des activités dans les sections
-const { json: dataActivities, status: statusActivities } = await api.getActivities();
+const { json: dataSections, status: statusActivities } = await api.getAllSections();
+if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+  for (let section of dataSections.sections) {
+    section['activities'] = [];
+    for (let activity of section['activitiesSection']) {
+      section['activities'].push(activity['labelActivity']);
+    }
+  }
+}
 
 const divHeight = 50;
 const divWidth = 250;
