@@ -26,9 +26,9 @@
         <SpinLoading class="load-element" v-else></SpinLoading>
     </main>
 
-  <footer>
-    <FooterApp id="footer" :class="classMenuClicked"/>
-  </footer>
+    <footer>
+        <FooterApp id="footer" :class="classMenuClicked"/>
+    </footer>
 </template>
 
 <script setup lang="ts">
@@ -88,7 +88,7 @@ onUnmounted(() => {
 const userCar = useCarStore();
 const { car } = userCar;
 const hasFinishedLoading = ref(false);
-const widthScreen = ref( 0);
+const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const URL_HOME = `/${car.idQuery}`;
 
@@ -140,6 +140,10 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+    background-color: var(--white);
 
   img {
     height: 55px;
@@ -163,6 +167,10 @@ header {
       margin-top: 8px;
     }
   }
+}
+
+main {
+    padding-top: 125px;
 }
 
 header.closed.thin,
@@ -319,15 +327,15 @@ html body div header .active span {
 }
 
 footer {
-    bottom: 0;
-    width: 100%;
-    height: 65px;
-    background-color: var(--gray);
-    color: var(--white);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    padding: 0 35px;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  background-color: var(--gray);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 0 35px;
 }
 </style>
