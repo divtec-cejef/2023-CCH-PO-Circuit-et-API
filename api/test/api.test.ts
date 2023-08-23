@@ -57,6 +57,17 @@ describe('Section', () => {
     }
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Section not found' }));
   });
+
+  it('should return all sections', async () => {
+    const res = await chai.request('localhost:3000').get('/section/');
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body).to.have.that.structure([{
+      id_section: Number,
+      label: String
+    }]);
+  });
 });
 
 describe('AuthenticationSection', () => {

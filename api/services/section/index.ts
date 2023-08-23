@@ -16,3 +16,16 @@ export const getSectionById = async (id: number) => {
     }
   });
 };
+
+/**
+ * Retourne toutes les sections
+ * @returns une liste de toutes les sections
+ */
+export const getSections = async () => {
+  return await prisma.section.findMany({
+    select: {
+      id_section: true,
+      label: true
+    }
+  });
+};
