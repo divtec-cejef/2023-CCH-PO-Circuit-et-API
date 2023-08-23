@@ -35,7 +35,7 @@
 
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
-import { defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 
 const clickMenu = () => {
   localStorage.setItem('menuIsClicked', 'true');
