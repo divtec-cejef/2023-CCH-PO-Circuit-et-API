@@ -107,7 +107,7 @@ export namespace restful {
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivityOneSection(idSection: number | string) {
+  export async function getAllActivitiesOneSection(idSection: number | string) {
     try {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
