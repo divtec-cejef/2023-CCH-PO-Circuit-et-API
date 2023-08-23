@@ -352,6 +352,18 @@
   }
 }
 
+@media screen and (min-width: 830px) {
+  #app {
+
+    //MARK: - Page home
+    div.home-root {
+      ul.stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
+}
+
 /* Tablette grande */
 @media screen and (min-width: 1024px) {
 
@@ -391,6 +403,14 @@
       height: 650px;
       width: 100%;
       margin-top: 10px;
+    }
+
+    div.home-root {
+      flex-direction: row;
+
+      ul.stats {
+        grid-template-columns: 1fr;
+      }
     }
 
     div.avatar-txt {
