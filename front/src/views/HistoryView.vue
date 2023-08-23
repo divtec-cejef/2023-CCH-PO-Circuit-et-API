@@ -36,7 +36,7 @@ let realisedActivity = [];
 const { json: dataActivity, status } = await api.getActivityOneCar(car.idCar);
 if (status.valueOf() === api.ReturnCodes.Success) {
   for (let activity of dataActivity.activities) {
-    realisedActivity.push(activity['labelActivity']);
+    realisedActivity.push(activity['label_activity']);
   }
 }
 
