@@ -1,11 +1,17 @@
 <template>
     <div class="container">
         <div :ref="panzoomable">
-            <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :activities="allActivities"></BonusMap>
+            <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections"></BonusMap>
         </div>
     </div>
     <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
-        <p>{{currentActivity === null ? null : currentActivity['labelActivity']}}</p>
+        <p>{{ currentSection === null ? null : currentSection['labelSection'] }}</p>
+        <p>Activités :</p>
+        <ul>
+            <li v-for="activity in currentSection === null ? null : currentSection['activities']">
+                <p>{{ activity }}</p>
+            </li>
+        </ul>
     </div>
 
 </template>
@@ -14,17 +20,33 @@
 import BonusMap from '@/components/BonusMap.vue';
 import panzoom from 'panzoom';
 import { ref } from 'vue';
+import api from '@/models/api';
+import { useCarStore } from '@/stores/car';
+const userCar = useCarStore();
+const { car } = userCar;
 
 const label = ref<HTMLDivElement>();
 const divLeft = ref('0');
 const divTop = ref('0');
 const divDisplay = ref('none');
 
+let realisedActivity = [];
+
+// récupération de la voiture
+const { json: dataUserCar, status } = await api.getActivityOneCar(car.idCar);
+if (status.valueOf() === api.ReturnCodes.Success) {
+  for (let activity of dataUserCar.activities) {
+    realisedActivity.push(activity['labelActivity']);
+  }
+}
+
+// récupération des activités dans les sections
+const { json: dataActivities, status: statusActivities } = await api.getActivities();
 
 const divHeight = 50;
 const divWidth = 250;
 
-let currentActivity = null;
+let currentSection = null;
 let zoomfactor = 1;
 
 const panzoomable = v => {
@@ -41,40 +63,41 @@ const panzoomable = v => {
   });
 };
 
-const allActivities = [{
-  labelActivity: 'Informer',
-  labelSection: 'Informatique',
+const allSections = [{
+  labelSection: 'Informaticien-ne',
   posX: 22,
   posY: 30,
 },{
-  labelActivity: 'Automatiser',
-  labelSection: 'Automatique',
+  labelSection: 'Automaticien-ne',
   posX: 45,
   posY: 65,
 },{
-  labelActivity: 'Horlogifier',
-  labelSection: 'Horlogerie',
-  posX: 88,
+  labelSection: 'Horloger-ère',
+  posX: 77,
   posY: 65,
 },{
-  labelActivity: 'Electroniser',
-  labelSection: 'Electronique',
-  posX: 85,
-  posY: 20,
+  labelSection: 'Electronicien-ne',
+  posX: 73,
+  posY: 17,
 },{
-  labelActivity: 'Micromécaniser',
-  labelSection: 'Micromécanique',
-  posX: 55,
-  posY: 15,
+  labelSection: 'Micromécanicien-ne',
+  posX: 47,
+  posY: 8,
 },{
-  labelActivity: 'Laborantiser',
-  labelSection: 'Laborantin',
-  posX: 75,
+  labelSection: 'Laborantin-e',
+  posX: 77,
   posY: 79,
 },{
-  labelActivity: 'Dessiner',
-  labelSection: 'Dessinateur',
+  labelSection: 'Dessinateur-trice',
   posX: 35,
+  posY: 15,
+},{
+  labelSection: 'Mécatronicien-ne',
+  posX: 20,
+  posY: 80,
+},{
+  labelSection: 'Industrie 2.0',
+  posX: 15,
   posY: 20,
 }];
 
@@ -113,11 +136,11 @@ function calculatePositionY(posy, dif, zoomfactor) {
   return pos + 'px';
 }
 
-function displayLabel(posx, posy, activityLabel) {
-  // console.log(posx, posy, activityLabel);
-  for (let activity of allActivities) {
-    if (activity.labelActivity === activityLabel) {
-      currentActivity = activity;
+function displayLabel(posx, posy, sectionLabel) {
+  // console.log(posx, posy, sectionLabel);
+  for (let section of allSections) {
+    if (section.labelSection === sectionLabel) {
+      currentSection = section;
     }
   }
 
@@ -131,7 +154,7 @@ function hideLabel() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
     width: 100%;
     height: 100%;
@@ -146,5 +169,6 @@ function hideLabel() {
     display: none;
     position: absolute;
     background-color: #ffffff;
+    border: 1px solid #000000;
 }
 </style>

@@ -125,6 +125,16 @@ export namespace restful {
     }
   }
 
+  export async function getActivityOneCar(idCar: number | string) {
+    try {
+      const routeRaceCar = `${routeApi}activity/by-car/${idCar}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
+  }
+
   /**
    * Lance une requête POST pour récupérer un token d'authentification
    * @param sectionName Nom de la section
