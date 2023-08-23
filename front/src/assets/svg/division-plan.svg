@@ -3,7 +3,7 @@
 <!-- Généré par Microsoft Visio, SVG Export division-plan.svg Page-1 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
 		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="15.3543in" height="12.9921in"
-		viewBox="0 0 1105.51 935.433" xml:space="preserve" color-interpolation-filters="sRGB" class="st17">
+		viewBox="0 0 1105.51 935.433" xml:space="preserve" color-interpolation-filters="sRGB" class="st11">
 	<v:documentProperties v:langID="4108" v:metric="true" v:viewMarkup="false">
 		<v:userDefs>
 			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
@@ -20,15 +20,9 @@
 		.st6 {fill:#dc006b;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
 		.st7 {fill:#ffffff;font-family:Poppins;font-size:1.99999em}
 		.st8 {stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:20}
-		.st9 {fill:#ffcd00;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st10 {fill:#2cd5c4;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st11 {fill:#766eb1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st12 {fill:#58c9fa;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st13 {fill:#07a0e1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st14 {fill:#43b02a;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st15 {fill:#c50085;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st16 {fill:#500778;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st17 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+		.st9 {stroke:#7f7f7f;stroke-dasharray:9,9;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
+		.st10 {fill:#7f7f7f;font-family:Poppins;font-size:3em}
+		.st11 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
 	]]>
 	</style>
 
@@ -627,286 +621,67 @@
 			<title>Feuille.48</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape49-69" v:mID="49" v:groupContext="shape" transform="translate(20.6929,-111.402)">
-			<title>Rectangle à coins arrondis.49</title>
-			<desc>Mécatronicien-ne</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="146.339" cy="914.173" width="292.68" height="42.5197"/>
-			<path d="M21.26 935.43 L271.42 935.43 A21.2595 21.2595 -180 0 0 292.68 914.17 A21.2595 21.2595 -180 0 0 271.42 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st6"/>
-			<text x="38.93" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Mécatronicien-ne</text>		</g>
-		<g id="shape50-72" v:mID="50" v:groupContext="shape" transform="translate(1873.49,657.807) rotate(90) scale(-1,1)">
+		<g id="shape50-69" v:mID="50" v:groupContext="shape" transform="translate(1873.49,657.807) rotate(90) scale(-1,1)">
 			<title>Feuille.50</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape51-75" v:mID="51" v:groupContext="shape" transform="translate(844.512,-373.606)">
-			<title>Rectangle à coins arrondis.51</title>
-			<desc>Horloger-ère</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="103.465" cy="914.173" width="206.93" height="42.5197"/>
-			<path d="M20.69 935.43 L186.24 935.43 A20.6926 20.6926 -180 0 0 206.93 914.74 L206.93 913.61 A20.6926 20.6926 -180 0
-						 0 186.24 892.91 L20.69 892.91 A20.6926 20.6926 -180 0 0 0 913.61 L0 914.74 A20.6926 20.6926 -180 0 0 20.69
-						 935.43 Z" class="st9"/>
-			<text x="26.38" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Horloger-ère</text>		</g>
-		<g id="shape52-78" v:mID="52" v:groupContext="shape" transform="translate(1805.46,760.252) rotate(90) scale(-1,1)">
+		<g id="shape52-72" v:mID="52" v:groupContext="shape" transform="translate(1805.46,760.252) rotate(90) scale(-1,1)">
 			<title>Feuille.52</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape53-81" v:mID="53" v:groupContext="shape" transform="translate(773.646,-118.488)">
-			<title>Rectangle à coins arrondis.53</title>
-			<desc>Laborantin-e</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="103.465" cy="914.173" width="206.93" height="42.5197"/>
-			<path d="M20.69 935.43 L186.24 935.43 A20.6926 20.6926 -180 0 0 206.93 914.74 L206.93 913.61 A20.6926 20.6926 -180 0
-						 0 186.24 892.91 L20.69 892.91 A20.6926 20.6926 -180 0 0 -0 913.61 L0 914.74 A20.6926 20.6926 -180 0 0 20.69
-						 935.43 Z" class="st10"/>
-			<text x="25.06" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Laborantin-e</text>		</g>
-		<g id="shape54-84" v:mID="54" v:groupContext="shape" transform="translate(138.685,-543.685)">
-			<title>Rectangle à coins arrondis.54</title>
-			<desc>Informaticien-ne</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="136.772" cy="914.173" width="273.55" height="42.5197"/>
-			<path d="M21.26 935.43 L252.28 935.43 A21.2595 21.2595 -180 0 0 273.54 914.17 A21.2595 21.2595 -180 0 0 252.28 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st11"/>
-			<text x="35.16" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Informaticien-ne</text>		</g>
-		<g id="shape55-87" v:mID="55" v:groupContext="shape" transform="translate(1300.89,320.882) rotate(90) scale(-1,1)">
+		<g id="shape55-75" v:mID="55" v:groupContext="shape" transform="translate(1300.89,320.882) rotate(90) scale(-1,1)">
 			<title>Feuille.55</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape56-90" v:mID="56" v:groupContext="shape" transform="translate(1130.81,320.882) rotate(90) scale(-1,1)">
+		<g id="shape56-78" v:mID="56" v:groupContext="shape" transform="translate(1130.81,320.882) rotate(90) scale(-1,1)">
 			<title>Feuille.56</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape57-93" v:mID="57" v:groupContext="shape" transform="translate(1116.64,221.669) rotate(90) scale(-1,1)">
+		<g id="shape57-81" v:mID="57" v:groupContext="shape" transform="translate(1116.64,221.669) rotate(90) scale(-1,1)">
 			<title>Feuille.57</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape58-96" v:mID="58" v:groupContext="shape" transform="translate(53.6457,-805.89)">
-			<title>Rectangle à coins arrondis.58</title>
-			<desc>Industries 2.0</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.28740157684729):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="103.465" cy="914.173" width="206.93" height="42.5197"/>
-			<path d="M20.69 935.43 L186.24 935.43 A20.6926 20.6926 -180 0 0 206.93 914.74 L206.93 913.61 A20.6926 20.6926 -180 0
-						 0 186.24 892.91 L20.69 892.91 A20.6926 20.6926 -180 0 0 -0 913.61 L0 914.74 A20.6926 20.6926 -180 0 0 20.69
-						 935.43 Z" class="st12"/>
-			<text x="25.12" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Industries 2.0</text>		</g>
-		<g id="shape59-99" v:mID="59" v:groupContext="shape" transform="translate(1286.72,218.835) rotate(90) scale(-1,1)">
+		<g id="shape59-84" v:mID="59" v:groupContext="shape" transform="translate(1286.72,218.835) rotate(90) scale(-1,1)">
 			<title>Feuille.59</title>
 			<path d="M0 935.43 L70.87 935.43" class="st8"/>
 		</g>
-		<g id="shape60-102" v:mID="60" v:groupContext="shape" transform="translate(379.63,-876.756)">
-			<title>Rectangle à coins arrondis.60</title>
-			<desc>Micromécanicien-ne</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="167.244" cy="914.173" width="334.49" height="42.5197"/>
-			<path d="M21.26 935.43 L313.23 935.43 A21.2595 21.2595 -180 0 0 334.49 914.17 A21.2595 21.2595 -180 0 0 313.23 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st13"/>
-			<text x="41.6" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Micromécanicien-ne</text>		</g>
-		<g id="shape61-105" v:mID="61" v:groupContext="shape" transform="translate(261.992,-810.188)">
-			<title>Rectangle à coins arrondis.61</title>
-			<desc>Dessinateur-trice</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="136.772" cy="914.173" width="273.55" height="42.5197"/>
-			<path d="M21.26 935.43 L252.28 935.43 A21.2595 21.2595 -180 0 0 273.54 914.17 A21.2595 21.2595 -180 0 0 252.28 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st14"/>
-			<text x="32.48" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Dessinateur-trice</text>		</g>
-		<g id="shape62-108" v:mID="62" v:groupContext="shape" transform="translate(1493.65,164.976) rotate(90) scale(-1,1)">
+		<g id="shape62-87" v:mID="62" v:groupContext="shape" transform="translate(1493.65,164.976) rotate(90) scale(-1,1)">
 			<title>Feuille.62</title>
 			<path d="M0 935.43 L85.04 935.43" class="st8"/>
 		</g>
-		<g id="shape63-111" v:mID="63" v:groupContext="shape" transform="translate(1598.53,213.165) rotate(90) scale(-1,1)">
+		<g id="shape63-90" v:mID="63" v:groupContext="shape" transform="translate(1598.53,213.165) rotate(90) scale(-1,1)">
 			<title>Feuille.63</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape64-114" v:mID="64" v:groupContext="shape" transform="translate(1839.47,221.669) rotate(90) scale(-1,1)">
+		<g id="shape64-93" v:mID="64" v:groupContext="shape" transform="translate(1839.47,221.669) rotate(90) scale(-1,1)">
 			<title>Feuille.64</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape65-117" v:mID="65" v:groupContext="shape" transform="translate(767.268,-810.188)">
-			<title>Rectangle à coins arrondis.65</title>
-			<desc>Electronicien-ne</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="136.772" cy="914.173" width="273.55" height="42.5197"/>
-			<path d="M21.26 935.43 L252.28 935.43 A21.2595 21.2595 -180 0 0 273.54 914.17 A21.2595 21.2595 -180 0 0 252.28 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st15"/>
-			<text x="38.7" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Electronicien-ne</text>		</g>
-		<g id="shape66-120" v:mID="66" v:groupContext="shape" transform="translate(1385.93,649.358) rotate(90) scale(-1,1)">
+		<g id="shape66-96" v:mID="66" v:groupContext="shape" transform="translate(1385.93,649.358) rotate(90) scale(-1,1)">
 			<title>Feuille.66</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape67-123" v:mID="67" v:groupContext="shape" transform="translate(1641.05,650.85) rotate(90) scale(-1,1)">
+		<g id="shape67-99" v:mID="67" v:groupContext="shape" transform="translate(1641.05,650.85) rotate(90) scale(-1,1)">
 			<title>Feuille.67</title>
 			<path d="M0 935.43 L67.63 935.43" class="st8"/>
 		</g>
-		<g id="shape69-126" v:mID="69" v:groupContext="shape" transform="translate(261.992,-401.953)">
-			<title>Rectangle à coins arrondis.69</title>
-			<desc>Automaticien-ne</desc>
-			<v:userDefs>
-				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.29527559403551):1"/>
-			</v:userDefs>
+		<g id="shape1000-102" v:mID="1000" v:groupContext="shape" transform="translate(20.6929,-479.906)">
+			<title>Feuille.1000</title>
+			<path d="M0 935.43 L1062.99 935.43" class="st9"/>
+		</g>
+		<g id="shape1001-105" v:mID="1001" v:groupContext="shape" transform="translate(747.354,-431.717)">
+			<title>Feuille.1001</title>
+			<desc>Rez-de-chaussée</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="136.772" cy="914.173" width="273.55" height="42.5197"/>
-			<path d="M21.26 935.43 L252.28 935.43 A21.2595 21.2595 -180 0 0 273.54 914.17 A21.2595 21.2595 -180 0 0 252.28 892.91
-						 L21.26 892.91 A21.2595 21.2595 -180 0 0 0 914.17 A21.2595 21.2595 -180 0 0 21.26 935.43 Z" class="st16"/>
-			<text x="34.08" y="921.37" class="st7" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Automaticien-ne</text>		</g>
+			<v:textRect cx="170.079" cy="918.425" width="340.16" height="34.0157"/>
+			<rect x="0" y="901.417" width="340.157" height="34.0157" class="st5"/>
+			<text x="9.37" y="929.23" class="st10" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>Rez-de-chaussée</text>		</g>
+		<g id="shape1002-108" v:mID="1002" v:groupContext="shape" transform="translate(904.039,-502.425)">
+			<title>Feuille.1002</title>
+			<desc>1er étage</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="91.7362" cy="925.433" width="183.48" height="20"/>
+			<rect x="0" y="915.433" width="183.472" height="20" class="st5"/>
+			<text x="10.09" y="936.23" class="st10" v:langID="4108"><v:paragraph v:horizAlign="1"/><v:tabList/>1er étage</text>		</g>
 	</g>
 </svg>

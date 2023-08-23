@@ -1,8 +1,9 @@
 <template>
-    <img src="../assets/svg/division-plan.svg" alt="Carte de la division">
+    <img :src=svg alt="Carte de la division">
 
-    <div ref="icon" v-for="activity in activities" :key="activity.labelActivity" class="icon" :style="{position: 'absolute', top: 'calc('+ activity.posY + '% - 12px)', left: 'calc(' + activity.posX + '% - 12px)'}" @mouseover="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, activity.labelActivity)" @mouseleave="props.hideLabel">
-        <img src="../assets/img/clock.webp" alt="Drapeau">
+    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%'}" @click="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, section.labelSection)">
+        <img :src=trophy alt="image de trophé (médaille)">
+        <p>{{section.labelSection}}</p>
     </div>
 
 
@@ -11,7 +12,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-const props = defineProps(['displayLabel', 'hideLabel', 'activities']);
+import svg from '../assets/svg/division-plan.svg';
+import trophy from '../assets/img/rank1.webp';
+const props = defineProps(['displayLabel', 'hideLabel', 'sections']);
 // const icon = ref<HTMLElement | null>(null);
 //
 // onMounted(() => {
@@ -27,7 +30,7 @@ const props = defineProps(['displayLabel', 'hideLabel', 'activities']);
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 template {
     position: relative;
@@ -38,11 +41,29 @@ template {
 }
 
 .icon {
-    width: 24px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    background-color: var(--white);
+    border: 2px solid var(--pink-divtec);
+    padding: clamp(0px, 0.5vw, 7px) 0;
+    border-radius: 30px;
+    white-space: pre-wrap;
+
+    p {
+        color: var(--pink-divtec);
+        font-size: clamp(1px, 2.25vw, 24px);
+        padding: 0 10px 0 0;
+        white-space: nowrap;
+    }
+
+    img {
+        height: clamp(1px, 2.25vw, 24px);
+        padding: 0 10px 0 10px;
+    }
 }
 
 .icon:hover {
-    width: 30px;
     cursor: pointer;
 }
 
