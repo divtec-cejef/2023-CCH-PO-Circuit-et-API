@@ -777,7 +777,7 @@ div.modify-pseudo {
 
 button {
     background-color: var(--dark-green);
-    border: 1px solid var(--dark-green);
+    border: 3px solid var(--dark-green);
     padding: 8px;
     border-radius: .6em;
     cursor: pointer;
@@ -790,14 +790,16 @@ button {
 
 button:not(:disabled):hover {
     font-weight: bold;
-    border: 1px solid var(--dark-green);
+    border: 3px solid var(--dark-green);
     transition: ease-in-out 0.1s;
+    color: var(--dark-green);
+    background-color: var(--white);
 }
 
 button:disabled {
     background-color: var(--gray);
     border-color: var(--gray);
-    opacity: 70%;
+    opacity: 35%;
     transition: ease-in-out 0.1s;
     cursor: auto;
 }
