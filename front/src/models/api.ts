@@ -125,6 +125,19 @@ export namespace restful {
     }
   }
 
+  /**
+   * Obtient toutes les sections
+   */
+  export async function getAllSections() {
+    try {
+      const routeRaceCar = `${routeApi}section/`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
+  }
+
   export async function getActivityOneCar(idCar: number | string) {
     try {
       const routeRaceCar = `${routeApi}activity/by-car/${idCar}`;
