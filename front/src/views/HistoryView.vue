@@ -7,11 +7,6 @@
     <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
         <p>{{ currentSection === null ? null : currentSection['labelSection'] }}</p>
         <p>Activités :</p>
-        <ul>
-            <li v-for="activity in currentSection === null ? null : currentSection['activities']">
-                <p>{{ activity }}</p>
-            </li>
-        </ul>
     </div>
 
 </template>
@@ -31,25 +26,70 @@ const divTop = ref('0');
 const divDisplay = ref('none');
 
 let realisedActivity = [];
+let sectionActivities = [];
 
-// récupération de la voiture
-const { json: dataActivity, status } = await api.getActivityOneCar(car.idCar);
-if (status.valueOf() === api.ReturnCodes.Success) {
-  for (let activity of dataActivity.activities) {
-    realisedActivity.push(activity['label_activity']);
-  }
+function getRealisedActivity() {
+  realisedActivity = [];
+  api.getActivityOneCar(car.idCar).then((v) => {
+    const { json: dataActivity, status: status } = v;
+    if (status.valueOf() === api.ReturnCodes.Success) {
+      for (let activity of dataActivity) {
+        realisedActivity.push(activity['id_activity']);
+      }
+    }
+  });
+  return realisedActivity;
 }
 
-// récupération des activités dans les sections
-const { json: dataSections, status: statusActivities } = await api.getAllSections();
-if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-  for (let section of dataSections.sections) {
-    section['activities'] = [];
-    for (let activity of section['activitiesSection']) {
-      section['activities'].push(activity['labelActivity']);
+function getSectionAndActivities() {
+  sectionActivities = [];
+  api.getAllSections().then((v) => {
+    const { json: dataSections, status: statusActivities } = v;
+
+    if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+      for (let section of dataSections) {
+
+        api.getAllActivitiesOneSection(section['id_section']).then((v) => {
+          const { json: dataActivities, status: statusActivities } = v;
+
+          if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+            sectionActivities.push(
+              {
+                idSection: section['id_section'],
+                labelSection: section['label'],
+                activities: {
+                  idActivity: dataActivities['id_activity'],
+                  labelActivity: dataActivities['label_activity']
+                }
+              });
+          }
+        });
+      }
+    }
+  });
+  return sectionActivities;
+}
+
+function activityIsRealised(idActivity) {
+  return realisedActivity.includes(idActivity);
+}
+
+function sectionBonusAcorded(idSection) {
+  let bonusAcorded = true;
+  for (let activity of sectionActivities) {
+    if (activity['idSection'] === idSection) {
+      if (!activityIsRealised(activity['activities']['idActivity'])) {
+        bonusAcorded = false;
+      }
     }
   }
+  return bonusAcorded;
 }
+
+realisedActivity = getRealisedActivity();
+sectionActivities = getSectionAndActivities();
+
+console.log(sectionActivities, realisedActivity);
 
 const divHeight = 50;
 const divWidth = 250;

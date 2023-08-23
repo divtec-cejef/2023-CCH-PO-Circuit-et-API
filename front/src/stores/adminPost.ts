@@ -14,7 +14,7 @@ export const useAdminPostStore = defineStore('adminPost', () => {
    * @param idSection Id de la section
    */
   async function initAllActivityOneSection(idSection: number) {
-    const { json: dataActivity } = await api.getAllActivityOneSection(idSection);
+    const { json: dataActivity } = await api.getAllActivitiesOneSection(idSection);
 
     if (typeof dataActivity === 'string') {
       console.error(dataActivity);
