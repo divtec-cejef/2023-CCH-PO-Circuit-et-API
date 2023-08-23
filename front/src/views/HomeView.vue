@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="home-root">
         <div>
             <div class="intro">
                 <h1>Bienvenue !</h1>
@@ -75,7 +75,7 @@ h1 {
   text-align: center;
 }
 
-div.root {
+div.home-root {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,19 +107,12 @@ div.root {
     }
   }
 
-  @media screen and (min-width: 830px) {
+
+  /*@media screen and (min-width: 1400px) {
     ul.stats {
       grid-template-columns: 1fr 1fr;
     }
-  }
-
-  @media screen and (min-width: 1024px) {
-    flex-direction: row;
-
-    ul.stats {
-      grid-template-columns: 1fr;
-    }
-  }
+  }*/
 
   div.intro {
     text-align: center;
