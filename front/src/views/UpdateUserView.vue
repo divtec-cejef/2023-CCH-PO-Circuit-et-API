@@ -737,6 +737,8 @@ if (localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }
 
+
+
 </script>
 
 <style scoped lang="scss">
