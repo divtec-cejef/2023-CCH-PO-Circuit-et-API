@@ -53,14 +53,16 @@ if (localStorage.getItem('userCarId')) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
-socketio.onRankingReceived(data => {
-  racesRan.value = data.count;
-  const fastestTime = data.fastest.total_time;
-  fastestRace.value = formatTime(new Date(fastestTime));
-}).onActivityRealisation(data => {
-  activitiesRealisations.value = data.count;
-  preferredActivity.value = data.mostPopular.label;
-});
+socketio
+  .onRankingReceived(data => {
+    racesRan.value = data.count;
+    const fastestTime = data.fastest.total_time;
+    fastestRace.value = formatTime(new Date(fastestTime));
+  })
+  .onActivityRealisation(data => {
+    activitiesRealisations.value = data.count;
+    preferredActivity.value = data.mostPopular.label;
+  });
 
 onBeforeUnmount(() => {
   socketio.destroy();
@@ -77,13 +79,15 @@ div.root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  min-height: inherit;
 
   ul.stats {
     list-style-type: none;
     padding: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
 
     li {
       display: flex;
@@ -92,9 +96,7 @@ div.root {
       border-radius: 10px;
       box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
       padding: 30px;
-      border: solid 10px rgb(127, 127, 127);
-      outline: dashed 2px rgb(252, 192, 3);
-      outline-offset: -6px;
+      outline-offset: -12px;
       position: relative;
 
       .data {
@@ -107,19 +109,15 @@ div.root {
 
   @media screen and (min-width: 830px) {
     ul.stats {
-      display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 20px;
     }
   }
 
   @media screen and (min-width: 1024px) {
     flex-direction: row;
-    height: calc(100vh - 200px);
 
     ul.stats {
-      display: flex;
-      margin: 0 auto;
+      grid-template-columns: 1fr;
     }
   }
 
