@@ -1,3 +1,11 @@
+@media screen and (max-width: 320px) {
+  #app {
+    button:not(:disabled):hover {
+      font-weight: normal;
+    }
+  }
+}
+
 /* Téléphone */
 @media screen and (max-width: 400px) {
   #app {

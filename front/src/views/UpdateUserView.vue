@@ -14,6 +14,22 @@
         </form>
     </dialog>
 
+    <dialog id="exit-dialog" ref="dialogExit">
+        <div class="header">
+            <h2>Avertissement</h2>
+            <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
+        </div>
+        <div>Tu n'as as enregistré tes modifications !
+            <br>Es-tu sûr de vouloir quitter ?
+        </div>
+        <div class="button-container">
+            <button @click="closeModal">Annuler</button>
+            <button @click="openOtherPage">Quitter</button>
+            <button @click="saveAndQuit">Enregistrer
+            </button>
+        </div>
+    </dialog>
+
     <h1>Modifier</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
@@ -144,9 +160,11 @@ import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
 import validateIcon from '@/assets/img/checked.png';
 import type { Configs } from 'holiday-avatar';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
+import { onBeforeRouteLeave } from 'vue-router';
 
+const router = useRouter();
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
@@ -160,10 +178,12 @@ const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
+const nextRoute = ref('');
 
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
 const updateDisabled = ref(true);
+const dialogExit = ref<HTMLDialogElement | null>(null);
 
 /**
  * Change la valeur de la taille de l'écran
@@ -307,6 +327,28 @@ function regenerateAvatar(parameter: string, value: any) {
   // Affectation de la nouvelle config
   config.value = genConfig(JSON.parse(JSON.stringify(config.value)));
 
+}
+
+
+/**
+ * Ferme la fenêtre modal
+ */
+function closeModal() {
+  dialogExit.value?.close();
+}
+
+/**
+ * Ouvre la page cliquée par l'utilisateur
+ */
+function openOtherPage() {
+  updateDisabled.value = true;
+  closeModal();
+  router.push({ path: nextRoute.value });
+}
+
+function saveAndQuit() {
+  updateUser();
+  openOtherPage();
 }
 
 //Initialisation des constantes
@@ -724,6 +766,7 @@ changeValueWidthScreen();
 
 
 // Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
+
 userCar.token = localStorage.getItem('carToken') || '';
 onMounted(() => {
   if (userCar.token === '') {
@@ -737,7 +780,19 @@ if (localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }
 
+//Quand on quitte la page alors on confirme si il y a eu des changements
+onBeforeRouteLeave((to) => {
 
+  //Récupération de la route cliqué
+  nextRoute.value = to.path;
+
+  //Affichage de la page de confirmation
+  if (updateDisabled.value === false) {
+    dialogExit.value?.showModal();
+    return false;
+  }
+
+});
 
 </script>
 
@@ -753,57 +808,57 @@ if (localStorage.getItem('numTabOpen')) {
 }
 
 div.modify-pseudo {
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    label,
-    input {
-        display: block;
-        margin: .5em 0;
-    }
+  label,
+  input {
+    display: block;
+    margin: .5em 0;
+  }
 
-    input {
-        width: 165px;
-        border-radius: 3px;
-        padding: 3px;
-        border: 1px solid var(--black);
-    }
+  input {
+    width: 165px;
+    border-radius: 3px;
+    padding: 3px;
+    border: 1px solid var(--black);
+  }
 
-    label {
-        margin-right: 10px;
-        font-weight: bold;
-    }
+  label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
 }
 
 button {
-    background-color: var(--dark-green);
-    border: 3px solid var(--dark-green);
-    padding: 8px;
-    border-radius: .6em;
-    cursor: pointer;
-    color: var(--white);
-    margin-top: 10px;
-    width: 120px;
-    text-align: center;
-    transition: ease-in-out 0.1s;
+  padding: 8px;
+  background-color: var(--dark-green);
+  border: 3px solid var(--dark-green);
+  border-radius: .6em;
+  cursor: pointer;
+  color: var(--white);
+  margin-top: 10px;
+  width: 120px;
+  text-align: center;
+  transition: ease-in-out 0.1s;
 }
 
 button:not(:disabled):hover {
-    font-weight: bold;
-    border: 3px solid var(--dark-green);
-    transition: ease-in-out 0.1s;
-    color: var(--dark-green);
-    background-color: var(--white);
+  font-weight: bold;
+  border: 3px solid var(--dark-green);
+  transition: ease-in-out 0.1s;
+  color: var(--dark-green);
+  background-color: var(--white);
 }
 
 button:disabled {
-    background-color: var(--gray);
-    border-color: var(--gray);
-    opacity: 35%;
-    transition: ease-in-out 0.1s;
-    cursor: auto;
+  background-color: var(--gray);
+  border-color: var(--gray);
+  opacity: 35%;
+  transition: ease-in-out 0.1s;
+  cursor: auto;
 }
 
 div.modify-avatar-phone {
@@ -981,9 +1036,10 @@ div.modify-avatar {
 }
 
 
-#connection-dialog {
+#connection-dialog, #exit-dialog {
   border: none;
   border-radius: 1em;
+  padding: 15px 20px;
 
   div.header {
     h2 {
@@ -999,6 +1055,8 @@ div.modify-avatar {
       border: none;
       cursor: pointer;
       padding: 0;
+      width: fit-content;
+      margin-right: 5px;
     }
 
     display: flex;
@@ -1024,7 +1082,7 @@ div.modify-avatar {
       color: var(--red);
       font-size: 1em;
       font-style: italic;
-      margin-bottom: 1.2em;
+      margin-bottom: 10px;
     }
 
     button[type="submit"] {
@@ -1035,6 +1093,7 @@ div.modify-avatar {
       border-radius: 20px;
       cursor: pointer;
       transition: all ease-in-out 0.2s;
+      width: fit-content;
     }
 
     button[type="submit"]:hover {
@@ -1047,6 +1106,24 @@ div.modify-avatar {
     div.button-container {
       display: flex;
       justify-content: center;
+    }
+  }
+}
+
+
+#exit-dialog {
+  width: 500px;
+  height: 200px;
+
+
+  div.button-container {
+    display: flex;
+    justify-content: end;
+    margin-top: 35px;
+
+    button {
+      margin: 0 5px;
+      padding: 3px;
     }
   }
 }
