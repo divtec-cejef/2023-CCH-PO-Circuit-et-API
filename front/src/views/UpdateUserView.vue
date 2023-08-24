@@ -163,13 +163,13 @@ import type { Configs } from 'holiday-avatar';
 import { useRouter } from 'vue-router';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import { onBeforeRouteLeave } from 'vue-router';
+import type { Ref } from 'vue';
 
 const router = useRouter();
 
 //Initialisation des données de l'utilisateur
 const userCar = useCarStore();
 const { car } = userCar;
-const config = ref(genConfig(car.avatar));
 const password = ref('');
 const error = ref('');
 const saveIsInvalid = ref(false);
@@ -179,6 +179,33 @@ const opacityAvatar = ref('');
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
+
+const config = ref(genConfig(car.avatar));
+
+// S'il y a quelque chose dans le localstorage avec on compare avec les données dans la db
+if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
+  let avatarValue : Ref<Configs> = ref(config.value);
+
+  //Récupération des données par l'api
+  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
+    avatarValue.value = v.json.avatar;
+  });
+
+  //Test si les avatars stockés et en ligne sont égaux
+  if (avatarEquals(JSON.parse(localStorage.getItem('lastConfigAvatar') || ''), avatarValue.value)) {
+    config.value = JSON.parse(localStorage.getItem('configAvatar') || '');
+  } else {
+    config.value = avatarValue.value;
+    localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
+    localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
+  }
+}
+
+//Récupération du localstorage
+if (localStorage.getItem('configAvatar')) {
+  config.value = genConfig(JSON.parse(localStorage.getItem('configAvatar') || ''));
+}
+
 
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -228,7 +255,7 @@ async function connect(queryId: string, password: string) {
   error.value = '';
 
   // Test si enregistrement des données de la voiture
-  if (refPseudo.value !== car.pseudo || !avatarEquals()) {
+  if (refPseudo.value !== car.pseudo || !avatarEquals(config.value, userCar.car.avatar)) {
     await updateUser();
   }
 }
@@ -237,15 +264,20 @@ async function connect(queryId: string, password: string) {
  * Compare deux avatars
  * @returns true si les deux avatars sont identiques, false sinon
  */
-function avatarEquals() {
+function avatarEquals(avatar1: any, avatar2: any) {
   let equlality = true;
-  Object.keys(config.value).forEach((key) => {
-    if (userCar.car.avatar === undefined)
+  console.log(avatar1);
+  console.log(avatar2);
+  Object.keys(avatar1).forEach((key) => {
+    if (avatar2 === undefined) {
+      console.log('c est undifined');
       return;
-    if (config.value[key as keyof Configs] !== userCar.car.avatar[key as keyof Configs]) {
+    }
+    if (avatar1[key as keyof Configs] !== avatar2[key as keyof Configs]) {
       equlality = false;
     }
   });
+  console.log(equlality);
   return equlality;
 }
 
@@ -253,7 +285,7 @@ function avatarEquals() {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
-  updateDisabled.value = avatarEquals() && refPseudo.value.toString() === car.pseudo.toString();
+  updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 
 /**
@@ -310,6 +342,12 @@ async function updateUser() {
   // Enregistrement de la voiture dans Pinia
   userCar.car.avatar = JSON.parse(JSON.stringify(reqUserCar.car.avatar));
   userCar.car.pseudo = reqUserCar.car.pseudo;
+
+  //Suppression du localstorage
+  localStorage.removeItem('configAvatar');
+  //Stockage de "l'ancienne" config
+  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
+  console.log('Je stocke ancien avatar');
 }
 
 /**
@@ -327,8 +365,9 @@ function regenerateAvatar(parameter: string, value: any) {
   // Affectation de la nouvelle config
   config.value = genConfig(JSON.parse(JSON.stringify(config.value)));
 
+  //Stockage dans le localstorage
+  localStorage.setItem('configAvatar', JSON.stringify(config.value));
 }
-
 
 /**
  * Ferme la fenêtre modal
@@ -764,9 +803,7 @@ function clickTab(numTab: number) {
 //Lancement d'un premier calcul de la largeur de la page
 changeValueWidthScreen();
 
-
 // Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
-
 userCar.token = localStorage.getItem('carToken') || '';
 onMounted(() => {
   if (userCar.token === '') {
@@ -791,8 +828,8 @@ onBeforeRouteLeave((to) => {
     dialogExit.value?.showModal();
     return false;
   }
-
 });
+
 
 </script>
 
