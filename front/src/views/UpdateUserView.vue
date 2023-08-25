@@ -81,7 +81,8 @@
 
             <div class="modify-pseudo">
                 <label for="pseudo">Pseudo : </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton" maxlength="10">
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
+                       maxlength="10">
             </div>
 
             <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
@@ -100,7 +101,8 @@
 
             <div class="modify-pseudo">
                 <label for="pseudo">Pseudo : </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="enableButton" maxlength="10">
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
+                       maxlength="10">
             </div>
 
             <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
@@ -180,37 +182,61 @@ const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
 
-const config = ref(genConfig(car.avatar));
-
-// S'il y a quelque chose dans le localstorage avec on compare avec les données dans la db
-if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
-  let avatarValue : Ref<Configs> = ref(config.value);
-
-  //Récupération des données par l'api
-  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
-    avatarValue.value = v.json.avatar;
-  });
-
-  //Test si les avatars stockés et en ligne sont égaux
-  if (avatarEquals(JSON.parse(localStorage.getItem('lastConfigAvatar') || ''), avatarValue.value)) {
-    config.value = JSON.parse(localStorage.getItem('configAvatar') || '');
-  } else {
-    config.value = avatarValue.value;
-    localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
-    localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
-  }
-}
-
-//Récupération du localstorage
-if (localStorage.getItem('configAvatar')) {
-  config.value = genConfig(JSON.parse(localStorage.getItem('configAvatar') || ''));
-}
-
-
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
 const updateDisabled = ref(true);
 const dialogExit = ref<HTMLDialogElement | null>(null);
+
+//Config
+const config = ref(genConfig(car.avatar));
+
+//Gère le nom du pilote
+if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')) {
+  let piloteName = ref('');
+
+  //Récupération des données par l'api
+  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
+    console.log(v.json);
+    piloteName.value = v.json.pseudo;
+
+    //Test si les avatars stockés et en ligne sont égaux
+    if (localStorage.getItem('lastPiloteName') == piloteName.value) {
+      console.log('localstorage');
+      refPseudo.value = localStorage.getItem('piloteName') || '';
+    } else {
+      console.log('api');
+      console.log(localStorage.getItem('lastPiloteName'));
+      console.log(piloteName.value);
+      refPseudo.value = piloteName.value;
+      localStorage.setItem('piloteName', piloteName.value);
+      localStorage.setItem('lastPiloteName', piloteName.value);
+    }
+  });
+}
+
+// S'il y a quelque chose dans le localstorage avec on compare avec les données dans la db
+if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
+  let avatarValue: Ref<Configs> = ref(config.value);
+
+  //Récupération des données par l'api
+  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
+    avatarValue.value = v.json.avatar;
+
+    //Test si les avatars stockés et en ligne sont égaux
+    if (avatarEquals(JSON.parse(localStorage.getItem('lastConfigAvatar') || ''), avatarValue.value)) {
+      config.value = genConfig(JSON.parse(localStorage.getItem('configAvatar') || ''));
+    } else {
+      config.value = genConfig(avatarValue.value);
+      localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
+      localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
+    }
+  });
+}
+
+
+// //Gérer le grisement de bouton ou non
+// updateDisabled.value = avatarEquals(JSON.parse(localStorage.getItem('configAvatar') || ''), JSON.parse(localStorage.getItem('lastConfigAvatar') || ''))
+//   || refPseudo.value.toString() === car.pseudo.toString();
 
 /**
  * Change la valeur de la taille de l'écran
@@ -270,7 +296,6 @@ function avatarEquals(avatar1: any, avatar2: any) {
   console.log(avatar2);
   Object.keys(avatar1).forEach((key) => {
     if (avatar2 === undefined) {
-      console.log('c est undifined');
       return;
     }
     if (avatar1[key as keyof Configs] !== avatar2[key as keyof Configs]) {
@@ -293,6 +318,14 @@ function enableButton() {
  */
 function cancel() {
   router.push({ path: '/' });
+}
+
+/**
+ * Lancement au changement de pseudo
+ */
+function atChangePseudo() {
+  localStorage.setItem('piloteName', refPseudo.value);
+  enableButton();
 }
 
 /**
@@ -347,7 +380,7 @@ async function updateUser() {
   localStorage.removeItem('configAvatar');
   //Stockage de "l'ancienne" config
   localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
-  console.log('Je stocke ancien avatar');
+  localStorage.setItem('lastPiloteName', refPseudo.value);
 }
 
 /**
