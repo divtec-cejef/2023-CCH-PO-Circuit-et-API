@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div :ref="panzoomable">
-            <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections"></BonusMap>
+            <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections" :activated-section="activatedSection"></BonusMap>
         </div>
     </div>
     <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
@@ -25,70 +25,103 @@ const divLeft = ref('0');
 const divTop = ref('0');
 const divDisplay = ref('none');
 
-let realisedActivity = [];
-let sectionActivities = [];
+let realisedActivity = ref([]);
+let sectionActivities = ref([]);
+let activatedSection = ref([]);
 
 function getRealisedActivity() {
-  realisedActivity = [];
+  realisedActivity.value = [];
   api.getActivityOneCar(car.idCar).then((v) => {
     const { json: dataActivity, status: status } = v;
     if (status.valueOf() === api.ReturnCodes.Success) {
       for (let activity of dataActivity) {
-        realisedActivity.push(activity['id_activity']);
+        realisedActivity.value.push(activity['id_activity']);
       }
     }
+
+    getSectionAndActivities();
   });
-  return realisedActivity;
 }
 
 function getSectionAndActivities() {
-  sectionActivities = [];
+  sectionActivities.value = [];
   api.getAllSections().then((v) => {
     const { json: dataSections, status: statusActivities } = v;
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
+        console.log(section['label']);
+        for (let sections of allSections.value) {
+          if (sections['section'] === section['label']) {
+            sections['id'] = section['id_section'];
+          }
+        }
 
         api.getAllActivitiesOneSection(section['id_section']).then((v) => {
           const { json: dataActivities, status: statusActivities } = v;
 
           if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-            sectionActivities.push(
+            sectionActivities.value.push(
               {
                 idSection: section['id_section'],
                 labelSection: section['label'],
-                activities: {
-                  idActivity: dataActivities['id_activity'],
-                  labelActivity: dataActivities['label_activity']
-                }
+                activities: [],
               });
+            for (let activity of dataActivities) {
+              for (let section of sectionActivities.value) {
+                if (section['idSection'] === activity['id_section']) {
+                  section['activities'].push(
+                    {
+                      idActivity: activity['id_activity'],
+                      labelActivity: activity['label'],
+                    });
+                }
+              }
+            }
           }
+          getSectionBonusAcorded();
+          console.log(activatedSection.value);
         });
       }
     }
   });
-  return sectionActivities;
 }
 
 function activityIsRealised(idActivity) {
-  return realisedActivity.includes(idActivity);
+  console.log(idActivity);
+  return realisedActivity.value.includes(idActivity);
 }
 
 function sectionBonusAcorded(idSection) {
-  let bonusAcorded = true;
-  for (let activity of sectionActivities) {
-    if (activity['idSection'] === idSection) {
-      if (!activityIsRealised(activity['activities']['idActivity'])) {
-        bonusAcorded = false;
+  let bonusAcorded = false;
+  console.log(realisedActivity.value);
+  for (let section of sectionActivities.value) {
+    console.log(typeof section.activities);
+    if (section['idSection'] === idSection) {
+      for (let activity of section['activities']) {
+        console.log(activity);
+        if (activityIsRealised(activity['idActivity'])) {
+          console.log('activity');
+          bonusAcorded = true;
+        }
       }
     }
   }
   return bonusAcorded;
 }
 
-realisedActivity = getRealisedActivity();
-sectionActivities = getSectionAndActivities();
+function getSectionBonusAcorded() {
+  console.log(sectionActivities.value);
+  for (let section of sectionActivities.value) {
+    console.log(section);
+    if (sectionBonusAcorded(section['idSection'])) {
+      console.log(sectionBonusAcorded(section['idSection']));
+      activatedSection.value.push(section['idSection']);
+    }
+  }
+}
 
+getRealisedActivity();
 console.log(sectionActivities, realisedActivity);
 
 const divHeight = 50;
@@ -111,43 +144,61 @@ const panzoomable = v => {
   });
 };
 
-const allSections = [{
+const allSections = ref([{
+  section: 'Informatique',
+  id: -1,
   labelSection: 'Informaticien-ne',
   posX: 22,
   posY: 30,
 },{
+  section: 'Automatique',
+  id: -1,
   labelSection: 'Automaticien-ne',
   posX: 45,
   posY: 65,
 },{
+  section: 'Horlogerie',
+  id: -1,
   labelSection: 'Horloger-ère',
   posX: 77,
   posY: 65,
 },{
+  section: 'Electronique',
+  id: -1,
   labelSection: 'Electronicien-ne',
   posX: 73,
   posY: 17,
 },{
+  section: 'Micromécanique',
+  id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 47,
   posY: 8,
 },{
+  section: 'Laborantin',
+  id: -1,
   labelSection: 'Laborantin-e',
   posX: 77,
   posY: 79,
 },{
+  section: 'Dessinateur',
+  id: -1,
   labelSection: 'Dessinateur-trice',
   posX: 35,
   posY: 15,
 },{
+  section: 'Mécatronique',
+  id: -1,
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 80,
 },{
+  section: 'Industrie 2.0',
+  id: -1,
   labelSection: 'Industrie 2.0',
   posX: 15,
   posY: 20,
-}];
+}]);
 
 function calculatePositionX(posx, dif, zoomfactor) {
   console.log(posx, window.innerWidth / 2);
@@ -186,7 +237,7 @@ function calculatePositionY(posy, dif, zoomfactor) {
 
 function displayLabel(posx, posy, sectionLabel) {
   // console.log(posx, posy, sectionLabel);
-  for (let section of allSections) {
+  for (let section of allSections.value) {
     if (section.labelSection === sectionLabel) {
       currentSection = section;
     }
