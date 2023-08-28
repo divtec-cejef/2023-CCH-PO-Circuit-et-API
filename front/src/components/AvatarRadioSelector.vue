@@ -66,7 +66,7 @@ input[type=radio]:checked + label {
 
 fieldset {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 4px;
   display: flex;
   flex-direction: row;
   justify-content: start;
