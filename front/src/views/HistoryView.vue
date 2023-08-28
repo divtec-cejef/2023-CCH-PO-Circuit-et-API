@@ -4,9 +4,20 @@
             <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections" :activated-section="activatedSection"></BonusMap>
         </div>
     </div>
-    <div ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
-        <p>{{ currentSection === null ? null : currentSection['labelSection'] }}</p>
-        <p>Activités :</p>
+    <div v-if="currentLabel.title !== null" ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
+        <div v-if="currentLabel.activities.length > 0">
+            <p>Activités :</p>
+            <ul>
+                <li v-for="activity in currentLabel.activities" :key="activity.id_activity">
+                    <img :src=trophy alt="Trophé"  :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
+                    <span>{{ activity['labelActivity'] }}</span>
+                </li>
+            </ul>
+        </div>
+        <div v-if="currentLabel.activities.length <= 0">
+            <p>Il n'y a pas d'activités dans cette section</p>
+        </div>
+
     </div>
 
 </template>
@@ -17,6 +28,7 @@ import panzoom from 'panzoom';
 import { ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
+import trophy from '../assets/img/rank1.webp';
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -85,11 +97,11 @@ function getSectionAndActivities() {
   });
 }
 
-function activityIsRealised(idActivity) {
+function activityIsRealised(idActivity: number) {
   return realisedActivity.value.includes(idActivity);
 }
 
-function sectionBonusAcorded(idSection) {
+function sectionBonusAcorded(idSection: number) {
   let bonusAcorded = false;
   for (let section of sectionActivities.value) {
     if (section['idSection'] === idSection) {
@@ -117,6 +129,10 @@ const divHeight = 50;
 const divWidth = 250;
 
 let currentSection = null;
+let currentLabel = ref({
+  title: null,
+  realised: false,
+  activities: [] });
 let zoomfactor = 1;
 
 const panzoomable = v => {
@@ -189,7 +205,7 @@ const allSections = ref([{
   posY: 20,
 }]);
 
-function calculatePositionX(posx, dif, zoomfactor) {
+function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
   console.log(posx, window.innerWidth / 2);
   let pos;
   if (posx > window.innerWidth / 2) {
@@ -207,7 +223,7 @@ function calculatePositionX(posx, dif, zoomfactor) {
   return pos + 'px';
 }
 
-function calculatePositionY(posy, dif, zoomfactor) {
+function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
     console.log(posy, (posy - (10 + dif + divHeight)) * zoomfactor + 'px');
@@ -224,7 +240,7 @@ function calculatePositionY(posy, dif, zoomfactor) {
   return pos + 'px';
 }
 
-function displayLabel(posx, posy, sectionLabel) {
+function displayLabel(posx: number, posy: number, sectionLabel: number) {
   // console.log(posx, posy, sectionLabel);
   for (let section of allSections.value) {
     if (section.labelSection === sectionLabel) {
@@ -235,6 +251,26 @@ function displayLabel(posx, posy, sectionLabel) {
   divLeft.value = calculatePositionX(posx, 24, zoomfactor);
   divTop.value = calculatePositionY(posy, 24, zoomfactor);
   divDisplay.value = 'block';
+
+  currentLabel.value = {
+    title: currentSection.labelSection,
+    realised: sectionBonusAcorded(currentSection.id),
+    activities: [],
+  };
+
+  for (let section of sectionActivities.value) {
+    if (section['idSection'] === currentSection.id) {
+      for (let activity of section['activities']) {
+        currentLabel.value.activities.push(
+          {
+            idActivity: activity['idActivity'],
+            labelActivity: activity['labelActivity'],
+            realised: activityIsRealised(activity['idActivity']),
+          });
+      }
+    }
+  }
+  console.log(currentLabel.value, realisedActivity.value);
 }
 
 function hideLabel() {
@@ -253,10 +289,34 @@ function hideLabel() {
 
 .labelActivity {
     width: 250px;
-    height: 50px;
+    padding: 10px;
     display: none;
     position: absolute;
     background-color: #ffffff;
-    border: 1px solid #000000;
+    //border: 2px solid #595959;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+
+    h2 {
+        font-size: 23px;
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        padding-left: 0;
+    }
+
+    li {
+        list-style-type: none;
+        display: flex;
+
+        img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+    }
 }
 </style>
