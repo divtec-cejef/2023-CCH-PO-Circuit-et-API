@@ -6,11 +6,11 @@
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
                    :name=props.avatarProperty.propNameSnakeCase
-                   :id=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)
+                   :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :value=item.propValueEn
                    :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
             <label :class="`radio-avatar ${item.propValueFr}`"
-                   :for=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)
+                   :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :style="{'background-color': item.propValueEn}"></label>
         </template>
     </fieldset>
@@ -27,6 +27,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['regenerateAvatar']);
+
+
+
 </script>
 
 <style scoped>
