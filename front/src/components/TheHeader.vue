@@ -4,10 +4,10 @@
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
+            <li @click="clickMenu" v-if="!isNaN(userCar.car.idCar)">
                 <RouterLink to="/pilote">Pilote</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="hasOneCar && !isNaN(userCar.car.idCar)">
+            <li @click="clickMenu" v-if="!isNaN(userCar.car.idCar)">
                 <RouterLink to="/course">Mes Courses</RouterLink>
             </li>
             <li @click="clickMenu">
@@ -16,7 +16,7 @@
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="isAdmin && !isNaN(adminPost.idSection)">
+            <li @click="clickMenu" v-if="adminPost.idSection != ''">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
             <li @click="clickMenu" id="stage">
@@ -46,8 +46,9 @@ const clickMenu = () => {
 const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
-const hasOneCar = ref(localStorage.getItem('userCarId') != undefined);
-const isAdmin = ref(localStorage.getItem('tokenPost') != undefined);
+
+const hasOneCar = ref(localStorage.getItem('userCarId') != null);
+const isAdmin = ref(localStorage.getItem('tokenPost') != null);
 
 </script>
 
