@@ -50,7 +50,6 @@ function getSectionAndActivities() {
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
-        console.log(section['label']);
         for (let sections of allSections.value) {
           if (sections['section'] === section['label']) {
             sections['id'] = section['id_section'];
@@ -80,7 +79,6 @@ function getSectionAndActivities() {
             }
           }
           getSectionBonusAcorded();
-          console.log(activatedSection.value);
         });
       }
     }
@@ -88,20 +86,15 @@ function getSectionAndActivities() {
 }
 
 function activityIsRealised(idActivity) {
-  console.log(idActivity);
   return realisedActivity.value.includes(idActivity);
 }
 
 function sectionBonusAcorded(idSection) {
   let bonusAcorded = false;
-  console.log(realisedActivity.value);
   for (let section of sectionActivities.value) {
-    console.log(typeof section.activities);
     if (section['idSection'] === idSection) {
       for (let activity of section['activities']) {
-        console.log(activity);
         if (activityIsRealised(activity['idActivity'])) {
-          console.log('activity');
           bonusAcorded = true;
         }
       }
@@ -111,18 +104,14 @@ function sectionBonusAcorded(idSection) {
 }
 
 function getSectionBonusAcorded() {
-  console.log(sectionActivities.value);
   for (let section of sectionActivities.value) {
-    console.log(section);
     if (sectionBonusAcorded(section['idSection'])) {
-      console.log(sectionBonusAcorded(section['idSection']));
       activatedSection.value.push(section['idSection']);
     }
   }
 }
 
 getRealisedActivity();
-console.log(sectionActivities, realisedActivity);
 
 const divHeight = 50;
 const divWidth = 250;

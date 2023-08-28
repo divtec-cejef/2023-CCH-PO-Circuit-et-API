@@ -33,7 +33,6 @@ const props = defineProps<{
 }>();
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
-console.log('test', props.sections);
 
 function atHover(event, section) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
