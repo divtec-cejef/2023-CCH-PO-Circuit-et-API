@@ -57,7 +57,7 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v) => {
+  api.getAllSections().then((v: object) => {
     const { json: dataSections, status: statusActivities } = v;
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
@@ -68,7 +68,7 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section['id_section']).then((v) => {
+        api.getAllActivitiesOneSection(section['id_section']).then((v: object) => {
           const { json: dataActivities, status: statusActivities } = v;
 
           if (statusActivities.valueOf() === api.ReturnCodes.Success) {
