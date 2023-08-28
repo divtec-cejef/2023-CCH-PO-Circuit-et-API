@@ -107,3 +107,22 @@ div.loading, div.error, div.error-no-car {
 div.loading {
   left: calc(50% - 20px);
 }
+
+
+.roller {
+  display: flex;
+  flex-direction: row;
+
+  .roller-item {
+    .roller-item__wrapper {
+      .roller-item__wrapper__list {
+        .roller-item__wrapper__list__item {
+        }
+      }
+    }
+  }
+}
+
+.roller-item[data-v-5357a046] {
+ height: 1.4em;
+}

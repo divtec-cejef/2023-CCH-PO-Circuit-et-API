@@ -358,7 +358,7 @@
     //MARK: - Page home
     div.home-root {
       ul.stats {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 420px 420px;
       }
     }
   }
@@ -409,7 +409,7 @@
       flex-direction: row;
 
       ul.stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: 420px;
       }
     }
 
