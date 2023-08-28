@@ -105,7 +105,6 @@
                        maxlength="10">
             </div>
 
-            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
 
         <div class="tab">
@@ -143,6 +142,13 @@
                 </template>
 
             </div>
+        </div>
+
+        <div class="bt-save-phone">
+
+
+        <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+
         </div>
     </div>
 
@@ -900,7 +906,7 @@ div.modify-pseudo {
 }
 
 button {
-  padding: 8px;
+  padding: 12px;
   background-color: var(--dark-green);
   border: 3px solid var(--dark-green);
   border-radius: .6em;
@@ -987,9 +993,14 @@ div.modify-avatar-phone {
     input {
       display: none;
     }
-
-
   }
+
+    div.bt-save-phone {
+        margin: 15px 0;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 div.modify-avatar {
