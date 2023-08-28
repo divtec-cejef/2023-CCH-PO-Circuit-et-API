@@ -193,7 +193,7 @@ const allSections = ref([{
   posX: 20,
   posY: 80,
 },{
-  section: 'Industrie 2.0',
+  section: 'Industries2.0',
   id: -1,
   labelSection: 'Industrie 2.0',
   posX: 15,

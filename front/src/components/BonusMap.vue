@@ -1,9 +1,9 @@
 <template>
     <img :src=svg alt="Carte de la division">
 
-    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%'}" @click="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, section.labelSection)">
+    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%', border: `2px solid ${Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`}" @mouseover="atHover($event, section)" @mouseleave="atLeave($event)" @click="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, section.labelSection)">
         <img :src=trophy alt="image de trophé (médaille)" :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
-        <p>{{section.labelSection}}</p>
+        <p :style="{color: Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}">{{section.labelSection}}</p>
     </div>
 
 
@@ -14,6 +14,7 @@
 import { onMounted, ref } from 'vue';
 import svg from '../assets/svg/division-plan.svg';
 import trophy from '../assets/img/rank1.webp';
+import { Section } from '@/models/section';
 import Car from '@/models/car';
 
 const props = defineProps<{
@@ -31,6 +32,19 @@ const props = defineProps<{
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 console.log('test', props.sections);
+
+function atHover(event, section) {
+  if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
+    event.target.parentElement.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  } else {
+    event.target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  }
+}
+
+function atLeave(event) {
+  event.target.style.background = 'var(--white)';
+}
+
 // const icon = ref<HTMLElement | null>(null);
 //
 // onMounted(() => {
@@ -84,7 +98,7 @@ template {
     cursor: pointer;
     background-color: var(--pink-divtec);
     p {
-        color: var(--white);
+        color: var(--white) !important;
     }
 }
 

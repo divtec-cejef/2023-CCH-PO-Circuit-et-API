@@ -7,7 +7,8 @@ export namespace Section {
     'automatique',
     'mecatronique',
     'horlogerie',
-    'laborantin'];
+    'laborantin',
+    'informatique'];
 
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
     if (!SectionName.includes(sectionName)) {
@@ -22,7 +23,8 @@ export namespace Section {
       'industries2.0': '#56c1f0',
       laborantin: '#2ccdbd',
       mecatronique: '#d30369',
-      micromecanique: '#099ad9'
+      micromecanique: '#099ad9',
+      informatique: '#766eb1'
     };
 
     return colors[sectionName];
