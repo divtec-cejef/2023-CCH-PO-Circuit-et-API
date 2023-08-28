@@ -17,7 +17,7 @@
     <dialog id="exit-dialog" ref="dialogExit">
         <div class="header">
             <h2>Avertissement</h2>
-            <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
+            <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
         </div>
         <div>Tu n'as as enregistré tes modifications !
             <br>Es-tu sûr de vouloir quitter ?
@@ -55,7 +55,7 @@
                     <template v-for="(props, key) in avatarPropertiesHead" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
                                              @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar "
+                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
                                            :is-phone="false"/>
                     </template>
                 </div>
@@ -146,10 +146,7 @@
         </div>
 
         <div class="bt-save-phone">
-
-
             <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
-
         </div>
     </div>
 
@@ -315,8 +312,6 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
-  console.log(updateDisabled);
-  console.log(config.value, userCar.car.avatar);
   updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 

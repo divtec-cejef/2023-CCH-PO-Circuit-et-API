@@ -8,9 +8,9 @@
         <div class="rdbt-choice">
             <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
                 <input type="radio" :name=props.avatarProperty.propNameSnakeCase
-                       :id=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase) :value=item.propValueEn
+                       :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`" :value=item.propValueEn
                        :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
-                <label :for=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)
+                <label :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                        class="radio-avatar">{{ item.propValueFr }}</label>
             </template>
         </div>

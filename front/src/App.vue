@@ -170,7 +170,7 @@ header {
 }
 
 main {
-    padding-top: 125px;
+    padding-top: 125px ;
 }
 
 header.closed.thin,
