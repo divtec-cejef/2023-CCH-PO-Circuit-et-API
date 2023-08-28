@@ -234,9 +234,9 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
       localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
       localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
     }
+    fillAvatarPropreties(config.value);
 
     isAvatarEquals.value = avatarEquals(config.value, JSON.parse(localStorage.getItem('lastConfigAvatar') || ''));
-    console.log(isAvatarEquals.value, isPseudoEquals.value);
     updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
 
   });
@@ -429,7 +429,7 @@ const NAME_CLOTHES_PROPS = 'clothes';
 const TYPE_PROPS_TXT = 'txt';
 const TYPE_PROPS_COLOR = 'color';
 
-const avatarProperties = [
+let avatarProperties = ref([
   {
     propNameFr: 'Genre',
     propNameEn: 'sex',
@@ -818,11 +818,24 @@ const avatarProperties = [
     ],
     selectedValueEn: config.value.hatColor
   }
-];
+]);
 
 //Tri de l'interface pour les deux tabs
-const avatarPropertiesHead = avatarProperties.filter(props => props.propGroups === NAME_HEAD_PROPS);
-const avatarPropertiesClothes = avatarProperties.filter(props => props.propGroups === NAME_CLOTHES_PROPS);
+const avatarPropertiesHead = avatarProperties.value.filter(props => props.propGroups === NAME_HEAD_PROPS);
+const avatarPropertiesClothes = avatarProperties.value.filter(props => props.propGroups === NAME_CLOTHES_PROPS);
+
+/**
+ * Rempli les valeurs sélectionnées à l'écran en fonction de sa config
+ * @param config Config de l'utilisateur
+ */
+function fillAvatarPropreties(config: Configs) {
+  for (let prop of avatarProperties.value) {
+    let test = config[prop.propNameEn as keyof Configs];
+    if ( typeof test !== 'boolean') {
+      prop.selectedValueEn = test;
+    }
+  }
+}
 
 /**
  * Fonction qui change la valeur du tab cliqué
