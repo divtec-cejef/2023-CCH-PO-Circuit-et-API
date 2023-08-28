@@ -10,34 +10,75 @@
             <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
         </div>
 
-        <ul class="stats">
+        <ul class="stats" v-if="dataLoaded">
             <li>
-                <span class="data">{{ racesRan }}</span>
+                <Roller
+                        :duration="1000"
+                        :value="racesRan?.toString()"
+                        :default-value="racesRan?.toString()"
+                        class="data"/>
                 <span class="label">Courses effectuées</span>
             </li>
             <li>
-                <span class="data">{{ activitiesRealisations }}</span>
+                <Roller
+                        :duration="1000"
+                        :value="activitiesRealisations?.toString()"
+                        :default-value="activitiesRealisations?.toString()"
+                        class="data"/>
                 <span class="label">Activités effectuées</span>
             </li>
             <li>
-                <span class="data">{{ fastestRace }}</span>
+                <span class="data">
+                    <template v-if="/:/.test(fastestRace || '')">
+                        <Roller
+                                char-set="number"
+                                :default-value="fastestRace?.split(':')[0]"
+                                :duration="1000"
+                                :value="fastestRace?.split(':')[0]" />
+                        <span>:</span>
+                        <Roller
+                                char-set="number"
+                                :default-value="fastestRace?.split(':')[1].split('.')[0]"
+                                :duration="1000"
+                                :value="fastestRace?.split(':')[1].split('.')[0]"/>
+                    </template>
+                    <template v-else>
+                        <Roller
+                                char-set="number"
+                                :default-value="fastestRace?.split('.')[0]"
+                                :duration="1000"
+                                :value="fastestRace?.split('.')[0]"/>
+                    </template>
+                    <span>.</span>
+                    <Roller
+                            char-set="number"
+                            :default-value="fastestRace?.split('.')[1]"
+                            :duration="1000"
+                            :value="fastestRace?.split('.')[1]"/>
+                </span>
                 <span class="label">est le temps de course le plus rapide</span>
             </li>
             <li>
-                <span class="data">{{ preferredActivity }}</span>
+                <Roller char-set="alphabet" :duration="1000" :default-value="preferredActivity" :value="preferredActivity" class="data"/>
                 <span class="label">est l'activité préférée des visiteurs</span>
             </li>
         </ul>
+        <div v-else>
+            <SpinLoading/>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
-import { onBeforeUnmount, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
 import { useRouter } from 'vue-router';
+import { Roller } from 'vue-roller';
+import 'vue-roller/dist/style.css';
+import SpinLoading from '@/components/SpinLoading.vue';
 
 const router = useRouter();
 
@@ -46,6 +87,13 @@ const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
 const fastestRace = ref<string>();
 const preferredActivity = ref<string>();
+
+const dataLoaded = computed(() => {
+  return racesRan.value !== undefined &&
+    activitiesRealisations.value !== undefined &&
+    fastestRace.value !== undefined &&
+    preferredActivity.value !== undefined;
+});
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
@@ -86,7 +134,7 @@ div.home-root {
     list-style-type: none;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 420px;
     grid-gap: 20px;
 
     li {
@@ -103,6 +151,9 @@ div.home-root {
         font-weight: bold;
         font-size: 56px;
         padding-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       }
     }
   }
