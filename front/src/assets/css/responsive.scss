@@ -78,6 +78,13 @@
   }
 }
 
+/* Encran plus petit que 700px*/
+@media screen and (max-width: 700px) {
+  main.display {
+    padding: 15px !important;
+  }
+};
+
 /* Tablette */
 @media screen and (min-width: 740px) {
   #app {
