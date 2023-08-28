@@ -300,7 +300,6 @@ function avatarEquals(avatar1: any, avatar2: any) {
       equlality = false;
     }
   });
-  console.log(equlality);
   return equlality;
 }
 
@@ -948,7 +947,7 @@ div.modify-avatar-phone {
 
   .tab-content {
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-    width: calc(80% - 10px);
+    max-width: 595px;
     margin: 0 auto;
     border-radius: 7px;
     padding: 2px 10px 8px 10px;
@@ -960,8 +959,16 @@ div.modify-avatar-phone {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 100%;
 
+      div:nth-last-child(1) {
+          margin-right: 0;
+      }
+
+      div:nth-child(1) {
+          margin-left: 0;
+      }
+      
     .tab, .not-clicked {
       width: 45px;
       padding: 8px;
