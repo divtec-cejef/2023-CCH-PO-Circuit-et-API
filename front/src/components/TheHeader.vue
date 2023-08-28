@@ -46,8 +46,8 @@ const clickMenu = () => {
 const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
-const hasOneCar = ref(localStorage.getItem('userCarId') != null);
-const isAdmin = ref(localStorage.getItem('tokenPost') != null);
+const hasOneCar = ref(localStorage.getItem('userCarId') != undefined);
+const isAdmin = ref(localStorage.getItem('tokenPost') != undefined);
 
 </script>
 
