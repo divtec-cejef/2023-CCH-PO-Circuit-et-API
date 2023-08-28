@@ -34,7 +34,7 @@ const props = defineProps<{
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 
-function atHover(event, section) {
+function atHover(event: object, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
     event.target.parentElement.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
   } else {
@@ -42,7 +42,7 @@ function atHover(event, section) {
   }
 }
 
-function atLeave(event) {
+function atLeave(event: object) {
   event.target.style.background = 'var(--white)';
 }
 
