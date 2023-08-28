@@ -80,7 +80,7 @@
             </div>
 
             <div class="modify-pseudo">
-                <label for="pseudo">Pseudo : </label>
+                <label for="pseudo">Pseudo </label>
                 <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
                        maxlength="10">
             </div>
@@ -89,20 +89,21 @@
         </div>
     </div>
 
-    <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')">
+    <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')" @change="enableButton">
+
         <div class="avatar-and-pseudo">
+            <div class="modify-pseudo">
+                <label for="pseudo">Pseudo </label>
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
+                       maxlength="10">
+            </div>
+
             <div :style="{display: displayMsgValid}" class="msg-success">
                 <img :src="validateIcon"
                      alt="Icon de validation de l'enregistrement des données">
             </div>
             <div class="content-avatar" :style="{opacity: opacityAvatar}">
                 <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-            </div>
-
-            <div class="modify-pseudo">
-                <label for="pseudo">Pseudo : </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
-                       maxlength="10">
             </div>
 
         </div>
@@ -147,7 +148,7 @@
         <div class="bt-save-phone">
 
 
-        <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
 
         </div>
     </div>
@@ -214,7 +215,7 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
       localStorage.setItem('piloteName', piloteName.value);
       localStorage.setItem('lastPiloteName', piloteName.value);
     }
-    isPseudoEquals.value = refPseudo.value == localStorage.getItem('lastNamePilote');
+    isPseudoEquals.value = localStorage.getItem('piloteName') == localStorage.getItem('lastPiloteName');
     updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
 
   });
@@ -238,6 +239,7 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
     }
 
     isAvatarEquals.value = avatarEquals(config.value, JSON.parse(localStorage.getItem('lastConfigAvatar') || ''));
+    console.log(isAvatarEquals.value, isPseudoEquals.value);
     updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
 
   });
@@ -313,6 +315,8 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
+  console.log(updateDisabled);
+  console.log(config.value, userCar.car.avatar);
   updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 
@@ -379,8 +383,6 @@ async function updateUser() {
   userCar.car.avatar = JSON.parse(JSON.stringify(reqUserCar.car.avatar));
   userCar.car.pseudo = reqUserCar.car.pseudo;
 
-  //Suppression du localstorage
-  localStorage.removeItem('configAvatar');
   //Stockage de "l'ancienne" config
   localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
   localStorage.setItem('lastPiloteName', refPseudo.value);
@@ -941,7 +943,8 @@ div.modify-avatar-phone {
     display: flex;
     justify-content: end;
     transition: all ease-in-out 0.2s;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     div.avatar {
       width: 250px;
@@ -967,14 +970,14 @@ div.modify-avatar-phone {
     justify-content: center;
     width: 100%;
 
-      div:nth-last-child(1) {
-          margin-right: 0;
-      }
+    div:nth-last-child(1) {
+      margin-right: 0;
+    }
 
-      div:nth-child(1) {
-          margin-left: 0;
-      }
-      
+    div:nth-child(1) {
+      margin-left: 0;
+    }
+
     .tab, .not-clicked {
       width: 45px;
       padding: 8px;
@@ -995,12 +998,12 @@ div.modify-avatar-phone {
     }
   }
 
-    div.bt-save-phone {
-        margin: 15px 0;
-        display: flex;
-        width: 100%;
-        justify-content: center;
-    }
+  div.bt-save-phone {
+    margin: 15px 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 div.modify-avatar {
@@ -1231,7 +1234,7 @@ div.msg-success {
   height: 300px;
   display: flex;
   position: absolute;
-  z-index: 1000;
+  z-index: 900;
   justify-content: center;
   align-items: center;
   transition: all ease-in-out 0.2s;
