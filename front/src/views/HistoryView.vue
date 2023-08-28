@@ -8,7 +8,7 @@
         <div v-if="currentLabel.activities.length > 0">
             <p>Activités :</p>
             <ul>
-                <li v-for="activity in currentLabel.activities" :key="activity.id_activity">
+                <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
                     <img :src=trophy alt="Trophé"  :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
                     <span>{{ activity['labelActivity'] }}</span>
                 </li>
@@ -33,13 +33,13 @@ const userCar = useCarStore();
 const { car } = userCar;
 
 const label = ref<HTMLDivElement>();
-const divLeft = ref('0');
-const divTop = ref('0');
-const divDisplay = ref('none');
+const divLeft = ref<string>('0');
+const divTop = ref<string>('0');
+const divDisplay = ref<string>('none');
 
-let realisedActivity = ref([]);
-let sectionActivities = ref([]);
-let activatedSection = ref([]);
+let realisedActivity = ref<number[]>([]);
+let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
+let activatedSection = ref<number[]>([]);
 
 function getRealisedActivity() {
   realisedActivity.value = [];
@@ -57,7 +57,7 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v: object) => {
+  api.getAllSections().then((v: {json: {label: string, id_section: number}[], status: number }) => {
     const { json: dataSections, status: statusActivities } = v;
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
@@ -68,30 +68,38 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section['id_section']).then((v: object) => {
-          const { json: dataActivities, status: statusActivities } = v;
+        api.getAllActivitiesOneSection(section['id_section'])
+          .then((v: {
+            json: {
+                label: string,
+                id_section: number,
+                id_activity: number
+            }[],
+                status: number
+            }) => {
+            const { json: dataActivities, status: statusActivities } = v;
 
-          if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-            sectionActivities.value.push(
-              {
-                idSection: section['id_section'],
-                labelSection: section['label'],
-                activities: [],
-              });
-            for (let activity of dataActivities) {
-              for (let section of sectionActivities.value) {
-                if (section['idSection'] === activity['id_section']) {
-                  section['activities'].push(
-                    {
-                      idActivity: activity['id_activity'],
-                      labelActivity: activity['label'],
-                    });
+            if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+              sectionActivities.value.push(
+                {
+                  idSection: section['id_section'],
+                  labelSection: section['label'],
+                  activities: [],
+                });
+              for (let activity of dataActivities) {
+                for (let section of sectionActivities.value) {
+                  if (section?.idSection === activity['id_section']) {
+                    section?.activities.push(
+                      {
+                        idActivity: activity['id_activity'],
+                        labelActivity: activity['label'],
+                      });
+                  }
                 }
               }
             }
-          }
-          getSectionBonusAcorded();
-        });
+            getSectionBonusAcorded();
+          });
       }
     }
   });
@@ -104,7 +112,7 @@ function activityIsRealised(idActivity: number) {
 function sectionBonusAcorded(idSection: number) {
   let bonusAcorded = false;
   for (let section of sectionActivities.value) {
-    if (section['idSection'] === idSection) {
+    if (section?.idSection === idSection) {
       for (let activity of section['activities']) {
         if (activityIsRealised(activity['idActivity'])) {
           bonusAcorded = true;
@@ -117,8 +125,10 @@ function sectionBonusAcorded(idSection: number) {
 
 function getSectionBonusAcorded() {
   for (let section of sectionActivities.value) {
-    if (sectionBonusAcorded(section['idSection'])) {
-      activatedSection.value.push(section['idSection']);
+    if (sectionBonusAcorded(section.idSection)) {
+      if (!activatedSection.value.includes(section['idSection'])) {
+        activatedSection.value.push(section['idSection']);
+      }
     }
   }
 }
@@ -128,14 +138,14 @@ getRealisedActivity();
 const divHeight = 50;
 const divWidth = 250;
 
-let currentSection = null;
-let currentLabel = ref({
+let currentSection = ref<{id: number, labelSection: string, posX: number, posY: number, section: string}>();
+let currentLabel = ref<{title: string | null, realised: boolean, activities: {idActivity: number, labelActivity: string, realised: boolean}[]}>({
   title: null,
   realised: false,
   activities: [] });
-let zoomfactor = 1;
+let zoomfactor: number = 1;
 
-const panzoomable = v => {
+const panzoomable = (v: any)  => {
   let element = panzoom(v, {
     bounds: true,
     boundsPadding: 0.6,
@@ -148,7 +158,6 @@ const panzoomable = v => {
     divDisplay.value = 'none';
   });
 };
-
 const allSections = ref([{
   section: 'Informatique',
   id: -1,
@@ -240,11 +249,11 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
   return pos + 'px';
 }
 
-function displayLabel(posx: number, posy: number, sectionLabel: number) {
+function displayLabel(posx: number, posy: number, sectionLabel: string) {
   // console.log(posx, posy, sectionLabel);
   for (let section of allSections.value) {
     if (section.labelSection === sectionLabel) {
-      currentSection = section;
+      currentSection.value = section;
     }
   }
 
@@ -253,13 +262,13 @@ function displayLabel(posx: number, posy: number, sectionLabel: number) {
   divDisplay.value = 'block';
 
   currentLabel.value = {
-    title: currentSection.labelSection,
-    realised: sectionBonusAcorded(currentSection.id),
+    title: currentSection.value?.labelSection ?? '',
+    realised: currentSection.value?.id ? sectionBonusAcorded(currentSection.value?.id ?? NaN) : false,
     activities: [],
   };
 
   for (let section of sectionActivities.value) {
-    if (section['idSection'] === currentSection.id) {
+    if (section['idSection'] === currentSection.value?.id ?? -1) {
       for (let activity of section['activities']) {
         currentLabel.value.activities.push(
           {

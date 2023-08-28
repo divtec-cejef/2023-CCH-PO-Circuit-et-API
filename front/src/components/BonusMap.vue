@@ -1,7 +1,7 @@
 <template>
     <img :src=svg alt="Carte de la division">
 
-    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%', border: `2px solid ${getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`}" @mouseover="atHover($event, section)" @mouseleave="atLeave($event)" @click="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, section.labelSection)">
+    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%', border: `2px solid ${getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`}" @mouseover="atHover($event, section)" @mouseleave="atLeave($event)" @click="props.displayLabel(($event?.target as HTMLDivElement)?.getBoundingClientRect().left, ($event?.target as HTMLDivElement)?.getBoundingClientRect().top, section.labelSection)">
         <img :src=trophy alt="image de trophé (médaille)" :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
         <p :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}">{{section.labelSection}}</p>
     </div>
@@ -20,7 +20,7 @@ import Car from '@/models/car';
 const getColor = Section.getColor;
 
 const props = defineProps<{
-    displayLabel: (posx, posy, sectionLabel) => void;
+    displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
     hideLabel: () => void;
     sections: {
         section: string;
@@ -34,16 +34,16 @@ const props = defineProps<{
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 
-function atHover(event: object, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
-  if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
-    event.target.parentElement.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+function atHover(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
+  if ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') {
+    ((event.target as HTMLElement).parentElement as HTMLDivElement).style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
   } else {
-    event.target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+    (event.target as HTMLDivElement).style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
   }
 }
 
-function atLeave(event: object) {
-  event.target.style.background = 'var(--white)';
+function atLeave(event: Event) {
+  (event.target as HTMLDivElement).style.background = 'var(--white)';
 }
 
 // const icon = ref<HTMLElement | null>(null);
