@@ -44,15 +44,23 @@ if (idSectionUrl != 0 && mdpUrl != '') {
   //Récupère le nom de la section en fonction de son id
   adminPost.getNameSectionById(idSectionUrl).then(async (v) => {
 
+    if (v === undefined) {
+      return;
+    }
+
     //Récupération du Token avec le nom et mot de passe de l'URL
     let valueToken = await restful.authenticationSectionPwd(v, mdpUrl);
 
+    if (typeof valueToken.json === 'string') {
+      return;
+    }
+
     //Initialise les données en fonction de l'id de la section
-    if (valueToken.token != undefined) {
+    if (valueToken.json.token != undefined) {
       adminPost.idSection = idSectionUrl;
       localStorage.setItem('idSection', (adminPost.idSection).toString());
 
-      adminPost.token = valueToken.token;
+      adminPost.token = valueToken.json.token;
       localStorage.setItem('tokenPost', adminPost.token);
 
       await adminPost.initAllActivityOneSection(adminPost.idSection);

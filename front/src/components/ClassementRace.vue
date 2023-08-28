@@ -19,7 +19,7 @@ import { ref, onUnmounted } from 'vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
-const listRace = ref<models.Race[]>();
+const listRace = ref<models.rawData.WsRaceData[]>();
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();

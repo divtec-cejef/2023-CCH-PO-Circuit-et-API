@@ -5,8 +5,6 @@ import type Avatar from '@/models/avatar';
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
 export namespace restful {
-  import AuthenticatedUpdateCarData = models.parsedData.AuthenticatedUpdateCarData;
-
   export enum ReturnCodes {
     NoCode = 0,
     Success = 200,
@@ -225,21 +223,21 @@ export namespace restful {
    * Lance une requête PATCH pour modifier une voiture
    * @param userCar la voiture de l'utilisateur, contenant le token
    */
-  export async function updateCar(userCar: AuthenticatedUpdateCarData) {
+  export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
     const requestOptions = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userCar.token}`
       },
-      body: {
+      body: JSON.stringify({
         // eslint-disable-next-line camelcase
         id_car: userCar.car.idCar,
         // eslint-disable-next-line camelcase
         pseudo: userCar.car.pseudo,
         // eslint-disable-next-line camelcase
         avatar: userCar.car.avatar,
-      }
+      })
     };
 
     // Envoie la requête
@@ -471,7 +469,7 @@ export namespace models {
       idActivity: number,
       label: string,
       idSection: number
-    }
+    }[]
 
     /**
      * Représente un token d'authentification
