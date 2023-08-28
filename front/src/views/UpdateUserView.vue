@@ -181,6 +181,8 @@ const opacityAvatar = ref('');
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
+let isAvatarEquals = ref(true);
+let isPseudoEquals = ref(true);
 
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);
@@ -196,21 +198,19 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
 
   //Récupération des données par l'api
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
-    console.log(v.json);
     piloteName.value = v.json.pseudo;
 
     //Test si les avatars stockés et en ligne sont égaux
     if (localStorage.getItem('lastPiloteName') == piloteName.value) {
-      console.log('localstorage');
       refPseudo.value = localStorage.getItem('piloteName') || '';
     } else {
-      console.log('api');
-      console.log(localStorage.getItem('lastPiloteName'));
-      console.log(piloteName.value);
       refPseudo.value = piloteName.value;
       localStorage.setItem('piloteName', piloteName.value);
       localStorage.setItem('lastPiloteName', piloteName.value);
     }
+    isPseudoEquals.value = refPseudo.value == localStorage.getItem('lastNamePilote');
+    updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
+
   });
 }
 
@@ -230,13 +230,13 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
       localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
       localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
     }
+
+    isAvatarEquals.value = avatarEquals(config.value, JSON.parse(localStorage.getItem('lastConfigAvatar') || ''));
+    updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
+
   });
 }
 
-
-// //Gérer le grisement de bouton ou non
-// updateDisabled.value = avatarEquals(JSON.parse(localStorage.getItem('configAvatar') || ''), JSON.parse(localStorage.getItem('lastConfigAvatar') || ''))
-//   || refPseudo.value.toString() === car.pseudo.toString();
 
 /**
  * Change la valeur de la taille de l'écran
@@ -292,8 +292,6 @@ async function connect(queryId: string, password: string) {
  */
 function avatarEquals(avatar1: any, avatar2: any) {
   let equlality = true;
-  console.log(avatar1);
-  console.log(avatar2);
   Object.keys(avatar1).forEach((key) => {
     if (avatar2 === undefined) {
       return;
