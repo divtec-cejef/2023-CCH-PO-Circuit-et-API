@@ -2,7 +2,7 @@
     <img :src=svg alt="Carte de la division">
 
     <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%'}" @click="props.displayLabel($event.target.getBoundingClientRect().left, $event.target.getBoundingClientRect().top, section.labelSection)">
-        <img :src=trophy alt="image de trophé (médaille)">
+        <img :src=trophy alt="image de trophé (médaille)" :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
         <p>{{section.labelSection}}</p>
     </div>
 
@@ -14,7 +14,23 @@
 import { onMounted, ref } from 'vue';
 import svg from '../assets/svg/division-plan.svg';
 import trophy from '../assets/img/rank1.webp';
-const props = defineProps(['displayLabel', 'hideLabel', 'sections']);
+import Car from '@/models/car';
+
+const props = defineProps<{
+    displayLabel: (posx, posy, sectionLabel) => void;
+    hideLabel: () => void;
+    sections: {
+        section: string;
+        id: number;
+        labelSection: string;
+        posX: number;
+        posY: number;
+    }[];
+    activatedSection: number[];
+}>();
+
+// const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
+console.log('test', props.sections);
 // const icon = ref<HTMLElement | null>(null);
 //
 // onMounted(() => {
@@ -49,6 +65,7 @@ template {
     padding: clamp(0px, 0.5vw, 7px) 0;
     border-radius: 30px;
     white-space: pre-wrap;
+    transition: ease-in-out 0.15s;
 
     p {
         color: var(--pink-divtec);
@@ -65,6 +82,10 @@ template {
 
 .icon:hover {
     cursor: pointer;
+    background-color: var(--pink-divtec);
+    p {
+        color: var(--white);
+    }
 }
 
 .bonus-label {
