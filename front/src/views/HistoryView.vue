@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div :ref="panzoomable">
-            <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :activated-section="activatedSection"></BonusMap>
+            <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
         </div>
     </div>
     <div v-if="currentLabel.title !== null" ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
@@ -28,7 +28,7 @@ import panzoom from 'panzoom';
 import { ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
-import trophy from '../assets/img/rank1.webp';
+import trophy from '../assets/img/trophy.png';
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -42,6 +42,7 @@ let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
 let activatedSection = ref<number[]>([]);
 let elementString = ref<string>('');
+let noActivitySections = ref<number[]>([]);
 
 function getRealisedActivity() {
   realisedActivity.value = [];
@@ -99,8 +100,9 @@ function getSectionAndActivities() {
                   }
                 }
               }
+              getSectionBonusAcorded();
+              getNoActivitySections();
             }
-            getSectionBonusAcorded();
           });
       }
     }
@@ -131,6 +133,20 @@ function getSectionBonusAcorded() {
       if (!activatedSection.value.includes(section['idSection'])) {
         activatedSection.value.push(section['idSection']);
       }
+    }
+  }
+}
+
+function getNoActivitySections() {
+  for (let section of allSections.value) {
+    let present = false;
+    for (let sectionActivity of sectionActivities.value) {
+      if (section.id === sectionActivity['idSection']) {
+        present = true;
+      }
+    }
+    if (!present) {
+      noActivitySections.value.push(section['id']);
     }
   }
 }
@@ -235,7 +251,6 @@ const allSections = ref([{
 function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
   let pos;
   if (posx > window.innerWidth / 2) {
-    console.log(posx, (posx - (dif + divWidth)) * zoomfactor + 'px');
     pos = posx - divWidth;
   } else {
     pos = posx + dif*zoomfactor;
@@ -252,7 +267,6 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
 function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
-    console.log(posy, (posy - (10 + dif + divHeight)) * zoomfactor + 'px');
     pos = posy - (10 + divHeight);
   } else {
     pos = posy + (10 + dif*zoomfactor);
@@ -268,7 +282,6 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
 
 function displayLabel(posx: number, posy: number, sectionLabel: string) {
   sectionUnCLicked.value = false;
-  // console.log(posx, posy, sectionLabel);
   for (let section of allSections.value) {
     if (section.labelSection === sectionLabel) {
       currentSection.value = section;
@@ -301,6 +314,13 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 </script>
 
 <style scoped lang="scss">
+template {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+}
 .container {
     width: 100%;
     height: 100%;

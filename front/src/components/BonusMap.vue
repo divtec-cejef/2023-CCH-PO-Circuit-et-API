@@ -22,12 +22,12 @@
              highlight(event, section)
          }">
 
-        <img
+        <img v-if="section.id !== -1"
             :src=trophy
             alt="image de trophé (médaille)"
             :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
         <p
-            :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}">
+            :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')), paddingLeft: `${section.id === -1 ? '10px' : 'unset'}`}">
             {{section.labelSection}}
         </p>
     </div>
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import svg from '../assets/img/division-plan.png';
-import trophy from '../assets/img/rank1.webp';
+import trophy from '../assets/img/trophy.png';
 import { Section } from '@/models/section';
 import { ref, watch } from 'vue';
 
@@ -58,17 +58,16 @@ const props = defineProps<{
     }[];
     activatedSection: number[];
     unClicked: boolean;
+    noActivitySections: number[];
 }>();
 
 watch(() => props.unClicked, (unClicked) => {
-  console.log(unClicked);
   if (unClicked) {
     unHighlight();
   }
 });
 
 function unHighlight() {
-  console.log('unHighlight', targetOld);
   if (targetOld) {
     targetOld.classList.remove('clicked');
     targetOld.style.background = 'var(--white)';
@@ -123,7 +122,7 @@ template {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    max-height: 100%;
 }
 
 .icon {
