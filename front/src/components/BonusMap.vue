@@ -32,6 +32,8 @@ const props = defineProps<{
     activatedSection: number[];
 }>();
 
+console.log(props.activatedSection);
+
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 
 function atHover(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
