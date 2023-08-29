@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div :ref="panzoomable">
-            <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections" :activated-section="activatedSection"></BonusMap>
+            <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :activated-section="activatedSection"></BonusMap>
         </div>
     </div>
     <div v-if="currentLabel.title !== null" ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
@@ -36,6 +36,7 @@ const label = ref<HTMLDivElement>();
 const divLeft = ref<string>('0');
 const divTop = ref<string>('0');
 const divDisplay = ref<string>('none');
+const sectionUnCLicked = ref<boolean>(true);
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
@@ -157,10 +158,8 @@ const panzoomable = (v: any)  => {
     minZoom: 1,
     onTouch: function(e: any) {
       e.preventDefault();
-      console.log(e);
     },
     onClick: function(e: any) {
-      console.log(e);
       e.target.click();
       elementString.value = e.target;
     },
@@ -168,12 +167,15 @@ const panzoomable = (v: any)  => {
 
   element.on('transform', function() {
     zoomfactor = element.getTransform().scale;
-    divDisplay.value = 'none';
-  });
-  element.on('touchend', function() {
-    console.log('touchend');
+    hideDiv();
   });
 };
+
+function hideDiv() {
+  divDisplay.value = 'none';
+  sectionUnCLicked.value = true;
+}
+
 const allSections = ref([{
   section: 'Informatique',
   id: -1,
@@ -231,7 +233,6 @@ const allSections = ref([{
 }]);
 
 function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
-  console.log(posx, window.innerWidth / 2);
   let pos;
   if (posx > window.innerWidth / 2) {
     console.log(posx, (posx - (dif + divWidth)) * zoomfactor + 'px');
@@ -266,6 +267,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
 }
 
 function displayLabel(posx: number, posy: number, sectionLabel: string) {
+  sectionUnCLicked.value = false;
   // console.log(posx, posy, sectionLabel);
   for (let section of allSections.value) {
     if (section.labelSection === sectionLabel) {
@@ -295,11 +297,6 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
       }
     }
   }
-  console.log(currentLabel.value, realisedActivity.value);
-}
-
-function hideLabel() {
-  divDisplay.value = 'none';
 }
 </script>
 
