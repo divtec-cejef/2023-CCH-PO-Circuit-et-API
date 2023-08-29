@@ -1,3 +1,11 @@
+@media screen and (max-width: 320px) {
+  #app {
+    button:not(:disabled):hover {
+      font-weight: normal;
+    }
+  }
+}
+
 /* Téléphone */
 @media screen and (max-width: 400px) {
   #app {
@@ -69,6 +77,13 @@
     }
   }
 }
+
+/* Encran plus petit que 700px*/
+@media screen and (max-width: 700px) {
+  main.display {
+    padding: 125px 15px 15px 15px !important;
+  }
+};
 
 /* Tablette */
 @media screen and (min-width: 740px) {
@@ -222,6 +237,48 @@
 
     footer div.stage {
       display: block;
+    }
+  }
+}
+
+/* Format pour la page de modif*/
+@media screen and (max-width: 960px) {
+
+  #app {
+
+    .avatar-and-pseudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .content-avatar {
+      display: flex;
+      justify-content: center;
+    }
+    fieldset.color {
+      justify-content: center !important;
+      flex-wrap: wrap;
+    }
+
+    .rd-property {
+      justify-content: center !important;
+      flex-wrap: wrap;
+      align-content: center;
+
+      align-items: center;
+
+      .rdbt-choice {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    div.msg-success {
+      width: 250px;
+      height: 250px;
+      margin-top: 70px;
     }
   }
 }
