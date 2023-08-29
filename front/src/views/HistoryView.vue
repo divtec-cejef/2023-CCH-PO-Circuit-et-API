@@ -150,7 +150,10 @@ const panzoomable = (v: any)  => {
     bounds: true,
     boundsPadding: 0.6,
     maxZoom: 5,
-    minZoom: 1
+    minZoom: 1,
+    onTouch: function(e: any) {
+      return false;
+    },
   });
 
   element.on('transform', function() {
