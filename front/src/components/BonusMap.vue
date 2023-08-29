@@ -11,11 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import svg from '../assets/svg/division-plan.svg';
 import trophy from '../assets/img/rank1.webp';
 import { Section } from '@/models/section';
-import Car from '@/models/car';
 
 const getColor = Section.getColor;
 
