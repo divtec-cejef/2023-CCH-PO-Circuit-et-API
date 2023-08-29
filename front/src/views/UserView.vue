@@ -291,7 +291,7 @@ div.user-data {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 85%;
+    width: 80%;
     margin-top: 30px;
 
     p {
