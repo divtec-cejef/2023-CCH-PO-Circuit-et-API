@@ -8,6 +8,8 @@ services:
       - ENV=DOCKER
     networks:
       - intranet
+    ports:
+      - 5432:5432
   api:
     image: node:16.19.1
     volumes:
@@ -24,6 +26,8 @@ services:
       - db
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    ports:
+      - 3000:3000
   front:
     image: node:16.19.1
     volumes:
@@ -46,7 +50,7 @@ services:
       - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
-      - 5432:5432
+      - 3306:5432
     networks:
       - intranet
     depends_on:

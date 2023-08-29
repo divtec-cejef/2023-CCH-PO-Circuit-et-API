@@ -120,17 +120,17 @@ async function connect(queryId: string, password: string) {
   //Récupération du Token avec le nom et mot de passe de l'URL
   let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
-  //Si le token est valide
-  if (valueToken.token !== undefined) {
-    userCar.token = valueToken.token;
-    localStorage.setItem('carToken', userCar.token);
-
-    dialog.value?.close();
-    error.value = '';
-  } else {
+  if (typeof valueToken.json === 'string') {
     error.value = '* Code de la voiture incorrect';
     return;
   }
+
+  //Si le token est valide
+  userCar.token = valueToken.json.token;
+  localStorage.setItem('carToken', userCar.token);
+
+  dialog.value?.close();
+  error.value = '';
 
   // Test si enregistrement des données de la voiture
   if (refPseudo.value !== car.pseudo || !avatarEquals()) {

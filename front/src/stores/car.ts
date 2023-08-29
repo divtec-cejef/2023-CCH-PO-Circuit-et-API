@@ -3,7 +3,6 @@ import type { Ref } from 'vue';
 import { ref } from 'vue';
 import Car from '../models/car';
 import api, { WebsocketConnection } from '../models/api';
-import type { models } from '@/models/api';
 import Race from '@/models/race';
 
 export const useCarStore = defineStore('car', () => {
@@ -19,14 +18,19 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
+    if (typeof dataUserCar === 'string') {
+      console.error(dataUserCar);
+      return;
+    }
+
     /**
      * Si on trouve la voiture alors, on renvoie le code
      */
     if (status.valueOf() === api.ReturnCodes.Success) {
-      car.value.idCar = dataUserCar['id_car'];
-      car.value.pseudo = dataUserCar['pseudo'];
-      car.value.idQuery = dataUserCar['query_id'];
-      car.value.avatar = dataUserCar['avatar'];
+      car.value.idCar = dataUserCar.idCar;
+      car.value.pseudo = dataUserCar.pseudo;
+      car.value.idQuery = dataUserCar.queryId;
+      car.value.avatar = dataUserCar.avatar;
 
       //Stockage de l'id
       localStorage.setItem('userCarId', car.value.idCar.toString());
@@ -44,15 +48,20 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
+    if (typeof dataUserCar === 'string') {
+      console.error(dataUserCar);
+      return;
+    }
+
     /**
      * Si on trouve la voiture alors, on renvoie le code
      */
     if (status.valueOf() === api.ReturnCodes.Success) {
       //Remplissage des champs de la voiture
-      car.value.idCar = dataUserCar['id_car'];
-      car.value.pseudo = dataUserCar['pseudo'];
-      car.value.idQuery = dataUserCar['query_id'];
-      car.value.avatar = dataUserCar['avatar'];
+      car.value.idCar = dataUserCar.idCar;
+      car.value.pseudo = dataUserCar.pseudo;
+      car.value.idQuery = dataUserCar.queryId;
+      car.value.avatar = dataUserCar.avatar;
 
       //Stockage de l'id
       localStorage.setItem('userCarId', car.value.idCar.toString());
@@ -67,14 +76,14 @@ export const useCarStore = defineStore('car', () => {
   async function initUserAllRaceCar() {
     const socket = new WebsocketConnection(car.value.idCar);
 
-    await socket.onUserRace(async (races) => {
+    socket.onUserRace(async (races) => {
       //Récupération du rang de la voiture
       car.value.rank = races.rank;
 
       //Vide la liste de course
       car.value.listRace = [];
 
-      car.value.listRace = races.races.map((race: models.racesData['races'][0]) =>
+      car.value.listRace = races.races.map(race =>
         new Race(race.id_race, new Date(race.race_start), new Date(race.total_time), new Date(race.sector1))
       );
     });
