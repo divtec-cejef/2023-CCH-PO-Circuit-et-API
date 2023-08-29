@@ -12,14 +12,7 @@
 
 	<style type="text/css">
 	<![CDATA[
-	@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/src/assets/fonts/poppins-v20-latin-regular.eot"); /* IE9 Compat Modes */
-  src: url("/src/assets/fonts/poppins-v20-latin-regular.eot?#iefix") format("embedded-opentype"), url("/src/assets/fonts/poppins-v20-latin-regular.woff2") format("woff2"), url("/src/assets/fonts/poppins-v20-latin-regular.woff") format("woff"), url("/src/assets/fonts/poppins-v20-latin-regular.ttf") format("truetype"), url("/src/assets/fonts/poppins-v20-latin-regular.svg#Poppins") format("svg"); /* Legacy iOS */
-}
+	@import url('https://fonts.googleapis.com/css2?family=Barlow&family=Poppins&display=swap');
 		.st1 {stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:45}
 		.st2 {stroke:#fec000;stroke-dasharray:9,9;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
 		.st3 {fill:#dde2cd;stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:45}
