@@ -5,11 +5,13 @@
 
     <div v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="user-data">
+            <RouterLink to="pilote">
             <div class="avatar-txt">
                 <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
                 <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
                 <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
             </div>
+            </RouterLink>
 
             <div class="car-3d">
                 <div :class="`loading${modelLoaded?' loaded':''}`">
