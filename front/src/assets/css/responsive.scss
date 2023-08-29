@@ -78,10 +78,30 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  #app {
+
+    div.button-classement {
+      margin: -50px auto 0 auto;
+
+    }
+  }
+}
+
 /* Encran plus petit que 700px*/
 @media screen and (max-width: 700px) {
-  main.display {
-    padding: 125px 15px 15px 15px !important;
+  #app {
+    main.display {
+      padding: 125px 15px 15px 15px !important;
+    }
+
+    div.classement {
+      width: 100%;
+    }
+
+    div.button-classement {
+      width: 100%;
+    }
   }
 };
 
