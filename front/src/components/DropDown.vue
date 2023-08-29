@@ -45,10 +45,14 @@ if (!localStorage.getItem('dropDownIsClicked')) {
 
 div.button-checked {
   margin-bottom: 15px;
-
+  cursor: pointer;
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
+  padding: 12px 10px;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    width: 60%;
 
   img {
     width: 12px;
@@ -64,10 +68,9 @@ input {
 
 
 div.drop-down-content {
-
   display: flex;
-  justify-content: end;
-
+  justify-content: center;
 }
+
 
 </style>

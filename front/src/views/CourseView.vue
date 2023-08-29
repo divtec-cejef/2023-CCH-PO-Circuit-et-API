@@ -35,7 +35,9 @@
                         <ul>
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
+                                <p>{{
+                                    car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)
+                                    }}</p>
                             </li>
                             <li>
                                 <NumberTime class="num-race" number="2" color="var(--blue)"/>
@@ -330,6 +332,9 @@ div.best-race {
 .drop-down-course {
   margin-top: 20px;
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 div.classement-content {
@@ -338,10 +343,11 @@ div.classement-content {
   margin-top: 10px;
 }
 
+
 div.button-classement {
   display: flex;
   justify-content: end;
-  margin-top: 20px;
+  margin-top: -50px;
 
 
   button.classement-top {
@@ -386,9 +392,6 @@ div.large-content {
   display: none;
 }
 
-div.drop-down-course {
-  display: block;
-}
 
 .table-large-content {
   display: none;
