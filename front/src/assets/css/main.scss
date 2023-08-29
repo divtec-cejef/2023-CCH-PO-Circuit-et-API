@@ -114,15 +114,13 @@ div.loading {
   flex-direction: row;
 
   .roller-item {
-    .roller-item__wrapper {
-      .roller-item__wrapper__list {
-        .roller-item__wrapper__list__item {
-        }
-      }
+    padding: 0;
+    height: 1.4em;
+
+    .roller-item__wrapper__list__item{
+      padding: 0;
+      transform: translateY(.2em);
+      height: 1.4em !important;
     }
   }
-}
-
-.roller-item[data-v-5357a046] {
- height: 1.4em;
 }

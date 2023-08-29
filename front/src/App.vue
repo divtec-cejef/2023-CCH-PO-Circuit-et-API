@@ -132,7 +132,9 @@ footer#main-footer.display {
 }
 
 .display {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
 header {
