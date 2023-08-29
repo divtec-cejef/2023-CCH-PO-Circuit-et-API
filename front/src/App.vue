@@ -143,7 +143,7 @@ header {
   position: fixed;
   width: 100%;
   z-index: 1000;
-    background-color: var(--white);
+  background-color: var(--white);
 
   img {
     height: 55px;
@@ -170,7 +170,7 @@ header {
 }
 
 main {
-    padding-top: 125px ;
+  padding-top: 125px;
 }
 
 header.closed.thin,
@@ -337,5 +337,6 @@ footer {
   align-items: center;
   text-align: center;
   padding: 0 35px;
+  margin-top: 15px;
 }
 </style>
