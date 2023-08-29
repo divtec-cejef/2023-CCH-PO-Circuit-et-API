@@ -326,9 +326,6 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
-  console.log('salut odinette');
-  console.log(config.value);
-  console.log(userCar.car.avatar);
   updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 
@@ -607,8 +604,8 @@ let avatarProperties = ref([
     propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
+        propValueEn: '#CCC',
+        propValueFr: 'Gris',
       },
       {
         propValueEn: '#000',

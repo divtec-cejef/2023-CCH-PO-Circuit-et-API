@@ -7,7 +7,7 @@
              alt="Couleur de peau">
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
-                   :name="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
+                   :name="`${props.isPhone ? 'phone' : 'big'}`"
                    :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :value=item.propValueEn
                    :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
