@@ -18,10 +18,10 @@
 		.st4 {fill:none;stroke:#ffc000;stroke-dasharray:9,9;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
 		.st5 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
 		.st6 {fill:#dc006b;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
-		.st7 {fill:#ffffff;font-family:Poppins;font-size:1.99999em}
+		.st7 {fill:#ffffff;font-family:"Poppins";font-size:1.99999em}
 		.st8 {stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:20}
 		.st9 {stroke:#7f7f7f;stroke-dasharray:9,9;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
-		.st10 {fill:#7f7f7f;font-family:Poppins;font-size:3em}
+		.st10 {fill:#7f7f7f;font-family:"Poppins";font-size:3em}
 		.st11 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
 	]]>
 	</style>
