@@ -169,7 +169,7 @@ let zoomfactor: number = 1;
 const panzoomable = (v: any)  => {
   let element = panzoom(v, {
     bounds: true,
-    boundsPadding: 0.6,
+    boundsPadding: 0.2,
     maxZoom: 5,
     minZoom: 1,
     onTouch: function(e: any) {
@@ -323,11 +323,12 @@ template {
 }
 .container {
     width: 100%;
-    height: 100%;
+    height:  calc(100vh - var(--height-screen-diff) - 70px);
     position: relative;
     overflow: hidden;
     background-color: #fff;
 }
+
 
 .labelActivity {
     width: 250px;
