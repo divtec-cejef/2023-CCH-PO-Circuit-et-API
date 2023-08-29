@@ -1,4 +1,5 @@
 <template>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <div class="container">
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections" :activated-section="activatedSection"></BonusMap>
@@ -145,6 +146,9 @@ let currentLabel = ref<{title: string | null, realised: boolean, activities: {id
   activities: [] });
 let zoomfactor: number = 1;
 
+// let posx = 0;
+// let posy = 0;
+
 const panzoomable = (v: any)  => {
   let element = panzoom(v, {
     bounds: true,
@@ -152,13 +156,25 @@ const panzoomable = (v: any)  => {
     maxZoom: 5,
     minZoom: 1,
     onTouch: function(e: any) {
-      return false;
+      e.preventDefault();
+      // console.log(e);
+      // console.log(e.layerX);
+      // console.log(e.layerY);
+      // posx = e.layerX;
+      // posy = e.layerY;
+    },
+    onClick: function(e: any) {
+      console.log(e);
+      e.target.click();
     },
   });
 
   element.on('transform', function() {
     zoomfactor = element.getTransform().scale;
     divDisplay.value = 'none';
+  });
+  element.on('touchend', function() {
+    console.log('touchend');
   });
 };
 const allSections = ref([{
