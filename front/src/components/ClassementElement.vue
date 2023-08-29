@@ -101,11 +101,6 @@ div.classement-element {
   }
 }
 
-div.user-element {
-  //background-color: var(--light-green);
-
-}
-
 div.avatar {
   width: 45px;
   height: 45px;
