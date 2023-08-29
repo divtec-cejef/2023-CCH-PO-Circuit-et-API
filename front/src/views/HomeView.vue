@@ -59,7 +59,12 @@
                 <span class="label">est le temps de course le plus rapide</span>
             </li>
             <li>
-                <Roller char-set="alphabet" :duration="1000" :default-value="preferredActivity" :value="preferredActivity" class="data"/>
+                <Roller
+                        char-set="alphabet"
+                        :duration="1000"
+                        :default-value="preferredActivity"
+                        :value="preferredActivity"
+                        class="data"/>
                 <span class="label">est l'activité préférée des visiteurs</span>
             </li>
         </ul>
@@ -72,7 +77,7 @@
 <script setup lang="ts">
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
 import { useRouter } from 'vue-router';
@@ -88,12 +93,11 @@ const activitiesRealisations = ref<number>();
 const fastestRace = ref<string>();
 const preferredActivity = ref<string>();
 
-const dataLoaded = computed(() => {
-  return racesRan.value !== undefined &&
+const dataLoaded = computed(() =>
+  racesRan.value !== undefined &&
     activitiesRealisations.value !== undefined &&
     fastestRace.value !== undefined &&
-    preferredActivity.value !== undefined;
-});
+    preferredActivity.value !== undefined);
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
@@ -157,13 +161,6 @@ div.home-root {
       }
     }
   }
-
-
-  /*@media screen and (min-width: 1400px) {
-    ul.stats {
-      grid-template-columns: 1fr 1fr;
-    }
-  }*/
 
   div.intro {
     text-align: center;
