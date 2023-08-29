@@ -139,7 +139,7 @@ footer#footer.display {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 25px 35px;
+  padding: 10px 15px;
   position: fixed;
   width: 100%;
   z-index: 1000;
