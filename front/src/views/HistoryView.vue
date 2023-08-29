@@ -1,5 +1,4 @@
 <template>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <div class="container">
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :hide-label="hideLabel" :sections="allSections" :activated-section="activatedSection"></BonusMap>
@@ -18,7 +17,7 @@
         <div v-if="currentLabel.activities.length <= 0">
             <p>Il n'y a pas d'activités dans cette section</p>
         </div>
-
+    
     </div>
 
 </template>
@@ -41,6 +40,7 @@ const divDisplay = ref<string>('none');
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
 let activatedSection = ref<number[]>([]);
+let elementString = ref<string>('');
 
 function getRealisedActivity() {
   realisedActivity.value = [];
@@ -157,15 +157,14 @@ const panzoomable = (v: any)  => {
     minZoom: 1,
     onTouch: function(e: any) {
       e.preventDefault();
-      // console.log(e);
-      // console.log(e.layerX);
-      // console.log(e.layerY);
-      // posx = e.layerX;
-      // posy = e.layerY;
+      console.log(e);
+      console.log(e.layerX);
+      console.log(e.layerY);
     },
     onClick: function(e: any) {
       console.log(e);
       e.target.click();
+      elementString.value = e.target;
     },
   });
 
