@@ -1,29 +1,36 @@
 <template>
     <fieldset class="color"
               @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
-        <img v-if="avatarProperty.propNameEn == 'bgColor' " class="background" :src=colorImg alt="Palette de couleurs">
-        <img v-if="avatarProperty.propNameEn == 'faceColor' " class="faceSkin" :src=faceImg alt="Couleur de peau">
+        <img v-if="avatarProperty.propNameEn == 'bgColor' && !isPhone " class="background" :src=colorImg
+             alt="Palette de couleurs">
+        <img v-if="avatarProperty.propNameEn == 'faceColor' && !isPhone " class="faceSkin" :src=faceImg
+             alt="Couleur de peau">
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
-                   :name=props.avatarProperty.propNameSnakeCase
-                   :id=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)
+                   :name="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
+                   :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :value=item.propValueEn
                    :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
             <label :class="`radio-avatar ${item.propValueFr}`"
-                   :for=item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)
+                   :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :style="{'background-color': item.propValueEn}"></label>
         </template>
     </fieldset>
 </template>
 
 <script setup lang="ts">
-import colorImg from '../assets/img/color.webp';
+import colorImg from '../assets/img/bg-color.webp';
 import faceImg from '../assets/img/skin.webp';
 import type { models } from '@/models/avatar';
 
-const props = defineProps<{ avatarProperty: models.radioProperty }>();
+const props = defineProps<{
+  avatarProperty: models.radioProperty,
+  isPhone: boolean
+}>();
 
 const emit = defineEmits(['regenerateAvatar']);
+
+
 </script>
 
 <style scoped>
@@ -57,7 +64,6 @@ label.Blanc:hover {
 
 input[type=radio]:checked + label {
     box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
-
     border: solid 3px var(--white);
 }
 
