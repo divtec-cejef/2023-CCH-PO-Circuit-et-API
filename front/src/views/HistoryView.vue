@@ -158,8 +158,6 @@ const panzoomable = (v: any)  => {
     onTouch: function(e: any) {
       e.preventDefault();
       console.log(e);
-      console.log(e.layerX);
-      console.log(e.layerY);
     },
     onClick: function(e: any) {
       console.log(e);
