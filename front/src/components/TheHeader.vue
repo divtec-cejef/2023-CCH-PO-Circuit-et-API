@@ -47,9 +47,6 @@ const emit = defineEmits(['clickMenu']);
 const userCar = useCarStore();
 const adminPost = useAdminPostStore();
 
-const hasOneCar = ref(localStorage.getItem('userCarId') != null);
-const isAdmin = ref(localStorage.getItem('tokenPost') != null);
-
 </script>
 
 <style scoped lang="scss">
