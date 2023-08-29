@@ -24,7 +24,7 @@
         </div>
         <div class="button-container">
             <button @click="closeModal">Annuler</button>
-            <button @click="openOtherPage">Quitter</button>
+            <button @click="quitPage">Quitter</button>
             <button @click="saveAndQuit">Enregistrer
             </button>
         </div>
@@ -81,7 +81,7 @@
 
             <div class="modify-pseudo">
                 <label for="pseudo">Pseudo </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
                        maxlength="10">
             </div>
 
@@ -94,7 +94,7 @@
         <div class="avatar-and-pseudo">
             <div class="modify-pseudo">
                 <label for="pseudo">Pseudo </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @change="atChangePseudo"
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo"  @input="atChangePseudo"
                        maxlength="10">
             </div>
 
@@ -326,6 +326,7 @@ function cancel() {
  * Lancement au changement de pseudo
  */
 function atChangePseudo() {
+  console.log('salut');
   localStorage.setItem('piloteName', refPseudo.value);
   enableButton();
 }
@@ -381,6 +382,11 @@ async function updateUser() {
   //Stockage de "l'ancienne" config
   localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
   localStorage.setItem('lastPiloteName', refPseudo.value);
+
+  //Ajout du nouvel avatar et du nom dans Pinia
+  userCar.car.avatar = config.value;
+  userCar.car.pseudo = refPseudo.value;
+  console.log(config.value);
 }
 
 /**
@@ -413,14 +419,22 @@ function closeModal() {
  * Ouvre la page cliquée par l'utilisateur
  */
 function openOtherPage() {
-  updateDisabled.value = true;
   closeModal();
   router.push({ path: nextRoute.value });
 }
 
-function saveAndQuit() {
-  updateUser();
+function quitPage() {
+  updateDisabled.value = true;
+
+  //Changement de la localstorage
+  localStorage.setItem('configAvatar', localStorage.getItem('lastConfigAvatar') || '');
+  localStorage.setItem('piloteName', localStorage.getItem('lastPiloteName') || '');
+
   openOtherPage();
+}
+
+function saveAndQuit() {
+  updateUser().then(openOtherPage);
 }
 
 //Initialisation des constantes
