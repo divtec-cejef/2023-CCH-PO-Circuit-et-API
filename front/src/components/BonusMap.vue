@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import svg from '../assets/svg/division-plan.svg';
+import svg from '../assets/img/division-plan.png';
 import trophy from '../assets/img/rank1.webp';
 import { Section } from '@/models/section';
 

@@ -12,7 +12,6 @@
 
 	<style type="text/css">
 	<![CDATA[
-  		@import url('https://fonts.googleapis.com/css?family=Poppins');
 		.st1 {stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:45}
 		.st2 {stroke:#fec000;stroke-dasharray:9,9;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
 		.st3 {fill:#dde2cd;stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:45}
