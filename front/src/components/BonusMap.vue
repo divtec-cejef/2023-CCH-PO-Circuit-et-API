@@ -122,7 +122,7 @@ template {
     top: 0;
     left: 0;
     width: 100%;
-    max-height: 100%;
+    height: calc(100vh - var(--height-screen-diff) - 70px) !important;
 }
 
 .icon {
