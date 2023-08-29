@@ -30,7 +30,7 @@
         </div>
     </dialog>
 
-    <h1>Modifier</h1>
+    <h1>Pilote</h1>
     <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
         imagination...</p>
     <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
@@ -326,9 +326,6 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
-  console.log('salut odinette');
-  console.log(config.value);
-  console.log(userCar.car.avatar);
   updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 
@@ -607,8 +604,8 @@ let avatarProperties = ref([
     propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
+        propValueEn: '#CCC',
+        propValueFr: 'Gris',
       },
       {
         propValueEn: '#000',
@@ -1023,11 +1020,18 @@ div.modify-avatar-phone {
       box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
       filter: grayscale(0.95);
       transition: 0.2s ease-in-out;
+
     }
 
     .tab:hover, .clicked {
       filter: none;
       transition: 0.2s ease-in-out;
+      cursor: pointer;
+
+
+      img {
+        cursor: pointer;
+      }
     }
 
     input {
