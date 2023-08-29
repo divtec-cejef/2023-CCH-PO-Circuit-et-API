@@ -147,6 +147,10 @@ watch(useRouter().currentRoute, async (newUrl) => {
 
   //Récupère le code de réponse de l'api
   status.then((value) => {
+    if (value === undefined) {
+      return;
+    }
+
     codeBackApi.value = value;
 
     //Si la requête est valide alors on stocke l'id dans le localstorage

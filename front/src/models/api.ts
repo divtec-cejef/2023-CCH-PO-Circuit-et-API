@@ -24,7 +24,14 @@ export namespace restful {
     try {
       const routeCar = `${routeApi}car/query-id/${queryId}`;
       const res = await fetch(routeCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.CarData = await res.json();
+      const parsedJson: models.parsedData.CarData = {
+        idCar: json.id_car,
+        queryId: json.query_id,
+        pseudo: json.pseudo,
+        avatar: json.avatar
+      };
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -38,7 +45,14 @@ export namespace restful {
     try {
       const routeCar = `${routeApi}car/${idCar}`;
       const res = await fetch(routeCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.CarData = await res.json();
+      const parsedJson: models.parsedData.CarData = {
+        idCar: json.id_car,
+        queryId: json.query_id,
+        pseudo: json.pseudo,
+        avatar: json.avatar
+      };
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -52,7 +66,19 @@ export namespace restful {
     try {
       const routeRaceCar = `${routeApi}race/${idCar}`;
       const res = await fetch(routeRaceCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.CarRaces = await res.json();
+      const parsedJson: models.parsedData.RacesData = {
+        rank: json.rank,
+        races: json.races.map(value => ({
+          idCar: value.id_car,
+          idRace: value.id_race,
+          sector1: new Date(value.sector1),
+          raceStart: new Date(value.race_start),
+          raceFinish: new Date(value.race_finish),
+          totalTime: new Date(value.total_time)
+        }))
+      };
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -66,7 +92,12 @@ export namespace restful {
     try {
       const routeRaceCar = `${routeApi}section/${idSection}`;
       const res = await fetch(routeRaceCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.SectionName = await res.json();
+      const parsedJson: models.parsedData.SectionName = {
+        idSection: json.id_section,
+        label: json.label
+      };
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -80,7 +111,15 @@ export namespace restful {
     try {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.SectionActivities = await res.json();
+      const parsedJson: models.parsedData.SectionActivities = json.map(value => ({
+        idActivity: value.id_activity,
+        idSection: value.id_section,
+        label: value.label
+      }));
+      return {
+        json: parsedJson, status: res.status
+      };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -101,16 +140,16 @@ export namespace restful {
       },
 
       body: JSON.stringify({
-        // eslint-disable-next-line camelcase
         section: sectionName,
-        // eslint-disable-next-line camelcase
         password: pwd
       })
     };
 
     try {
-      const response = await fetch(`${routeApi}authentication`, requestOptions);
-      return await response.json();
+      const response = await fetch(`${routeApi}authentication/section`, requestOptions);
+      const json: models.rawData.AuthenticationToken = await response.json();
+      const parsedJson: models.parsedData.AuthenticationToken = json;
+      return { json: parsedJson, status: response.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
@@ -156,7 +195,6 @@ export namespace restful {
    * @param pwd Mot de passe de la voiture
    */
   export async function authenticationQueryIdPwd(queryId: string, pwd: string) {
-
     //Construction des options de requête
     const requestOptions = {
       method: 'POST',
@@ -171,29 +209,27 @@ export namespace restful {
         password: pwd
       })
     };
-    const response = await fetch(`${routeApi}authentication/car`, requestOptions);
-    return await response.json();
-  }
-
-  declare type Car = {
-    idCar: number,
-    pseudo: string,
-    avatar: Avatar.Avatar
+    try {
+      const response = await fetch(`${routeApi}authentication/car`, requestOptions);
+      const json: models.rawData.AuthenticationToken = await response.json();
+      const parsedJson: models.parsedData.AuthenticationToken = json;
+      return { json: parsedJson, status: response.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
   }
 
   /**
    * Lance une requête PATCH pour modifier une voiture
    * @param userCar la voiture de l'utilisateur, contenant le token
    */
-  export async function updateCar(userCar: { token: string, car: Car }) {
-
+  export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
     const requestOptions = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userCar.token}`
       },
-
       body: JSON.stringify({
         // eslint-disable-next-line camelcase
         id_car: userCar.car.idCar,
@@ -211,7 +247,14 @@ export namespace restful {
       throw new Error('Unauthorized');
     }
 
-    return await response.json();
+    const json: models.rawData.CarData = await response.json();
+    const parsedJson: models.parsedData.CarData = {
+      idCar: json.id_car,
+      queryId: json.query_id,
+      pseudo: json.pseudo,
+      avatar: json.avatar
+    };
+    return { json: parsedJson, status: response.status };
   }
 }
 
@@ -255,7 +298,7 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedRaces
    */
-  onRankingReceived(callback: (data: models.rankingData) => void) {
+  onRankingReceived(callback: (data: models.rawData.RankingData) => void) {
     this.socket.on('updatedRaces', callback);
     return this;
   }
@@ -268,7 +311,7 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedUserRaces
    */
-  onUserRace(callback: (data: models.racesData) => void) {
+  onUserRace(callback: (data: models.rawData.CarRaces) => void) {
     // Interdit l'utilisation de l'évènement si la connexion est anonyme
     if (this.carId === undefined)
       throw new Error('carId is undefined');
@@ -282,71 +325,175 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedActivities
    */
-  onActivityRealisation(callback: (data: models.realisationData) => void) {
+  onActivityRealisation(callback: (data: models.rawData.WSRealisation) => void) {
     this.socket.on('updatedActivities', callback);
     return this;
   }
 
-  onConnectedError(callback: (error: any) => void) {
+  onConnectedError(callback: (error: unknown) => void) {
     this.socket.on('connect_error', callback);
   }
 }
 
 export namespace models {
-  /**
-   * Représente les courses d'un utilisateur
-   */
-  export interface racesData {
-    races: [
-      {
-        id_race: number,
-        race_start: Date | string,
-        race_finish: Date | string,
-        id_car: number,
-        total_time: Date | string
-        sector1: Date | string
-      }
-    ],
-    rank: number
-  }
 
   /**
-   * Représente une course unique du classement
+   * Contient les structures des données brutes retournées par les endpoints de l'api
    */
-  export type race = {
-    id_race: number,
-    car: {
+  export namespace rawData {
+    /**
+     * Représente une activité pour le webSocket
+     */
+    export interface Activity {
+      id_activity: number,
+      label: string
+      id_section: number
+    }
+
+    /**
+     * Représente une donnée de statistiques sur la réalisation des activités
+     */
+    export interface WSRealisation {
+      count: number,
+      mostPopular: rawData.Activity & { count: number }
+    }
+
+    /**
+     * Retourné par /car/
+     */
+    export interface CarData {
       id_car: number,
+      query_id: string,
       pseudo: string,
-      avatar: Avatar.Avatar,
-    },
-    total_time: Date | string
+      avatar: Avatar.Avatar
+    }
+
+    /**
+     * Retourné par /race/{idcar}
+     */
+    export interface CarRaces {
+      races: {
+        id_race: number;
+        race_start: string;
+        sector1: string;
+        race_finish: string;
+        id_car: number;
+        total_time: string;
+      }[],
+      rank: number
+    }
+
+    /**
+     * Retourné par /section/{idSection}
+     */
+    export interface SectionName {
+      id_section: number,
+      label: string
+    }
+
+    /**
+     * Retourné par /activity/by-section/{idSection}
+     */
+    export type SectionActivities = {
+      id_activity: number,
+      label: string,
+      id_section: number
+    }[]
+
+    /**
+     * Retourné par /authentication/section et par /authentication/car
+     */
+    export interface AuthenticationToken {
+      token: string
+    }
+
+
+    /**
+     * Représente une course unique du classement
+     */
+    export type WsRaceData = {
+      id_race: number,
+      car: {
+        id_car: number,
+        pseudo: string,
+        avatar: Avatar.Avatar,
+      },
+      total_time: Date | string
+    }
+
+    /**
+     * Représente le classement des courses
+     */
+    export type RankingData = {
+      races: WsRaceData[],
+      count: number,
+      fastest: WsRaceData
+    };
   }
 
-  /**
-   * Représente le classement des courses
-   */
-  export type rankingData = {
-    races: race[],
-    count: number,
-    fastest: race
-  };
+  export namespace parsedData {
+    export interface CarData {
+      idCar: number,
+      queryId: string,
+      pseudo: string,
+      avatar: Avatar.Avatar
+    }
 
-  /**
-   * Représente une activité
-   */
-  export interface activity {
-    idActivity : number,
-    label : string
-    idSection : number
-  }
+    /**
+     * Représente les courses d'un utilisateur
+     */
+    export interface RacesData {
+      races: {
+        idRace: number,
+        raceStart: Date,
+        raceFinish: Date,
+        idCar: number,
+        totalTime: Date,
+        sector1: Date
+      }[],
+      rank: number
+    }
 
-  /**
-   * Représente une donnée de statistiques sur la réalisation des activités
-   */
-  export interface realisationData {
-    count: number,
-    mostPopular: activity & {count: number}
+    /**
+     * Représente une paire nom de section / id de section
+     */
+    export interface SectionName {
+      idSection: number,
+      label: string
+    }
+
+    /**
+     * Représente une liste d'activités d'une section
+     */
+    export type SectionActivities = {
+      idActivity: number,
+      label: string,
+      idSection: number
+    }[]
+
+    /**
+     * Représente un token d'authentification
+     */
+    export interface AuthenticationToken {
+      token: string
+    }
+
+    /**
+     * Représente les données basiques d'une voiture
+     */
+    export interface UpdateCarData {
+      idCar: number,
+      pseudo: string,
+      avatar: Avatar.Avatar
+    }
+
+    /**
+     * Représente les données basiques d'une voiture authentifiée
+     */
+    export interface AuthenticatedUpdateCarData {
+      token: string,
+      car: UpdateCarData
+    }
   }
 }
 
