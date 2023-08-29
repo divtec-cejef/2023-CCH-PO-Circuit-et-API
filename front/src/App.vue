@@ -110,8 +110,8 @@ if (userCarId) {
 //Si aucune donnée n'est dans le localstorage alors initialisation
 let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
 if (!localStorage.getItem('menuIsClicked')) {
-  localStorage.setItem('menuIsClicked', 'false');
-  menuIsClicked.value = false;
+  localStorage.setItem('menuIsClicked', 'true');
+  menuIsClicked.value = true;
 }
 
 </script>
