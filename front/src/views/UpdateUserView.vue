@@ -129,12 +129,12 @@
                                          @regenerateAvatar="regenerateAvatar"/>
 
                     <AvatarColorPicker
-                            v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                        v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
-                            :avatar-property="avatarProperties[numTabOpen + 1]"
-                            @regenerateAvatar="regenerateAvatar"
-                            :is-phone="true"/>
+                        :avatar-property="avatarProperties[numTabOpen + 1]"
+                        @regenerateAvatar="regenerateAvatar"
+                        :is-phone="true"/>
                 </template>
 
                 <template v-else>
@@ -234,6 +234,8 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
       localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
       localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
     }
+
+    //Rempli l'écran des valeurs de l'avatar
     fillAvatarPropreties(config.value);
 
     isAvatarEquals.value = avatarEquals(config.value, JSON.parse(localStorage.getItem('lastConfigAvatar') || ''));
@@ -312,6 +314,9 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
+  console.log('salut odinette');
+  console.log(config.value);
+  console.log(userCar.car.avatar);
   updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
 }
 
@@ -326,7 +331,6 @@ function cancel() {
  * Lancement au changement de pseudo
  */
 function atChangePseudo() {
-  console.log('salut');
   localStorage.setItem('piloteName', refPseudo.value);
   enableButton();
 }
@@ -384,9 +388,8 @@ async function updateUser() {
   localStorage.setItem('lastPiloteName', refPseudo.value);
 
   //Ajout du nouvel avatar et du nom dans Pinia
-  userCar.car.avatar = config.value;
-  userCar.car.pseudo = refPseudo.value;
-  console.log(config.value);
+  userCar.car.avatar = JSON.parse(JSON.stringify(config.value));
+  userCar.car.pseudo = JSON.parse(JSON.stringify(refPseudo.value));
 }
 
 /**
@@ -844,9 +847,9 @@ const avatarPropertiesClothes = avatarProperties.value.filter(props => props.pro
  */
 function fillAvatarPropreties(config: Configs) {
   for (let prop of avatarProperties.value) {
-    let test = config[prop.propNameEn as keyof Configs];
-    if ( typeof test !== 'boolean') {
-      prop.selectedValueEn = test;
+    let value = config[prop.propNameEn as keyof Configs];
+    if ( typeof value !== 'boolean') {
+      prop.selectedValueEn = value;
     }
   }
 }
@@ -1224,7 +1227,7 @@ div.modify-avatar {
 
 #exit-dialog {
   width: 500px;
-  height: 200px;
+  min-height: 200px;
 
 
   div.button-container {
