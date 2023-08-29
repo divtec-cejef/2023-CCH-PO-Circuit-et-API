@@ -13,9 +13,7 @@
                    :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
             <label :class="`radio-avatar ${item.propValueFr}`"
                    :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
-                   :style="{'background-color': item.propValueEn}">{{
-                props.avatarProperty.selectedValueEn === item.propValueEn
-                }}</label>
+                   :style="{'background-color': item.propValueEn}"></label>
         </template>
     </fieldset>
 </template>
