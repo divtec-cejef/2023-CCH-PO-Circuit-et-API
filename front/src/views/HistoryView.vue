@@ -153,7 +153,6 @@ function getNoActivitySections() {
 
 getRealisedActivity();
 
-const divHeight = 50;
 const divWidth = 250;
 
 let currentSection = ref<{id: number, labelSection: string, posX: number, posY: number, section: string}>();
@@ -264,7 +263,7 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
   return pos + 'px';
 }
 
-function calculatePositionY(posy: number, dif: number, zoomfactor: number) {
+function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHeight: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
     pos = posy - (10 + divHeight);
@@ -287,17 +286,12 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
       currentSection.value = section;
     }
   }
-
-  divLeft.value = calculatePositionX(posx, 24, zoomfactor);
-  divTop.value = calculatePositionY(posy, 24, zoomfactor);
-  divDisplay.value = 'block';
-
   currentLabel.value = {
     title: currentSection.value?.labelSection ?? '',
     realised: currentSection.value?.id ? sectionBonusAcorded(currentSection.value?.id ?? NaN) : false,
     activities: [],
   };
-
+  let heightOffset = 0;
   for (let section of sectionActivities.value) {
     if (section['idSection'] === currentSection.value?.id ?? -1) {
       for (let activity of section['activities']) {
@@ -307,9 +301,21 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
             labelActivity: activity['labelActivity'],
             realised: activityIsRealised(activity['idActivity']),
           });
+        heightOffset += 20;
+        if (heightOffset > 20) {
+          heightOffset += 10;
+        }
       }
     }
   }
+  heightOffset += 2*10 + 20.7 + 16*2;
+  if (currentLabel.value.activities.length === 0) {
+    heightOffset = 2 * 10 + 41.4;
+  }
+  divLeft.value = calculatePositionX(posx, 24, zoomfactor);
+  divTop.value = calculatePositionY(posy, 24, zoomfactor, heightOffset);
+  divDisplay.value = 'block';
+
 }
 </script>
 
@@ -353,13 +359,16 @@ template {
     li {
         list-style-type: none;
         display: flex;
+        padding-top: 10px;
 
         img {
             width: 20px;
             height: 20px;
             margin-right: 10px;
         }
-
+    }
+    li:first-child {
+        padding-top: 0;
     }
 }
 </style>
