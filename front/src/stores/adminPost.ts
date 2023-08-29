@@ -4,7 +4,7 @@ import type { models } from '@/models/api';
 import api from '@/models/api';
 
 export const useAdminPostStore = defineStore('adminPost', () => {
-  const idSection = ref<number>(0);
+  const idSection = ref<number | undefined>(undefined);
   const sectionName = ref<string>('');
   const token = ref<string>('');
   const listActivity = ref<models.parsedData.SectionActivities>([]);

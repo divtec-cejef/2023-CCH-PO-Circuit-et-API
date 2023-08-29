@@ -94,7 +94,7 @@
         <div class="avatar-and-pseudo">
             <div class="modify-pseudo">
                 <label for="pseudo">Pseudo </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo"  @input="atChangePseudo"
+                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
                        maxlength="10">
             </div>
 
@@ -129,12 +129,12 @@
                                          @regenerateAvatar="regenerateAvatar"/>
 
                     <AvatarColorPicker
-                        v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                            v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
-                        :avatar-property="avatarProperties[numTabOpen + 1]"
-                        @regenerateAvatar="regenerateAvatar"
-                        :is-phone="true"/>
+                            :avatar-property="avatarProperties[numTabOpen + 1]"
+                            @regenerateAvatar="regenerateAvatar"
+                            :is-phone="true"/>
                 </template>
 
                 <template v-else>
@@ -202,6 +202,12 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
 
   //Récupération des données par l'api
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
+
+    //Retour si erreur dans la requête
+    if (typeof v.json === 'string') {
+      return;
+    }
+
     piloteName.value = v.json.pseudo;
 
     //Test si les avatars stockés et en ligne sont égaux
@@ -224,6 +230,12 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
 
   //Récupération des données par l'api
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
+
+    //Retour si erreur dans la requête
+    if (typeof v.json === 'string') {
+      return;
+    }
+
     avatarValue.value = v.json.avatar;
 
     //Test si les avatars stockés et en ligne sont égaux
@@ -848,7 +860,7 @@ const avatarPropertiesClothes = avatarProperties.value.filter(props => props.pro
 function fillAvatarPropreties(config: Configs) {
   for (let prop of avatarProperties.value) {
     let value = config[prop.propNameEn as keyof Configs];
-    if ( typeof value !== 'boolean') {
+    if (typeof value !== 'boolean') {
       prop.selectedValueEn = value;
     }
   }

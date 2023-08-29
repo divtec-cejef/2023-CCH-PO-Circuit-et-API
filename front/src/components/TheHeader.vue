@@ -16,7 +16,7 @@
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="adminPost.idSection != ''">
+            <li @click="clickMenu" v-if="adminPost.idSection !== undefined">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
             <li @click="clickMenu" id="stage">
