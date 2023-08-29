@@ -26,8 +26,8 @@
         <SpinLoading class="load-element" v-else></SpinLoading>
     </main>
 
-    <footer>
-        <FooterApp id="footer" :class="classMenuClicked"/>
+    <footer id="main-footer" :class="classMenuClicked">
+        <FooterApp />
     </footer>
 </template>
 
@@ -128,7 +128,7 @@ if (!localStorage.getItem('menuIsClicked')) {
   display: none;
 }
 
-footer#footer.display {
+footer#main-footer.display {
   display: flex;
 }
 
