@@ -35,7 +35,9 @@
                         <ul>
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                <p>{{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1) }}</p>
+                                <p>{{
+                                    car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)
+                                    }}</p>
                             </li>
                             <li>
                                 <NumberTime class="num-race" number="2" color="var(--blue)"/>
@@ -173,7 +175,7 @@ div.best-race {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: fit-content;
+  width: 100%;
   margin: 20px auto 0 auto;
 
   div.content-1 {
@@ -181,6 +183,8 @@ div.best-race {
     justify-content: space-between;
     align-items: center;
     min-width: 280px;
+    width: 80%;
+    margin: auto;
 
     div.rank {
       display: flex;
@@ -237,6 +241,9 @@ div.best-race {
     display: flex;
     justify-content: space-between;
     min-width: 280px;
+    width: 80%;
+    margin: auto;
+
 
     div.time-inter {
       width: 165px;
@@ -302,13 +309,14 @@ div.best-race {
   }
 
   div.informations {
-    margin: 25px 10px;
+    margin: 25px auto;
     display: flex;
     justify-content: space-between;
     font-style: italic;
     align-items: center;
     min-width: 280px;
     padding: 0 5px;
+    width: 80%;
 
     div {
       display: flex;
@@ -328,8 +336,11 @@ div.best-race {
 }
 
 .drop-down-course {
-  margin-top: 20px;
+  margin: 20px 0 30px 0;
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 div.classement-content {
@@ -338,10 +349,11 @@ div.classement-content {
   margin-top: 10px;
 }
 
+
 div.button-classement {
   display: flex;
   justify-content: end;
-  margin-top: 20px;
+  margin-top: -50px;
 
 
   button.classement-top {
@@ -386,9 +398,6 @@ div.large-content {
   display: none;
 }
 
-div.drop-down-course {
-  display: block;
-}
 
 .table-large-content {
   display: none;

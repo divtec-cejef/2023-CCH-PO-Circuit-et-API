@@ -6,7 +6,10 @@
     <div v-else-if="codeBackApi === api.ReturnCodes.Success">
         <div class="user-data">
             <div class="avatar-txt">
-                <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+                <RouterLink to="pilote">
+                    <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+                </RouterLink>
+
                 <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
                 <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
             </div>
@@ -224,6 +227,7 @@ div.user-data {
     align-items: center;
     max-width: 300px;
     margin-top: 20px;
+
     p:nth-child(2) {
       font-size: 18px;
     }
@@ -253,9 +257,9 @@ div.user-data {
       display: flex;
       margin-top: 10px;
 
-        p {
-            margin-left: 10px;
-        }
+      p {
+        margin-left: 10px;
+      }
     }
   }
 
