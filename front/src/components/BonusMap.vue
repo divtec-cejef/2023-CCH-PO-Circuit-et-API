@@ -1,9 +1,35 @@
 <template>
     <img :src=svg alt="Carte de la division">
 
-    <div ref="icon" v-for="section in sections" :key="section.labelSection" class="icon" :style="{top: section.posY + '%', left: section.posX + '%', border: `2px solid ${getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`}" @mouseover="atHover($event, section)" @mouseleave="atLeave($event)" @click="props.displayLabel(($event?.target as HTMLDivElement)?.getBoundingClientRect().left, ($event?.target as HTMLDivElement)?.getBoundingClientRect().top, section.labelSection)">
-        <img :src=trophy alt="image de trophé (médaille)" :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
-        <p :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}">{{section.labelSection}}</p>
+    <div ref="icon"
+         v-for="(section, index) in sections"
+         :key="section.labelSection"
+         class="icon"
+         :style="{
+             top: section.posY + '%',
+             left: section.posX + '%',
+             border: `2px solid ${getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`
+         }"
+         @mouseover="event => atHover(event, section)"
+         @mouseleave="event => atLeave(event, index)"
+         @click="(event) => {
+             unHighlight()
+             props.displayLabel(
+             (event?.target as HTMLDivElement)?.getBoundingClientRect().left,
+             (event?.target as HTMLDivElement)?.getBoundingClientRect().top,
+             section.labelSection)
+             isClicked = index
+             highlight(event, section)
+         }">
+
+        <img
+            :src=trophy
+            alt="image de trophé (médaille)"
+            :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
+        <p
+            :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}">
+            {{section.labelSection}}
+        </p>
     </div>
 
 
@@ -14,12 +40,15 @@
 import svg from '../assets/img/division-plan.png';
 import trophy from '../assets/img/rank1.webp';
 import { Section } from '@/models/section';
+import { ref, watch } from 'vue';
 
 const getColor = Section.getColor;
 
+const isClicked = ref<number | null>(null);
+let targetOld: HTMLDivElement | null = null;
+
 const props = defineProps<{
     displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
-    hideLabel: () => void;
     sections: {
         section: string;
         id: number;
@@ -28,22 +57,48 @@ const props = defineProps<{
         posY: number;
     }[];
     activatedSection: number[];
+    unClicked: boolean;
 }>();
 
-console.log(props.activatedSection);
+watch(() => props.unClicked, (unClicked) => {
+  console.log(unClicked);
+  if (unClicked) {
+    unHighlight();
+  }
+});
+
+function unHighlight() {
+  console.log('unHighlight', targetOld);
+  if (targetOld) {
+    targetOld.classList.remove('clicked');
+    targetOld.style.background = 'var(--white)';
+    isClicked.value = null;
+  }
+}
+
+function highlight(event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
+  let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
+    ((event.target as HTMLElement).parentElement as HTMLDivElement) :
+    (event.target as HTMLDivElement);
+  target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  targetOld = target;
+}
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 
 function atHover(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
-  if ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') {
-    ((event.target as HTMLElement).parentElement as HTMLDivElement).style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-  } else {
-    (event.target as HTMLDivElement).style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-  }
+  let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
+    ((event.target as HTMLElement).parentElement as HTMLDivElement) :
+    (event.target as HTMLDivElement);
+  target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
 }
 
-function atLeave(event: Event) {
-  (event.target as HTMLDivElement).style.background = 'var(--white)';
+function atLeave(event: Event, index: number) {
+  if (index !== isClicked.value) {
+    (event.target as HTMLDivElement).style.background = 'var(--white)';
+  } else if (index === isClicked.value) {
+    (event.target as HTMLDivElement).classList.add('clicked');
+  }
 }
 
 // const icon = ref<HTMLElement | null>(null);
@@ -92,6 +147,12 @@ template {
     img {
         height: clamp(1px, 2.25vw, 24px);
         padding: 0 10px 0 10px;
+    }
+}
+
+div.clicked {
+    p {
+        color: var(--white) !important;
     }
 }
 
