@@ -166,7 +166,7 @@ div.up-screen {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 100000;
   width: 100%;
   display: flex;
   flex-direction: row;
