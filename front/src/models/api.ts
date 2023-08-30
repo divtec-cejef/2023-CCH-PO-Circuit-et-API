@@ -247,9 +247,9 @@ export namespace restful {
    * @param userCar la voiture de l'utilisateur, contenant le token
    */
   export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
-    // Teste si l'id de la voiture est défini
-    if(!userCar.car.idCar) {
-      throw new Error('Car id is undefined');
+    // Teste les propriétés de la voiture est défini
+    if(!userCar.car.idCar || !userCar.car.pseudo || !userCar.car.avatar) {
+      throw new Error('Property is undefined');
     }
 
     const requestOptions = {
@@ -511,8 +511,8 @@ export namespace models {
      */
     export interface UpdateCarData {
       idCar: number | undefined,
-      pseudo: string,
-      avatar: Avatar.Avatar
+      pseudo: string | undefined,
+      avatar: Avatar.Avatar | undefined
     }
 
     /**

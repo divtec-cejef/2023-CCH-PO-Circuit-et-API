@@ -4,7 +4,7 @@
             <h2>Connexion</h2>
             <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
         </div>
-        <form @submit.prevent="() => connect(car.idQuery, password)">
+        <form @submit.prevent="() => connect(car.idQuery!, password)">
             <label for="password">Code de la voiture </label>
             <input type="text" id="password" name="password" v-model="password">
             <p class="error">{{ error }}</p>
@@ -179,7 +179,7 @@ const { car } = userCar;
 const password = ref('');
 const error = ref('');
 const saveIsInvalid = ref(false);
-const refPseudo = ref(car.pseudo);
+const refPseudo = ref(car.pseudo ?? '');
 const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
 const widthScreen = ref(0);
@@ -326,7 +326,7 @@ function avatarEquals(avatar1: any, avatar2: any) {
  * Active le bouton d'enregistrement si les données ont changé
  */
 function enableButton() {
-  updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo.toString();
+  updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo?.toString();
 }
 
 /**
@@ -363,7 +363,7 @@ async function updateUser() {
 
   // Vérification du pseudo
   if (refPseudo.value.length < 3) {
-    refPseudo.value = userCar.car.pseudo;
+    refPseudo.value = userCar.car.pseudo ?? '';
     saveIsInvalid.value = true;
     return;
   }
@@ -874,6 +874,11 @@ function clickTab(numTab: number) {
 
 //Lancement d'un premier calcul de la largeur de la page
 changeValueWidthScreen();
+
+//Si l'id de la voiture n'est pas défini alors retour à la page d'accueil
+if (!userCar.car.idCar) {
+  router.push('/');
+}
 
 // Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
 userCar.token = localStorage.getItem('carToken') || '';

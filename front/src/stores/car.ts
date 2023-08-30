@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import type { Ref } from 'vue';
 import { ref } from 'vue';
 import Car from '../models/car';
 import api, { WebsocketConnection } from '../models/api';
@@ -8,8 +7,8 @@ import Race from '@/models/race';
 export const useCarStore = defineStore('car', () => {
 
   //Initialisation des variables
-  const car: Ref<Car> = ref(new Car());
-  const token: Ref<string> = ref('');
+  const car = ref<Car>(new Car());
+  const token = ref<string>();
 
   /**
    * Initialisation de la voiture en fonction de l'URL actuel
