@@ -75,7 +75,7 @@ function unHighlight() {
   }
 }
 
-function highlight(event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
+function highlight(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
   let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
     ((event.target as HTMLElement).parentElement as HTMLDivElement) :
     (event.target as HTMLDivElement);
@@ -143,7 +143,7 @@ template {
     }
 
     img {
-        height: clamp(1px, 2.25vw, 24px);
+        height: clamp(1px, 2.25vw, 20px);
         padding: 0 10px 0 10px;
     }
 }

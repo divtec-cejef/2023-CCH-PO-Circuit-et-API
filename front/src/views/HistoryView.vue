@@ -182,7 +182,7 @@ const panzoomable = (v: any)  => {
     bounds: true,
     boundsPadding: 0.2,
     maxZoom: 5,
-    minZoom: 1,
+    minZoom: 0.5,
     onTouch: function(e: any) {
       e.preventDefault();
     },
