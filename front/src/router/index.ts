@@ -9,6 +9,7 @@ import ScanView from '@/views/ScanView.vue';
 import UpdateUserView from '@/views/UpdateUserView.vue';
 import ActivityAdminView from '@/views/ActivityAdminView.vue';
 import ScanActivityView from '@/views/ScanActivityView.vue';
+import ClassementFullScreenView from '@/views/ClassementFullScreenView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: '/admin/scan',
       name: 'admin-scan',
       component: ScanActivityView
+    },
+    {
+      path: '/admin/full-screen-classement',
+      name: 'full-screen-classement',
+      component: ClassementFullScreenView
     }
   ]
 });
