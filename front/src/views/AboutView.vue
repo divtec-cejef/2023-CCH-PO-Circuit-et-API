@@ -295,10 +295,10 @@ ul {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 0px 10px 10px lightgray;
+      box-shadow: 0 10px 10px lightgray;
 
       h3 {
-        margin-top: 0px;
+        margin-top: 0;
       }
 
       ul {
