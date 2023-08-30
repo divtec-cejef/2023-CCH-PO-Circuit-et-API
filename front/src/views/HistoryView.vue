@@ -48,16 +48,20 @@ let noActivitySections = ref<number[]>([]);
 
 function getRealisedActivity() {
   realisedActivity.value = [];
-  api.getActivityOneCar(car.idCar).then((v) => {
-    const { json: dataActivity, status: status } = v;
-    if (status.valueOf() === api.ReturnCodes.Success) {
-      for (let activity of dataActivity) {
-        realisedActivity.value.push(activity['id_activity']);
-      }
-    }
-
+  if (car.idCar === 0) {
     getSectionAndActivities();
-  });
+  } else {
+    api.getActivityOneCar(car.idCar).then((v) => {
+      const { json: dataActivity, status: status } = v;
+      if (status.valueOf() === api.ReturnCodes.Success) {
+        for (let activity of dataActivity) {
+          realisedActivity.value.push(activity['id_activity']);
+        }
+      }
+
+      getSectionAndActivities();
+    });
+  }
 }
 
 function getSectionAndActivities() {
