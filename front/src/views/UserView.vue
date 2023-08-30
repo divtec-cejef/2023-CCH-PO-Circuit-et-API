@@ -158,7 +158,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
 
     //Si la requête est valide alors on stocke l'id dans le localstorage
     if (codeBackApi.value == api.ReturnCodes.Success) {
-      localStorage.setItem('userCarId', userCar.car.idCar.toString());
+      localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
     }
   });
 },
