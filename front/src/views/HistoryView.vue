@@ -1,5 +1,8 @@
 <template>
-    <div class="container">
+    <div v-if="!hasLoaded" class="loading-map">
+        <SpinLoading></SpinLoading>
+    </div>
+    <div class="container" v-if="hasLoaded">
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
         </div>
@@ -31,6 +34,7 @@ import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
 import trophy from '../assets/img/trophy.png';
 import close from '../assets/img/close.png';
+import SpinLoading from '@/components/SpinLoading.vue';
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -39,6 +43,7 @@ const divLeft = ref<string>('0');
 const divTop = ref<string>('0');
 const divDisplay = ref<string>('none');
 const sectionUnCLicked = ref<boolean>(true);
+const hasLoaded = ref(false);
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
@@ -108,6 +113,7 @@ function getSectionAndActivities() {
               }
               getSectionBonusAcorded();
               getNoActivitySections();
+              hasLoaded.value = true;
             }
           });
       }
@@ -354,8 +360,7 @@ template {
 
     h2 {
         font-size: 23px;
-        margin: 0;
-        margin-bottom: 10px;
+        margin: 0 0 10px;
     }
 
     ul {
@@ -395,5 +400,11 @@ template {
             cursor: pointer;
         }
     }
+}
+.loading-map {
+    height: calc(60vh - var(--height-screen-diff));
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
