@@ -89,31 +89,26 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section['id_section'])
-          .then((v: {
-            json: {
-                label: string,
-                id_section: number,
-                id_activity: number
-            }[],
-                status: number
-            }) => {
+        api.getAllActivitiesOneSection(section.id_section)
+          .then((v) => {
             const { json: dataActivities, status: statusActivities } = v;
 
             if (statusActivities.valueOf() === api.ReturnCodes.Success) {
               sectionActivities.value.push(
                 {
-                  idSection: section['id_section'],
-                  labelSection: section['label'],
+                  idSection: section.id_section,
+                  labelSection: section.label,
                   activities: [],
                 });
               for (let activity of dataActivities) {
+                if(typeof activity === 'string')
+                  continue;
                 for (let section of sectionActivities.value) {
-                  if (section?.idSection === activity['id_section']) {
+                  if (section?.idSection === activity.idSection) {
                     section?.activities.push(
                       {
-                        idActivity: activity['id_activity'],
-                        labelActivity: activity['label'],
+                        idActivity: activity.idActivity,
+                        labelActivity: activity.label,
                       });
                   }
                 }
