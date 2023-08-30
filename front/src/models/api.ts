@@ -247,6 +247,11 @@ export namespace restful {
    * @param userCar la voiture de l'utilisateur, contenant le token
    */
   export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
+    // Teste les propriétés de la voiture est défini
+    if(!userCar.car.idCar || !userCar.car.pseudo || !userCar.car.avatar || !userCar.token) {
+      throw new Error('Property is undefined');
+    }
+
     const requestOptions = {
       method: 'PATCH',
       headers: {
@@ -505,16 +510,16 @@ export namespace models {
      * Représente les données basiques d'une voiture
      */
     export interface UpdateCarData {
-      idCar: number,
-      pseudo: string,
-      avatar: Avatar.Avatar
+      idCar: number | undefined,
+      pseudo: string | undefined,
+      avatar: Avatar.Avatar | undefined
     }
 
     /**
      * Représente les données basiques d'une voiture authentifiée
      */
     export interface AuthenticatedUpdateCarData {
-      token: string,
+      token: string | undefined,
       car: UpdateCarData
     }
   }
