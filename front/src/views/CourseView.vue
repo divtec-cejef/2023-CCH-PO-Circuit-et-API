@@ -1,6 +1,6 @@
 <template>
     <template v-if="socketConnected">
-        <div v-if="car.listRace.length > 0">
+        <div v-if="car.listRace!.length > 0">
             <h1>Course</h1>
             <h2>Meilleure manche</h2>
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
@@ -17,7 +17,7 @@
                     <div class="best-time">
                         <div>Temps de manche :</div>
                         <div class="race-time">
-                            {{ car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].totalTime) }}
+                            {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
                                 <p>{{
-                                    car.listRace[BEST_TIME_INDEX].formatTime(car.listRace[BEST_TIME_INDEX].sector1)
+                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector1)
                                     }}</p>
                             </li>
                             <li>
@@ -48,10 +48,10 @@
                 </div>
 
                 <div class="informations">
-                    <p>N° Manche : {{ car.getNumRace(car.listRace[BEST_TIME_INDEX]) }}</p>
+                    <p>N° Manche : {{ car.getNumRace(car.listRace![BEST_TIME_INDEX]) }}</p>
                     <div>
                         <img class="hour" :src=hourImg alt="Icon d'horloge">
-                        <p class="hour">{{ car.listRace[BEST_TIME_INDEX].formatHour() }}</p>
+                        <p class="hour">{{ car.listRace![BEST_TIME_INDEX].formatHour() }}</p>
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
             </div>
 
             <div class="content-list-classement">
-                <DropDown v-if="car.listRace.length > 1" class="drop-down-course"
+                <DropDown v-if="car.listRace!.length > 1" class="drop-down-course"
                           name="Toutes les courses">
                     <TableListTime :car-user="car"/>
                 </DropDown>
@@ -117,7 +117,7 @@ function scrollToUser() {
     return;
   }
   //Changement du scroll en fonction de son rang
-  classement.value.scrollTop = car.rank <= 3 ? 0 : (car.rank - 2) * 50 - 20;
+  classement.value.scrollTop = car.rank! <= 3 ? 0 : (car.rank! - 2) * 50 - 20;
 }
 
 /**
@@ -144,7 +144,7 @@ onMounted(() => {
 });
 
 //Si aucune voiture n'est initialisée alors redirection
-if (!localStorage.getItem('userCarId')) {
+if (!userCar.car.idCar) {
   router.push({ path: '/' });
 } else {
   //Initialisation des courses de l'utilisateur
