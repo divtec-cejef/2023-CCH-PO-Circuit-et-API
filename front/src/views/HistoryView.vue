@@ -2,7 +2,7 @@
     <div v-if="!hasLoaded" class="loading-map">
         <SpinLoading></SpinLoading>
     </div>
-    <div class="container" v-if="hasLoaded">
+    <div class="container" v-if="!hasLoaded">
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
         </div>
