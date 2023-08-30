@@ -92,5 +92,13 @@ export const useCarStore = defineStore('car', () => {
 
   }
 
-  return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar, token };
+  /**
+   * Reset le store
+   */
+  function $reset() {
+    car.value = new Car();
+    token.value = '';
+  }
+
+  return { car, initUserCarId, initUserCarQueryId, initUserAllRaceCar, token, $reset };
 });

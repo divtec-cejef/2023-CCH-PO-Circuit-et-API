@@ -49,9 +49,18 @@ export const useAdminPostStore = defineStore('adminPost', () => {
     return dataSection.label;
   }
 
+  /**
+   * Reset le store
+   */
+  function $reset () {
+    idSection.value = undefined;
+    sectionName.value = '';
+    token.value = '';
+    listActivity.value = [];
+  }
 
   return {
     idSection, sectionName, token, listActivity,
-    initAllActivityOneSection, getNameSectionById
+    initAllActivityOneSection, getNameSectionById, $reset
   };
 });

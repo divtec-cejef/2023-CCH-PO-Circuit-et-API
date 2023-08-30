@@ -2,7 +2,7 @@ import type Race from '@/models/race';
 import type { Configs } from 'holiday-avatar';
 
 export default class Car {
-  idCar: number = 0;
+  idCar: number | undefined = undefined;
   pseudo: string = '';
   idQuery: string = '';
   avatar: Configs | undefined = undefined;
