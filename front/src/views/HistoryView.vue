@@ -6,7 +6,7 @@
     </div>
     <div v-if="currentLabel.title !== null" ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
         <div v-if="currentLabel.activities.length > 0">
-            <p>Activités :</p>
+            <div class="label-header"><span>Activités :</span><div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div></div>
             <ul>
                 <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
                     <img :src=trophy alt="Trophé"  :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
@@ -14,8 +14,9 @@
                 </li>
             </ul>
         </div>
-        <div v-if="currentLabel.activities.length <= 0">
-            <p>Il n'y a pas d'activités dans cette section</p>
+        <div v-if="currentLabel.activities.length <= 0" class="label-header">
+            <span>Il n'y a pas d'activités dans cette section</span>
+            <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
         </div>
     
     </div>
@@ -29,6 +30,7 @@ import { ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
 import trophy from '../assets/img/trophy.png';
+import close from '../assets/img/close.png';
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -369,6 +371,25 @@ template {
     }
     li:first-child {
         padding-top: 0;
+    }
+
+    .label-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 10px;
+
+        span {
+            max-width: 200px;
+        }
+
+        img {
+            height: 20px;
+        }
+
+        img:hover {
+            cursor: pointer;
+        }
     }
 }
 </style>
