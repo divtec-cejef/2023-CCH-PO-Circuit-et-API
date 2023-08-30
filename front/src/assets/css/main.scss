@@ -26,7 +26,7 @@
 main {
   padding: 35px;
   width: 100%;
-  min-height: calc(100vh - var(--height-screen-diff) + 20px);
+  min-height: calc(100vh - var(--height-screen-diff));
   max-width: 1000px;
   margin: auto;
 }

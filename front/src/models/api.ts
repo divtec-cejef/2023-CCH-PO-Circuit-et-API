@@ -107,7 +107,7 @@ export namespace restful {
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivityOneSection(idSection: number | string) {
+  export async function getAllActivitiesOneSection(idSection: number | string) {
     try {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
@@ -120,6 +120,29 @@ export namespace restful {
       return {
         json: parsedJson, status: res.status
       };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
+  }
+
+  /**
+   * Obtient toutes les sections
+   */
+  export async function getAllSections() {
+    try {
+      const routeRaceCar = `${routeApi}section/`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
+    } catch (e) {
+      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+    }
+  }
+
+  export async function getActivityOneCar(idCar: number | string) {
+    try {
+      const routeRaceCar = `${routeApi}activity/by-car/${idCar}`;
+      const res = await fetch(routeRaceCar);
+      return { json: (await res.json()), status: res.status };
     } catch (e) {
       return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
     }
