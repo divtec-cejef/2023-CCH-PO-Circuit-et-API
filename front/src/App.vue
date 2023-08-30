@@ -104,7 +104,6 @@ if (userCarId) {
   });
 } else {
   hasFinishedLoading.value = true;
-  car.idCar = Number(userCarId);
 }
 
 //Si aucune donnée n'est dans le localstorage alors initialisation
