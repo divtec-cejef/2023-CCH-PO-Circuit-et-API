@@ -1,7 +1,31 @@
 <template>
     <div>
         <h1>À propos</h1>
-        <p>Le projet a été créé par les personnes suivantes:</p>
+        <p>Dans le cadre des portes ouvertes 2023 de la division technique à Porrentruy,
+            un projet impliquant les sections principales de l'école a été mis en place.
+        </p>
+        <p>
+            Le but étant de proposer un système ludique pour que les visiteurs aient un avantage à visiter
+            les différentes sections du bâtiment.
+            Dans cet esprit, un groupe d'apprentis représentant chacun leur section ont commencé à travailler ensemble
+            il y a maintenant 7 mois pour élaborer une solution.
+            Et c'est de ce travail qu'est sorti Tuture Divtec.
+        </p>
+        <p>
+            Les dessinateurs ont dessiner et imaginer la petite voiture en bois, produite entièrement dans leur atelier.
+            Les apprentis automaticien ont créé et gérer entièrement le circuit,
+            les électroniciens quant à eux ont mis en place les cellules de chronométrage ainsi que les accélérateurs
+            magnétiques, bonus reçu en passant dans leur atelier.
+        </p>
+        <p>
+            Les informaticiens se sont eux occupés de gérer le scan de chaque voiture
+            dans les différentes section, de ce site web dédié à la modification et consultation des données pour les visiteurs
+            ainsi qu'a la partie vidéo de la course.
+        </p>
+        <p>
+            Les horlogers et laborantins ont quant à eux amener leur touche en apportant des bonus physique à la voiture. Un ---- et ----- pour les deux sections.
+        </p>
+        <h2>Apprentie-s</h2>
         <ul class="students">
             <li>
                 <h3 class="section-name">Section informatique</h3>
@@ -102,24 +126,30 @@
         <h2>Librairies</h2>
         <p>Merci aux auteurs des librairies utilisées sur ce site,
             qui nous fournissent des technologies très utiles:</p>
-        <h3>Front-end</h3>
-        <ul class="libraries">
-            <li v-for="(lib, index) in frontLibs"  :key="index">
-                <a :href="lib.link">
-                    <span class="library-name">{{lib.name}}</span>
-                    <span class="author-name">{{lib.author}}</span>
-                </a>
-            </li>
-        </ul>
-        <h3>Back-end</h3>
-        <ul class="libraries">
-            <li v-for="(lib, index) in backLibs"  :key="index">
-                <a :href="lib.link">
-                    <span class="library-name">{{lib.name}}</span>
-                    <span class="author-name">{{lib.author}}</span>
-                </a>
-            </li>
-        </ul>
+        <section class="libs">
+            <div>
+            <h3>Front-end</h3>
+            <ul>
+                <li v-for="(lib, index) in frontLibs"  :key="index">
+                    <a :href="lib.link">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+            <div>
+            <h3>Back-end</h3>
+            <ul>
+                <li v-for="(lib, index) in backLibs"  :key="index">
+                    <a :href="lib.link">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -189,6 +219,7 @@ const frontLibs: {
   name: 'vue3-runtime-template',
   author: 'Matt Elen'
 }];
+frontLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
 const backLibs: {
   link: string,
@@ -231,11 +262,20 @@ const backLibs: {
   name: 'ts-node',
   author: 'TypeStrong'
 }];
+backLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
 </script>
 
 <style lang="scss" scoped>
 p {
+  margin-bottom: 1em;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: .5em;
 }
 
 ul {
@@ -243,24 +283,39 @@ ul {
   padding: 0;
   text-align: center;
 
-  h3 {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-  }
-
   &.students {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+
     li {
+      padding:  1.5em;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0px 10px 10px lightgray;
+
+      h3 {
+        margin-top: 0px;
+      }
+
       ul {
         display: flex;
         flex-direction: column;
-        margin: 2px auto 15px auto;
 
         li {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-gap: 5px;
           margin: auto;
+          padding: 0;
+          box-shadow: none;
+
+          h3 {
+            margin: 0;
+          }
 
           span {
             font-size: 1em;
@@ -268,8 +323,7 @@ ul {
             &.last-name {
               font-weight: bold;
               text-transform: uppercase;
-              margin-right: 5px;
-              text-align: right;
+              justify-self: end;
             }
 
             &.first-name {
@@ -282,29 +336,39 @@ ul {
     }
   }
 
-  &.libraries {
-    li {
-      a {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        transition: all 300ms ease-in-out;
-        margin: auto;
-        width: fit-content;
-        grid-gap: 5px;
 
-        &:hover {
-            color: var(--gray);
-        }
+}
 
-        span {
+section {
+  &.libs {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    ul {
+      li {
+        a {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          transition: all 300ms ease-in-out;
+          margin: auto;
           width: fit-content;
-          &.library-name {
-            font-weight: bold;
-            justify-self: right;
+          grid-gap: 5px;
+
+          &:hover {
+            color: var(--gray);
           }
 
-          &.author-name {
-            justify-self: left;
+          span {
+            width: fit-content;
+
+            &.library-name {
+              font-weight: bold;
+              justify-self: right;
+            }
+
+            &.author-name {
+              justify-self: left;
+            }
           }
         }
       }
