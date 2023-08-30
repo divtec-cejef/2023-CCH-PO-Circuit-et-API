@@ -1,8 +1,8 @@
 <template>
-    <div v-if="!hasLoaded" class="loading-map">
+    <div v-if="!hasLoaded && !hasError" class="loading-map">
         <SpinLoading></SpinLoading>
     </div>
-    <div class="container" v-if="!hasLoaded">
+    <div class="container" v-if="hasLoaded && !hasError">
         <div :ref="panzoomable">
             <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
         </div>
@@ -23,6 +23,9 @@
         </div>
     
     </div>
+    <div v-if="hasError">
+        <ErrorConnection></ErrorConnection>
+    </div>
 
 </template>
 
@@ -35,6 +38,7 @@ import { useCarStore } from '@/stores/car';
 import trophy from '../assets/img/trophy.png';
 import close from '../assets/img/close.png';
 import SpinLoading from '@/components/SpinLoading.vue';
+import ErrorConnection from '@/components/ErrorConnection.vue';
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -43,7 +47,8 @@ const divLeft = ref<string>('0');
 const divTop = ref<string>('0');
 const divDisplay = ref<string>('none');
 const sectionUnCLicked = ref<boolean>(true);
-const hasLoaded = ref(false);
+const hasLoaded = ref<boolean>(false);
+const hasError = ref<boolean>(false);
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
@@ -62,6 +67,8 @@ function getRealisedActivity() {
         for (let activity of dataActivity) {
           realisedActivity.value.push(activity['id_activity']);
         }
+      } else {
+        hasError.value = true;
       }
 
       getSectionAndActivities();
@@ -114,9 +121,13 @@ function getSectionAndActivities() {
               getSectionBonusAcorded();
               getNoActivitySections();
               hasLoaded.value = true;
+            } else {
+              hasError.value = true;
             }
           });
       }
+    } else {
+      hasError.value = true;
     }
   });
 }
