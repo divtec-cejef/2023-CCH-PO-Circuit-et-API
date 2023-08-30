@@ -288,8 +288,13 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   } else {
     pos = posy + (10 + dif*zoomfactor);
   }
-  if (pos < 0) {
-    pos = 0;
+  const minHeightPx = getComputedStyle(document.documentElement)
+    .getPropertyValue('--height-screen-diff');
+  const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
+  console.log('minHeight: ' + minHeight);
+  if (pos < minHeight) {
+    console.log('minHeight: ' + minHeight);
+    pos = minHeight;
   } else if (pos > window.innerHeight - divHeight) {
     pos = window.innerHeight - divHeight;
   }
@@ -359,6 +364,7 @@ template {
     padding: 10px;
     display: none;
     position: absolute;
+    z-index: 100;
     background-color: #ffffff;
     //border: 2px solid #595959;
     border-radius: 10px;
