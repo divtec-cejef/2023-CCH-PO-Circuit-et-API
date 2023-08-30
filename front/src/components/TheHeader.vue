@@ -4,10 +4,10 @@
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="!isNaN(userCar.car.idCar)">
+            <li @click="clickMenu" v-if="userCar.car.idCar">
                 <RouterLink to="/pilote">Pilote</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="!isNaN(userCar.car.idCar)">
+            <li @click="clickMenu" v-if="userCar.car.idCar">
                 <RouterLink to="/course">Mes Courses</RouterLink>
             </li>
             <li @click="clickMenu">
@@ -16,7 +16,7 @@
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
             </li>
-            <li @click="clickMenu" v-if="adminPost.idSection !== undefined">
+            <li @click="clickMenu" v-if="adminPost.idSection">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
             <li @click="clickMenu" id="stage">
@@ -27,8 +27,8 @@
                          alt="Icon d'inscription à un stage">
                 </a>
             </li>
-            <li>
-                <button class="logout-button tooltip">
+            <li v-if="userCar.car.idCar">
+                <button class="logout-button tooltip" @click="logOutUser">
                     <span>Déconnexion</span>
                     <img :src="exitImg" alt="Icon de déconnexion">
                     <img :src="exitPhoneImg" alt="Icon de déconnexion">
@@ -45,11 +45,28 @@ import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.png';
 import exitPhoneImg from '@/assets/img/exit-phone.png';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const clickMenu = () => {
   localStorage.setItem('menuIsClicked', 'true');
   emit('clickMenu', true);
 };
+
+/**
+ * Log out de l'utilisateur
+ */
+function logOutUser() {
+  //Suppresion du localstorage
+  localStorage.clear();
+
+  //Clear les stores pinia
+  userCar.$reset();
+  useAdminPostStore().$reset();
+
+  //Retour à la page d'accueil
+  router.push('/');
+}
 
 //Récupération de la voiture
 const emit = defineEmits(['clickMenu']);
