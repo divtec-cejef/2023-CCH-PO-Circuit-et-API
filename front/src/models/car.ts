@@ -2,17 +2,22 @@ import type Race from '@/models/race';
 import type { Configs } from 'holiday-avatar';
 
 export default class Car {
-  idCar: number = 0;
-  pseudo: string = '';
-  idQuery: string = '';
-  avatar: Configs | undefined = undefined;
-  listRace: Race[] = [];
-  rank: number = 0;
+  idCar: number | undefined;
+  pseudo: string  | undefined;
+  idQuery: string | undefined;
+  avatar: Configs | undefined;
+  listRace: Race[] | undefined;
+  rank: number | undefined;
 
   /**
      * Tri une liste en fonction de l'heure de réalisation
      */
   sortListByOrderHour() {
+    //Si la liste n'est pas défini alors retour
+    if(!this.listRace) {
+      throw new Error('List race is undefined');
+    }
+
     const listSortByNum = [...this.listRace];
 
     //Tri de la liste en fonction

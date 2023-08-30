@@ -58,7 +58,7 @@ let noActivitySections = ref<number[]>([]);
 
 function getRealisedActivity() {
   realisedActivity.value = [];
-  if (car.idCar === 0) {
+  if (car.idCar === 0 || car.idCar === undefined) {
     getSectionAndActivities();
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
