@@ -80,6 +80,7 @@ function highlight(event, section: { section: string; id: number; labelSection: 
     ((event.target as HTMLElement).parentElement as HTMLDivElement) :
     (event.target as HTMLDivElement);
   target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  target.classList.add('clicked');
   targetOld = target;
 }
 
@@ -95,8 +96,6 @@ function atHover(event: Event, section: { section: string; id: number; labelSect
 function atLeave(event: Event, index: number) {
   if (index !== isClicked.value) {
     (event.target as HTMLDivElement).style.background = 'var(--white)';
-  } else if (index === isClicked.value) {
-    (event.target as HTMLDivElement).classList.add('clicked');
   }
 }
 
