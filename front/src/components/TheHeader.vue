@@ -143,7 +143,7 @@ button.logout-button {
   background: none;
   border: none;
   cursor: pointer;
-
+  padding: 0;
 
   img {
     height: 35px;
