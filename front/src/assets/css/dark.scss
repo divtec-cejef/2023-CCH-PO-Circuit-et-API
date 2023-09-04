@@ -5,6 +5,11 @@
     --white: #efefef;
   }
 
+  svg {
+    * {
+    }
+  }
+
   body {
     #app {
       background-color: var(--black);
