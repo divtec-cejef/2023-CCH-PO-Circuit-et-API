@@ -52,7 +52,6 @@ const colorScheme = usePreferredColorScheme();
 
 const router = useRouter();
 const clickMenu = () => {
-  localStorage.setItem('menuIsClicked', 'true');
   emit('clickMenu', true);
 };
 
@@ -66,6 +65,8 @@ function logOutUser() {
   //Clear les stores pinia
   userCar.$reset();
   useAdminPostStore().$reset();
+
+  clickMenu();
 
   //Retour à la page d'accueil
   router.push('/');
@@ -143,7 +144,6 @@ button.logout-button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
 
   img {
     height: 35px;

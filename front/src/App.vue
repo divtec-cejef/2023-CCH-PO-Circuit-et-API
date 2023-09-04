@@ -27,7 +27,7 @@
     </main>
 
     <footer id="main-footer" :class="classMenuClicked">
-        <FooterApp />
+        <FooterApp/>
     </footer>
 </template>
 
@@ -45,7 +45,6 @@ import SpinLoading from '@/components/SpinLoading.vue';
  */
 function clickMenu() {
   menuIsClicked.value = !menuIsClicked.value;
-  localStorage.setItem('menuIsClicked', menuIsClicked.value ? 'true' : 'false');
 }
 
 /**
@@ -90,6 +89,7 @@ const { car } = userCar;
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
+const menuIsClicked = ref(true);
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -103,13 +103,6 @@ if (userCarId) {
   });
 } else {
   hasFinishedLoading.value = true;
-}
-
-//Si aucune donnée n'est dans le localstorage alors initialisation
-let menuIsClicked = ref(localStorage.getItem('menuIsClicked') == 'true');
-if (!localStorage.getItem('menuIsClicked')) {
-  localStorage.setItem('menuIsClicked', 'true');
-  menuIsClicked.value = true;
 }
 
 </script>
