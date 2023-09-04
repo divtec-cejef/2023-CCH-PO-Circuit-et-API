@@ -1,4 +1,5 @@
 <template>
+    <div class="content">
     <dialog id="connection-dialog" ref="dialog">
         <div class="header">
             <h2>Connexion</h2>
@@ -158,6 +159,7 @@
     <div v-if="saveIsInvalid" class="show-error">
         <p>* Le pseudo doit contenir au moins 3 caractères.</p>
     </div>
+    </div>
 
 </template>
 <script setup lang="ts">
@@ -175,6 +177,7 @@ import { useRouter } from 'vue-router';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import type { Ref } from 'vue';
+
 const router = useRouter();
 
 //Initialisation des données de l'utilisateur

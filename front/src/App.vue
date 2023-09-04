@@ -131,12 +131,6 @@ footer#main-footer.display {
   display: flex;
 }
 
-.display {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-}
-
 header {
   display: flex;
   justify-content: space-between;
