@@ -469,11 +469,11 @@
 /* Petit ordinateur */
 @media screen and (min-width: 1280px) {
   #app div.home-root {
-    overflow-x: visible;
     width: 1280px;
 
     ul.stats {
-      grid-template-columns: 420px 420px;
+      grid-template-columns: 43% 57%;
+      width: 50%;
     }
   }
 }
