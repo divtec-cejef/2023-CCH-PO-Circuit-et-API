@@ -472,10 +472,12 @@
 @media screen and (min-width: 1280px) {
   #app div.home-root {
     width: 1280px;
+    grid-template-columns: auto auto;
+    grid-gap: 0;
 
     ul.stats {
       grid-template-columns: 43% 57%;
-      width: 50%;
+      width: 100%;
     }
   }
 }
