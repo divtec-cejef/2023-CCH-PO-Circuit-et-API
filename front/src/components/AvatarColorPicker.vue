@@ -7,10 +7,10 @@
              alt="Couleur de peau">
         <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
             <input type="radio"
-                   :name="`${props.isPhone ? 'phone' : 'big'}`"
+                   :name="`${props.avatarProperty.propNameSnakeCase}-${props.isPhone ? 'phone' : 'big'}`"
                    :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :value=item.propValueEn
-                   :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
+                   :checked=" props.config[props.avatarProperty.propNameEn as keyof Configs] === item.propValueEn">
             <label :class="`radio-avatar ${item.propValueFr}`"
                    :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :style="{'background-color': item.propValueEn}"></label>
@@ -22,10 +22,12 @@
 import colorImg from '../assets/img/bg-color.webp';
 import faceImg from '../assets/img/skin.webp';
 import type { models } from '@/models/avatar';
+import type { Configs } from 'holiday-avatar';
 
 const props = defineProps<{
   avatarProperty: models.radioProperty,
   isPhone: boolean
+  config: Configs
 }>();
 
 const emit = defineEmits(['regenerateAvatar']);

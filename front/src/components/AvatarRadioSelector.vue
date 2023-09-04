@@ -7,9 +7,10 @@
         </div>
         <div class="rdbt-choice">
             <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
-                <input type="radio" :name=props.avatarProperty.propNameSnakeCase
+                <input type="radio"
+                       :name="`${props.avatarProperty.propNameSnakeCase}-${props.isPhone ? 'phone' : 'big'}`"
                        :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`" :value=item.propValueEn
-                       :checked="props.avatarProperty.selectedValueEn === item.propValueEn">
+                       :checked="props.config[props.avatarProperty.propNameEn as keyof Configs] === item.propValueEn">
                 <label :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                        class="radio-avatar">{{ item.propValueFr }}</label>
             </template>
@@ -20,10 +21,12 @@
 <script setup lang="ts">
 import type { models } from '@/models/avatar';
 import { ref } from 'vue';
+import type { Configs } from 'holiday-avatar';
 
 const props = defineProps<{
     avatarProperty: models.radioProperty
     isPhone : boolean
+    config : Configs
 }>();
 
 const emit = defineEmits(['regenerateAvatar']);
