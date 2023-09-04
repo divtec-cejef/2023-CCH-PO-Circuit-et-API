@@ -25,8 +25,8 @@
         </div>
         <div class="button-container">
             <button @click="closeModal">Annuler</button>
-            <button @click="quitPage">Quitter</button>
-            <button @click="saveAndQuit">Enregistrer
+            <button class="destructive" @click="quitPage">Quitter</button>
+            <button class="main" @click="saveAndQuit">Enregistrer
             </button>
         </div>
     </dialog>
@@ -88,7 +88,7 @@
                        maxlength="10">
             </div>
 
-            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
     </div>
 
@@ -152,7 +152,7 @@
         </div>
 
         <div class="bt-save-phone">
-            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
     </div>
 
@@ -965,31 +965,16 @@ div.modify-pseudo {
 
 button {
   padding: 12px;
-  background-color: var(--dark-green);
-  border: 3px solid var(--dark-green);
-  border-radius: .6em;
+  border-radius: 20px;
   cursor: pointer;
-  color: var(--white);
   margin-top: 10px;
   width: 120px;
   text-align: center;
-  transition: ease-in-out 0.1s;
-}
+  transition: ease-in-out 0.3s;
 
-button:not(:disabled):hover {
-  font-weight: bold;
-  border: 3px solid var(--dark-green);
-  transition: ease-in-out 0.1s;
-  color: var(--dark-green);
-  background-color: var(--white);
-}
-
-button:disabled {
-  background-color: var(--gray);
-  border-color: var(--gray);
-  opacity: 35%;
-  transition: ease-in-out 0.1s;
-  cursor: auto;
+  &:not(:disabled):hover {
+    font-weight: bold;
+  }
 }
 
 div.modify-avatar-phone {
@@ -1239,8 +1224,8 @@ div.modify-avatar {
 
     button[type="submit"] {
       background-color: var(--white);
-      border: 2px solid var(--dark-green);
-      color: var(--dark-green);
+      border: 2px solid var(--accent);
+      color: var(--accent);
       padding: 8px 12px;
       border-radius: 20px;
       cursor: pointer;
@@ -1249,8 +1234,8 @@ div.modify-avatar {
     }
 
     button[type="submit"]:hover {
-      background-color: var(--dark-green);
-      border: 2px solid var(--dark-green);
+      background-color: var(--accent);
+      border: 2px solid var(--accent);
       color: var(--white);
       transition: all ease-in-out 0.2s;
     }
