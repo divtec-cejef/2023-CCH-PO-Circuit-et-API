@@ -257,6 +257,15 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
 }
 
 
+if (!localStorage.getItem('lastConfigAvatar')) {
+  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
+}
+
+if(!localStorage.getItem('lastPiloteName')) {
+  localStorage.setItem('lastPiloteName', refPseudo.value);
+}
+
+
 /**
  * Change la valeur de la taille de l'écran
  */
