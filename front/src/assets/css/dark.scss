@@ -30,6 +30,12 @@
     }
   }
 
+  .rdbt-choice {
+    label {
+      border: 1px solid rgba(white, 0.25)
+    }
+  }
+
   body {
     #app {
       background-color: var(--black);
