@@ -42,8 +42,9 @@ import { ref } from 'vue';
 import restful from '@/models/api';
 import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 /**
  * Dessine le tour du code qr sur l'image de celui la
  * @param detectedCodes Code détecté par le lecteur

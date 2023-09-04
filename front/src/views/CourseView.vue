@@ -100,13 +100,15 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
-import router from '@/router';
 import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur

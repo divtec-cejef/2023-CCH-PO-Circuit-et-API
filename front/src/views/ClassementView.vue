@@ -1,16 +1,18 @@
 <template>
-    <h1>Classement</h1>
-    <p>Ici tu vois tout les temps des pilotes !</p>
+    <div class="content">
+        <h1>Classement</h1>
+        <p>Ici tu vois tout les temps des pilotes !</p>
 
-    <div class="button-classement">
-        <div>
-            <button v-if="userCar.car.idCar !== 0" class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
-            <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
+        <div class="button-classement">
+            <div>
+                <button v-if="userCar.car.idCar !== 0" class="classement-user" @click="scrollToUser" :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
+                <button class="classement-top" @click="scrollToTop" :style="{ backgroundImage: `url(${topImg})`}"></button>
+            </div>
         </div>
-    </div>
 
-    <div class="classement">
-        <ClassementRace/>
+        <div class="classement">
+            <ClassementRace/>
+        </div>
     </div>
 </template>
 <script setup lang="ts">

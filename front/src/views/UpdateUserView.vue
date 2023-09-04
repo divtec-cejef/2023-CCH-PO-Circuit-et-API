@@ -1,4 +1,5 @@
 <template>
+    <div class="content">
     <dialog id="connection-dialog" ref="dialog">
         <div class="header">
             <h2>Connexion</h2>
@@ -157,6 +158,7 @@
 
     <div v-if="saveIsInvalid" class="show-error">
         <p>* Le pseudo doit contenir au moins 3 caractères.</p>
+    </div>
     </div>
 
 </template>
