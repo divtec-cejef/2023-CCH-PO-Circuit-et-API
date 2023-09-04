@@ -354,7 +354,7 @@
   }
 }
 
-@media screen and (min-width: 830px) {
+@media screen and (min-width: 860px) {
   #app {
 
     //MARK: - Page home
@@ -408,7 +408,9 @@
     }
 
     div.home-root {
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-gap: 40px;
 
       ul.stats {
         grid-template-columns: 420px;
