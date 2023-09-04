@@ -19,14 +19,7 @@
                         class="data"/>
                 <span class="label">Courses effectuées</span>
             </li>
-            <li>
-                <Roller
-                        :duration="1000"
-                        :value="activitiesRealisations?.toString()"
-                        :default-value="activitiesRealisations?.toString()"
-                        class="data"/>
-                <span class="label">Activités effectuées</span>
-            </li>
+
             <li>
                 <span class="data">
                     <template v-if="/:/.test(fastestRace || '')">
@@ -55,9 +48,20 @@
                             :default-value="fastestRace?.split('.')[1]"
                             :duration="1000"
                             :value="fastestRace?.split('.')[1]"/>
+                    <span v-if="fastestRace?.split(':').length === 1">s</span>
                 </span>
                 <span class="label">est le temps de course le plus rapide</span>
             </li>
+
+            <li>
+                <Roller
+                        :duration="1000"
+                        :value="activitiesRealisations?.toString()"
+                        :default-value="activitiesRealisations?.toString()"
+                        class="data"/>
+                <span class="label">Activités effectuées</span>
+            </li>
+
             <li>
                 <Roller
                         char-set="alphabet"
@@ -131,7 +135,7 @@ div.home-root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   min-height: inherit;
 
   ul.stats {
@@ -153,11 +157,15 @@ div.home-root {
 
       .data {
         font-weight: bold;
-        font-size: 56px;
+        font-size: 42px;
         padding-bottom: 10px;
         display: flex;
         flex-direction: row;
         align-items: center;
+      }
+
+      .label {
+        text-align: center;
       }
     }
   }
