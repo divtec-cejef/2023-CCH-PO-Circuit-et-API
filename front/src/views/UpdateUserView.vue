@@ -54,17 +54,19 @@
                 <div v-if="numTabOpen == 1">
                     <template v-for="(props, key) in avatarPropertiesHead" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                             :config="config"/>
                         <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false"/>
+                                           :is-phone="false" :config="config"/>
                     </template>
                 </div>
                 <div v-else>
                     <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                             :config="config"/>
                         <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false"/>
+                                           :is-phone="false" :config="config"/>
                     </template>
                 </div>
             </div>
@@ -126,7 +128,9 @@
             <div class="tab-content">
                 <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
                     <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
-                                         @regenerateAvatar="regenerateAvatar"/>
+                                         @regenerateAvatar="regenerateAvatar"
+                                         :config="config"
+                    />
 
                     <AvatarColorPicker
                             v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
@@ -134,12 +138,13 @@
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
                             :avatar-property="avatarProperties[numTabOpen + 1]"
                             @regenerateAvatar="regenerateAvatar"
-                            :is-phone="true"/>
+                            :is-phone="true"
+                            :config="config"/>
                 </template>
 
                 <template v-else>
                     <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
-                                       @regenerateAvatar="regenerateAvatar" :is-phone="true"/>
+                                       @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
                 </template>
 
             </div>
@@ -254,6 +259,15 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
     updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
 
   });
+}
+
+
+if (!localStorage.getItem('lastConfigAvatar')) {
+  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
+}
+
+if (!localStorage.getItem('lastPiloteName')) {
+  localStorage.setItem('lastPiloteName', refPseudo.value);
 }
 
 
@@ -859,6 +873,7 @@ function fillAvatarPropreties(config: Configs) {
     let value = config[prop.propNameEn as keyof Configs];
     if (typeof value !== 'boolean') {
       prop.selectedValueEn = value;
+      console.log(prop.selectedValueEn);
     }
   }
 }
