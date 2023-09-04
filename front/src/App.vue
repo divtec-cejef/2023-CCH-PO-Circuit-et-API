@@ -131,10 +131,6 @@ footer#main-footer.display {
   display: flex;
 }
 
-.display {
-  display: block;
-}
-
 header {
   display: flex;
   justify-content: space-between;

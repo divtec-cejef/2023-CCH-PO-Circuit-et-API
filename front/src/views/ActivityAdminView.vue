@@ -24,10 +24,12 @@
 
 <script setup lang="ts">
 import ActivityAdmin from '@/components/ActivityAdmin.vue';
-import router from '@/router';
 import { ref } from 'vue';
 import restful from '@/models/api';
 import { useAdminPostStore } from '@/stores/adminPost';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 //Initialisation des variables
 const adminPost = useAdminPostStore();
