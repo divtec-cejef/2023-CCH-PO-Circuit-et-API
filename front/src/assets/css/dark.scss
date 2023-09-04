@@ -1,0 +1,38 @@
+@media screen and (prefers-color-scheme: dark) {
+  * {
+    --blue: #136cbf;
+    --black: #1a1a1a;
+    --white: #efefef;
+  }
+
+  body {
+    #app {
+      background-color: var(--black);
+      color: var(--white);
+
+      header {
+        background-color: var(--black);
+        color: var(--white);
+      }
+
+      a {
+        color: var(--white);
+      }
+
+      .dark-invert {
+        filter: invert(1);
+      }
+
+      input {
+        background-color: var(--black);
+        color: var(--white);
+        border: 1px solid var(--white);
+      }
+
+      .classement-element {
+        box-shadow: none;
+        border: 1px solid rgba(white, 0.25);
+      }
+    }
+  }
+}

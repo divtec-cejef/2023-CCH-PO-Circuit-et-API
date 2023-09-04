@@ -13,8 +13,10 @@
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><a href=""><img class="link" :src=link
-                         alt="Icon de lien pour visionner la vidéo de la course"></a>
+                <td><a href="">
+                    <img class="link dark-invert" :src=link
+                         alt="Icon de lien pour visionner la vidéo de la course">
+                </a>
                 </td>
             </tr>
         </table>

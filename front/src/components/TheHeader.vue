@@ -30,8 +30,8 @@
             <li v-if="userCar.car.idCar">
                 <button class="logout-button tooltip" @click="logOutUser">
                     <span>Déconnexion</span>
-                    <img :src="exitImg" alt="Icon de déconnexion">
-                    <img :src="exitPhoneImg" alt="Icon de déconnexion">
+                    <img :src="exitImg" alt="Icon de déconnexion" class="dark-invert">
+                    <img :src="exitPhoneImg" alt="Icon de déconnexion" class="dark-invert">
                     <span class="tooltiptext">Déconnexion</span>
                 </button>
             </li>

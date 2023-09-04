@@ -14,7 +14,11 @@
 		"prestart": "npm i"
 	},
 	"dependencies": {
+		"@types/color": "^3.0.3",
 		"@types/socket.io-client": "^3.0.0",
+		"@vueuse/core": "^10.4.1",
+		"@vueuse/sound": "^2.0.1",
+		"color": "^4.2.3",
 		"date-fns": "^2.30.0",
 		"date-fns-tz": "^2.0.0",
 		"epic-spinners": "^2.0.0",
