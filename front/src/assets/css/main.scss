@@ -26,8 +26,6 @@ body {
   --accent: #36b34f;
 }
 
-@import "dark.scss";
-
 #app {
   margin: 0;
   background-color: var(--white);
@@ -82,6 +80,52 @@ img {
 a {
   text-decoration: none;
   color: black;
+}
+
+button {
+  background-color: lightgray;
+  border: 3px solid lightgray;
+  color: black;
+
+  &:hover {
+    background-color: white;
+  }
+
+  &.destructive {
+    background-color: var(--red);
+    color: white;
+    border: 3px solid var(--red);
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  &.main {
+    background-color: var(--accent);
+    color: white;
+    border: 3px solid var(--accent);
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  &:disabled {
+    background-color: lightgray;
+    border-color: lightgray;
+    color: gray;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: lightgray;
+      border-color: lightgray;
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
 }
 
 #app {
@@ -142,3 +186,6 @@ div.loading {
     }
   }
 }
+
+/* A la fin car le mode sombre doit avoir une importance plus élevée que le mode clair pour fonctionner */
+@import "dark.scss";

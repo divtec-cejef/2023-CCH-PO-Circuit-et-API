@@ -5,8 +5,28 @@
     --white: #efefef;
   }
 
-  svg {
-    * {
+  dialog {
+    border: 1px solid rgba(white, 0.25) !important;
+  }
+
+  button {
+    background-color: gray;
+    border: 3px solid gray;
+    color: white;
+
+    &:hover {
+      background-color: var(--black);
+      color: white;
+
+      &.main {
+        background-color: var(--black);
+        color: white;
+      }
+
+      &.destructive {
+        background-color: var(--black);
+        color: white;
+      }
     }
   }
 
@@ -32,6 +52,15 @@
         background-color: var(--black);
         color: var(--white);
         border: 1px solid var(--white);
+      }
+
+      #connection-dialog form {
+        input {
+          background-color: var(--black);
+          color: white;
+          border-radius: 10px;
+          border: 1px solid rgba(white, 0.25) !important;
+        }
       }
 
       .classement-element {
