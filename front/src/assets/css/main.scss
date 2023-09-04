@@ -20,9 +20,13 @@ body {
   --light-green: #A9EC89;
   --dark-green: #386641;
   --pink-divtec: #ce0064;
+  --default-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px,
+  rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
 
   --accent: #36b34f;
 }
+
+@import "dark.scss";
 
 #app {
   margin: 0;

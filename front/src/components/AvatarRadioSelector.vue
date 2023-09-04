@@ -53,7 +53,7 @@ input[type=radio] {
   display: inline-block;
   padding: 0.5em 1em;
   margin: 0.5em;
-  box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+  box-shadow: var(--default-shadow);
   border-radius: 3px;
   cursor: pointer;
 }
@@ -65,6 +65,7 @@ input[type=radio] {
 
 input[type=radio]:checked + label {
   background-color: #b9b9b9;
+  color: var(--black);
 }
 
 fieldset {
