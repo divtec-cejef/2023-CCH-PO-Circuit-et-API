@@ -1,12 +1,8 @@
-@media screen and (prefers-color-scheme: dark) {
-  * {
-    --blue: #136cbf;
-    --black: #1a1a1a;
-    --white: #efefef;
-  }
+@import "consts.scss";
 
+@media screen and (prefers-color-scheme: dark) {
   dialog {
-    border: 1px solid rgba(white, 0.25) !important;
+    border: $dark-border !important;
   }
 
   button {
@@ -32,7 +28,7 @@
 
   .rdbt-choice {
     label {
-      border: 1px solid rgba(white, 0.25)
+      border: $dark-border;
     }
   }
 
@@ -44,6 +40,10 @@
       header {
         background-color: var(--black);
         color: var(--white);
+      }
+      footer {
+        background-color: var(--black);
+        border-top: $dark-border;
       }
 
       a {
@@ -57,7 +57,7 @@
       input {
         background-color: var(--black);
         color: var(--white);
-        border: 1px solid var(--white);
+        border: $dark-border;
       }
 
       #connection-dialog form {
@@ -65,13 +65,13 @@
           background-color: var(--black);
           color: white;
           border-radius: 10px;
-          border: 1px solid rgba(white, 0.25) !important;
+          border: $dark-border !important;
         }
       }
 
       .classement-element {
         box-shadow: none;
-        border: 1px solid rgba(white, 0.25);
+        border: $dark-border;
       }
     }
   }

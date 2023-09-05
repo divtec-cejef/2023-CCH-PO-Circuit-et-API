@@ -36,10 +36,14 @@ const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
 
 
 const colorFont = computed<string | null>(()=> {
-  if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50 && userCar.car.pseudo == props.pseudo) {
-    return colorScheme.value === 'dark' ? '#000' : null;
+  if(userCar.car.pseudo == props.pseudo) {
+    if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50) {
+      return colorScheme.value === 'dark' ? '#000' : null;
+    } else {
+      return colorScheme.value === 'dark' ? null : '#fff';
+    }
   } else {
-    return colorScheme.value === 'dark' ? null : '#fff';
+    return null;
   }
 });
 
