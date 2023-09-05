@@ -374,34 +374,40 @@ export namespace models {
     /**
      * Représente une activité pour le webSocket
      */
-    export interface Activity {
+    export type Activity = {
       id_activity: number,
       label: string
       id_section: number
+    } | {
+      message: string;
     }
 
     /**
      * Représente une donnée de statistiques sur la réalisation des activités
      */
-    export interface WSRealisation {
+    export type WSRealisation = {
       count: number,
       mostPopular: rawData.Activity & { count: number }
+    } | {
+      message: string;
     }
 
     /**
      * Retourné par /car/
      */
-    export interface CarData {
+    export type CarData = {
       id_car: number,
       query_id: string,
       pseudo: string,
       avatar: Avatar.Avatar
+    } | {
+      message: string;
     }
 
     /**
      * Retourné par /race/{idcar}
      */
-    export interface CarRaces {
+    export type CarRaces = {
       races: {
         id_race: number;
         race_start: string;
@@ -413,14 +419,18 @@ export namespace models {
         total_time: string;
       }[],
       rank: number
+    } | {
+      message: string;
     }
 
     /**
      * Retourné par /section/{idSection}
      */
-    export interface SectionName {
+    export type SectionName = {
       id_section: number,
       label: string
+    } | {
+      message: string;
     }
 
     /**
@@ -435,8 +445,10 @@ export namespace models {
     /**
      * Retourné par /authentication/section et par /authentication/car
      */
-    export interface AuthenticationToken {
+    export type AuthenticationToken = {
       token: string
+    } | {
+      message: string;
     }
 
 
@@ -451,6 +463,8 @@ export namespace models {
         avatar: Avatar.Avatar,
       },
       total_time: Date | string
+    } | {
+      message: string;
     }
 
     /**
@@ -460,6 +474,8 @@ export namespace models {
       races: WsRaceData[],
       count: number,
       fastest: WsRaceData
+    } | {
+      message: string;
     };
   }
 
