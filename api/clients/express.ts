@@ -1,16 +1,21 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
+import { routeHandler } from '../models';
 
 fs.existsSync('./logs') || fs.mkdirSync('./logs');
 
 for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
-  if (file.name.endsWith('.current.log')) { fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`); }
+  if (file.name.endsWith('.current.log')) {
+    fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`);
+  }
 }
 
 const getLogFile = () => {
   for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
-    if (file.name.endsWith('.current.log')) { return file.name; }
+    if (file.name.endsWith('.current.log')) {
+      return file.name;
+    }
   }
 
   const date = new Date(Date.now());
@@ -47,13 +52,19 @@ const recursiveDirRead = (dir: string) => {
   const files = fs.readdirSync(dir, { withFileTypes: true });
   for (const file of files) {
     let splittedName = file.name.split('.');
-    if (splittedName[0] === '') { continue; }
-    if (splittedName.length > 1) { splittedName = splittedName.slice(0, -1); }
+    if (splittedName[0] === '') {
+      continue;
+    }
+    if (splittedName.length > 1) {
+      splittedName = splittedName.slice(0, -1);
+    }
     const path = `${dir}/${splittedName.join('.')}`;
     if (file.isDirectory()) {
       recursiveDirRead(path);
     } else {
-      if (file.name.split('.')[2] === 'disabled') { continue; }
+      if (file.name.split('.')[2] === 'disabled') {
+        continue;
+      }
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const route = require('../' + path);
       try {
@@ -64,7 +75,20 @@ const recursiveDirRead = (dir: string) => {
 
         type AppKey = keyof typeof app;
         const method = file.name.split('.')[0] as AppKey;
-        app[method](routePath, route.default);
+        const cb: routeHandler = (req, res) => {
+          try {
+            route.default(req, res);
+          } catch (e: unknown) {
+            if (typeof e === 'string') {
+              res.status(500).send({ message: e });
+            } else if (e instanceof Error) {
+              res.status(500).send({ message: e.message });
+            } else {
+              res.status(500).send({ message: JSON.stringify(e) });
+            }
+          }
+        };
+        app[method](routePath, cb);
 
         console.log(`inserted [${method}] route: ` + routePath);
       } catch (e) {
