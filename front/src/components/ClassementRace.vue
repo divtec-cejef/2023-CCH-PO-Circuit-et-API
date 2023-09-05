@@ -6,8 +6,13 @@
         <p>Aucune donnée n'est disponible</p>
     </template>
     <template v-else>
-        <ClassementElement v-for="(race, key) in listRace" :key="key" :avatar="race.car.avatar" :rank="key + 1"
-                           :pseudo="race.car.pseudo" :time="new Date(race.total_time)"/>
+        <ClassementElement
+                v-for="(race, key) in listRace"
+                :key="key"
+                :avatar="race.car.avatar"
+                :rank="key + 1"
+                :pseudo="race.car.pseudo"
+                :time="new Date(race.total_time)"/>
     </template>
 </template>
 

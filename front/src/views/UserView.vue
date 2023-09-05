@@ -33,7 +33,7 @@
                            }"
                                   width="400px" height="300px">
                             <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-                            <Scene :background="'#fff'">
+                            <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
                                 <PointLight :position="{x: 10}" :intensity="2"></PointLight>
                                 <PointLight :position="{x: -10}" :intensity="2"></PointLight>
                                 <PointLight :position="{y: 10}" :intensity="2"></PointLight>
@@ -133,12 +133,16 @@ import SpinLoading from '@/components/SpinLoading.vue';
 import { HollowDotsSpinner } from 'epic-spinners';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import NumberTime from '@/components/NumberTime.vue';
+import { usePreferredColorScheme } from '@vueuse/core';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
 const codeBackApi = ref(0);
+
+//Initialisation du schéma de couleur préféré
+const preferredColor = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
