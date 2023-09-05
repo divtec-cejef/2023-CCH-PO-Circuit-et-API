@@ -166,11 +166,11 @@ form {
   width: 250px;
   margin: auto;
 
-    p {
-        text-align: center;
-        font-style: italic;
-        font-size: 15px;
-    }
+  p {
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+  }
 
   input {
     margin: .5em;
@@ -191,7 +191,7 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  min-height: inherit;
+  margin-top: 25px;
 
   ul.stats {
     list-style-type: none;
