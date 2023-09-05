@@ -4,7 +4,7 @@ export default class Race {
   idRace: number = 0;
   startTime: Date = new Date;
   totalTime: Date = new Date();
-  sector1: Date = new  Date();
+  sector1: Date = new Date();
 
   /**
    * Constructeur d'une course
@@ -24,14 +24,14 @@ export default class Race {
    * Calcul du temps intermédiaire
    * @param sector Temps du temps intermédiaire
    */
-  calculateSector(sector : Date) {
+  calculateSector(sector: Date) {
     return new Date(sector.getTime() - this.startTime.getTime());
   }
 
   /**
-	 * Retourne la date formatée pour l'affichage
-	 * @param date Date à formater
-	 */
+   * Retourne la date formatée pour l'affichage
+   * @param date Date à formater
+   */
   formatTime(date: Date) {
     return format(date, 'mm:ss:SS');
   }
@@ -42,5 +42,8 @@ export default class Race {
 }
 
 export function formatTime(date: Date) {
-  return format(date, 'mm:ss:SS');
+  if (date.getMinutes() === 0)
+    return format(date, 'ss.SS');
+  else
+    return format(date, 'mm:ss.SS');
 }

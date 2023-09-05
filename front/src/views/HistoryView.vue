@@ -1,32 +1,38 @@
 <template>
-    <div v-if="!hasLoaded && !hasError" class="loading-map">
-        <SpinLoading></SpinLoading>
-    </div>
-    <div class="container" v-if="hasLoaded && !hasError">
-        <div :ref="panzoomable">
-            <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections" :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
-        </div>
-    </div>
-    <div v-if="currentLabel.title !== null" ref="label" class="labelActivity" :style="{left: divLeft, top: divTop, display: divDisplay}">
-        <div v-if="currentLabel.activities.length > 0">
-            <div class="label-header"><span>Activités :</span><div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div></div>
-            <ul>
-                <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
-                    <img :src=trophy alt="Trophé"  :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
-                    <span>{{ activity['labelActivity'] }}</span>
-                </li>
-            </ul>
-        </div>
-        <div v-if="currentLabel.activities.length <= 0" class="label-header">
-            <span>Il n'y a pas d'activités dans cette section</span>
-            <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
-        </div>
-    
-    </div>
-    <div v-if="hasError">
-        <ErrorConnection></ErrorConnection>
-    </div>
+    <div class="content">
+        <div v-if="currentLabel.title !== null" ref="label" class="labelActivity"
+             :style="{left: divLeft, top: divTop, display: divDisplay}">
+            <div v-if="currentLabel.activities.length > 0">
+                <div class="label-header"><span>Activités :</span>
+                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
+                </div>
+                <ul>
+                    <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
+                        <img :src=trophy alt="Trophé"
+                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
+                        <span>{{ activity['labelActivity'] }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div v-if="currentLabel.activities.length <= 0" class="label-header">
+                <span>Il n'y a pas d'activités dans cette section</span>
+                <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
+            </div>
 
+        </div>
+        <div v-if="hasError">
+            <ErrorConnection></ErrorConnection>
+        </div>
+        <div v-else-if="!hasLoaded" class="loading-map">
+            <SpinLoading></SpinLoading>
+        </div>
+        <div class="container" v-else>
+            <div :ref="panzoomable">
+                <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections"
+                          :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +45,7 @@ import trophy from '../assets/img/trophy.png';
 import close from '../assets/img/close.png';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
+
 const userCar = useCarStore();
 const { car } = userCar;
 
@@ -51,7 +58,11 @@ const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
 
 let realisedActivity = ref<number[]>([]);
-let sectionActivities = ref<{activities: {idActivity: number, labelActivity: string}[], idSection: number, labelSection: string}[]>([]);
+let sectionActivities = ref<{
+  activities: { idActivity: number, labelActivity: string }[],
+  idSection: number,
+  labelSection: string
+}[]>([]);
 let activatedSection = ref<number[]>([]);
 let elementString = ref<string>('');
 let noActivitySections = ref<number[]>([]);
@@ -78,7 +89,7 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v: {json: {label: string, id_section: number}[], status: number }) => {
+  api.getAllSections().then((v: { json: { label: string, id_section: number }[], status: number }) => {
     const { json: dataSections, status: statusActivities } = v;
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
@@ -101,7 +112,7 @@ function getSectionAndActivities() {
                   activities: [],
                 });
               for (let activity of dataActivities) {
-                if(typeof activity === 'string')
+                if (typeof activity === 'string')
                   continue;
                 for (let section of sectionActivities.value) {
                   if (section?.idSection === activity.idSection) {
@@ -173,32 +184,37 @@ getRealisedActivity();
 
 const divWidth = 250;
 
-let currentSection = ref<{id: number, labelSection: string, posX: number, posY: number, section: string}>();
-let currentLabel = ref<{title: string | null, realised: boolean, activities: {idActivity: number, labelActivity: string, realised: boolean}[]}>({
+let currentSection = ref<{ id: number, labelSection: string, posX: number, posY: number, section: string }>();
+let currentLabel = ref<{
+  title: string | null,
+  realised: boolean,
+  activities: { idActivity: number, labelActivity: string, realised: boolean }[]
+}>({
   title: null,
   realised: false,
-  activities: [] });
+  activities: []
+});
 let zoomfactor: number = 1;
 
 // let posx = 0;
 // let posy = 0;
 
-const panzoomable = (v: any)  => {
+const panzoomable = (v: any) => {
   let element = panzoom(v, {
     bounds: true,
     boundsPadding: 0.2,
     maxZoom: 5,
     minZoom: 0.5,
-    onTouch: function(e: any) {
+    onTouch: function (e: any) {
       e.preventDefault();
     },
-    onClick: function(e: any) {
+    onClick: function (e: any) {
       e.target.click();
       elementString.value = e.target;
     },
   });
 
-  element.on('transform', function() {
+  element.on('transform', function () {
     zoomfactor = element.getTransform().scale;
     hideDiv();
   });
@@ -215,49 +231,49 @@ const allSections = ref([{
   labelSection: 'Informaticien-ne',
   posX: 22,
   posY: 30,
-},{
+}, {
   section: 'Automatique',
   id: -1,
   labelSection: 'Automaticien-ne',
   posX: 45,
   posY: 65,
-},{
+}, {
   section: 'Horlogerie',
   id: -1,
   labelSection: 'Horloger-ère',
   posX: 77,
   posY: 65,
-},{
+}, {
   section: 'Electronique',
   id: -1,
   labelSection: 'Electronicien-ne',
   posX: 73,
   posY: 17,
-},{
+}, {
   section: 'Micromécanique',
   id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 47,
   posY: 8,
-},{
+}, {
   section: 'Laborantin',
   id: -1,
   labelSection: 'Laborantin-e',
   posX: 77,
   posY: 79,
-},{
+}, {
   section: 'Dessinateur',
   id: -1,
   labelSection: 'Dessinateur-trice',
   posX: 35,
   posY: 15,
-},{
+}, {
   section: 'Mécatronique',
   id: -1,
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 80,
-},{
+}, {
   section: 'Industries2.0',
   id: -1,
   labelSection: 'Industrie 2.0',
@@ -270,7 +286,7 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
   if (posx > window.innerWidth / 2) {
     pos = posx - divWidth;
   } else {
-    pos = posx + dif*zoomfactor;
+    pos = posx + dif * zoomfactor;
   }
   if (pos < 0) {
     pos = 0;
@@ -286,7 +302,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   if (posy > window.innerHeight / 2) {
     pos = posy - (10 + divHeight);
   } else {
-    pos = posy + (10 + dif*zoomfactor);
+    pos = posy + (10 + dif * zoomfactor);
   }
   const minHeightPx = getComputedStyle(document.documentElement)
     .getPropertyValue('--height-screen-diff');
@@ -331,7 +347,7 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
       }
     }
   }
-  heightOffset += 2*10 + 20.7 + 16*2;
+  heightOffset += 2 * 10 + 20.7 + 16 * 2;
   if (currentLabel.value.activities.length === 0) {
     heightOffset = 2 * 10 + 41.4;
   }
@@ -343,80 +359,98 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
 template {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    background-color: #fff;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--white);
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+  }
 }
+
 .container {
-    width: 100%;
-    height:  calc(100vh - var(--height-screen-diff) - 70px);
-    position: relative;
-    overflow: hidden;
-    background-color: #fff;
+  width: 100%;
+  height: calc(100vh - var(--height-screen-diff) - 70px);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--white);
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+  }
 }
 
 
 .labelActivity {
-    width: 250px;
-    padding: 10px;
-    display: none;
-    position: absolute;
-    z-index: 100;
-    background-color: #ffffff;
-    //border: 2px solid #595959;
-    border-radius: 10px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  width: 250px;
+  padding: 10px;
+  display: none;
+  position: absolute;
+  z-index: 100;
+  background-color: var(--white);
+  //border: 2px solid #595959;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
-    h2 {
-        font-size: 23px;
-        margin: 0 0 10px;
-    }
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+    box-shadow: none;
+    border: $dark-border;
+  }
 
-    ul {
-        padding-left: 0;
-    }
+  h2 {
+    font-size: 23px;
+    margin: 0 0 10px;
+  }
 
-    li {
-        list-style-type: none;
-        display: flex;
-        padding-top: 10px;
+  ul {
+    padding-left: 0;
+  }
 
-        img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-    }
-    li:first-child {
-        padding-top: 0;
-    }
-
-    .label-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        margin-bottom: 10px;
-
-        span {
-            max-width: 200px;
-        }
-
-        img {
-            height: 20px;
-        }
-
-        img:hover {
-            cursor: pointer;
-        }
-    }
-}
-.loading-map {
-    height: calc(60vh - var(--height-screen-diff));
+  li {
+    list-style-type: none;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 10px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  li:first-child {
+    padding-top: 0;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+
+    span {
+      max-width: 200px;
+    }
+
+    img {
+      height: 20px;
+    }
+
+    img:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.loading-map {
+  height: calc(60vh - var(--height-screen-diff));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

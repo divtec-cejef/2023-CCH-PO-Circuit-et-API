@@ -2,19 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 @import "font.scss";
 @import "responsive.scss";
+@import "consts.scss";
+body {
+  overflow-y: scroll;
+}
 
 * {
   box-sizing: border-box;
-  --height-screen-diff: 65px;
-  --black: #161715;
-  --white: #FFFFFF;
-  --gray: #7f7f7f;
-  --yellow: #FEC000;
-  --blue: #0C345A;
-  --red: #E33821;
-  --light-green: #A9EC89;
-  --dark-green: #386641;
-  --pink-divtec: #ce0064;
 }
 
 #app {
@@ -29,6 +23,15 @@ main {
   min-height: calc(100vh - var(--height-screen-diff));
   max-width: 1000px;
   margin: auto;
+  &.display {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .content {
+    min-width: 100%;
+  }
 }
 
 h1, h2, h3 {
@@ -62,6 +65,57 @@ img {
 a {
   text-decoration: none;
   color: black;
+}
+
+button {
+  background-color: lightgray;
+  border: 3px solid lightgray;
+  color: black;
+  border-radius: 20px;
+  width: fit-content;
+  padding: .5em;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+  }
+
+  &.destructive {
+    background-color: var(--red);
+    color: white;
+    border: 3px solid var(--red);
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  &.main, &[type=submit] {
+    background-color: var(--accent);
+    color: white;
+    border: 3px solid var(--accent);
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  &:disabled {
+    background-color: lightgray;
+    border-color: lightgray;
+    color: gray;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: lightgray;
+      border-color: lightgray;
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
 }
 
 #app {
@@ -106,3 +160,22 @@ div.loading {
   left: calc(50% - 20px);
 }
 
+
+.roller {
+  display: flex;
+  flex-direction: row;
+
+  .roller-item {
+    padding: 0;
+    height: 1.4em;
+
+    .roller-item__wrapper__list__item{
+      padding: 0;
+      transform: translateY(.2em);
+      height: 1.4em !important;
+    }
+  }
+}
+
+/* A la fin car le mode sombre doit avoir une importance plus élevée que le mode clair pour fonctionner */
+@import "dark.scss";

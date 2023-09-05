@@ -1,115 +1,117 @@
 <template>
-    <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
-        <SpinLoading></SpinLoading>
-    </div>
+    <div class="content">
+        <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
+            <SpinLoading></SpinLoading>
+        </div>
 
-    <div v-else-if="codeBackApi === api.ReturnCodes.Success">
-        <div class="user-data">
-            <div class="avatar-txt">
-                <RouterLink to="pilote">
-                    <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
-                </RouterLink>
+        <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+            <div class="user-data">
+                <div class="avatar-txt">
+                    <RouterLink to="pilote">
+                        <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+                    </RouterLink>
 
-                <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-                <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
-            </div>
-
-            <div class="car-3d">
-                <div :class="`loading${modelLoaded?' loaded':''}`">
-                    <hollow-dots-spinner
-                            :dot-size="12"
-                            :dots-num="3"
-                            color="#7f7f7f"
-                    />
+                    <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
+                    <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
                 </div>
-                <div :class="modelLoaded?'':'hidden'">
-                    <Renderer id="car" ref="renderer" antialias
-                              :orbit-ctrl="{
-                           autoRotate: true,
-                           autoRotateSpeed: -2.0,
-                           enableDamping: true,
-                           dampingFactor: 0.05
-                       }"
-                              width="400px" height="300px">
-                        <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-                        <Scene :background="'#fff'">
-                            <PointLight :position="{x: 10}" :intensity="2"></PointLight>
-                            <PointLight :position="{x: -10}" :intensity="2"></PointLight>
-                            <PointLight :position="{y: 10}" :intensity="2"></PointLight>
-                            <PointLight :position="{y: -10}" :intensity="2"></PointLight>
-                            <PointLight :position="{z: 10}" :intensity="2"></PointLight>
-                            <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-                            <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
-                                       @load="() => modelLoaded = true"/>
-                        </Scene>
-                    </Renderer>
+
+                <div class="car-3d">
+                    <div :class="`loading${modelLoaded?' loaded':''}`">
+                        <hollow-dots-spinner
+                                :dot-size="12"
+                                :dots-num="3"
+                                color="#7f7f7f"
+                        />
+                    </div>
+                    <div :class="modelLoaded?'':'hidden'">
+                        <Renderer id="car" ref="renderer" antialias
+                                  :orbit-ctrl="{
+                               autoRotate: true,
+                               autoRotateSpeed: -2.0,
+                               enableDamping: true,
+                               dampingFactor: 0.05
+                           }"
+                                  width="400px" height="300px">
+                            <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
+                            <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
+                                <PointLight :position="{x: 10}" :intensity="2"></PointLight>
+                                <PointLight :position="{x: -10}" :intensity="2"></PointLight>
+                                <PointLight :position="{y: 10}" :intensity="2"></PointLight>
+                                <PointLight :position="{y: -10}" :intensity="2"></PointLight>
+                                <PointLight :position="{z: 10}" :intensity="2"></PointLight>
+                                <PointLight :position="{z: -10}" :intensity="2"></PointLight>
+                                <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
+                                           @load="() => modelLoaded = true"/>
+                            </Scene>
+                        </Renderer>
+                    </div>
                 </div>
-            </div>
 
-            <h2>Instructions</h2>
-            <ul class="list-instruction">
-                <li>
-                    <NumberTime color="var(--blue)" number="1"></NumberTime>
-                    <p>Balade toi dans les différentes sections du bâtiment et
-                        réalise des activités pour obtenir des bonus !</p>
-                </li>
-                <li>
-                    <NumberTime color="var(--blue)" number="2"></NumberTime>
-                    <p>Modifie tes données de pilotes.</p>
-                </li>
-                <li>
-                    <NumberTime color="var(--blue)" number="3"></NumberTime>
-                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                        plus tu iras vite !</p>
-                </li>
-                <li>
-                    <NumberTime color="var(--blue)" number="4"></NumberTime>
-                    <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
-                </li>
+                <h2>Instructions</h2>
+                <ul class="list-instruction">
+                    <li>
+                        <NumberTime color="var(--blue)" number="1"></NumberTime>
+                        <p>Balade toi dans les différentes sections du bâtiment et
+                            réalise des activités pour obtenir des bonus !</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="2"></NumberTime>
+                        <p>Modifie tes données de pilotes.</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="3"></NumberTime>
+                        <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                            plus tu iras vite !</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="4"></NumberTime>
+                        <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                    </li>
 
-            </ul>
+                </ul>
 
-            <h2>Tableau de bord</h2>
-            <div class="badges">
-                <RouterLink to="/course">
-                    <img :src=badgeCourse alt="Badge course">
-                    <p>Course</p>
-                </RouterLink>
-                <RouterLink to="/classement">
-                    <img :src=badgeClassement alt="Badge classement">
-                    <p>Classement</p>
-                </RouterLink>
-                <RouterLink to="/course">
-                    <img :src=badgeVideo alt="Badge vidéo">
-                    <p>Video</p>
-                </RouterLink>
-                <RouterLink to="/pilote">
-                    <img :src=badgeModif alt="Badge modification">
-                    <p>Modifier</p>
-                </RouterLink>
+                <h2>Tableau de bord</h2>
+                <div class="badges">
+                    <RouterLink to="/course">
+                        <img :src=badgeCourse alt="Badge course">
+                        <p>Course</p>
+                    </RouterLink>
+                    <RouterLink to="/classement">
+                        <img :src=badgeClassement alt="Badge classement">
+                        <p>Classement</p>
+                    </RouterLink>
+                    <RouterLink to="/course">
+                        <img :src=badgeVideo alt="Badge vidéo">
+                        <p>Video</p>
+                    </RouterLink>
+                    <RouterLink to="/pilote">
+                        <img :src=badgeModif alt="Badge modification">
+                        <p>Modifier</p>
+                    </RouterLink>
 
-                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                   target="_blank">
-                    <img :src=badgeStage alt="Badge inscription stage">
-                    <p>Stage</p>
-                </a>
-                <RouterLink to="/">
-                    <img :src=badgeLive alt="Badge live">
-                    <p>Live</p>
-                </RouterLink>
+                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
+                       target="_blank">
+                        <img :src=badgeStage alt="Badge inscription stage">
+                        <p>Stage</p>
+                    </a>
+                    <RouterLink to="/">
+                        <img :src=badgeLive alt="Badge live">
+                        <p>Live</p>
+                    </RouterLink>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
-        <h2>Erreur</h2>
-        <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-        <RouterLink :to="`/${userCar.car.idQuery}`">
-            <button>Accueil</button>
-        </RouterLink>
-    </div>
+        <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+            <h2>Erreur</h2>
+            <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
+            <RouterLink :to="`/${userCar.car.idQuery}`">
+                <button>Accueil</button>
+            </RouterLink>
+        </div>
 
-    <ErrorConnection v-else></ErrorConnection>
+        <ErrorConnection v-else></ErrorConnection>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -131,12 +133,16 @@ import SpinLoading from '@/components/SpinLoading.vue';
 import { HollowDotsSpinner } from 'epic-spinners';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import NumberTime from '@/components/NumberTime.vue';
+import { usePreferredColorScheme } from '@vueuse/core';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
 const codeBackApi = ref(0);
+
+//Initialisation du schéma de couleur préféré
+const preferredColor = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {

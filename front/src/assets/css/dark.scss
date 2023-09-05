@@ -1,0 +1,78 @@
+@import "consts.scss";
+
+@media screen and (prefers-color-scheme: dark) {
+  dialog {
+    border: $dark-border !important;
+  }
+
+  button {
+    background-color: gray;
+    border: 3px solid gray;
+    color: white;
+
+    &:hover {
+      background-color: var(--black);
+      color: white;
+
+      &.main, &[type=submit] {
+        background-color: var(--black);
+        color: white;
+      }
+
+      &.destructive {
+        background-color: var(--black);
+        color: white;
+      }
+    }
+  }
+
+  .rdbt-choice {
+    label {
+      border: $dark-border;
+    }
+  }
+
+  body {
+    #app {
+      background-color: var(--black);
+      color: var(--white);
+
+      header {
+        background-color: var(--black);
+        color: var(--white);
+      }
+      footer {
+        background-color: var(--black);
+        border-top: $dark-border;
+      }
+
+      a {
+        color: var(--white);
+      }
+
+      .dark-invert {
+        filter: invert(1);
+      }
+
+      input {
+        background-color: var(--black);
+        color: var(--white);
+        border: $dark-border;
+      }
+
+      #connection-dialog form {
+        input {
+          background-color: var(--black);
+          color: white;
+          border-radius: 10px;
+          border: $dark-border !important;
+        }
+      }
+
+      .classement-element {
+        box-shadow: none;
+        border: $dark-border;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 <template>
+    <div class="content">
     <dialog id="connection-dialog" ref="dialog">
         <div class="header">
             <h2>Connexion</h2>
@@ -24,8 +25,8 @@
         </div>
         <div class="button-container">
             <button @click="closeModal">Annuler</button>
-            <button @click="quitPage">Quitter</button>
-            <button @click="saveAndQuit">Enregistrer
+            <button class="destructive" @click="quitPage">Quitter</button>
+            <button class="main" @click="saveAndQuit">Enregistrer
             </button>
         </div>
     </dialog>
@@ -54,17 +55,19 @@
                 <div v-if="numTabOpen == 1">
                     <template v-for="(props, key) in avatarPropertiesHead" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                             :config="config"/>
                         <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false"/>
+                                           :is-phone="false" :config="config"/>
                     </template>
                 </div>
                 <div v-else>
                     <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
                         <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"/>
+                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                             :config="config"/>
                         <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false"/>
+                                           :is-phone="false" :config="config"/>
                     </template>
                 </div>
             </div>
@@ -85,7 +88,7 @@
                        maxlength="10">
             </div>
 
-            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
     </div>
 
@@ -126,7 +129,9 @@
             <div class="tab-content">
                 <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
                     <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
-                                         @regenerateAvatar="regenerateAvatar"/>
+                                         @regenerateAvatar="regenerateAvatar"
+                                         :config="config"
+                    />
 
                     <AvatarColorPicker
                             v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
@@ -134,24 +139,26 @@
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
                             :avatar-property="avatarProperties[numTabOpen + 1]"
                             @regenerateAvatar="regenerateAvatar"
-                            :is-phone="true"/>
+                            :is-phone="true"
+                            :config="config"/>
                 </template>
 
                 <template v-else>
                     <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
-                                       @regenerateAvatar="regenerateAvatar" :is-phone="true"/>
+                                       @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
                 </template>
 
             </div>
         </div>
 
         <div class="bt-save-phone">
-            <button @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
         </div>
     </div>
 
     <div v-if="saveIsInvalid" class="show-error">
         <p>* Le pseudo doit contenir au moins 3 caractères.</p>
+    </div>
     </div>
 
 </template>
@@ -254,6 +261,15 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
     updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
 
   });
+}
+
+
+if (!localStorage.getItem('lastConfigAvatar')) {
+  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
+}
+
+if (!localStorage.getItem('lastPiloteName')) {
+  localStorage.setItem('lastPiloteName', refPseudo.value);
 }
 
 
@@ -859,6 +875,7 @@ function fillAvatarPropreties(config: Configs) {
     let value = config[prop.propNameEn as keyof Configs];
     if (typeof value !== 'boolean') {
       prop.selectedValueEn = value;
+      console.log(prop.selectedValueEn);
     }
   }
 }
@@ -948,31 +965,16 @@ div.modify-pseudo {
 
 button {
   padding: 12px;
-  background-color: var(--dark-green);
-  border: 3px solid var(--dark-green);
-  border-radius: .6em;
+  border-radius: 20px;
   cursor: pointer;
-  color: var(--white);
   margin-top: 10px;
   width: 120px;
   text-align: center;
-  transition: ease-in-out 0.1s;
-}
+  transition: ease-in-out 0.3s;
 
-button:not(:disabled):hover {
-  font-weight: bold;
-  border: 3px solid var(--dark-green);
-  transition: ease-in-out 0.1s;
-  color: var(--dark-green);
-  background-color: var(--white);
-}
-
-button:disabled {
-  background-color: var(--gray);
-  border-color: var(--gray);
-  opacity: 35%;
-  transition: ease-in-out 0.1s;
-  cursor: auto;
+  &:not(:disabled):hover {
+    font-weight: bold;
+  }
 }
 
 div.modify-avatar-phone {
@@ -1222,8 +1224,8 @@ div.modify-avatar {
 
     button[type="submit"] {
       background-color: var(--white);
-      border: 2px solid var(--dark-green);
-      color: var(--dark-green);
+      border: 2px solid var(--accent);
+      color: var(--accent);
       padding: 8px 12px;
       border-radius: 20px;
       cursor: pointer;
@@ -1232,8 +1234,8 @@ div.modify-avatar {
     }
 
     button[type="submit"]:hover {
-      background-color: var(--dark-green);
-      border: 2px solid var(--dark-green);
+      background-color: var(--accent);
+      border: 2px solid var(--accent);
       color: var(--white);
       transition: all ease-in-out 0.2s;
     }
