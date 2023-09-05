@@ -4,7 +4,7 @@
              :style="{left: divLeft, top: divTop, display: divDisplay}">
             <div v-if="currentLabel.activities.length > 0">
                 <div class="label-header"><span>Activités :</span>
-                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
+                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
                 </div>
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
@@ -16,7 +16,7 @@
             </div>
             <div v-if="currentLabel.activities.length <= 0" class="label-header">
                 <span>Il n'y a pas d'activités dans cette section</span>
-                <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
+                <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
             </div>
 
         </div>
@@ -359,12 +359,17 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
 template {
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--white);
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+  }
 }
 
 .container {
@@ -372,7 +377,11 @@ template {
   height: calc(100vh - var(--height-screen-diff) - 70px);
   position: relative;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--white);
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+  }
 }
 
 
@@ -382,10 +391,16 @@ template {
   display: none;
   position: absolute;
   z-index: 100;
-  background-color: #ffffff;
+  background-color: var(--white);
   //border: 2px solid #595959;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color:var(--black);
+    box-shadow: none;
+    border: $dark-border;
+  }
 
   h2 {
     font-size: 23px;
