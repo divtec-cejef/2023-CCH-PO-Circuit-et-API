@@ -9,10 +9,12 @@
 
             <RouterLink to="/scan"><img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code"></RouterLink>
             <form>
-                <input type="text" placeholder="Identifiant" v-model="userQueryId">
+                <p>Entre les 5 derniers chiffres de l'URL sous ta voiture !</p>
+                <input type="text" placeholder="Identifiant" v-model="userQueryId" maxlength="5">
                 <button type="submit"
-                        @click.prevent="enteredQueryId">Valider</button>
-                <span v-if="queryIdError" class="error">{{queryIdError}}</span>
+                        @click.prevent="enteredQueryId">Valider
+                </button>
+                <span v-if="queryIdError" class="error">{{ queryIdError }}</span>
             </form>
         </div>
 
@@ -33,7 +35,7 @@
                                 char-set="number"
                                 :default-value="fastestRace?.split(':')[0]"
                                 :duration="1000"
-                                :value="fastestRace?.split(':')[0]" />
+                                :value="fastestRace?.split(':')[0]"/>
                         <span>:</span>
                         <Roller
                                 char-set="number"
@@ -109,9 +111,9 @@ const queryIdError = ref<string>();
 
 const dataLoaded = computed(() =>
   racesRan.value !== undefined &&
-    activitiesRealisations.value !== undefined &&
-    fastestRace.value !== undefined &&
-    preferredActivity.value !== undefined);
+  activitiesRealisations.value !== undefined &&
+  fastestRace.value !== undefined &&
+  preferredActivity.value !== undefined);
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
@@ -120,7 +122,7 @@ if (localStorage.getItem('userCarId')) {
 }
 
 const enteredQueryId = () => {
-  restful.getDataOneCarQueryId(userQueryId.value ?? '').then((v)=> {
+  restful.getDataOneCarQueryId(userQueryId.value ?? '').then((v) => {
     if (typeof v.json === 'string') {
       queryIdError.value = v.json;
       return;
@@ -152,6 +154,7 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
+
 h1 {
   text-align: center;
 }
@@ -159,9 +162,15 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   width: 250px;
   margin: auto;
+
+  p {
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+  }
 
   input {
     margin: .5em;
@@ -169,10 +178,11 @@ form {
     border-radius: 20px;
     border: 1px solid black;
     padding: .5em;
+    width: 120px;
   }
 
   button {
-    width: 100%;
+    width: fit-content;
   }
 }
 
@@ -181,7 +191,7 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  min-height: inherit;
+  margin-top: 25px;
 
   ul.stats {
     list-style-type: none;

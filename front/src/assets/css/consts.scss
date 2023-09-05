@@ -3,8 +3,8 @@ $default-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px,
 rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
 
 :root {
-  /* main padding-top (floating header) + footer height + main padding + footer margin-top */
-  --height-screen-diff: calc(125px + 65px + 35px + 15px);
+  /* footer height + footer margin-top */
+  --height-screen-diff: calc(65px + 15px);
   --black: #161715;
   --white: #FFFFFF;
   --gray: #7f7f7f;
@@ -12,10 +12,10 @@ rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
   --blue: #0C345A;
   --red: #E33821;
   --light-green: #A9EC89;
-  --dark-green: #386641;
+  --dark-green: #417c4e;
   --pink-divtec: #ce0064;
 
-  --accent: #36b34f;
+  --accent: var(--dark-green);
 
   @media screen and (prefers-color-scheme: dark) {
     --blue: #136cbf;
