@@ -1,8 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
-import { routeHandler } from '../models';
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 
 fs.existsSync('./logs') || fs.mkdirSync('./logs');
 
@@ -76,28 +75,14 @@ const recursiveDirRead = (dir: string) => {
 
         type AppKey = keyof typeof app;
         const method = file.name.split('.')[0] as AppKey;
-        const cb = async (req: Request, res: Response) => {
+        const cb = async (req: Request, res: Response, next: NextFunction) => {
           try {
             const returned = route.default(req, res);
             if (returned instanceof Promise) {
-              await returned.catch((err) => {
-                if (typeof err === 'string') {
-                  res.status(500).send({ message: err });
-                } else if (err instanceof Error) {
-                  res.status(500).send({ message: err.message });
-                } else {
-                  res.status(500).send({ message: JSON.stringify(err) });
-                }
-              });
+              await returned;
             }
-          } catch (e: unknown) {
-            if (typeof e === 'string') {
-              res.status(500).send({ message: e });
-            } else if (e instanceof Error) {
-              res.status(500).send({ message: e.message });
-            } else {
-              res.status(500).send({ message: JSON.stringify(e) });
-            }
+          } catch (e) {
+            return next(e);
           }
         };
         app[method](routePath, cb);
@@ -114,4 +99,17 @@ const recursiveDirRead = (dir: string) => {
 };
 
 recursiveDirRead('./routes');
+
+const errHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (typeof err === 'string') {
+    res.status(500).send({ message: err });
+  } else if (err instanceof Error) {
+    res.status(500).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: JSON.stringify(err) });
+  }
+};
+
+app.use(errHandler);
+
 export default app;
