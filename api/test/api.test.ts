@@ -282,6 +282,66 @@ describe('race', () => {
     expect(res.error.text).to.equal(JSON.stringify({ message: 'query_id is not of type string' }));
   });
 
+  // Modifier une manche de course pour y ajouter son url de vidéo
+  it('should return race if all parameters are valid on patch', async () => {
+    const res = await chai.request('localhost:3000').patch('/race/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_race: 1,
+        video_url: 'https://www.youtube.com/watch?v=6n3pFFPSlW4'
+      });
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.that.structure({
+      id_race: Number,
+      race_start: Date,
+      race_finish: Date,
+      id_car: Number
+    });
+  });
+
+  // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
+  it('should return an error if id_race is invalid on patch', async () => {
+    const res = await chai.request('localhost:3000').patch('/race/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_race: 'salut odin',
+        video_url: 'https://www.youtube.com/watch?v=6n3pFFPSlW4'
+      });
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
+  it('should return an error if id_race is nonexistent on patch', async () => {
+    const res = await chai.request('localhost:3000').patch('/race/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_race: 200,
+        video_url: 'https://www.youtube.com/watch?v=6n3pFFPSlW4'
+      });
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
+  // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
+  it('should return an error if video_url is invalid on patch', async () => {
+    const res = await chai.request('localhost:3000').patch('/race/')
+      .auth((await token).body.token, { type: 'bearer' })
+      .send({
+        id_race: 1,
+        video_url: 10
+      });
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.that.structure({
+      message: String
+    });
+  });
+
   // // Créer une manche de course avec des paramètres valides
   // it('should return a created race if all parameters are valid', async () => {
   //   const res = await chai.request('localhost:3000').post('/race').send({

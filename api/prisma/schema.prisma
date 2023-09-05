@@ -50,6 +50,7 @@ model race {
   race_start  DateTime
   sector1     DateTime
   race_finish DateTime
+  video_url   String?  @db.VarChar(512)
   id_car      Int
   car         car      @relation(fields: [id_car], references: [id_car], onDelete: Cascade, onUpdate: NoAction)
 }

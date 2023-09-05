@@ -6,7 +6,7 @@
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
 
-        <div class="drop-down-content" v-if="dropDownIsClicked">
+        <div :class="`drop-down-content ${dropDownIsClicked ? '' : 'hide-drop-down'}`">
             <slot/>
         </div>
     </div>
@@ -52,13 +52,14 @@ div.button-checked {
   padding: 12px 10px;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-    width: 60%;
+  width: 60%;
 
   img {
     width: 12px;
     height: 12px;
     margin-left: 5px;
     margin-top: 2px;
+    transition: all 1s ease-in-out;
   }
 }
 
@@ -70,7 +71,22 @@ input {
 div.drop-down-content {
   display: flex;
   justify-content: center;
+  //animation: height-growth 0.3s ease-in-out reverse forwards;
 }
 
+div.hide-drop-down {
+  animation: height-growth 1s ease-in-out forwards;
+}
 
+@keyframes height-growth {
+  /* You could think of as "step 1" */
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 </style>
