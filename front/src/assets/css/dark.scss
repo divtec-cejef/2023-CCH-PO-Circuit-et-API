@@ -14,7 +14,7 @@
       background-color: var(--black);
       color: white;
 
-      &.main {
+      &.main, &[type=submit] {
         background-color: var(--black);
         color: white;
       }
