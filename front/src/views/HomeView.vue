@@ -129,6 +129,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
 h1 {
   text-align: center;
 }
@@ -156,6 +157,11 @@ div.home-root {
       padding: 30px;
       outline-offset: -12px;
       position: relative;
+
+      @media screen and (prefers-color-scheme: dark) {
+        box-shadow: none;
+        border: $dark-border;
+      }
 
       .data {
         font-weight: bold;
