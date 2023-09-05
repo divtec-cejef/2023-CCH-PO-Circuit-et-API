@@ -11,7 +11,8 @@ export namespace restful {
     NotFound = 404,
     Conflict = 409,
     BadGateway = 502,
-    Unauthorized = 401
+    Unauthorized = 401,
+    Generic = 400
   }
 
   export const ERROR_MESSAGE = 'Error';
@@ -25,6 +26,11 @@ export namespace restful {
       const routeCar = `${routeApi}car/query-id/${queryId}`;
       const res = await fetch(routeCar);
       const json: models.rawData.CarData = await res.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: res.status };
+      }
+
       const parsedJson: models.parsedData.CarData = {
         idCar: json.id_car,
         queryId: json.query_id,
@@ -33,7 +39,13 @@ export namespace restful {
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -46,6 +58,11 @@ export namespace restful {
       const routeCar = `${routeApi}car/${idCar}`;
       const res = await fetch(routeCar);
       const json: models.rawData.CarData = await res.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: res.status };
+      }
+
       const parsedJson: models.parsedData.CarData = {
         idCar: json.id_car,
         queryId: json.query_id,
@@ -54,7 +71,13 @@ export namespace restful {
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -67,6 +90,11 @@ export namespace restful {
       const routeRaceCar = `${routeApi}race/${idCar}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.CarRaces = await res.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: res.status };
+      }
+
       const parsedJson: models.parsedData.RacesData = {
         rank: json.rank,
         races: json.races.map(value => ({
@@ -82,7 +110,13 @@ export namespace restful {
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -95,13 +129,24 @@ export namespace restful {
       const routeRaceCar = `${routeApi}section/${idSection}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.SectionName = await res.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: res.status };
+      }
+
       const parsedJson: models.parsedData.SectionName = {
         idSection: json.id_section,
         label: json.label
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -114,6 +159,11 @@ export namespace restful {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.SectionActivities = await res.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: res.status };
+      }
+
       const parsedJson: models.parsedData.SectionActivities = json.map(value => ({
         idActivity: value.id_activity,
         idSection: value.id_section,
@@ -123,7 +173,13 @@ export namespace restful {
         json: parsedJson, status: res.status
       };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -146,7 +202,13 @@ export namespace restful {
       const res = await fetch(routeRaceCar);
       return { json: (await res.json()), status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -173,10 +235,21 @@ export namespace restful {
     try {
       const response = await fetch(`${routeApi}authentication/section`, requestOptions);
       const json: models.rawData.AuthenticationToken = await response.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: response.status };
+      }
+
       const parsedJson: models.parsedData.AuthenticationToken = json;
       return { json: parsedJson, status: response.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -208,9 +281,21 @@ export namespace restful {
 
     try {
       const response = await fetch(`${routeApi}realise/query-id`, requestOptions);
+      const json = await response.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: response.status };
+      }
+
       return response.status;
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -237,10 +322,21 @@ export namespace restful {
     try {
       const response = await fetch(`${routeApi}authentication/car`, requestOptions);
       const json: models.rawData.AuthenticationToken = await response.json();
+
+      if ('message' in json) {
+        return { message: json.message, status: response.status };
+      }
+
       const parsedJson: models.parsedData.AuthenticationToken = json;
       return { json: parsedJson, status: response.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: e, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: e.message, status: ReturnCodes.Generic };
+      } else {
+        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+      }
     }
   }
 
@@ -278,6 +374,11 @@ export namespace restful {
     }
 
     const json: models.rawData.CarData = await response.json();
+
+    if ('message' in json) {
+      throw new Error(json.message);
+    }
+
     const parsedJson: models.parsedData.CarData = {
       idCar: json.id_car,
       queryId: json.query_id,
@@ -371,6 +472,10 @@ export namespace models {
    * Contient les structures des données brutes retournées par les endpoints de l'api
    */
   export namespace rawData {
+    export interface Error {
+      message: string;
+    }
+
     /**
      * Représente une activité pour le webSocket
      */
@@ -378,9 +483,7 @@ export namespace models {
       id_activity: number,
       label: string
       id_section: number
-    } | {
-      message: string;
-    }
+    } | Error
 
     /**
      * Représente une donnée de statistiques sur la réalisation des activités
@@ -388,9 +491,7 @@ export namespace models {
     export type WSRealisation = {
       count: number,
       mostPopular: rawData.Activity & { count: number }
-    } | {
-      message: string;
-    }
+    } | Error
 
     /**
      * Retourné par /car/
@@ -419,9 +520,7 @@ export namespace models {
         total_time: string;
       }[],
       rank: number
-    } | {
-      message: string;
-    }
+    } | Error
 
     /**
      * Retourné par /section/{idSection}
@@ -429,9 +528,7 @@ export namespace models {
     export type SectionName = {
       id_section: number,
       label: string
-    } | {
-      message: string;
-    }
+    } | Error
 
     /**
      * Retourné par /activity/by-section/{idSection}
@@ -440,16 +537,14 @@ export namespace models {
       id_activity: number,
       label: string,
       id_section: number
-    }[]
+    }[] | Error
 
     /**
      * Retourné par /authentication/section et par /authentication/car
      */
     export type AuthenticationToken = {
       token: string
-    } | {
-      message: string;
-    }
+    } | Error
 
 
     /**
@@ -463,9 +558,7 @@ export namespace models {
         avatar: Avatar.Avatar,
       },
       total_time: Date | string
-    } | {
-      message: string;
-    }
+    } | Error
 
     /**
      * Représente le classement des courses
@@ -474,9 +567,7 @@ export namespace models {
       races: WsRaceData[],
       count: number,
       fastest: WsRaceData
-    } | {
-      message: string;
-    };
+    } | Error
   }
 
   export namespace parsedData {
