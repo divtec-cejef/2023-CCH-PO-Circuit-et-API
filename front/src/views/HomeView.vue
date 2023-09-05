@@ -109,6 +109,8 @@ if (localStorage.getItem('userCarId')) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
+
+
 socketio
   .onRankingReceived(data => {
     racesRan.value = data.count;
