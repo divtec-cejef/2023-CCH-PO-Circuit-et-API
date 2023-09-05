@@ -17,6 +17,7 @@ export const getRacesByCar = async (id: number) => {
       race_start: true,
       sector1: true,
       race_finish: true,
+      video_url: true,
       id_car: true,
       total_time: true
     }
@@ -34,6 +35,18 @@ declare type race = {
     avatar: Prisma.JsonValue
   }
 }
+
+/**
+ * Retourne une manche en fonction de son id
+ * @param id Id de la manche
+ */
+export const getRaceById = async (id: number) => {
+  return await prisma.race.findUnique({
+    where: {
+      id_race: id
+    }
+  });
+};
 
 /**
  * Retourne les manches les plus courtes de chaque voiture
@@ -100,6 +113,22 @@ export const getRankByCar = async (id: number) => {
   }
 
   return null;
+};
+
+/**
+ * Ajoute l'url d'une vidéo à une manche
+ * @param id Id de la manche
+ * @param url Url de la vidéo
+ */
+export const addUrlToRace = async (id: number, url: string) => {
+  return await prisma.race.update({
+    where: {
+      id_race: id
+    },
+    data: {
+      video_url: url
+    }
+  });
 };
 
 /**
