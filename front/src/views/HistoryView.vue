@@ -4,7 +4,7 @@
              :style="{left: divLeft, top: divTop, display: divDisplay}">
             <div v-if="currentLabel.activities.length > 0">
                 <div class="label-header"><span>Activités :</span>
-                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
+                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
                 </div>
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
@@ -16,7 +16,7 @@
             </div>
             <div v-if="currentLabel.activities.length <= 0" class="label-header">
                 <span>Il n'y a pas d'activités dans cette section</span>
-                <div @click="() => {hideDiv()}"><img :src=close alt="fermer"></div>
+                <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
             </div>
 
         </div>
@@ -439,10 +439,6 @@ template {
 
     img {
       height: 20px;
-
-      @media screen and (prefers-color-scheme: dark) {
-        filter: invert(1);
-      }
     }
 
     img:hover {
