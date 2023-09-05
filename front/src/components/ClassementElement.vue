@@ -1,6 +1,6 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement"
-         :style="{ backgroundColor: backgroundColor, color : colorFont}">
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}">
         <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
         </div>
@@ -13,10 +13,11 @@
 <script setup lang="ts">
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import type { Configs } from 'holiday-avatar';
-
+import { usePreferredColorScheme } from '@vueuse/core';
+import Color from 'color';
 
 const props = defineProps<{
   rank: number;
@@ -29,12 +30,24 @@ const userCar = useCarStore();
 const classUserCarElement = ref('');
 const PODIUM = 4;
 const backgroundImage = ref();
-const backgroundColor = ref(userCar.car.pseudo == props.pseudo ? userCar.car.avatar?.bgColor?.toString() : 'var(--white)');
-const colorFont = ref( 'var(--black)');
+const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
+  userCar.car.avatar?.bgColor?.toString() :
+  null);
 
-if (userCar.car.avatar?.bgColor?.toString() != '#FFF' && userCar.car.pseudo == props.pseudo) {
-  colorFont.value = 'var(--white)';
-}
+
+const colorFont = computed<string | null>(()=> {
+  if(userCar.car.pseudo == props.pseudo) {
+    if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50) {
+      return colorScheme.value === 'dark' ? '#000' : null;
+    } else {
+      return colorScheme.value === 'dark' ? null : '#fff';
+    }
+  } else {
+    return null;
+  }
+});
+
+const colorScheme = usePreferredColorScheme();
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';

@@ -30,7 +30,7 @@
             <li v-if="userCar.car.idCar">
                 <button class="logout-button tooltip" @click="logOutUser">
                     <span>Déconnexion</span>
-                    <img :src="exitImg" alt="Icon de déconnexion">
+                    <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
                     <img :src="exitPhoneImg" alt="Icon de déconnexion">
                     <span class="tooltiptext">Déconnexion</span>
                 </button>
@@ -46,10 +46,12 @@ import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.png';
 import exitPhoneImg from '@/assets/img/exit-phone.png';
 import { useRouter } from 'vue-router';
+import { usePreferredColorScheme } from '@vueuse/core';
+
+const colorScheme = usePreferredColorScheme();
 
 const router = useRouter();
 const clickMenu = () => {
-  localStorage.setItem('menuIsClicked', 'true');
   emit('clickMenu', true);
 };
 
@@ -63,6 +65,8 @@ function logOutUser() {
   //Clear les stores pinia
   userCar.$reset();
   useAdminPostStore().$reset();
+
+  clickMenu();
 
   //Retour à la page d'accueil
   router.push('/');
@@ -140,7 +144,6 @@ button.logout-button {
   background: none;
   border: none;
   cursor: pointer;
-
 
   img {
     height: 35px;
