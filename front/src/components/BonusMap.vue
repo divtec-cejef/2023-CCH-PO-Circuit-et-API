@@ -8,10 +8,22 @@
          :style="{
              top: section.posY + '%',
              left: section.posX + '%',
-             border: `2px solid ${getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`
+             backgroundColor: colorScheme === 'dark' ? getColor(
+               section
+               .section
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')) :
+               undefined,
+             border: `2px solid ${getColor(
+               section
+               .section
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, ''))}`
          }"
          @mouseover="event => atHover(event, section)"
-         @mouseleave="event => atLeave(event, index)"
+         @mouseleave="event => atLeave(event, index, section)"
          @click="(event) => {
              unHighlight()
              props.displayLabel(
@@ -23,15 +35,21 @@
          }">
 
         <img v-if="section.id !== -1"
-            :src=trophy
-            alt="image de trophé (médaille)"
-            :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
+             :src=trophy
+             alt="image de trophée (médaille)"
+             :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
         <p
-            :style="{color: getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')), paddingLeft: `${section.id === -1 ? '10px' : 'unset'}`}">
-            {{section.labelSection}}
+                :style="{
+          color: colorScheme === 'light' ? getColor(section
+                .section
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')) :
+                'var(--white)',
+                paddingLeft: `${section.id === -1 ? '10px' : 'unset'}`}">
+            {{ section.labelSection }}
         </p>
     </div>
-
 
 
 </template>
@@ -39,27 +57,37 @@
 <script setup lang="ts">
 import svg from '../assets/img/division-plan.png';
 import trophy from '../assets/img/trophy.png';
-import { Section } from '@/models/section';
 import { ref, watch } from 'vue';
+import { usePreferredColorScheme } from '@vueuse/core';
+import Section from '@/models/section';
 
+const colorScheme = usePreferredColorScheme();
 const getColor = Section.getColor;
 
 const isClicked = ref<number | null>(null);
 let targetOld: HTMLDivElement | null = null;
 
 const props = defineProps<{
-    displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
-    sections: {
-        section: string;
-        id: number;
-        labelSection: string;
-        posX: number;
-        posY: number;
-    }[];
-    activatedSection: number[];
-    unClicked: boolean;
-    noActivitySections: number[];
+  displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
+  sections: {
+    section: string;
+    id: number;
+    labelSection: string;
+    posX: number;
+    posY: number;
+  }[];
+  activatedSection: number[];
+  unClicked: boolean;
+  noActivitySections: number[];
 }>();
+
+type SimpleSection = {
+  section: string;
+  id: number;
+  labelSection: string;
+  posX: number;
+  posY: number;
+}
 
 watch(() => props.unClicked, (unClicked) => {
   if (unClicked) {
@@ -68,108 +96,130 @@ watch(() => props.unClicked, (unClicked) => {
 });
 
 function unHighlight() {
+  let section = props.sections[isClicked.value || 0];
   if (targetOld) {
     targetOld.classList.remove('clicked');
-    targetOld.style.background = 'var(--white)';
+    if (colorScheme.value === 'light') {
+      targetOld.style.background = 'var(--white)';
+    } else {
+      targetOld.style.background = section === null ?
+        'var(--black)':
+        Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+    }
     isClicked.value = null;
   }
 }
 
-function highlight(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
+function highlight(event: Event, section: SimpleSection) {
   let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
     ((event.target as HTMLElement).parentElement as HTMLDivElement) :
     (event.target as HTMLDivElement);
-  target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  if (colorScheme.value === 'light') {
+    target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  } else {
+    target.style.background = 'var(--black)';
+  }
   target.classList.add('clicked');
   targetOld = target;
 }
 
 // const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
 
-function atHover(event: Event, section: { section: string; id: number; labelSection: string; posX: number; posY: number; }) {
+function atHover(event: Event, section: SimpleSection) {
   let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
     ((event.target as HTMLElement).parentElement as HTMLDivElement) :
     (event.target as HTMLDivElement);
-  target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-}
-
-function atLeave(event: Event, index: number) {
-  if (index !== isClicked.value) {
-    (event.target as HTMLDivElement).style.background = 'var(--white)';
+  if (colorScheme.value === 'light') {
+    target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  } else {
+    target.style.background = 'var(--black)';
   }
 }
 
-// const icon = ref<HTMLElement | null>(null);
-//
-// onMounted(() => {
-//   if ('getBoundingClientRect' in icon.value) {
-//     console.log(icon.value.getBoundingClientRect().left);
-//   } else {
-//     console.log('getBoundingClientRect not in icon');
-//   }
-//   if ('getBoundingClientRect' in icon.value) {
-//     console.log(icon.value.getBoundingClientRect().top);
-//   }
-// });
+function atLeave(event: Event, index: number, section: SimpleSection) {
+  if (index !== isClicked.value) {
+    if(colorScheme.value === 'light') {
+      (event.target as HTMLDivElement).style.background = 'var(--white)' ;
+    } else {
+      (event.target as HTMLDivElement).style.background = getColor(
+        section
+          .section
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, ''));
+    }
+  }
+}
 
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
 
 template {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--height-screen-diff) - 70px) !important;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--height-screen-diff) - 70px) !important;
 }
 
 .icon {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex;
-    background-color: var(--white);
-    border: 2px solid var(--pink-divtec);
-    padding: clamp(0px, 0.5vw, 7px) 0;
-    border-radius: 30px;
-    white-space: pre-wrap;
-    transition: ease-in-out 0.15s;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  background-color: var(--white);
+  border: 2px solid var(--pink-divtec);
+  padding: clamp(0px, 0.5vw, 7px) 0;
+  border-radius: 30px;
+  white-space: pre-wrap;
+  transition: ease-in-out 0.15s;
 
-    p {
-        color: var(--pink-divtec);
-        font-size: clamp(1px, 2.25vw, 24px);
-        padding: 0 10px 0 0;
-        white-space: nowrap;
-    }
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: var(--black);
+  }
 
-    img {
-        height: clamp(1px, 2.25vw, 20px);
-        padding: 0 10px 0 10px;
-    }
+  p {
+    color: var(--pink-divtec);
+    font-size: clamp(1px, 2.25vw, 24px);
+    padding: 0 10px 0 0;
+    white-space: nowrap;
+  }
+
+  img {
+    height: clamp(1px, 2.25vw, 20px);
+    padding: 0 10px 0 10px;
+  }
 }
 
 div.clicked {
-    p {
-        color: var(--white) !important;
-    }
+  p {
+    color: var(--white) !important;
+  }
 }
 
 .icon:hover {
-    cursor: pointer;
-    background-color: var(--pink-divtec);
-    p {
-        color: var(--white) !important;
-    }
+  cursor: pointer;
+  background-color: var(--pink-divtec);
+
+  p {
+    color: var(--white) !important;
+  }
 }
 
 .bonus-label {
-    width: 250px;
-    height: 50px;
-    padding : 5px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: #7f7f7f 1px solid;
-    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  width: 250px;
+  height: 50px;
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: #7f7f7f 1px solid;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+
+  @media screen and (prefers-color-scheme: dark) {
+    box-shadow: none;
+    border: $dark-border;
+  }
 }
 
 </style>
