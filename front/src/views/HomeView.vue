@@ -7,7 +7,7 @@
                 <p>C'est par ici !</p>
             </div>
 
-            <img class="qr-code" :src=qrCodeImg alt="Animation qr code">
+            <RouterLink to="/scan"><img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code"></RouterLink>
         </div>
 
         <ul class="stats" v-if="dataLoaded">
@@ -88,6 +88,7 @@ import { useRouter } from 'vue-router';
 import { Roller } from 'vue-roller';
 import 'vue-roller/dist/style.css';
 import SpinLoading from '@/components/SpinLoading.vue';
+import { RouterLink } from 'vue-router';
 
 const router = useRouter();
 
@@ -187,10 +188,12 @@ div.home-root {
     }
   }
 
-  img.qr-code {
-    width: 200px;
-    display: block;
-    margin: 0 auto;
+  a {
+    img.qr-code {
+      width: 200px;
+      display: block;
+      margin: 0 auto;
+    }
   }
 }
 
