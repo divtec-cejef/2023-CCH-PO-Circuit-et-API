@@ -8,6 +8,12 @@
             </div>
 
             <RouterLink to="/scan"><img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code"></RouterLink>
+            <form>
+                <input type="text" placeholder="Identifiant" v-model="userQueryId">
+                <button type="submit"
+                        @click.prevent="enteredQueryId">Valider</button>
+                <span v-if="queryIdError" class="error">{{queryIdError}}</span>
+            </form>
         </div>
 
         <ul class="stats" v-if="dataLoaded">
@@ -82,7 +88,7 @@
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, onBeforeUnmount, ref } from 'vue';
-import { WebsocketConnection } from '@/models/api';
+import { WebsocketConnection, restful } from '@/models/api';
 import { formatTime } from '@/models/race';
 import { useRouter } from 'vue-router';
 import { Roller } from 'vue-roller';
@@ -98,6 +104,9 @@ const activitiesRealisations = ref<number>();
 const fastestRace = ref<string>();
 const preferredActivity = ref<string>();
 
+const userQueryId = ref<string>();
+const queryIdError = ref<string>();
+
 const dataLoaded = computed(() =>
   racesRan.value !== undefined &&
     activitiesRealisations.value !== undefined &&
@@ -110,7 +119,19 @@ if (localStorage.getItem('userCarId')) {
   router.push({ path: `/${userCar.car.idQuery}` });
 }
 
-
+const enteredQueryId = () => {
+  restful.getDataOneCarQueryId(userQueryId.value ?? '').then((v)=> {
+    if (typeof v.json === 'string') {
+      queryIdError.value = v.json;
+      return;
+    }
+    if (v.status === 404) {
+      queryIdError.value = 'Voiture introuvable.';
+    } else {
+      router.push({ path: `/${v.json.queryId}` });
+    }
+  });
+};
 
 socketio
   .onRankingReceived(data => {
@@ -133,6 +154,26 @@ onBeforeUnmount(() => {
 @import "@/assets/css/consts";
 h1 {
   text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 250px;
+  margin: auto;
+
+  input {
+    margin: .5em;
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid black;
+    padding: .5em;
+  }
+
+  button {
+    width: 100%;
+  }
 }
 
 div.home-root {
