@@ -1,11 +1,9 @@
-import os
-from aifc import Error
 from dropbox.files import WriteMode
 from dropbox.exceptions import ApiError, AuthError
 
 import sys
 import dropbox
-
+import os
 
 # Initialisation des constantes
 UPLOADFOLDERPATH = '/Applications/PO-2023-DIVTEC-TUTURE/ '
