@@ -3,10 +3,15 @@ from dotenv import load_dotenv
 import requests
 import os
 
+# Initialisation des variables globales
 token = ""
 
 
 async def get_token():
+    """
+    Récupère le token de l'API
+    :return: le token
+    """
     global token
     if token == "":
         try:
@@ -17,12 +22,20 @@ async def get_token():
 
 
 async def get_new_token():
+    """
+    Récupère un nouveau token de l'API
+    :return: le token
+    """
     global token
     token = ""
     return get_token()
 
 
 async def get_token_from_race():
+    """
+    Intialise le token de l'API
+    :return: le token
+    """
     load_dotenv()
     response = requests.post(os.environ['API_URL'] + "authentication/car/",
                             json={"section": os.environ['SECTION_NAME'],
