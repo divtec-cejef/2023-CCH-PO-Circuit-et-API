@@ -3,7 +3,7 @@
         <QrcodeStream @decode="onDecode"  />
         <div class="overlay">
             <div class="message">
-                <div>Vous pouvez scanner votre voiture.</div>
+                <div>Vous pouvez scanner votre voiture !</div>
             </div>
             <div v-if="error !== undefined" class="scan-error">
                 <div>{{error}}</div>
