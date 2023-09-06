@@ -4,20 +4,22 @@ export default class Race {
   idRace: number = 0;
   startTime: Date = new Date;
   totalTime: Date = new Date();
-  sector1: Date = new Date();
+  checkpoint1: Date = new Date();
+  checkpoint2: Date = new Date();
 
   /**
    * Constructeur d'une course
    * @param idRace Id de la course
    * @param startTime Heure à laquelle la course a été faite
    * @param totalTime Temps de la course
-   * @param sector1 Premier temps intermédiaire
+   * @param checkpoint1 Premier temps intermédiaire
    */
-  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date) {
+  constructor(idRace: number, startTime: Date, totalTime: Date, checkpoint1: Date, checkpoint2: Date) {
     this.idRace = idRace;
     this.startTime = startTime;
     this.totalTime = totalTime;
-    this.sector1 = this.calculateSector(sector1);
+    this.checkpoint1 = this.calculateSector(checkpoint1);
+    this.checkpoint2 = this.calculateSector(checkpoint2);
   }
 
   /**
