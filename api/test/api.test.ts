@@ -1,19 +1,22 @@
 // ajouts des variables d'environnement
-import { it } from 'mocha';
+import { it, before } from 'mocha';
 
 // importation des modules
-import '../index';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiStructure from 'chai-check-struct';
 import cjs from 'crypto-js';
 
-process.env.RACE_ADDING_AUTHORIZED_SECTION = '["test"]';
-
 // configuration de chai
 chai.use(chaiHttp);
 chai.use(chaiStructure);
 const expect = chai.expect;
+
+before(() => {
+  import('../index');
+
+  process.env.RACE_ADDING_AUTHORIZED_SECTION = '["test"]';
+});
 
 // Test de la racine de l'API
 describe('Root', () => {
@@ -127,6 +130,8 @@ describe('AuthenticationSection', () => {
       password: 'Admlocal1'
     });
 
+    console.log(JSON.stringify(res));
+
     expect(res).to.have.status(200);
     expect(res.body).to.have.that.structure({
       token: String
@@ -207,13 +212,13 @@ describe('race', () => {
     expect(res.error.text).to.equal(JSON.stringify({ message: 'Car not found' }));
   });
 
-  const token = chai.request('localhost:3000').post('/authentication/section').send({
-    section: 'test',
-    password: 'Admlocal1'
-  });
-
   // Créer une manche de course avec des paramètres valides à l'aide du query_id de la voiture
   it('should return a created race if all parameters are valid on create with query_id', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').post('/race/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -223,6 +228,7 @@ describe('race', () => {
         race_finish: '2021-10-10T10:10:10.000Z',
         query_id: '4356'
       });
+
     expect(res).to.have.status(200);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.that.structure({
@@ -235,6 +241,11 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
   it('should return an error if race_start is invalid on create with query_id', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').post('/race/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -251,6 +262,11 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide que query_id avec sector_one invalide
   it('should return an error if race_finish is invalid on create with query_id', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').post('/race/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -269,6 +285,11 @@ describe('race', () => {
 
   // Créer une manche de course avec un query_id invalide
   it('should return an error if query_id is invalid', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').post('/race/query-id/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -287,6 +308,11 @@ describe('race', () => {
 
   // Modifier une manche de course pour y ajouter son url de vidéo
   it('should return race if all parameters are valid on patch', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').patch('/race/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -305,6 +331,11 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
   it('should return an error if id_race is invalid on patch', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').patch('/race/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -319,6 +350,11 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
   it('should return an error if id_race is nonexistent on patch', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').patch('/race/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
@@ -333,6 +369,11 @@ describe('race', () => {
 
   // Créer une manche de course à l'aide du query_id de la voiture avec race_start invalide
   it('should return an error if video_url is invalid on patch', async () => {
+    const token = chai.request('localhost:3000').post('/authentication/section').send({
+      section: 'test',
+      password: 'Admlocal1'
+    });
+
     const res = await chai.request('localhost:3000').patch('/race/')
       .auth((await token).body.token, { type: 'bearer' })
       .send({
