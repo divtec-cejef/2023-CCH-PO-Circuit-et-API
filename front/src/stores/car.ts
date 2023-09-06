@@ -86,8 +86,8 @@ export const useCarStore = defineStore('car', () => {
         new Race(race.id_race,
           new Date(race.race_start),
           new Date(race.total_time),
-          new Date(race.checkpoint1),
-          new Date(race.checkpoint2))
+          new Date(race.sector1),
+          new Date(race.sector2))
       );
     });
 

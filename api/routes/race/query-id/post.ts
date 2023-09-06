@@ -16,8 +16,8 @@ declare type Datable = Date | string
 declare type RaceRequest = {
   query_id: string;
   race_start: Datable;
-  checkpoint1: Datable;
-  checkpoint2: Datable;
+  sector1: Datable;
+  sector2: Datable;
   race_finish: Datable;
 };
 
@@ -65,8 +65,8 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
   try {
     checkStructureOrThrow(race, {
       race_start: Date,
-      checkpoint1: Date,
-      checkpoint2: Date,
+      sector1: Date,
+      sector2: Date,
       race_finish: Date,
       query_id: String
     });
@@ -89,8 +89,8 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
 
   const raceToCreate: RaceToCreateWithQueryId = {
     race_start: new Date(race.race_start),
-    checkpoint1: new Date(race.checkpoint1),
-    checkpoint2: new Date(race.checkpoint2),
+    sector1: new Date(race.sector1),
+    sector2: new Date(race.sector2),
     race_finish: new Date(race.race_finish),
     query_id: race.query_id
   };

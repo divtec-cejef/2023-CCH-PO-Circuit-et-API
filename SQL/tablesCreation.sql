@@ -25,8 +25,8 @@ CREATE TABLE race
 (
     id_race     SERIAL,
     race_start  TIMESTAMP(3) NOT NULL,
-    checkpoint1     TIMESTAMP(3) NOT NULL,
-    checkpoint2     TIMESTAMP(3) NOT NULL,
+    sector1     TIMESTAMP(3) NOT NULL,
+    sector2     TIMESTAMP(3) NOT NULL,
     race_finish TIMESTAMP(3) NOT NULL,
     video_url   VARCHAR(512),
     id_car      INTEGER      NOT NULL,
