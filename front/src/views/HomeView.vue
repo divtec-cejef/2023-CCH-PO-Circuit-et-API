@@ -9,8 +9,11 @@
 
             <RouterLink to="/scan"><img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code"></RouterLink>
             <form>
-                <p>Entre les 5 derniers chiffres de l'URL sous ta voiture !</p>
-                <input type="text" placeholder="Identifiant" v-model="userQueryId" maxlength="5">
+                <p>Entre les 4 derniers chiffres de l'URL sous ta voiture !</p>
+                <div class="link">
+                    <p>voiture.divtec.me/</p>
+                    <input type="text" placeholder="****" v-model="userQueryId" maxlength="4">
+                </div>
                 <button type="submit"
                         @click.prevent="enteredQueryId">Valider
                 </button>
@@ -166,19 +169,29 @@ form {
   width: 250px;
   margin: auto;
 
+  .link {
+    display: flex;
+    align-items: center;
+
+    p {
+      text-decoration: underline;
+    }
+  }
+
   p {
     text-align: center;
     font-style: italic;
     font-size: 15px;
+
   }
 
   input {
     margin: .5em;
     text-align: center;
-    border-radius: 20px;
-    border: 1px solid black;
-    padding: .5em;
-    width: 120px;
+    border-radius: 2px;
+    border: 1px solid rgb(206, 206, 206);
+    padding: .1em;
+    width: 50px;
   }
 
   button {
