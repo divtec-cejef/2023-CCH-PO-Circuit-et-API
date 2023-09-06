@@ -1,7 +1,7 @@
-import { routeHandler } from '../../../models';
+import { RouteHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../../services/activity/';
-import type { realisedActivityToCreate } from '../../../models';
+import type { RealisedActivityToCreate } from '../../../models';
 import {
   createRealisedActivity,
   getRealisationCount, mostRealisedActivity,
@@ -23,7 +23,7 @@ declare type realisedActivityRequest = {
  * @param res Reponse
  * @returns l'activité réalisée
  */
-export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
   // vérification de l'authentification
@@ -70,7 +70,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Création de l'activité
-  const realisedActivityToCreate: realisedActivityToCreate = {
+  const realisedActivityToCreate: RealisedActivityToCreate = {
     id_activity: realisedActivity.id_activity,
     query_id: realisedActivity.query_id,
     date_time: new Date(realisedActivity.date_time)

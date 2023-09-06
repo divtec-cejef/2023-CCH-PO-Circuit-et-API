@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../../models';
+import type { RouteHandler } from '../../../models';
 import { getCarById } from '../../../services/car';
 
 /**
@@ -7,7 +7,7 @@ import { getCarById } from '../../../services/car';
  * @param res Reponse
  * @returns une voiture correspondant à son ID
  */
-const route: routeHandler<{ slug: string; }> = async (req, res) => {
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
   const id = parseInt(req.params.slug);
 
   if (typeof id === null || isNaN(id)) {
