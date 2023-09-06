@@ -11,13 +11,14 @@ import type { Server } from 'socket.io';
 import validateSection from '../../../services/section/validate-token';
 import { getSectionById } from '../../../services/section';
 
-declare type datable = Date | string
+declare type Datable = Date | string
 
-declare type raceRequest = {
-  query_id: string,
-  race_start: datable,
-  sector1: datable
-  race_finish: datable;
+declare type RaceRequest = {
+  query_id: string;
+  race_start: Datable;
+  checkpoint1: Datable;
+  checkpoint2: Datable;
+  race_finish: Datable;
 };
 
 /**
@@ -26,7 +27,7 @@ declare type raceRequest = {
  * @param res Reponse
  * @returns le temps créé
  */
-export const route: RouteHandler<null, unknown, raceRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) => {
   const race = req.body;
 
   // vérification de l'authentification
@@ -64,7 +65,8 @@ export const route: RouteHandler<null, unknown, raceRequest> = async (req, res) 
   try {
     checkStructureOrThrow(race, {
       race_start: Date,
-      sector1: Date,
+      checkpoint1: Date,
+      checkpoint2: Date,
       race_finish: Date,
       query_id: String
     });
@@ -87,7 +89,8 @@ export const route: RouteHandler<null, unknown, raceRequest> = async (req, res) 
 
   const raceToCreate: RaceToCreateWithQueryId = {
     race_start: new Date(race.race_start),
-    sector1: new Date(race.sector1),
+    checkpoint1: new Date(race.checkpoint1),
+    checkpoint2: new Date(race.checkpoint2),
     race_finish: new Date(race.race_finish),
     query_id: race.query_id
   };
