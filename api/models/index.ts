@@ -6,16 +6,16 @@ export type RouteHandler<SlugParams = unknown, ResBody = unknown, ReqBody = unkn
 
 export interface RaceToCreate {
   race_start: Date;
-  checkpoint1: Date;
-  checkpoint2: Date;
+  sector1: Date;
+  sector2: Date;
   race_finish: Date;
   id_car: number;
 }
 
 export interface RaceToCreateWithQueryId {
   race_start: Date;
-  checkpoint1: Date;
-  checkpoint2: Date;
+  sector1: Date;
+  sector2: Date;
   race_finish: Date;
   query_id: string;
 }
