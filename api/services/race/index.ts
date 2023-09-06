@@ -17,6 +17,7 @@ export const getRacesByCar = async (id: number) => {
       race_start: true,
       sector1: true,
       sector2: true,
+      speed: true,
       race_finish: true,
       video_url: true,
       id_car: true,
@@ -160,6 +161,7 @@ export const createRaceWithQueryId = async (race: RaceToCreateWithQueryId): Prom
       race_finish: race.race_finish,
       sector1: race.sector1,
       sector2: race.sector2,
+      speed: race.speed,
       car: {
         connect: {
           query_id: race.query_id

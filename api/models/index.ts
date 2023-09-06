@@ -9,6 +9,7 @@ export interface RaceToCreate {
   sector1: Date;
   sector2: Date;
   race_finish: Date;
+  speed: number;
   id_car: number;
 }
 
@@ -17,6 +18,7 @@ export interface RaceToCreateWithQueryId {
   sector1: Date;
   sector2: Date;
   race_finish: Date;
+  speed: number;
   query_id: string;
 }
 
