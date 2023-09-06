@@ -1,7 +1,7 @@
 export namespace Section {
   export const SectionName = [
     'dessinateur',
-    'industries2.0',
+    'industries4.0',
     'micromecanique',
     'electronique',
     'automatique',
@@ -20,7 +20,7 @@ export namespace Section {
       dessinateur: '#42aa2b',
       electronique: '#bd0381',
       horlogerie: '#f4c503',
-      'industries2.0': '#56c1f0',
+      'industries4.0': '#56c1f0',
       laborantin: '#2ccdbd',
       mecatronique: '#d30369',
       micromecanique: '#099ad9',
