@@ -72,7 +72,8 @@ export namespace restful {
         races: json.races.map(value => ({
           idCar: value.id_car,
           idRace: value.id_race,
-          sector1: new Date(value.sector1),
+          checkpoint1: new Date(value.checkpoint1),
+          checkpoint2: new Date(value.checkpoint2),
           raceStart: new Date(value.race_start),
           raceFinish: new Date(value.race_finish),
           totalTime: new Date(value.total_time)
@@ -248,7 +249,7 @@ export namespace restful {
    */
   export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
     // Teste les propriétés de la voiture est défini
-    if(!userCar.car.idCar || !userCar.car.pseudo || !userCar.car.avatar || !userCar.token) {
+    if (!userCar.car.idCar || !userCar.car.pseudo || !userCar.car.avatar || !userCar.token) {
       throw new Error('Property is undefined');
     }
 
@@ -403,7 +404,8 @@ export namespace models {
       races: {
         id_race: number;
         race_start: string;
-        sector1: string;
+        checkpoint1: Date;
+        checkpoint2: Date;
         race_finish: string;
         id_car: number;
         total_time: string;
@@ -477,7 +479,8 @@ export namespace models {
         raceFinish: Date,
         idCar: number,
         totalTime: Date,
-        sector1: Date
+        checkpoint1: Date,
+        checkpoint2: Date,
       }[],
       rank: number
     }
