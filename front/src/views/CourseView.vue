@@ -36,7 +36,7 @@
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
                                 <p>{{
-                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector1)
+                                        car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].checkpoint1)
                                     }}</p>
                             </li>
                             <li>
