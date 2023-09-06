@@ -1,4 +1,4 @@
-import { carToUpdate, routeHandler } from '../../models';
+import { CarToUpdate, RouteHandler } from '../../models';
 import validateCarAuthorization from '../../services/car/validate-token';
 import { checkStructureOrThrow } from 'check-structure';
 import { getCarById, updateCar } from '../../services/car';
@@ -9,7 +9,7 @@ import { getCarById, updateCar } from '../../services/car';
  * @param res Reponse
  * @returns la voiture modifiée
  */
-export const route: routeHandler<null, unknown, carToUpdate> = async (req, res) => {
+export const route: RouteHandler<null, unknown, CarToUpdate> = async (req, res) => {
   const carToUpdate = req.body;
 
   // vérification de l'authentification

@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../../models';
+import type { RouteHandler } from '../../../models';
 import { getRacesByCar, getRankByCar } from '../../../services/race';
 import { getCarById } from '../../../services/car';
 
@@ -8,7 +8,7 @@ import { getCarById } from '../../../services/car';
  * @param res Reponse
  * @returns Toutes les manches faites par une voiture
  */
-const route: routeHandler<{ slug: string; }> = async (req, res) => {
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
   const id = parseInt(req.params.slug);
 
   if (typeof id === null || isNaN(id)) {
