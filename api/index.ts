@@ -13,6 +13,6 @@ const server = http.createServer(expressServer);
 expressServer.set('socketio', buildSioServer(server));
 expressServer.set('prismadb', prisma);
 
-server.listen(process.env.PORT, () => {
-  console.log(`listening on *:${process.env.PORT}`);
+server.listen(process.env.PORT ?? 3000, () => {
+  console.log(`listening on *:${process.env.PORT ?? 3000}`);
 });
