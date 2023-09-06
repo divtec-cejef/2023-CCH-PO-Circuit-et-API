@@ -149,6 +149,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
   //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
   if (newUrl.params.id === car.idQuery) {
     codeBackApi.value = api.ReturnCodes.Success;
+    return;
   }
 
   //Initialisation des données
@@ -165,6 +166,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
     //Si la requête est valide alors on stocke l'id dans le localstorage
     if (codeBackApi.value == api.ReturnCodes.Success) {
       localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
+      localStorage.removeItem('carToken');
     }
   });
 },
