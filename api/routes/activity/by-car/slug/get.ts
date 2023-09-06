@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../../../models';
+import type { RouteHandler } from '../../../../models';
 import { getCarById } from '../../../../services/car';
 import { getActivitiesByCarId } from '../../../../services/activity/';
 
@@ -8,7 +8,7 @@ import { getActivitiesByCarId } from '../../../../services/activity/';
  * @param res Reponse
  * @returns une activité correspondant à l'id de la section
  */
-const route: routeHandler<{ slug: string; }> = async (req, res) => {
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
   const id = parseInt(req.params.slug);
 
   // vérifie la validité de l'id

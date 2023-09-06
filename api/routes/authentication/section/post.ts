@@ -1,9 +1,9 @@
-import { routeHandler } from '../../../models';
+import { RouteHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { authenticateSection, getPasswordBySectionName } from '../../../services/section/authentication';
 import { SHA256 } from 'crypto-js';
 
-export const route: routeHandler<null, unknown, {section: string, password:string}> = async (req, res) => {
+export const route: RouteHandler<null, unknown, { section: string, password: string }> = async (req, res) => {
   try {
     checkStructureOrThrow(req.body, {
       section: String,
