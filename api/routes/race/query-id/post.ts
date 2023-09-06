@@ -1,4 +1,4 @@
-import { raceToCreateWithQueryId, routeHandler } from '../../../models';
+import { RaceToCreateWithQueryId, RouteHandler } from '../../../models';
 import {
   createRaceWithQueryId, getNumberRaces,
   getRacesByCar,
@@ -26,7 +26,7 @@ declare type raceRequest = {
  * @param res Reponse
  * @returns le temps créé
  */
-export const route: routeHandler<null, unknown, raceRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, raceRequest> = async (req, res) => {
   const race = req.body;
 
   // vérification de l'authentification
@@ -85,7 +85,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     return;
   }
 
-  const raceToCreate: raceToCreateWithQueryId = {
+  const raceToCreate: RaceToCreateWithQueryId = {
     race_start: new Date(race.race_start),
     sector1: new Date(race.sector1),
     race_finish: new Date(race.race_finish),

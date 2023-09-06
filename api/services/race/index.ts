@@ -1,5 +1,5 @@
 import prisma from '../../clients/prismadb';
-import { raceToCreate, raceToCreateWithQueryId } from '../../models';
+import { RaceToCreate, RaceToCreateWithQueryId } from '../../models';
 import { Prisma } from '@prisma/client';
 
 /**
@@ -15,7 +15,8 @@ export const getRacesByCar = async (id: number) => {
     select: {
       id_race: true,
       race_start: true,
-      sector1: true,
+      checkpoint1: true,
+      checkpoint2: true,
       race_finish: true,
       video_url: true,
       id_car: true,
@@ -26,7 +27,7 @@ export const getRacesByCar = async (id: number) => {
   }));
 };
 
-declare type race = {
+declare type Race = {
   id_race: number,
   total_time: Date,
   car: {
@@ -55,17 +56,17 @@ export const getRaceById = async (id: number) => {
 export const getShortestRaces = async () => {
   // récupération des informations de la course et de la voiture
   const ranking: { id_race: number, total_time: Date, id_car: number }[] = await prisma.$queryRaw`SELECT *
-                                                                                                    FROM ranking`;
+                                                                                                  FROM ranking`;
   const cars: {
-        id_car: number,
-        pseudo: string,
-        avatar: Prisma.JsonValue
-    }[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar
-                                 FROM car
-                                 WHERE id_car IN (SELECT id_car FROM ranking)`;
+    id_car: number,
+    pseudo: string,
+    avatar: Prisma.JsonValue
+  }[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar
+                               FROM car
+                               WHERE id_car IN (SELECT id_car FROM ranking)`;
 
   // création du résultat
-  const rankingRes = [] as race[];
+  const rankingRes = [] as Race[];
   for (const i in ranking) {
     const car = cars.find(car => car.id_car === ranking[i].id_car);
     if (!car) throw new Error('Car not found');
@@ -88,7 +89,7 @@ export const getShortestRace = async () => {
   const races = await getShortestRaces();
 
   // filtration des courses
-  let shortest: race
+  let shortest: Race
     | null = null;
 
   for (const racesElement of races) {
@@ -136,14 +137,9 @@ export const addUrlToRace = async (id: number, url: string) => {
  * @param race Manche à créer
  * @returns la manche créée
  */
-export const createRace = async (race: raceToCreate): Promise<race> => {
+export const createRace = async (race: RaceToCreate): Promise<Race> => {
   return await prisma.race.create({
-    data: {
-      race_start: race.race_start,
-      sector1: race.sector1,
-      race_finish: race.race_finish,
-      id_car: race.id_car
-    },
+    data: race,
     include: {
       car: true
     }
@@ -155,12 +151,10 @@ export const createRace = async (race: raceToCreate): Promise<race> => {
  * @param race Manche à créer
  * @returns la manche créée
  */
-export const createRaceWithQueryId = async (race: raceToCreateWithQueryId): Promise<race> => {
+export const createRaceWithQueryId = async (race: RaceToCreateWithQueryId): Promise<Race> => {
   return await prisma.race.create({
     data: {
-      race_start: race.race_start,
-      sector1: race.sector1,
-      race_finish: race.race_finish,
+      ...race,
       car: {
         connect: {
           query_id: race.query_id
