@@ -2,7 +2,8 @@ import { RaceToCreateWithQueryId, RouteHandler } from '../../../models';
 import {
   createRaceWithQueryId, getNumberRaces,
   getRacesByCar,
-  getRankByCar, getShortestRace,
+  getRankByCar,
+  getShortestRace,
   getShortestRaces
 } from '../../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
@@ -18,6 +19,7 @@ declare type RaceRequest = {
   race_start: Datable;
   sector1: Datable;
   sector2: Datable;
+  speed: number;
   race_finish: Datable;
 };
 
@@ -46,7 +48,7 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
 
   let authorized = false;
   // récupérer les sections authorisées à ajouter des courses
-  const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '');
+  const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '["race"]');
   console.log(sections);
   for (const section of sections) {
     console.log(sectionName, section);
@@ -67,6 +69,7 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
       race_start: Date,
       sector1: Date,
       sector2: Date,
+      speed: Number,
       race_finish: Date,
       query_id: String
     });
@@ -91,6 +94,7 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
     race_start: new Date(race.race_start),
     sector1: new Date(race.sector1),
     sector2: new Date(race.sector2),
+    speed: race.speed,
     race_finish: new Date(race.race_finish),
     query_id: race.query_id
   };
