@@ -1,10 +1,8 @@
 <template>
-    <div class="content-error">
-        <div class="error-no-co" >
-            <h2>Erreur</h2>
-            <p>Problème de connexion...</p>
-            <p>Ressayez.</p>
-        </div>
+    <div class="error-no-co">
+        <h2>Erreur</h2>
+        <p>Problème de connexion...</p>
+        <p>Ressayez.</p>
     </div>
 </template>
 
@@ -15,13 +13,13 @@
 <style scoped lang="scss">
 
 #app div.error-no-co {
-    top: calc(50% - 75px);
-    left: calc(50% - 200px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 400px;
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - var(--height-screen-diff) - 125px - 35px);
     text-align: center;
 
     h2 {
