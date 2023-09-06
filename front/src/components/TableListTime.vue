@@ -40,7 +40,7 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 div {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 400px;
     display: flex;
     justify-content: end;
