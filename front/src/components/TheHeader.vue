@@ -49,7 +49,6 @@ import { useRouter } from 'vue-router';
 import { usePreferredColorScheme } from '@vueuse/core';
 
 const colorScheme = usePreferredColorScheme();
-
 const router = useRouter();
 const clickMenu = () => {
   emit('clickMenu', true);
@@ -144,6 +143,7 @@ button.logout-button {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 
   img {
     height: 35px;
@@ -178,7 +178,7 @@ button.logout-button {
   z-index: 1;
   font-style: italic;
   transition: all linear 0.3s;
-
+  font-weight: normal;
 }
 
 .tooltip:hover .tooltiptext {
