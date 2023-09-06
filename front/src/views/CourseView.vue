@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="best-time">
-                        <div>Temps de manche :</div>
+                        <div>Temps de manche </div>
                         <div class="race-time">
                             {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
                         </div>
@@ -30,13 +30,13 @@
 
                     <div class="time-inter">
                         <div>Temps <br>
-                            intermédiaires :
+                            intermédiaires
                         </div>
                         <ul>
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
                                 <p>{{
-                                        car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector1)
+                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector1)
                                     }}</p>
                             </li>
                             <li>
@@ -173,6 +173,8 @@ onUnmounted(() => socket.value?.destroy());
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/css/consts";
+
 div.best-race {
   display: flex;
   flex-direction: column;
@@ -346,7 +348,7 @@ div.best-race {
 }
 
 div.classement-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 400px;
   margin-top: 10px;
 }
