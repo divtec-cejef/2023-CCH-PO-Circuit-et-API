@@ -27,6 +27,7 @@ CREATE TABLE race
     race_start  TIMESTAMP(3) NOT NULL,
     sector1     TIMESTAMP(3) NOT NULL,
     sector2     TIMESTAMP(3) NOT NULL,
+    speed     FLOAT NOT NULL,
     race_finish TIMESTAMP(3) NOT NULL,
     video_url   VARCHAR(512),
     id_car      INTEGER      NOT NULL,
