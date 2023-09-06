@@ -13,6 +13,7 @@ export default class Race {
    * @param startTime Heure à laquelle la course a été faite
    * @param totalTime Temps de la course
    * @param sector1 Premier temps intermédiaire
+   * @param sector2 Deuxième temps intermédiaire
    */
   constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, sector2: Date) {
     this.idRace = idRace;
