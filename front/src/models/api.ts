@@ -74,6 +74,7 @@ export namespace restful {
           idRace: value.id_race,
           sector1: new Date(value.sector1),
           sector2: new Date(value.sector2),
+          speed: value.speed,
           raceStart: new Date(value.race_start),
           raceFinish: new Date(value.race_finish),
           totalTime: new Date(value.total_time)
@@ -406,6 +407,7 @@ export namespace models {
         race_start: string;
         sector1: Date;
         sector2: Date;
+        speed: number;
         race_finish: string;
         id_car: number;
         total_time: string;
@@ -481,6 +483,7 @@ export namespace models {
         totalTime: Date,
         sector1: Date,
         sector2: Date,
+        speed: number
       }[],
       rank: number
     }
