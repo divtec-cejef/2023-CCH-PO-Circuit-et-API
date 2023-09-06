@@ -8,7 +8,7 @@ import { Prisma } from '@prisma/client';
  * @returns une liste des manches dans l'ordre croissant
  */
 export const getRacesByCar = async (id: number) => {
-  return await prisma.race.findMany({
+  const r = await prisma.race.findMany({
     where: {
       id_car: id
     },
@@ -22,9 +22,11 @@ export const getRacesByCar = async (id: number) => {
       id_car: true,
       total_time: true
     }
-  }).then(r => r.sort((a, b) => {
+  });
+  r.sort((a, b) => {
     return a.total_time.valueOf() - b.total_time.valueOf();
-  }));
+  });
+  return r;
 };
 
 declare type Race = {
