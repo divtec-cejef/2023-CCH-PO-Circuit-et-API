@@ -1,10 +1,10 @@
-import { routeHandler } from '../../../models';
+import { RouteHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { SHA256 } from 'crypto-js';
 import { getPasswordByQueryId } from '../../../services/car';
 import { authenticateCar } from '../../../services/car/authentication';
 
-export const route: routeHandler<null, unknown, { query_id: string, password: string }> = async (req, res) => {
+export const route: RouteHandler<null, unknown, { query_id: string, password: string }> = async (req, res) => {
   // Vérification des types de données
   try {
     checkStructureOrThrow(req.body, {
