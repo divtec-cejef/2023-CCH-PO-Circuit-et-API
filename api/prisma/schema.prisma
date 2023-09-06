@@ -50,6 +50,7 @@ model race {
   race_start  DateTime
   sector1     DateTime
   sector2     DateTime
+  speed       Float
   race_finish DateTime
   video_url   String?  @db.VarChar(512)
   id_car      Int
