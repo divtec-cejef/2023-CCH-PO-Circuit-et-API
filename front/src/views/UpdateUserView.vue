@@ -24,8 +24,8 @@
                 <br>Es-tu sûr de vouloir quitter ?
             </div>
             <div class="button-container">
-                <button @click="closeModal">Annuler</button>
-                <button class="destructive" @click="quitPage">Quitter</button>
+                <button @click="closeModal">Non</button>
+                <button class="destructive" @click="quitPage">Oui</button>
                 <button class="main" @click="saveAndQuit">Enregistrer
                 </button>
             </div>
@@ -1289,7 +1289,7 @@ div.modify-avatar {
 
     button {
       margin: 0 5px;
-      padding: 3px;
+      padding: 5px 3px;
     }
   }
 }
