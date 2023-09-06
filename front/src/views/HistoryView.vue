@@ -9,7 +9,7 @@
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
                         <img :src=trophy alt="Trophé"
-                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
+                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"/>
                         <span>{{ activity['labelActivity'] }}</span>
                     </li>
                 </ul>
