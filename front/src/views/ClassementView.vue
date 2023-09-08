@@ -53,7 +53,7 @@ const userCar = useCarStore();
 
 .classement {
   width: 90%;
-  margin: 20px auto 0 auto;
+  margin: 20px 10px ;
 }
 
 p {
@@ -62,7 +62,7 @@ p {
 
 
 div.button-classement {
-  width: 90%;
+  width: calc(90% - 65px);
   margin: -35px auto 0 auto;
   display: flex;
   justify-content: end;
