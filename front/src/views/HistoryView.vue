@@ -230,19 +230,19 @@ const allSections = ref([{
   id: -1,
   labelSection: 'Informaticien-ne',
   posX: 22,
-  posY: 30,
+  posY: 25,
 }, {
   section: 'Automatique',
   id: -1,
   labelSection: 'Automaticien-ne',
   posX: 35,
-  posY: 60,
+  posY: 45,
 }, {
   section: 'Horlogerie',
   id: -1,
   labelSection: 'Horloger-ère',
   posX: 77,
-  posY: 60,
+  posY: 45,
 }, {
   section: 'Electronique',
   id: -1,
@@ -254,31 +254,31 @@ const allSections = ref([{
   id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 47,
-  posY: 2,
+  posY: 2.5,
 }, {
   section: 'Laborantin',
   id: -1,
   labelSection: 'Laborantin-e',
   posX: 77,
-  posY: 82,
+  posY: 63,
 }, {
   section: 'Dessinateur',
   id: -1,
   labelSection: 'Dessinateur-trice',
   posX: 35,
-  posY: 8,
+  posY: 7.2,
 }, {
   section: 'Mécatronique',
   id: -1,
   labelSection: 'Mécatronicien-ne',
   posX: 20,
-  posY: 82,
+  posY: 63,
 }, {
   section: 'Industries4.0',
   id: -1,
   labelSection: 'Industrie 4.0',
   posX: 10,
-  posY: 14,
+  posY: 10.7,
 }]);
 
 function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
