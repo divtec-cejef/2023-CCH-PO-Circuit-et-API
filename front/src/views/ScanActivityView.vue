@@ -99,11 +99,11 @@ async function onDecode(value: string) {
 
   //Traitement de la réponse
   validateScan.value = true;
-  if (result == restful.ReturnCodes.Success) {
+  if (result.status === restful.ReturnCodes.Success) {
     addActivitySuccess.value = true;
     waitPopPupResult();
 
-  } else if (result == restful.ReturnCodes.Conflict) {
+  } else if (result.status === restful.ReturnCodes.Conflict) {
     addActivitySuccess.value = false;
     errorMessage.value = 'L\'activité à déjà été réalisé par cette voiture !';
 

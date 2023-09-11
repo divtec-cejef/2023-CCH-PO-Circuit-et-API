@@ -216,7 +216,8 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
 
     //Retour si erreur dans la requête
-    if (typeof v.json === 'string') {
+    if ('message' in v.json) {
+      error.value = v.json.message;
       return;
     }
 
@@ -236,7 +237,7 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
   });
 }
 
-// S'il y a quelque chose dans le localstorage avec on compare avec les données dans la db
+// S'il y a quelque chose dans le localstorage avec, on compare avec les données dans la db
 if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
   let avatarValue: Ref<Configs> = ref(config.value);
 
@@ -244,7 +245,8 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
 
     //Retour si erreur dans la requête
-    if (typeof v.json === 'string') {
+    if ('message' in v.json) {
+      error.value = v.json.message;
       return;
     }
 
@@ -308,8 +310,8 @@ async function connect(queryId: string, password: string) {
   //Récupération du Token avec le nom et mot de passe de l'URL
   let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
-  if (typeof valueToken.json === 'string') {
-    error.value = '* Code de la voiture incorrect';
+  if ('message' in valueToken.json) {
+    error.value = valueToken.json.message;
     return;
   }
 
