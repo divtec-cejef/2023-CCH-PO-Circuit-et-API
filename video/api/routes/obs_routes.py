@@ -1,12 +1,16 @@
 from api_voiture import api_patch_race_url as race_patch
 from fastapi import APIRouter
 from ftp import ftp_connector as ftp
+from dotenv import load_dotenv
 
 import glob
 import os
 import time
 import obs.obs_connection as obs
 import logging
+
+# initialisation du .env
+load_dotenv()
 
 # Intialisation du looger
 logger = logging.getLogger("uvicorn")
@@ -18,6 +22,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}}
 )
 
+# Initialisation des variables globales
 new_record = False
 
 
@@ -94,12 +99,16 @@ async def upload(id_race: int):
 
     # Upload du fichier
     try:
+        logger.info("Uploading file... ")
         ftp.upload_file(file_path, file_name)
-        link = "https://glautob.divtec.me/voiture/video/" + file_name
+        link = os.environ['VIDEO_URL'] + file_name
         logger.info("File uploaded")
         # link = dropbox.upload_file(file_path, file_name)
     except Exception as e:
         logger.error("Error while uploading file | " + str(e))
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+            logger.info("File removed")
         return {400: {"description": "Error while uploading file"}}
 
     time.sleep(.5)
