@@ -105,12 +105,12 @@ function getSectionAndActivities() {
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
         for (let sections of allSections.value) {
-          if (sections['section'] === section['label']) {
-            sections['id'] = section['id_section'];
+          if (sections.section === section.label) {
+            sections.id = section.idSection;
           }
         }
 
-        api.getAllActivitiesOneSection(section.id_section)
+        api.getAllActivitiesOneSection(section.idSection)
           .then((v) => {
             const { json: dataActivities, status: statusActivities } = v;
 
@@ -122,7 +122,7 @@ function getSectionAndActivities() {
             if (statusActivities.valueOf() === api.ReturnCodes.Success) {
               sectionActivities.value.push(
                 {
-                  idSection: section.id_section,
+                  idSection: section.idSection,
                   labelSection: section.label,
                   activities: [],
                 });
