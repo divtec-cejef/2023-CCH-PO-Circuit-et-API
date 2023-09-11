@@ -16,6 +16,7 @@
     footer {
       display: flex;
       flex-direction: row;
+
       p {
         width: fit-content;
         font-size: 15px;
@@ -88,8 +89,8 @@
     }
 
     div.icon {
-       border-width: 1px !important;
-     }
+      border-width: 1px !important;
+    }
   }
 }
 
@@ -131,7 +132,8 @@
         font-weight: bold;
         font-style: normal;
         color: var(--white);
-      };
+      }
+    ;
 
       span {
         display: block;
@@ -144,16 +146,13 @@
       img:nth-child(3) {
         display: block;
         margin-left: 5px;
-
       }
     }
-
-
   }
 };
 
 /* Tablette */
-@media screen and (min-width: 740px) {
+@media screen and (min-width: 800px) {
   #app {
 
     .table-list-time tr {
@@ -248,7 +247,6 @@
 
       div.video {
         width: 40%;
-        height: 235px;
         margin: 0;
       }
     }
@@ -267,7 +265,6 @@
           align-self: center;
         }
       }
-
 
 
       div.content-classement {
@@ -324,6 +321,7 @@
       display: flex;
       justify-content: center;
     }
+
     fieldset.color {
       justify-content: center !important;
       flex-wrap: wrap;
@@ -359,6 +357,14 @@
       ul.stats {
         grid-template-columns: 420px 420px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #app {
+    div.video {
+      width: 372px !important;
     }
   }
 }
@@ -419,8 +425,6 @@
     }
 
     h2 {
-      width: 470px;
-      align-self: start;
       margin-right: 10px;
       margin-top: 15px;
     }
@@ -460,7 +464,6 @@
         margin-top: 25px;
       }
     }
-
 
   }
 }
