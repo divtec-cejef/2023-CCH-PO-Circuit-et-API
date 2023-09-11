@@ -74,9 +74,14 @@ function getRealisedActivity() {
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
       const { json: dataActivity, status: status } = v;
+      if ('message' in dataActivity) {
+        hasError.value = true;
+        return;
+      }
+
       if (status.valueOf() === api.ReturnCodes.Success) {
         for (let activity of dataActivity) {
-          realisedActivity.value.push(activity['id_activity']);
+          realisedActivity.value.push(activity.idActivity);
         }
       } else {
         hasError.value = true;
@@ -89,8 +94,13 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v: { json: { label: string, id_section: number }[], status: number }) => {
+  api.getAllSections().then(v => {
     const { json: dataSections, status: statusActivities } = v;
+
+    if ('message' in dataSections) {
+      hasError.value = true;
+      return;
+    }
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
