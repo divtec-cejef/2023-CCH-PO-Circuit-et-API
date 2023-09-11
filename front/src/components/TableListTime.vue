@@ -8,12 +8,12 @@
                 <th><img :src=chronometer alt="Image de chronomètre"></th>
                 <th><img :src=video alt="Image de video"></th>
             </tr>
-            <tr v-for="(race, key) in props.carUser.sortListByOrderHour()" :key="key">
-                <td><NumberTime class="num-race" :number=props.carUser.getNumRace(race).valueOf().toString() color="var(--blue)"/></td>
+            <tr v-for="(race, key) in usercar.car.sortListByOrderHour()" :key="key">
+                <td><NumberTime class="num-race" :number=usercar.car.getNumRace(race).valueOf().toString() color="var(--blue)"/></td>
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><a href="">
+                <td><a :href="race.videoUrl">
                     <img class="link dark-invert" :src=link
                          alt="Icon de lien pour visionner la vidéo de la course">
                 </a>
@@ -24,17 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import type Car from '@/models/car';
 import video from '../assets/img/film.webp';
 import clock from '../assets/img/clock.webp';
 import speed from '../assets/img/speed.png';
 import chronometer from '../assets/img/chronometer.png';
 import link from '../assets/img/link.png';
 import NumberTime from '@/components/NumberTime.vue';
+import { useCarStore } from '@/stores/car';
 
-const props = defineProps<{
-  carUser: Car;
-}>();
+const usercar = useCarStore();
 
 </script>
 
