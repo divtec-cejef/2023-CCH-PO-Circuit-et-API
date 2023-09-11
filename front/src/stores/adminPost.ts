@@ -41,8 +41,8 @@ export const useAdminPostStore = defineStore('adminPost', () => {
    */
   async function getNameSectionById(idSection: number) {
     const { json: dataSection } = await api.getNameSectionById(idSection);
-    if (typeof dataSection === 'string') {
-      console.error(dataSection);
+    if ('message' in dataSection) {
+      console.error(dataSection.message);
       return;
     }
 
