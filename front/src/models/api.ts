@@ -53,14 +53,17 @@ export namespace restful {
    * Retourne les données d'une voiture en fonction de son ID
    * @param idCar Id de la voiture à retourner
    */
-  export async function getDataOneCarId(idCar: number | string) {
+  export async function getDataOneCarId(idCar: number | string): Promise<{
+    json: models.rawData.Error | models.parsedData.CarData;
+    status: number
+  }> {
     try {
       const routeCar = `${routeApi}car/${idCar}`;
       const res = await fetch(routeCar);
       const json: models.rawData.CarData = await res.json();
 
       if ('message' in json) {
-        return { message: json.message, status: res.status };
+        return { json, status: res.status };
       }
 
       const parsedJson: models.parsedData.CarData = {
@@ -72,11 +75,11 @@ export namespace restful {
       return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -314,7 +317,10 @@ export namespace restful {
    * @param queryId Identifiant d'url de la voiture
    * @param pwd Mot de passe de la voiture
    */
-  export async function authenticationQueryIdPwd(queryId: string, pwd: string) {
+  export async function authenticationQueryIdPwd(queryId: string, pwd: string): Promise<{
+    json: models.parsedData.AuthenticationToken | models.rawData.Error;
+    status: number
+  }> {
     //Construction des options de requête
     const requestOptions = {
       method: 'POST',
@@ -334,18 +340,23 @@ export namespace restful {
       const json: models.rawData.AuthenticationToken = await response.json();
 
       if ('message' in json) {
-        return { message: json.message, status: response.status };
+        return {
+          json: {
+            message: json.message
+          },
+          status: response.status
+        };
       }
 
       const parsedJson: models.parsedData.AuthenticationToken = json;
       return { json: parsedJson, status: response.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
