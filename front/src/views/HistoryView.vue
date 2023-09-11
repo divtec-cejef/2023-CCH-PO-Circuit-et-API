@@ -104,6 +104,11 @@ function getSectionAndActivities() {
           .then((v) => {
             const { json: dataActivities, status: statusActivities } = v;
 
+            if ('message' in dataActivities) {
+              hasError.value = true;
+              return;
+            }
+
             if (statusActivities.valueOf() === api.ReturnCodes.Success) {
               sectionActivities.value.push(
                 {
@@ -112,8 +117,6 @@ function getSectionAndActivities() {
                   activities: [],
                 });
               for (let activity of dataActivities) {
-                if (typeof activity === 'string')
-                  continue;
                 for (let section of sectionActivities.value) {
                   if (section?.idSection === activity.idSection) {
                     section?.activities.push(
