@@ -554,7 +554,7 @@ export namespace models {
      */
     export type WSRealisation = {
       count: number,
-      mostPopular: rawData.Activity & { count: number }
+      mostPopular: Exclude<rawData.Activity, models.rawData.Error> & { count: number }
     } | Error
 
     /**
