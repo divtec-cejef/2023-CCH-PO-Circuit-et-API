@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="table">
         <table class="table-list-time">
             <tr>
                 <th></th>
@@ -16,10 +16,18 @@
                 <td>{{ race.formatHour() }}</td>
                 <td>33</td>
                 <td>{{ race.formatTime(race.totalTime) }}</td>
-                <td><a :href="race.videoUrl" target="_blank">
-                    <img class="link dark-invert" :src=link
-                         alt="Icon de lien pour visionner la vidéo de la course">
-                </a>
+                <td class="video">
+                    <div>
+                        <a :href="race.videoUrl" target="_blank">
+                            <img class="link dark-invert" :src=link
+                                 alt="Icon de lien pour visionner la vidéo de la course">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
+                        </a>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -32,6 +40,7 @@ import clock from '../assets/img/clock.webp';
 import speed from '../assets/img/speed.png';
 import chronometer from '../assets/img/chronometer.png';
 import link from '../assets/img/link.png';
+import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 
@@ -40,7 +49,7 @@ const usercar = useCarStore();
 </script>
 
 <style scoped lang="scss">
-div {
+div.table {
   overflow-y: scroll;
   max-height: 400px;
   display: flex;
@@ -118,6 +127,19 @@ div {
       td:last-child,
       th:last-child {
         border-right: 0;
+      }
+    }
+
+    td.video {
+      padding: 0 !important;
+
+      div {
+        display: inline-block;
+        width: 20px;
+
+        &:nth-child(1) {
+              margin-right: 5px;
+        }
       }
     }
   }
