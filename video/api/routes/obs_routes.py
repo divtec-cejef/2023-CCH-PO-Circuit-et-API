@@ -1,11 +1,11 @@
 from api_voiture import api_patch_race_url as race_patch
 from fastapi import APIRouter
+from ftp import ftp_connector as ftp
 
 import glob
 import os
 import time
 import obs.obs_connection as obs
-import dropbox_utils.dropbox_utils as dropbox
 
 # Initialisation du router
 router = APIRouter(
@@ -14,9 +14,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}}
 )
 
-# Initialisation des variables globales
-record_started = False
-
+new_record = False
 
 @router.get("/start")
 async def start():
@@ -24,12 +22,12 @@ async def start():
     Démarre l'enregistrement de la vidéo
     :return: 200 si début de l'enregistrement, 400 si l'enregistrement est déjà en cours
     """
-    global record_started
-    if record_started:
+    try:
+        obs.start_record()
+        return {200: {"description": "Record started"}}
+    except Exception as e:
+        print(e)
         return {400: {"description": "Record already started"}}
-    obs.start_record()
-    record_started = True
-    return {200: {"description": "Record started"}}
 
 
 @router.get("/sector/{sector_num}")
@@ -53,14 +51,14 @@ async def finish():
     Arrête l'enregistrement de la vidéo
     :return: 200 si l'enregistrement a été arrêté, 400 si l'enregistrement n'a pas été démarré
     """
-    global record_started
-
-    if not record_started:
+    try:
+        obs.stop_record()
+        global new_record
+        new_record = True
+        return {200: {"description": "Record stopped. Don't forget to upload the video"}}
+    except Exception as e:
+        print(e)
         return {400: {"description": "Record not started"}}
-
-    obs.stop_record()
-
-    return {200: {"description": "Record stopped. Don't forget to upload the video"}}
 
 
 @router.get("/upload/{id_race}")
@@ -70,12 +68,14 @@ async def upload(id_race: int):
     :param id_race: Id de la course
     :return: 200 si la vidéo a été upload, 400 si la vidéo n'a pas été upload
     """
+    global new_record
+    if not new_record:
+        return {400: {"description": "No new record to upload"}}
 
     # Récupération des fichiers dans le dossier
     path = "C:\\Users\\Admin\\Videos\\"
     files = list(filter(os.path.isfile, glob.glob(path + "*")))
     files.sort(key=lambda x: os.path.getmtime(x))
-    print(files)
     time.sleep(1)
 
     # Renommage du fichier
@@ -85,7 +85,9 @@ async def upload(id_race: int):
 
     # Upload du fichier
     try:
-        link = dropbox.upload_file(file_path, file_name)
+        ftp.upload_file(file_path, file_name)
+        link = "https://glautob.divtec.me/voiture/video/" + file_name
+        # link = dropbox.upload_file(file_path, file_name)
     except Exception as e:
         print(e)
         return {400: {"description": "Error while uploading file"}}
@@ -93,12 +95,11 @@ async def upload(id_race: int):
     time.sleep(.5)
     os.remove(file_path)
 
-    global record_started
-    record_started = False
+    new_record = False
 
     # Ajout du lien dans la base de données
     try:
-        race_patch.patch_race_url(id_race, link)
+        await race_patch.patch_race_url(id_race, link)
         return {200: {"description": "File uploaded"}}
     except Exception as e:
         print(e)

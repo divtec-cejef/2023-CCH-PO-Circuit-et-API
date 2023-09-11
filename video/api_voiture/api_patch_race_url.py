@@ -1,30 +1,33 @@
 from api_voiture import api_token
+from dotenv import load_dotenv
 
 import os
 import requests
 
 
-def patch_race_url(*args):
+async def patch_race_url(*args):
     """
     Patch l'url de la vidéo de la course
     :param args: Id de la course, Url de la vidéo
     :return: none
     """
-    response = patch_api_url_race(*args)
+    response = await patch_api_url_race(*args)
     if response.status_code == 401:
-        response = patch_api_url_race(*args)
+        response = await patch_api_url_race(*args)
 
     if response.status_code != 200:
+        print(response.status_code, response.json())
         raise Exception("Cannot insert url")
 
 
-def patch_api_url_race(id_race: int, video_url: str):
+async def patch_api_url_race(id_race: int, video_url: str):
     """
     Patch l'url de la vidéo de la course
     :param id_race: Id de la course
     :param video_url: Url de la vidéo
     :return: none
     """
+    load_dotenv()
     return requests.patch(os.environ['API_URL'] + "race/",
-                          headers={"Authorization": "Bearer " + str(api_token.get_token())},
+                          headers={"Authorization": "Bearer " + str(await api_token.get_token())},
                           json={"id_race": id_race, "video_url": video_url})

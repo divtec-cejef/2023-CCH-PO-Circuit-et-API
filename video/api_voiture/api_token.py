@@ -37,9 +37,9 @@ async def get_token_from_race():
     :return: le token
     """
     load_dotenv()
-    response = requests.post(os.environ['API_URL'] + "authentication/car/",
-                            json={"section": os.environ['SECTION_NAME'],
-                                  "password": os.environ['SECTION_PASSWORD']})
+    response = requests.post(os.environ['API_URL'] + "authentication/section/",
+                             json={"section": os.environ['SECTION_NAME'],
+                                   "password": os.environ['SECTION_PASSWORD']})
 
     if response.status_code == 200:
         return response.json()['token']
