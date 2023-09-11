@@ -55,7 +55,9 @@
                     </div>
                 </div>
 
-                <div class="video"></div>
+                <div class="video">
+                    <video :src="car.listRace![BEST_TIME_INDEX].videoUrl" autoplay controls loop></video>
+                </div>
             </div>
 
             <div class="content-list-classement">
@@ -173,6 +175,7 @@ onUnmounted(() => socket.value?.destroy());
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/css/consts";
 div.best-race {
   display: flex;
   flex-direction: column;
@@ -300,8 +303,13 @@ div.best-race {
     max-width: 450px;
     height: 250px;
     margin: 0 auto;
-    background-color: var(--black);
     border-radius: 2px;
+
+    video {
+      width: 450px;
+        border-radius: 4px;
+        box-shadow: $default-shadow;
+    }
   }
 
   a {
