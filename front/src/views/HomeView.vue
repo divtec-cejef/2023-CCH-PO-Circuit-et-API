@@ -21,7 +21,12 @@
             </form>
         </div>
 
-        <ul class="stats" v-if="dataLoaded">
+        <div v-if="statsError.ranking !== undefined || statsError.activityRealisation !== undefined">
+            <h2>Une erreur s'est produite!</h2>
+            <p>{{ statsError.ranking }}</p>
+            <p>{{ statsError.activityRealisation }}</p>
+        </div>
+        <ul class="stats" v-else-if="dataLoaded">
             <li>
                 <Roller
                         :duration="1000"
@@ -112,6 +117,11 @@ const preferredActivity = ref<string>();
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
 
+const statsError = ref<{
+  ranking: string | undefined,
+  activityRealisation: string | undefined
+}>({ activityRealisation: undefined, ranking: undefined });
+
 const dataLoaded = computed(() =>
   racesRan.value !== undefined &&
   activitiesRealisations.value !== undefined &&
@@ -126,8 +136,8 @@ if (localStorage.getItem('userCarId')) {
 
 const enteredQueryId = () => {
   restful.getDataOneCarQueryId(userQueryId.value ?? '').then((v) => {
-    if (typeof v.json === 'string') {
-      queryIdError.value = v.json;
+    if ('message' in v.json) {
+      queryIdError.value = v.json.message;
       return;
     }
     if (v.status === 404) {
@@ -140,11 +150,23 @@ const enteredQueryId = () => {
 
 socketio
   .onRankingReceived(data => {
+    statsError.value.ranking = undefined;
+    if('message' in data) {
+      statsError.value.ranking = data.message;
+      return;
+    }
+
     racesRan.value = data.count;
     const fastestTime = data.fastest.total_time;
     fastestRace.value = formatTime(new Date(fastestTime));
   })
   .onActivityRealisation(data => {
+    statsError.value.activityRealisation = undefined;
+    if('message' in data) {
+      statsError.value.activityRealisation = data.message;
+      return;
+    }
+
     activitiesRealisations.value = data.count;
     preferredActivity.value = data.mostPopular.label;
   });
