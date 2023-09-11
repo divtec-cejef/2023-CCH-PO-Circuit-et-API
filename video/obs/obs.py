@@ -1,3 +1,5 @@
+import time
+
 import obsws_python as obs
 
 
@@ -45,6 +47,7 @@ class Obs:
         if not self.record_started():
             raise Exception("Record not started")
         self.cl.stop_record()
+        time.sleep(.5)
         self.change_sector(1)
 
     def get_possible_scene_names(self):
