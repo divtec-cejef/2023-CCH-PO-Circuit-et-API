@@ -15,23 +15,30 @@ export namespace restful {
     Generic = 400
   }
 
+  declare type ModelResultHandler<R> = Promise<{ json: models.rawData.Error | R, status: number }>
+
   export const ERROR_MESSAGE = 'Error';
 
   /**
    * Retourne les données d'une voiture en fonction de son ID
    * @param queryId Query id de la voiture à retourner
    */
-  export async function getDataOneCarQueryId(queryId: number | string) {
+  export async function getDataOneCarQueryId(queryId: number | string): ModelResultHandler<models.parsedData.CarData> {
     try {
       const routeCar = `${routeApi}car/query-id/${queryId}`;
       const res = await fetch(routeCar);
       const json: models.rawData.CarData = await res.json();
 
       if ('message' in json) {
-        return { message: json.message, status: res.status };
+        return {
+          json: {
+            message: json.message
+          },
+          status: res.status
+        };
       }
 
-      const parsedJson: models.parsedData.CarData = {
+      const parsedJson = {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
@@ -40,11 +47,11 @@ export namespace restful {
       return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -53,10 +60,7 @@ export namespace restful {
    * Retourne les données d'une voiture en fonction de son ID
    * @param idCar Id de la voiture à retourner
    */
-  export async function getDataOneCarId(idCar: number | string): Promise<{
-    json: models.rawData.Error | models.parsedData.CarData;
-    status: number
-  }> {
+  export async function getDataOneCarId(idCar: number | string): ModelResultHandler<models.parsedData.CarData> {
     try {
       const routeCar = `${routeApi}car/${idCar}`;
       const res = await fetch(routeCar);
@@ -66,7 +70,7 @@ export namespace restful {
         return { json, status: res.status };
       }
 
-      const parsedJson: models.parsedData.CarData = {
+      const parsedJson = {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
@@ -88,17 +92,22 @@ export namespace restful {
    * Obtient toutes les manches d'une voiture passée en paramètre
    * @param idCar Id de la voiture
    */
-  export async function getAllRaceOneCar(idCar: number | string) {
+  export async function getAllRaceOneCar(idCar: number | string): ModelResultHandler<models.parsedData.RacesData> {
     try {
       const routeRaceCar = `${routeApi}race/${idCar}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.CarRaces = await res.json();
 
       if ('message' in json) {
-        return { message: json.message, status: res.status };
+        return {
+          json: {
+            message: json.message
+          },
+          status: res.status
+        };
       }
 
-      const parsedJson: models.parsedData.RacesData = {
+      const parsedJson = {
         rank: json.rank,
         races: json.races.map(value => ({
           idCar: value.id_car,
@@ -114,11 +123,11 @@ export namespace restful {
       return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -127,28 +136,33 @@ export namespace restful {
    * Obtient le nom d'une section en fonction de son id
    * @param idSection Id de la section
    */
-  export async function getNameSectionById(idSection: number | string) {
+  export async function getNameSectionById(idSection: number | string): ModelResultHandler<models.parsedData.SectionName> {
     try {
       const routeRaceCar = `${routeApi}section/${idSection}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.SectionName = await res.json();
 
       if ('message' in json) {
-        return { message: json.message, status: res.status };
+        return {
+          json: {
+            message: json.message
+          },
+          status: res.status
+        };
       }
 
-      const parsedJson: models.parsedData.SectionName = {
+      const parsedJson = {
         idSection: json.id_section,
         label: json.label
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -157,10 +171,7 @@ export namespace restful {
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivitiesOneSection(idSection: number | string): Promise<{
-    json: models.rawData.Error | models.parsedData.SectionActivities,
-    status: number
-  }> {
+  export async function getAllActivitiesOneSection(idSection: number | string): ModelResultHandler<models.parsedData.SectionActivities> {
     try {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
@@ -170,7 +181,7 @@ export namespace restful {
         return { json, status: res.status };
       }
 
-      const parsedJson: models.parsedData.SectionActivities = json.map(value => ({
+      const parsedJson = json.map(value => ({
         idActivity: value.id_activity,
         idSection: value.id_section,
         label: value.label
@@ -192,28 +203,49 @@ export namespace restful {
   /**
    * Obtient toutes les sections
    */
-  export async function getAllSections() {
+  export async function getAllSections(): ModelResultHandler<
+    Exclude<models.rawData.SectionName, models.rawData.Error>[]
+    > {
     try {
-      const routeRaceCar = `${routeApi}section/`;
-      const res = await fetch(routeRaceCar);
-      return { json: (await res.json()), status: res.status };
+      const res = await fetch(`${routeApi}section/`);
+      const json: Exclude<models.rawData.SectionName, models.rawData.Error>[] | models.rawData.Error = await res.json();
+      return { json, status: res.status };
     } catch (e) {
-      return { json: ERROR_MESSAGE, status: ReturnCodes.BadGateway };
+      if (typeof e === 'string') {
+        return { json: { message: e }, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
+      } else {
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
+      }
     }
   }
 
-  export async function getActivityOneCar(idCar: number | string) {
+  export async function getActivityOneCar(idCar: number | string): ModelResultHandler<models.parsedData.Activities> {
     try {
       const routeRaceCar = `${routeApi}activity/by-car/${idCar}`;
       const res = await fetch(routeRaceCar);
-      return { json: (await res.json()), status: res.status };
+      const json: models.rawData.Activities = await res.json();
+
+      if ('message' in json) {
+        return { json: { message: json.message }, status: res.status };
+      }
+
+      const parsedJson = json.map(v => ({
+        idActivity: v.id_activity,
+        labelActivity: v.label_activity,
+        dateTime: new Date(v.date_time),
+        idSection: v.id_section,
+        labelSection: v.label_section
+      }));
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -223,10 +255,7 @@ export namespace restful {
    * @param sectionName Nom de la section
    * @param pwd Mot de passe de la section
    */
-  export async function authenticationSectionPwd(sectionName: string, pwd: string): Promise<{
-    json: models.parsedData.AuthenticationToken | models.rawData.Error;
-    status: number
-  }> {
+  export async function authenticationSectionPwd(sectionName: string, pwd: string): ModelResultHandler<models.parsedData.AuthenticationToken> {
 
     //Construction des options de requête
     const requestOptions = {
@@ -244,13 +273,7 @@ export namespace restful {
     try {
       const response = await fetch(`${routeApi}authentication/section`, requestOptions);
       const json: models.rawData.AuthenticationToken = await response.json();
-
-      if ('message' in json) {
-        return { json, status: response.status };
-      }
-
-      const parsedJson: models.parsedData.AuthenticationToken = json;
-      return { json: parsedJson, status: response.status };
+      return { json, status: response.status };
     } catch (e) {
       if (typeof e === 'string') {
         return { json: { message: e }, status: ReturnCodes.Generic };
@@ -272,7 +295,7 @@ export namespace restful {
    * @param queryId Query id de la voiture
    * @param token Token d'identification
    */
-  export async function addRealisationCar(idActivity: number, queryId: number | string, token: string) {
+  export async function addRealisationCar(idActivity: number, queryId: number | string, token: string): ModelResultHandler<null> {
 
     // POST request using fetch with async/await
     const requestOptions = {
@@ -297,17 +320,17 @@ export namespace restful {
       const json = await response.json();
 
       if ('message' in json) {
-        return { message: json.message, status: response.status };
+        return { json: { message: json.message }, status: response.status };
       }
 
-      return response.status;
+      return { json: null, status: response.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
       }
     }
   }
@@ -317,10 +340,7 @@ export namespace restful {
    * @param queryId Identifiant d'url de la voiture
    * @param pwd Mot de passe de la voiture
    */
-  export async function authenticationQueryIdPwd(queryId: string, pwd: string): Promise<{
-    json: models.parsedData.AuthenticationToken | models.rawData.Error;
-    status: number
-  }> {
+  export async function authenticationQueryIdPwd(queryId: string, pwd: string): ModelResultHandler<models.parsedData.AuthenticationToken> {
     //Construction des options de requête
     const requestOptions = {
       method: 'POST',
@@ -365,7 +385,7 @@ export namespace restful {
    * Lance une requête PATCH pour modifier une voiture
    * @param userCar la voiture de l'utilisateur, contenant le token
    */
-  export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData) {
+  export async function updateCar(userCar: models.parsedData.AuthenticatedUpdateCarData): ModelResultHandler<models.parsedData.CarData> {
     // Teste les propriétés de la voiture est défini
     if (!userCar.car.idCar || !userCar.car.pseudo || !userCar.car.avatar || !userCar.token) {
       throw new Error('Property is undefined');
@@ -387,26 +407,41 @@ export namespace restful {
       })
     };
 
-    // Envoie la requête
-    const response = await fetch(`${routeApi}car`, requestOptions);
+    try {
+      // Envoie la requête
+      const response = await fetch(`${routeApi}car`, requestOptions);
 
-    if (!(response.status === api.ReturnCodes.Success)) {
-      throw new Error('Unauthorized');
+      if (!(response.status === api.ReturnCodes.Success)) {
+        return { json: { message: 'Unauthorized.' }, status: response.status };
+      }
+
+      const json: models.rawData.CarData = await response.json();
+
+      if ('message' in json) {
+        return {
+          json: {
+            message: json.message
+          },
+          status: response.status
+        };
+      }
+
+      const parsedJson = {
+        idCar: json.id_car,
+        queryId: json.query_id,
+        pseudo: json.pseudo,
+        avatar: json.avatar
+      };
+      return { json: parsedJson, status: response.status };
+    } catch (e) {
+      if (typeof e === 'string') {
+        return { json: { message: e }, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
+      } else {
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
+      }
     }
-
-    const json: models.rawData.CarData = await response.json();
-
-    if ('message' in json) {
-      throw new Error(json.message);
-    }
-
-    const parsedJson: models.parsedData.CarData = {
-      idCar: json.id_car,
-      queryId: json.query_id,
-      pseudo: json.pseudo,
-      avatar: json.avatar
-    };
-    return { json: parsedJson, status: response.status };
   }
 }
 
@@ -522,9 +557,18 @@ export namespace models {
       query_id: string,
       pseudo: string,
       avatar: Avatar.Avatar
-    } | {
-      message: string;
-    }
+    } | Error
+
+    /**
+     * Retourné par /activity/
+     */
+    export type Activities = {
+      id_activity: number;
+      label_activity: string;
+      date_time: Date | string;
+      id_section: number;
+      label_section: string;
+    }[] | Error
 
     /**
      * Retourné par /race/{idcar}
@@ -631,6 +675,17 @@ export namespace models {
       idActivity: number,
       label: string,
       idSection: number
+    }[]
+
+    /**
+     * Représente une liste d'activités
+     */
+    export type Activities = {
+      idActivity: number;
+      labelActivity: string;
+      dateTime: Date | string;
+      idSection: number;
+      labelSection: string;
     }[]
 
     /**
