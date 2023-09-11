@@ -217,7 +217,10 @@ export namespace restful {
    * @param sectionName Nom de la section
    * @param pwd Mot de passe de la section
    */
-  export async function authenticationSectionPwd(sectionName: string, pwd: string) {
+  export async function authenticationSectionPwd(sectionName: string, pwd: string): Promise<{
+    json: models.parsedData.AuthenticationToken | models.rawData.Error;
+    status: number
+  }> {
 
     //Construction des options de requête
     const requestOptions = {
@@ -237,18 +240,22 @@ export namespace restful {
       const json: models.rawData.AuthenticationToken = await response.json();
 
       if ('message' in json) {
-        return { message: json.message, status: response.status };
+        return { json, status: response.status };
       }
 
       const parsedJson: models.parsedData.AuthenticationToken = json;
       return { json: parsedJson, status: response.status };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: e, status: ReturnCodes.Generic };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return {
+          json: {
+            message: JSON.stringify(e)
+          }, status: ReturnCodes.Generic
+        };
       }
     }
   }
