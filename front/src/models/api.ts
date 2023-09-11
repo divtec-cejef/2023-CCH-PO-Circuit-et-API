@@ -154,14 +154,17 @@ export namespace restful {
    * Obtient toutes les activités présente dans une section
    * @param idSection Id de la section
    */
-  export async function getAllActivitiesOneSection(idSection: number | string) {
+  export async function getAllActivitiesOneSection(idSection: number | string): Promise<{
+    json: models.rawData.Error | models.parsedData.SectionActivities,
+    status: number
+  }> {
     try {
       const routeRaceCar = `${routeApi}activity/by-section/${idSection}`;
       const res = await fetch(routeRaceCar);
       const json: models.rawData.SectionActivities = await res.json();
 
       if ('message' in json) {
-        return { message: json.message, status: res.status };
+        return { json, status: res.status };
       }
 
       const parsedJson: models.parsedData.SectionActivities = json.map(value => ({
@@ -174,11 +177,11 @@ export namespace restful {
       };
     } catch (e) {
       if (typeof e === 'string') {
-        return { json: e, status: ReturnCodes.Generic };
+        return { json: { message: e }, status: ReturnCodes.Generic as number };
       } else if (e instanceof Error) {
-        return { json: e.message, status: ReturnCodes.Generic };
+        return { json: { message: e.message }, status: ReturnCodes.Generic as number };
       } else {
-        return { json: JSON.stringify(e), status: ReturnCodes.Generic };
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic as number };
       }
     }
   }
