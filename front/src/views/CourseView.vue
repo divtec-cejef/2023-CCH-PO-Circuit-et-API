@@ -1,6 +1,6 @@
 <template>
     <template v-if="socketConnected">
-        <div v-if="car.listRace!.length > 0">
+        <div v-if="car.listRace!.length > 0" class="content">
             <h1>Course</h1>
             <h2>Meilleure manche</h2>
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
@@ -56,7 +56,17 @@
                 </div>
 
                 <div class="video">
-                    <video :src="car.listRace![BEST_TIME_INDEX].videoUrl" autoplay controls loop></video>
+                    <video v-if="car.listRace![BEST_TIME_INDEX].videoUrl?.length > 0"
+                           :src="car.listRace![BEST_TIME_INDEX].videoUrl"
+                           autoplay
+                           controls
+                           loop>
+                    </video>
+                    <div v-else>
+                        <p>Ta vidéo n'est pas encore disponible !</p>
+                        <button @click="router.go(0)">
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -85,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div v-else-if="hasCarRaces">
+        <div v-else-if="hasCarRaces" class="content">
             <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
         </div>
     </template>
@@ -176,6 +186,7 @@ onUnmounted(() => socket.value?.destroy());
 
 <style scoped lang="scss">
 @import "src/assets/css/consts";
+
 div.best-race {
   display: flex;
   flex-direction: column;
@@ -188,6 +199,7 @@ div.best-race {
     justify-content: space-between;
     align-items: center;
     min-width: 280px;
+    max-width: 297px;
     width: 80%;
     margin: auto;
 
@@ -246,6 +258,8 @@ div.best-race {
     display: flex;
     justify-content: space-between;
     min-width: 280px;
+    max-width: 297px;
+
     width: 80%;
     margin: auto;
 
@@ -301,14 +315,41 @@ div.best-race {
   div.video {
     width: 100%;
     max-width: 450px;
-    height: 250px;
+    height: 210px;
     margin: 0 auto;
     border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    video {
-      width: 450px;
-        border-radius: 4px;
-        box-shadow: $default-shadow;
+    > * {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      box-shadow: $default-shadow;
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      button {
+        margin-top: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 22px;
+        background-image: url("../assets/img/reload.png");
+        background-color: var(--gray);
+        width: 50px;
+        height: 30px;
+        border: 1px solid var(--gray);
+
+        &:hover {
+          width: 53px
+        }
+      }
     }
   }
 
@@ -325,6 +366,7 @@ div.best-race {
     font-style: italic;
     align-items: center;
     min-width: 280px;
+    max-width: 297px;
     padding: 0 5px;
     width: 80%;
 
