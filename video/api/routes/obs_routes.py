@@ -6,6 +6,10 @@ import glob
 import os
 import time
 import obs.obs_connection as obs
+import logging
+
+# Intialisation du looger
+logger = logging.getLogger("uvicorn")
 
 # Initialisation du router
 router = APIRouter(
@@ -16,6 +20,7 @@ router = APIRouter(
 
 new_record = False
 
+
 @router.get("/start")
 async def start():
     """
@@ -24,9 +29,10 @@ async def start():
     """
     try:
         obs.start_record()
+        logger.info("Record started")
         return {200: {"description": "Record started"}}
     except Exception as e:
-        print(e)
+        logger.error("Record already started | " + str(e))
         return {400: {"description": "Record already started"}}
 
 
@@ -39,9 +45,10 @@ async def sector(sector_num: int):
     """
     try:
         obs.change_sector(sector_num)
+        logger.info("Changed sector to " + str(sector_num))
         return {200: {"description": sector_num}}
     except Exception as e:
-        print(e)
+        logger.error("Sector num invalid | " + str(e))
         return {400: {"description": str(sector_num) + " is not a valid sector"}}
 
 
@@ -55,9 +62,10 @@ async def finish():
         obs.stop_record()
         global new_record
         new_record = True
+        logger.info("Record stopped")
         return {200: {"description": "Record stopped. Don't forget to upload the video"}}
     except Exception as e:
-        print(e)
+        logger.error("Record not started | " + str(e))
         return {400: {"description": "Record not started"}}
 
 
@@ -82,27 +90,31 @@ async def upload(id_race: int):
     file_name = f"{id_race}.mp4"
     file_path = path + file_name
     os.rename(files[-1], file_path)
+    logger.info("File renamed to " + file_name)
 
     # Upload du fichier
     try:
         ftp.upload_file(file_path, file_name)
         link = "https://glautob.divtec.me/voiture/video/" + file_name
+        logger.info("File uploaded")
         # link = dropbox.upload_file(file_path, file_name)
     except Exception as e:
-        print(e)
+        logger.error("Error while uploading file | " + str(e))
         return {400: {"description": "Error while uploading file"}}
 
     time.sleep(.5)
     os.remove(file_path)
+    logger.info("File removed")
 
     new_record = False
 
     # Ajout du lien dans la base de données
     try:
         await race_patch.patch_race_url(id_race, link)
+        logger.info("Link added to database")
         return {200: {"description": "File uploaded"}}
     except Exception as e:
-        print(e)
+        logger.error("Error while adding link to database | " + str(e))
         return {400: {"description": "Error while adding link to database"}}
 
 
