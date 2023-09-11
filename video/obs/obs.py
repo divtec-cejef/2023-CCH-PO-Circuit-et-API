@@ -19,6 +19,8 @@ class Obs:
         Démarre l'enregistrement
         :return: none
         """
+        if self.record_started():
+            raise Exception("Record already started")
         self.change_sector(1)
         self.cl.start_record()
 
@@ -40,10 +42,20 @@ class Obs:
         Arrête l'enregistrement
         :return: none
         """
+        if not self.record_started():
+            raise Exception("Record not started")
         self.cl.stop_record()
+        self.change_sector(1)
 
     def get_possible_scene_names(self):
         """
         :return: les noms des scènes OBS
         """
         return [scene['sceneName'] for scene in self.scenes]
+
+    def record_started(self):
+        """
+        :return: True si un enregistrement est lancé, false sinon
+        """
+        status = self.cl.get_record_status()
+        return status.output_active
