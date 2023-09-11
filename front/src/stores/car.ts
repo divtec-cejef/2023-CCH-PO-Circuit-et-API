@@ -17,7 +17,7 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
-    if (typeof dataUserCar === 'string') {
+    if ('message' in dataUserCar) {
       console.error(dataUserCar);
       return;
     }
@@ -47,8 +47,8 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
-    if (typeof dataUserCar === 'string') {
-      console.error(dataUserCar);
+    if ('message' in dataUserCar) {
+      console.error(dataUserCar.message);
       return;
     }
 
@@ -76,6 +76,10 @@ export const useCarStore = defineStore('car', () => {
     const socket = new WebsocketConnection(car.value.idCar);
 
     socket.onUserRace(async (races) => {
+      if ('message' in races) {
+        console.error(races.message);
+        return;
+      }
       //Récupération du rang de la voiture
       car.value.rank = races.rank;
 
