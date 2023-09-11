@@ -59,7 +59,6 @@ div.button-checked {
     height: 12px;
     margin-left: 5px;
     margin-top: 2px;
-    transition: all 1s ease-in-out;
   }
 }
 
@@ -71,22 +70,10 @@ input {
 div.drop-down-content {
   display: flex;
   justify-content: center;
-  //animation: height-growth 0.3s ease-in-out reverse forwards;
 }
 
 div.hide-drop-down {
-  animation: height-growth 1s ease-in-out forwards;
+  display: none;
 }
 
-@keyframes height-growth {
-  /* You could think of as "step 1" */
-    to {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    from {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
 </style>
