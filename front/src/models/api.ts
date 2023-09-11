@@ -204,12 +204,20 @@ export namespace restful {
    * Obtient toutes les sections
    */
   export async function getAllSections(): ModelResultHandler<
-    Exclude<models.rawData.SectionName, models.rawData.Error>[]
+    Exclude<models.parsedData.SectionName, models.rawData.Error>[]
     > {
     try {
       const res = await fetch(`${routeApi}section/`);
       const json: Exclude<models.rawData.SectionName, models.rawData.Error>[] | models.rawData.Error = await res.json();
-      return { json, status: res.status };
+      if ('message' in json) {
+        return { json, status: res.status };
+      }
+
+      const parsedJson = json.map(value => ({
+        idSection: value.id_section,
+        label: value.label
+      }));
+      return { json: parsedJson, status: res.status };
     } catch (e) {
       if (typeof e === 'string') {
         return { json: { message: e }, status: ReturnCodes.Generic };
