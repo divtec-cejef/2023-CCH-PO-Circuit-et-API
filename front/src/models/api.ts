@@ -558,7 +558,7 @@ export namespace models {
         avatar: Avatar.Avatar,
       },
       total_time: Date | string
-    } | Error
+    }
 
     /**
      * Représente le classement des courses

@@ -1,5 +1,9 @@
 <template>
-    <div v-if="!hasLoaded" class="loading-ranking">
+    <div v-if="errorMessage">
+        <h1>Une erreur s'est produite!</h1>
+        <span>{{errorMessage}}</span>
+    </div>
+    <div v-else-if="!hasLoaded" class="loading-ranking">
         <SpinLoading></SpinLoading>
     </div>
     <template v-else-if="listRace?.length === 0">
@@ -9,9 +13,9 @@
         <ClassementElement
                 v-for="(race, key) in listRace"
                 :key="key"
-                :avatar="race.car.avatar"
+                :avatar="race.car?.avatar || '<indisponible>'"
                 :rank="key + 1"
-                :pseudo="race.car.pseudo"
+                :pseudo="race.car?.pseudo || '<indisponible>'"
                 :time="new Date(race.total_time)"/>
     </template>
 </template>
@@ -24,13 +28,19 @@ import { ref, onUnmounted } from 'vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 
 const hasLoaded = ref(false);
-const listRace = ref<models.rawData.WsRaceData[]>();
+const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
+const errorMessage = ref<string>();
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
+  if('message' in data) {
+    errorMessage.value = data.message;
+    return;
+  }
+
   listRace.value = data.races;
   hasLoaded.value = true;
 });
