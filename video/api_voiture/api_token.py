@@ -2,6 +2,10 @@ from dotenv import load_dotenv
 
 import requests
 import os
+import logging
+
+# Intialisation du looger
+logger = logging.getLogger("uvicorn")
 
 # Initialisation des variables globales
 token = ""
@@ -17,7 +21,7 @@ async def get_token():
         try:
             token = await get_token_from_race()
         except Exception as e:
-            print(e)
+            logger.error("Error while getting token | " + str(e))
     return token
 
 

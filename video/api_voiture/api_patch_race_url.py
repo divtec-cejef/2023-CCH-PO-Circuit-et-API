@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 
 import os
 import requests
+import logging
+
+# Intialisation du looger
+logger = logging.getLogger("uvicorn")
 
 
 async def patch_race_url(*args):
@@ -16,7 +20,7 @@ async def patch_race_url(*args):
         response = await patch_api_url_race(*args)
 
     if response.status_code != 200:
-        print(response.status_code, response.json())
+        logger.error("Couldn't insert url | " + response.status_code + " : " + response.json())
         raise Exception("Cannot insert url")
 
 
