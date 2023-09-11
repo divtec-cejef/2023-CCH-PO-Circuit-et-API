@@ -94,10 +94,21 @@ export const route: RouteHandler<null, unknown, realisedActivityRequest> = async
     }
   }
 
-  (res.app.get('socketio') as Server).emit('updatedActivities', {
-    count: await getRealisationCount(),
-    mostPopular: await mostRealisedActivity()
-  });
+  const socket: Server = req.app.get('socketio');
+  try {
+    socket.emit('updatedActivities', {
+      count: await getRealisationCount(),
+      mostPopular: await mostRealisedActivity()
+    });
+  } catch (e) {
+    if (typeof e === 'string') {
+      socket.emit('updatedUserRaces', { message: e });
+    } else if (e instanceof Error) {
+      socket.emit('updatedUserRaces', { message: e.message });
+    } else {
+      socket.emit('updatedUserRaces', { message: 'internal server error' });
+    }
+  }
 };
 
 export default route;

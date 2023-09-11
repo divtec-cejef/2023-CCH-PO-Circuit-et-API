@@ -120,17 +120,38 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
   }
 
   // Envoi les données de classement aux clients
-  (res.app.get('socketio') as Server).emit('updatedRaces', {
-    races: await getShortestRaces(),
-    count: await getNumberRaces(),
-    fastest: await getShortestRace()
-  });
-  const sockets = await (res.app.get('socketio') as Server).fetchSockets();
-  for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
-    s1.emit('updatedUserRaces', {
-      races: await getRacesByCar(s1.data.carId),
-      rank: await getRankByCar(s1.data.carId)
+  const socketio: Server = res.app.get('socketio');
+  try {
+    socketio.emit('updatedRaces', {
+      races: await getShortestRaces(),
+      count: await getNumberRaces(),
+      fastest: await getShortestRace()
     });
+  } catch (e) {
+    if (typeof e === 'string') {
+      socketio.emit('updatedUserRaces', { message: e });
+    } else if (e instanceof Error) {
+      socketio.emit('updatedUserRaces', { message: e.message });
+    } else {
+      socketio.emit('updatedUserRaces', { message: 'internal server error' });
+    }
+  }
+  const sockets = await socketio.fetchSockets();
+  for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
+    try {
+      s1.emit('updatedUserRaces', {
+        races: await getRacesByCar(s1.data.carId),
+        rank: await getRankByCar(s1.data.carId)
+      });
+    } catch (e) {
+      if (typeof e === 'string') {
+        s1.emit('updatedUserRaces', { message: e });
+      } else if (e instanceof Error) {
+        s1.emit('updatedUserRaces', { message: e.message });
+      } else {
+        s1.emit('updatedUserRaces', { message: 'internal server error' });
+      }
+    }
   }
 };
 
