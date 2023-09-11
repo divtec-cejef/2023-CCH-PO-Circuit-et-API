@@ -61,12 +61,12 @@
             <div class="content-list-classement">
                 <DropDown v-if="car.listRace!.length > 1" class="drop-down-course"
                           name="Toutes les courses">
-                    <TableListTime :car-user="car"/>
+                    <TableListTime/>
                 </DropDown>
 
                 <div class="table-large-content">
                     <h2>Liste de courses</h2>
-                    <TableListTime :car-user="car"/>
+                    <TableListTime/>
                 </div>
 
                 <div class="content-classement">

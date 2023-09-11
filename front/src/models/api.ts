@@ -75,7 +75,8 @@ export namespace restful {
           sector1: new Date(value.sector1),
           raceStart: new Date(value.race_start),
           raceFinish: new Date(value.race_finish),
-          totalTime: new Date(value.total_time)
+          totalTime: new Date(value.total_time),
+          videoUrl: value.video_url
         }))
       };
       return { json: parsedJson, status: res.status };
@@ -405,6 +406,7 @@ export namespace models {
         race_start: string;
         sector1: string;
         race_finish: string;
+        video_url: string;
         id_car: number;
         total_time: string;
       }[],
@@ -476,6 +478,7 @@ export namespace models {
         raceStart: Date,
         raceFinish: Date,
         idCar: number,
+        videoUrl: string,
         totalTime: Date,
         sector1: Date
       }[],
