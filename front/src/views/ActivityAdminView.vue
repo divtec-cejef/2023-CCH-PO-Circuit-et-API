@@ -53,7 +53,7 @@ if (idSectionUrl != 0 && mdpUrl != '') {
     //Récupération du Token avec le nom et mot de passe de l'URL
     let valueToken = await restful.authenticationSectionPwd(v, mdpUrl);
 
-    if (typeof valueToken.json === 'string') {
+    if ('message' in valueToken.json) {
       return;
     }
 
