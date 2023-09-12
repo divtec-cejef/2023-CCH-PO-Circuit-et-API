@@ -13,6 +13,12 @@ export interface RaceToCreate {
   id_car: number;
 }
 
+export type Activity = {
+  id_activity: number,
+  label: string
+  id_section: number
+}
+
 export interface RaceToCreateWithQueryId {
   race_start: Date;
   sector1: Date;
