@@ -204,7 +204,7 @@ const frontLibs: {
   name: 'url-parse',
   author: 'unshiftio'
 }, {
-  link: 'vue-qrcode-reader.netlify.app',
+  link: 'https://vue-qrcode-reader.netlify.app',
   name: 'vue-qrcode-reader',
   author: 'Niklas Gruhn'
 }, {
@@ -268,6 +268,7 @@ backLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/consts.scss";
 p {
   margin-bottom: 1em;
 }
@@ -296,7 +297,7 @@ ul {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 0 10px 10px lightgray;
+      box-shadow: $default-shadow;
 
       h3 {
         margin-top: 0;
