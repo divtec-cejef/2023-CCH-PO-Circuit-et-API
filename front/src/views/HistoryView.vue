@@ -9,7 +9,7 @@
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
                         <img :src=trophy alt="Trophé"
-                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
+                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"/>
                         <span>{{ activity['labelActivity'] }}</span>
                     </li>
                 </ul>
@@ -243,55 +243,55 @@ const allSections = ref([{
   id: -1,
   labelSection: 'Informaticien-ne',
   posX: 22,
-  posY: 30,
+  posY: 25,
 }, {
   section: 'Automatique',
   id: -1,
   labelSection: 'Automaticien-ne',
-  posX: 45,
-  posY: 65,
+  posX: 35,
+  posY: 45,
 }, {
   section: 'Horlogerie',
   id: -1,
   labelSection: 'Horloger-ère',
   posX: 77,
-  posY: 65,
+  posY: 45,
 }, {
   section: 'Electronique',
   id: -1,
   labelSection: 'Electronicien-ne',
   posX: 73,
-  posY: 17,
+  posY: 8,
 }, {
   section: 'Micromécanique',
   id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 47,
-  posY: 8,
+  posY: 2.5,
 }, {
   section: 'Laborantin',
   id: -1,
   labelSection: 'Laborantin-e',
   posX: 77,
-  posY: 79,
+  posY: 63,
 }, {
   section: 'Dessinateur',
   id: -1,
   labelSection: 'Dessinateur-trice',
   posX: 35,
-  posY: 15,
+  posY: 7.2,
 }, {
   section: 'Mécatronique',
   id: -1,
   labelSection: 'Mécatronicien-ne',
   posX: 20,
-  posY: 80,
+  posY: 63,
 }, {
-  section: 'Industries2.0',
+  section: 'Industries4.0',
   id: -1,
-  labelSection: 'Industrie 2.0',
-  posX: 15,
-  posY: 20,
+  labelSection: 'Industrie 4.0',
+  posX: 10,
+  posY: 10.7,
 }]);
 
 function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
