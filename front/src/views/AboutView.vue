@@ -1,31 +1,6 @@
 <template>
     <div>
         <h1>À propos</h1>
-        <p>Dans le cadre des portes ouvertes 2023 de la division technique à Porrentruy,
-            un projet impliquant les sections principales de l'école a été mis en place.
-        </p>
-        <p>
-            Le but étant de proposer un système ludique pour que les visiteurs aient un avantage à visiter
-            les différentes sections du bâtiment.
-            Dans cet esprit, un groupe d'apprentis représentant chacun leur section ont commencé à travailler ensemble
-            il y a maintenant 7 mois pour élaborer une solution.
-            Et c'est de ce travail qu'est sorti Tuture Divtec.
-        </p>
-        <p>
-            Les dessinateurs ont dessiner et imaginer la petite voiture en bois, produite entièrement dans leur atelier.
-            Les apprentis automaticien ont créé et gérer entièrement le circuit,
-            les électroniciens quant à eux ont mis en place les cellules de chronométrage ainsi que les accélérateurs
-            magnétiques, bonus reçu en passant dans leur atelier.
-        </p>
-        <p>
-            Les informaticiens se sont eux occupés de gérer le scan de chaque voiture
-            dans les différentes section, de ce site web dédié à la modification et consultation des données pour les visiteurs
-            ainsi qu'a la partie vidéo de la course.
-        </p>
-        <p>
-            Les horlogers et laborantins ont quant à eux amener leur touche en apportant des bonus physique à la voiture,
-            respectivement un ---- et une peinture.
-        </p>
         <h2>Apprentie-s</h2>
         <ul class="students">
             <li>
@@ -124,6 +99,29 @@
                 </ul>
             </li>
         </ul>
+        <h2>Le projet</h2>
+        <p>
+            Dans le cadre des portes ouvertes 2023 de la division technique à Porrentruy,
+            un projet impliquant les différentes sections de l'école a été lancé il y a 7 mois.
+            L'objectif était de créer un système ludique pour encourager les visiteurs à explorer
+            les différentes sections du bâtiment.
+            Le résultat de ce travail est Tuture Divtec,
+            une petite voiture en bois produite par les dessinateurs de l'école.
+        </p>
+
+        <p>
+            Les apprentis automaticiens ont conçu et géré le circuit de la voiture,
+            tandis que les électroniciens ont installé les cellules de chronométrage et les accélérateurs magnétiques,
+            qui offrent des bonus aux visiteurs lorsqu'ils passent par leur atelier.
+            Les informaticiens ont pris en charge le scan de chaque voiture dans les différentes sections,
+            la gestion d'un site web dédié aux données des visiteurs et la partie vidéo de la course.
+        </p>
+
+        <p>
+            Enfin, les horlogers et les laborantins ont ajouté des bonus physiques à la voiture,
+            respectivement [NOM DU BONUS] et une peinture spéciale.
+            Ce projet vise à rendre la visite des sections techniques plus interactive et amusante pour les visiteurs.
+        </p>
         <h2>Librairies</h2>
         <p>Merci aux auteurs des librairies utilisées sur ce site,
             qui nous fournissent des technologies très utiles:</p>
@@ -288,7 +286,7 @@ ul {
   &.students {
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
 
     li {
@@ -298,6 +296,11 @@ ul {
       flex-direction: column;
       justify-content: center;
       box-shadow: $default-shadow;
+      grid-column: span 2;
+
+      &:last-child:nth-child(odd) {
+        grid-column: 2 / span 2;
+      }
 
       h3 {
         margin-top: 0;
