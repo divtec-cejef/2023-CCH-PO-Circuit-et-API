@@ -52,7 +52,8 @@
         <img v-if="section.id !== -1"
              :src=trophy
              alt="image de trophée (médaille)"
-             :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`}">
+             :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`,
+                      opacity: `${activatedSection.includes(section.id) ? '1': '0.4'}`}">
         <p
                 :style="{
           color: colorScheme === 'light' ? getColor(section
@@ -185,6 +186,7 @@ template {
   border-radius: 30px;
   white-space: pre-wrap;
   transition: ease-in-out 0.15s;
+  align-items: center;
 
   @media screen and (prefers-color-scheme: dark) {
     background-color: var(--black);
