@@ -82,10 +82,10 @@
                 <Roller
                         char-set="alphabet"
                         :duration="1000"
-                        :default-value="preferredActivity"
-                        :value="preferredActivity"
+                        :default-value="lastActivity"
+                        :value="lastActivity"
                         class="data"/>
-                <span class="label">est l'activité préférée des visiteurs</span>
+                <span class="label">vient d'être réalisé</span>
             </li>
         </ul>
         <div v-else>
@@ -112,7 +112,7 @@ const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
 const fastestRace = ref<string>();
-const preferredActivity = ref<string>();
+const lastActivity = ref<string>();
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
@@ -126,7 +126,7 @@ const dataLoaded = computed(() =>
   racesRan.value !== undefined &&
   activitiesRealisations.value !== undefined &&
   fastestRace.value !== undefined &&
-  preferredActivity.value !== undefined);
+  lastActivity.value !== undefined);
 
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
@@ -168,7 +168,7 @@ socketio
     }
 
     activitiesRealisations.value = data.count;
-    preferredActivity.value = data.mostPopular.label;
+    lastActivity.value = data.last.label;
   });
 
 onBeforeUnmount(() => {

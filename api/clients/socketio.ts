@@ -9,7 +9,7 @@ import {
 } from '../services/race';
 import { getCarById } from '../services/car';
 import http from 'http';
-import { getRealisationCount, mostRealisedActivity } from '../services/realise';
+import { getRealisationCount, mostRealisedActivity, lastRealisedActivity } from '../services/realise';
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -81,7 +81,8 @@ export default function buildSioServer (server: http.Server) {
     try {
       socket.emit('updatedActivities', {
         count: await getRealisationCount(),
-        mostPopular: await mostRealisedActivity()
+        mostPopular: await mostRealisedActivity(),
+        last: await lastRealisedActivity()
       });
     } catch (e) {
       if (typeof e === 'string') {
