@@ -18,15 +18,23 @@
                 <td>{{ race.formatTime(race.totalTime) }}</td>
                 <td class="video">
                     <div>
-                        <a :href="race.videoUrl" target="_blank">
+                        <a v-if="race.videoUrl" :href="race.videoUrl" target="_blank">
                             <img class="link dark-invert" :src=link
                                  alt="Icon de lien pour visionner la vidéo de la course">
                         </a>
+                        <span v-else>
+                            <img class="link dark-invert" :src=link
+                                 alt="Icon de lien pour visionner la vidéo de la course">
+                        </span>
                     </div>
                     <div>
-                        <a href="">
+                        <a v-if="race.videoUrl" :href="createBlobObject(race.videoUrl)"
+                           :download="`course-divtec-${usercar.car.getNumRace(race).valueOf().toString()}.mp4`">
                             <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
                         </a>
+                        <span v-else>
+                            <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
+                        </span>
                     </div>
                 </td>
             </tr>
@@ -43,6 +51,25 @@ import link from '../assets/img/link.png';
 import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
+
+/**
+ * Création de l'objet blob
+ * @param object Objet
+ */
+function createObjectURL(object: Blob | MediaSource) {
+  return (window.URL) ? window.URL.createObjectURL(object) : window.webkitURL.createObjectURL(object);
+}
+
+/**
+ * Construit un objet blob en fonction de son URL
+ * @param url
+ */
+async function createBlobObject(url: string) {
+  //Récupération de la vidéo et transformation en blob
+  let response = await fetch(url);
+  const blobURL = await response.blob();
+  return createObjectURL(blobURL);
+}
 
 const usercar = useCarStore();
 
@@ -138,7 +165,13 @@ div.table {
         width: 20px;
 
         &:nth-child(1) {
-              margin-right: 5px;
+          margin-right: 5px;
+        }
+
+        span {
+          opacity: 0.45;
+          cursor: default;
+          
         }
       }
     }
@@ -155,5 +188,6 @@ div.table {
     }
   }
 }
+
 
 </style>
