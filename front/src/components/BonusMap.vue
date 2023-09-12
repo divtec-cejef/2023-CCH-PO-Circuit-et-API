@@ -8,13 +8,28 @@
          :style="{
              top: section.posY + '%',
              left: section.posX + '%',
-             backgroundColor: colorScheme === 'dark' ? getColor(
-               section
-               .section
-               .toLowerCase()
-               .normalize('NFD')
-               .replace(/[\u0300-\u036f]/g, '')) :
-               undefined,
+             backgroundColor:
+                 colorScheme === 'dark' ? (
+                    index === isClicked ?
+                    'var(--black)':
+                    getColor(
+                        section
+                           .section
+                           .toLowerCase()
+                           .normalize('NFD')
+                           .replace(/[\u0300-\u036f]/g, '')
+                       )
+                   ) : (
+                     index === isClicked ?
+                        getColor(
+                        section
+                               .section
+                               .toLowerCase()
+                               .normalize('NFD')
+                               .replace(/[\u0300-\u036f]/g, '')
+                       ) :
+                       'var(--white)'
+                   ),
              border: `2px solid ${getColor(
                section
                .section
@@ -96,29 +111,25 @@ watch(() => props.unClicked, (unClicked) => {
 });
 
 function unHighlight() {
-  let section = props.sections[isClicked.value || 0];
-  if (targetOld) {
+  if (targetOld && isClicked.value) {
+    let section = props.sections[isClicked.value];
     targetOld.classList.remove('clicked');
     if (colorScheme.value === 'light') {
       targetOld.style.background = 'var(--white)';
     } else {
-      targetOld.style.background = section === null ?
-        'var(--black)':
+      targetOld.style.background =
         Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
     }
     isClicked.value = null;
   }
+
+  targetOld = null;
 }
 
 function highlight(event: Event, section: SimpleSection) {
   let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
     ((event.target as HTMLElement).parentElement as HTMLDivElement) :
     (event.target as HTMLDivElement);
-  if (colorScheme.value === 'light') {
-    target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-  } else {
-    target.style.background = 'var(--black)';
-  }
   target.classList.add('clicked');
   targetOld = target;
 }
@@ -200,7 +211,6 @@ div.clicked {
 
 .icon:hover {
   cursor: pointer;
-  background-color: var(--pink-divtec);
 
   p {
     color: var(--white) !important;
