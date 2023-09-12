@@ -58,7 +58,7 @@
                 <div class="video">
                     <template v-if="car.listRace![BEST_TIME_INDEX].videoUrl?.length > 0">
                         <video
-                                :src="car.listRace![BEST_TIME_INDEX].videoUrl"
+                                :src="car.listRace![BEST_TIME_INDEX].videoUrl.toString()"
                                 autoplay
                                 controls
                                 loop>

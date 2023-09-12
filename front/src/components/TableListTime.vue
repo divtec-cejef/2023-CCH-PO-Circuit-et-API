@@ -18,7 +18,7 @@
                 <td>{{ race.formatTime(race.totalTime) }}</td>
                 <td class="video">
                     <div>
-                        <a v-if="race.videoUrl" :href="race.videoUrl" target="_blank">
+                        <a v-if="race.videoUrl" :href="race.videoUrl.toString()" target="_blank">
                             <img class="link dark-invert" :src=link
                                  alt="Icon de lien pour visionner la vidéo de la course">
                         </a>
@@ -28,7 +28,7 @@
                         </span>
                     </div>
                     <div>
-                        <a v-if="race.videoUrl" :href="createBlobObject(race.videoUrl)"
+                        <a v-if="race.videoUrl" :href="listVideoBlob[key]"
                            :download="`course-divtec-${usercar.car.getNumRace(race).valueOf().toString()}.mp4`">
                             <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
                         </a>
@@ -51,6 +51,7 @@ import link from '../assets/img/link.png';
 import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
+import { onMounted, ref } from 'vue';
 
 /**
  * Création de l'objet blob
@@ -65,23 +66,42 @@ function createObjectURL(object: Blob | MediaSource) {
  * @param url
  */
 async function createBlobObject(url: string) {
-  //Récupération de la vidéo et transformation en blob
   let response = await fetch(url);
   const blobURL = await response.blob();
   return createObjectURL(blobURL);
 }
 
 const usercar = useCarStore();
+const listVideoBlob = ref<string[]>([]);
+
+onMounted(async () => {
+  //Rempli les liens de toutes les courses pour les télécharger
+  for (let race of usercar.car.sortListByOrderHour()) {
+    //Si l'url la vidéo est vide alors boucle suivant
+    if (race.videoUrl == null) {
+      listVideoBlob.value.push('');
+      continue;
+    }
+
+    //Lancement de la construction du blob
+    try {
+      let blob = await createBlobObject(race.videoUrl.toString());
+      listVideoBlob.value.push(blob);
+    } catch (e) {
+      race.videoUrl = '';
+    }
+  }
+});
 
 </script>
 
 <style scoped lang="scss">
-div {
-    overflow-y: auto;
-    max-height: 400px;
-    display: flex;
-    justify-content: end;
-    padding: 0 10px;
+div.table {
+  overflow-y: auto;
+  max-height: 400px;
+  display: flex;
+  justify-content: end;
+  padding: 0 10px;
 
   table {
     text-align: center;
