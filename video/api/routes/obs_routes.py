@@ -103,7 +103,7 @@ async def upload(id_race: int):
         ftp.upload_file(file_path, file_name)
         link = os.environ['VIDEO_URL'] + file_name
         logger.info("File uploaded")
-        # link = dropbox.upload_file(file_path, file_name)
+
     except Exception as e:
         logger.error("Error while uploading file | " + str(e))
         if os.path.isfile(file_path):
