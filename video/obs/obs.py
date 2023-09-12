@@ -23,21 +23,21 @@ class Obs:
         """
         if self.record_started():
             raise Exception("Record already started")
-        self.change_sector(1)
+        self.change_scene('1')
         self.cl.start_record()
 
-    def change_sector(self, sector_num: int):
+    def change_scene(self, scene: str):
         """
-        Change le secteur OBS
-        :param sector_num: Numéro du secteur
+        Change la scene OBS
+        :param scene: Nom de la scene
         :return: none
         """
 
         # Vérifie que le secteur est valide
-        if str(sector_num) not in self.get_possible_scene_names():
-            raise Exception(f"{sector_num} is not a valid sector")
+        if scene not in self.get_possible_scene_names():
+            raise Exception(f"{scene} is not a valid scene")
 
-        self.cl.set_current_program_scene(str(sector_num))
+        self.cl.set_current_program_scene(scene)
 
     def stop_record(self):
         """
@@ -48,7 +48,7 @@ class Obs:
             raise Exception("Record not started")
         self.cl.stop_record()
         time.sleep(.5)
-        self.change_sector(1)
+        self.change_scene('global')
 
     def get_possible_scene_names(self):
         """

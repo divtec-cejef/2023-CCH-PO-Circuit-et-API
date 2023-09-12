@@ -12,13 +12,13 @@ def start_record():
     obs_connector.start_record()
 
 
-def change_sector(sector_num: int):
+def change_scene(scene: str):
     """
-    Change le secteur OBS
-    :param sector_num: Numéro du secteur
+    Change la scene OBS
+    :param scene: Nom de la scene
     :return: none
     """
-    obs_connector.change_sector(sector_num)
+    obs_connector.change_scene(scene)
 
 
 def stop_record():
