@@ -286,20 +286,28 @@ ul {
   &.students {
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
+    justify-items: center;
+
+    @media screen and (min-width: 910px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 
     li {
       padding:  1.5em;
-      border-radius: 10px;
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       box-shadow: $default-shadow;
       grid-column: span 2;
+      width: 90%;
 
       &:last-child:nth-child(odd) {
-        grid-column: 2 / span 2;
+        @media screen and (min-width: 910px) {
+          grid-column: 2 / span 2;
+        }
       }
 
       h3 {
@@ -329,11 +337,13 @@ ul {
               font-weight: bold;
               text-transform: uppercase;
               justify-self: end;
+              text-align: right;
             }
 
             &.first-name {
               font-weight: normal;
               text-align: left;
+              justify-self: start;
             }
           }
         }
@@ -347,17 +357,48 @@ ul {
 section {
   &.libs {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
+
+    @media screen and (min-width: 1000px) {
+      grid-template-columns: auto auto;
+      grid-auto-flow: column;
+    }
 
     ul {
       li {
         a {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: auto;
           transition: all 300ms ease-in-out;
-          margin: auto;
-          width: fit-content;
+          margin: auto auto 10px auto;
+          padding: 1.5em;
+          width: 90%;
           grid-gap: 5px;
+          border-radius: 20px;
+          box-shadow: $default-shadow;
+
+          @media screen and (min-width:  530px) {
+            grid-template-columns: 1fr 1fr;
+            margin: auto;
+            width: fit-content;
+            box-shadow: none;
+            padding: 0;
+
+            span {
+              &.library-name {
+                font-weight: bold;
+                justify-self: right;
+              }
+
+              &.author-name {
+                justify-self: left;
+              }
+            }
+          }
+
+          span.library-name {
+          font-weight: bold;
+          }
 
           &:hover {
             color: var(--gray);
@@ -365,14 +406,10 @@ section {
 
           span {
             width: fit-content;
+            justify-self: center;
 
             &.library-name {
               font-weight: bold;
-              justify-self: right;
-            }
-
-            &.author-name {
-              justify-self: left;
             }
           }
         }
