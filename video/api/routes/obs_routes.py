@@ -49,7 +49,7 @@ async def sector(sector_num: int):
     :return: 200 si le secteur a été changé, 400 si le secteur n'est pas valide
     """
     try:
-        obs.change_sector(sector_num)
+        obs.change_scene(str(sector_num))
         logger.info("Changed sector to " + str(sector_num))
         return {200: {"description": sector_num}}
     except Exception as e:
