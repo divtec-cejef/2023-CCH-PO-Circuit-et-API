@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../models';
+import type { RouteHandler } from '../../models';
 import { getSections } from '../../services/section';
 
 /**
@@ -7,7 +7,7 @@ import { getSections } from '../../services/section';
  * @param res Reponse
  * @returns toutes les sections
  */
-const route: routeHandler = async (req, res) => {
+const route: RouteHandler = async (req, res) => {
   res.json(await getSections());
 };
 export default route;

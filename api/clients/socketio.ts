@@ -9,7 +9,7 @@ import {
 } from '../services/race';
 import { getCarById } from '../services/car';
 import http from 'http';
-import { getRealisationCount, mostRealisedActivity } from '../services/realise';
+import { getRealisationCount, mostRealisedActivity, lastRealisedActivity } from '../services/realise';
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -39,10 +39,20 @@ export default function buildSioServer (server: http.Server) {
       }
 
       // envoyer les données de manches au client
-      socket.emit('updatedUserRaces', {
-        races: await getRacesByCar(socket.data.carId),
-        rank: await getRankByCar(socket.data.carId)
-      });
+      try {
+        socket.emit('updatedUserRaces', {
+          races: await getRacesByCar(socket.data.carId),
+          rank: await getRankByCar(socket.data.carId)
+        });
+      } catch (e) {
+        if (typeof e === 'string') {
+          socket.emit('updatedUserRaces', { message: e });
+        } else if (e instanceof Error) {
+          socket.emit('updatedUserRaces', { message: e.message });
+        } else {
+          socket.emit('updatedUserRaces', { message: 'internal server error' });
+        }
+      }
 
       console.log(`User connected with car id ${socket.handshake.query.carId}\n`);
     } else {
@@ -50,17 +60,39 @@ export default function buildSioServer (server: http.Server) {
     }
 
     // envoyer les données de classement au client
-    socket.emit('updatedRaces', {
-      races: await getShortestRaces(),
-      count: await getNumberRaces(),
-      fastest: await getShortestRace()
-    });
+    try {
+      const ranking = {
+        races: await getShortestRaces(),
+        count: await getNumberRaces(),
+        fastest: await getShortestRace()
+      };
+      socket.emit('updatedRaces', ranking);
+    } catch (e) {
+      if (typeof e === 'string') {
+        socket.emit('updatedUserRaces', { message: e });
+      } else if (e instanceof Error) {
+        socket.emit('updatedUserRaces', { message: e.message });
+      } else {
+        socket.emit('updatedUserRaces', { message: 'internal server error' });
+      }
+    }
 
     // envoyer les données d'activité au client
-    socket.emit('updatedActivities', {
-      count: await getRealisationCount(),
-      mostPopular: await mostRealisedActivity()
-    });
+    try {
+      socket.emit('updatedActivities', {
+        count: await getRealisationCount(),
+        mostPopular: await mostRealisedActivity(),
+        last: await lastRealisedActivity()
+      });
+    } catch (e) {
+      if (typeof e === 'string') {
+        socket.emit('updatedUserRaces', { message: e });
+      } else if (e instanceof Error) {
+        socket.emit('updatedUserRaces', { message: e.message });
+      } else {
+        socket.emit('updatedUserRaces', { message: 'internal server error' });
+      }
+    }
 
     socket.on('disconnect', () => {
       console.log('user disconnected\n');

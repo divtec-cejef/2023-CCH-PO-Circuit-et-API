@@ -1,7 +1,7 @@
-import { routeHandler } from '../../../models';
+import { RouteHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../../services/activity/';
-import type { realisedActivityToCreate } from '../../../models';
+import type { RealisedActivityToCreate } from '../../../models';
 import {
   createRealisedActivity,
   getRealisationCount, mostRealisedActivity,
@@ -11,7 +11,7 @@ import { getCarByQueryId } from '../../../services/car';
 import validateSection from '../../../services/section/validate-token';
 import { Server } from 'socket.io';
 
-declare type realisedActivityRequest = {
+declare type RealisedActivityRequest = {
   id_activity: number,
   query_id: string,
   date_time: string,
@@ -23,7 +23,7 @@ declare type realisedActivityRequest = {
  * @param res Reponse
  * @returns l'activité réalisée
  */
-export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RealisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
   // vérification de l'authentification
@@ -70,7 +70,7 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   }
 
   // Création de l'activité
-  const realisedActivityToCreate: realisedActivityToCreate = {
+  const realisedActivityToCreate: RealisedActivityToCreate = {
     id_activity: realisedActivity.id_activity,
     query_id: realisedActivity.query_id,
     date_time: new Date(realisedActivity.date_time)
@@ -92,12 +92,25 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     } else {
       res.status(500).send();
     }
+    return;
   }
 
-  (res.app.get('socketio') as Server).emit('updatedActivities', {
-    count: await getRealisationCount(),
-    mostPopular: await mostRealisedActivity()
-  });
+  const socket: Server = req.app.get('socketio');
+  try {
+    socket.emit('updatedActivities', {
+      count: await getRealisationCount(),
+      mostPopular: await mostRealisedActivity(),
+      last: await getActivityById(realisedActivityToCreate.id_activity)
+    });
+  } catch (e) {
+    if (typeof e === 'string') {
+      socket.emit('updatedActivities', { message: e });
+    } else if (e instanceof Error) {
+      socket.emit('updatedActivities', { message: e.message });
+    } else {
+      socket.emit('updatedActivities', { message: 'internal server error' });
+    }
+  }
 };
 
 export default route;

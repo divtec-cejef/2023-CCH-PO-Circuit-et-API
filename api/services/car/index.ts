@@ -1,5 +1,5 @@
 import prisma from '../../clients/prismadb';
-import { carToUpdate } from '../../models';
+import { CarToUpdate } from '../../models';
 
 /**
  * Retourne toutes les voitures de la db
@@ -22,7 +22,7 @@ export const getCars = async () => {
  * @returns la voiture
  */
 export const getCarByQueryId = async (carQueryId: string) => {
-  const car = await prisma.car.findFirst({
+  return await prisma.car.findFirst({
     where: {
       query_id: carQueryId
     },
@@ -33,8 +33,6 @@ export const getCarByQueryId = async (carQueryId: string) => {
       avatar: true
     }
   });
-
-  return car;
 };
 
 /**
@@ -43,7 +41,7 @@ export const getCarByQueryId = async (carQueryId: string) => {
  * @returns la voiture
  */
 export const getCarById = async (carId: number) => {
-  const car = await prisma.car.findFirst({
+  return await prisma.car.findFirst({
     where: {
       id_car: carId
     },
@@ -54,8 +52,6 @@ export const getCarById = async (carId: number) => {
       avatar: true
     }
   });
-
-  return car;
 };
 
 /**
@@ -114,7 +110,7 @@ export const getPasswordByQueryId = async (carQueryId: string) => {
  * @param carToUpdate la voiture à mettre à jour
  * @returns la voiture mise à jour
  */
-export const updateCar = async (carToUpdate: carToUpdate) => {
+export const updateCar = async (carToUpdate: CarToUpdate) => {
   return await prisma.car.update({
     where: {
       id_car: carToUpdate.id_car
