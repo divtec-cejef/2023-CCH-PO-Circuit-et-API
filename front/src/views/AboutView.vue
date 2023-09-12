@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>À propos</h1>
-        <p>Le projet a été créé par les personnes suivantes:</p>
+        <h2>Apprentie-s</h2>
         <ul class="students">
             <li>
                 <h3 class="section-name">Section informatique</h3>
@@ -99,27 +99,56 @@
                 </ul>
             </li>
         </ul>
+        <h2>Le projet</h2>
+        <p>
+            Dans le cadre des portes ouvertes 2023 de la division technique à Porrentruy,
+            un projet impliquant les différentes sections de l'école a été lancé il y a 7 mois.
+            L'objectif était de créer un système ludique pour encourager les visiteurs à explorer
+            les différentes sections du bâtiment.
+            Le résultat de ce travail est Tuture Divtec,
+            une petite voiture en bois produite par les dessinateurs de l'école.
+        </p>
+
+        <p>
+            Les apprentis automaticiens ont conçu et géré le circuit de la voiture,
+            tandis que les électroniciens ont installé les cellules de chronométrage et les accélérateurs magnétiques,
+            qui offrent des bonus aux visiteurs lorsqu'ils passent par leur atelier.
+            Les informaticiens ont pris en charge le scan de chaque voiture dans les différentes sections,
+            la gestion d'un site web dédié aux données des visiteurs et la partie vidéo de la course.
+        </p>
+
+        <p>
+            Enfin, les horlogers et les laborantins ont ajouté des bonus physiques à la voiture,
+            respectivement [NOM DU BONUS] et une peinture spéciale.
+            Ce projet vise à rendre la visite des sections techniques plus interactive et amusante pour les visiteurs.
+        </p>
         <h2>Librairies</h2>
         <p>Merci aux auteurs des librairies utilisées sur ce site,
             qui nous fournissent des technologies très utiles:</p>
-        <h3>Front-end</h3>
-        <ul class="libraries">
-            <li v-for="(lib, index) in frontLibs"  :key="index">
-                <a :href="lib.link">
-                    <span class="library-name">{{lib.name}}</span>
-                    <span class="author-name">{{lib.author}}</span>
-                </a>
-            </li>
-        </ul>
-        <h3>Back-end</h3>
-        <ul class="libraries">
-            <li v-for="(lib, index) in backLibs"  :key="index">
-                <a :href="lib.link">
-                    <span class="library-name">{{lib.name}}</span>
-                    <span class="author-name">{{lib.author}}</span>
-                </a>
-            </li>
-        </ul>
+        <section class="libs">
+            <div>
+            <h3>Front-end</h3>
+            <ul>
+                <li v-for="(lib, index) in frontLibs"  :key="index">
+                    <a :href="lib.link">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+            <div>
+            <h3>Back-end</h3>
+            <ul>
+                <li v-for="(lib, index) in backLibs"  :key="index">
+                    <a :href="lib.link">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -173,7 +202,7 @@ const frontLibs: {
   name: 'url-parse',
   author: 'unshiftio'
 }, {
-  link: 'vue-qrcode-reader.netlify.app',
+  link: 'https://vue-qrcode-reader.netlify.app',
   name: 'vue-qrcode-reader',
   author: 'Niklas Gruhn'
 }, {
@@ -189,6 +218,7 @@ const frontLibs: {
   name: 'vue3-runtime-template',
   author: 'Matt Elen'
 }];
+frontLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
 const backLibs: {
   link: string,
@@ -231,11 +261,21 @@ const backLibs: {
   name: 'ts-node',
   author: 'TypeStrong'
 }];
+backLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/consts.scss";
 p {
+  margin-bottom: 1em;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: .5em;
 }
 
 ul {
@@ -243,24 +283,52 @@ ul {
   padding: 0;
   text-align: center;
 
-  h3 {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-  }
-
   &.students {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    justify-items: center;
+
+    @media screen and (min-width: 910px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
     li {
+      padding:  1.5em;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: $default-shadow;
+      grid-column: span 2;
+      width: 90%;
+
+      &:last-child:nth-child(odd) {
+        @media screen and (min-width: 910px) {
+          grid-column: 2 / span 2;
+        }
+      }
+
+      h3 {
+        margin-top: 0;
+      }
+
       ul {
         display: flex;
         flex-direction: column;
-        margin: 2px auto 15px auto;
 
         li {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-gap: 5px;
           margin: auto;
+          padding: 0;
+          box-shadow: none;
+
+          h3 {
+            margin: 0;
+          }
 
           span {
             font-size: 1em;
@@ -268,13 +336,14 @@ ul {
             &.last-name {
               font-weight: bold;
               text-transform: uppercase;
-              margin-right: 5px;
+              justify-self: end;
               text-align: right;
             }
 
             &.first-name {
               font-weight: normal;
               text-align: left;
+              justify-self: start;
             }
           }
         }
@@ -282,29 +351,66 @@ ul {
     }
   }
 
-  &.libraries {
-    li {
-      a {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        transition: all 300ms ease-in-out;
-        margin: auto;
-        width: fit-content;
-        grid-gap: 5px;
 
-        &:hover {
-            color: var(--gray);
-        }
+}
 
-        span {
-          width: fit-content;
-          &.library-name {
-            font-weight: bold;
-            justify-self: right;
+section {
+  &.libs {
+    display: grid;
+    grid-template-columns: auto;
+
+    @media screen and (min-width: 1000px) {
+      grid-template-columns: auto auto;
+      grid-auto-flow: column;
+    }
+
+    ul {
+      li {
+        a {
+          display: grid;
+          grid-template-columns: auto;
+          transition: all 300ms ease-in-out;
+          margin: auto auto 10px auto;
+          padding: 1.5em;
+          width: 90%;
+          grid-gap: 5px;
+          border-radius: 20px;
+          box-shadow: $default-shadow;
+
+          @media screen and (min-width:  530px) {
+            grid-template-columns: 1fr 1fr;
+            margin: auto;
+            width: fit-content;
+            box-shadow: none;
+            padding: 0;
+
+            span {
+              &.library-name {
+                font-weight: bold;
+                justify-self: right;
+              }
+
+              &.author-name {
+                justify-self: left;
+              }
+            }
           }
 
-          &.author-name {
-            justify-self: left;
+          span.library-name {
+          font-weight: bold;
+          }
+
+          &:hover {
+            color: var(--gray);
+          }
+
+          span {
+            width: fit-content;
+            justify-self: center;
+
+            &.library-name {
+              font-weight: bold;
+            }
           }
         }
       }
