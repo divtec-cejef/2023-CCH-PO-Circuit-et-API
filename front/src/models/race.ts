@@ -6,6 +6,7 @@ export default class Race {
   totalTime: Date = new Date();
   sector1: Date = new Date();
   videoUrl : String = '';
+  sector2: Date = new Date();
 
   /**
    * Constructeur d'une course
@@ -14,12 +15,14 @@ export default class Race {
    * @param totalTime Temps de la course
    * @param sector1 Premier temps intermédiaire
    * @param videoUrl Url de la vidéo
+   * @param sector2 Deuxième temps intermédiaire
    */
-  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, videoUrl : string) {
+  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, sector2: Date, videoUrl : string) {
     this.idRace = idRace;
     this.startTime = startTime;
     this.totalTime = totalTime;
     this.sector1 = this.calculateSector(sector1);
+    this.sector2 = this.calculateSector(sector2);
     this.videoUrl = videoUrl;
   }
 

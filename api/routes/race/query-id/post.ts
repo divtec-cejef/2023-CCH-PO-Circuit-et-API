@@ -1,8 +1,9 @@
-import { raceToCreateWithQueryId, routeHandler } from '../../../models';
+import { RaceToCreateWithQueryId, RouteHandler } from '../../../models';
 import {
   createRaceWithQueryId, getNumberRaces,
   getRacesByCar,
-  getRankByCar, getShortestRace,
+  getRankByCar,
+  getShortestRace,
   getShortestRaces
 } from '../../../services/race';
 import { checkStructureOrThrow } from 'check-structure';
@@ -11,13 +12,15 @@ import type { Server } from 'socket.io';
 import validateSection from '../../../services/section/validate-token';
 import { getSectionById } from '../../../services/section';
 
-declare type datable = Date | string
+declare type Datable = Date | string
 
-declare type raceRequest = {
-  query_id: string,
-  race_start: datable,
-  sector1: datable
-  race_finish: datable;
+declare type RaceRequest = {
+  query_id: string;
+  race_start: Datable;
+  sector1: Datable;
+  sector2: Datable;
+  speed: number;
+  race_finish: Datable;
 };
 
 /**
@@ -26,7 +29,7 @@ declare type raceRequest = {
  * @param res Reponse
  * @returns le temps créé
  */
-export const route: routeHandler<null, unknown, raceRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) => {
   const race = req.body;
 
   // vérification de l'authentification
@@ -45,7 +48,7 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
 
   let authorized = false;
   // récupérer les sections authorisées à ajouter des courses
-  const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '');
+  const sections = JSON.parse(process.env.RACE_ADDING_AUTHORIZED_SECTION || '["race"]');
   console.log(sections);
   for (const section of sections) {
     console.log(sectionName, section);
@@ -65,6 +68,8 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     checkStructureOrThrow(race, {
       race_start: Date,
       sector1: Date,
+      sector2: Date,
+      speed: Number,
       race_finish: Date,
       query_id: String
     });
@@ -85,9 +90,11 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
     return;
   }
 
-  const raceToCreate: raceToCreateWithQueryId = {
+  const raceToCreate: RaceToCreateWithQueryId = {
     race_start: new Date(race.race_start),
     sector1: new Date(race.sector1),
+    sector2: new Date(race.sector2),
+    speed: race.speed,
     race_finish: new Date(race.race_finish),
     query_id: race.query_id
   };
@@ -113,17 +120,38 @@ export const route: routeHandler<null, unknown, raceRequest> = async (req, res) 
   }
 
   // Envoi les données de classement aux clients
-  (res.app.get('socketio') as Server).emit('updatedRaces', {
-    races: await getShortestRaces(),
-    count: await getNumberRaces(),
-    fastest: await getShortestRace()
-  });
-  const sockets = await (res.app.get('socketio') as Server).fetchSockets();
-  for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
-    s1.emit('updatedUserRaces', {
-      races: await getRacesByCar(s1.data.carId),
-      rank: await getRankByCar(s1.data.carId)
+  const socketio: Server = res.app.get('socketio');
+  try {
+    socketio.emit('updatedRaces', {
+      races: await getShortestRaces(),
+      count: await getNumberRaces(),
+      fastest: await getShortestRace()
     });
+  } catch (e) {
+    if (typeof e === 'string') {
+      socketio.emit('updatedUserRaces', { message: e });
+    } else if (e instanceof Error) {
+      socketio.emit('updatedUserRaces', { message: e.message });
+    } else {
+      socketio.emit('updatedUserRaces', { message: 'internal server error' });
+    }
+  }
+  const sockets = await socketio.fetchSockets();
+  for (const s1 of sockets.filter(s => s.data.carId === car.id_car)) {
+    try {
+      s1.emit('updatedUserRaces', {
+        races: await getRacesByCar(s1.data.carId),
+        rank: await getRankByCar(s1.data.carId)
+      });
+    } catch (e) {
+      if (typeof e === 'string') {
+        s1.emit('updatedUserRaces', { message: e });
+      } else if (e instanceof Error) {
+        s1.emit('updatedUserRaces', { message: e.message });
+      } else {
+        s1.emit('updatedUserRaces', { message: 'internal server error' });
+      }
+    }
   }
 };
 

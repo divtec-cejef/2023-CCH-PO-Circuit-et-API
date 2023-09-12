@@ -1,4 +1,4 @@
-import { routeHandler } from '../../models';
+import { RouteHandler } from '../../models';
 import {
   addUrlToRace,
   getRaceById
@@ -7,7 +7,7 @@ import { checkStructureOrThrow } from 'check-structure';
 import validateSection from '../../services/section/validate-token';
 import { getSectionById } from '../../services/section';
 
-declare type raceUrlRequest = {
+declare type RaceUrlRequest = {
   id_race: number,
   video_url: string,
 };
@@ -18,7 +18,7 @@ declare type raceUrlRequest = {
  * @param res Reponse
  * @returns la manche
  */
-export const route: routeHandler<null, unknown, raceUrlRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RaceUrlRequest> = async (req, res) => {
   const raceUrl = req.body;
 
   // vérification de l'authentification

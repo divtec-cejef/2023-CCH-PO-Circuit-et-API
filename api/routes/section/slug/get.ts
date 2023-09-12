@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../../models';
+import type { RouteHandler } from '../../../models';
 import { getSectionById } from '../../../services/section';
 
 /**
@@ -7,7 +7,7 @@ import { getSectionById } from '../../../services/section';
  * @param res Reponse
  * @returns La section correspondante à l'id
  */
-const route: routeHandler<{ slug: string; }> = async (req, res) => {
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
   const id = parseInt(req.params.slug);
 
   // Vérification de l'id

@@ -1,4 +1,4 @@
-import type { routeHandler } from '../../../../models';
+import type { RouteHandler } from '../../../../models';
 import { getCarByQueryId } from '../../../../services/car';
 
 /**
@@ -7,7 +7,7 @@ import { getCarByQueryId } from '../../../../services/car';
  * @param res Reponse
  * @returns une voiture correspondant à l'ID de query
  */
-const route: routeHandler<{ slug: string; }> = async (req, res) => {
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
   if (!req.params.slug) {
     res.status(400).json({ message: 'No given ID' });
     return;

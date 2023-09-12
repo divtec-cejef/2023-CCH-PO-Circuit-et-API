@@ -45,6 +45,8 @@ importImage().then((v) => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
+
 input[type=radio] {
   display: none;
 }
@@ -53,7 +55,7 @@ input[type=radio] {
   display: inline-block;
   padding: 0.5em 1em;
   margin: 0.5em;
-  box-shadow: var(--default-shadow);
+  box-shadow: $default-shadow;
   border-radius: 3px;
   cursor: pointer;
 }

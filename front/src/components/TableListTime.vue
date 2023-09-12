@@ -76,12 +76,12 @@ const usercar = useCarStore();
 </script>
 
 <style scoped lang="scss">
-div.table {
-  overflow-y: scroll;
-  max-height: 400px;
-  display: flex;
-  justify-content: end;
-  padding: 0 10px;
+div {
+    overflow-y: auto;
+    max-height: 400px;
+    display: flex;
+    justify-content: end;
+    padding: 0 10px;
 
   table {
     text-align: center;
@@ -171,7 +171,7 @@ div.table {
         span {
           opacity: 0.45;
           cursor: default;
-          
+
         }
       }
     }

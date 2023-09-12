@@ -80,6 +80,7 @@ button {
 
   &:hover {
     background-color: white;
+    font-weight: bold;
   }
 
   &.destructive {
@@ -89,7 +90,7 @@ button {
 
     &:hover {
       background-color: white;
-      color: black;
+      color: var(--red);
     }
   }
 
@@ -116,6 +117,7 @@ button {
       border-color: lightgray;
       color: gray;
       cursor: not-allowed;
+      font-weight: normal;
     }
   }
 }
