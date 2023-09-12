@@ -493,7 +493,7 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedRaces
    */
-  onRankingReceived(callback: (data: models.rawData.RankingData) => void) {
+  onRankingReceived(callback: (data: models.rawData.RankingData) => any) {
     this.socket.on('updatedRaces', callback);
     return this;
   }
@@ -506,7 +506,7 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedUserRaces
    */
-  onUserRace(callback: (data: models.rawData.CarRaces) => void) {
+  onUserRace(callback: (data: models.rawData.CarRaces) => any) {
     // Interdit l'utilisation de l'évènement si la connexion est anonyme
     if (this.carId === undefined)
       throw new Error('carId is undefined');
@@ -520,8 +520,29 @@ export class WebsocketConnection {
    * @param callback Code à exécuter à la réception de l'évènement
    * @event updatedActivities
    */
-  onActivityRealisation(callback: (data: models.rawData.WSRealisation) => void) {
-    this.socket.on('updatedActivities', callback);
+  onActivityRealisation(callback: (data: models.parsedData.WSRealisation | models.rawData.Error) => any) {
+    this.socket.on('updatedActivities', (data: models.rawData.WSRealisation) => {
+      if ('message' in data) {
+        return callback(data);
+      }
+
+      const parsedData = {
+        count: data.count,
+        mostPopular: {
+          label: data.mostPopular.label,
+          idActivity: data.mostPopular.id_activity,
+          idSection: data.mostPopular.id_section,
+          count: data.mostPopular.count
+        },
+        last: {
+          label: data.last.label,
+          idActivity: data.last.id_activity,
+          idSection: data.mostPopular.id_section
+        }
+      };
+
+      return callback(parsedData);
+    });
     return this;
   }
 
@@ -554,7 +575,8 @@ export namespace models {
      */
     export type WSRealisation = {
       count: number,
-      mostPopular: Exclude<rawData.Activity, models.rawData.Error> & { count: number }
+      mostPopular: Exclude<rawData.Activity, models.rawData.Error> & { count: number },
+      last: Exclude<rawData.Activity, models.rawData.Error>
     } | Error
 
     /**
@@ -684,6 +706,16 @@ export namespace models {
       label: string,
       idSection: number
     }[]
+
+
+    /**
+     * Représente une donnée de statistiques sur la réalisation des activités
+     */
+    export type WSRealisation = {
+      count: number,
+      mostPopular: Exclude<SectionActivities[number], models.rawData.Error> & { count: number },
+      last: Exclude<SectionActivities[number], models.rawData.Error>
+    }
 
     /**
      * Représente une liste d'activités
