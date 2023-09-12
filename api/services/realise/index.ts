@@ -1,5 +1,5 @@
 import prisma from '../../clients/prismadb';
-import { RealisedActivityToCreate } from '../../models';
+import { Activity, RealisedActivityToCreate } from '../../models';
 
 /**
  * Associe une activité à une voiture
@@ -80,4 +80,28 @@ export const mostRealisedActivity = async () => {
   });
 
   return { ...data, count: mostRealised?._count._all };
+};
+
+export const lastRealisedActivity = async (): Promise<Activity> => {
+  const lastDate = await prisma.realise.aggregate({
+    _max: {
+      date_time: true
+    }
+  });
+
+  if (!lastDate._max.date_time) {
+    throw new Error("Aucune activité n'est réalisée.");
+  }
+
+  const lastRealisation = await prisma.realise.findFirstOrThrow({
+    where: {
+      date_time: lastDate._max.date_time
+    }
+  });
+
+  return await prisma.activity.findUniqueOrThrow({
+    where: {
+      id_activity: lastRealisation.id_activity
+    }
+  });
 };
