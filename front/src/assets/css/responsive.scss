@@ -16,6 +16,7 @@
     footer {
       display: flex;
       flex-direction: row;
+
       p {
         width: fit-content;
         font-size: 15px;
@@ -88,12 +89,12 @@
     }
 
     div.icon {
-       border-width: 1px !important;
-     }
+      border-width: 1px !important;
+    }
   }
 }
 
-/* Encran plus petit que 700px*/
+/* Ecran plus petit que 700px*/
 @media screen and (max-width: 740px) {
   #app {
     main.display {
@@ -113,10 +114,29 @@
     }
 
 
-    nav ul.header {
+    nav.header {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
 
+      ul {
+        display: flex;
+
+        &.links {
+          flex-direction: column;
+        }
+
+        &.buttons {
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+          
+          li {
+            margin: .25em;
+          }
+        }
+      }
     }
 
     button.logout-button {
@@ -131,7 +151,7 @@
         font-weight: bold;
         font-style: normal;
         color: var(--white);
-      };
+      }
 
       span {
         display: block;
@@ -150,7 +170,9 @@
 
 
   }
-};
+}
+
+;
 
 /* Tablette */
 @media screen and (min-width: 740px) {
@@ -189,6 +211,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
 
       ul li.accueil {
         display: none;
@@ -269,7 +292,6 @@
       }
 
 
-
       div.content-classement {
         flex: 1;
         display: flex;
@@ -324,6 +346,7 @@
       display: flex;
       justify-content: center;
     }
+
     fieldset.color {
       justify-content: center !important;
       flex-wrap: wrap;
