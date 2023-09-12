@@ -15,6 +15,7 @@ body {
   margin: 0;
   background-color: var(--white);
   font-family: 'Poppins', sans-serif;
+  width: 100vw;
 }
 
 main {
@@ -23,6 +24,7 @@ main {
   min-height: calc(100vh - var(--height-screen-diff));
   max-width: 1000px;
   margin: auto;
+
   &.display {
     display: flex;
     align-items: center;
@@ -79,6 +81,7 @@ button {
 
   &:hover {
     background-color: white;
+    font-weight: bold;
   }
 
   &.destructive {
@@ -88,7 +91,7 @@ button {
 
     &:hover {
       background-color: white;
-      color: black;
+      color: var(--red);
     }
   }
 
@@ -115,6 +118,7 @@ button {
       border-color: lightgray;
       color: gray;
       cursor: not-allowed;
+      font-weight: normal;
     }
   }
 }

@@ -16,8 +16,8 @@ export const useAdminPostStore = defineStore('adminPost', () => {
   async function initAllActivityOneSection(idSection: number) {
     const { json: dataActivity } = await api.getAllActivitiesOneSection(idSection);
 
-    if (typeof dataActivity === 'string') {
-      console.error(dataActivity);
+    if ('message' in dataActivity) {
+      console.error(dataActivity.message);
       return;
     }
 
@@ -41,8 +41,8 @@ export const useAdminPostStore = defineStore('adminPost', () => {
    */
   async function getNameSectionById(idSection: number) {
     const { json: dataSection } = await api.getNameSectionById(idSection);
-    if (typeof dataSection === 'string') {
-      console.error(dataSection);
+    if ('message' in dataSection) {
+      console.error(dataSection.message);
       return;
     }
 
@@ -52,7 +52,7 @@ export const useAdminPostStore = defineStore('adminPost', () => {
   /**
    * Reset le store
    */
-  function $reset () {
+  function $reset() {
     idSection.value = undefined;
     sectionName.value = '';
     token.value = '';

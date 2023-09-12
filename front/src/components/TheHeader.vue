@@ -1,6 +1,6 @@
 <template>
-    <nav>
-        <ul class="header">
+    <nav class="header">
+        <ul class="links">
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
             </li>
@@ -19,6 +19,8 @@
             <li @click="clickMenu" v-if="adminPost.idSection">
                 <RouterLink to="/admin">Admin</RouterLink>
             </li>
+        </ul>
+        <ul class="buttons">
             <li @click="clickMenu" id="stage">
                 <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
                    target="_blank">
@@ -49,7 +51,6 @@ import { useRouter } from 'vue-router';
 import { usePreferredColorScheme } from '@vueuse/core';
 
 const colorScheme = usePreferredColorScheme();
-
 const router = useRouter();
 const clickMenu = () => {
   emit('clickMenu', true);
@@ -80,60 +81,63 @@ const adminPost = useAdminPostStore();
 </script>
 
 <style scoped lang="scss">
-nav ul {
-  margin-top: 30px;
-  padding: 0;
-  list-style: none;
+nav {
+  height: 100%;
+  ul {
+    margin-top: 30px;
+    padding: 0;
+    list-style: none;
 
-  li#stage a {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    background-color: var(--pink-divtec);
-    border: 2px solid var(--pink-divtec);
-    padding: 7px 10px;
-    border-radius: 30px;
+    li#stage a {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      background-color: var(--pink-divtec);
+      border: 2px solid var(--pink-divtec);
+      padding: 7px 10px;
+      border-radius: 30px;
 
-    p {
-      color: var(--white);
-      margin-left: 4px;
-    }
-
-    img {
-      width: 20px;
-      margin-left: 7px;
-    }
-  }
-
-  li#stage a:hover {
-    background-color: var(--white);
-
-    p {
-      color: var(--pink-divtec);
-      margin-left: 4px;
-    }
-  }
-
-  li {
-    margin-top: 12px;
-    font-family: 'SF Pro Display', sans-serif;
-    font-weight: bold;
-    font-style: normal;
-
-    * {
-      font-size: 27px;
-    }
-
-    a {
-      transition: ease-in-out 0.15s;
-
-      &:hover {
-        color: var(--gray);
-        transition: ease-in-out 0.15s;
+      p {
+        color: var(--white);
+        margin-left: 4px;
       }
 
+      img {
+        width: 20px;
+        margin-left: 7px;
+      }
+    }
 
+    li#stage a:hover {
+      background-color: var(--white);
+
+      p {
+        color: var(--pink-divtec);
+        margin-left: 4px;
+      }
+    }
+
+    li {
+      margin-top: 12px;
+      font-family: 'SF Pro Display', sans-serif;
+      font-weight: bold;
+      font-style: normal;
+
+      * {
+        font-size: 27px;
+      }
+
+      a {
+        transition: ease-in-out 0.15s;
+
+        &:hover {
+          color: var(--gray);
+          transition: ease-in-out 0.15s;
+        }
+
+
+      }
     }
   }
 }
@@ -144,6 +148,7 @@ button.logout-button {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 
   img {
     height: 35px;
@@ -178,7 +183,7 @@ button.logout-button {
   z-index: 1;
   font-style: italic;
   transition: all linear 0.3s;
-
+  font-weight: normal;
 }
 
 .tooltip:hover .tooltiptext {

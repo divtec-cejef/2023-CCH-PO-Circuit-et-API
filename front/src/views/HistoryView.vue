@@ -74,9 +74,14 @@ function getRealisedActivity() {
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
       const { json: dataActivity, status: status } = v;
+      if ('message' in dataActivity) {
+        hasError.value = true;
+        return;
+      }
+
       if (status.valueOf() === api.ReturnCodes.Success) {
         for (let activity of dataActivity) {
-          realisedActivity.value.push(activity['id_activity']);
+          realisedActivity.value.push(activity.idActivity);
         }
       } else {
         hasError.value = true;
@@ -89,31 +94,39 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v: { json: { label: string, id_section: number }[], status: number }) => {
+  api.getAllSections().then(v => {
     const { json: dataSections, status: statusActivities } = v;
+
+    if ('message' in dataSections) {
+      hasError.value = true;
+      return;
+    }
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
         for (let sections of allSections.value) {
-          if (sections['section'] === section['label']) {
-            sections['id'] = section['id_section'];
+          if (sections.section === section.label) {
+            sections.id = section.idSection;
           }
         }
 
-        api.getAllActivitiesOneSection(section.id_section)
+        api.getAllActivitiesOneSection(section.idSection)
           .then((v) => {
             const { json: dataActivities, status: statusActivities } = v;
+
+            if ('message' in dataActivities) {
+              hasError.value = true;
+              return;
+            }
 
             if (statusActivities.valueOf() === api.ReturnCodes.Success) {
               sectionActivities.value.push(
                 {
-                  idSection: section.id_section,
+                  idSection: section.idSection,
                   labelSection: section.label,
                   activities: [],
                 });
               for (let activity of dataActivities) {
-                if (typeof activity === 'string')
-                  continue;
                 for (let section of sectionActivities.value) {
                   if (section?.idSection === activity.idSection) {
                     section?.activities.push(

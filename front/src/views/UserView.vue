@@ -24,14 +24,17 @@
                         />
                     </div>
                     <div :class="modelLoaded?'':'hidden'">
-                        <Renderer id="car" ref="renderer" antialias
+                        <Renderer id="car"
+                                  ref="renderer"
+                                  antialias
                                   :orbit-ctrl="{
                                autoRotate: true,
                                autoRotateSpeed: -2.0,
                                enableDamping: true,
                                dampingFactor: 0.05
                            }"
-                                  width="400px" height="300px">
+                                  :width="`${Math.min(vWidth - 30, 400)}px`"
+                                  :height="`${Math.min(vWidth - 30, 400) * 3/4}px`">
                             <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
                             <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
                                 <PointLight :position="{x: 10}" :intensity="2"></PointLight>
@@ -133,13 +136,14 @@ import SpinLoading from '@/components/SpinLoading.vue';
 import { HollowDotsSpinner } from 'epic-spinners';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import NumberTime from '@/components/NumberTime.vue';
-import { usePreferredColorScheme } from '@vueuse/core';
+import { usePreferredColorScheme, useWindowSize } from '@vueuse/core';
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
 const modelLoaded = ref(false);
 const codeBackApi = ref(0);
+const { width: vWidth } = useWindowSize();
 
 //Initialisation du schéma de couleur préféré
 const preferredColor = usePreferredColorScheme();
@@ -149,6 +153,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
   //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
   if (newUrl.params.id === car.idQuery) {
     codeBackApi.value = api.ReturnCodes.Success;
+    return;
   }
 
   //Initialisation des données
@@ -165,6 +170,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
     //Si la requête est valide alors on stocke l'id dans le localstorage
     if (codeBackApi.value == api.ReturnCodes.Success) {
       localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
+      localStorage.removeItem('carToken');
     }
   });
 },
@@ -360,10 +366,11 @@ div.user-data {
   div.car-3d {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin: 50px auto auto auto;
+    max-width: 100vw;
 
     div.loading {
       font-size: 2em;
