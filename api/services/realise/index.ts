@@ -1,12 +1,12 @@
 import prisma from '../../clients/prismadb';
-import { realisedActivityToCreate } from '../../models';
+import { RealisedActivityToCreate } from '../../models';
 
 /**
  * Associe une activité à une voiture
  * @param realisedActivity activité à associer à une voiture
  * @returns l'activité associée à une voiture
  */
-export const createRealisedActivity = async (realisedActivity: realisedActivityToCreate) => {
+export const createRealisedActivity = async (realisedActivity: RealisedActivityToCreate) => {
   return await prisma.realise.create({
     data: {
       activity: {
@@ -29,7 +29,7 @@ export const createRealisedActivity = async (realisedActivity: realisedActivityT
  * @param toCheck L'activité à réaliser.
  * @returns true si l'activité a été réalisée, false sinon.
  */
-export const realisationExists = async (toCheck: realisedActivityToCreate) => {
+export const realisationExists = async (toCheck: RealisedActivityToCreate) => {
   return await prisma.realise.findFirst({
     where: {
       id_activity: toCheck.id_activity,
@@ -60,7 +60,7 @@ export const mostRealisedActivity = async () => {
     }
   });
 
-  let mostRealised: {id_activity: number, _count: { _all: number }} | null = null;
+  let mostRealised: { id_activity: number, _count: { _all: number } } | null = null;
 
   for (const activity of activities) {
     if (mostRealised === null || activity._count._all > mostRealised._count._all) {

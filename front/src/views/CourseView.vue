@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="best-time">
-                        <div>Temps de manche :</div>
+                        <div>Temps de manche </div>
                         <div class="race-time">
                             {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
                         </div>
@@ -30,7 +30,7 @@
 
                     <div class="time-inter">
                         <div>Temps <br>
-                            intermédiaires :
+                            intermédiaires
                         </div>
                         <ul>
                             <li>
@@ -469,7 +469,7 @@ div.best-race {
 }
 
 div.classement-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 400px;
   margin-top: 10px;
 }

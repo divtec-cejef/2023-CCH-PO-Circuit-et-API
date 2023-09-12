@@ -26,6 +26,8 @@ CREATE TABLE race
     id_race     SERIAL,
     race_start  TIMESTAMP(3) NOT NULL,
     sector1     TIMESTAMP(3) NOT NULL,
+    sector2     TIMESTAMP(3) NOT NULL,
+    speed     FLOAT NOT NULL,
     race_finish TIMESTAMP(3) NOT NULL,
     video_url   VARCHAR(512),
     id_car      INTEGER      NOT NULL,
@@ -84,4 +86,3 @@ FROM race
 WHERE (id_car, (race_finish - race.race_start)) IN
       (select id_car, min(race_finish - race_start) AS total_time FROM race GROUP BY id_car)
 ORDER BY total_time;
-

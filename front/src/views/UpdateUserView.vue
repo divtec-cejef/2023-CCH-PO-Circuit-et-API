@@ -1,164 +1,169 @@
 <template>
     <div class="content">
-    <dialog id="connection-dialog" ref="dialog">
-        <div class="header">
-            <h2>Connexion</h2>
-            <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
-        </div>
-        <form @submit.prevent="() => connect(car.idQuery!, password)">
-            <label for="password">Code de la voiture </label>
-            <input type="text" id="password" name="password" v-model="password">
-            <p class="error">{{ error }}</p>
+        <dialog id="connection-dialog" ref="dialog">
+            <div class="header">
+                <h2>Connexion</h2>
+                <button @click.prevent="cancel"><img :src="cancelIcon" alt="close"></button>
+            </div>
+            <form @submit.prevent="() => connect(car.idQuery!, password)">
+                <label for="password">Code de la voiture </label>
+                <input type="text" id="password" name="password" v-model="password">
+                <p class="error">{{ error }}</p>
+                <div class="button-container">
+                    <button type="submit">Se connecter</button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog id="exit-dialog" ref="dialogExit">
+            <div class="header">
+                <h2>Avertissement</h2>
+                <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
+            </div>
+            <div>Tu n'as as enregistré tes modifications !
+                <br>Es-tu sûr de vouloir quitter ?
+            </div>
             <div class="button-container">
-                <button type="submit">Se connecter</button>
+                <button @click="closeModal">Non</button>
+                <button class="destructive" @click="quitPage">Oui</button>
+                <button class="main" @click="saveAndQuit">Enregistrer
+                </button>
             </div>
-        </form>
-    </dialog>
+        </dialog>
 
-    <dialog id="exit-dialog" ref="dialogExit">
-        <div class="header">
-            <h2>Avertissement</h2>
-            <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
-        </div>
-        <div>Tu n'as as enregistré tes modifications !
-            <br>Es-tu sûr de vouloir quitter ?
-        </div>
-        <div class="button-container">
-            <button @click="closeModal">Annuler</button>
-            <button class="destructive" @click="quitPage">Quitter</button>
-            <button class="main" @click="saveAndQuit">Enregistrer
-            </button>
-        </div>
-    </dialog>
-
-    <h1>Pilote</h1>
-    <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
-        imagination...</p>
-    <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
-        <div class="tab">
-            <div class="title">
-                <div class="tab1">
-                    <label>
-                        <input @click="clickTab(1)" name="tab" type="radio" :checked="numTabOpen == 1">
-                        <img src="../assets/img/face-color.webp" alt="Icon visage homme">
-                    </label>
-                </div>
-                <div class="tab2">
-                    <label>
-                        <input @click="clickTab(2)" name="tab" type="radio" :checked="numTabOpen == 2">
-                        <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
-                    </label>
-                </div>
-            </div>
-
-            <div class="tab-content">
-                <div v-if="numTabOpen == 1">
-                    <template v-for="(props, key) in avatarPropertiesHead" :key="key">
-                        <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                             :config="config"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false" :config="config"/>
-                    </template>
-                </div>
-                <div v-else>
-                    <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
-                        <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                             @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                             :config="config"/>
-                        <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                           :is-phone="false" :config="config"/>
-                    </template>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div :style="{display: displayMsgValid}" class="msg-success">
-                <img :src="validateIcon"
-                     alt="Icon de validation de l'enregistrement des données">
-            </div>
-            <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-            </div>
-
-            <div class="modify-pseudo">
-                <label for="pseudo">Pseudo </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                       maxlength="10">
-            </div>
-
-            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
-        </div>
-    </div>
-
-    <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')" @change="enableButton">
-
-        <div class="avatar-and-pseudo">
-            <div class="modify-pseudo">
-                <label for="pseudo">Pseudo </label>
-                <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                       maxlength="10">
-            </div>
-
-            <div :style="{display: displayMsgValid}" class="msg-success">
-                <img :src="validateIcon"
-                     alt="Icon de validation de l'enregistrement des données">
-            </div>
-            <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-            </div>
-
-        </div>
-
-        <div class="tab">
-            <div class="title">
-                <template v-for="(props, key) in avatarProperties" :key="key">
-                    <div
-                            v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                            :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
+        <h1>Pilote</h1>
+        <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
+            imagination...</p>
+        <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
+            <div class="tab">
+                <div class="title">
+                    <div class="tab1" :class="numTabOpen == 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                         <label>
-                            <input @click="clickTab(key)" name="tab-phone" type="radio" :checked="numTabOpen == key">
-                            <ImageModifPhone :image-name="props.propNameSnakeCase"
-                                             :image-name-fr="props.propNameFr"></ImageModifPhone>
+                            <input name="tab" type="radio" :checked="numTabOpen == 1">
+                            <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                         </label>
                     </div>
-                </template>
+                    <div class="tab2" :class="numTabOpen == 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                        <label>
+                            <input name="tab" type="radio" :checked="numTabOpen == 2">
+                            <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div v-if="numTabOpen == 1">
+                        <template v-for="(props, key) in avatarPropertiesHead" :key="key">
+                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                                 :config="config"/>
+                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
+                                               :is-phone="false" :config="config"/>
+                        </template>
+                    </div>
+                    <div v-else>
+                        <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
+                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                                 :config="config"/>
+                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
+                                               :is-phone="false" :config="config"/>
+                        </template>
+                    </div>
+                </div>
             </div>
 
-            <div class="tab-content">
-                <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
-                    <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
-                                         @regenerateAvatar="regenerateAvatar"
-                                         :config="config"
-                    />
+            <div>
+                <div :style="{display: displayMsgValid}" class="msg-success">
+                    <img :src="validateIcon"
+                         alt="Icon de validation de l'enregistrement des données">
+                </div>
+                <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                </div>
 
-                    <AvatarColorPicker
-                            v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                <div class="modify-pseudo">
+                    <label for="pseudo">Pseudo </label>
+                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                           maxlength="10">
+                </div>
+
+                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+
+        <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')" @change="enableButton">
+
+            <div class="avatar-and-pseudo">
+                <div class="modify-pseudo">
+                    <label for="pseudo">Pseudo </label>
+                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                           maxlength="10">
+                </div>
+
+                <div :style="{display: displayMsgValid}" class="msg-success">
+                    <img :src="validateIcon"
+                         alt="Icon de validation de l'enregistrement des données">
+                </div>
+                <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                </div>
+
+            </div>
+
+            <div class="tab">
+                <div class="title">
+                    <template v-for="(props, key) in avatarProperties" :key="key">
+                        <div
+                                v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                                :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
+                            <label>
+                                <input @click="clickTab(key)" name="tab-phone" type="radio"
+                                       :checked="numTabOpen == key">
+                                <ImageModifPhone :image-name="props.propNameSnakeCase"
+                                                 :image-name-fr="props.propNameFr"></ImageModifPhone>
+                            </label>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="tab-content">
+                    <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
+                        <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
+                                             @regenerateAvatar="regenerateAvatar"
+                                             :config="config"
+                        />
+
+                        <AvatarColorPicker
+                                v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
-                            :avatar-property="avatarProperties[numTabOpen + 1]"
-                            @regenerateAvatar="regenerateAvatar"
-                            :is-phone="true"
-                            :config="config"/>
-                </template>
+                                :avatar-property="avatarProperties[numTabOpen + 1]"
+                                @regenerateAvatar="regenerateAvatar"
+                                :is-phone="true"
+                                :config="config"/>
+                    </template>
 
-                <template v-else>
-                    <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
-                                       @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
-                </template>
+                    <template v-else>
+                        <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
+                                           @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
+                    </template>
 
+                </div>
+            </div>
+
+            <div class="bt-save-phone">
+                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                    Enregistrer
+                </button>
             </div>
         </div>
 
-        <div class="bt-save-phone">
-            <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">Enregistrer</button>
+        <div v-if="saveIsInvalid" class="show-error">
+            <p>* Le pseudo doit contenir au moins 3 caractères.</p>
         </div>
-    </div>
-
-    <div v-if="saveIsInvalid" class="show-error">
-        <p>* Le pseudo doit contenir au moins 3 caractères.</p>
-    </div>
     </div>
 
 </template>
@@ -211,7 +216,8 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
 
     //Retour si erreur dans la requête
-    if (typeof v.json === 'string') {
+    if ('message' in v.json) {
+      error.value = v.json.message;
       return;
     }
 
@@ -231,7 +237,7 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
   });
 }
 
-// S'il y a quelque chose dans le localstorage avec on compare avec les données dans la db
+// S'il y a quelque chose dans le localstorage avec, on compare avec les données dans la db
 if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
   let avatarValue: Ref<Configs> = ref(config.value);
 
@@ -239,7 +245,8 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
   api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
 
     //Retour si erreur dans la requête
-    if (typeof v.json === 'string') {
+    if ('message' in v.json) {
+      error.value = v.json.message;
       return;
     }
 
@@ -303,8 +310,8 @@ async function connect(queryId: string, password: string) {
   //Récupération du Token avec le nom et mot de passe de l'URL
   let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
-  if (typeof valueToken.json === 'string') {
-    error.value = '* Code de la voiture incorrect';
+  if ('message' in valueToken.json) {
+    error.value = valueToken.json.message;
     return;
   }
 
@@ -875,7 +882,6 @@ function fillAvatarPropreties(config: Configs) {
     let value = config[prop.propNameEn as keyof Configs];
     if (typeof value !== 'boolean') {
       prop.selectedValueEn = value;
-      console.log(prop.selectedValueEn);
     }
   }
 }
@@ -928,6 +934,7 @@ onBeforeRouteLeave((to) => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/consts";
 
 
 .none {
@@ -961,6 +968,8 @@ div.modify-pseudo {
     margin-right: 10px;
     font-weight: bold;
   }
+
+
 }
 
 button {
@@ -1093,47 +1102,68 @@ div.modify-avatar {
       display: flex;
       flex-direction: column;
       margin-right: 20px;
-      border-right: 1px solid var(--gray);
-      padding-right: 12px;
+      border-right: 1px solid rgba(194, 194, 194, 0.45);
+      padding-right: 20px;
+
+      > div {
+        transition: all 300ms ease-in-out;
+
+        * {
+          transition: all 300ms ease-in-out;
+        }
+
+        &.tab-checked {
+          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
+          cursor: default;
+
+          * {
+            cursor: default;
+
+          }
+        }
+
+        &:not(.tab-checked):hover {
+          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
+        }
+      }
+
+      .tab1 {
+        margin-bottom: 8px;
+      }
+
+      .tab2 {
+        margin-top: 8px;
+      }
 
       > div {
         display: flex;
         justify-content: center;
         align-items: center;
         flex: 1;
+        box-shadow: inset 0 0 27px rgba(50, 50, 93, 0), rgba(50, 50, 93, 0.2) 0 13px 27px -5px;
+        border: 1px solid rgba(50, 50, 93, 0.1);
+        padding: 4px;
+        border-radius: 10px;
+        cursor: pointer;
+
 
         label {
           cursor: pointer;
+          text-align: center;
           width: 50px;
         }
 
         input {
           display: none;
-
-          ~ img {
-            filter: grayscale(1);
-            opacity: 0.7;
-            transition: 0.2s ease-in-out;
-
-          }
-
-          ~ img:hover {
-            filter: none;
-            opacity: 1;
-            transition: 0.2s ease-in-out;
-          }
         }
 
-        input:checked ~ img {
-          filter: none;
-          opacity: 1;
-        }
       }
 
       img {
         width: 45px;
       }
     }
+
 
     div.tab-content {
       display: flex;
@@ -1170,6 +1200,7 @@ div.modify-avatar {
       }
     }
   }
+
 }
 
 
@@ -1260,7 +1291,7 @@ div.modify-avatar {
 
     button {
       margin: 0 5px;
-      padding: 3px;
+      padding: 5px 3px;
     }
   }
 }

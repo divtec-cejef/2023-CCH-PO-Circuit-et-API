@@ -1,16 +1,21 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
+import type { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 
 fs.existsSync('./logs') || fs.mkdirSync('./logs');
 
 for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
-  if (file.name.endsWith('.current.log')) { fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`); }
+  if (file.name.endsWith('.current.log')) {
+    fs.renameSync(`./logs/${file.name}`, `./logs/${file.name.replace('.current', '')}`);
+  }
 }
 
 const getLogFile = () => {
   for (const file of fs.readdirSync('./logs', { withFileTypes: true })) {
-    if (file.name.endsWith('.current.log')) { return file.name; }
+    if (file.name.endsWith('.current.log')) {
+      return file.name;
+    }
   }
 
   const date = new Date(Date.now());
@@ -47,15 +52,21 @@ const recursiveDirRead = (dir: string) => {
   const files = fs.readdirSync(dir, { withFileTypes: true });
   for (const file of files) {
     let splittedName = file.name.split('.');
-    if (splittedName[0] === '') { continue; }
-    if (splittedName.length > 1) { splittedName = splittedName.slice(0, -1); }
+    if (splittedName[0] === '') {
+      continue;
+    }
+    if (splittedName.length > 1) {
+      splittedName = splittedName.slice(0, -1);
+    }
     const path = `${dir}/${splittedName.join('.')}`;
     if (file.isDirectory()) {
       recursiveDirRead(path);
     } else {
-      if (file.name.split('.')[2] === 'disabled') { continue; }
+      if (file.name.split('.')[2] === 'disabled') {
+        continue;
+      }
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const route = require('../' + path);
+      const route = require('../' + path) as { default: (req: Request, res: Response) => void | Promise<void> };
       try {
         let routePath = '/' + path.split('/').slice(2, -1).join('/').split('.')[0];
 
@@ -64,7 +75,17 @@ const recursiveDirRead = (dir: string) => {
 
         type AppKey = keyof typeof app;
         const method = file.name.split('.')[0] as AppKey;
-        app[method](routePath, route.default);
+        const cb = async (req: Request, res: Response, next: NextFunction) => {
+          try {
+            const returned = route.default(req, res);
+            if (returned instanceof Promise) {
+              await returned;
+            }
+          } catch (e) {
+            return next(e);
+          }
+        };
+        app[method](routePath, cb);
 
         console.log(`inserted [${method}] route: ` + routePath);
       } catch (e) {
@@ -78,4 +99,17 @@ const recursiveDirRead = (dir: string) => {
 };
 
 recursiveDirRead('./routes');
+
+const errHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (typeof err === 'string') {
+    res.status(500).send({ message: err });
+  } else if (err instanceof Error) {
+    res.status(500).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: JSON.stringify(err) });
+  }
+};
+
+app.use(errHandler);
+
 export default app;
