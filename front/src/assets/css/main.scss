@@ -24,6 +24,7 @@ main {
   min-height: calc(100vh - var(--height-screen-diff));
   max-width: 1000px;
   margin: auto;
+
   &.display {
     display: flex;
     align-items: center;
