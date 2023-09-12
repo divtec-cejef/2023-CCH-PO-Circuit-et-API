@@ -92,21 +92,23 @@ export const route: RouteHandler<null, unknown, realisedActivityRequest> = async
     } else {
       res.status(500).send();
     }
+    return;
   }
 
   const socket: Server = req.app.get('socketio');
   try {
     socket.emit('updatedActivities', {
       count: await getRealisationCount(),
-      mostPopular: await mostRealisedActivity()
+      mostPopular: await mostRealisedActivity(),
+      last: await getActivityById(realisedActivityToCreate.id_activity)
     });
   } catch (e) {
     if (typeof e === 'string') {
-      socket.emit('updatedUserRaces', { message: e });
+      socket.emit('updatedActivities', { message: e });
     } else if (e instanceof Error) {
-      socket.emit('updatedUserRaces', { message: e.message });
+      socket.emit('updatedActivities', { message: e.message });
     } else {
-      socket.emit('updatedUserRaces', { message: 'internal server error' });
+      socket.emit('updatedActivities', { message: 'internal server error' });
     }
   }
 };
