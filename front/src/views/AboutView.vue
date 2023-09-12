@@ -23,7 +23,8 @@
             ainsi qu'a la partie vidéo de la course.
         </p>
         <p>
-            Les horlogers et laborantins ont quant à eux amener leur touche en apportant des bonus physique à la voiture. Un ---- et ----- pour les deux sections.
+            Les horlogers et laborantins ont quant à eux amener leur touche en apportant des bonus physique à la voiture,
+            respectivement un ---- et une peinture.
         </p>
         <h2>Apprentie-s</h2>
         <ul class="students">
