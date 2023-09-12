@@ -47,7 +47,6 @@ socket.onRankingReceived((data) => {
 
 // Déconnecte le websocket à la fermeture de la page
 onUnmounted(() => {
-  console.log('cleanup');
   socket.destroy();
 });
 

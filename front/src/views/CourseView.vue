@@ -1,6 +1,6 @@
 <template>
     <template v-if="socketConnected">
-        <div v-if="car.listRace!.length > 0">
+        <div v-if="car.listRace!.length > 0" class="content">
             <h1>Course</h1>
             <h2>Meilleure manche</h2>
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
@@ -55,18 +55,37 @@
                     </div>
                 </div>
 
-                <div class="video"></div>
+                <div class="video">
+                    <template v-if="car.listRace![BEST_TIME_INDEX].videoUrl?.length > 0">
+                        <video
+                                :src="car.listRace![BEST_TIME_INDEX].videoUrl.toString()"
+                                autoplay
+                                controls
+                                loop>
+                        </video>
+                        <a :href="blobBestVideo" download="course-divtec-1.mp4">
+                            <button class="download">
+                                <span>Télécharge la vidéo ici !</span>
+                                <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
+                            </button>
+                        </a>
+                    </template>
+                    <div v-else>
+                        <p>Ta vidéo n'est pas encore disponible !</p>
+                        <button @click="router.go(0)"/>
+                    </div>
+                </div>
             </div>
 
             <div class="content-list-classement">
                 <DropDown v-if="car.listRace!.length > 1" class="drop-down-course"
                           name="Toutes les courses">
-                    <TableListTime :car-user="car"/>
+                    <TableListTime/>
                 </DropDown>
 
                 <div class="table-large-content">
                     <h2>Liste de courses</h2>
-                    <TableListTime :car-user="car"/>
+                    <TableListTime/>
                 </div>
 
                 <div class="content-classement">
@@ -83,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <div v-else-if="hasCarRaces">
+        <div v-else-if="hasCarRaces" class="content">
             <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
         </div>
     </template>
@@ -104,11 +123,11 @@ import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
+import downloadImg from '../assets/img/downloads.png';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
@@ -131,6 +150,26 @@ function scrollToTop() {
   }
 }
 
+/**
+ * Création de l'objet blob
+ * @param object Objet
+ */
+function createObjectURL(object: Blob | MediaSource) {
+  return (window.URL) ? window.URL.createObjectURL(object) : window.webkitURL.createObjectURL(object);
+}
+
+
+/**
+ * Construit un objet blob en fonction de son URL
+ * @param url
+ */
+async function createBlobObject(url: string) {
+  //Récupération de la vidéo et transformation en blob
+  let response = await fetch(url);
+  const blobURL = await response.blob();
+  return createObjectURL(blobURL);
+}
+
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
 const classement = ref<Element | null>(null);
@@ -140,10 +179,14 @@ const socket = ref<WebsocketConnection | null>();
 const socketConnected = ref();
 const hasCarRaces = ref(false);
 const displayContent = ref(false);
+const router = useRouter();
+const blobBestVideo = ref<string>();
 
+//Scroll sur l'utilisateur
 onMounted(() => {
   scrollToUser();
 });
+
 
 //Si aucune voiture n'est initialisée alors redirection
 if (!userCar.car.idCar) {
@@ -162,6 +205,14 @@ if (!userCar.car.idCar) {
     value.onUserRace(() => {
       socketConnected.value = true;
       hasCarRaces.value = true;
+
+      //Ajout du bouton de téléchargement de la vidéo
+      let urlBestRace = car.listRace![BEST_TIME_INDEX].videoUrl;
+      if (urlBestRace) {
+        createBlobObject(urlBestRace.toString()).then(v => {
+          blobBestVideo.value = v;
+        });
+      }
     });
   });
 
@@ -187,6 +238,7 @@ div.best-race {
     justify-content: space-between;
     align-items: center;
     min-width: 280px;
+    max-width: 297px;
     width: 80%;
     margin: auto;
 
@@ -245,6 +297,8 @@ div.best-race {
     display: flex;
     justify-content: space-between;
     min-width: 280px;
+    max-width: 297px;
+
     width: 80%;
     margin: auto;
 
@@ -300,10 +354,76 @@ div.best-race {
   div.video {
     width: 100%;
     max-width: 450px;
-    height: 250px;
+    height: 257px;
     margin: 0 auto;
-    background-color: var(--black);
     border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    a {
+      margin: 0;
+        width: 100%;
+    }
+
+    video,
+    > div:nth-child(2),
+    a button {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      box-shadow: $default-shadow;
+    }
+
+    button.download {
+      margin-top: 10px;
+      background-color: var(--white);
+      width: 100%;
+      height: 37px;
+      border: none;
+      transition: all ease-in-out 0.2s;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        margin-right: 5px;
+      }
+
+      img {
+        width: 14px;
+        margin-left: 5px;
+      }
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      button {
+        margin-top: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 22px;
+        background-image: url("../assets/img/reload.png");
+        background-color: var(--gray);
+        width: 50px;
+        height: 30px;
+        border: 1px solid var(--gray);
+
+        &:hover {
+          width: 53px
+        }
+      }
+    }
   }
 
   a {
@@ -319,6 +439,7 @@ div.best-race {
     font-style: italic;
     align-items: center;
     min-width: 280px;
+    max-width: 297px;
     padding: 0 5px;
     width: 80%;
 
