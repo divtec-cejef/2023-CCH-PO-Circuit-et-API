@@ -126,9 +126,11 @@ footer#main-footer.display {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 25px 15px;
+  padding: 15px;
   position: fixed;
-  width: 100%;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
   z-index: 1000;
   background-color: var(--white);
 
@@ -148,11 +150,8 @@ header {
   }
 
   &.open.thin {
-    height: calc(100vh + 20px);
-
-    .btn {
-      margin-top: 8px;
-    }
+    display: block;
+    height: calc(100vh + 20px - env(safe-area-inset-bottom) - env(safe-area-inset-top));
   }
 }
 
@@ -168,12 +167,15 @@ header.large {
 
 .btn {
   width: 57px;
+  height: 60px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: end;
   justify-content: center;
-  height: fit-content;
+  position: absolute;
+  right:20px;
+  top: calc(env(safe-area-inset-top) + 20px);
 
   span {
     display: block;
