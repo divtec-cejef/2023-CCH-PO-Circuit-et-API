@@ -373,6 +373,12 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
+
+div.content {
+  width: 100vw;
+  max-width: 1175px;
+}
+
 template {
   width: 100%;
   height: 100%;
@@ -381,7 +387,7 @@ template {
   background-color: var(--white);
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
   }
 }
 
@@ -393,7 +399,7 @@ template {
   background-color: var(--white);
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
   }
 }
 
@@ -410,7 +416,7 @@ template {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
     box-shadow: none;
     border: $dark-border;
   }
