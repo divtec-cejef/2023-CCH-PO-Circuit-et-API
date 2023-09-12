@@ -11,7 +11,7 @@ import { getCarByQueryId } from '../../../services/car';
 import validateSection from '../../../services/section/validate-token';
 import { Server } from 'socket.io';
 
-declare type realisedActivityRequest = {
+declare type RealisedActivityRequest = {
   id_activity: number,
   query_id: string,
   date_time: string,
@@ -23,7 +23,7 @@ declare type realisedActivityRequest = {
  * @param res Reponse
  * @returns l'activité réalisée
  */
-export const route: RouteHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RealisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
   // vérification de l'authentification
