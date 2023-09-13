@@ -118,13 +118,14 @@
 </template>
 
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue';
+
 import { RouterLink } from 'vue-router';
 import { ref, watch } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
 import api from '@/models/api';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import badgeCourse from '@/assets/img/course.webp';
 import badgeClassement from '@/assets/img/classement.webp';
 import badgeModif from '@/assets/img/modification.webp';
@@ -132,11 +133,17 @@ import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
-import SpinLoading from '@/components/SpinLoading.vue';
 import { HollowDotsSpinner } from 'epic-spinners';
-import ErrorConnection from '@/components/ErrorConnection.vue';
-import NumberTime from '@/components/NumberTime.vue';
 import { usePreferredColorScheme, useWindowSize } from '@vueuse/core';
+
+const SpinLoading =
+  defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection =
+  defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
+const NumberTime =
+  defineAsyncComponent(() => import('@/components/NumberTime.vue'));
+const AutoRegeneratedAvatar =
+  defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
