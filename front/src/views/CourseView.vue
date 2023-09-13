@@ -78,13 +78,9 @@
             </div>
 
             <div class="content-list-classement">
-                <DropDown v-if="car.listRace!.length > 1" class="drop-down-course"
-                          name="Toutes les courses">
-                    <TableListTime/>
-                </DropDown>
-
-                <div class="table-large-content">
+                <div class="table-large-content" v-if="car.listRace!.length > 1">
                     <h2>Liste de courses</h2>
+                    <p>Voilà la liste de toutes les courses que tu as réalisées !</p>
                     <TableListTime/>
                 </div>
 
@@ -353,7 +349,7 @@ div.best-race {
 
   div.video {
     width: 100%;
-    max-width: 450px;
+    max-width: 350px;
     height: 257px;
     margin: 0 auto;
     border-radius: 2px;
@@ -527,10 +523,11 @@ div.large-content {
 
 
 .table-large-content {
-  display: none;
+  margin-top: 30px;
+  margin-bottom: 20px;
 
-  h2 {
-    margin-bottom: 30px;
+  p {
+      margin-bottom: 20px;
   }
 }
 
