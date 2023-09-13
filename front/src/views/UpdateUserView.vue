@@ -37,13 +37,13 @@
         <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
             <div class="tab">
                 <div class="title">
-                    <div class="tab1" :class="numTabOpen == 1 ? 'tab-checked' : ''" @click="clickTab(1)">
+                    <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                         <label>
                             <input name="tab" type="radio" :checked="numTabOpen == 1">
                             <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                         </label>
                     </div>
-                    <div class="tab2" :class="numTabOpen == 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                    <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
                         <label>
                             <input name="tab" type="radio" :checked="numTabOpen == 2">
                             <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
@@ -197,6 +197,8 @@ const opacityAvatar = ref('');
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
+const numTabOpen = ref(1);
+
 let isAvatarEquals = ref(true);
 let isPseudoEquals = ref(true);
 
@@ -913,7 +915,6 @@ onMounted(() => {
 });
 
 //Initialisation des variables
-let numTabOpen = ref(1);
 if (localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }
