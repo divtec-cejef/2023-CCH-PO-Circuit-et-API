@@ -26,12 +26,11 @@
                 <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
             <li @click="clickMenu" id="stage">
-                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                   target="_blank">
+                <RouterLink to="stage">
                     <p>Stage</p>
                     <img src="../assets/img/contract.png"
                          alt="Icon d'inscription à un stage">
-                </a>
+                </RouterLink>
             </li>
         </ul>
         <ul class="buttons">
