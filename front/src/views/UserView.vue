@@ -56,7 +56,7 @@
                         <NumberTime color="var(--blue)" number="1"></NumberTime>
                         <p>Balade toi dans les différents ateliers du bâtiment et
                             réalise des activités pour obtenir des
-                            <RouterLink to="historique">bonus</RouterLink>
+                            <RouterLink to="bonus">bonus</RouterLink>
                             !
                         </p>
                     </li>
