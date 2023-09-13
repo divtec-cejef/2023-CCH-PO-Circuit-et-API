@@ -87,8 +87,8 @@
                 <Roller
                         char-set="alphabet"
                         :duration="1000"
-                        :default-value="lastActivity"
-                        :value="lastActivity"
+                        :default-value="lastActivity?.toString()"
+                        :value="lastActivity?.toString()"
                         class="data"/>
                 <span class="label">vient d'être réalisé</span>
             </li>
