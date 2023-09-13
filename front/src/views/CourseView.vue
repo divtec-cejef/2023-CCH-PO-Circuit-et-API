@@ -294,7 +294,6 @@ div.best-race {
     justify-content: space-between;
     min-width: 280px;
     max-width: 297px;
-
     width: 80%;
     margin: auto;
 

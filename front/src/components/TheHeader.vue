@@ -3,24 +3,28 @@
         <ul class="links">
             <li @click="clickMenu" class="accueil">
                 <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
+                <img :src="houseImg" alt="Image d'accueil">
             </li>
             <li @click="clickMenu" v-if="userCar.car.idCar">
                 <RouterLink to="/pilote">Pilote</RouterLink>
+                <img :src="editImg" alt="Image de modification pour le pilote">
             </li>
             <li @click="clickMenu" v-if="userCar.car.idCar">
                 <RouterLink to="/course">Mes Courses</RouterLink>
+                <img :src="carImg" alt="Image de voiture">
             </li>
             <li @click="clickMenu">
                 <RouterLink to="/bonus">Bonus</RouterLink>
+                <img :src="bonusImg" alt="Image de bonus">
             </li>
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
+                <img :src="rankingImg" alt="Image de classement">
             </li>
             <li @click="clickMenu" v-if="adminPost.idSection">
                 <RouterLink to="/admin">Admin</RouterLink>
+                <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
-        </ul>
-        <ul class="buttons">
             <li @click="clickMenu" id="stage">
                 <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
                    target="_blank">
@@ -29,6 +33,9 @@
                          alt="Icon d'inscription à un stage">
                 </a>
             </li>
+        </ul>
+        <ul class="buttons">
+
             <li v-if="userCar.car.idCar">
                 <button class="logout-button tooltip" @click="logOutUser">
                     <span>Déconnexion</span>
@@ -42,13 +49,19 @@
 </template>
 
 <script setup lang="ts">
-
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.png';
 import exitPhoneImg from '@/assets/img/exit-phone.png';
 import { useRouter } from 'vue-router';
 import { usePreferredColorScheme } from '@vueuse/core';
+
+import houseImg from '@/assets/img/house.png';
+import editImg from '@/assets/img/edit.png';
+import rankingImg from '@/assets/img/top-three.png';
+import carImg from '@/assets/img/car.png';
+import bonusImg from '@/assets/img/trophy.png';
+import qrCodeimg from '@/assets/img/qr-code.png';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
@@ -81,10 +94,13 @@ const adminPost = useAdminPostStore();
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/css/consts";
+
 nav {
   height: 100%;
+
   ul {
-    margin-top: 30px;
+    margin-top: 75px;
     padding: 0;
     list-style: none;
 
@@ -92,7 +108,7 @@ nav {
       display: flex;
       align-items: center;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
       background-color: var(--pink-divtec);
       border: 2px solid var(--pink-divtec);
       padding: 7px 10px;
@@ -103,18 +119,17 @@ nav {
         margin-left: 4px;
       }
 
-      img {
-        width: 20px;
-        margin-left: 7px;
-      }
+
     }
 
-    li#stage a:hover {
-      background-color: var(--white);
+    li#stage {
+      a:hover {
+        background-color: var(--white);
 
-      p {
-        color: var(--pink-divtec);
-        margin-left: 4px;
+        p {
+          color: var(--pink-divtec);
+          margin-left: 4px;
+        }
       }
     }
 
@@ -123,21 +138,43 @@ nav {
       font-family: 'SF Pro Display', sans-serif;
       font-weight: bold;
       font-style: normal;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
 
       * {
         font-size: 27px;
       }
 
       a {
+          width: 100%;
         transition: ease-in-out 0.15s;
 
         &:hover {
           color: var(--gray);
           transition: ease-in-out 0.15s;
         }
-
-
       }
+    }
+  }
+
+  ul.links {
+
+    li {
+      box-shadow: $default-shadow;
+      padding: 10px 15px;
+      border-radius: 50px;
+    }
+
+    li:last-child {
+      box-shadow: none;
+      padding: 0;
+    }
+
+    img {
+      width: 22px;
+      margin-left: 10px;
     }
   }
 }
@@ -149,6 +186,7 @@ button.logout-button {
   border: none;
   cursor: pointer;
   padding: 0;
+
 
   img {
     height: 35px;
