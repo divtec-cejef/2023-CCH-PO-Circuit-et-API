@@ -16,38 +16,14 @@
                 </div>
 
                 <div class="car-3d">
-                    <div :class="`loading${modelLoaded?' loaded':''}`">
-                        <hollow-dots-spinner
-                                :dot-size="12"
-                                :dots-num="3"
-                                color="#7f7f7f"
-                        />
-                    </div>
-                    <div :class="modelLoaded?'':'hidden'">
-                        <Renderer id="car"
-                                  ref="renderer"
-                                  antialias
-                                  :orbit-ctrl="{
-                               autoRotate: true,
-                               autoRotateSpeed: -2.0,
-                               enableDamping: true,
-                               dampingFactor: 0.05
-                           }"
-                                  :width="`${Math.min(vWidth - 30, 400)}px`"
-                                  :height="`${Math.min(vWidth - 30, 400) * 3/4}px`">
-                            <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-                            <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
-                                <PointLight :position="{x: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{x: -10}" :intensity="2"></PointLight>
-                                <PointLight :position="{y: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{y: -10}" :intensity="2"></PointLight>
-                                <PointLight :position="{z: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-                                <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
-                                           @load="() => modelLoaded = true"/>
-                            </Scene>
-                        </Renderer>
-                    </div>
+                    <Suspense>
+                    <ModelRender :model="carModel" />
+                        <template #fallback>
+                            <div class="loading">
+                            <HollowDotsSpinner/>
+                            </div>
+                        </template>
+                    </Suspense>
                 </div>
 
                 <h2>Instructions</h2>
@@ -124,7 +100,6 @@ import { RouterLink } from 'vue-router';
 import { ref, watch } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
-import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
 import api from '@/models/api';
 import badgeCourse from '@/assets/img/course.webp';
 import badgeClassement from '@/assets/img/classement.webp';
@@ -134,7 +109,6 @@ import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
 import { HollowDotsSpinner } from 'epic-spinners';
-import { usePreferredColorScheme, useWindowSize } from '@vueuse/core';
 
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -144,16 +118,13 @@ const NumberTime =
   defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 const AutoRegeneratedAvatar =
   defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const ModelRender =
+  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
-const modelLoaded = ref(false);
 const codeBackApi = ref(0);
-const { width: vWidth } = useWindowSize();
-
-//Initialisation du schéma de couleur préféré
-const preferredColor = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -379,16 +350,9 @@ div.user-data {
     margin: 50px auto auto auto;
     max-width: 100vw;
 
-    div.loading {
-      font-size: 2em;
-      font-weight: bolder;
-      position: absolute;
-      width: fit-content;
-
-
-      &.loaded {
-        display: none;
-      }
+    .loading {
+      width: 100%;
+      height: 100%;
     }
   }
 }
