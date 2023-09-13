@@ -65,6 +65,7 @@ import qrCodeimg from '@/assets/img/qr-code.png';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
+
 const clickMenu = () => {
   emit('clickMenu', true);
 };
