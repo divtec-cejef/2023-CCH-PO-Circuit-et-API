@@ -8,7 +8,7 @@
             <form @submit.prevent="() => connect(car.idQuery!, password)">
                 <label for="password">Code de la voiture </label>
                 <input type="text" id="password" name="password" v-model="password">
-                <p class="error">{{ error }}</p>
+                <p class="error">Code invalide.</p>
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
                 </div>
@@ -619,6 +619,75 @@ let avatarProperties = ref([
     ],
     selectedValueEn: config.value.earSize
   },
+
+  {
+    propNameFr: 'Type de cheveux',
+    propNameEn: 'hairType',
+    propNameSnakeCase: 'hair-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: 'normal',
+        propValueFr: 'Normaux',
+      },
+      {
+        propValueEn: 'thick',
+        propValueFr: 'Epais',
+      },
+      {
+        propValueEn: 'mohawk',
+        propValueFr: 'Crête',
+      },
+      {
+        propValueEn: 'femaleLong',
+        propValueFr: 'Très longs',
+      },
+      {
+        propValueEn: 'femaleShort',
+        propValueFr: 'Longs',
+      }
+    ],
+    selectedValueEn: config.value.hairType
+  },
+  {
+    propNameFr: 'Couleur de cheveux',
+    propNameEn: 'hairColor',
+    propNameSnakeCase: 'hair-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#E71',
+        propValueFr: 'Roux',
+      },
+      {
+        propValueEn: '#FFB',
+        propValueFr: 'Blond',
+      },
+      {
+        propValueEn: '#643',
+        propValueFr: 'Brun',
+      },
+      {
+        propValueEn: '#C96',
+        propValueFr: 'Chatin',
+      },
+      {
+        propValueEn: '#61C',
+        propValueFr: 'Violet',
+      }
+    ],
+    selectedValueEn: config.value.hairColor
+  },
   {
     propNameFr: 'Couleur de fond',
     propNameEn: 'bgColor',
@@ -656,74 +725,6 @@ let avatarProperties = ref([
       }
     ],
     selectedValueEn: config.value.bgColor
-  },
-  {
-    propNameFr: 'Type de cheveux',
-    propNameEn: 'hairType',
-    propNameSnakeCase: 'hair-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: 'normal',
-        propValueFr: 'Normaux',
-      },
-      {
-        propValueEn: 'thick',
-        propValueFr: 'Epais',
-      },
-      {
-        propValueEn: 'mohawk',
-        propValueFr: 'Crête',
-      },
-      {
-        propValueEn: 'femaleLong',
-        propValueFr: 'Très longs',
-      },
-      {
-        propValueEn: 'femaleShort',
-        propValueFr: 'Longs',
-      }
-    ],
-    selectedValueEn: config.value.hairType
-  },
-  {
-    propNameFr: 'Couleur de cheveux',
-    propNameEn: 'hairColor',
-    propNameSnakeCase: 'hair-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#E71',
-        propValueFr: 'Roux',
-      },
-      {
-        propValueEn: '#FFB',
-        propValueFr: 'Blond',
-      },
-      {
-        propValueEn: '#643',
-        propValueFr: 'Brun',
-      },
-      {
-        propValueEn: '#C96',
-        propValueFr: 'Chatin',
-      },
-      {
-        propValueEn: '#61C',
-        propValueFr: 'Violet',
-      }
-    ],
-    selectedValueEn: config.value.hairColor
   },
   {
     propNameFr: 'Type de haut',

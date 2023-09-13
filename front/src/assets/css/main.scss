@@ -180,6 +180,7 @@ div.loading {
 .error {
   font-weight: bold;
   color: var(--red);
+  font-style: italic;
 }
 
 /* A la fin car le mode sombre doit avoir une importance plus élevée que le mode clair pour fonctionner */
