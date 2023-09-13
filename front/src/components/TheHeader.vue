@@ -11,7 +11,7 @@
                 <RouterLink to="/course">Mes Courses</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/hi.storique">Bonus</RouterLink>
+                <RouterLink to="/historique">Bonus</RouterLink>
             </li>
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
