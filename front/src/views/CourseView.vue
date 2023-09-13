@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="best-time">
-                        <div>Temps de manche </div>
+                        <div>Temps de manche</div>
                         <div class="race-time">
                             {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
                         </div>
@@ -361,10 +361,11 @@ div.best-race {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    box-shadow: $default-shadow;
 
     a {
       margin: 0;
-        width: 100%;
+      width: 100%;
     }
 
     video,
@@ -472,6 +473,7 @@ div.classement-content {
   overflow-y: auto;
   max-height: 400px;
   margin-top: 10px;
+  padding: 0 10px;
 }
 
 
