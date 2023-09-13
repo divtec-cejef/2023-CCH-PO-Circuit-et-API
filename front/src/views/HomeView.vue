@@ -226,7 +226,6 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 25px;
 
   ul.stats {
     list-style-type: none;
