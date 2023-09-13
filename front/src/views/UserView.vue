@@ -16,39 +16,35 @@
                 </div>
 
                 <div class="car-3d">
-                    <Suspense>
-                    <ModelRender :model="carModel" />
-                        <template #fallback>
-                            <div class="loading">
-                            <HollowDotsSpinner/>
-                            </div>
-                        </template>
-                    </Suspense>
+                    <img :src="colorScheme === 'dark' ? carSpinDark : carSpinLight" alt="Image 3D animée de la voiture"/>
                 </div>
 
-                <h2>Instructions</h2>
-                <ul class="list-instruction">
-                    <li>
-                        <NumberTime color="var(--blue)" number="1"></NumberTime>
-                        <p>Balade toi dans les différentes sections du bâtiment et
-                            réalise des activités pour obtenir des bonus !</p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="2"></NumberTime>
-                        <p>Modifie tes données de pilotes.</p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="3"></NumberTime>
-                        <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                            plus tu iras vite !</p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="4"></NumberTime>
-                        <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
-                    </li>
+                <div class="guide">
+                    <h2>Instructions</h2>
+                    <ul class="list-instruction">
+                        <li>
+                            <NumberTime color="var(--blue)" number="1"></NumberTime>
+                            <p>Balade toi dans les différentes sections du bâtiment et
+                                réalise des activités pour obtenir des bonus !</p>
+                        </li>
+                        <li>
+                            <NumberTime color="var(--blue)" number="2"></NumberTime>
+                            <p>Modifie tes données de pilotes.</p>
+                        </li>
+                        <li>
+                            <NumberTime color="var(--blue)" number="3"></NumberTime>
+                            <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                                plus tu iras vite !</p>
+                        </li>
+                        <li>
+                            <NumberTime color="var(--blue)" number="4"></NumberTime>
+                            <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                        </li>
 
-                </ul>
+                    </ul>
+                </div>
 
+                <div class="dashboard">
                 <h2>Tableau de bord</h2>
                 <div class="badges">
                     <RouterLink to="/course">
@@ -77,6 +73,7 @@
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
                     </RouterLink>
+                </div>
                 </div>
             </div>
         </div>
@@ -107,8 +104,9 @@ import badgeModif from '@/assets/img/modification.webp';
 import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
-import carModel from '@/assets/other/car.glb';
-import { HollowDotsSpinner } from 'epic-spinners';
+import carSpinDark from '@/assets/img/car-spin-dark.gif';
+import carSpinLight from '@/assets/img/car-spin-light.gif';
+import { usePreferredColorScheme } from '@vueuse/core';
 
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -118,13 +116,13 @@ const NumberTime =
   defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 const AutoRegeneratedAvatar =
   defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const ModelRender =
-  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
+
+const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -348,12 +346,7 @@ div.user-data {
     justify-content: center;
     align-items: center;
     margin: 50px auto auto auto;
-    max-width: 100vw;
-
-    .loading {
-      width: 100%;
-      height: 100%;
-    }
+    max-width: min(400px, 100vw);
   }
 }
 
