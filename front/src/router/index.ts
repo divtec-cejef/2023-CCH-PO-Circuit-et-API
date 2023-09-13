@@ -25,8 +25,8 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/historique',
-      name: 'historique',
+      path: '/bonus',
+      name: 'bonus',
       component: HistoryView
     },
     {
