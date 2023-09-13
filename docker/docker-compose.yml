@@ -19,6 +19,7 @@ services:
       - PORT=3000
       - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@db:5432/postgres?schema=cars
       - ENV=DOCKER
+      - NODE_ENV=production
     networks:
       - intranet
     command: npm start
@@ -44,6 +45,7 @@ services:
     environment:
       - VITE_ROUTE_API=http://${API_HOSTNAME}/api/
       - ENV=DOCKER
+      - NODE_ENV=production
   reverse-proxy:
     image: nginx:latest
     volumes:
