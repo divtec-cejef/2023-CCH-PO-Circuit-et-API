@@ -98,6 +98,7 @@ button {
   &.main, &[type=submit] {
     background-color: var(--accent);
     color: white;
+
     border: 3px solid var(--accent);
 
     &:hover {
@@ -180,6 +181,11 @@ div.loading {
       height: 1.4em !important;
     }
   }
+}
+
+.error {
+  font-weight: bold;
+  color: var(--red);
 }
 
 /* A la fin car le mode sombre doit avoir une importance plus élevée que le mode clair pour fonctionner */
