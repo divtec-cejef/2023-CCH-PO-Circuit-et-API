@@ -234,6 +234,7 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+    margin: 0;
 
   ul.stats {
     list-style-type: none;
