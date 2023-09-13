@@ -10,6 +10,7 @@ import UpdateUserView from '@/views/UpdateUserView.vue';
 import ActivityAdminView from '@/views/ActivityAdminView.vue';
 import ScanActivityView from '@/views/ScanActivityView.vue';
 import ClassementFullScreenView from '@/views/ClassementFullScreenView.vue';
+import StageView from '@/views/StageView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
       path: '/admin/full-screen-classement',
       name: 'full-screen-classement',
       component: ClassementFullScreenView
+    },
+    {
+      path: '/stage',
+      name: 'stage',
+      component: StageView
     }
   ]
 });
