@@ -16,35 +16,43 @@
                 </div>
 
                 <div class="car-3d">
-                    <img :src="colorScheme === 'dark' ? carSpinDark : carSpinLight" alt="Image 3D animée de la voiture"/>
+                    <Suspense>
+                        <ModelRender :model="carModel">
+                            <img :src="colorScheme === 'dark'
+                            ? carGifDark
+                            : carGifLight" alt="Animation de la voiture en 3D">
+                        </ModelRender>
+                        <template #fallback>
+                            <div class="loading">
+                            <HollowDotsSpinner/>
+                            </div>
+                        </template>
+                    </Suspense>
                 </div>
 
-                <div class="guide">
-                    <h2>Instructions</h2>
-                    <ul class="list-instruction">
-                        <li>
-                            <NumberTime color="var(--blue)" number="1"></NumberTime>
-                            <p>Balade toi dans les différentes sections du bâtiment et
-                                réalise des activités pour obtenir des bonus !</p>
-                        </li>
-                        <li>
-                            <NumberTime color="var(--blue)" number="2"></NumberTime>
-                            <p>Modifie tes données de pilotes.</p>
-                        </li>
-                        <li>
-                            <NumberTime color="var(--blue)" number="3"></NumberTime>
-                            <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                                plus tu iras vite !</p>
-                        </li>
-                        <li>
-                            <NumberTime color="var(--blue)" number="4"></NumberTime>
-                            <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
-                        </li>
+                <h2>Instructions</h2>
+                <ul class="list-instruction">
+                    <li>
+                        <NumberTime color="var(--blue)" number="1"></NumberTime>
+                        <p>Balade toi dans les différentes sections du bâtiment et
+                            réalise des activités pour obtenir des bonus !</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="2"></NumberTime>
+                        <p>Modifie tes données de pilotes.</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="3"></NumberTime>
+                        <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                            plus tu iras vite !</p>
+                    </li>
+                    <li>
+                        <NumberTime color="var(--blue)" number="4"></NumberTime>
+                        <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                    </li>
 
-                    </ul>
-                </div>
+                </ul>
 
-                <div class="dashboard">
                 <h2>Tableau de bord</h2>
                 <div class="badges">
                     <RouterLink to="/course">
@@ -73,7 +81,6 @@
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
                     </RouterLink>
-                </div>
                 </div>
             </div>
         </div>
@@ -104,8 +111,10 @@ import badgeModif from '@/assets/img/modification.webp';
 import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
-import carSpinDark from '@/assets/img/car-spin-dark.gif';
-import carSpinLight from '@/assets/img/car-spin-light.gif';
+import carModel from '@/assets/other/car.glb';
+import carGifLight from '@/assets/img/car-spin-light.gif';
+import carGifDark from '@/assets/img/car-spin-dark.gif';
+import { HollowDotsSpinner } from 'epic-spinners';
 import { usePreferredColorScheme } from '@vueuse/core';
 
 const SpinLoading =
@@ -116,6 +125,8 @@ const NumberTime =
   defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 const AutoRegeneratedAvatar =
   defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const ModelRender =
+  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -346,7 +357,12 @@ div.user-data {
     justify-content: center;
     align-items: center;
     margin: 50px auto auto auto;
-    max-width: min(400px, 100vw);
+    max-width: 100vw;
+
+    .loading {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
