@@ -7,13 +7,13 @@
                       antialias
                       :orbit-ctrl="{
                                    autoRotate: true,
-                                   autoRotateSpeed: -2.0,
+                                   autoRotateSpeed: 4.0,
                                    enableDamping: true,
                                    dampingFactor: 0.05
                                }"
                       :width="`${Math.min(vWidth - 30, 400)}px`"
                       :height="`${Math.min(vWidth - 30, 400) * 3/4}px`">
-                <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
+                <Camera :position="{ x: 1, y: .75, z: 0 }" :near=".01"/>
                 <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
                     <PointLight :position="{x: 10}" :intensity="2"></PointLight>
                     <PointLight :position="{x: -10}" :intensity="2"></PointLight>
@@ -29,17 +29,14 @@
             </Renderer>
             </div>
     <div :style="{display: hasLoaded ? 'none' : 'flex'}" class="load-icon">
-        <HollowDotsSpinner
-                :dot-size="12"
-                :dots-num="3"
-                color="#7f7f7f"/>
+        <slot></slot>
     </div>
     </div>
 </template>
+
 <script setup lang="ts">
 import { GltfModel, PointLight, Renderer, Scene, Camera } from 'troisjs';
 import { usePreferredColorScheme, useWindowSize } from '@vueuse/core';
-import { HollowDotsSpinner } from 'epic-spinners';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -64,5 +61,3 @@ const preferredColor = usePreferredColorScheme();
   justify-content: center;
 }
 </style>
-<script setup lang="ts">
-</script>

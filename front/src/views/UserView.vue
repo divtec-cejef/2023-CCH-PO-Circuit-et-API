@@ -17,7 +17,11 @@
 
                 <div class="car-3d">
                     <Suspense>
-                    <ModelRender :model="carModel" />
+                        <ModelRender :model="carModel">
+                            <img :src="colorScheme === 'dark'
+                            ? carGifDark
+                            : carGifLight" alt="Animation de la voiture en 3D">
+                        </ModelRender>
                         <template #fallback>
                             <div class="loading">
                             <HollowDotsSpinner/>
@@ -108,7 +112,10 @@ import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
+import carGifLight from '@/assets/img/car-spin-light.gif';
+import carGifDark from '@/assets/img/car-spin-dark.gif';
 import { HollowDotsSpinner } from 'epic-spinners';
+import { usePreferredColorScheme } from '@vueuse/core';
 
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -125,6 +132,8 @@ const ModelRender =
 let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
+
+const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
