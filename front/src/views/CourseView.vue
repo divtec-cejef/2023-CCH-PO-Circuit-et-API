@@ -57,26 +57,7 @@
                     </div>
                 </div>
 
-                <div class="video">
-                    <template v-if="car.listRace![BEST_TIME_INDEX].videoUrl?.length > 0">
-                        <video
-                                :src="car.listRace![BEST_TIME_INDEX].videoUrl.toString()"
-                                autoplay
-                                controls
-                                loop>
-                        </video>
-                        <a :href="blobBestVideo" download="course-divtec-1.mp4">
-                            <button class="download">
-                                <span>Télécharge la vidéo ici !</span>
-                                <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
-                            </button>
-                        </a>
-                    </template>
-                    <div v-else>
-                        <p>Ta vidéo n'est pas encore disponible !</p>
-                        <button @click="router.go(0)"/>
-                    </div>
-                </div>
+                <VideoRace :url="urlBestRace"></VideoRace>
             </div>
 
             <div class="content-list-classement">
@@ -119,10 +100,10 @@ import ClassementRace from '@/components/ClassementRace.vue';
 import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
-import downloadImg from '../assets/img/downloads.png';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import { useRouter } from 'vue-router';
+import VideoRace from '@/components/VideoRace.vue';
 
 
 /**
@@ -146,25 +127,7 @@ function scrollToTop() {
   }
 }
 
-/**
- * Création de l'objet blob
- * @param object Objet
- */
-function createObjectURL(object: Blob | MediaSource) {
-  return (window.URL) ? window.URL.createObjectURL(object) : window.webkitURL.createObjectURL(object);
-}
 
-
-/**
- * Construit un objet blob en fonction de son URL
- * @param url
- */
-async function createBlobObject(url: string) {
-  //Récupération de la vidéo et transformation en blob
-  let response = await fetch(url);
-  const blobURL = await response.blob();
-  return createObjectURL(blobURL);
-}
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -176,7 +139,7 @@ const socketConnected = ref();
 const hasCarRaces = ref(false);
 const displayContent = ref(false);
 const router = useRouter();
-const blobBestVideo = ref<string>();
+const urlBestRace = ref('');
 
 //Scroll sur l'utilisateur
 onMounted(() => {
@@ -203,12 +166,7 @@ if (!userCar.car.idCar) {
       hasCarRaces.value = true;
 
       //Ajout du bouton de téléchargement de la vidéo
-      let urlBestRace = car.listRace![BEST_TIME_INDEX].videoUrl;
-      if (urlBestRace) {
-        createBlobObject(urlBestRace.toString()).then(v => {
-          blobBestVideo.value = v;
-        });
-      }
+      urlBestRace.value = car.listRace![BEST_TIME_INDEX].videoUrl.toString();
     });
   });
 
@@ -346,81 +304,7 @@ div.best-race {
     }
   }
 
-  div.video {
-    width: 100%;
-    max-width: 350px;
-    height: 245px;
-    margin: 0 auto;
-    border-radius: 2px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: $default-shadow;
 
-    a {
-      margin: 0;
-      width: 100%;
-    }
-
-    video,
-    > div:nth-child(2),
-    a button {
-      width: 100%;
-      height: 100%;
-      border-radius: 4px;
-      box-shadow: $default-shadow;
-    }
-
-    button.download {
-      margin-top: 10px;
-      background-color: var(--white);
-      width: 100%;
-      height: 37px;
-      border: none;
-      transition: all ease-in-out 0.2s;
-      color: var(--gray);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      span {
-        margin-right: 5px;
-      }
-
-      img {
-        width: 14px;
-        margin-left: 5px;
-      }
-
-      &:hover {
-        opacity: 0.5;
-      }
-    }
-
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-
-      button {
-        margin-top: 10px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 22px;
-        background-image: url("../assets/img/reload.png");
-        background-color: var(--gray);
-        width: 50px;
-        height: 30px;
-        border: 1px solid var(--gray);
-
-        &:hover {
-          width: 53px
-        }
-      }
-    }
-  }
 
   a {
     margin-top: 25px;

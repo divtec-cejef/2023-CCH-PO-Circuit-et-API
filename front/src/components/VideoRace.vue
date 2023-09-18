@@ -50,7 +50,8 @@ async function createBlobObject(url: string) {
 }
 
 const props = defineProps<{
-  url: string
+  url: string | null,
+  height: string | number
 }>();
 
 const blobBestVideo = ref<string>();
@@ -73,14 +74,13 @@ if (props.url) {
 div.video {
   width: 100%;
   max-width: 350px;
-  height: 245px;
   margin: 0 auto;
   border-radius: 2px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  box-shadow: $default-shadow;
+  text-align: center;
 
   a {
     margin: 0;
@@ -133,6 +133,11 @@ div.video {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    box-shadow: $default-shadow;
+    padding: 20px;
+    height: 100%;
+    min-height: 240px;
+    border-radius: 7px;
 
     button {
       margin-top: 10px;
