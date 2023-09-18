@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HistoryView from '@/views/HistoryView.vue';
-import AboutView from '@/views/AboutView.vue';
-import CourseView from '@/views/CourseView.vue';
-import UserView from '@/views/UserView.vue';
-import ClassementView from '@/views/ClassementView.vue';
-import HomeView from '@/views/HomeView.vue';
-import ScanView from '@/views/ScanView.vue';
-import UpdateUserView from '@/views/UpdateUserView.vue';
-import ActivityAdminView from '@/views/ActivityAdminView.vue';
-import ScanActivityView from '@/views/ScanActivityView.vue';
-import ClassementFullScreenView from '@/views/ClassementFullScreenView.vue';
-import StageView from '@/views/StageView.vue';
+const HistoryView = () => import('@/views/HistoryView.vue');
+const AboutView = () => import('@/views/AboutView.vue');
+const CourseView = () => import('@/views/CourseView.vue');
+const UserView = () => import('@/views/UserView.vue');
+const ClassementView = () => import('@/views/ClassementView.vue');
+const HomeView = () => import('@/views/HomeView.vue');
+const ScanView = () => import('@/views/ScanView.vue');
+const UpdateUserView = () => import('@/views/UpdateUserView.vue');
+const ActivityAdminView = () => import('@/views/ActivityAdminView.vue');
+const ScanActivityView = () => import('@/views/ScanActivityView.vue');
+const ClassementFullScreenView = () => import('@/views/ClassementFullScreenView.vue');
+const StageView = () => import('@/views/StageView.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

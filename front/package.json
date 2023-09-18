@@ -4,13 +4,14 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite",
+		"prebuild": "npm ci",
 		"build": "vite build",
 		"preview": "vite preview",
 		"type-check": "vue-tsc --noEmit",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"serve": "node server.cjs",
-		"start": "npm run build && npm run serve",
-		"prestart": "npm i"
+		"prestart": "npm run build",
+		"start": "npm run serve"
 	},
 	"dependencies": {
 		"@vueuse/core": "^10.4.1",
