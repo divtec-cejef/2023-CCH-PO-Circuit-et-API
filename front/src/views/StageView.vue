@@ -13,5 +13,6 @@
 
 iframe {
     width: 100%;
+    height: calc(100vh - 240px);
 }
 </style>
