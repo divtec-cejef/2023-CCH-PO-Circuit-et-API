@@ -24,7 +24,7 @@
 
                 <div class="content-2">
                     <div class="speed-max">
-                        <p>65</p>
+                        <p>{{ car.listRace![BEST_TIME_INDEX].speed}}</p>
                         <p>km/h</p>
                     </div>
 
@@ -41,7 +41,9 @@
                             </li>
                             <li>
                                 <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                <p>03:23:08</p>
+                                <p>{{
+                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector2)
+                                    }}</p>
                             </li>
                         </ul>
                     </div>
@@ -347,7 +349,7 @@ div.best-race {
   div.video {
     width: 100%;
     max-width: 350px;
-    height: 257px;
+    height: 245px;
     margin: 0 auto;
     border-radius: 2px;
     display: flex;
@@ -522,7 +524,7 @@ div.large-content {
 .table-large-content {
 
   p {
-      margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 }
 
