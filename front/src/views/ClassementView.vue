@@ -52,7 +52,7 @@ const userCar = useCarStore();
 @import "@/assets/css/consts.scss";
 
 .classement {
-  width: 90%;
+  width: 100%;
   margin: 20px 10px ;
 }
 
@@ -62,7 +62,7 @@ p {
 
 
 div.button-classement {
-  width: calc(90% - 65px);
+  width: 100%;
   margin: -35px auto 0 auto;
   display: flex;
   justify-content: end;
@@ -74,7 +74,6 @@ div.button-classement {
     border-radius: 20px;
     padding: .5em;
     box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-    margin-right: 10px;
     display: flex;
     align-content: center;
     justify-content: space-evenly;
