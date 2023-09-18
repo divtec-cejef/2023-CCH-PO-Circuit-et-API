@@ -34,12 +34,18 @@
                 <ul class="list-instruction">
                     <li>
                         <NumberTime color="var(--blue)" number="1"></NumberTime>
-                        <p>Balade toi dans les différentes sections du bâtiment et
-                            réalise des activités pour obtenir des bonus !</p>
+                        <p>Balade toi dans les différents ateliers du bâtiment et
+                            réalise des activités pour obtenir des
+                            <RouterLink to="bonus">bonus</RouterLink>
+                            !
+                        </p>
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="2"></NumberTime>
-                        <p>Modifie tes données de pilotes.</p>
+                        <p>Modifie tes données de
+                            <RouterLink to="pilote">pilotes</RouterLink>
+                            .
+                        </p>
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="3"></NumberTime>
@@ -48,7 +54,10 @@
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="4"></NumberTime>
-                        <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                        <p>Analyse ton résultat et récupère la
+                            <RouterLink to="course">vidéo</RouterLink>
+                            de ta course !
+                        </p>
                     </li>
 
                 </ul>
@@ -258,6 +267,18 @@ div.user-data {
 
       p {
         margin-left: 10px;
+      }
+    }
+
+    a {
+      color: var(--blue);
+      transition: all ease-in-out;
+      text-decoration: underline;
+      font-weight: bold;
+
+
+      &:hover {
+        color: var(--black);
       }
     }
   }

@@ -8,7 +8,7 @@
             <form @submit.prevent="() => connect(car.idQuery!, password)">
                 <label for="password">Code de la voiture </label>
                 <input type="text" id="password" name="password" v-model="password">
-                <p class="error">{{ error }}</p>
+                <p class="error">Code invalide.</p>
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
                 </div>
@@ -37,13 +37,13 @@
         <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
             <div class="tab">
                 <div class="title">
-                    <div class="tab1" :class="numTabOpen == 1 ? 'tab-checked' : ''" @click="clickTab(1)">
+                    <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                         <label>
                             <input name="tab" type="radio" :checked="numTabOpen == 1">
                             <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                         </label>
                     </div>
-                    <div class="tab2" :class="numTabOpen == 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                    <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
                         <label>
                             <input name="tab" type="radio" :checked="numTabOpen == 2">
                             <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
@@ -197,6 +197,8 @@ const opacityAvatar = ref('');
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
+const numTabOpen = ref(1);
+
 let isAvatarEquals = ref(true);
 let isPseudoEquals = ref(true);
 
@@ -619,6 +621,75 @@ let avatarProperties = ref([
     ],
     selectedValueEn: config.value.earSize
   },
+
+  {
+    propNameFr: 'Type de cheveux',
+    propNameEn: 'hairType',
+    propNameSnakeCase: 'hair-type',
+    propType: TYPE_PROPS_TXT,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: 'normal',
+        propValueFr: 'Normaux',
+      },
+      {
+        propValueEn: 'thick',
+        propValueFr: 'Epais',
+      },
+      {
+        propValueEn: 'mohawk',
+        propValueFr: 'Crête',
+      },
+      {
+        propValueEn: 'femaleLong',
+        propValueFr: 'Très longs',
+      },
+      {
+        propValueEn: 'femaleShort',
+        propValueFr: 'Longs',
+      }
+    ],
+    selectedValueEn: config.value.hairType
+  },
+  {
+    propNameFr: 'Couleur de cheveux',
+    propNameEn: 'hairColor',
+    propNameSnakeCase: 'hair-color',
+    propType: TYPE_PROPS_COLOR,
+    propGroups: NAME_HEAD_PROPS,
+    propValues: [
+      {
+        propValueEn: '#FFF',
+        propValueFr: 'Blanc',
+      },
+      {
+        propValueEn: '#000',
+        propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#E71',
+        propValueFr: 'Roux',
+      },
+      {
+        propValueEn: '#FFB',
+        propValueFr: 'Blond',
+      },
+      {
+        propValueEn: '#643',
+        propValueFr: 'Brun',
+      },
+      {
+        propValueEn: '#C96',
+        propValueFr: 'Chatin',
+      },
+      {
+        propValueEn: '#61C',
+        propValueFr: 'Violet',
+      }
+    ],
+    selectedValueEn: config.value.hairColor
+  },
   {
     propNameFr: 'Couleur de fond',
     propNameEn: 'bgColor',
@@ -656,74 +727,6 @@ let avatarProperties = ref([
       }
     ],
     selectedValueEn: config.value.bgColor
-  },
-  {
-    propNameFr: 'Type de cheveux',
-    propNameEn: 'hairType',
-    propNameSnakeCase: 'hair-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: 'normal',
-        propValueFr: 'Normaux',
-      },
-      {
-        propValueEn: 'thick',
-        propValueFr: 'Epais',
-      },
-      {
-        propValueEn: 'mohawk',
-        propValueFr: 'Crête',
-      },
-      {
-        propValueEn: 'femaleLong',
-        propValueFr: 'Très longs',
-      },
-      {
-        propValueEn: 'femaleShort',
-        propValueFr: 'Longs',
-      }
-    ],
-    selectedValueEn: config.value.hairType
-  },
-  {
-    propNameFr: 'Couleur de cheveux',
-    propNameEn: 'hairColor',
-    propNameSnakeCase: 'hair-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#E71',
-        propValueFr: 'Roux',
-      },
-      {
-        propValueEn: '#FFB',
-        propValueFr: 'Blond',
-      },
-      {
-        propValueEn: '#643',
-        propValueFr: 'Brun',
-      },
-      {
-        propValueEn: '#C96',
-        propValueFr: 'Chatin',
-      },
-      {
-        propValueEn: '#61C',
-        propValueFr: 'Violet',
-      }
-    ],
-    selectedValueEn: config.value.hairColor
   },
   {
     propNameFr: 'Type de haut',
@@ -912,7 +915,6 @@ onMounted(() => {
 });
 
 //Initialisation des variables
-let numTabOpen = ref(1);
 if (localStorage.getItem('numTabOpen')) {
   numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
 }

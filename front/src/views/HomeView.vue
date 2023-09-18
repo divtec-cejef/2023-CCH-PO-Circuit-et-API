@@ -7,17 +7,22 @@
                 <p>C'est par ici !</p>
             </div>
 
-            <RouterLink to="/scan"><img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code"></RouterLink>
+            <RouterLink to="/scan">
+                <div class="qr-code">
+                    <img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code">
+                    <button>Scanner !</button>
+                </div>
+            </RouterLink>
             <form>
-                <p>Entre les 4 derniers chiffres de l'URL sous ta voiture !</p>
+                <p>Ou entre les 4 derniers chiffres du lien sous ta voiture !</p>
                 <div class="link">
                     <p>voiture.divtec.me/</p>
-                    <input type="text" placeholder="****" v-model="userQueryId" maxlength="4">
+                    <input type="number" placeholder="****" v-model="userQueryId" max="9999">
                 </div>
                 <button type="submit"
                         @click.prevent="enteredQueryId">Valider
                 </button>
-                <span v-if="queryIdError" class="error">{{ queryIdError }}</span>
+                <span v-if="queryIdError" class="error">Id invalide !</span>
             </form>
         </div>
 
@@ -82,8 +87,8 @@
                 <Roller
                         char-set="alphabet"
                         :duration="1000"
-                        :default-value="lastActivity"
-                        :value="lastActivity"
+                        :default-value="lastActivity?.toString()"
+                        :value="lastActivity?.toString()"
                         class="data"/>
                 <span class="label">vient d'être réalisé</span>
             </li>
@@ -151,7 +156,7 @@ const enteredQueryId = () => {
 socketio
   .onRankingReceived(data => {
     statsError.value.ranking = undefined;
-    if('message' in data) {
+    if ('message' in data) {
       statsError.value.ranking = data.message;
       return;
     }
@@ -162,7 +167,7 @@ socketio
   })
   .onActivityRealisation(data => {
     statsError.value.activityRealisation = undefined;
-    if('message' in data) {
+    if ('message' in data) {
       statsError.value.activityRealisation = data.message;
       return;
     }
@@ -188,14 +193,17 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 250px;
+  width: 300px;
   margin: auto;
 
+
   .link {
+    margin: 10px 0;
     display: flex;
     align-items: center;
 
     p {
+      font-size: 18px;
       text-decoration: underline;
     }
   }
@@ -203,8 +211,8 @@ form {
   p {
     text-align: center;
     font-style: italic;
-    font-size: 15px;
-
+    font-size: 18px;
+    width: 100%;
   }
 
   input {
@@ -226,7 +234,7 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 25px;
+    margin: 0;
 
   ul.stats {
     list-style-type: none;
@@ -281,7 +289,40 @@ div.home-root {
       margin: 0 auto;
     }
   }
+
+  div.qr-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      opacity: 0.7;
+    }
+
+    button {
+      width: fit-content;
+      position: absolute;
+      padding: 0.3em 12px;
+
+    }
+  }
 }
 
+
+.error {
+  margin-top: 10px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 </style>
