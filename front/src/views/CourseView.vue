@@ -109,7 +109,6 @@
 
 <script setup lang="ts">
 import NumberTime from '@/components/NumberTime.vue';
-import DropDown from '@/components/DropDown.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
