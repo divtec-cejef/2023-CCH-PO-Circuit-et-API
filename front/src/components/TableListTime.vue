@@ -104,6 +104,7 @@ div.table {
   padding: 0 10px;
   width: 100%;
 
+
   table {
     text-align: center;
     border-collapse: collapse;
