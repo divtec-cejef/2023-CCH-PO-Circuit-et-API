@@ -507,32 +507,32 @@ let avatarProperties = ref([
     propGroups: NAME_HEAD_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
+        propValueEn: '#853',
+        propValueFr: 'BeigeFonce',
       },
       {
         propValueEn: '#ECB',
-        propValueFr: 'Beige1',
+        propValueFr: 'BeigeClair',
       },
       {
-        propValueEn: '#C87',
-        propValueFr: 'Beige2',
+        propValueEn: '#F11',
+        propValueFr: 'Rouge',
       },
       {
-        propValueEn: '#B74',
-        propValueFr: 'Beige3',
+        propValueEn: '#C3B',
+        propValueFr: 'Rose',
       },
       {
-        propValueEn: '#853',
-        propValueFr: 'Beige4',
+        propValueEn: '#13A',
+        propValueFr: 'Bleu',
       },
       {
-        propValueEn: '#321',
-        propValueFr: 'Noir2',
+        propValueEn: '#3A4',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#FF0',
+        propValueFr: 'Jaune',
       }
     ],
     selectedValueEn: config.value.faceColor
@@ -660,12 +660,12 @@ let avatarProperties = ref([
     propGroups: NAME_HEAD_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
         propValueEn: '#000',
         propValueFr: 'Noir',
+      },
+      {
+        propValueEn: '#974',
+        propValueFr: 'Brun',
       },
       {
         propValueEn: '#E71',
@@ -676,16 +676,16 @@ let avatarProperties = ref([
         propValueFr: 'Blond',
       },
       {
-        propValueEn: '#643',
-        propValueFr: 'Brun',
+        propValueEn: '#1C0',
+        propValueFr: 'Vert',
       },
       {
-        propValueEn: '#C96',
-        propValueFr: 'Chatin',
+        propValueEn: '#36E',
+        propValueFr: 'Bleu',
       },
       {
-        propValueEn: '#61C',
-        propValueFr: 'Violet',
+        propValueEn: '#D0E',
+        propValueFr: 'Rose',
       }
     ],
     selectedValueEn: config.value.hairColor
@@ -698,28 +698,28 @@ let avatarProperties = ref([
     propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: '#CCC',
-        propValueFr: 'Gris',
+        propValueEn: '#067',
+        propValueFr: 'BleuCanard',
       },
       {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
+        propValueEn: '#6CF',
+        propValueFr: 'BleuClair',
       },
       {
-        propValueEn: '#014',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#1A2',
+        propValueEn: '#3A5',
         propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#EF8',
+        propValueFr: 'Calipo',
       },
       {
         propValueEn: '#FC0',
         propValueFr: 'Jaune',
+      },
+      {
+        propValueEn: '#B22',
+        propValueFr: 'Rouge',
       },
       {
         propValueEn: '#80F',
@@ -758,32 +758,32 @@ let avatarProperties = ref([
     propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#44B',
-        propValueFr: 'Violet',
-      },
-      {
-        propValueEn: '#1CC',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#0A3',
-        propValueFr: 'Vert',
+        propValueEn: '#CCC',
+        propValueFr: 'Gris',
       },
       {
         propValueEn: '#FC0',
         propValueFr: 'Jaune',
       },
       {
-        propValueEn: '#D22',
+        propValueEn: '#E81',
+        propValueFr: 'Orange',
+      },
+      {
+        propValueEn: '#D55',
         propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#0D4',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#6CF',
+        propValueFr: 'BleuClair',
+      },
+      {
+        propValueEn: '#44B',
+        propValueFr: 'Violet',
       }
     ],
     selectedValueEn: config.value.shirtColor
@@ -840,31 +840,31 @@ let avatarProperties = ref([
     propGroups: NAME_CLOTHES_PROPS,
     propValues: [
       {
-        propValueEn: '#FFF',
-        propValueFr: 'Blanc',
-      },
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
+        propValueEn: '#965',
+        propValueFr: 'Brun',
       },
       {
         propValueEn: '#CCC',
         propValueFr: 'Gris',
       },
       {
-        propValueEn: '#965',
-        propValueFr: 'Rose',
-      },
-      {
-        propValueEn: '#193',
-        propValueFr: 'Vert',
-      },
-      {
         propValueEn: '#FBB',
         propValueFr: 'Rose',
       },
       {
-        propValueEn: '#43B',
+        propValueEn: '#FC0',
+        propValueFr: 'Jaune',
+      },
+      {
+        propValueEn: '#D22',
+        propValueFr: 'Rouge',
+      },
+      {
+        propValueEn: '#7D8',
+        propValueFr: 'Vert',
+      },
+      {
+        propValueEn: '#87E',
         propValueFr: 'Violet',
       }
     ],
