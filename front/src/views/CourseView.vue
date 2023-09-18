@@ -80,7 +80,6 @@
             <div class="content-list-classement">
                 <div class="table-large-content" v-if="car.listRace!.length > 1">
                     <h2>Liste de courses</h2>
-                    <p>Voilà la liste de toutes les courses que tu as réalisées !</p>
                     <TableListTime/>
                 </div>
 
@@ -110,7 +109,6 @@
 
 <script setup lang="ts">
 import NumberTime from '@/components/NumberTime.vue';
-import DropDown from '@/components/DropDown.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
@@ -522,8 +520,6 @@ div.large-content {
 
 
 .table-large-content {
-  margin-top: 30px;
-  margin-bottom: 20px;
 
   p {
       margin-bottom: 20px;
