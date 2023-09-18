@@ -47,7 +47,7 @@ import video from '../assets/img/film.webp';
 import clock from '../assets/img/clock.webp';
 import speed from '../assets/img/speed.png';
 import chronometer from '../assets/img/chronometer.png';
-import link from '../assets/img/link.png';
+import link from '../assets/img/play-button.png';
 import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
@@ -102,10 +102,12 @@ div.table {
   display: flex;
   justify-content: end;
   padding: 0 10px;
+  width: 100%;
 
   table {
     text-align: center;
     border-collapse: collapse;
+    width: 100%;
 
     tr td:nth-child(4) {
       font-family: 'Digital-7 Mono', sans-serif;
@@ -141,9 +143,6 @@ div.table {
       td {
         margin-right: 5px;
 
-        img.link {
-          width: 18px;
-        }
 
         img.flag-start {
           width: 18px;
@@ -178,14 +177,15 @@ div.table {
     }
 
     td.video {
-      padding: 0 !important;
+      padding: 10px 5px !important;
+      width: 100px;
 
       div {
         display: inline-block;
-        width: 20px;
+        width: 22px;
 
         &:nth-child(1) {
-          margin-right: 5px;
+          margin-right: 20px;
         }
 
         span {

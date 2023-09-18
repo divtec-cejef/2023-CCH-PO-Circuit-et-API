@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="best-time">
-                        <div>Temps de manche </div>
+                        <div>Temps de manche</div>
                         <div class="race-time">
                             {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
                         </div>
@@ -78,13 +78,9 @@
             </div>
 
             <div class="content-list-classement">
-                <DropDown v-if="car.listRace!.length > 1" class="drop-down-course"
-                          name="Toutes les courses">
-                    <TableListTime/>
-                </DropDown>
-
-                <div class="table-large-content">
+                <div class="table-large-content" v-if="car.listRace!.length > 1">
                     <h2>Liste de courses</h2>
+                    <p>Voilà la liste de toutes les courses que tu as réalisées !</p>
                     <TableListTime/>
                 </div>
 
@@ -298,7 +294,6 @@ div.best-race {
     justify-content: space-between;
     min-width: 280px;
     max-width: 297px;
-
     width: 80%;
     margin: auto;
 
@@ -353,7 +348,7 @@ div.best-race {
 
   div.video {
     width: 100%;
-    max-width: 450px;
+    max-width: 350px;
     height: 257px;
     margin: 0 auto;
     border-radius: 2px;
@@ -361,10 +356,11 @@ div.best-race {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    box-shadow: $default-shadow;
 
     a {
       margin: 0;
-        width: 100%;
+      width: 100%;
     }
 
     video,
@@ -472,6 +468,7 @@ div.classement-content {
   overflow-y: auto;
   max-height: 400px;
   margin-top: 10px;
+  padding: 0 10px;
 }
 
 
@@ -525,10 +522,11 @@ div.large-content {
 
 
 .table-large-content {
-  display: none;
+  margin-top: 30px;
+  margin-bottom: 20px;
 
-  h2 {
-    margin-bottom: 30px;
+  p {
+      margin-bottom: 20px;
   }
 }
 

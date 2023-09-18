@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
 const HistoryView = () => import('@/views/HistoryView.vue');
 const AboutView = () => import('@/views/AboutView.vue');
 const CourseView = () => import('@/views/CourseView.vue');
@@ -11,6 +10,7 @@ const UpdateUserView = () => import('@/views/UpdateUserView.vue');
 const ActivityAdminView = () => import('@/views/ActivityAdminView.vue');
 const ScanActivityView = () => import('@/views/ScanActivityView.vue');
 const ClassementFullScreenView = () => import('@/views/ClassementFullScreenView.vue');
+const StageView = () => import('@/views/StageView.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,8 +26,8 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/historique',
-      name: 'historique',
+      path: '/bonus',
+      name: 'bonus',
       component: HistoryView
     },
     {
@@ -69,6 +69,11 @@ const router = createRouter({
       path: '/admin/full-screen-classement',
       name: 'full-screen-classement',
       component: ClassementFullScreenView
+    },
+    {
+      path: '/stage',
+      name: 'stage',
+      component: StageView
     }
   ]
 });

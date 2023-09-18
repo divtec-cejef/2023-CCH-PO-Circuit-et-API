@@ -1,7 +1,7 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}">
-        <div v-if="props.rank > PODIUM" class="rank">{{ props.rank }}</div>
+        <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
         </div>
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
@@ -69,7 +69,7 @@ if (props.rank <= PODIUM) {
 <style scoped lang="scss">
 div.classement-element {
   font-size: 14px;
-  margin: 10px 10px;
+  margin: 10px 0;
   display: flex;
   align-items: center;
   justify-content: start;
