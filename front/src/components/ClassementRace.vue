@@ -1,7 +1,7 @@
 <template>
     <div v-if="errorMessage">
         <h1>Une erreur s'est produite!</h1>
-        <span>{{errorMessage}}</span>
+        <span>{{ errorMessage }}</span>
     </div>
     <div v-else-if="!hasLoaded" class="loading-ranking">
         <SpinLoading></SpinLoading>
@@ -16,7 +16,8 @@
                 :avatar="race.car?.avatar || '<indisponible>'"
                 :rank="key + 1"
                 :pseudo="race.car?.pseudo || '<indisponible>'"
-                :time="new Date(race.total_time)"/>
+                :time="new Date(race.total_time)"
+                :id-car="race.car?.id_car"/>
     </template>
 </template>
 
@@ -36,7 +37,7 @@ const socket = new WebsocketConnection();
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
-  if('message' in data) {
+  if ('message' in data) {
     errorMessage.value = data.message;
     return;
   }

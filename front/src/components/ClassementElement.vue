@@ -1,6 +1,7 @@
 <template>
     <div :class="'classement-element '+ classUserCarElement"
-         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}">
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement">
         <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
         <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
         </div>
@@ -8,18 +9,39 @@
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
+    <div v-if="dropDownClicked" class="user-content">
+        <template v-if="codeBackApi == api.ReturnCodes.Success">
+            <div>
+                <h3>Meilleure course</h3>
+                Vitesse : {{ raceData.races[0].speed}}
+                Temps inter :
+            </div>
+
+            <div>
+                <video src=""></video>
+            </div>
+
+            <div>
+                Bonus
+            </div>
+        </template>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import { computed, ref } from 'vue';
+import type { Ref } from 'vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import type { Configs } from 'holiday-avatar';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
+import api from '@/models/api';
+import type { models } from '@/models/api';
 
 const props = defineProps<{
+  idCar: number | string;
   rank: number;
   pseudo: string;
   time: Date;
@@ -27,16 +49,19 @@ const props = defineProps<{
 }>();
 
 const userCar = useCarStore();
+const dropDownClicked = ref(false);
 const classUserCarElement = ref('');
 const PODIUM = 4;
 const backgroundImage = ref();
+const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> | Ref<models.rawData.Error> = ref();
+const codeBackApi = ref();
 const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
   userCar.car.avatar?.bgColor?.toString() :
   null);
 
 
-const colorFont = computed<string | null>(()=> {
-  if(userCar.car.pseudo == props.pseudo) {
+const colorFont = computed<string | null>(() => {
+  if (userCar.car.pseudo == props.pseudo) {
     if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50) {
       return colorScheme.value === 'dark' ? '#000' : null;
     } else {
@@ -57,6 +82,19 @@ async function importImage() {
   return await import(`../assets/img/rank${props.rank}.webp`);
 }
 
+function clickClassementElement() {
+  api.getAllRaceOneCar(props.idCar).then(v => {
+    codeBackApi.value = v.status;
+    if (v.status == api.ReturnCodes.Success) {
+      raceData.value = v.json;
+      console.log(raceData.value);
+    }
+  }
+  );
+
+  dropDownClicked.value = !dropDownClicked.value;
+}
+
 //Si l'utilisateur est sur le podium alors import image
 if (props.rank <= PODIUM) {
   importImage().then((v) => {
@@ -67,6 +105,8 @@ if (props.rank <= PODIUM) {
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/css/consts";
+
 div.classement-element {
   font-size: 14px;
   margin: 10px 0;
@@ -117,5 +157,19 @@ div.classement-element {
 div.avatar {
   width: 45px;
   height: 45px;
+}
+
+.user-content {
+  border-radius: 4px;
+  box-shadow: $default-shadow;
+  padding: 15px;
+}
+
+.user-content {
+  display: flex;
+
+  > div {
+    flex: 1;
+  }
 }
 </style>
