@@ -76,7 +76,8 @@
         <div v-if="dropDownClicked" class="user-content phone">
             <template v-if="!hasError">
                 <div>
-                    <DropDown name="Meilleure Course" @clickDropDown="clickBestRace" :drop-down-clicked="bestRaceDropDownClicked">
+                    <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                              :drop-down-clicked="bestRaceDropDownClicked">
 
                         <ul>
                             <li class="time">
@@ -244,7 +245,7 @@ const clickVideo = (e: boolean) => {
  * Fonction lancée au clic du drop down bonus
  * @param e Cliqué ou non
  */
-const clickBonus = (e : boolean) => {
+const clickBonus = (e: boolean) => {
   bonusDropDownClicked.value = e;
   if (bonusDropDownClicked.value) {
     bestRaceDropDownClicked.value = false;
@@ -345,6 +346,11 @@ div.classement-element {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   padding: 9px;
   border-radius: 4px;
+  transition: all ease-in-out 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   div.rank-image {
     width: 30px;
@@ -468,17 +474,20 @@ div.avatar {
     .sector {
       display: flex;
       flex-direction: column;
+        justify-content: center;
       align-items: center;
       margin-top: 10px;
       width: 100%;
       box-shadow: $default-shadow;
-      padding: 8px 12px;
+      padding: 10px 12px;
       border-radius: 7px;
       text-align: center;
       min-height: fit-content;
 
 
       ul {
+        min-height: 70px;
+        height: fit-content;
         flex-direction: column;
 
         li {

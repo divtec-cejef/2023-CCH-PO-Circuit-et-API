@@ -31,7 +31,7 @@ const clickDropDown = () => {
 
 
 const emit = defineEmits<{
-    (e: 'clickDropDown', clicked: boolean): void
+  (e: 'clickDropDown', clicked: boolean): void
 }>();
 
 
@@ -56,6 +56,7 @@ div.button-checked {
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   width: 100%;
+  transition: all ease-in-out 0.2s;
 
   img {
     width: 12px;
@@ -63,6 +64,10 @@ div.button-checked {
     margin-left: 15px;
     margin-top: 2px;
     transition: all ease-in-out 0.3s;
+  }
+
+  &:hover {
+    opacity: 0.75;
   }
 }
 
