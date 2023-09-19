@@ -13,9 +13,12 @@
                     <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
                 </button>
             </a>
-            <div v-else class="separator">
-
-            </div>
+            <a v-else class="disabled-button">
+                <button class="download">
+                    <span>Télécharge la vidéo ici !</span>
+                    <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
+                </button>
+            </a>
         </template>
         <div v-else>
             <p>La vidéo n'est pas encore disponible !</p>
@@ -51,7 +54,6 @@ async function createBlobObject(url: string) {
 
 const props = defineProps<{
   url: string | null,
-  height: string | number
 }>();
 
 const blobBestVideo = ref<string>();
@@ -73,7 +75,6 @@ if (props.url) {
 
 div.video {
   width: 100%;
-  max-width: 350px;
   margin: 0 auto;
   border-radius: 2px;
   display: flex;
@@ -96,14 +97,20 @@ div.video {
     box-shadow: $default-shadow;
   }
 
-  .separator {
-    height: 38px !important;
-    box-shadow: none !important;
-    margin-top: 15px;
+  .disabled-button {
+    button {
+      opacity: 0.5 !important;
+    }
+
+    button:hover {
+      font-weight: normal;
+      opacity: 0.5 !important;
+      cursor: not-allowed;
+    }
   }
 
   button.download {
-    margin-top: 10px;
+    margin-top: 12px;
     background-color: var(--white);
     width: 100%;
     height: 37px;
@@ -136,8 +143,9 @@ div.video {
     box-shadow: $default-shadow;
     padding: 20px;
     height: 100%;
-    min-height: 240px;
+    min-height: 206px;
     border-radius: 7px;
+    width: 100%;
 
     button {
       margin-top: 10px;

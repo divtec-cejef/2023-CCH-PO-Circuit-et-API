@@ -9,77 +9,85 @@
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
-    <div v-if="dropDownClicked" class="user-content">
-        <template v-if="!hasError">
-            <div>
-                <h3>Meilleure course</h3>
-                <ul>
-                    <li>
-                        <img :src="chronometer" alt="Icon de temps">
-                        <span class="time">{{ formatTime(raceData.races[BEST_TIME_INDEX].totalTime) }}</span>
-                    </li>
-                    <li>
-                        <img :src="speed" alt="Icon de vitesse">
-                        <span>{{ raceData.races[BEST_TIME_INDEX].speed }} km/h</span>
-                    </li>
-                    <li class="sector">
-                        Temps intermédiaires
-                        <ul>
-                            <li>
-                                <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                <p class="time">{{
-                                    formatTime(raceData.races[BEST_TIME_INDEX].sector1)
-                                    }}</p>
-                            </li>
-                            <li>
-                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                <p class="time">{{
-                                    formatTime(raceData.races[BEST_TIME_INDEX].sector2)
-                                    }}</p>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <div>
-                <VideoRace :url="raceData.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-            </div>
-
-            <div class="bonus">
-                <h3>Bonus</h3>
-                <ul v-if="listSection.length > 0">
-                    <template v-for="(section, key) in listSection" :key="key">
-                        <li>
-                            <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
+    <Transition>
+        <div v-if="dropDownClicked" class="user-content">
+            <template v-if="!hasError">
+                <div>
+                    <h3>Meilleure course</h3>
+                    <ul>
+                        <li class="time">
+                            <span class="time">{{
+                                formatTime(raceData.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
                         </li>
-                    </template>
-                </ul>
-                <div v-else>
-                    Le pilote n'a pas réalisé d'activitées !
+                        <li class="speed">
+                            <span>{{ formatSpeed(raceData.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
+                        </li>
+                        <li class="sector">
+                            Temps intermédiaires
+                            <ul>
+                                <li>
+                                    <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                    <p class="time">{{
+                                        formatTime(raceData.races[BEST_TIME_INDEX].sector1)
+                                        }}<span>s</span></p>
+                                </li>
+                                <li>
+                                    <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                    <p class="time">{{
+                                        formatTime(raceData.races[BEST_TIME_INDEX].sector2)
+                                        }}<span>s</span></p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="hour">
+                            <img :src="clock" alt="Icon d'horloge">
+                            <span>{{
+                                formatHour(raceData.races[BEST_TIME_INDEX].raceStart)
+                                }}</span>
+                        </li>
+
+                    </ul>
                 </div>
-            </div>
-        </template>
-    </div>
+
+                <div>
+                    <h3>Vidéo</h3>
+                    <VideoRace :url="raceData.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                </div>
+
+                <div class="bonus">
+                    <h3>Bonus</h3>
+                    <ul v-if="listSection.length > 0">
+                        <template v-for="(section, key) in listSection" :key="key">
+                            <li>
+                                <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
+                            </li>
+                        </template>
+                    </ul>
+                    <div v-else>
+                        Le pilote n'a pas réalisé d'activitées !
+                    </div>
+                </div>
+            </template>
+        </div>
+    </Transition>
 </template>
 
 <script setup lang="ts">
-import { formatTime } from '@/models/race';
+import { formatHour, formatSpeed, formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
-import { computed, ref, triggerRef } from 'vue';
 import type { Ref } from 'vue';
+import { computed, ref } from 'vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import type { Configs } from 'holiday-avatar';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
-import api from '@/models/api';
 import type { models } from '@/models/api';
+import api from '@/models/api';
 import NumberTime from '@/components/NumberTime.vue';
-import clock from '../assets/img/clock.webp';
-import speed from '../assets/img/speed.png';
-import chronometer from '../assets/img/chronometer.png';
 import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
+import clock from '@/assets/img/clock.webp';
 
 const props = defineProps<{
   idCar: number | string;
@@ -273,6 +281,12 @@ div.avatar {
   padding: 20px;
 
 
+  > div:nth-child(1) ul {
+    height: calc(100% - 35px);
+    max-height: 330px;
+  }
+
+
   div.bonus {
     > ul {
       > li {
@@ -284,10 +298,14 @@ div.avatar {
     > div {
       width: 90%;
     }
+
+    h3 {
+      margin-bottom: 5px;
+    }
   }
 
   h3 {
-    margin: 0
+    margin: 0 0 15px 0;
   }
 
   ul {
@@ -296,30 +314,64 @@ div.avatar {
     display: flex;
     flex-wrap: wrap;
 
-    li:nth-child(1) {
-      span {
-        font-size: 35px;
+    li.time, li.speed {
+      display: flex;
+      justify-content: center;
+      box-shadow: $default-shadow;
+      padding: 3px 10px;
+      border-radius: 7px;
+      width: fit-content;
+    }
+
+    li.time {
+      width: 100%;
+      margin-bottom: 10px;
+
+      > span {
+        font-size: 40px;
+
+      }
+
+      span span {
+        font-size: 18px;
+        font-family: 'Poppins', sans-serif;
+        margin-left: 5px;
       }
     }
 
-    li:nth-child(2) {
-      span {
+    li.speed {
+      width: 100%;
+
+      > span {
         font-size: 35px;
       }
-    ;
+
+      span span {
+        font-size: 15px;
+        margin-left: 5px;
+      }
     }
 
     .sector {
       display: flex;
       flex-direction: column;
-      justify-content: start;
-      align-items: start;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      width: 100%;
+      box-shadow: $default-shadow;
+      padding: 8px 12px;
+      border-radius: 7px;
+      text-align: center;
+      min-height: 105px;
+
 
       ul {
-        margin-left: 20px;
         flex-direction: column;
 
         li {
+          margin-top: 5px;
+
           &:nth-child(1) {
             margin-top: 10px;
           }
@@ -328,7 +380,24 @@ div.avatar {
             margin-right: 10px;
           }
         }
+
+        li span {
+          font-family: 'Poppins', sans-serif;
+          margin-left: 5px;
+          font-size: 15px;
+        }
       }
+    }
+
+    li.hour {
+      margin-top: 12px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      box-shadow: $default-shadow;
+      padding: 9px 4px;
+      font-size: 18px;
+      border-radius: 7px;
     }
 
     li {
@@ -343,7 +412,7 @@ div.avatar {
 
       img {
         width: 20px;
-        margin-right: 10px;
+        margin-right: 6px;
       }
     }
   }
@@ -353,11 +422,31 @@ div.avatar {
   display: flex;
 
   > div {
-    flex: 1;
+
+    &:nth-child(1) {
+      flex: 3;
+    }
 
     &:nth-child(2) {
+      flex: 5;
       margin: 0 20px;
     }
+
+    &:nth-child(3) {
+      flex: 4;
+    }
   }
+}
+
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(-5px);
+  opacity: 0.6;
 }
 </style>
