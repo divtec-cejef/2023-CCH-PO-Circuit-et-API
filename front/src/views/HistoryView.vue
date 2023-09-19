@@ -32,7 +32,7 @@
                           :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
             </div>
 
-            <div class="zoom-buttons" v-if="isTouchPointer">
+            <div class="zoom-buttons" v-if="isNotTouchPointer()">
                 <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
                 <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
             </div>
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import BonusMap from '@/components/BonusMap.vue';
 import panzoom from 'panzoom';
+import type { PanZoom } from 'panzoom';
 import { ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
@@ -221,13 +222,14 @@ let zoomfactor: number = 1;
 
 
 
-function isTouchPointer() {
-  return matchMedia('(pointer: coarse)').matches;
+function isNotTouchPointer() {
+  console.log(matchMedia('(pointer: coarse)').matches);
+  return !matchMedia('(pointer: coarse)').matches;
 }
 
 
-let panzoomElement = null;
-let mapElement = null;
+let panzoomElement: null | PanZoom = null;
+let mapElement: null | HTMLElement = null;
 
 const panzoomable = (v: any) => {
   let element = panzoom(v, {
@@ -363,9 +365,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   const minHeightPx = getComputedStyle(document.documentElement)
     .getPropertyValue('--height-screen-diff');
   const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
-  console.log('minHeight: ' + minHeight);
   if (pos < minHeight) {
-    console.log('minHeight: ' + minHeight);
     pos = minHeight;
   } else if (pos > window.innerHeight - divHeight) {
     pos = window.innerHeight - divHeight;
