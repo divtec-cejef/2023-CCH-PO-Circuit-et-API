@@ -260,10 +260,8 @@ function zoomIn() {
   }
   let boundings = mapElement.getBoundingClientRect();
   let transform = panzoomElement.getTransform();
-  console.log(transform);
   let cx = transform.x + (boundings.width - boundings.left) / 2;
   let cy = transform.y + (boundings.height - boundings.top) / 2;
-  console.log(cx, cy);
   panzoomElement.smoothZoom(cx, cy, 1.3);
 }
 
