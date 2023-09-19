@@ -97,9 +97,11 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then(() => {
+  userCar.initUserCarId(userCarId).then((v) => {
+    if (typeof v == 'number') {
+      car.idCar = Number(userCarId);
+    }
     hasFinishedLoading.value = true;
-    car.idCar = Number(userCarId);
   });
 } else {
   hasFinishedLoading.value = true;
@@ -174,7 +176,7 @@ header.large {
   align-items: end;
   justify-content: center;
   position: absolute;
-  right:20px;
+  right: 20px;
   top: calc(env(safe-area-inset-top) + 20px);
 
   span {
