@@ -10,7 +10,7 @@
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
     <Transition>
-        <div v-if="dropDownClicked" class="user-content">
+        <div v-if="dropDownClicked" class="user-content big">
             <template v-if="!hasError">
                 <div>
                     <h3>Meilleure course</h3>
@@ -69,8 +69,80 @@
                     </div>
                 </div>
             </template>
+            <div v-else><h3>Erreur !</h3></div>
         </div>
     </Transition>
+    <Transition>
+        <div v-if="dropDownClicked" class="user-content phone">
+            <template v-if="!hasError">
+                <div>
+                    <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                              :drop-down-clicked="bestRaceDropDownClicked">
+
+                        <ul>
+                            <li class="time">
+                            <span class="time">{{
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
+                            </li>
+                            <li class="speed">
+                                <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
+                            </li>
+                            <li class="sector">
+                                Temps intermédiaires
+                                <ul>
+                                    <li>
+                                        <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                        <p class="time">{{
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                            }}<span>s</span></p>
+                                    </li>
+                                    <li>
+                                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                        <p class="time">{{
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                            }}<span>s</span></p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="hour">
+                                <img :src="clock" alt="Icon d'horloge">
+                                <span>{{
+                                    formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                    }}</span>
+                            </li>
+
+                        </ul>
+                    </DropDown>
+                </div>
+
+                <div>
+                    <DropDown name="Vidéo" @clickDropDown="clickVideo"
+                              :drop-down-clicked="videoDropDownClicked">
+                        <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                    </DropDown>
+                </div>
+
+                <div class="bonus">
+                    <DropDown name="Bonus" @clickDropDown="clickBonus"
+                              :drop-down-clicked="bonusDropDownClicked">
+                        <ul v-if="listSection.length > 0">
+                            <template v-for="(section, key) in listSection" :key="key">
+                                <li>
+                                    <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
+                                </li>
+                            </template>
+                        </ul>
+                        <div v-else>
+                            Le pilote n'a pas réalisé d'activitées !
+                        </div>
+                    </DropDown>
+                </div>
+            </template>
+            <div v-else><h3>Erreur !</h3></div>
+        </div>
+    </Transition>
+
 </template>
 
 <script setup lang="ts">
@@ -88,6 +160,7 @@ import NumberTime from '@/components/NumberTime.vue';
 import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import clock from '@/assets/img/clock.webp';
+import DropDown from '@/components/DropDown.vue';
 
 const props = defineProps<{
   idCar: number | string;
@@ -109,8 +182,13 @@ const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
   userCar.car.avatar?.bgColor?.toString() :
   null);
 
+const bestRaceDropDownClicked = ref(false);
+const videoDropDownClicked = ref(false);
+const bonusDropDownClicked = ref(false);
+
 const listActivityOneCar: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
+
 const listSection: Ref<{
   name: string,
   idSection: number,
@@ -140,6 +218,42 @@ async function importImage() {
 }
 
 /**
+ * Fonction lancé au clic du drop down meilleure course
+ * @param e Cliqué ou non
+ */
+const clickBestRace = (e: boolean) => {
+  bestRaceDropDownClicked.value = e;
+  if (bestRaceDropDownClicked.value) {
+    videoDropDownClicked.value = false;
+    bonusDropDownClicked.value = false;
+  }
+};
+
+/**
+ * Fonction lancé au clic du drop down video
+ * @param e Cliqué ou non
+ */
+const clickVideo = (e: boolean) => {
+  videoDropDownClicked.value = e;
+  if (videoDropDownClicked.value) {
+    bestRaceDropDownClicked.value = false;
+    bonusDropDownClicked.value = false;
+  }
+};
+
+/**
+ * Fonction lancée au clic du drop down bonus
+ * @param e Cliqué ou non
+ */
+const clickBonus = (e: boolean) => {
+  bonusDropDownClicked.value = e;
+  if (bonusDropDownClicked.value) {
+    bestRaceDropDownClicked.value = false;
+    videoDropDownClicked.value = false;
+  }
+};
+
+/**
  * Fonction lancée au clic de l'élément de classement
  */
 function clickClassementElement() {
@@ -153,7 +267,7 @@ function clickClassementElement() {
   let raceFinish = false;
   let bonusFinish = false;
   api.getAllRaceOneCar(props.idCar).then(v => {
-    const { json: allRaceOneCar, status: statusRace } = v;
+    const { json: allRaceOneCar } = v;
 
     if ('message' in allRaceOneCar) {
       hasError.value = true;
@@ -171,7 +285,7 @@ function clickClassementElement() {
 
   //Récupère les activités d'une voiture
   api.getActivityOneCar(props.idCar).then(v => {
-    const { json: dataSections, status: statusActivities } = v;
+    const { json: dataSections } = v;
 
     if ('message' in dataSections) {
       hasError.value = true;
@@ -232,6 +346,11 @@ div.classement-element {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   padding: 9px;
   border-radius: 4px;
+  transition: all ease-in-out 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   div.rank-image {
     width: 30px;
@@ -355,18 +474,20 @@ div.avatar {
     .sector {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+        justify-content: center;
       align-items: center;
       margin-top: 10px;
       width: 100%;
       box-shadow: $default-shadow;
-      padding: 8px 12px;
+      padding: 10px 12px;
       border-radius: 7px;
       text-align: center;
-      min-height: 105px;
+      min-height: fit-content;
 
 
       ul {
+        min-height: 70px;
+        height: fit-content;
         flex-direction: column;
 
         li {
@@ -418,7 +539,7 @@ div.avatar {
   }
 }
 
-.user-content {
+.user-content.big {
   display: flex;
 
   > div {
@@ -434,6 +555,61 @@ div.avatar {
 
     &:nth-child(3) {
       flex: 4;
+    }
+  }
+}
+
+.user-content.phone {
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+
+
+  > div:nth-child(1) ul {
+    height: calc(100% - 65px);
+    max-height: 330px;
+  }
+
+  > div {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &:nth-child(1) {
+      margin-top: 0;
+
+      ul {
+        max-width: 250px;
+      }
+
+      .sector {
+        height: fit-content;
+      }
+    }
+  ;
+
+    &:nth-child(2) {
+      > {
+        max-width: 372px;
+      }
+    }
+
+    &.bonus {
+      ul {
+        width: 90%;
+        max-width: 372px;
+        flex-direction: column;
+        min-width: 200px;
+      }
+
+      > div {
+        width: 100%;
+      }
     }
   }
 }
