@@ -360,10 +360,10 @@ div.avatar {
       margin-top: 10px;
       width: 100%;
       box-shadow: $default-shadow;
-      padding: 8px 12px;
+      padding: 8px 12px 2px 12px;
       border-radius: 7px;
       text-align: center;
-      min-height: 105px;
+      min-height: 112px;
 
 
       ul {
