@@ -84,7 +84,7 @@ const isClicked = ref<number | null>(null);
 let targetOld: HTMLDivElement | null = null;
 
 const props = defineProps<{
-  displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
+  displayLabel: (posx: number | undefined, posy: number | undefined, sectionLabel: string) => void;
   sections: {
     section: string;
     id: number;
