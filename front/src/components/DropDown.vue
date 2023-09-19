@@ -13,32 +13,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { defineEmits, defineProps, computed, ref } from 'vue';
 import arrowImg from '../assets/img/arrow.webp';
 
 const props = defineProps<{
-  name: string;
+  name: string
+  dropDownClicked: boolean;
 }>();
 
-/**
- * Stocke si le dropdown est cliqué ou non dans le localstorage
- */
-function clickDropDown() {
+
+const clickDropDown = () => {
   dropDownIsClicked.value = !dropDownIsClicked.value;
-  localStorage.setItem('dropDownIsClicked', dropDownIsClicked.value ? 'true' : 'false');
-}
+  emit('clickDropDown', dropDownIsClicked);
+};
+
+const emit = defineEmits(['clickDropDown']);
+const dropDownIsClicked = ref(props.dropDownClicked);
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
   return dropDownIsClicked.value ? '90' : '0';
 });
 
-//Si aucune donnée n'est dans le localstorage alors initialisation
-let dropDownIsClicked = ref(localStorage.getItem('dropDownIsClicked') == 'true');
-if (!localStorage.getItem('dropDownIsClicked')) {
-  localStorage.setItem('dropDownIsClicked', 'false');
-  dropDownIsClicked.value = false;
-}
 </script>
 
 <style scoped lang="scss">
@@ -61,7 +57,7 @@ div.button-checked {
     height: 12px;
     margin-left: 15px;
     margin-top: 2px;
-      transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.3s;
   }
 }
 

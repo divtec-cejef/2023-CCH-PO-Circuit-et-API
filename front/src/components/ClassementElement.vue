@@ -76,7 +76,13 @@
         <div v-if="dropDownClicked" class="user-content phone">
             <template v-if="!hasError">
                 <div>
-                    <DropDown name="Meilleure Course">
+                    <DropDown name="Meilleure Course" @clickDropDown="(e) => {
+                        bestRaceDropDownClicked = e
+                        if(bestRaceDropDownClicked) {
+                        videoDropDownClicked = false;
+                        bonusDropDownClicked = false;
+                        }
+                    }" :drop-down-clicked="bestRaceDropDownClicked">
 
                         <ul>
                             <li class="time">
@@ -116,13 +122,27 @@
                 </div>
 
                 <div>
-                    <DropDown name="Vidéo">
+                    <DropDown name="Vidéo" @clickDropDown="(e) => {
+                        videoDropDownClicked = e
+                        if(videoDropDownClicked) {
+                        bestRaceDropDownClicked = false;
+                        bonusDropDownClicked = false;
+                        }
+                    }"
+                              :drop-down-clicked="videoDropDownClicked">
                         <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
                     </DropDown>
                 </div>
 
                 <div class="bonus">
-                    <DropDown name="Bonus">
+                    <DropDown name="Bonus" @clickDropDown="(e) => {
+                        bonusDropDownClicked = e
+                        if(bonusDropDownClicked) {
+                        videoDropDownClicked = false;
+                        bestRaceDropDownClicked = false;
+                        }
+                    }"
+                              :drop-down-clicked="bonusDropDownClicked">
                         <ul v-if="listSection.length > 0">
                             <template v-for="(section, key) in listSection" :key="key">
                                 <li>
@@ -179,8 +199,13 @@ const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
   userCar.car.avatar?.bgColor?.toString() :
   null);
 
+const bestRaceDropDownClicked = ref(false);
+const videoDropDownClicked = ref(false);
+const bonusDropDownClicked = ref(false);
+
 const listActivityOneCar: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
+
 const listSection: Ref<{
   name: string,
   idSection: number,
@@ -223,7 +248,7 @@ function clickClassementElement() {
   let raceFinish = false;
   let bonusFinish = false;
   api.getAllRaceOneCar(props.idCar).then(v => {
-    const { json: allRaceOneCar, status: statusRace } = v;
+    const { json: allRaceOneCar } = v;
 
     if ('message' in allRaceOneCar) {
       hasError.value = true;
@@ -241,7 +266,7 @@ function clickClassementElement() {
 
   //Récupère les activités d'une voiture
   api.getActivityOneCar(props.idCar).then(v => {
-    const { json: dataSections, status: statusActivities } = v;
+    const { json: dataSections } = v;
 
     if ('message' in dataSections) {
       hasError.value = true;
