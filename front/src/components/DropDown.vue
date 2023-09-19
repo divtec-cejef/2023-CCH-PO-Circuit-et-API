@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="button-checked" @click="clickDropDown">
-            <span>{{ props.name }}</span>
+            <h3>{{ props.name }}</h3>
             <img :src=arrowImg alt="Flèche dépliable"
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
@@ -42,9 +42,11 @@ if (!localStorage.getItem('dropDownIsClicked')) {
 </script>
 
 <style scoped lang="scss">
+div {
+  width: 100%;
+}
 
 div.button-checked {
-  margin-bottom: 15px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -52,14 +54,19 @@ div.button-checked {
   padding: 12px 10px;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  width: 60%;
+  width: 100%;
 
   img {
     width: 12px;
     height: 12px;
-    margin-left: 5px;
+    margin-left: 15px;
     margin-top: 2px;
+      transition: all ease-in-out 0.3s;
   }
+}
+
+h3 {
+  margin: 0;
 }
 
 input {
@@ -68,6 +75,7 @@ input {
 
 
 div.drop-down-content {
+  margin-top: 15px;
   display: flex;
   justify-content: center;
 }
