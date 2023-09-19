@@ -418,6 +418,15 @@
       height: 250px;
       margin-top: 70px;
     }
+
+    .user-content.big {
+      display: none;
+      background-color: red;
+    }
+
+    .user-content.phone {
+      display: flex;
+    }
   }
 }
 

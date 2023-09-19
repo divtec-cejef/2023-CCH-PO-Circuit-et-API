@@ -10,7 +10,7 @@
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
     <Transition>
-        <div v-if="dropDownClicked" class="user-content">
+        <div v-if="dropDownClicked" class="user-content big">
             <template v-if="!hasError">
                 <div>
                     <h3>Meilleure course</h3>
@@ -69,8 +69,77 @@
                     </div>
                 </div>
             </template>
+            <div v-else><h3>Erreur !</h3></div>
         </div>
     </Transition>
+    <Transition>
+        <div v-if="dropDownClicked" class="user-content phone">
+            <template v-if="!hasError">
+                <div>
+                    <DropDown name="Meilleure Course">
+
+                        <ul>
+                            <li class="time">
+                            <span class="time">{{
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
+                            </li>
+                            <li class="speed">
+                                <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
+                            </li>
+                            <li class="sector">
+                                Temps intermédiaires
+                                <ul>
+                                    <li>
+                                        <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                        <p class="time">{{
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                            }}<span>s</span></p>
+                                    </li>
+                                    <li>
+                                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                        <p class="time">{{
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                            }}<span>s</span></p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="hour">
+                                <img :src="clock" alt="Icon d'horloge">
+                                <span>{{
+                                    formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                    }}</span>
+                            </li>
+
+                        </ul>
+                    </DropDown>
+                </div>
+
+                <div>
+                    <DropDown name="Vidéo">
+                        <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                    </DropDown>
+                </div>
+
+                <div class="bonus">
+                    <DropDown name="Bonus">
+                        <ul v-if="listSection.length > 0">
+                            <template v-for="(section, key) in listSection" :key="key">
+                                <li>
+                                    <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
+                                </li>
+                            </template>
+                        </ul>
+                        <div v-else>
+                            Le pilote n'a pas réalisé d'activitées !
+                        </div>
+                    </DropDown>
+                </div>
+            </template>
+            <div v-else><h3>Erreur !</h3></div>
+        </div>
+    </Transition>
+
 </template>
 
 <script setup lang="ts">
@@ -88,6 +157,7 @@ import NumberTime from '@/components/NumberTime.vue';
 import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import clock from '@/assets/img/clock.webp';
+import DropDown from '@/components/DropDown.vue';
 
 const props = defineProps<{
   idCar: number | string;
@@ -355,15 +425,14 @@ div.avatar {
     .sector {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       margin-top: 10px;
       width: 100%;
       box-shadow: $default-shadow;
-      padding: 8px 12px 2px 12px;
+      padding: 8px 12px;
       border-radius: 7px;
       text-align: center;
-      min-height: 112px;
+      min-height: fit-content;
 
 
       ul {
@@ -418,7 +487,7 @@ div.avatar {
   }
 }
 
-.user-content {
+.user-content.big {
   display: flex;
 
   > div {
@@ -434,6 +503,61 @@ div.avatar {
 
     &:nth-child(3) {
       flex: 4;
+    }
+  }
+}
+
+.user-content.phone {
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+
+
+  > div:nth-child(1) ul {
+    height: calc(100% - 65px);
+    max-height: 330px;
+  }
+
+  > div {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &:nth-child(1) {
+      margin-top: 0;
+
+      ul {
+        max-width: 250px;
+      }
+
+      .sector {
+        height: fit-content;
+      }
+    }
+  ;
+
+    &:nth-child(2) {
+      > {
+        max-width: 372px;
+      }
+    }
+
+    &.bonus {
+      ul {
+        width: 90%;
+        max-width: 372px;
+        flex-direction: column;
+        min-width: 200px;
+      }
+
+      > div {
+        width: 100%;
+      }
     }
   }
 }
