@@ -6,14 +6,14 @@
                  :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
 
-        <div :class="`drop-down-content ${dropDownIsClicked ? '' : 'hide-drop-down'}`">
+        <div :class="`drop-down-content ${props.dropDownClicked ? '' : 'hide-drop-down'}`">
             <slot/>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, computed, ref } from 'vue';
+import { defineEmits, defineProps, computed } from 'vue';
 import arrowImg from '../assets/img/arrow.webp';
 
 const props = defineProps<{
@@ -22,17 +22,22 @@ const props = defineProps<{
 }>();
 
 
+/**
+ * Emit pour le clique
+ */
 const clickDropDown = () => {
-  dropDownIsClicked.value = !dropDownIsClicked.value;
-  emit('clickDropDown', dropDownIsClicked);
+  emit('clickDropDown', !props.dropDownClicked);
 };
 
-const emit = defineEmits(['clickDropDown']);
-const dropDownIsClicked = ref(props.dropDownClicked);
+
+const emit = defineEmits<{
+    (e: 'clickDropDown', clicked: boolean): void
+}>();
+
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
-  return dropDownIsClicked.value ? '90' : '0';
+  return props.dropDownClicked ? '90' : '0';
 });
 
 </script>

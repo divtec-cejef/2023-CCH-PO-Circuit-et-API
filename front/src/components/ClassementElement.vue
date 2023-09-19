@@ -76,13 +76,7 @@
         <div v-if="dropDownClicked" class="user-content phone">
             <template v-if="!hasError">
                 <div>
-                    <DropDown name="Meilleure Course" @clickDropDown="(e) => {
-                        bestRaceDropDownClicked = e
-                        if(bestRaceDropDownClicked) {
-                        videoDropDownClicked = false;
-                        bonusDropDownClicked = false;
-                        }
-                    }" :drop-down-clicked="bestRaceDropDownClicked">
+                    <DropDown name="Meilleure Course" @clickDropDown="clickBestRace" :drop-down-clicked="bestRaceDropDownClicked">
 
                         <ul>
                             <li class="time">
@@ -122,26 +116,14 @@
                 </div>
 
                 <div>
-                    <DropDown name="Vidéo" @clickDropDown="(e) => {
-                        videoDropDownClicked = e
-                        if(videoDropDownClicked) {
-                        bestRaceDropDownClicked = false;
-                        bonusDropDownClicked = false;
-                        }
-                    }"
+                    <DropDown name="Vidéo" @clickDropDown="clickVideo"
                               :drop-down-clicked="videoDropDownClicked">
                         <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
                     </DropDown>
                 </div>
 
                 <div class="bonus">
-                    <DropDown name="Bonus" @clickDropDown="(e) => {
-                        bonusDropDownClicked = e
-                        if(bonusDropDownClicked) {
-                        videoDropDownClicked = false;
-                        bestRaceDropDownClicked = false;
-                        }
-                    }"
+                    <DropDown name="Bonus" @clickDropDown="clickBonus"
                               :drop-down-clicked="bonusDropDownClicked">
                         <ul v-if="listSection.length > 0">
                             <template v-for="(section, key) in listSection" :key="key">
@@ -233,6 +215,42 @@ classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' 
 async function importImage() {
   return await import(`../assets/img/rank${props.rank}.webp`);
 }
+
+/**
+ * Fonction lancé au clic du drop down meilleure course
+ * @param e Cliqué ou non
+ */
+const clickBestRace = (e: boolean) => {
+  bestRaceDropDownClicked.value = e;
+  if (bestRaceDropDownClicked.value) {
+    videoDropDownClicked.value = false;
+    bonusDropDownClicked.value = false;
+  }
+};
+
+/**
+ * Fonction lancé au clic du drop down video
+ * @param e Cliqué ou non
+ */
+const clickVideo = (e: boolean) => {
+  videoDropDownClicked.value = e;
+  if (videoDropDownClicked.value) {
+    bestRaceDropDownClicked.value = false;
+    bonusDropDownClicked.value = false;
+  }
+};
+
+/**
+ * Fonction lancée au clic du drop down bonus
+ * @param e Cliqué ou non
+ */
+const clickBonus = (e : boolean) => {
+  bonusDropDownClicked.value = e;
+  if (bonusDropDownClicked.value) {
+    bestRaceDropDownClicked.value = false;
+    videoDropDownClicked.value = false;
+  }
+};
 
 /**
  * Fonction lancée au clic de l'élément de classement
