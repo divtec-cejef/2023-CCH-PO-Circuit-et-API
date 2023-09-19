@@ -104,7 +104,7 @@ import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import { useRouter } from 'vue-router';
 import VideoRace from '@/components/VideoRace.vue';
-import { formatSpeed } from '../models/race';
+import { formatSpeed } from '@/models/race';
 
 
 /**
