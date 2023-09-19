@@ -50,9 +50,29 @@ export default class Race {
   }
 }
 
+/**
+ * Formate une date en un temps en secondes
+ * @param date
+ */
 export function formatTime(date: Date) {
   if (date.getMinutes() === 0)
     return format(date, 'ss.SS');
   else
     return format(date, 'mm:ss.SS');
+}
+
+/**
+ * Arrondi la vitesse à une décimale
+ * @param speed Vitesse à arrondir
+ */
+export function formatSpeed(speed: number) {
+  return Math.round(speed * 10) / 10;
+}
+
+/**
+ * Retourne une date en un format d'heure
+ * @param hour Heure à formatter
+ */
+export function formatHour(hour: Date) {
+  return format(hour, 'kk:mm');
 }

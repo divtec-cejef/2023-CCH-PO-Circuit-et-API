@@ -24,7 +24,7 @@
 
                 <div class="content-2">
                     <div class="speed-max">
-                        <p>{{ car.listRace![BEST_TIME_INDEX].speed}}</p>
+                        <p>{{ formatSpeed(car.listRace![BEST_TIME_INDEX].speed)}}</p>
                         <p>km/h</p>
                     </div>
 
@@ -104,6 +104,7 @@ import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import { useRouter } from 'vue-router';
 import VideoRace from '@/components/VideoRace.vue';
+import { formatSpeed } from '../models/race';
 
 
 /**

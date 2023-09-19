@@ -5,14 +5,16 @@
         }">{{ sectionName }}
             <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{transform: `rotate(${rotateImage}deg)`}">
         </div>
-        <div class="activity" v-if="clickBonus">
-            <ul>
-                <li v-for="(activity, key) in listeActivity" :key="key">
-                    <img :src="trophy" alt="Image de trophée">
-                    {{ activity }}
-                </li>
-            </ul>
-        </div>
+        <transition>
+            <div class="activity" v-if="clickBonus">
+                <ul>
+                    <li v-for="(activity, key) in listeActivity" :key="key">
+                        <img :src="trophy" alt="Image de trophée">
+                        {{ activity }}
+                    </li>
+                </ul>
+            </div>
+        </transition>
     </div>
 
 </template>
@@ -87,5 +89,15 @@ div {
       }
     }
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: all 0.3s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>
