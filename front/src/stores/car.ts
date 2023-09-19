@@ -72,7 +72,7 @@ export const useCarStore = defineStore('car', () => {
   /**
    * Initialisation des courses de l'utilisateur dans le store
    */
-  async function initUserAllRaceCar() {
+  async function  initUserAllRaceCar() {
     const socket = new WebsocketConnection(car.value.idCar);
 
     socket.onUserRace(async (races) => {
