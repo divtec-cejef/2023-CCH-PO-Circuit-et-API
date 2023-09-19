@@ -217,15 +217,9 @@ let currentLabel = ref<{
 });
 let zoomfactor: number = 1;
 
-// let posx = 0;
-// let posy = 0;
-
-
-
 function isNotTouchPointer() {
   return !matchMedia('(pointer: coarse)').matches;
 }
-
 
 let panzoomElement: null | PanZoom = null;
 let mapElement: null | HTMLElement = null;
