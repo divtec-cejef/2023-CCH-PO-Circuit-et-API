@@ -17,11 +17,11 @@
                     <ul>
                         <li class="time">
                             <span class="time">{{
-                                formatTime(raceData.races[BEST_TIME_INDEX].totalTime)
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
                                 }}<span>s</span></span>
                         </li>
                         <li class="speed">
-                            <span>{{ formatSpeed(raceData.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
+                            <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
                         </li>
                         <li class="sector">
                             Temps intermédiaires
@@ -29,13 +29,13 @@
                                 <li>
                                     <NumberTime class="num-race" number="1" color="var(--red)"/>
                                     <p class="time">{{
-                                        formatTime(raceData.races[BEST_TIME_INDEX].sector1)
+                                        formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
                                         }}<span>s</span></p>
                                 </li>
                                 <li>
                                     <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                     <p class="time">{{
-                                        formatTime(raceData.races[BEST_TIME_INDEX].sector2)
+                                        formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
                                         }}<span>s</span></p>
                                 </li>
                             </ul>
@@ -43,7 +43,7 @@
                         <li class="hour">
                             <img :src="clock" alt="Icon d'horloge">
                             <span>{{
-                                formatHour(raceData.races[BEST_TIME_INDEX].raceStart)
+                                formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
                                 }}</span>
                         </li>
 
@@ -52,7 +52,7 @@
 
                 <div>
                     <h3>Vidéo</h3>
-                    <VideoRace :url="raceData.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                    <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
                 </div>
 
                 <div class="bonus">
