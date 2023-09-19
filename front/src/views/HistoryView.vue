@@ -223,7 +223,6 @@ let zoomfactor: number = 1;
 
 
 function isNotTouchPointer() {
-  console.log(matchMedia('(pointer: coarse)').matches);
   return !matchMedia('(pointer: coarse)').matches;
 }
 
