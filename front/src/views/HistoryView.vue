@@ -31,6 +31,11 @@
                 <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections"
                           :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
             </div>
+
+            <div class="zoom-buttons" v-if="isTouchPointer">
+                <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
+                <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
+            </div>
         </div>
     </div>
 </template>
@@ -43,6 +48,8 @@ import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
 import trophy from '../assets/img/trophy.png';
 import close from '../assets/img/close.png';
+import plus from '../assets/img/plus.png';
+import minus from '../assets/img/minus.png';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 
@@ -212,12 +219,23 @@ let zoomfactor: number = 1;
 // let posx = 0;
 // let posy = 0;
 
+
+
+function isTouchPointer() {
+  return matchMedia('(pointer: coarse)').matches;
+}
+
+
+let panzoomElement = null;
+let mapElement = null;
+
 const panzoomable = (v: any) => {
   let element = panzoom(v, {
     bounds: true,
     boundsPadding: 0.2,
-    maxZoom: 5,
+    maxZoom: 2.5,
     minZoom: 0.5,
+    zoomDoubleClickSpeed: 1,
     onTouch: function (e: any) {
       e.preventDefault();
     },
@@ -231,7 +249,34 @@ const panzoomable = (v: any) => {
     zoomfactor = element.getTransform().scale;
     hideDiv();
   });
+
+  panzoomElement = element;
+  mapElement = v;
 };
+
+function zoomIn() {
+  if (panzoomElement === null || mapElement === null) {
+    return;
+  }
+  let boundings = mapElement.getBoundingClientRect();
+  let transform = panzoomElement.getTransform();
+  console.log(transform);
+  let cx = transform.x + (boundings.width - boundings.left) / 2;
+  let cy = transform.y + (boundings.height - boundings.top) / 2;
+  console.log(cx, cy);
+  panzoomElement.smoothZoom(cx, cy, 1.3);
+}
+
+function zoomOut() {
+  if (panzoomElement === null || mapElement === null) {
+    return;
+  }
+  let boundings = mapElement.getBoundingClientRect();
+  let transform = panzoomElement.getTransform();
+  let cx = transform.x + (boundings.width - boundings.left) / 2;
+  let cy = transform.y + (boundings.height - boundings.top) / 2;
+  panzoomElement.smoothZoom(cx, cy, 0.7);
+}
 
 function hideDiv() {
   divDisplay.value = 'none';
@@ -242,7 +287,7 @@ const allSections = ref([{
   section: 'Informatique',
   id: -1,
   labelSection: 'Informaticien-ne',
-  posX: 22,
+  posX: 23,
   posY: 25,
 }, {
   section: 'Automatique',
@@ -254,8 +299,8 @@ const allSections = ref([{
   section: 'Horlogerie',
   id: -1,
   labelSection: 'Horloger-ère',
-  posX: 77,
-  posY: 45,
+  posX: 77.5,
+  posY: 48,
 }, {
   section: 'Electronique',
   id: -1,
@@ -267,7 +312,7 @@ const allSections = ref([{
   id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 47,
-  posY: 2.5,
+  posY: 2,
 }, {
   section: 'Laborantin',
   id: -1,
@@ -400,6 +445,41 @@ template {
 
   @media screen and (prefers-color-scheme: dark) {
     background-color: var(--black);
+  }
+
+  div.zoom-buttons {
+    z-index: 10000000;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      padding: 10px;
+      margin: 0;
+      line-height: 0;
+      font-size: 0;
+      background-color: var(--white);
+      box-shadow: rgba(100, 100, 111, 0.3) 0 7px 10px 0;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+
+      img {
+        width: 25px;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+
+
+    button:first-child {
+      margin-bottom: 10px;
+    }
   }
 }
 
