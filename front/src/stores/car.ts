@@ -92,6 +92,7 @@ export const useCarStore = defineStore('car', () => {
           new Date(race.total_time),
           new Date(race.sector1),
           new Date(race.sector2),
+          race.speed,
           race.video_url)
       );
     });
