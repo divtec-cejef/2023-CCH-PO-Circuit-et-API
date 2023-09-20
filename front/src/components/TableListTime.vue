@@ -143,6 +143,7 @@ div.table {
 
       td {
         margin-right: 5px;
+        padding: 4px;
 
 
         img.flag-start {
@@ -179,14 +180,14 @@ div.table {
 
     td.video {
       padding: 10px 5px !important;
-      width: 100px;
+      max-width: 120px;
 
       div {
         display: inline-block;
         width: 22px;
 
         &:nth-child(1) {
-          margin-right: 20px;
+          margin-right: clamp(5px, 10px, 20px);
         }
 
         span {

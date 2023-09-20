@@ -147,7 +147,6 @@ onMounted(() => {
   scrollToUser();
 });
 
-
 //Si aucune voiture n'est initialisée alors redirection
 if (!userCar.car.idCar) {
   router.push({ path: '/' });
