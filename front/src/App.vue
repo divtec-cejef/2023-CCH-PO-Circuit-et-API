@@ -100,7 +100,6 @@ changeValueWidthScreen();
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
   userCar.initUserCarId(userCarId).then(() => {
-    router.push(`/${userCar.car.idQuery}`);
     hasFinishedLoading.value = true;
   });
 } else {
