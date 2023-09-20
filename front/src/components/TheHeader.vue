@@ -2,7 +2,7 @@
     <nav class="header">
         <ul class="links">
             <li @click="clickMenu" class="accueil">
-                <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
+                <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
                 <img :src="houseImg" alt="Image d'accueil">
             </li>
             <li @click="clickMenu" v-if="userCar.car.idCar">
