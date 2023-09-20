@@ -11,6 +11,7 @@ const ActivityAdminView = () => import('@/views/ActivityAdminView.vue');
 const ScanActivityView = () => import('@/views/ScanActivityView.vue');
 const ClassementFullScreenView = () => import('@/views/ClassementFullScreenView.vue');
 const StageView = () => import('@/views/StageView.vue');
+const LiveView = () => import('@/views/LiveView.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,11 @@ const router = createRouter({
       path: '/stage',
       name: 'stage',
       component: StageView
+    },
+    {
+      path: '/live',
+      name: 'live',
+      component: LiveView
     }
   ]
 });
