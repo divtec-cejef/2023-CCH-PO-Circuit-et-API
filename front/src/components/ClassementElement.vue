@@ -1,5 +1,5 @@
 <template>
-    <div :class="'classement-element '+ classUserCarElement"
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
         <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
@@ -18,7 +18,7 @@
                         <ul>
                             <li class="time">
                             <span class="time">{{
-                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
                                 }}<span>s</span></span>
                             </li>
                             <li class="speed">
@@ -30,13 +30,13 @@
                                     <li>
                                         <NumberTime class="num-race" number="1" color="var(--red)"/>
                                         <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
                                             }}<span>s</span></p>
                                     </li>
                                     <li>
                                         <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                         <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
                                             }}<span>s</span></p>
                                     </li>
                                 </ul>
@@ -44,7 +44,7 @@
                             <li class="hour">
                                 <img :src="clock" alt="Icon d'horloge">
                                 <span>{{
-                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                    formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
                                     }}</span>
                             </li>
 
@@ -83,12 +83,12 @@
                             <ul>
                                 <li class="time">
                             <span class="time">{{
-                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
                                 }}<span>s</span></span>
                                 </li>
                                 <li class="speed">
                                     <span>{{
-                                            formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
+                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
                                         }}<span>km/h</span></span>
                                 </li>
                                 <li class="sector">
@@ -97,13 +97,13 @@
                                         <li>
                                             <NumberTime class="num-race" number="1" color="var(--red)"/>
                                             <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
                                                 }}<span>s</span></p>
                                         </li>
                                         <li>
                                             <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                             <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
                                                 }}<span>s</span></p>
                                         </li>
                                     </ul>
@@ -111,7 +111,7 @@
                                 <li class="hour">
                                     <img :src="clock" alt="Icon d'horloge">
                                     <span>{{
-                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
                                         }}</span>
                                 </li>
 
@@ -354,6 +354,12 @@ div.classement-element {
   border-radius: 4px;
   transition: all ease-in-out 0.3s;
 
+  &.open {
+    margin-bottom: 0;
+    box-shadow: rgba(100, 100, 111, 0.1) 0 -10px 30px 1px;
+
+  }
+
   &:hover {
     opacity: 0.8;
   }
@@ -402,7 +408,7 @@ div.avatar {
 
 .user-content {
   border-radius: 4px;
-  box-shadow: $default-shadow;
+  box-shadow: rgba(100, 100, 111, 0.1) 0 10px 30px 1px;;
   padding: 20px;
 
 
@@ -480,7 +486,7 @@ div.avatar {
     .sector {
       display: flex;
       flex-direction: column;
-        justify-content: center;
+      justify-content: center;
       align-items: center;
       margin-top: 10px;
       width: 100%;
@@ -599,11 +605,6 @@ div.avatar {
     }
   ;
 
-    &:nth-child(2) {
-      //> {
-      //  max-width: 372px;
-      //}
-    }
 
     &.bonus {
       ul {
