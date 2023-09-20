@@ -39,6 +39,7 @@ import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
+import { useRouter } from 'vue-router';
 
 /**
  * Gère le clic sur le menu
@@ -90,6 +91,7 @@ const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
+const router = useRouter();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -97,10 +99,8 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then((v) => {
-    if (typeof v == 'number') {
-      car.idCar = Number(userCarId);
-    }
+  userCar.initUserCarId(userCarId).then(() => {
+    router.push(`/${userCar.car.idQuery}`);
     hasFinishedLoading.value = true;
   });
 } else {
