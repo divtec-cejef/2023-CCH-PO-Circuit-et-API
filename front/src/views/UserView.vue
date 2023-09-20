@@ -80,12 +80,10 @@
                         <img :src=badgeModif alt="Badge modification">
                         <p>Modifier</p>
                     </RouterLink>
-
-                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                       target="_blank">
+                    <RouterLink to="/stage">
                         <img :src=badgeStage alt="Badge inscription stage">
                         <p>Stage</p>
-                    </a>
+                    </RouterLink>
                     <RouterLink to="/live">
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
