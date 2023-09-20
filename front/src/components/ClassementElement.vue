@@ -8,6 +8,13 @@
         <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
+
+    <!--        <img v-if="" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"-->
+    <!--             :style="{transform: `rotate(${rotateImage}deg)`}">-->
+
+    <!--        <img v-else :src="arrowImgWhite" alt="Icon de flèche pour déplier le contenu sdfg"-->
+    <!--             :style="{transform: `rotate(${rotateImage}deg)`}">-->
+
     </div>
     <template v-if="props.showContent">
         <Transition>
@@ -61,7 +68,9 @@
                         <ul>
                             <template v-for="(section, key) in listAllBonus" :key="key">
                                 <li>
-                                    <DropDownBonus :section-name="section.name" :list-activity="section.listActivity"/>
+                                    <DropDownBonus :section-name="section.name"
+                                                   :realised="section.realised"
+                                                   :list-activity="section.listActivity"/>
                                 </li>
                             </template>
                         </ul>
@@ -128,8 +137,9 @@
                                   :drop-down-clicked="bonusDropDownClicked">
                             <ul>
                                 <template v-for="(section, key) in listAllBonus" :key="key">
-                                    <li>
+                                    <li :class="section.realised ? '': 'not-realised'">
                                         <DropDownBonus :section-name="section.name"
+                                                       :realised="section.realised"
                                                        :list-activity="section.listActivity"/>
                                     </li>
                                 </template>
@@ -161,6 +171,8 @@ import DropDownBonus from '@/components/DropDownBonus.vue';
 import clock from '@/assets/img/clock.webp';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
+import arrowImg from '../assets/img/arrow.png';
+import arrowImgWhite from '../assets/img/arrow-white.png';
 
 const props = defineProps<{
   idCar: number | string;
@@ -187,12 +199,13 @@ const bestRaceDropDownClicked = ref(false);
 const videoDropDownClicked = ref(false);
 const bonusDropDownClicked = ref(false);
 
-const listActivityOneCar: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
+const listActivityOneCarApi: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
 
 const listAllBonus: Ref<{
   name: string,
   idSection: number,
+  realised: boolean,
   listActivity: {
     name: string,
     realised: boolean
@@ -211,7 +224,14 @@ const colorFont = computed<string | null>(() => {
     return null;
   }
 });
+
 const colorScheme = usePreferredColorScheme();
+
+
+// Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
+const rotateImage = computed(() => {
+  return dropDownClicked.value ? '90' : '0';
+});
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
@@ -277,7 +297,6 @@ function clickClassementElement() {
 
 }
 
-
 /**
  * Récupère les données utiles au drop down de l'utilisateur
  */
@@ -297,7 +316,7 @@ async function getAllDataUser() {
     hasError.value = true;
     return;
   }
-  listActivityOneCar.value = dataActivityOneCar;
+  listActivityOneCarApi.value = dataActivityOneCar;
 
   //Récupère toutes les sections
   const { json: dataSections } = await api.getAllSections();
@@ -322,6 +341,7 @@ function fillDataActivity() {
       return;
     }
 
+    //Initialisation de la liste d'activités
     let listActivityUser: {
       name: string,
       realised: boolean
@@ -336,13 +356,13 @@ function fillDataActivity() {
         hasError.value = true;
         return;
       }
-
       //Récupération des données
       let listActivitySection: models.parsedData.SectionActivities = dataActivity;
 
+
       //Boucle sur toutes les activités et remplissage de la liste principal, en ajoutant l'attribut realised si l'utilisateur l'a réalisée
       for (let activitySection of listActivitySection) {
-        let indexOfActivity = listActivityOneCar.value!.findIndex(activity => activity.idActivity === activitySection.idActivity);
+        let indexOfActivity = listActivityOneCarApi.value!.findIndex(activity => activity.idActivity === activitySection.idActivity);
 
         listActivityUser.push({
           name: activitySection.label,
@@ -351,10 +371,13 @@ function fillDataActivity() {
       }
     });
 
+    let sectionIsRealised = listActivityOneCarApi.value!.findIndex(activity => activity.idSection === section.idSection) >= 0;
+
     //Ajout des éléments à la liste
     listAllBonus.value.push({
       name: section.label,
       idSection: section.idSection,
+      realised: sectionIsRealised,
       listActivity: listActivityUser
     });
   }
@@ -417,6 +440,12 @@ div.classement-element {
   img {
     width: 30px;
     margin-left: 12px;
+  }
+
+  > img {
+    width: 23px;
+    margin-left: 7px;
+    transition: all ease-in-out 0.3s;
   }
 
   div.pseudo {
@@ -576,6 +605,11 @@ div.avatar {
       img {
         width: 20px;
         margin-right: 6px;
+      }
+
+      &.not-realised {
+        opacity: 0.8;
+        filter: grayscale(1);
       }
     }
   }
