@@ -1,12 +1,11 @@
 <template>
     <div>
-        <div class="section-name" @click="clickBonus = !clickBonus" :style="{
+        <div :class="`section-name`" @click="clickBonus = !clickBonus" :style="{
             color : props.realised ? color : 'var(--gray)',
             border: props.realised ? `3px solid ${color}` : '3px solid var(--gray)',
             opacity: props.realised ? `1` : '0.75',
-            backgroundColor: props.realised ? '' : '#e5e8ec'
-
-        }">
+            backgroundColor: props.realised ? '' : '#e5e8ec',
+                    }">
             <div class="trophee-name">
                 <img :src="trophy" alt="Trophé indiquant l'état de l'activité"
                      :class="props.realised ? '' : 'not-realised'">
