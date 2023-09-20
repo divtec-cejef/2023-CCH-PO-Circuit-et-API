@@ -86,10 +86,10 @@
                         <img :src=badgeStage alt="Badge inscription stage">
                         <p>Stage</p>
                     </a>
-                    <a :href="urlLiveYoutube" target="_blank">
+                    <RouterLink to="/live">
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
-                    </a>
+                    </RouterLink>
                 </div>
             </div>
         </div>
@@ -141,7 +141,6 @@ const ModelRender =
 let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
-const urlLiveYoutube :string = import.meta.env.VITE_URL_LIVE_YOUTUBE;
 const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
