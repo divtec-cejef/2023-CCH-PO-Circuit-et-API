@@ -10,7 +10,19 @@ export namespace Section {
     'laborantin',
     'informatique'];
 
+  export const SectionNameHasActivity = [
+    'dessinateur',
+    'micromecanique',
+    'electronique',
+    'automatique',
+    'horlogerie',
+    'laborantin',
+    'informatique'
+  ];
+
+
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
+    console.log(sectionName);
     if (!SectionName.includes(sectionName)) {
       throw new Error('Not a valid section.');
     }
@@ -28,6 +40,14 @@ export namespace Section {
     };
 
     return colors[sectionName];
+  };
+
+  /**
+   * Formate le nom donné (sans caractère spéciaux ni majuscule)
+   * @param name
+   */
+  export const formatName = (name: string) => {
+    return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 }
 

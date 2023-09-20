@@ -8,9 +8,9 @@
         <transition>
             <div class="activity" v-if="clickBonus">
                 <ul>
-                    <li v-for="(activity, key) in listeActivity" :key="key">
+                    <li v-for="(activity, key) in listActivity" :key="key">
                         <img :src="trophy" alt="Image de trophée">
-                        {{ activity }}
+                        {{ activity.name }}
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@ import arrow from '@/assets/img/arrows-symbol.png';
 
 const props = defineProps<{
   sectionName: string,
-  listeActivity: string[]
+  listActivity:  {name: string, realised: boolean}[]
 }>();
 
 const clickBonus = ref(false);
@@ -93,11 +93,11 @@ div {
 
 .v-enter-active,
 .v-leave-active {
-    transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .v-enter-from,
 .v-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 </style>

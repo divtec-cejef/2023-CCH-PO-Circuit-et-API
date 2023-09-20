@@ -58,16 +58,13 @@
 
                     <div class="bonus">
                         <h3>Bonus</h3>
-                        <ul v-if="listSection.length > 0">
-                            <template v-for="(section, key) in listSection" :key="key">
+                        <ul>
+                            <template v-for="(section, key) in listAllBonus" :key="key">
                                 <li>
-                                    <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
+                                    <DropDownBonus :section-name="section.name" :list-activity="section.listActivity"/>
                                 </li>
                             </template>
                         </ul>
-                        <div v-else>
-                            Le pilote n'a pas réalisé d'activitées !
-                        </div>
                     </div>
                 </template>
                 <div v-else><h3>Erreur !</h3></div>
@@ -129,17 +126,14 @@
                     <div class="bonus">
                         <DropDown name="Bonus" @clickDropDown="clickBonus"
                                   :drop-down-clicked="bonusDropDownClicked">
-                            <ul v-if="listSection.length > 0">
-                                <template v-for="(section, key) in listSection" :key="key">
+                            <ul>
+                                <template v-for="(section, key) in listAllBonus" :key="key">
                                     <li>
                                         <DropDownBonus :section-name="section.name"
-                                                       :liste-activity="section.listActivity"/>
+                                                       :list-activity="section.listActivity"/>
                                     </li>
                                 </template>
                             </ul>
-                            <div v-else>
-                                Le pilote n'a pas réalisé d'activitées !
-                            </div>
                         </DropDown>
                     </div>
                 </template>
@@ -166,6 +160,7 @@ import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import clock from '@/assets/img/clock.webp';
 import DropDown from '@/components/DropDown.vue';
+import { Section } from '@/models/section';
 
 const props = defineProps<{
   idCar: number | string;
@@ -195,11 +190,15 @@ const bonusDropDownClicked = ref(false);
 const listActivityOneCar: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
 
-const listSection: Ref<{
+const listAllBonus: Ref<{
   name: string,
   idSection: number,
-  listActivity: string[]
+  listActivity: {
+    name: string,
+    realised: boolean
+  }[]
 }[]> = ref([]);
+const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
 const colorFont = computed<string | null>(() => {
   if (userCar.car.pseudo == props.pseudo) {
@@ -212,7 +211,6 @@ const colorFont = computed<string | null>(() => {
     return null;
   }
 });
-
 const colorScheme = usePreferredColorScheme();
 
 // Ajoute une classe si l'élément de l'utilisateur
@@ -269,45 +267,98 @@ function clickClassementElement() {
     return;
   }
 
-  //Récupération de toutes les courses de l'utilisateur
-  let raceFinish = false;
-  let bonusFinish = false;
-  api.getAllRaceOneCar(props.idCar).then(v => {
-    const { json: allRaceOneCar } = v;
+  //Récupère toutes les données pour l'utilisateur cliqué
+  getAllDataUser().then(() => {
+    //Tri les activités
+    fillDataActivity();
+    dropDownClicked.value = true;
 
-    if ('message' in allRaceOneCar) {
-      hasError.value = true;
-      return;
-    }
-    raceData.value = allRaceOneCar;
-    raceFinish = true;
+  });
 
-    //Si les deux requêts sont passées alors on affiche le composant
-    if (bonusFinish && raceFinish) {
-      dropDownClicked.value = true;
-    }
+}
+
+
+/**
+ * Récupère les données utiles au drop down de l'utilisateur
+ */
+async function getAllDataUser() {
+
+  //Récupère les courses de l'utilisateur
+  const { json: allRaceOneCar } = await api.getAllRaceOneCar(props.idCar);
+  if ('message' in allRaceOneCar) {
+    hasError.value = true;
+    return;
   }
-  );
+  raceData.value = allRaceOneCar;
 
   //Récupère les activités d'une voiture
-  api.getActivityOneCar(props.idCar).then(v => {
-    const { json: dataSections } = v;
+  const { json: dataActivityOneCar } = await api.getActivityOneCar(props.idCar);
+  if ('message' in dataActivityOneCar) {
+    hasError.value = true;
+    return;
+  }
+  listActivityOneCar.value = dataActivityOneCar;
 
-    if ('message' in dataSections) {
-      hasError.value = true;
+  //Récupère toutes les sections
+  const { json: dataSections } = await api.getAllSections();
+  if ('message' in dataSections) {
+    hasError.value = true;
+    return;
+  }
+  listAllSection.value = dataSections;
+}
+
+/**
+ * Tri la liste des activités d'un utilisateur
+ */
+function fillDataActivity() {
+
+  //Vide la liste
+  listAllBonus.value = [];
+  for (let section of listAllSection.value!) {
+
+    //Test s'il y a des activités dans la section
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) {
       return;
     }
-    listActivityOneCar.value = dataSections;
-    bonusFinish = true;
 
-    //Tri les activités
-    fillActivityOneCar();
+    let listActivityUser: {
+      name: string,
+      realised: boolean
+    }[] = [];
 
-    //Si les deux requêtes sont passées alors on affiche le composant
-    if (bonusFinish && raceFinish) {
-      dropDownClicked.value = true;
-    }
-  });
+    //Récupération de toutes les activités d'une section
+    api.getAllActivitiesOneSection(section.idSection).then(v => {
+      const { json: dataActivity } = v;
+
+      //S'il y a une erreur alors return
+      if ('message' in dataActivity) {
+        hasError.value = true;
+        return;
+      }
+
+      //Récupération des données
+      let listActivitySection: models.parsedData.SectionActivities = dataActivity;
+
+      //Boucle sur toutes les activités et remplissage de la liste principal, en ajoutant l'attribut realised si l'utilisateur l'a réalisée
+      for (let activitySection of listActivitySection) {
+        let indexOfActivity = listActivityOneCar.value!.findIndex(activity => activity.idActivity === activitySection.idActivity);
+
+        listActivityUser.push({
+          name: activitySection.label,
+          realised: (indexOfActivity >= 0),
+        });
+      }
+    });
+
+    //Ajout des éléments à la liste
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      listActivity: listActivityUser
+    });
+  }
+
 }
 
 //Si l'utilisateur est sur le podium alors import image
@@ -317,27 +368,6 @@ if (props.rank <= PODIUM) {
   });
 }
 
-/**
- * Tri la liste des activités d'un utilisateur
- */
-function fillActivityOneCar() {
-  //Vide la liste
-  listSection.value = [];
-
-  for (let activity of listActivityOneCar.value!) {
-    //Si aucun n'index n'est présent on ajoute la section
-    let indexOfActivity = listSection.value.findIndex(section => section.idSection === activity.idSection);
-    if (indexOfActivity < 0) {
-      listSection.value.push({
-        name: activity.labelSection,
-        idSection: activity.idSection,
-        listActivity: [activity.labelActivity]
-      });
-    } else {
-      listSection.value[indexOfActivity].listActivity.push(activity.labelActivity);
-    }
-  }
-}
 </script>
 
 <style scoped lang="scss">
