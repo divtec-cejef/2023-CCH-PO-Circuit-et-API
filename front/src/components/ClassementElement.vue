@@ -9,80 +9,16 @@
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
     </div>
-    <Transition>
-        <div v-if="dropDownClicked" class="user-content big">
-            <template v-if="!hasError">
-                <div>
-                    <h3>Meilleure course</h3>
-                    <ul>
-                        <li class="time">
-                            <span class="time">{{
-                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
-                                }}<span>s</span></span>
-                        </li>
-                        <li class="speed">
-                            <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
-                        </li>
-                        <li class="sector">
-                            Temps intermédiaires
-                            <ul>
-                                <li>
-                                    <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                    <p class="time">{{
-                                        formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
-                                        }}<span>s</span></p>
-                                </li>
-                                <li>
-                                    <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                    <p class="time">{{
-                                        formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
-                                        }}<span>s</span></p>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="hour">
-                            <img :src="clock" alt="Icon d'horloge">
-                            <span>{{
-                                formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
-                                }}</span>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <div>
-                    <h3>Vidéo</h3>
-                    <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                </div>
-
-                <div class="bonus">
-                    <h3>Bonus</h3>
-                    <ul v-if="listSection.length > 0">
-                        <template v-for="(section, key) in listSection" :key="key">
-                            <li>
-                                <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
-                            </li>
-                        </template>
-                    </ul>
-                    <div v-else>
-                        Le pilote n'a pas réalisé d'activitées !
-                    </div>
-                </div>
-            </template>
-            <div v-else><h3>Erreur !</h3></div>
-        </div>
-    </Transition>
-    <Transition>
-        <div v-if="dropDownClicked" class="user-content phone">
-            <template v-if="!hasError">
-                <div>
-                    <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
-                              :drop-down-clicked="bestRaceDropDownClicked">
-
+    <template v-if="props.showContent">
+        <Transition>
+            <div v-if="dropDownClicked" class="user-content big">
+                <template v-if="!hasError">
+                    <div>
+                        <h3>Meilleure course</h3>
                         <ul>
                             <li class="time">
                             <span class="time">{{
-                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
                                 }}<span>s</span></span>
                             </li>
                             <li class="speed">
@@ -94,13 +30,13 @@
                                     <li>
                                         <NumberTime class="num-race" number="1" color="var(--red)"/>
                                         <p class="time">{{
-                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
                                             }}<span>s</span></p>
                                     </li>
                                     <li>
                                         <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                         <p class="time">{{
-                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
                                             }}<span>s</span></p>
                                     </li>
                                 </ul>
@@ -108,24 +44,20 @@
                             <li class="hour">
                                 <img :src="clock" alt="Icon d'horloge">
                                 <span>{{
-                                    formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
                                     }}</span>
                             </li>
 
                         </ul>
-                    </DropDown>
-                </div>
+                    </div>
 
-                <div>
-                    <DropDown name="Vidéo" @clickDropDown="clickVideo"
-                              :drop-down-clicked="videoDropDownClicked">
+                    <div>
+                        <h3>Vidéo</h3>
                         <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                    </DropDown>
-                </div>
+                    </div>
 
-                <div class="bonus">
-                    <DropDown name="Bonus" @clickDropDown="clickBonus"
-                              :drop-down-clicked="bonusDropDownClicked">
+                    <div class="bonus">
+                        <h3>Bonus</h3>
                         <ul v-if="listSection.length > 0">
                             <template v-for="(section, key) in listSection" :key="key">
                                 <li>
@@ -136,12 +68,85 @@
                         <div v-else>
                             Le pilote n'a pas réalisé d'activitées !
                         </div>
-                    </DropDown>
-                </div>
-            </template>
-            <div v-else><h3>Erreur !</h3></div>
-        </div>
-    </Transition>
+                    </div>
+                </template>
+                <div v-else><h3>Erreur !</h3></div>
+            </div>
+        </Transition>
+        <Transition>
+            <div v-if="dropDownClicked" class="user-content phone">
+                <template v-if="!hasError">
+                    <div>
+                        <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                                  :drop-down-clicked="bestRaceDropDownClicked">
+
+                            <ul>
+                                <li class="time">
+                            <span class="time">{{
+                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
+                                </li>
+                                <li class="speed">
+                                    <span>{{
+                                            formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
+                                        }}<span>km/h</span></span>
+                                </li>
+                                <li class="sector">
+                                    Temps intermédiaires
+                                    <ul>
+                                        <li>
+                                            <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                            <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                }}<span>s</span></p>
+                                        </li>
+                                        <li>
+                                            <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                            <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                }}<span>s</span></p>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="hour">
+                                    <img :src="clock" alt="Icon d'horloge">
+                                    <span>{{
+                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                        }}</span>
+                                </li>
+
+                            </ul>
+                        </DropDown>
+                    </div>
+
+                    <div>
+                        <DropDown name="Vidéo" @clickDropDown="clickVideo"
+                                  :drop-down-clicked="videoDropDownClicked">
+                            <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                        </DropDown>
+                    </div>
+
+                    <div class="bonus">
+                        <DropDown name="Bonus" @clickDropDown="clickBonus"
+                                  :drop-down-clicked="bonusDropDownClicked">
+                            <ul v-if="listSection.length > 0">
+                                <template v-for="(section, key) in listSection" :key="key">
+                                    <li>
+                                        <DropDownBonus :section-name="section.name"
+                                                       :liste-activity="section.listActivity"/>
+                                    </li>
+                                </template>
+                            </ul>
+                            <div v-else>
+                                Le pilote n'a pas réalisé d'activitées !
+                            </div>
+                        </DropDown>
+                    </div>
+                </template>
+                <div v-else><h3>Erreur !</h3></div>
+            </div>
+        </Transition>
+    </template>
 
 </template>
 
@@ -168,6 +173,7 @@ const props = defineProps<{
   pseudo: string;
   time: Date;
   avatar: Configs;
+  showContent: boolean
 }>();
 
 const BEST_TIME_INDEX = 0;
@@ -594,9 +600,9 @@ div.avatar {
   ;
 
     &:nth-child(2) {
-      > {
-        max-width: 372px;
-      }
+      //> {
+      //  max-width: 372px;
+      //}
     }
 
     &.bonus {
