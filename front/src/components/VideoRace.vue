@@ -141,7 +141,7 @@ div.video {
     justify-content: center;
     flex-direction: column;
     box-shadow: $default-shadow;
-    padding: 20px;
+    padding: 30px;
     height: 100%;
     min-height: 206px;
     border-radius: 7px;
