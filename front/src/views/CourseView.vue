@@ -75,7 +75,7 @@
                                 :style="{ backgroundImage: `url(${topImg})`}"></button>
                     </div>
                     <div ref="classement" class="classement-content">
-                        <ClassementRace/>
+                        <ClassementRace :show-content="false"/>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,6 @@ onMounted(() => {
   scrollToUser();
 });
 
-
 //Si aucune voiture n'est initialisée alors redirection
 if (!userCar.car.idCar) {
   router.push({ path: '/' });
@@ -167,7 +166,7 @@ if (!userCar.car.idCar) {
       hasCarRaces.value = true;
 
       //Ajout du bouton de téléchargement de la vidéo
-      urlBestRace.value = car.listRace![BEST_TIME_INDEX].videoUrl.toString();
+      urlBestRace.value = (car.listRace![BEST_TIME_INDEX].videoUrl || '').toString();
     });
   });
 

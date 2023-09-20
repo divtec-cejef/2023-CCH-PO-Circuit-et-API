@@ -17,7 +17,9 @@
                 :rank="key + 1"
                 :pseudo="race.car?.pseudo || '<indisponible>'"
                 :time="new Date(race.total_time)"
-                :id-car="race.car?.id_car"/>
+                :id-car="race.car?.id_car"
+                :show-content="props.showContent"
+        />
     </template>
 </template>
 
@@ -34,6 +36,13 @@ const errorMessage = ref<string>();
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();
+
+//Définition des props avec valeur par défaut
+const props = withDefaults(defineProps<{
+  showContent?: boolean
+}>(), {
+  showContent: true
+});
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
