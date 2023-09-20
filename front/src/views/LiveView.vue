@@ -3,7 +3,7 @@
     <div v-else class="error-no-car error-no-car">
         <h2>Erreur</h2>
         <p>Le live n'est pas disponible actuellement. Revenez plus tard !</p>
-        <RouterLink :to="`/`">
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">
             <button>Accueil</button>
         </RouterLink>
     </div>
@@ -11,7 +11,9 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { useCarStore } from '@/stores/car';
 
+const userCar = useCarStore();
 const urlLiveYoutube :string = import.meta.env.VITE_URL_LIVE_YOUTUBE || '';
 
 </script>
