@@ -1,22 +1,30 @@
 <template>
     <div>
         <div class="section-name" @click="clickBonus = !clickBonus" :style="{
-            backgroundColor : color
-        }">{{ sectionName }}
-            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{transform: `rotate(${rotateImage}deg)`}">
+            color : props.realised ? color : 'var(--gray)',
+            border: props.realised ? `3px solid ${color}` : '3px solid var(--gray)',
+            opacity: props.realised ? `1` : '0.75',
+            backgroundColor: props.realised ? '' : '#e5e8ec'
+
+        }">
+            <div class="trophee-name">
+                <img :src="trophy" alt="Trophé indiquant l'état de l'activité"
+                     :class="props.realised ? '' : 'not-realised'">
+                <p>{{ sectionName }}</p>
+            </div>
+            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{transform: `rotate(${rotateImage}deg)`}" :class="props.realised ? '' : 'not-realised'">
         </div>
         <transition>
             <div class="activity" v-if="clickBonus">
                 <ul>
                     <li v-for="(activity, key) in listActivity" :key="key">
-                        <img :src="trophy" alt="Image de trophée">
+                        <img :src="trophy" alt="Image de trophée" :class="activity.realised ? '' : 'not-realised'">
                         {{ activity.name }}
                     </li>
                 </ul>
             </div>
         </transition>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -28,11 +36,15 @@ import arrow from '@/assets/img/arrows-symbol.png';
 
 const props = defineProps<{
   sectionName: string,
-  listActivity:  {name: string, realised: boolean}[]
+  realised: boolean,
+  listActivity: {
+    name: string,
+    realised: boolean
+  }[]
 }>();
 
 const clickBonus = ref(false);
-const color = ref(getColor(props.sectionName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+const color = ref(getColor(Section.formatName(props.sectionName)));
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
@@ -54,6 +66,12 @@ ul {
 div {
   width: 100%;
 
+  div.trophee-name {
+    display: flex;
+    align-items: center;
+
+  }
+
   > div.section-name {
     color: var(--white);
     padding: 10px;
@@ -64,10 +82,13 @@ div {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-weight: bold;
+    text-align: left;
 
     img {
       width: 15px;
-      margin-right: 4px;
+      height: 15px;
+      margin-right: 10px;
       transition: all ease-in-out 0.3s;
     }
 
@@ -88,6 +109,11 @@ div {
         margin-right: 10px;
       }
     }
+  }
+
+  .not-realised {
+    opacity: 0.8;
+    filter: grayscale(1);
   }
 }
 

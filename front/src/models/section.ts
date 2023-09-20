@@ -20,7 +20,6 @@ export namespace Section {
     'informatique'
   ];
 
-
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
     console.log(sectionName);
     if (!SectionName.includes(sectionName)) {
