@@ -25,6 +25,10 @@
                 <RouterLink to="/admin">Admin</RouterLink>
                 <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
+            <li @click="clickMenu">
+                <RouterLink to="/live">Live</RouterLink>
+                <img :src="live" alt="Image de live pour le live">
+            </li>
             <li @click="clickMenu" id="stage">
                 <RouterLink to="stage">
                     <p>Stage</p>
@@ -61,6 +65,7 @@ import rankingImg from '@/assets/img/top-three.png';
 import carImg from '@/assets/img/car.png';
 import bonusImg from '@/assets/img/trophy.png';
 import qrCodeimg from '@/assets/img/qr-code.png';
+import live from '@/assets/img/live.png';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
