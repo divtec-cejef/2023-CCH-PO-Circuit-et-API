@@ -9,7 +9,7 @@
             </div>
             <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{
                 transform: `rotate(${rotateImage}deg)`,
-                filter: clickBonus ? 'grayscale(1) invert(1)' : ''
+                filter: clickBonus && realised ? 'grayscale(1) invert(1)' : ''
             }"
                  :class="props.realised ? '' : 'not-realised'">
         </div>
