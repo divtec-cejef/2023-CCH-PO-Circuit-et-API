@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div :class="`section-name`" @click="clickBonus = !clickBonus" :style="{
-            color : props.realised ? color : 'var(--gray)',
-            border: props.realised ? `3px solid ${color}` : '3px solid var(--gray)',
-            opacity: props.realised ? `1` : '0.75',
-            backgroundColor: props.realised ? '' : '#e5e8ec',
-                    }">
+        <div :class="`section-name${realised ? ' section-realised' : ''}`" @click="clickBonus = !clickBonus"
+             :style="styleDropDown(color)">
             <div class="trophee-name">
                 <img :src="trophy" alt="Trophé indiquant l'état de l'activité"
                      :class="props.realised ? '' : 'not-realised'">
                 <p>{{ sectionName }}</p>
             </div>
-            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{transform: `rotate(${rotateImage}deg)`}" :class="props.realised ? '' : 'not-realised'">
+            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{
+                transform: `rotate(${rotateImage}deg)`,
+                filter: clickBonus ? 'grayscale(1) invert(1)' : ''
+            }"
+                 :class="props.realised ? '' : 'not-realised'">
         </div>
         <transition>
             <div class="activity" v-if="clickBonus">
@@ -49,6 +49,22 @@ const color = ref(getColor(Section.formatName(props.sectionName)));
 const rotateImage = computed(() => {
   return clickBonus.value ? '90' : '0';
 });
+
+/**
+ * Retourne le style pour l'élément
+ * @param bColorHover Couleur de l'élément
+ */
+const styleDropDown = (bColorHover: string) => {
+  return {
+    color: props.realised ? clickBonus.value ? 'var(--white)' : color.value : 'var(--gray)',
+    border: props.realised ? `3px solid ${color.value}` : '3px solid var(--gray)',
+    opacity: props.realised ? `1` : '0.75',
+    backgroundColor: props.realised ? clickBonus.value ? color.value : '' : '#e5e8ec',
+    '--bColor-hover': bColorHover
+  };
+};
+
+
 </script>
 
 <style scoped lang="scss">
@@ -83,12 +99,23 @@ div {
     justify-content: space-between;
     font-weight: bold;
     text-align: left;
+    transition: all ease-in-out 0.3s;
+
+    &.section-realised:hover {
+      background-color: var(--bColor-hover);
+      color: var(--white) !important;
+
+      img:nth-child(2) {
+        filter: grayscale(1) invert(1);
+      }
+    }
 
     img {
       width: 15px;
       height: 15px;
       margin-right: 10px;
       transition: all ease-in-out 0.3s;
+
     }
 
     ul {

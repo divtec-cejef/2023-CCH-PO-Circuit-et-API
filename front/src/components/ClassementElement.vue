@@ -227,7 +227,6 @@ const colorFont = computed<string | null>(() => {
 
 const colorScheme = usePreferredColorScheme();
 
-
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
   return dropDownClicked.value ? '90' : '0';
