@@ -56,7 +56,7 @@ const styleDropDown = (bColorHover: string) => {
     color: props.realised ? clickBonus.value ? 'var(--white)' : color.value : 'var(--gray)',
     border: props.realised ? `3px solid ${color.value}` : '3px solid var(--gray)',
     opacity: props.realised ? `1` : '0.75',
-    backgroundColor: props.realised ? clickBonus.value ? color.value : '' : '#e5e8ec',
+    backgroundColor: props.realised ? clickBonus.value ? color.value : '' : '#eceef3',
     '--bColor-hover': bColorHover
   };
 };
@@ -68,7 +68,7 @@ const styleImg = () => {
   return {
     transform: `rotate(${rotateImage.value}deg)`,
     filter: clickBonus.value && props.realised ? 'grayscale(1) invert(1)' : '',
-    '--filter-color': !clickBonus.value ? Section.getFilterColor(Section.formatName(props.sectionName)) : 'grayscale(1) invert(1)'
+    '--filter-color': !clickBonus.value && props.realised ? Section.getFilterColor(Section.formatName(props.sectionName)) : 'grayscale(1) invert(1)'
   };
 };
 
@@ -117,6 +117,7 @@ div {
       color: var(--white) !important;
 
       img:nth-child(2) {
+        filter: grayscale(1) invert(1) !important;
       }
     }
 
