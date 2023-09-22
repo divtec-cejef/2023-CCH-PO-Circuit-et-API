@@ -7,10 +7,7 @@
                      :class="props.realised ? '' : 'not-realised'">
                 <p>{{ sectionName }}</p>
             </div>
-            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{
-                transform: `rotate(${rotateImage}deg)`,
-                filter: clickBonus && realised ? 'grayscale(1) invert(1)' : ''
-            }"
+            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="styleImg()"
                  :class="props.realised ? '' : 'not-realised'">
         </div>
         <transition>
@@ -64,6 +61,16 @@ const styleDropDown = (bColorHover: string) => {
   };
 };
 
+/**
+ * Style de l'image du drop down
+ */
+const styleImg = () => {
+  return {
+    transform: `rotate(${rotateImage.value}deg)`,
+    filter: clickBonus.value && props.realised ? 'grayscale(1) invert(1)' : '',
+    '--filter-color': !clickBonus.value ? Section.getFilterColor(Section.formatName(props.sectionName)) : 'grayscale(1) invert(1)'
+  };
+};
 
 </script>
 
@@ -101,12 +108,15 @@ div {
     text-align: left;
     transition: all ease-in-out 0.3s;
 
+    &.section-realised img:nth-child(2) {
+      filter: var(--filter-color) !important;
+    }
+
     &.section-realised:hover {
       background-color: var(--bColor-hover);
       color: var(--white) !important;
 
       img:nth-child(2) {
-        filter: grayscale(1) invert(1);
       }
     }
 
