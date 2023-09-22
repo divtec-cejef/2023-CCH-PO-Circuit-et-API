@@ -9,11 +9,11 @@
         <div class="pseudo">{{ props.pseudo }}</div>
         <div class="time">{{ formatTime(props.time) }}</div>
 
-            <img v-if="da" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
-                 :style="{transform: `rotate(${rotateImage}deg)`}">
+        <!--            <img v-if="da" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"-->
+        <!--                 :style="{transform: `rotate(${rotateImage}deg)`}">-->
 
-            <img v-else :src="arrowImgWhite" alt="Icon de flèche pour déplier le contenu sdfg"
-                 :style="{transform: `rotate(${rotateImage}deg)`}">
+        <!--            <img v-else :src="arrowImgWhite" alt="Icon de flèche pour déplier le contenu sdfg"-->
+        <!--                 :style="{transform: `rotate(${rotateImage}deg)`}">-->
 
     </div>
     <template v-if="props.showContent">
@@ -507,10 +507,10 @@ div.avatar {
     li.time, li.speed {
       display: flex;
       justify-content: center;
-      box-shadow: $default-shadow;
       padding: 3px 10px;
       border-radius: 7px;
       width: fit-content;
+      box-shadow: $default-shadow;
     }
 
     li.time {
@@ -549,11 +549,11 @@ div.avatar {
       align-items: center;
       margin-top: 10px;
       width: 100%;
-      box-shadow: $default-shadow;
       padding: 10px 12px;
       border-radius: 7px;
       text-align: center;
       min-height: fit-content;
+      box-shadow: $default-shadow;
 
 
       ul {
