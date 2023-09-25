@@ -189,6 +189,10 @@ div.best-race {
     flex: 1;
     height: fit-content;
     margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     div.content-1 {
       display: flex;
@@ -196,8 +200,8 @@ div.best-race {
       align-items: center;
       min-width: 280px;
       max-width: 297px;
-      margin: 0 auto;
-      width: fit-content;
+      margin: 0;
+      width: 100%;
 
       div.rank {
         display: flex;
@@ -270,9 +274,9 @@ div.best-race {
       display: flex;
       justify-content: space-between;
       min-width: 280px;
-      max-width: 297px;
-      width: fit-content;
-      margin: 35px auto 0 auto;
+      max-width: 305px;
+      margin: 35px 0 0 0;
+      width: 100%;
 
       div.vitesse {
         width: fit-content;
@@ -302,6 +306,10 @@ div.best-race {
 
         p:nth-child(1) {
           font-size: 40px;
+        }
+
+        ul li:nth-child(1) {
+          margin-top: 8px;
         }
 
         ul li p {
