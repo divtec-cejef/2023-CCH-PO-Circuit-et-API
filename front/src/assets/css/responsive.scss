@@ -197,6 +197,10 @@
         }
       }
     }
+    div.best-race {
+      height: auto;
+      flex-direction: column;
+    }
   }
 
   .table-large-content {
@@ -306,6 +310,7 @@
       height: 300px;
       align-items: center;
 
+
       div.content-1 {
         justify-content: space-between;
         width: 32%;
@@ -322,7 +327,6 @@
       }
 
       div.video {
-        width: 40%;
         margin: 0;
       }
     }
