@@ -80,16 +80,14 @@
                         <img :src=badgeModif alt="Badge modification">
                         <p>Modifier</p>
                     </RouterLink>
-
-                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                       target="_blank">
+                    <RouterLink to="/stage">
                         <img :src=badgeStage alt="Badge inscription stage">
                         <p>Stage</p>
-                    </a>
-                    <a :href="urlLiveYoutube" target="_blank">
+                    </RouterLink>
+                    <RouterLink to="/live">
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
-                    </a>
+                    </RouterLink>
                 </div>
             </div>
         </div>
@@ -141,7 +139,6 @@ const ModelRender =
 let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
-const urlLiveYoutube :string = import.meta.env.VITE_URL_LIVE_YOUTUBE;
 const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
