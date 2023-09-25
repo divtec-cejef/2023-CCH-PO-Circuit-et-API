@@ -1,94 +1,35 @@
 <template>
-    <div :class="'classement-element '+ classUserCarElement"
-         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
-         @click="clickClassementElement">
-        <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
-        </div>
-        <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
-        <div class="pseudo">{{ props.pseudo }}</div>
-        <div class="time">{{ formatTime(props.time) }}</div>
-    </div>
-    <template v-if="props.showContent">
-        <Transition>
-            <div v-if="dropDownClicked" class="user-content big">
-                <template v-if="!hasError">
-                    <div>
-                        <h3>Meilleure course</h3>
-                        <ul>
-                            <li class="time">
-                            <span class="time">{{
-                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
-                                }}<span>s</span></span>
-                            </li>
-                            <li class="speed">
-                                <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
-                            </li>
-                            <li class="sector">
-                                Temps intermédiaires
-                                <ul>
-                                    <li>
-                                        <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                        <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
-                                            }}<span>s</span></p>
-                                    </li>
-                                    <li>
-                                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                        <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
-                                            }}<span>s</span></p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="hour">
-                                <img :src="clock" alt="Icon d'horloge">
-                                <span>{{
-                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
-                                    }}</span>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3>Vidéo</h3>
-                        <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                    </div>
-
-                    <div class="bonus">
-                        <h3>Bonus</h3>
-                        <ul v-if="listSection.length > 0">
-                            <template v-for="(section, key) in listSection" :key="key">
-                                <li>
-                                    <DropDownBonus :section-name="section.name" :liste-activity="section.listActivity"/>
-                                </li>
-                            </template>
-                        </ul>
-                        <div v-else>
-                            Le pilote n'a pas réalisé d'activitées !
-                        </div>
-                    </div>
-                </template>
-                <div v-else><h3>Erreur !</h3></div>
+    <div class="all-content">
+        <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+             :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+             @click="clickClassementElement">
+            <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
+            <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
             </div>
-        </Transition>
-        <Transition>
-            <div v-if="dropDownClicked" class="user-content phone">
-                <template v-if="!hasError">
-                    <div>
-                        <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
-                                  :drop-down-clicked="bestRaceDropDownClicked">
+            <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+            <div class="pseudo">{{ props.pseudo }}</div>
+            <div class="time">{{ formatTime(props.time) }}</div>
 
+            <img :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
+                 :style="{
+            transform: `rotate(${rotateImage}deg)`,
+            filter: userCar.car.pseudo == props.pseudo && Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50 ? 'grayscale(1) invert(1)' : ''
+        }"></div>
+        <div v-if="props.showContent">
+            <Transition>
+                <div v-if="dropDownClicked" class="user-content big">
+                    <template v-if="!hasError">
+                        <div>
+                            <h3>Meilleure course</h3>
                             <ul>
                                 <li class="time">
                             <span class="time">{{
-                                    formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
                                 }}<span>s</span></span>
                                 </li>
                                 <li class="speed">
                                     <span>{{
-                                            formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
+                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
                                         }}<span>km/h</span></span>
                                 </li>
                                 <li class="sector">
@@ -97,13 +38,13 @@
                                         <li>
                                             <NumberTime class="num-race" number="1" color="var(--red)"/>
                                             <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
                                                 }}<span>s</span></p>
                                         </li>
                                         <li>
                                             <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                             <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
                                                 }}<span>s</span></p>
                                         </li>
                                     </ul>
@@ -111,42 +52,108 @@
                                 <li class="hour">
                                     <img :src="clock" alt="Icon d'horloge">
                                     <span>{{
-                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
                                         }}</span>
                                 </li>
 
                             </ul>
-                        </DropDown>
-                    </div>
+                        </div>
 
-                    <div>
-                        <DropDown name="Vidéo" @clickDropDown="clickVideo"
-                                  :drop-down-clicked="videoDropDownClicked">
+                        <div>
+                            <h3>Vidéo</h3>
                             <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                        </DropDown>
-                    </div>
+                        </div>
 
-                    <div class="bonus">
-                        <DropDown name="Bonus" @clickDropDown="clickBonus"
-                                  :drop-down-clicked="bonusDropDownClicked">
-                            <ul v-if="listSection.length > 0">
-                                <template v-for="(section, key) in listSection" :key="key">
+                        <div class="bonus">
+                            <h3>Bonus</h3>
+                            <ul>
+                                <template v-for="(section, key) in listAllBonus" :key="key">
                                     <li>
                                         <DropDownBonus :section-name="section.name"
-                                                       :liste-activity="section.listActivity"/>
+                                                       :realised="section.realised"
+                                                       :list-activity="section.listActivity"/>
                                     </li>
                                 </template>
                             </ul>
-                            <div v-else>
-                                Le pilote n'a pas réalisé d'activitées !
-                            </div>
-                        </DropDown>
-                    </div>
-                </template>
-                <div v-else><h3>Erreur !</h3></div>
-            </div>
-        </Transition>
-    </template>
+                        </div>
+                    </template>
+                    <div v-else><h3>Erreur !</h3></div>
+                </div>
+            </Transition>
+            <Transition>
+                <div v-if="dropDownClicked" class="user-content phone">
+                    <template v-if="!hasError">
+                        <div>
+                            <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                                      :drop-down-clicked="bestRaceDropDownClicked">
+
+                                <ul>
+                                    <li class="time">
+                            <span class="time">{{
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
+                                    </li>
+                                    <li class="speed">
+                                    <span>{{
+                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
+                                        }}<span>km/h</span></span>
+                                    </li>
+                                    <li class="sector">
+                                        Temps intermédiaires
+                                        <ul>
+                                            <li>
+                                                <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                                <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                    }}<span>s</span></p>
+                                            </li>
+                                            <li>
+                                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                                <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                    }}<span>s</span></p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="hour">
+                                        <img :src="clock" alt="Icon d'horloge">
+                                        <span>{{
+                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                            }}</span>
+                                    </li>
+
+                                </ul>
+                            </DropDown>
+                        </div>
+
+                        <div>
+                            <DropDown name="Vidéo" @clickDropDown="clickVideo"
+                                      :drop-down-clicked="videoDropDownClicked">
+                                <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                            </DropDown>
+                        </div>
+
+                        <div class="bonus">
+                            <DropDown name="Bonus" @clickDropDown="clickBonus"
+                                      :drop-down-clicked="bonusDropDownClicked">
+                                <ul>
+                                    <template v-for="(section, key) in listAllBonus" :key="key">
+                                        <li :class="section.realised ? '': 'not-realised'">
+                                            <DropDownBonus :section-name="section.name"
+                                                           :realised="section.realised"
+                                                           :list-activity="section.listActivity"/>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </DropDown>
+                        </div>
+                    </template>
+                    <div v-else><h3>Erreur !</h3></div>
+                </div>
+            </Transition>
+        </div>
+    </div>
+
 
 </template>
 
@@ -166,6 +173,9 @@ import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import clock from '@/assets/img/clock.webp';
 import DropDown from '@/components/DropDown.vue';
+import { Section } from '@/models/section';
+import arrowImg from '../assets/img/arrow.png';
+import arrowImgWhite from '../assets/img/arrow-white.png';
 
 const props = defineProps<{
   idCar: number | string;
@@ -192,14 +202,19 @@ const bestRaceDropDownClicked = ref(false);
 const videoDropDownClicked = ref(false);
 const bonusDropDownClicked = ref(false);
 
-const listActivityOneCar: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
+const listActivityOneCarApi: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
 
-const listSection: Ref<{
+const listAllBonus: Ref<{
   name: string,
   idSection: number,
-  listActivity: string[]
+  realised: boolean,
+  listActivity: {
+    name: string,
+    realised: boolean
+  }[]
 }[]> = ref([]);
+const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
 const colorFont = computed<string | null>(() => {
   if (userCar.car.pseudo == props.pseudo) {
@@ -214,6 +229,11 @@ const colorFont = computed<string | null>(() => {
 });
 
 const colorScheme = usePreferredColorScheme();
+
+// Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
+const rotateImage = computed(() => {
+  return dropDownClicked.value ? '90' : '0';
+});
 
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
@@ -269,45 +289,101 @@ function clickClassementElement() {
     return;
   }
 
-  //Récupération de toutes les courses de l'utilisateur
-  let raceFinish = false;
-  let bonusFinish = false;
-  api.getAllRaceOneCar(props.idCar).then(v => {
-    const { json: allRaceOneCar } = v;
+  //Récupère toutes les données pour l'utilisateur cliqué
+  getAllDataUser().then(() => {
+    //Tri les activités
+    fillDataActivity();
+    dropDownClicked.value = true;
 
-    if ('message' in allRaceOneCar) {
-      hasError.value = true;
-      return;
-    }
-    raceData.value = allRaceOneCar;
-    raceFinish = true;
+  });
 
-    //Si les deux requêts sont passées alors on affiche le composant
-    if (bonusFinish && raceFinish) {
-      dropDownClicked.value = true;
-    }
+}
+
+/**
+ * Récupère les données utiles au drop down de l'utilisateur
+ */
+async function getAllDataUser() {
+
+  //Récupère les courses de l'utilisateur
+  const { json: allRaceOneCar } = await api.getAllRaceOneCar(props.idCar);
+  if ('message' in allRaceOneCar) {
+    hasError.value = true;
+    return;
   }
-  );
+  raceData.value = allRaceOneCar;
 
   //Récupère les activités d'une voiture
-  api.getActivityOneCar(props.idCar).then(v => {
-    const { json: dataSections } = v;
+  const { json: dataActivityOneCar } = await api.getActivityOneCar(props.idCar);
+  if ('message' in dataActivityOneCar) {
+    hasError.value = true;
+    return;
+  }
+  listActivityOneCarApi.value = dataActivityOneCar;
 
-    if ('message' in dataSections) {
-      hasError.value = true;
+  //Récupère toutes les sections
+  const { json: dataSections } = await api.getAllSections();
+  if ('message' in dataSections) {
+    hasError.value = true;
+    return;
+  }
+  listAllSection.value = dataSections;
+}
+
+/**
+ * Tri la liste des activités d'un utilisateur
+ */
+function fillDataActivity() {
+
+  //Vide la liste
+  listAllBonus.value = [];
+  for (let section of listAllSection.value!) {
+
+    //Test s'il y a des activités dans la section
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) {
       return;
     }
-    listActivityOneCar.value = dataSections;
-    bonusFinish = true;
 
-    //Tri les activités
-    fillActivityOneCar();
+    //Initialisation de la liste d'activités
+    let listActivityUser: {
+      name: string,
+      realised: boolean
+    }[] = [];
 
-    //Si les deux requêtes sont passées alors on affiche le composant
-    if (bonusFinish && raceFinish) {
-      dropDownClicked.value = true;
-    }
-  });
+    //Récupération de toutes les activités d'une section
+    api.getAllActivitiesOneSection(section.idSection).then(v => {
+      const { json: dataActivity } = v;
+
+      //S'il y a une erreur alors return
+      if ('message' in dataActivity) {
+        hasError.value = true;
+        return;
+      }
+      //Récupération des données
+      let listActivitySection: models.parsedData.SectionActivities = dataActivity;
+
+
+      //Boucle sur toutes les activités et remplissage de la liste principal, en ajoutant l'attribut realised si l'utilisateur l'a réalisée
+      for (let activitySection of listActivitySection) {
+        let indexOfActivity = listActivityOneCarApi.value!.findIndex(activity => activity.idActivity === activitySection.idActivity);
+
+        listActivityUser.push({
+          name: activitySection.label,
+          realised: (indexOfActivity >= 0),
+        });
+      }
+    });
+
+    let sectionIsRealised = listActivityOneCarApi.value!.findIndex(activity => activity.idSection === section.idSection) >= 0;
+
+    //Ajout des éléments à la liste
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      realised: sectionIsRealised,
+      listActivity: listActivityUser
+    });
+  }
+
 }
 
 //Si l'utilisateur est sur le podium alors import image
@@ -317,31 +393,16 @@ if (props.rank <= PODIUM) {
   });
 }
 
-/**
- * Tri la liste des activités d'un utilisateur
- */
-function fillActivityOneCar() {
-  //Vide la liste
-  listSection.value = [];
-
-  for (let activity of listActivityOneCar.value!) {
-    //Si aucun n'index n'est présent on ajoute la section
-    let indexOfActivity = listSection.value.findIndex(section => section.idSection === activity.idSection);
-    if (indexOfActivity < 0) {
-      listSection.value.push({
-        name: activity.labelSection,
-        idSection: activity.idSection,
-        listActivity: [activity.labelActivity]
-      });
-    } else {
-      listSection.value[indexOfActivity].listActivity.push(activity.labelActivity);
-    }
-  }
-}
 </script>
 
 <style scoped lang="scss">
 @import "src/assets/css/consts";
+
+div.all-content {
+  box-shadow: $default-shadow;
+    border-radius: 4px;
+
+}
 
 div.classement-element {
   font-size: 14px;
@@ -349,10 +410,13 @@ div.classement-element {
   display: flex;
   align-items: center;
   justify-content: start;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   padding: 9px;
   border-radius: 4px;
   transition: all ease-in-out 0.3s;
+
+  &.open {
+    margin-bottom: 0;
+  }
 
   &:hover {
     opacity: 0.8;
@@ -383,6 +447,12 @@ div.classement-element {
     margin-left: 12px;
   }
 
+  > img {
+    width: 23px;
+    margin-left: 7px;
+    transition: all ease-in-out 0.3s;
+  }
+
   div.pseudo {
     flex: 10;
     margin-left: 15px;
@@ -402,7 +472,6 @@ div.avatar {
 
 .user-content {
   border-radius: 4px;
-  box-shadow: $default-shadow;
   padding: 20px;
 
 
@@ -442,10 +511,10 @@ div.avatar {
     li.time, li.speed {
       display: flex;
       justify-content: center;
-      box-shadow: $default-shadow;
       padding: 3px 10px;
       border-radius: 7px;
       width: fit-content;
+      box-shadow: $default-shadow;
     }
 
     li.time {
@@ -480,15 +549,15 @@ div.avatar {
     .sector {
       display: flex;
       flex-direction: column;
-        justify-content: center;
+      justify-content: center;
       align-items: center;
       margin-top: 10px;
       width: 100%;
-      box-shadow: $default-shadow;
       padding: 10px 12px;
       border-radius: 7px;
       text-align: center;
       min-height: fit-content;
+      box-shadow: $default-shadow;
 
 
       ul {
@@ -540,6 +609,11 @@ div.avatar {
       img {
         width: 20px;
         margin-right: 6px;
+      }
+
+      &.not-realised {
+        opacity: 0.8;
+        filter: grayscale(1);
       }
     }
   }
@@ -599,11 +673,6 @@ div.avatar {
     }
   ;
 
-    &:nth-child(2) {
-      //> {
-      //  max-width: 372px;
-      //}
-    }
 
     &.bonus {
       ul {
