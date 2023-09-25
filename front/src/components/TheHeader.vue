@@ -168,7 +168,7 @@ nav {
 
     li {
       box-shadow: $default-shadow;
-      padding: 10px 15px;
+      padding: 15px 15px;
       border-radius: 50px;
     }
 
