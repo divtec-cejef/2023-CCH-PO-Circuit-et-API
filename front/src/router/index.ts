@@ -81,7 +81,10 @@ const router = createRouter({
       name: 'live',
       component: LiveView
     }
-  ]
+  ],
+  scrollBehavior () {
+    return { top: 0 };
+  }
 });
 
 export default router;
