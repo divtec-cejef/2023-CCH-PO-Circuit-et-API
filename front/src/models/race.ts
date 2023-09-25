@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export default class Race {
   idRace: number = 0;
@@ -36,18 +37,6 @@ export default class Race {
   calculateSector(sector: Date) {
     return new Date(sector.getTime() - this.startTime.getTime());
   }
-
-  /**
-   * Retourne la date formatée pour l'affichage
-   * @param date Date à formater
-   */
-  formatTime(date: Date) {
-    return format(date, 'mm:ss:SS');
-  }
-
-  formatHour() {
-    return format(this.startTime, 'kk:mm');
-  }
 }
 
 /**
@@ -75,4 +64,13 @@ export function formatSpeed(speed: number) {
  */
 export function formatHour(hour: Date) {
   return format(hour, 'kk:mm');
+}
+
+/**
+ * Formate une date heure pour afficher le jour en français, l'heure et les secondes
+ * @param hour
+ */
+export function formatHourDay(hour: Date) {
+  const formatHour = format(hour, 'EEEE kk', { locale: fr }) + 'h' + format(hour, 'mm', { locale: fr });
+  return formatHour[0].toUpperCase() + formatHour.slice(1);
 }
