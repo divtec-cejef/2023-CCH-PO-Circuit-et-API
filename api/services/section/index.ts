@@ -26,6 +26,9 @@ export const getSections = async () => {
     select: {
       id_section: true,
       label: true
+    },
+    orderBy: {
+      label: 'asc'
     }
   });
 };
