@@ -10,7 +10,7 @@
             <div class="pseudo">{{ props.pseudo }}</div>
             <div class="time">{{ formatTime(props.time) }}</div>
 
-            <img :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
+            <img v-if="props.showContent" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
                  :style="{
             transform: `rotate(${rotateImage}deg)`,
             filter: userCar.car.pseudo == props.pseudo && Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50 ? 'grayscale(1) invert(1)' : ''
