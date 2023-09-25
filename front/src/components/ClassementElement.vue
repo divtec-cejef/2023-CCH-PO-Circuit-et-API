@@ -175,7 +175,6 @@ import clock from '@/assets/img/clock.webp';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
 import arrowImg from '../assets/img/arrow.png';
-import arrowImgWhite from '../assets/img/arrow-white.png';
 
 const props = defineProps<{
   idCar: number | string;

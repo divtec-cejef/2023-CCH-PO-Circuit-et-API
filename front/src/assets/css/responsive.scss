@@ -197,6 +197,7 @@
         }
       }
     }
+
     div.best-race {
       margin-top: 20px;
       height: auto;
@@ -206,6 +207,7 @@
     div.race-content {
       margin-right: 0;
     }
+
     div.video-race {
       margin-top: 25px;
       margin-left: 0;
@@ -218,7 +220,6 @@
   }
 
 }
-
 
 /* Tablette */
 @media screen and (min-width: 800px) {
@@ -377,6 +378,15 @@
 
     footer div.stage {
       display: block;
+    }
+
+    div.table table td.video {
+      padding: 5px;
+
+      img {
+        width: 22px;
+        margin: 0;
+      }
     }
   }
 }

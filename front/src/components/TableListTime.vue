@@ -3,14 +3,31 @@
         <table class="table-list-time">
             <tr>
                 <th></th>
-                <th><img :src=chronometer alt="Image de chronomètre"></th>
-                <th><img :src=speed alt="Image vitesse max"></th>
-                <th><img :src=video alt="Image de video"></th>
+                <th>
+                    <div>
+                        <img :src=chronometer alt="Image de chronomètre">
+                        <span>Temps</span>
+                    </div>
+                </th>
+                <th>
+                    <div>
+                        <img :src=speed alt="Image vitesse max">
+                        <span>Vitesse</span>
+                    </div>
+                </th>
+                <th>
+                    <div>
+                        <img :src=video alt="Image de video">
+                        <span>Vidéo</span>
+                    </div>
+                </th>
             </tr>
             <tr v-for="(race, key) in usercar.car.sortListByOrderHour()" :key="key">
                 <td>
-                    <NumberTime class="num-race" :number=usercar.car.getNumRace(race).valueOf().toString()
-                                color="var(--blue)"/>
+                    <div>
+                        <NumberTime class="num-race" :number=usercar.car.getNumRace(race).valueOf().toString()
+                                    color="var(--blue)"/>
+                    </div>
                 </td>
                 <td>{{ formatTime(race.totalTime) }}<span>s</span></td>
                 <td>
@@ -45,7 +62,6 @@
 
 <script setup lang="ts">
 import video from '../assets/img/film.webp';
-import clock from '../assets/img/clock.webp';
 import speed from '../assets/img/speed.png';
 import chronometer from '../assets/img/chronometer.png';
 import link from '../assets/img/play-button.png';
@@ -53,7 +69,7 @@ import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
-import { formatHour, formatSpeed, formatTime } from '@/models/race';
+import { formatSpeed, formatTime } from '@/models/race';
 
 /**
  * Création de l'objet blob
@@ -98,6 +114,8 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/consts.scss';
+
 div.table {
   overflow-y: auto;
   max-height: 400px;
@@ -131,17 +149,26 @@ div.table {
       }
 
       th {
+        > div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          img {
+            margin-bottom: 4px;
+          }
+        }
+
         p {
           text-align: left;
           margin-left: 7px;
         }
 
         img {
-          width: 30px;
-          min-width: 30px;
+          width: 20px;
         }
 
-        padding: 5px 0 2px 0;
+        padding: 5px 0 10px 0;
         border-left: 0;
         border-right: 0;
       }
@@ -171,12 +198,19 @@ div.table {
 
         &:nth-child(1) {
           max-width: 45px;
+
+          > div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+          }
         }
 
         &:nth-child(2) {
           font-family: 'Digital-7 Mono', sans-serif;
           font-size: 22px;
-          width: 25%;
+          width: 30%;
 
           span {
             font-family: 'Poppins', sans-serif;
@@ -188,10 +222,9 @@ div.table {
 
         &:nth-child(3) {
           font-family: 'Digital-7 Mono', sans-serif;
-          width: 25%;
 
           p:nth-child(1) {
-            font-size: 22px;
+            font-size: 25px;
           }
 
           p:nth-child(2) {
@@ -210,15 +243,18 @@ div.table {
     }
 
     td.video {
-      padding: 10px 5px !important;
-      max-width: 120px;
+      padding: 5px 10px !important;
+
+      img {
+        width: 28px;
+        margin: 5px 0
+      }
 
       div {
         display: inline-block;
-        width: 22px;
 
         &:nth-child(1) {
-          margin-right: clamp(5px, 10px, 20px);
+          margin-right: 15px;
         }
 
         span {
