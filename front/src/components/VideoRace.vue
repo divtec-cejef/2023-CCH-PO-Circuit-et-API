@@ -82,6 +82,9 @@ div.video {
   flex-direction: column;
   align-items: center;
   text-align: center;
+    flex-wrap: wrap;
+  max-width: 375px;
+    
 
   a {
     margin: 0;

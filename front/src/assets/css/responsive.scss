@@ -197,6 +197,21 @@
         }
       }
     }
+
+    div.best-race {
+      margin-top: 20px;
+      height: auto;
+      flex-direction: column;
+    }
+
+    div.race-content {
+      margin-right: 0;
+    }
+
+    div.video-race {
+      margin-top: 25px;
+      margin-left: 0;
+    }
   }
 
   .table-large-content {
@@ -205,7 +220,6 @@
   }
 
 }
-
 
 /* Tablette */
 @media screen and (min-width: 800px) {
@@ -306,23 +320,12 @@
       height: 300px;
       align-items: center;
 
+
       div.content-1 {
         justify-content: space-between;
-        width: 32%;
-      }
-
-      div.content-2 {
-        width: 32%;
-      }
-
-
-      div.informations {
-        width: 32%;
-        margin-bottom: 0;
       }
 
       div.video {
-        width: 40%;
         margin: 0;
       }
     }
@@ -375,6 +378,15 @@
 
     footer div.stage {
       display: block;
+    }
+
+    div.table table td.video {
+      padding: 5px;
+
+      img {
+        width: 22px;
+        margin: 0;
+      }
     }
   }
 }
