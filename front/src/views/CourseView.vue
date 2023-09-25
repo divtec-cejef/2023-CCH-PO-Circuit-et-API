@@ -6,55 +6,57 @@
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
             <div class="best-race">
-                <div class="content-1">
-                    <div class="rank">
-                        <span>Rang</span>
-                        <div>
-                            <span>#</span>
-                            <span>{{ car.rank }}</span>
+                <div class="race-content">
+                    <div class="content-1">
+                        <div class="rank">
+                            <span>Rang</span>
+                            <div>
+                                <span>#</span>
+                                <span>{{ car.rank }}</span>
+                            </div>
+                        </div>
+                        <div class="best-time">
+                            <div>Manche n°{{ car.getNumRace(car.listRace![BEST_TIME_INDEX]) }}</div>
+                            <p class="hour">{{ formatHourDay(car.listRace![BEST_TIME_INDEX].startTime) }}</p>
+                            <div class="race-time">
+                                <span>{{ formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}</span>
+                                <span>s</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="best-time">
-                        <div>Manche n°{{ car.getNumRace(car.listRace![BEST_TIME_INDEX]) }}</div>
-                        <p class="hour">{{ formatHourDay(car.listRace![BEST_TIME_INDEX].startTime) }}</p>
-                        <div class="race-time">
-                            <span>{{ formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}</span>
-                            <span>s</span>
+                    <div class="content-2">
+                        <div class="vitesse">
+                            <div>Vitesse instantanée</div>
+                            <div class="speed-max">
+                                <p>{{ formatSpeed(car.listRace![BEST_TIME_INDEX].speed) }}</p>
+                                <p>cm/s</p>
+                            </div>
+                        </div>
+
+                        <div class="time-inter">
+                            <div>Temps intermédiaires</div>
+                            <ul>
+                                <li>
+                                    <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                    <p>{{
+                                        formatTime(car.listRace![BEST_TIME_INDEX].sector1)
+                                        }}</p>
+                                    <span>s</span>
+                                </li>
+                                <li>
+                                    <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                    <p>{{
+                                        formatTime(car.listRace![BEST_TIME_INDEX].sector2)
+                                        }}</p>
+                                    <span>s</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-
-                <div class="content-2">
-                    <div class="vitesse">
-                        <div>Vitesse instantanée</div>
-                        <div class="speed-max">
-                            <p>{{ formatSpeed(car.listRace![BEST_TIME_INDEX].speed) }}</p>
-                            <p>cm/s</p>
-                        </div>
-                    </div>
-
-                    <div class="time-inter">
-                        <div>Secteurs</div>
-                        <ul>
-                            <li>
-                                <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                <p>{{
-                                    formatTime(car.listRace![BEST_TIME_INDEX].sector1)
-                                    }}</p>
-                                <span>s</span>
-                            </li>
-                            <li>
-                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                <p>{{
-                                    formatTime(car.listRace![BEST_TIME_INDEX].sector2)
-                                    }}</p>
-                                <span>s</span>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="video-race">
+                    <VideoRace :url="urlBestRace"></VideoRace>
                 </div>
-
-                <VideoRace :url="urlBestRace"></VideoRace>
             </div>
 
             <div class="content-list-classement">
@@ -177,170 +179,184 @@ onUnmounted(() => socket.value?.destroy());
 
 div.best-race {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin: 20px auto 0 auto;
+  margin: 0 auto;
 
-  div.content-1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 280px;
-    max-width: 297px;
-    width: 80%;
-    margin: 20px auto;
+  div.race-content {
+    flex: 1;
+    height: fit-content;
+    margin-right: 25px;
 
-    div.rank {
+    div.content-1 {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-      border-radius: 200px;
-      padding: 14px;
-      margin-top: 5px;
-      margin-left: 10px;
-      background-color: var(--dark-green);
-      color: var(--white);
-      width: 90px;
-      height: 90px;
+      min-width: 280px;
+      max-width: 297px;
+      margin: 0 auto;
+      width: fit-content;
 
-      > span {
-        font-size: 12px;
-        margin-bottom: -6px;
-      }
-
-      div {
+      div.rank {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+        border-radius: 200px;
+        padding: 14px;
+        margin-top: 5px;
+        margin-left: 10px;
+        background-color: var(--dark-green);
+        color: var(--white);
+        width: 90px;
+        height: 90px;
 
-        span:nth-child(1) {
-          font-size: 26px;
+        > span {
+          font-size: 12px;
+          margin-bottom: -6px;
         }
 
-        span:nth-child(2) {
-          font-size: 52px;
-          margin-top: 2px;
-          margin-bottom: 10px;
+        div {
+          display: flex;
+          align-items: center;
+
+          span:nth-child(1) {
+            font-size: 26px;
+          }
+
+          span:nth-child(2) {
+            font-size: 52px;
+            margin-top: 2px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+
+      div.best-time {
+        width: 140px;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+
+        div:nth-child(1) {
+          font-weight: 550;
+        }
+
+        p.hour {
+          font-size: 15px;
+          font-style: italic;
+        }
+
+        div.race-time {
+          font-family: 'Digital-7 Mono', sans-serif;
+          font-size: 45px;
+
+          span:nth-child(2) {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            margin-left: 7px;
+          }
+        }
+
+        img {
+          width: 35px;
         }
       }
     }
 
-    div.best-time {
-      width: 140px;
+    div.content-2 {
       display: flex;
-      text-align: center;
-      flex-direction: column;
+      justify-content: space-between;
+      min-width: 280px;
+      max-width: 297px;
+      width: fit-content;
+      margin: 35px auto 0 auto;
 
-      div:nth-child(1) {
-        font-weight: 550;
-      }
+      div.vitesse {
+        width: fit-content;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-      p.hour {
-        font-size: 15px;
-        font-style: italic;
-      }
-
-      div.race-time {
-        font-family: 'Digital-7 Mono', sans-serif;
-        font-size: 45px;
-
-        span:nth-child(2) {
-          font-family: 'Poppins', sans-serif;
-          font-size: 24px;
-          margin-left: 7px;
+        > div:nth-child(1) {
+          width: 120px;
+          font-weight: 550;
+          margin-bottom: 10px;
         }
       }
 
-      img {
-        width: 35px;
+      div.time-inter {
+        width: 140px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        > div {
+          font-weight: 550;
+        }
+
+        p:nth-child(1) {
+          font-size: 40px;
+        }
+
+        ul li p {
+          font-size: 22px;
+        }
+
+        .num-race {
+          margin-right: 10px;
+        }
+
+        span {
+          font-family: 'Poppins', sans-serif;
+          font-size: 20px;
+          margin-left: 5px;
+        }
+      }
+
+      div.speed-max {
+        display: flex;
+        width: fit-content;
+        align-items: end;
+
+        p:nth-child(1) {
+          font-size: 45px;
+        }
+
+        p:nth-child(2) {
+          font-size: 15px;
+        }
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        width: fit-content;
+        list-style: none;
+
+        li {
+          display: flex;
+          align-items: center;
+          font-family: 'Digital-7 Mono', sans-serif;
+          width: fit-content;
+          font-size: 26px;
+          margin-top: 10px;
+        }
       }
     }
   }
 
-  div.content-2 {
+  div.video-race {
+    flex: 1;
+    margin-left: 25px;
     display: flex;
-    justify-content: space-between;
-    min-width: 280px;
-    max-width: 297px;
-    width: 80%;
-    margin: 20px auto 40px auto;
-
-    div.vitesse {
-      width: fit-content;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      > div:nth-child(1) {
-        width: 120px;
-        font-weight: 550;
-        margin-bottom: 8px;
-      }
-    }
-
-    div.time-inter {
-      width: 140px;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      justify-content: center;
-      align-items: center;
-
-      > div {
-        font-weight: 550;
-      }
-
-      p:nth-child(1) {
-        font-size: 40px;
-      }
-
-      ul li p {
-        font-size: 22px;
-      }
-
-      .num-race {
-        margin-right: 10px;
-      }
-
-      span {
-        font-family: 'Poppins', sans-serif;
-        font-size: 20px;
-        margin-left: 5px;
-      }
-    }
-
-    div.speed-max {
-      display: flex;
-      width: fit-content;
-      align-items: end;
-
-      p:nth-child(1) {
-        font-size: 45px;
-      }
-
-      p:nth-child(2) {
-        font-size: 15px;
-      }
-    }
-
-    ul {
-      margin: 0;
-      padding: 0;
-      width: fit-content;
-      list-style: none;
-
-      li {
-        display: flex;
-        align-items: center;
-        font-family: 'Digital-7 Mono', sans-serif;
-        width: fit-content;
-        font-size: 26px;
-        margin-top: 10px;
-      }
-    }
+    align-items: center;
+    justify-content: center;
   }
 
   a {
