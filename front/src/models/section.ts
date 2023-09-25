@@ -41,8 +41,11 @@ export namespace Section {
     return colors[sectionName];
   };
 
+  /**
+   * Récupère le filtre css pour la couleur d'une section
+   * @param sectionName Nom de la section
+   */
   export const getFilterColor = (sectionName: (typeof Section.SectionName)[number]) => {
-    console.log(sectionName);
     if (!SectionName.includes(sectionName)) {
       throw new Error('Not a valid section.');
     }
@@ -61,7 +64,7 @@ export namespace Section {
   };
 
   /**
-   * Formate le nom donné (sans caractère spéciaux ni majuscule)
+   * Formate le nom donné (sans caractères spéciaux ni majuscule)
    * @param name
    */
   export const formatName = (name: string) => {

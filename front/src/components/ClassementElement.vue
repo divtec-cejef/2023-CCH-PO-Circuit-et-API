@@ -1,91 +1,26 @@
 <template>
-    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
-         @click="clickClassementElement">
-        <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
-        <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
-        </div>
-        <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
-        <div class="pseudo">{{ props.pseudo }}</div>
-        <div class="time">{{ formatTime(props.time) }}</div>
-
-        <!--            <img v-if="da" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"-->
-        <!--                 :style="{transform: `rotate(${rotateImage}deg)`}">-->
-
-        <!--            <img v-else :src="arrowImgWhite" alt="Icon de flèche pour déplier le contenu sdfg"-->
-        <!--                 :style="{transform: `rotate(${rotateImage}deg)`}">-->
-
-    </div>
-    <template v-if="props.showContent">
-        <Transition>
-            <div v-if="dropDownClicked" class="user-content big">
-                <template v-if="!hasError">
-                    <div>
-                        <h3>Meilleure course</h3>
-                        <ul>
-                            <li class="time">
-                            <span class="time">{{
-                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
-                                }}<span>s</span></span>
-                            </li>
-                            <li class="speed">
-                                <span>{{ formatSpeed(raceData!.races[BEST_TIME_INDEX].speed) }}<span>km/h</span></span>
-                            </li>
-                            <li class="sector">
-                                Temps intermédiaires
-                                <ul>
-                                    <li>
-                                        <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                        <p class="time">{{
-                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
-                                            }}<span>s</span></p>
-                                    </li>
-                                    <li>
-                                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                        <p class="time">{{
-                                            formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
-                                            }}<span>s</span></p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="hour">
-                                <img :src="clock" alt="Icon d'horloge">
-                                <span>{{
-                                    formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
-                                    }}</span>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3>Vidéo</h3>
-                        <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                    </div>
-
-                    <div class="bonus">
-                        <h3>Bonus</h3>
-                        <ul>
-                            <template v-for="(section, key) in listAllBonus" :key="key">
-                                <li>
-                                    <DropDownBonus :section-name="section.name"
-                                                   :realised="section.realised"
-                                                   :list-activity="section.listActivity"/>
-                                </li>
-                            </template>
-                        </ul>
-                    </div>
-                </template>
-                <div v-else><h3>Erreur !</h3></div>
+    <div class="all-content">
+        <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+             :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+             @click="clickClassementElement">
+            <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
+            <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
             </div>
-        </Transition>
-        <Transition>
-            <div v-if="dropDownClicked" class="user-content phone">
-                <template v-if="!hasError">
-                    <div>
-                        <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
-                                  :drop-down-clicked="bestRaceDropDownClicked">
+            <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+            <div class="pseudo">{{ props.pseudo }}</div>
+            <div class="time">{{ formatTime(props.time) }}</div>
 
+            <img :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
+                 :style="{
+            transform: `rotate(${rotateImage}deg)`,
+            filter: userCar.car.pseudo == props.pseudo && Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50 ? 'grayscale(1) invert(1)' : ''
+        }"></div>
+        <div v-if="props.showContent">
+            <Transition>
+                <div v-if="dropDownClicked" class="user-content big">
+                    <template v-if="!hasError">
+                        <div>
+                            <h3>Meilleure course</h3>
                             <ul>
                                 <li class="time">
                             <span class="time">{{
@@ -122,35 +57,103 @@
                                 </li>
 
                             </ul>
-                        </DropDown>
-                    </div>
+                        </div>
 
-                    <div>
-                        <DropDown name="Vidéo" @clickDropDown="clickVideo"
-                                  :drop-down-clicked="videoDropDownClicked">
+                        <div>
+                            <h3>Vidéo</h3>
                             <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                        </DropDown>
-                    </div>
+                        </div>
 
-                    <div class="bonus">
-                        <DropDown name="Bonus" @clickDropDown="clickBonus"
-                                  :drop-down-clicked="bonusDropDownClicked">
+                        <div class="bonus">
+                            <h3>Bonus</h3>
                             <ul>
                                 <template v-for="(section, key) in listAllBonus" :key="key">
-                                    <li :class="section.realised ? '': 'not-realised'">
+                                    <li>
                                         <DropDownBonus :section-name="section.name"
                                                        :realised="section.realised"
                                                        :list-activity="section.listActivity"/>
                                     </li>
                                 </template>
                             </ul>
-                        </DropDown>
-                    </div>
-                </template>
-                <div v-else><h3>Erreur !</h3></div>
-            </div>
-        </Transition>
-    </template>
+                        </div>
+                    </template>
+                    <div v-else><h3>Erreur !</h3></div>
+                </div>
+            </Transition>
+            <Transition>
+                <div v-if="dropDownClicked" class="user-content phone">
+                    <template v-if="!hasError">
+                        <div>
+                            <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                                      :drop-down-clicked="bestRaceDropDownClicked">
+
+                                <ul>
+                                    <li class="time">
+                            <span class="time">{{
+                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
+                                }}<span>s</span></span>
+                                    </li>
+                                    <li class="speed">
+                                    <span>{{
+                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
+                                        }}<span>km/h</span></span>
+                                    </li>
+                                    <li class="sector">
+                                        Temps intermédiaires
+                                        <ul>
+                                            <li>
+                                                <NumberTime class="num-race" number="1" color="var(--red)"/>
+                                                <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
+                                                    }}<span>s</span></p>
+                                            </li>
+                                            <li>
+                                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                                                <p class="time">{{
+                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
+                                                    }}<span>s</span></p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="hour">
+                                        <img :src="clock" alt="Icon d'horloge">
+                                        <span>{{
+                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
+                                            }}</span>
+                                    </li>
+
+                                </ul>
+                            </DropDown>
+                        </div>
+
+                        <div>
+                            <DropDown name="Vidéo" @clickDropDown="clickVideo"
+                                      :drop-down-clicked="videoDropDownClicked">
+                                <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+                            </DropDown>
+                        </div>
+
+                        <div class="bonus">
+                            <DropDown name="Bonus" @clickDropDown="clickBonus"
+                                      :drop-down-clicked="bonusDropDownClicked">
+                                <ul>
+                                    <template v-for="(section, key) in listAllBonus" :key="key">
+                                        <li :class="section.realised ? '': 'not-realised'">
+                                            <DropDownBonus :section-name="section.name"
+                                                           :realised="section.realised"
+                                                           :list-activity="section.listActivity"/>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </DropDown>
+                        </div>
+                    </template>
+                    <div v-else><h3>Erreur !</h3></div>
+                </div>
+            </Transition>
+        </div>
+    </div>
+
 
 </template>
 
@@ -395,21 +398,24 @@ if (props.rank <= PODIUM) {
 <style scoped lang="scss">
 @import "src/assets/css/consts";
 
+div.all-content {
+  box-shadow: $default-shadow;
+    border-radius: 4px;
+
+}
+
 div.classement-element {
   font-size: 14px;
   margin: 10px 0;
   display: flex;
   align-items: center;
   justify-content: start;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   padding: 9px;
   border-radius: 4px;
   transition: all ease-in-out 0.3s;
 
   &.open {
     margin-bottom: 0;
-    box-shadow: rgba(100, 100, 111, 0.1) 0 -10px 30px 1px;
-
   }
 
   &:hover {
@@ -466,7 +472,6 @@ div.avatar {
 
 .user-content {
   border-radius: 4px;
-  box-shadow: rgba(100, 100, 111, 0.1) 0 10px 30px 1px;;
   padding: 20px;
 
 
