@@ -15,45 +15,42 @@
                         </div>
                     </div>
                     <div class="best-time">
-                        <div>Temps de manche</div>
+                        <div>Manche n°{{ car.getNumRace(car.listRace![BEST_TIME_INDEX]) }}</div>
+                        <p class="hour">{{ formatHourDay(car.listRace![BEST_TIME_INDEX].startTime) }}</p>
                         <div class="race-time">
-                            {{ car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}
+                            <span>{{ formatTime(car.listRace![BEST_TIME_INDEX].totalTime) }}</span>
+                            <span>s</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-2">
-                    <div class="speed-max">
-                        <p>{{ formatSpeed(car.listRace![BEST_TIME_INDEX].speed)}}</p>
-                        <p>km/h</p>
+                    <div class="vitesse">
+                        <div>Vitesse instantanée</div>
+                        <div class="speed-max">
+                            <p>{{ formatSpeed(car.listRace![BEST_TIME_INDEX].speed) }}</p>
+                            <p>cm/s</p>
+                        </div>
                     </div>
 
                     <div class="time-inter">
-                        <div>Temps <br>
-                            intermédiaires
-                        </div>
+                        <div>Secteurs</div>
                         <ul>
                             <li>
                                 <NumberTime class="num-race" number="1" color="var(--red)"/>
                                 <p>{{
-                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector1)
+                                    formatTime(car.listRace![BEST_TIME_INDEX].sector1)
                                     }}</p>
+                                <span>s</span>
                             </li>
                             <li>
                                 <NumberTime class="num-race" number="2" color="var(--blue)"/>
                                 <p>{{
-                                    car.listRace![BEST_TIME_INDEX].formatTime(car.listRace![BEST_TIME_INDEX].sector2)
+                                    formatTime(car.listRace![BEST_TIME_INDEX].sector2)
                                     }}</p>
+                                <span>s</span>
                             </li>
                         </ul>
-                    </div>
-                </div>
-
-                <div class="informations">
-                    <p>N° Manche : {{ car.getNumRace(car.listRace![BEST_TIME_INDEX]) }}</p>
-                    <div>
-                        <img class="hour" :src=hourImg alt="Icon d'horloge">
-                        <p class="hour">{{ car.listRace![BEST_TIME_INDEX].formatHour() }}</p>
                     </div>
                 </div>
 
@@ -97,14 +94,13 @@ import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
 import TableListTime from '@/components/TableListTime.vue';
 import ClassementRace from '@/components/ClassementRace.vue';
-import hourImg from '@/assets/img/clock.webp';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import { useRouter } from 'vue-router';
 import VideoRace from '@/components/VideoRace.vue';
-import { formatSpeed } from '@/models/race';
+import { formatHourDay, formatSpeed, formatTime } from '@/models/race';
 
 
 /**
@@ -127,7 +123,6 @@ function scrollToTop() {
     classement.value.scrollTop = 0;
   }
 }
-
 
 
 //Initialisation des constantes
@@ -194,7 +189,7 @@ div.best-race {
     min-width: 280px;
     max-width: 297px;
     width: 80%;
-    margin: auto;
+    margin: 20px auto;
 
     div.rank {
       display: flex;
@@ -204,6 +199,7 @@ div.best-race {
       border-radius: 200px;
       padding: 14px;
       margin-top: 5px;
+      margin-left: 10px;
       background-color: var(--dark-green);
       color: var(--white);
       width: 90px;
@@ -231,14 +227,29 @@ div.best-race {
     }
 
     div.best-time {
-      width: 165px;
+      width: 140px;
       display: flex;
+      text-align: center;
       flex-direction: column;
+
+      div:nth-child(1) {
+        font-weight: 550;
+      }
+
+      p.hour {
+        font-size: 15px;
+        font-style: italic;
+      }
 
       div.race-time {
         font-family: 'Digital-7 Mono', sans-serif;
         font-size: 45px;
-        text-align: end;
+
+        span:nth-child(2) {
+          font-family: 'Poppins', sans-serif;
+          font-size: 24px;
+          margin-left: 7px;
+        }
       }
 
       img {
@@ -253,13 +264,34 @@ div.best-race {
     min-width: 280px;
     max-width: 297px;
     width: 80%;
-    margin: auto;
+    margin: 20px auto 40px auto;
 
-
-    div.time-inter {
-      width: 165px;
+    div.vitesse {
+      width: fit-content;
+      text-align: center;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      > div:nth-child(1) {
+        width: 120px;
+        font-weight: 550;
+        margin-bottom: 8px;
+      }
+    }
+
+    div.time-inter {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+
+      > div {
+        font-weight: 550;
+      }
 
       p:nth-child(1) {
         font-size: 40px;
@@ -272,25 +304,32 @@ div.best-race {
       .num-race {
         margin-right: 10px;
       }
+
+      span {
+        font-family: 'Poppins', sans-serif;
+        font-size: 20px;
+        margin-left: 5px;
+      }
     }
 
     div.speed-max {
       display: flex;
       width: fit-content;
       align-items: end;
-      margin-bottom: 15px;
-      margin-left: 10px;
 
       p:nth-child(1) {
         font-size: 45px;
       }
+
+      p:nth-child(2) {
+        font-size: 15px;
+      }
     }
 
     ul {
-      margin: 0 10px 0 0;
+      margin: 0;
       padding: 0;
       width: fit-content;
-      align-self: end;
       list-style: none;
 
       li {
@@ -304,8 +343,6 @@ div.best-race {
     }
   }
 
-
-
   a {
     margin-top: 25px;
     text-align: right;
@@ -315,8 +352,6 @@ div.best-race {
   div.informations {
     margin: 25px auto;
     display: flex;
-    justify-content: space-between;
-    font-style: italic;
     align-items: center;
     min-width: 280px;
     max-width: 297px;
