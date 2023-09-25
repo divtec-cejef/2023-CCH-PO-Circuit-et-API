@@ -1,6 +1,8 @@
 <template>
     <div class="renderer-root">
-        <div :style="{display: hasLoaded? 'block' : 'none'}">
+        <div :style="{display: hasLoaded? 'block' : 'none'}"
+             v-if="isSupported && (memory?.jsHeapSizeLimit ?? 0) / 1024 / 1024 / 1024 > 2 &&
+                    display !== 'legacy'">
             <Renderer
                     id="car"
                       ref="renderer"
@@ -27,17 +29,22 @@
                                @load="() => hasLoaded = true"/>
                 </Scene>
             </Renderer>
-            </div>
-    <div :style="{display: hasLoaded ? 'none' : 'flex'}" class="load-icon">
-        <slot></slot>
-    </div>
+        </div>
+        <div
+                :style="{display: hasLoaded ? 'none' : 'flex'}"
+                class="load-icon"
+                v-else>
+            <slot></slot>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { GltfModel, PointLight, Renderer, Scene, Camera } from 'troisjs';
-import { usePreferredColorScheme, useWindowSize } from '@vueuse/core';
+import { usePreferredColorScheme, useWindowSize, useMemory, useLocalStorage } from '@vueuse/core';
 import { ref } from 'vue';
+
+const display = useLocalStorage('display', 'modern');
 
 const props = defineProps<{
   model: string;
@@ -50,6 +57,7 @@ const { width: vWidth } = useWindowSize();
 //Initialisation du schéma de couleur préféré
 const preferredColor = usePreferredColorScheme();
 
+const { isSupported, memory } = useMemory();
 </script>
 
 <style scoped lang="scss">
