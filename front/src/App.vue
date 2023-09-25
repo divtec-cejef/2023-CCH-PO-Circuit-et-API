@@ -32,14 +32,14 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
-import { useRouter } from 'vue-router';
+import { useLocalStorage } from '@vueuse/core';
 
 /**
  * Gère le clic sur le menu
@@ -47,6 +47,17 @@ import { useRouter } from 'vue-router';
 function clickMenu() {
   menuIsClicked.value = !menuIsClicked.value;
 }
+
+/**
+ * Enregistrer display=legacy
+ */
+const display = useLocalStorage('display', 'modern');
+const params = location.search.slice(1).split('&');
+params.forEach((item) => {
+  if (item === 'display=legacy') {
+    display.value = 'legacy';
+  }
+});
 
 /**
  * Change la valeur de la taille de l'écran
