@@ -8,7 +8,7 @@
             <form @submit.prevent="() => connect(car.idQuery!, password)">
                 <label for="password">Code de la voiture </label>
                 <input type="text" id="password" name="password" v-model="password">
-                <p class="error">Code invalide.</p>
+                <p v-if="error.length > 0" class="error">Code invalide.</p>
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
                 </div>
@@ -199,8 +199,8 @@ const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
 const numTabOpen = ref(1);
 
-let isAvatarEquals = ref(true);
-let isPseudoEquals = ref(true);
+const isAvatarEquals = ref(true);
+const isPseudoEquals = ref(true);
 
 // éléments de l'HTML
 const dialog = ref<HTMLDialogElement | null>(null);

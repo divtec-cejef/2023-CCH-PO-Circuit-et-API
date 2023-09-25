@@ -134,7 +134,7 @@ div.table {
     tr {
       th,
       td {
-        border: 2px solid #e2e2e7;
+        border: 2px solid #ebebef;
         padding: 5px 2px;
       }
 
