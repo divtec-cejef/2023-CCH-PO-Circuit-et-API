@@ -1,22 +1,26 @@
 <template>
     <div>
-        <div class="section-name" @click="clickBonus = !clickBonus" :style="{
-            backgroundColor : color
-        }">{{ sectionName }}
-            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="{transform: `rotate(${rotateImage}deg)`}">
+        <div :class="`section-name${realised ? ' section-realised' : ''}`" @click="clickBonus = !clickBonus"
+             :style="styleDropDown(color)">
+            <div class="trophee-name">
+                <img :src="trophy" alt="Trophé indiquant l'état de l'activité"
+                     :class="props.realised ? '' : 'not-realised'">
+                <p>{{ sectionName }}</p>
+            </div>
+            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="styleImg()"
+                 :class="props.realised ? '' : 'not-realised'">
         </div>
         <transition>
             <div class="activity" v-if="clickBonus">
                 <ul>
-                    <li v-for="(activity, key) in listeActivity" :key="key">
-                        <img :src="trophy" alt="Image de trophée">
-                        {{ activity }}
+                    <li v-for="(activity, key) in listActivity" :key="key">
+                        <img :src="trophy" alt="Image de trophée" :class="activity.realised ? '' : 'not-realised'">
+                        {{ activity.name }}
                     </li>
                 </ul>
             </div>
         </transition>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -28,16 +32,46 @@ import arrow from '@/assets/img/arrows-symbol.png';
 
 const props = defineProps<{
   sectionName: string,
-  listeActivity: string[]
+  realised: boolean,
+  listActivity: {
+    name: string,
+    realised: boolean
+  }[]
 }>();
 
 const clickBonus = ref(false);
-const color = ref(getColor(props.sectionName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+const color = ref(getColor(Section.formatName(props.sectionName)));
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
   return clickBonus.value ? '90' : '0';
 });
+
+/**
+ * Retourne le style pour l'élément
+ * @param bColorHover Couleur de l'élément
+ */
+const styleDropDown = (bColorHover: string) => {
+  return {
+    color: props.realised ? clickBonus.value ? 'var(--white)' : color.value : 'var(--gray)',
+    border: props.realised ? `3px solid ${color.value}` : '3px solid var(--gray)',
+    opacity: props.realised ? `1` : '0.75',
+    backgroundColor: props.realised ? clickBonus.value ? color.value : '' : '#eceef3',
+    '--bColor-hover': bColorHover
+  };
+};
+
+/**
+ * Style de l'image du drop down
+ */
+const styleImg = () => {
+  return {
+    transform: `rotate(${rotateImage.value}deg)`,
+    filter: clickBonus.value && props.realised ? 'grayscale(1) invert(1)' : '',
+    '--filter-color': !clickBonus.value && props.realised ? Section.getFilterColor(Section.formatName(props.sectionName)) : 'grayscale(1) invert(1)'
+  };
+};
+
 </script>
 
 <style scoped lang="scss">
@@ -54,6 +88,12 @@ ul {
 div {
   width: 100%;
 
+  div.trophee-name {
+    display: flex;
+    align-items: center;
+
+  }
+
   > div.section-name {
     color: var(--white);
     padding: 10px;
@@ -64,11 +104,29 @@ div {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-weight: bold;
+    text-align: left;
+    transition: all ease-in-out 0.3s;
+
+    &.section-realised img:nth-child(2) {
+      filter: var(--filter-color) !important;
+    }
+
+    &.section-realised:hover {
+      background-color: var(--bColor-hover);
+      color: var(--white) !important;
+
+      img:nth-child(2) {
+        filter: grayscale(1) invert(1) !important;
+      }
+    }
 
     img {
       width: 15px;
-      margin-right: 4px;
+      height: 15px;
+      margin-right: 10px;
       transition: all ease-in-out 0.3s;
+
     }
 
     ul {
@@ -89,15 +147,20 @@ div {
       }
     }
   }
+
+  .not-realised {
+    opacity: 0.8;
+    filter: grayscale(1);
+  }
 }
 
 .v-enter-active,
 .v-leave-active {
-    transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .v-enter-from,
 .v-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 </style>

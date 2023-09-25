@@ -5,12 +5,16 @@
         ici</a> !
     </div>
     <div class="link">
-        <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-            <img :src=instaImg
-                 alt="Logo instagram"></a>
-        <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-            <img :src=facebookImg
-                 alt="Logo faceboook"></a>
+        <template v-if="display !== 'legacy'">
+            <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
+                <img :src=instaImg
+                     alt="Logo instagram">
+            </a>
+            <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
+                <img :src=facebookImg
+                     alt="Logo faceboook">
+            </a>
+        </template>
         <RouterLink to="apropos">
             A Propos
         </RouterLink>
@@ -20,6 +24,9 @@
 <script setup lang="ts">
 import instaImg from '../assets/img/instagram.webp';
 import facebookImg from '../assets/img/facebook.webp';
+import { useLocalStorage } from '@vueuse/core';
+
+const display = useLocalStorage('display', 'modern');
 </script>
 
 <style scoped lang="scss">
