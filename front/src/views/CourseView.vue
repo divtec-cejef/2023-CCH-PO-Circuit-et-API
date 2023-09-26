@@ -90,46 +90,25 @@
 </template>
 
 <script setup lang="ts">
-import NumberTime from '@/components/NumberTime.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
-import TableListTime from '@/components/TableListTime.vue';
-import ClassementRace from '@/components/ClassementRace.vue';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
+import { useRouter } from 'vue-router';
+import { formatHourDay, formatSpeed, formatTime } from '@/models/race';
+import { useElementSize, useScroll } from '@vueuse/core';
+
+import NumberTime from '@/components/NumberTime.vue';
+import VideoRace from '@/components/VideoRace.vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
-import { useRouter } from 'vue-router';
-import VideoRace from '@/components/VideoRace.vue';
-import { formatHourDay, formatSpeed, formatTime } from '@/models/race';
-
-
-/**
- * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
- */
-function scrollToUser() {
-  //Change le scroll en fonction du rang de l'utilisateur et de son rang
-  if (!classement.value) {
-    return;
-  }
-  //Changement du scroll en fonction de son rang
-  classement.value.scrollTop = car.rank! <= 3 ? 0 : (car.rank! - 2) * 50 - 20;
-}
-
-/**
- * Change le scroll du classement pour le mettre en haut du classement
- */
-function scrollToTop() {
-  if (classement.value) {
-    classement.value.scrollTop = 0;
-  }
-}
-
+import TableListTime from '@/components/TableListTime.vue';
+import ClassementRace from '@/components/ClassementRace.vue';
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
-const classement = ref<Element | null>(null);
+const classement = ref<HTMLElement | null>(null);
 const userCar = useCarStore();
 const { car } = userCar;
 const socket = ref<WebsocketConnection | null>();
@@ -138,6 +117,26 @@ const hasCarRaces = ref(false);
 const displayContent = ref(false);
 const router = useRouter();
 const urlBestRace = ref('');
+const classementScroll = useScroll(classement);
+const { height: classementHeight } = useElementSize(classement);
+
+/**
+ * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
+ */
+function scrollToUser() {
+  const middle = classementHeight.value / 2;
+  const rank = car.rank || 0;
+  const elementOffset = (rank - 1) * (63 + 10);
+  const targetMiddlePosition = elementOffset + (63 / 2 + 10);
+  classementScroll.y.value = Math.max(0, targetMiddlePosition - middle);
+}
+
+/**
+ * Change le scroll du classement pour le mettre en haut du classement
+ */
+function scrollToTop() {
+  classementScroll.y.value = 0;
+}
 
 //Scroll sur l'utilisateur
 onMounted(() => {
