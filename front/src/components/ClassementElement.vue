@@ -153,8 +153,6 @@
             </Transition>
         </div>
     </div>
-
-
 </template>
 
 <script setup lang="ts">
@@ -182,7 +180,8 @@ const props = defineProps<{
   pseudo: string;
   time: Date;
   avatar: Configs;
-  showContent: boolean
+  showContent: boolean,
+  isNewElement?: boolean
 }>();
 
 const BEST_TIME_INDEX = 0;
@@ -193,9 +192,13 @@ const PODIUM = 4;
 const backgroundImage = ref();
 const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
 
-const backgroundColor = ref(userCar.car.pseudo == props.pseudo ?
-  userCar.car.avatar?.bgColor?.toString() :
-  null);
+//Gére la couleur de fond
+const backgroundColor = computed(() =>{
+  if((userCar.car.pseudo == props.pseudo) || props.isNewElement) {
+    return props.avatar?.bgColor?.toString();
+  }
+  return null;
+});
 
 const bestRaceDropDownClicked = ref(false);
 const videoDropDownClicked = ref(false);
@@ -399,7 +402,7 @@ if (props.rank <= PODIUM) {
 
 div.all-content {
   box-shadow: $default-shadow;
-    border-radius: 4px;
+  border-radius: 4px;
 
 }
 

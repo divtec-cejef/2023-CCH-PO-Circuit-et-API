@@ -22,7 +22,7 @@
                     </div>
                 </th>
             </tr>
-            <tr v-for="(race, key) in usercar.car.sortListByOrderHour()" :key="key">
+            <tr v-for="(race, key) in sortListByOrderHour(usercar.car.listRace!)" :key="key">
                 <td>
                     <div>
                         <NumberTime class="num-race" :number=usercar.car.getNumRace(race).valueOf().toString()
@@ -69,7 +69,7 @@ import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
-import { formatSpeed, formatTime } from '@/models/race';
+import { formatSpeed, formatTime, sortListByOrderHour } from '@/models/race';
 
 /**
  * Création de l'objet blob
@@ -94,7 +94,7 @@ const listVideoBlob = ref<string[]>([]);
 
 onMounted(async () => {
   //Rempli les liens de toutes les courses pour les télécharger
-  for (let race of usercar.car.sortListByOrderHour()) {
+  for (let race of sortListByOrderHour(usercar.car.listRace!)) {
     //Si l'url la vidéo est vide alors boucle suivant
     if (race.videoUrl == null) {
       listVideoBlob.value.push('');
