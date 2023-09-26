@@ -3,18 +3,33 @@
         <div>
             <div class="intro">
                 <h1>Bienvenue !</h1>
-                <p>Tu n'as pas encore scanné de voiture...</p>
+                <p v-if="display === 'legacy'">
+                    Tu n'est pas connecté...
+                </p>
+                <p v-else>
+                    Tu n'as pas encore scanné de voiture...
+                </p>
                 <p>C'est par ici !</p>
             </div>
 
-            <RouterLink to="/scan">
+            <RouterLink to="/scan" v-if="display !== 'legacy'">
                 <div class="qr-code">
                     <img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code">
                     <button>Scanner !</button>
                 </div>
             </RouterLink>
+
+            <div class="qr-code" v-else>
+                <img class="qr-code dark-invert" :src=qrCodeImg alt="Animation qr code">
+            </div>
+
             <form>
-                <p>Ou entre les 4 derniers chiffres du lien sous ta voiture !</p>
+                <p v-if="display === 'legacy'">
+                    Entre les 4 derniers chiffres du lien sous ta voiture !
+                </p>
+                <p v-else>
+                    Ou entre les 4 derniers chiffres du lien sous ta voiture !
+                </p>
                 <div class="link">
                     <p>voiture.divtec.me/</p>
                     <input type="number" placeholder="****" v-model="userQueryId" max="9999">
@@ -102,16 +117,18 @@
 <script setup lang="ts">
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { WebsocketConnection, restful } from '@/models/api';
 import { formatTime } from '@/models/race';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 import { Roller } from 'vue-roller';
 import 'vue-roller/dist/style.css';
-import SpinLoading from '@/components/SpinLoading.vue';
-import { RouterLink } from 'vue-router';
+import { useLocalStorage } from '@vueuse/core';
+
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 
 const router = useRouter();
+const display = useLocalStorage('display', 'modern');
 
 const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
@@ -282,12 +299,10 @@ div.home-root {
     }
   }
 
-  a {
-    img.qr-code {
-      width: 200px;
-      display: block;
-      margin: 0 auto;
-    }
+  img.qr-code {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
   }
 
   div.qr-code {
