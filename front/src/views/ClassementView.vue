@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="classement">
+        <div class="classement" ref="classment">
             <ClassementRace/>
         </div>
     </div>
@@ -28,23 +28,42 @@ import ClassementRace from '@/components/ClassementRace.vue';
 import placeHolderImg from '../assets/img/placeholder.webp';
 import topImg from '../assets/img/top-10.webp';
 import { useCarStore } from '@/stores/car';
+import { useWindowSize, useElementBounding, useScroll } from '@vueuse/core';
+import { ref } from 'vue';
+
+const classment = ref<HTMLElement | null>(null);
+const scroll = useScroll(window);
+const { height: classementHeight } = useWindowSize();
+const { top: classmentTop } = useElementBounding(classment);
+const userCar = useCarStore();
+userCar.initUserAllRaceCar();
 
 /**
- * Scroll à l'élément de l'utilisateur
+ * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
  */
 function scrollToUser() {
-  let screenHeight = window.innerHeight;
-  window.scrollTo(0, 10 * 50 + 250 - screenHeight / 2);
+  const middle = classementHeight.value / 2 - 50;
+  const rank = userCar.car.rank || 0;
+  const elementOffset = (rank - 1) * (63 + 10) + classmentTop.value - 100;
+  const targetMiddlePosition = elementOffset + (63 / 2);
+  console.dir({
+    top: classmentTop.value,
+    toContainerOffset: (rank - 1) * (63 + 10),
+    middle,
+    rank,
+    elementOffset,
+    targetMiddlePosition,
+    scroll: Math.max(0, targetMiddlePosition - middle)
+  });
+  scroll.y.value = Math.max(0, targetMiddlePosition - middle);
 }
 
 /**
- * Scroll jusqu'au haut de la page
+ * Change le scroll du classement pour le mettre en haut du classement
  */
 function scrollToTop() {
-  window.scrollTo(0, document.body.scrollTop);
+  scroll.y.value = 0;
 }
-
-const userCar = useCarStore();
 
 </script>
 
