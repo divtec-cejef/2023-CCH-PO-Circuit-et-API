@@ -106,7 +106,7 @@
             <li>
                 <template v-if="lastActivity !== null">
                     <Roller
-                            char-set="alphabet"
+                            :char-set="'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzéàè'.split('')"
                             :duration="1000"
                             :default-value="lastActivity?.toString()"
                             :value="lastActivity?.toString()"
@@ -128,9 +128,9 @@
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
-import { WebsocketConnection, restful } from '@/models/api';
+import { restful, WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
-import { useRouter, RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { Roller } from 'vue-roller';
 import 'vue-roller/dist/style.css';
 import { useLocalStorage } from '@vueuse/core';
@@ -288,6 +288,7 @@ div.home-root {
       outline-offset: -12px;
       position: relative;
       width: 100%;
+      overflow: hidden;
 
       @media screen and (prefers-color-scheme: dark) {
         box-shadow: none;
@@ -297,10 +298,15 @@ div.home-root {
       .data {
         font-weight: bold;
         font-size: 42px;
-        padding-bottom: 10px;
+        margin-bottom: 10px;
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: nowrap;
+
+        &.roller, .roller {
+          justify-content: center;
+        }
       }
 
       .label {
