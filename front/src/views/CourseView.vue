@@ -74,7 +74,7 @@
                                 :style="{ backgroundImage: `url(${topImg})`}"></button>
                     </div>
                     <div ref="classement" class="classement-content">
-                        <ClassementRace :show-content="false"/>
+                        <ClassementRace :show-content="false" />
                     </div>
                 </div>
             </div>
