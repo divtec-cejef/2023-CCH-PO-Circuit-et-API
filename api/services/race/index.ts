@@ -51,7 +51,7 @@ export const getRaceById = async (id: number) => {
 
 /**
  * Retourne les manches les plus courtes de chaque voiture
- * @returns une liste des manches les plus courtes
+ * @returns - une liste des manches les plus courtes
  */
 export const getShortestRaces = async () => {
   // récupération des informations de la course et de la voiture
@@ -65,11 +65,19 @@ export const getShortestRaces = async () => {
                                FROM car
                                WHERE id_car IN (SELECT id_car FROM ranking)`;
 
+  console.dir({ ranking });
+  console.dir({ cars });
+
   // création du résultat
   const rankingRes = [] as Race[];
   for (const i in ranking) {
     const car = cars.find(car => car.id_car === ranking[i].id_car);
-    if (!car) throw new Error('Car not found');
+    if (!car) {
+      throw new Error('Car not found');
+    }
+    if (rankingRes.some(v => v.car.id_car === car.id_car)) {
+      continue;
+    }
     rankingRes.push({
       id_race: ranking[i].id_race,
       total_time: ranking[i].total_time,
