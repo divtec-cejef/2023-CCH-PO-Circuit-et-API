@@ -1,9 +1,10 @@
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import type { models }  from '@/models/api';
 
 export default class Race {
   idRace: number = 0;
-  startTime: Date = new Date;
+  raceStart: Date = new Date;
   totalTime: Date = new Date();
   sector1: Date = new Date();
   sector2: Date = new Date();
@@ -13,16 +14,16 @@ export default class Race {
   /**
    * Constructeur d'une course
    * @param idRace Id de la course
-   * @param startTime Heure à laquelle la course a été faite
+   * @param raceStart Heure à laquelle la course a été faite
    * @param totalTime Temps de la course
    * @param sector1 Premier temps intermédiaire
    * @param sector2 Deuxième temps intermédiaire
    * @param speed Vitesse de la course
    * @param videoUrl Url de la vidéo
    */
-  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, sector2: Date, speed: number, videoUrl: string) {
+  constructor(idRace: number, raceStart: Date, totalTime: Date, sector1: Date, sector2: Date, speed: number, videoUrl: string) {
     this.idRace = idRace;
-    this.startTime = startTime;
+    this.raceStart = raceStart;
     this.totalTime = totalTime;
     this.sector1 = this.calculateSector(sector1);
     this.sector2 = this.calculateSector(sector2);
@@ -35,7 +36,7 @@ export default class Race {
    * @param sector Temps du temps intermédiaire
    */
   calculateSector(sector: Date) {
-    return new Date(sector.getTime() - this.startTime.getTime());
+    return new Date(sector.getTime() - this.raceStart.getTime());
   }
 }
 
@@ -78,7 +79,7 @@ export function formatHourDay(hour: Date) {
 /**
  * Tri une liste en fonction de l'heure de réalisation
  */
-export function sortListByOrderHour(listRace: Race[]) {
+export function sortListByOrderHour(listRace: Race[] | models.parsedData.RaceData[]) {
 
   //Si la liste n'est pas défini alors retour
   if (!listRace) {
@@ -89,7 +90,7 @@ export function sortListByOrderHour(listRace: Race[]) {
 
   //Tri de la liste en fonction
   listSortByNum.sort(function compare(a, b) {
-    return Number(a.startTime) - Number(b.startTime);
+    return Number(a.raceStart) - Number(b.raceStart);
   });
 
   return listSortByNum;
