@@ -31,6 +31,7 @@ export default class Race {
     this.videoUrl = videoUrl;
   }
 
+
   /**
    * Calcul du temps intermédiaire
    * @param sector Temps du temps intermédiaire
@@ -51,13 +52,6 @@ export function formatTime(date: Date) {
     return format(date, 'mm:ss.SS');
 }
 
-/**
- * Arrondi la vitesse à une décimale
- * @param speed Vitesse à arrondir
- */
-export function formatSpeed(speed: number) {
-  return Math.round(speed * 10) / 10;
-}
 
 /**
  * Retourne une date en un format d'heure
@@ -95,4 +89,22 @@ export function sortListByOrderHour(listRace: Race[] | models.parsedData.RaceDat
 
   return listSortByNum;
 
+}
+
+//Constante d'unité de course
+export const unitSpeed = 'cm/s';
+
+/**
+ * Transforme une vitesse de base en km/h en cm/s
+ */
+export function formatkmHtoCmS(speed: number) {
+  return speed * 100000 / 3600;
+}
+
+/**
+ * Arrondi la vitesse à une décimale
+ * @param speed Vitesse à arrondir
+ */
+export function formatSpeed(speed: number) {
+  return Math.round(formatkmHtoCmS(speed) * 10) / 10;
 }
