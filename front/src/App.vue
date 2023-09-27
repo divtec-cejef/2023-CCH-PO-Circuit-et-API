@@ -1,7 +1,7 @@
 <template>
 
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
+        <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
@@ -17,7 +17,7 @@
     </header>
 
     <header class="large">
-        <RouterLink :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo grand prix de la Divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>

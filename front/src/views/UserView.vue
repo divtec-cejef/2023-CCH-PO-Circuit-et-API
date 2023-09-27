@@ -95,7 +95,7 @@
         <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
             <h2>Erreur</h2>
             <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-            <RouterLink :to="`/${userCar.car.idQuery}`">
+            <RouterLink :to="`/${userCar.car.idQuery || ''}`">
                 <button>Accueil</button>
             </RouterLink>
         </div>
@@ -178,7 +178,6 @@ watch(useRouter().currentRoute, async (newUrl) => {
 <style scoped lang="scss">
 
 div.loading-page {
-  height: calc(100vh - var(--height-screen-diff));
   display: flex;
   justify-content: center;
   align-items: center;
