@@ -219,20 +219,48 @@ VALUES ('Dessinateur', '7117e1cf54893b6c3ec43b1aa59422503a749b5c084d401e9041b4d9
 INSERT INTO section (label, password)
 VALUES ('Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06fe');
 
+-- --------------------- Activités ---------------------
+-- Informatique
 INSERT INTO activity (label, id_section)
-VALUES ('Informer', 1);
+VALUES ('Sequential Factory', 1);
+INSERT INTO activity (label, id_section)
+VALUES ('SQL-Hack', 1);
+INSERT INTO activity (label, id_section)
+VALUES ('Repair Master', 1);
+INSERT INTO activity (label, id_section)
+VALUES ('HackerMania', 1);
+INSERT INTO activity (label, id_section)
+VALUES ('PitStop', 1);
+
+-- Automatique
 INSERT INTO activity (label, id_section)
 VALUES ('Automatiser', 2);
+
+-- Horlogerie
 INSERT INTO activity (label, id_section)
-VALUES ('Horlogifier', 3);
+VALUES ('', 3);
+
+-- Electronique
 INSERT INTO activity (label, id_section)
-VALUES ('Electroniser', 4);
+VALUES ('Départ athlétisme', 4);
 INSERT INTO activity (label, id_section)
-VALUES ('Micromécaniser', 5);
+VALUES ('Hérisse poils', 4);
 INSERT INTO activity (label, id_section)
-VALUES ('Laborantiser', 6);
+VALUES ('Brasage Temi', 4);
+
+-- Micromécanique
 INSERT INTO activity (label, id_section)
-VALUES ('Dessiner', 7);
+VALUES ('', 5);
+
+-- Laborantin
+INSERT INTO activity (label, id_section)
+VALUES ('Ident. Odeur', 6);
+INSERT INTO activity (label, id_section)
+VALUES ('PH', 6);
+
+-- Dessin
+INSERT INTO activity (label, id_section)
+VALUES ('', 7);
 
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
