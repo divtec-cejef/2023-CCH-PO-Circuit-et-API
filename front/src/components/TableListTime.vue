@@ -32,7 +32,7 @@
                 <td>{{ formatTime(race.totalTime) }}<span>s</span></td>
                 <td>
                     <p>{{ formatSpeed(race.speed) }}</p>
-                    <p>cm/s</p>
+                    <p>{{ unitSpeed }}</p>
                 </td>
                 <td class="video">
                     <div>
@@ -69,7 +69,7 @@ import download from '../assets/img/downloads-black.png';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
-import { formatSpeed, formatTime, sortListByOrderHour } from '@/models/race';
+import { formatSpeed, formatTime, sortListByOrderHour, unitSpeed } from '@/models/race';
 import { getNumRace } from '@/models/car';
 
 /**
