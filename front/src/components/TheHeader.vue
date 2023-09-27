@@ -57,7 +57,7 @@ import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.png';
 import exitPhoneImg from '@/assets/img/exit-phone.png';
 import { useRouter } from 'vue-router';
-import { usePreferredColorScheme } from '@vueuse/core';
+import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
 
 import houseImg from '@/assets/img/house.png';
 import editImg from '@/assets/img/edit.png';
@@ -70,6 +70,8 @@ import live from '@/assets/img/live.png';
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
 
+const displayRef = useLocalStorage('display', 'modern');
+
 const clickMenu = () => {
   emit('clickMenu', true);
 };
@@ -78,8 +80,10 @@ const clickMenu = () => {
  * Log out de l'utilisateur
  */
 function logOutUser() {
+  const display = displayRef.value;
   //Suppresion du localstorage
   localStorage.clear();
+  localStorage.setItem('display', display);
 
   //Clear les stores pinia
   userCar.$reset();

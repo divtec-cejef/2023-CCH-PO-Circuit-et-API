@@ -1,8 +1,9 @@
 <template>
     <p class="emt">EMT, Portes ouvertes 2023</p>
-    <div class="stage">Inscris toi à un stage <a
-            href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu">
-        ici</a> !
+    <div class="stage">Inscris toi à un stage
+        <RouterLink to="stage">
+            ici
+        </RouterLink> !
     </div>
     <div class="link">
         <template v-if="display !== 'legacy'">

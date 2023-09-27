@@ -1,6 +1,6 @@
 <template>
     <div class="renderer-root">
-        <div :style="{display: hasLoaded? 'block' : 'none'}"
+        <div :style="{display: hasLoaded ? 'block' : 'none'}"
              v-if="isSupported && (memory?.jsHeapSizeLimit ?? 0) / 1024 / 1024 / 1024 > 2 &&
                     display !== 'legacy'">
             <Renderer
@@ -26,14 +26,13 @@
                     <GltfModel ref="object"
                                :src="props.model"
                                :scale="{x:.01, y:.01, z:.01}"
-                               @load="() => hasLoaded = true"/>
+                               @load="onModelIsLoaded"/>
                 </Scene>
             </Renderer>
         </div>
         <div
                 :style="{display: hasLoaded ? 'none' : 'flex'}"
-                class="load-icon"
-                v-else>
+                class="load-icon">
             <slot></slot>
         </div>
     </div>
@@ -58,14 +57,25 @@ const { width: vWidth } = useWindowSize();
 const preferredColor = usePreferredColorScheme();
 
 const { isSupported, memory } = useMemory();
+
+const onModelIsLoaded = () => {
+  hasLoaded.value = true;
+  console.log('loaded');
+};
 </script>
 
 <style scoped lang="scss">
-.load-icon {
+.renderer-root {
   width: min(calc(100vw - 30px), 400px);
   height: calc(min(calc(100vw - 30px), 400px) * 3 / 4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    overflow: hidden;
+
+    .load-icon {
+      width: 100%;
+       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 }
 </style>
