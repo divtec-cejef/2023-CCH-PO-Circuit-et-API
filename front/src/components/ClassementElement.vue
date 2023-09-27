@@ -8,7 +8,7 @@
             </div>
             <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
             <div class="pseudo">{{ props.pseudo }}</div>
-            <div class="time">{{ formatTime(props.time) }}</div>
+            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
 
             <img v-if="props.showContent" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
                  :style="{
@@ -21,42 +21,11 @@
                     <template v-if="!hasError">
                         <div>
                             <h3>Meilleure course</h3>
-                            <ul>
-                                <li class="time">
-                            <span class="time">{{
-                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
-                                }}<span>s</span></span>
-                                </li>
-                                <li class="speed">
-                                    <span>{{
-                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
-                                        }}<span>km/h</span></span>
-                                </li>
-                                <li class="sector">
-                                    Temps intermédiaires
-                                    <ul>
-                                        <li>
-                                            <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                            <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
-                                                }}<span>s</span></p>
-                                        </li>
-                                        <li>
-                                            <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                            <p class="time">{{
-                                                formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
-                                                }}<span>s</span></p>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="hour">
-                                    <img :src="clock" alt="Icon d'horloge">
-                                    <span>{{
-                                        formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
-                                        }}</span>
-                                </li>
-
-                            </ul>
+                            <RaceInfo :race="raceData!.races[BEST_TIME_INDEX]"
+                                      :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                                      :rank="raceData!.rank"
+                                      :display-rank="false">
+                            </RaceInfo>
                         </div>
 
                         <div>
@@ -86,43 +55,11 @@
                         <div>
                             <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
                                       :drop-down-clicked="bestRaceDropDownClicked">
-
-                                <ul>
-                                    <li class="time">
-                            <span class="time">{{
-                                formatTime(raceData!.races[BEST_TIME_INDEX].totalTime)
-                                }}<span>s</span></span>
-                                    </li>
-                                    <li class="speed">
-                                    <span>{{
-                                        formatSpeed(raceData!.races[BEST_TIME_INDEX].speed)
-                                        }}<span>km/h</span></span>
-                                    </li>
-                                    <li class="sector">
-                                        Temps intermédiaires
-                                        <ul>
-                                            <li>
-                                                <NumberTime class="num-race" number="1" color="var(--red)"/>
-                                                <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector1)
-                                                    }}<span>s</span></p>
-                                            </li>
-                                            <li>
-                                                <NumberTime class="num-race" number="2" color="var(--blue)"/>
-                                                <p class="time">{{
-                                                    formatTime(raceData!.races[BEST_TIME_INDEX].sector2)
-                                                    }}<span>s</span></p>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="hour">
-                                        <img :src="clock" alt="Icon d'horloge">
-                                        <span>{{
-                                            formatHour(raceData!.races[BEST_TIME_INDEX].raceStart)
-                                            }}</span>
-                                    </li>
-
-                                </ul>
+                                <RaceInfo :race="raceData!.races[BEST_TIME_INDEX]"
+                                          :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                                          :rank="raceData!.rank"
+                                          :display-rank="false">
+                                </RaceInfo>
                             </DropDown>
                         </div>
 
@@ -156,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatHour, formatSpeed, formatTime } from '@/models/race';
+import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
 import { computed, ref } from 'vue';
@@ -166,13 +103,13 @@ import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
 import type { models } from '@/models/api';
 import api from '@/models/api';
-import NumberTime from '@/components/NumberTime.vue';
 import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
-import clock from '@/assets/img/clock.webp';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
 import arrowImg from '../assets/img/arrow.png';
+import { getNumRace } from '@/models/car';
+import RaceInfo from '@/components/RaceInfo.vue';
 
 const props = defineProps<{
   idCar: number | string;
@@ -193,8 +130,8 @@ const backgroundImage = ref();
 const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
 
 //Gére la couleur de fond
-const backgroundColor = computed(() =>{
-  if((userCar.car.pseudo == props.pseudo) || props.isNewElement) {
+const backgroundColor = computed(() => {
+  if ((userCar.car.pseudo == props.pseudo) || props.isNewElement) {
     return props.avatar?.bgColor?.toString();
   }
   return null;
@@ -464,6 +401,12 @@ div.classement-element {
     justify-self: end;
     font-family: 'Digital-7 Mono', sans-serif;
     font-size: 22px;
+
+    span {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+        margin-left: 5px;
+    }
   }
 }
 
@@ -627,7 +570,7 @@ div.avatar {
   > div {
 
     &:nth-child(1) {
-      flex: 3;
+      flex: 2;
     }
 
     &:nth-child(2) {
