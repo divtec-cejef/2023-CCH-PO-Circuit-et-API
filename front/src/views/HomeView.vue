@@ -179,19 +179,25 @@ socketio
       return;
     }
 
-    racesRan.value = data.count;
-    const fastestTime = data.fastest.total_time;
-    fastestRace.value = formatTime(new Date(fastestTime));
+    racesRan.value = data.count ?? 0;
+    const fastestTime = data.fastest?.total_time;
+    if (fastestTime) {
+      fastestRace.value = formatTime(new Date(fastestTime));
+    } else {
+      fastestRace.value = '<Vide>';
+    }
+
   })
   .onActivityRealisation(data => {
+    console.dir({ data });
     statsError.value.activityRealisation = undefined;
     if ('message' in data) {
       statsError.value.activityRealisation = data.message;
       return;
     }
 
-    activitiesRealisations.value = data.count;
-    lastActivity.value = data.last.label;
+    activitiesRealisations.value = data.count ?? 0;
+    lastActivity.value = data.last?.label ?? '<Aucune>';
   });
 
 onBeforeUnmount(() => {
