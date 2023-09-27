@@ -222,11 +222,11 @@ VALUES ('Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06f
 -- --------------------- Activités ---------------------
 -- Informatique
 INSERT INTO activity (label, id_section)
-VALUES ('Sequential Factory', 1);
+VALUES ('SequentialFactory', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('SQL-Hack', 1);
+VALUES ('SQLHack', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('Repair Master', 1);
+VALUES ('RepairMaster', 1);
 INSERT INTO activity (label, id_section)
 VALUES ('HackerMania', 1);
 INSERT INTO activity (label, id_section)
@@ -234,7 +234,7 @@ VALUES ('PitStop', 1);
 
 -- Automatique
 INSERT INTO activity (label, id_section)
-VALUES ('Automatiser', 2);
+VALUES ('', 2);
 
 -- Horlogerie
 INSERT INTO activity (label, id_section)
@@ -244,11 +244,11 @@ VALUES ('HorlogeJouet', 3);
 
 -- Electronique
 INSERT INTO activity (label, id_section)
-VALUES ('Départ athlétisme', 4);
+VALUES ('DépartAthlétisme', 4);
 INSERT INTO activity (label, id_section)
-VALUES ('Hérisse poils', 4);
+VALUES ('HérissePoils', 4);
 INSERT INTO activity (label, id_section)
-VALUES ('Brasage Temi', 4);
+VALUES ('BrasageTemi', 4);
 
 -- Micromécanique
 INSERT INTO activity (label, id_section)
@@ -256,7 +256,7 @@ VALUES ('', 5);
 
 -- Laborantin
 INSERT INTO activity (label, id_section)
-VALUES ('Ident. Odeur', 6);
+VALUES ('IdentOdeur', 6);
 INSERT INTO activity (label, id_section)
 VALUES ('PH', 6);
 
