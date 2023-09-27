@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TestView from '@/components/testView.vue';
 const HistoryView = () => import('@/views/HistoryView.vue');
 const AboutView = () => import('@/views/AboutView.vue');
 const CourseView = () => import('@/views/CourseView.vue');
