@@ -57,36 +57,41 @@
             </li>
 
             <li>
-                <span class="data">
-                    <template v-if="/:/.test(fastestRace || '')">
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split(':')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split(':')[0]"/>
-                        <span>:</span>
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split(':')[1].split('.')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split(':')[1].split('.')[0]"/>
-                    </template>
-                    <template v-else>
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split('.')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split('.')[0]"/>
-                    </template>
-                    <span>.</span>
-                    <Roller
-                            char-set="number"
-                            :default-value="fastestRace?.split('.')[1]"
-                            :duration="1000"
-                            :value="fastestRace?.split('.')[1]"/>
-                    <span v-if="fastestRace?.split(':').length === 1">s</span>
-                </span>
-                <span class="label">est le temps de course le plus rapide</span>
+                <template v-if="fastestRace !== null">
+                    <span class="data">
+                            <template v-if="/:/.test(fastestRace || '')">
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split(':')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split(':')[0]"/>
+                                <span>:</span>
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split(':')[1].split('.')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split(':')[1].split('.')[0]"/>
+                            </template>
+                            <template v-else>
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split('.')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split('.')[0]"/>
+                            </template>
+                            <span>.</span>
+                            <Roller
+                                    char-set="number"
+                                    :default-value="fastestRace?.split('.')[1]"
+                                    :duration="1000"
+                                    :value="fastestRace?.split('.')[1]"/>
+                            <span v-if="fastestRace?.split(':').length === 1">s</span>
+                    </span>
+                    <span class="label">est le temps de course le plus rapide</span>
+                </template>
+                <div class="null" v-else>
+                    Pas de courses réalisées
+                </div>
             </li>
 
             <li>
@@ -99,13 +104,18 @@
             </li>
 
             <li>
-                <Roller
-                        char-set="alphabet"
-                        :duration="1000"
-                        :default-value="lastActivity?.toString()"
-                        :value="lastActivity?.toString()"
-                        class="data"/>
-                <span class="label">vient d'être réalisé</span>
+                <template v-if="lastActivity !== null">
+                    <Roller
+                            char-set="alphabet"
+                            :duration="1000"
+                            :default-value="lastActivity?.toString()"
+                            :value="lastActivity?.toString()"
+                            class="data"/>
+                    <span class="label">vient d'être réalisé</span>
+                </template>
+                <div class="null" v-else>
+                    Pas d'activités réalisées
+                </div>
             </li>
         </ul>
         <div v-else>
@@ -133,8 +143,8 @@ const display = useLocalStorage('display', 'modern');
 const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
-const fastestRace = ref<string>();
-const lastActivity = ref<string>();
+const fastestRace = ref<string | null>();
+const lastActivity = ref<string | null>();
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
@@ -179,12 +189,12 @@ socketio
       return;
     }
 
-    racesRan.value = data.count ?? 0;
+    racesRan.value = data.count;
     const fastestTime = data.fastest?.total_time;
     if (fastestTime) {
       fastestRace.value = formatTime(new Date(fastestTime));
     } else {
-      fastestRace.value = '<Vide>';
+      fastestRace.value = null;
     }
 
   })
@@ -196,8 +206,8 @@ socketio
       return;
     }
 
-    activitiesRealisations.value = data.count ?? 0;
-    lastActivity.value = data.last?.label ?? '<Aucune>';
+    activitiesRealisations.value = data.count;
+    lastActivity.value = data.last?.label ?? null;
   });
 
 onBeforeUnmount(() => {
@@ -292,6 +302,16 @@ div.home-root {
       }
 
       .label {
+        text-align: center;
+      }
+
+      .null {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 500;
         text-align: center;
       }
     }
