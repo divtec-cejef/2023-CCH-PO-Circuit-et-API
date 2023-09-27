@@ -20,7 +20,9 @@ export default function buildSioServer (server: http.Server) {
   });
 
   io.on('connection', async (socket: Socket) => {
-    if (socket.handshake.query.carId !== undefined) {
+    if (!socket.handshake.query.carId) {
+      console.log('User connected anonymously\n');
+    } else {
       if (typeof socket.handshake.query.carId !== 'string') {
         socket.disconnect(true);
         return;
@@ -55,8 +57,6 @@ export default function buildSioServer (server: http.Server) {
       }
 
       console.log(`User connected with car id ${socket.handshake.query.carId}\n`);
-    } else {
-      console.log('User connected anonymously\n');
     }
 
     // envoyer les données de classement au client
@@ -69,11 +69,11 @@ export default function buildSioServer (server: http.Server) {
       socket.emit('updatedRaces', ranking);
     } catch (e) {
       if (typeof e === 'string') {
-        socket.emit('updatedUserRaces', { message: e });
+        socket.emit('updatedRaces', { message: e });
       } else if (e instanceof Error) {
-        socket.emit('updatedUserRaces', { message: e.message });
+        socket.emit('updatedRaces', { message: e.message });
       } else {
-        socket.emit('updatedUserRaces', { message: 'internal server error' });
+        socket.emit('updatedRaces', { message: 'internal server error' });
       }
     }
 
@@ -86,11 +86,11 @@ export default function buildSioServer (server: http.Server) {
       });
     } catch (e) {
       if (typeof e === 'string') {
-        socket.emit('updatedUserRaces', { message: e });
+        socket.emit('updatedActivities', { message: e });
       } else if (e instanceof Error) {
-        socket.emit('updatedUserRaces', { message: e.message });
+        socket.emit('updatedActivities', { message: e.message });
       } else {
-        socket.emit('updatedUserRaces', { message: 'internal server error' });
+        socket.emit('updatedActivities', { message: 'internal server error' });
       }
     }
 
