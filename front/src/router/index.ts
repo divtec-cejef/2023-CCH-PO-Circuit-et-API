@@ -81,11 +81,6 @@ const router = createRouter({
       path: '/live',
       name: 'live',
       component: LiveView
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView
     }
   ],
   scrollBehavior () {
