@@ -25,12 +25,7 @@
 
                 <div class="content-classement">
                     <h2>Classement</h2>
-                    <div class="button-classement">
-                        <button class="classement-user" @click="scrollToUser"
-                                :style="{ backgroundImage: `url(${placeHolderImg})`}"></button>
-                        <button class="classement-top" @click="scrollToTop"
-                                :style="{ backgroundImage: `url(${topImg})`}"></button>
-                    </div>
+                    <ClassmentButton @scrollToTop="scrollToTop" @scrollToUser="scrollToUser" />
                     <div ref="classement" class="classement-content">
                         <ClassementRace :show-content="false" />
                     </div>
@@ -51,18 +46,17 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
-import placeHolderImg from '../assets/img/placeholder.webp';
-import topImg from '../assets/img/top-10.webp';
 import { useRouter } from 'vue-router';
 import { useElementSize, useScroll } from '@vueuse/core';
+import { getNumRace } from '@/models/car';
 
 import VideoRace from '@/components/VideoRace.vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import TableListTime from '@/components/TableListTime.vue';
 import ClassementRace from '@/components/ClassementRace.vue';
+import ClassmentButton from '@/components/ClassmentButton.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
-import { getNumRace } from '@/models/car';
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -197,58 +191,12 @@ div.classement-content {
   padding: 0 10px;
 }
 
-
-div.button-classement {
-  display: flex;
-  justify-content: end;
-  margin-top: -50px;
-
-
-  button.classement-top {
-    background-color: transparent;
-    border: none;
-    border-radius: 100px;
-    background-position: center;
-    background-size: 30px;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-    margin-right: 15px;
-    margin-left: 5px;
-  }
-
-  button.classement-user {
-    background-color: transparent;
-    border: none;
-    border-radius: 100px;
-    background-position: center;
-    background-size: 30px;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-
-  }
-
-  button {
-    cursor: pointer;
-    transition: 0.2s filter ease-in-out;
-
-  }
-
-
-  button:hover {
-    filter: grayscale(0.3);
-    transition: 0.2s filter ease-in-out;
-  }
-}
-
 div.large-content {
   display: none;
 }
 
 
 .table-large-content {
-
   p {
     margin-bottom: 20px;
   }
