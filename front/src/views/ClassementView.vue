@@ -18,7 +18,7 @@ import { ref } from 'vue';
 import ClassmentButton from '@/components/ClassmentButton.vue';
 
 const classment = ref<HTMLElement | null>(null);
-const scroll = useScroll(window);
+const scroll = useScroll(window, { behavior: 'smooth' });
 const { height: classementHeight } = useWindowSize();
 const { top: classmentTop } = useElementBounding(classment);
 const userCar = useCarStore();
@@ -35,15 +35,6 @@ function scrollToUser() {
   const rank = userCar.car.rank || 0;
   const elementOffset = (rank - 1) * (63 + 10) + classmentTop.value - 100;
   const targetMiddlePosition = elementOffset + (63 / 2);
-  console.dir({
-    top: classmentTop.value,
-    toContainerOffset: (rank - 1) * (63 + 10),
-    middle,
-    rank,
-    elementOffset,
-    targetMiddlePosition,
-    scroll: Math.max(0, targetMiddlePosition - middle)
-  });
   scroll.y.value = Math.max(0, targetMiddlePosition - middle);
 }
 
