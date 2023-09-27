@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <a v-if="race.videoUrl" :href="listVideoBlob[key]"
-                           :download="`course-divtec-${usercar.car.getNumRace(race).valueOf().toString()}.mp4`">
+                           :download="`course-divtec-${getNumRace(race, usercar.car.listRace).valueOf().toString()}.mp4`">
                             <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
                         </a>
                         <span v-else>
