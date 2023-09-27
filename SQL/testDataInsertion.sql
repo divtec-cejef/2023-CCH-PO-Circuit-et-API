@@ -238,7 +238,9 @@ VALUES ('Automatiser', 2);
 
 -- Horlogerie
 INSERT INTO activity (label, id_section)
-VALUES ('', 3);
+VALUES ('MontagePrécision', 3);
+INSERT INTO activity (label, id_section)
+VALUES ('HorlogeJouet', 3);
 
 -- Electronique
 INSERT INTO activity (label, id_section)
