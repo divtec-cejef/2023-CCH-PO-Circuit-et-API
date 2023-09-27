@@ -27,7 +27,7 @@
                     <h2>Classement</h2>
                     <ClassmentButton @scrollToTop="scrollToTop" @scrollToUser="scrollToUser" />
                     <div ref="classement" class="classement-content">
-                        <ClassementRace :show-content="false" />
+                        <ClassementRace :show-content="false" @load="scrollToUser" />
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@ const hasCarRaces = ref(false);
 const displayContent = ref(false);
 const router = useRouter();
 const urlBestRace = ref('');
-const classementScroll = useScroll(classement);
+const classementScroll = useScroll(classement, { behavior: 'smooth' });
 const { height: classementHeight } = useElementSize(classement);
 
 /**
