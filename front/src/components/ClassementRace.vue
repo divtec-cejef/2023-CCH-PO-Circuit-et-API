@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<{
   showContent: true
 });
 
-const emit = defineEmits(['indexNewRace']);
+const emit = defineEmits(['indexNewRace', 'load']);
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
@@ -68,6 +68,8 @@ socket.onRankingReceived((data) => {
   //La nouvelle liste devient l'ancienne
   lastListRace.value = [...listRace.value];
   hasLoaded.value = true;
+
+  emit('load');
 });
 
 /**
@@ -88,7 +90,6 @@ function getRankLastRace() {
     }
     index++;
   }
-  console.log('je quitte la fonction -1 ');
   return -1;
 }
 
