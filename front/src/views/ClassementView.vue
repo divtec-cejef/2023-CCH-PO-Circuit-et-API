@@ -12,8 +12,6 @@
 </template>
 <script setup lang="ts">
 import ClassementRace from '@/components/ClassementRace.vue';
-import placeHolderImg from '../assets/img/placeholder.webp';
-import topImg from '../assets/img/top-10.webp';
 import { useCarStore } from '@/stores/car';
 import { useWindowSize, useElementBounding, useScroll } from '@vueuse/core';
 import { ref } from 'vue';
@@ -24,7 +22,10 @@ const scroll = useScroll(window);
 const { height: classementHeight } = useWindowSize();
 const { top: classmentTop } = useElementBounding(classment);
 const userCar = useCarStore();
-userCar.initUserAllRaceCar();
+
+if (userCar.car.idCar !== undefined) {
+  userCar.initUserAllRaceCar();
+}
 
 /**
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
