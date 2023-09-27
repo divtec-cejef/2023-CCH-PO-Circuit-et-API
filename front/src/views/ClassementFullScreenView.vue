@@ -14,7 +14,7 @@ import { ref } from 'vue';
 
 const el = ref<HTMLElement | null>(null);
 const indexNewElement = ref(-1);
-const { y: posY } = useScroll(el);
+const { y: posY } = useScroll(el, { behavior: 'smooth' });
 
 /**
  * Scroll sur la page pour afficher la dernière course
@@ -24,7 +24,7 @@ function scrollToNewRace(index: number) {
   indexNewElement.value = index;
 
   //scroll jusqu'à l'élément
-  posY.value = (index - 1) * 73 + 35 - (window.innerHeight / 2 - 35);
+  posY.value = (index - 1) * 73 + 35 - (window.innerHeight / 2 - 60);
 
   // On attends 6 secondes et on revient au début
   setTimeout(() => {
