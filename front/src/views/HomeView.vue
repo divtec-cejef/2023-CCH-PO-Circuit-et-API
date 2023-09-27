@@ -31,7 +31,7 @@
                     Ou entre les 4 derniers chiffres du lien sous ta voiture !
                 </p>
                 <div class="link">
-                    <p>voiture.divtec.me/</p>
+                    <p>{{ domaineName }}/</p>
                     <input type="number" placeholder="****" v-model="userQueryId" max="9999">
                 </div>
                 <button type="submit"
@@ -138,6 +138,7 @@ const lastActivity = ref<string>();
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
+const domaineName = import.meta.env.VITE_DOMAIN_NAME || '';
 
 const statsError = ref<{
   ranking: string | undefined,
