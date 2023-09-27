@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
@@ -97,12 +97,10 @@ onUnmounted(() => {
 
 //Initialisation de la voiture
 const userCar = useCarStore();
-const { car } = userCar;
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
-const router = useRouter();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
