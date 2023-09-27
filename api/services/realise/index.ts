@@ -50,9 +50,9 @@ export const getRealisationCount = async (): Promise<number> => {
 
 /**
  * Permet d'obtenir l'activité la plus populaire
- * @returns
+ * @returns - L'activité en question
  */
-export const mostRealisedActivity = async () => {
+export const mostRealisedActivity = async (): Promise<(Activity & { count: number }) | null> => {
   const activities = await prisma.realise.groupBy({
     by: ['id_activity'],
     _count: {
@@ -73,16 +73,20 @@ export const mostRealisedActivity = async () => {
     }
   }
 
-  const data = await prisma.activity.findUnique({
+  if (!mostRealised) {
+    return null;
+  }
+
+  const data = await prisma.activity.findUniqueOrThrow({
     where: {
-      id_activity: mostRealised?.id_activity
+      id_activity: mostRealised.id_activity
     }
   });
 
-  return { ...data, count: mostRealised?._count._all };
+  return { ...data, count: mostRealised._count._all };
 };
 
-export const lastRealisedActivity = async (): Promise<Activity> => {
+export const lastRealisedActivity = async (): Promise<Activity | null> => {
   const lastDate = await prisma.realise.aggregate({
     _max: {
       date_time: true
@@ -90,7 +94,7 @@ export const lastRealisedActivity = async (): Promise<Activity> => {
   });
 
   if (!lastDate._max.date_time) {
-    throw new Error("Aucune activité n'est réalisée.");
+    return null;
   }
 
   const lastRealisation = await prisma.realise.findFirstOrThrow({

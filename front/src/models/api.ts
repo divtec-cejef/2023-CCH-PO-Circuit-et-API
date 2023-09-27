@@ -529,17 +529,21 @@ export class WebsocketConnection {
 
       const parsedData = {
         count: data.count,
-        mostPopular: {
-          label: data.mostPopular.label,
-          idActivity: data.mostPopular.id_activity,
-          idSection: data.mostPopular.id_section,
-          count: data.mostPopular.count
-        },
-        last: {
-          label: data.last.label,
-          idActivity: data.last.id_activity,
-          idSection: data.mostPopular.id_section
-        }
+        mostPopular: !data.mostPopular ?
+          null :
+          {
+            label: data.mostPopular.label,
+            idActivity: data.mostPopular.id_activity,
+            idSection: data.mostPopular.id_section,
+            count: data.mostPopular.count
+          },
+        last: !data.last ?
+          null :
+          {
+            label: data.last.label,
+            idActivity: data.last.id_activity,
+            idSection: data.last.id_section
+          }
       };
 
       return callback(parsedData);
@@ -576,8 +580,8 @@ export namespace models {
      */
     export type WSRealisation = {
       count: number,
-      mostPopular: Exclude<rawData.Activity, models.rawData.Error> & { count: number },
-      last: Exclude<rawData.Activity, models.rawData.Error>
+      mostPopular: Exclude<rawData.Activity, models.rawData.Error> & { count: number } | null,
+      last: Exclude<rawData.Activity, models.rawData.Error> | null
     } | Error
 
     /**
@@ -663,7 +667,7 @@ export namespace models {
     export type RankingData = {
       races: WsRaceData[],
       count: number,
-      fastest: WsRaceData
+      fastest: WsRaceData | null
     } | Error
   }
 
@@ -731,8 +735,8 @@ export namespace models {
      */
     export type WSRealisation = {
       count: number,
-      mostPopular: Exclude<SectionActivities[number], models.rawData.Error> & { count: number },
-      last: Exclude<SectionActivities[number], models.rawData.Error>
+      mostPopular: (Exclude<SectionActivities[number], models.rawData.Error> & { count: number }) | null,
+      last: Exclude<SectionActivities[number], models.rawData.Error> | null
     }
 
     /**
