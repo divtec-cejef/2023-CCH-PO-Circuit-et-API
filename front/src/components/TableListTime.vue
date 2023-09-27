@@ -25,7 +25,7 @@
             <tr v-for="(race, key) in sortListByOrderHour(usercar.car.listRace!)" :key="key">
                 <td>
                     <div>
-                        <NumberTime class="num-race" :number=usercar.car.getNumRace(race).valueOf().toString()
+                        <NumberTime class="num-race" :number="getNumRace(race, usercar.car.listRace).valueOf().toString()"
                                     color="var(--blue)"/>
                     </div>
                 </td>
@@ -70,6 +70,7 @@ import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';
 import { formatSpeed, formatTime, sortListByOrderHour } from '@/models/race';
+import { getNumRace } from '@/models/car';
 
 /**
  * Création de l'objet blob

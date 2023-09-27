@@ -694,6 +694,21 @@ export namespace models {
     }
 
     /**
+     * Représente une course
+     */
+    export interface RaceData {
+      idRace: number,
+      raceStart: Date,
+      raceFinish: Date,
+      idCar: number,
+      videoUrl: string,
+      totalTime: Date,
+      sector1: Date,
+      sector2: Date,
+      speed: number
+    }
+
+    /**
      * Représente une paire nom de section / id de section
      */
     export interface SectionName {
