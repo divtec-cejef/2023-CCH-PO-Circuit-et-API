@@ -33,24 +33,18 @@ const emit = defineEmits<{
 @import "@/assets/css/consts.scss";
 
 .button-classement {
-  width: 100%;
-  margin: -35px auto 0 auto;
-  display: flex;
-  justify-content: end;
-  position: sticky;
-  top: 40px;
-
   div {
     background-color: var(--white);
     border-radius: 20px;
     padding: .5em;
     box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
     display: flex;
+    width: fit-content;
     align-content: center;
     justify-content: space-evenly;
 
     @media screen and (prefers-color-scheme: dark) {
-      background-color: transparent;
+      background-color: var(--black);
       box-shadow: none;
       border: $dark-border;
     }
