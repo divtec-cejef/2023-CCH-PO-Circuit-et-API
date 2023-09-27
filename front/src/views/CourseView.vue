@@ -7,8 +7,8 @@
 
             <div class="best-race">
                 <RaceInfo :race="car.listRace![BEST_TIME_INDEX]"
-                          :rank="car.rank"
-                          :num-race="getNumRace(car.listRace![BEST_TIME_INDEX], car.listRace)"
+                          :rank="car.rank!"
+                          :num-race="getNumRace(car.listRace![BEST_TIME_INDEX], car.listRace!)"
                           :display-rank="true"
                 />
 

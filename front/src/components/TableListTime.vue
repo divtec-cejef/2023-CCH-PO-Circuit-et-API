@@ -25,7 +25,7 @@
             <tr v-for="(race, key) in sortListByOrderHour(usercar.car.listRace!)" :key="key">
                 <td>
                     <div>
-                        <NumberTime class="num-race" :number="getNumRace(race, usercar.car.listRace).valueOf().toString()"
+                        <NumberTime class="num-race" :number="getNumRace(race, usercar.car.listRace!).valueOf().toString()"
                                     color="var(--blue)"/>
                     </div>
                 </td>
@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <a v-if="race.videoUrl" :href="listVideoBlob[key]"
-                           :download="`course-divtec-${getNumRace(race, usercar.car.listRace).valueOf().toString()}.mp4`">
+                           :download="`course-divtec-${getNumRace(race, usercar.car.listRace!).valueOf().toString()}.mp4`">
                             <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
                         </a>
                         <span v-else>
