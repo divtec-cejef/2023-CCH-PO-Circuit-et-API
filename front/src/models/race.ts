@@ -8,7 +8,7 @@ export default class Race {
   sector1: Date = new Date();
   sector2: Date = new Date();
   speed: number;
-  videoUrl : String = '';
+  videoUrl: String = '';
 
   /**
    * Constructeur d'une course
@@ -20,7 +20,7 @@ export default class Race {
    * @param speed Vitesse de la course
    * @param videoUrl Url de la vidéo
    */
-  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, sector2: Date, speed : number, videoUrl : string) {
+  constructor(idRace: number, startTime: Date, totalTime: Date, sector1: Date, sector2: Date, speed: number, videoUrl: string) {
     this.idRace = idRace;
     this.startTime = startTime;
     this.totalTime = totalTime;
@@ -73,4 +73,25 @@ export function formatHour(hour: Date) {
 export function formatHourDay(hour: Date) {
   const formatHour = format(hour, 'EEEE kk', { locale: fr }) + 'h' + format(hour, 'mm', { locale: fr });
   return formatHour[0].toUpperCase() + formatHour.slice(1);
+}
+
+/**
+ * Tri une liste en fonction de l'heure de réalisation
+ */
+export function sortListByOrderHour(listRace: Race[]) {
+
+  //Si la liste n'est pas défini alors retour
+  if (!listRace) {
+    throw new Error('List race is undefined');
+  }
+
+  const listSortByNum = [...listRace];
+
+  //Tri de la liste en fonction
+  listSortByNum.sort(function compare(a, b) {
+    return Number(a.startTime) - Number(b.startTime);
+  });
+
+  return listSortByNum;
+
 }
