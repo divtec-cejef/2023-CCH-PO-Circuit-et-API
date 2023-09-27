@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import ClassementRace from '@/components/ClassementRace.vue';
 import { useCarStore } from '@/stores/car';
-import { useWindowSize, useElementBounding, useScroll } from '@vueuse/core';
+import { useWindowSize, useElementBounding, useScroll, useElementByPoint } from '@vueuse/core';
 import { ref } from 'vue';
 import ClassmentButton from '@/components/ClassmentButton.vue';
 
@@ -31,9 +31,15 @@ if (userCar.car.idCar !== undefined) {
  * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
  */
 function scrollToUser() {
-  const middle = classementHeight.value / 2 - 50;
   const rank = userCar.car.rank || 0;
-  const elementOffset = (rank - 1) * (63 + 10) + classmentTop.value - 100;
+  const self =  classment.value?.children[rank];
+  if (!self)
+    return;
+  const { top: topPos } = useElementBounding(self);
+  console.log(topPos.value - classmentTop.value);
+
+  const middle = classementHeight.value / 2 - 100;
+  const elementOffset = topPos.value - classmentTop.value;
   const targetMiddlePosition = elementOffset + (63 / 2);
   scroll.y.value = Math.max(0, targetMiddlePosition - middle);
 }
