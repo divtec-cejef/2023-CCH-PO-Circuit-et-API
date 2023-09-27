@@ -16,7 +16,7 @@
 
     <header class="large">
         <RouterLink :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
-            <img :src=logoImg alt="Logo tuture divtec">
+            <img :src=logoImg alt="Logo grand prix de la Divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>
     </header>
