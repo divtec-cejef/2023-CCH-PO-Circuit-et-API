@@ -1,7 +1,7 @@
 <template>
     <div class="button-classement">
         <div>
-            <button v-if="userCar.car.idCar !== 0"
+            <button v-if="(userCar.car.idCar ?? 0) !== 0"
                     class="classement-user"
                     @click="emit('scrollToUser')"
                     :style="{ backgroundImage: `url(${placeHolderImg})`}">
@@ -66,8 +66,8 @@ const emit = defineEmits<{
       height: 40px;
 
 
-      &.classement-top {
-        margin-left: 5px;
+      &.classement-user {
+        margin-right: 5px;
       }
 
       &:hover {
