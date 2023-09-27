@@ -24,8 +24,10 @@
                 </div>
 
                 <div class="content-classement">
-                    <h2>Classement</h2>
-                    <ClassmentButton @scrollToTop="scrollToTop" @scrollToUser="scrollToUser" />
+                    <div class="classement-head-container">
+                        <h2>Classement</h2>
+                        <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser" />
+                    </div>
                     <div ref="classement" class="classement-content">
                         <ClassementRace :show-content="false" @load="scrollToUser" />
                     </div>
@@ -199,6 +201,25 @@ div.large-content {
 .table-large-content {
   p {
     margin-bottom: 20px;
+  }
+}
+
+.content-classement {
+  .classement-head-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+
+    h2 {
+      margin: 0;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
 }
 
