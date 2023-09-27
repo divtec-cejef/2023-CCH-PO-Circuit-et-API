@@ -3,9 +3,6 @@
 @import "font.scss";
 @import "responsive.scss";
 @import "consts.scss";
-body {
-  overflow-y: scroll;
-}
 
 * {
   box-sizing: border-box;
@@ -92,7 +89,6 @@ button {
   &.main, &[type=submit] {
     background-color: var(--accent);
     color: white;
-
     border: 3px solid var(--accent);
 
     &:hover {
@@ -124,7 +120,7 @@ button {
 }
 
 .fullscreen {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
