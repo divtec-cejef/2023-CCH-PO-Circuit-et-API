@@ -5,7 +5,8 @@
                 <h1>Classement</h1>
                 <p>Ici tu vois tout les temps des pilotes !</p>
             </div>
-
+        </div>
+        <div class="with-100">
             <ClassmentButton class="buttons" @scrollToUser="scrollToUser" @scrollToTop="scrollToTop"/>
         </div>
 
@@ -17,7 +18,7 @@
 <script setup lang="ts">
 import ClassementRace from '@/components/ClassementRace.vue';
 import { useCarStore } from '@/stores/car';
-import { useWindowSize, useElementBounding, useScroll, useElementByPoint } from '@vueuse/core';
+import { useWindowSize, useElementBounding, useScroll } from '@vueuse/core';
 import { ref } from 'vue';
 import ClassmentButton from '@/components/ClassmentButton.vue';
 
@@ -61,21 +62,24 @@ function scrollToTop() {
 
 .content {
   .top-container {
-    /*display: flex;
+    display: flex;
     flex-direction: row;
-    justify-content: space-between;*/
+    justify-content: space-between;
     width: 100%;
     margin-bottom: 1.5rem;
+  }
+
+  .with-100 {
+    width: 100%;
+    position: sticky;
+    display: flex;
+    z-index: 3;
+    justify-content: end;
+    //left: 10px;
+    top: 110px;
 
     .buttons {
-      position: fixed;
-      top: 120px;
-      right: 35px;
-    z-index: 2;
-
-      @media screen and (min-width:  1024px) {
-        left: calc(50% + (930px / 2) - 101px);
-      }
+      width: fit-content
     }
   }
 
