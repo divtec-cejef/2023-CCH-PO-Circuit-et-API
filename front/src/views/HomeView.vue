@@ -274,8 +274,9 @@ div.home-root {
     list-style-type: none;
     padding: 0;
     display: grid;
-    grid-template-columns: 420px;
+    grid-template-columns: min(calc(100vw - 40px), 420px);
     grid-gap: 20px;
+    justify-items: center;
 
     li {
       display: flex;
@@ -286,6 +287,7 @@ div.home-root {
       padding: 30px;
       outline-offset: -12px;
       position: relative;
+      width: 100%;
 
       @media screen and (prefers-color-scheme: dark) {
         box-shadow: none;
