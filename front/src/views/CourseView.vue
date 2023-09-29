@@ -230,4 +230,8 @@ div.large-content {
   justify-content: center;
   align-items: center;
 }
+
+:deep(.button-classement div) {
+    box-shadow: none !important;
+}
 </style>

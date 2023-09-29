@@ -3,7 +3,6 @@
         <div class="top-container">
             <div class="text-container">
                 <h1>Classement</h1>
-                <p>Ici tu vois tout les temps des pilotes !</p>
             </div>
         </div>
         <div class="with-100">
@@ -65,7 +64,7 @@ function scrollToTop() {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: calc(100% - 110px);
     margin-bottom: 1.5rem;
   }
 
@@ -73,10 +72,10 @@ function scrollToTop() {
     width: 100%;
     position: sticky;
     display: flex;
-    z-index: 3;
+    z-index: 10;
     justify-content: end;
-    //left: 10px;
     top: 110px;
+    margin-top: -80px;
 
     .buttons {
       width: fit-content
@@ -85,7 +84,7 @@ function scrollToTop() {
 
   .classement {
     width: 100%;
-    margin: 0;
+    margin: 30px 0 0 0;
   }
 }
 
