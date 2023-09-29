@@ -84,6 +84,7 @@ div.drop-down-content {
   margin-top: 15px;
   display: flex;
   justify-content: center;
+
 }
 
 div.hide-drop-down {
