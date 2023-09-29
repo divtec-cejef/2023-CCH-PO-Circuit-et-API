@@ -280,7 +280,7 @@ const allSections = ref([{
   section: 'Informatique',
   id: -1,
   labelSection: 'Informaticien-ne',
-  posX: 23,
+  posX: 26,
   posY: 25,
 }, {
   section: 'Automatique',
@@ -304,8 +304,8 @@ const allSections = ref([{
   section: 'Micromécanique',
   id: -1,
   labelSection: 'Micromécanicien-ne',
-  posX: 47,
-  posY: 2,
+  posX: 38,
+  posY: 6,
 }, {
   section: 'Laborantin',
   id: -1,
@@ -316,8 +316,8 @@ const allSections = ref([{
   section: 'Dessinateur',
   id: -1,
   labelSection: 'Dessinateur-trice',
-  posX: 35,
-  posY: 7.2,
+  posX: 22,
+  posY: 1.9,
 }, {
   section: 'Mécatronique',
   id: -1,
