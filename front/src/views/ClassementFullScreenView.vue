@@ -1,7 +1,8 @@
 <template>
     <div class="fullscreen" ref="el">
         <div>
-            <ClassementRace :show-content="false" @indexNewRace="scrollToNewRace" :index-new-element="indexNewElement >= 0 ? indexNewElement : undefined"/>
+            <ClassementRace :show-content="false" @indexNewRace="scrollToNewRace"
+                            :index-new-element="indexNewElement >= 0 ? indexNewElement : undefined"/>
         </div>
     </div>
 </template>
@@ -22,7 +23,7 @@ const { y: posY } = useScroll(el, { behavior: 'smooth' });
  */
 function scrollToNewRace(index: number) {
   indexNewElement.value = index;
-
+  console.log(index);
   //scroll jusqu'à l'élément
   posY.value = (index - 1) * 73 + 35 - (window.innerHeight / 2 - 60);
 

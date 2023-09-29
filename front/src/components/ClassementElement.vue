@@ -245,7 +245,6 @@ function clickClassementElement() {
     dropDownClicked.value = true;
 
   });
-
 }
 
 /**
