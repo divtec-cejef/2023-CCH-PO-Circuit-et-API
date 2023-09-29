@@ -27,7 +27,7 @@ const error = ref<string>();
 function onDecode(resultScan:string) {
   try {
     let url = new URL(resultScan);
-    if (url.hostname !== 'voiture.divtec.me') {
+    if (url.hostname !== import.meta.env.VITE_DOMAIN_NAME || '') {
       error.value = 'Le code ne vient pas des portes ouvertes.';
     } else {
       router.push(url.pathname);
