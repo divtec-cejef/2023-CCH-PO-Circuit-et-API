@@ -33,7 +33,7 @@
                 <div>Vitesse instantanée</div>
                 <div class="speed-max">
                     <p>{{ formatSpeed(props.race.speed) }}</p>
-                    <p>cm/s</p>
+                    <p>{{ unitSpeed }}</p>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import NumberTime from '@/components/NumberTime.vue';
-import Race, { formatHourDay, formatSpeed, formatTime } from '@/models/race';
+import Race, { formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
 import type { models } from '@/models/api';
 
 const props = defineProps<{

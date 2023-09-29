@@ -31,7 +31,7 @@
                     Ou entre les 4 derniers chiffres du lien sous ta voiture !
                 </p>
                 <div class="link">
-                    <p>voiture.divtec.me/</p>
+                    <p>{{ domaineName }}/</p>
                     <input type="number" placeholder="****" v-model="userQueryId" max="9999">
                 </div>
                 <button type="submit"
@@ -57,36 +57,41 @@
             </li>
 
             <li>
-                <span class="data">
-                    <template v-if="/:/.test(fastestRace || '')">
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split(':')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split(':')[0]"/>
-                        <span>:</span>
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split(':')[1].split('.')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split(':')[1].split('.')[0]"/>
-                    </template>
-                    <template v-else>
-                        <Roller
-                                char-set="number"
-                                :default-value="fastestRace?.split('.')[0]"
-                                :duration="1000"
-                                :value="fastestRace?.split('.')[0]"/>
-                    </template>
-                    <span>.</span>
-                    <Roller
-                            char-set="number"
-                            :default-value="fastestRace?.split('.')[1]"
-                            :duration="1000"
-                            :value="fastestRace?.split('.')[1]"/>
-                    <span v-if="fastestRace?.split(':').length === 1">s</span>
-                </span>
-                <span class="label">est le temps de course le plus rapide</span>
+                <template v-if="fastestRace !== null">
+                    <span class="data">
+                            <template v-if="/:/.test(fastestRace || '')">
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split(':')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split(':')[0]"/>
+                                <span>:</span>
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split(':')[1].split('.')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split(':')[1].split('.')[0]"/>
+                            </template>
+                            <template v-else>
+                                <Roller
+                                        char-set="number"
+                                        :default-value="fastestRace?.split('.')[0]"
+                                        :duration="1000"
+                                        :value="fastestRace?.split('.')[0]"/>
+                            </template>
+                            <span>.</span>
+                            <Roller
+                                    char-set="number"
+                                    :default-value="fastestRace?.split('.')[1]"
+                                    :duration="1000"
+                                    :value="fastestRace?.split('.')[1]"/>
+                            <span v-if="fastestRace?.split(':').length === 1">s</span>
+                    </span>
+                    <span class="label">est le temps de course le plus rapide</span>
+                </template>
+                <div class="null" v-else>
+                    Pas de courses réalisées
+                </div>
             </li>
 
             <li>
@@ -99,13 +104,18 @@
             </li>
 
             <li>
-                <Roller
-                        char-set="alphabet"
-                        :duration="1000"
-                        :default-value="lastActivity?.toString()"
-                        :value="lastActivity?.toString()"
-                        class="data"/>
-                <span class="label">vient d'être réalisé</span>
+                <template v-if="lastActivity !== null">
+                    <Roller
+                            char-set="alphabet"
+                            :duration="1000"
+                            :default-value="lastActivity?.toString()"
+                            :value="lastActivity?.toString()"
+                            class="data"/>
+                    <span class="label">vient d'être réalisé</span>
+                </template>
+                <div class="null" v-else>
+                    Pas d'activités réalisées
+                </div>
             </li>
         </ul>
         <div v-else>
@@ -133,11 +143,12 @@ const display = useLocalStorage('display', 'modern');
 const socketio = new WebsocketConnection();
 const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
-const fastestRace = ref<string>();
-const lastActivity = ref<string>();
+const fastestRace = ref<string | null>();
+const lastActivity = ref<string | null>();
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
+const domaineName = import.meta.env.VITE_DOMAIN_NAME || '';
 
 const statsError = ref<{
   ranking: string | undefined,
@@ -179,10 +190,16 @@ socketio
     }
 
     racesRan.value = data.count;
-    const fastestTime = data.fastest.total_time;
-    fastestRace.value = formatTime(new Date(fastestTime));
+    const fastestTime = data.fastest?.total_time;
+    if (fastestTime) {
+      fastestRace.value = formatTime(new Date(fastestTime));
+    } else {
+      fastestRace.value = null;
+    }
+
   })
   .onActivityRealisation(data => {
+    console.dir({ data });
     statsError.value.activityRealisation = undefined;
     if ('message' in data) {
       statsError.value.activityRealisation = data.message;
@@ -190,7 +207,7 @@ socketio
     }
 
     activitiesRealisations.value = data.count;
-    lastActivity.value = data.last.label;
+    lastActivity.value = data.last?.label ?? null;
   });
 
 onBeforeUnmount(() => {
@@ -257,8 +274,9 @@ div.home-root {
     list-style-type: none;
     padding: 0;
     display: grid;
-    grid-template-columns: 420px;
+    grid-template-columns: min(calc(100vw - 40px), 420px);
     grid-gap: 20px;
+    justify-items: center;
 
     li {
       display: flex;
@@ -269,6 +287,7 @@ div.home-root {
       padding: 30px;
       outline-offset: -12px;
       position: relative;
+      width: 100%;
 
       @media screen and (prefers-color-scheme: dark) {
         box-shadow: none;
@@ -285,6 +304,16 @@ div.home-root {
       }
 
       .label {
+        text-align: center;
+      }
+
+      .null {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 500;
         text-align: center;
       }
     }
