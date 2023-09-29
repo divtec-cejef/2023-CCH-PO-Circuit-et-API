@@ -1,7 +1,11 @@
 @media screen and (max-width: 320px) {
-  #app {
+  body #app {
     button:not(:disabled):hover {
       font-weight: normal;
+    }
+
+    main.display {
+      padding: 125px 2px 2px 2px !important;
     }
   }
 }
