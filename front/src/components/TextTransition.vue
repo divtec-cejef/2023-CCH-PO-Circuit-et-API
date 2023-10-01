@@ -36,6 +36,8 @@ const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number
 };
 
 const animateString = (n: Ref<string | null | undefined>, to: string, i?: number, from?: string) => {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzéàè\'-1234567890 !?:.,;'.split('');
+  const middle = alphabet.length / 2;
   if (i === undefined) {
     i = 0;
   }
@@ -59,18 +61,16 @@ const animateString = (n: Ref<string | null | undefined>, to: string, i?: number
   }
 
   nVal = n.value ?? '';
-  console.log( nVal, to );
   let newString = '';
   for (let j = 0; j < nVal.length; j++) {
     if (nVal[j] === to[j]) {
       newString += nVal[j];
-      console.log('same', j, nVal[j], to[j], newString);
-    } else if (nVal.charCodeAt(j) < to.charCodeAt(j)) {
-      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )+ 1);
-      console.log('up', j, nVal[j], to[j], newString);
+    } else if (alphabet.indexOf(nVal[j]) < alphabet.indexOf(to[j])) {
+      const characterIndex = alphabet.indexOf(nVal[j] ?? 'a');
+      newString += alphabet[(characterIndex === -1 ? middle : characterIndex) + 1];
     } else {
-      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )- 1);
-      console.log('down', j, nVal[j], to[j], newString);
+      const characterIndex = alphabet.indexOf(nVal[j] ?? 'a');
+      newString += alphabet[(characterIndex === -1 ? middle : characterIndex) - 1];
     }
   }
 
