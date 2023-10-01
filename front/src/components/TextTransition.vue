@@ -1,6 +1,6 @@
 <template>
     <span>
-        {{displayed ?? props.data}}
+        {{props.callback ? props.callback(displayed ?? props.data) : displayed ?? props.data}}
     </span>
 </template>
 
@@ -12,6 +12,7 @@ type T = number | string;
 
 const props = defineProps<{
   data: T;
+  callback?: (v: T) => string | number;
 }>();
 
 const displayed = typeof props.data === 'string' ?ref<T>('') : ref<T>(0);
