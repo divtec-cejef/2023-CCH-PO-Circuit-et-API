@@ -44,7 +44,7 @@ import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
 
-declare type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
+type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
 /**
