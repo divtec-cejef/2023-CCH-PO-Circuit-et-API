@@ -48,7 +48,6 @@
         </div>
         <ul class="stats" v-else-if="dataLoaded">
             <li>
-
                 <TextTransition class="data" :data="racesRan!"/>
                 <span class="label">Courses effectuées</span>
             </li>
@@ -60,7 +59,11 @@
 
             <li>
                 <template v-if="fastestRace !== null">
-                    <TextTransition class="data" :data="formatTime(new Date(fastestRace!)) + 's'"/>
+                    <TextTransition class="data"
+                                    :data="fastestRace!"
+                                    :callback="(v: string | number) =>
+                                    formatTime(new Date(v)) + 's'
+"/>
                     <span class="label">est le temps de course le plus rapide</span>
                 </template>
                 <div class="null" v-else>
