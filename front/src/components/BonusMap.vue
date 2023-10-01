@@ -8,45 +8,19 @@
          :style="{
              top: section.posY + '%',
              left: section.posX + '%',
-             backgroundColor:
-                 colorScheme === 'dark' ? (
-                    index === isClicked ?
-                    'var(--black)':
-                    getColor(
-                        section
-                           .section
-                           .toLowerCase()
-                           .normalize('NFD')
-                           .replace(/[\u0300-\u036f]/g, '')
-                       )
-                   ) : (
-                     index === isClicked ?
-                        getColor(
-                        section
-                               .section
-                               .toLowerCase()
-                               .normalize('NFD')
-                               .replace(/[\u0300-\u036f]/g, '')
-                       ) :
-                       'var(--white)'
-                   ),
-             border: `2px solid ${getColor(
-               section
-               .section
-               .toLowerCase()
-               .normalize('NFD')
-               .replace(/[\u0300-\u036f]/g, ''))}`
+             backgroundColor: colorScheme !== 'dark' ?
+                               (isClicked === index ? getColor(formatName(section.section)) : 'var(--white)') : (
+                                isClicked === index ? 'var(--black)' : getColor(formatName(section.section))
+                               ),
+             '--bColor-hover': colorScheme !== 'dark' ? getColor(formatName(section.section)) : 'var(--black)',
+             border: `2px solid ${getColor(formatName(section.section))}`,
          }"
-         @mouseover="event => atHover(event, section)"
-         @mouseleave="event => atLeave(event, index, section)"
          @click="(event) => {
-             unHighlight()
              props.displayLabel(
              (event?.target as HTMLDivElement)?.getBoundingClientRect().left,
              (event?.target as HTMLDivElement)?.getBoundingClientRect().top,
              section.labelSection)
              isClicked = index
-             highlight(event, section)
          }">
 
         <img v-if="section.id !== -1"
@@ -55,14 +29,12 @@
              :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`,
                       opacity: `${activatedSection.includes(section.id) ? '1': '0.4'}`}">
         <p
-                :style="{
-          color: colorScheme === 'light' ? getColor(section
-                .section
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')) :
-                'var(--white)',
-                paddingLeft: `${section.id === -1 ? '10px' : 'unset'}`}">
+             :style="{
+                 color: colorScheme !== 'dark' ?
+                         (isClicked === index ? 'var(--white)' : getColor(formatName(section.section))) : (
+                          'var(--white)'
+                         ),
+             }">
             {{ section.labelSection }}
         </p>
     </div>
@@ -79,9 +51,9 @@ import Section from '@/models/section';
 
 const colorScheme = usePreferredColorScheme();
 const getColor = Section.getColor;
+const formatName = Section.formatName;
 
 const isClicked = ref<number | null>(null);
-let targetOld: HTMLDivElement | null = null;
 
 const props = defineProps<{
   displayLabel: (posx: number, posy: number, sectionLabel: string) => void;
@@ -97,71 +69,11 @@ const props = defineProps<{
   noActivitySections: number[];
 }>();
 
-type SimpleSection = {
-  section: string;
-  id: number;
-  labelSection: string;
-  posX: number;
-  posY: number;
-}
-
 watch(() => props.unClicked, (unClicked) => {
   if (unClicked) {
-    unHighlight();
-  }
-});
-
-function unHighlight() {
-  if (targetOld && isClicked.value) {
-    let section = props.sections[isClicked.value];
-    targetOld.classList.remove('clicked');
-    if (colorScheme.value === 'light') {
-      targetOld.style.background = 'var(--white)';
-    } else {
-      targetOld.style.background =
-        Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-    }
     isClicked.value = null;
   }
-
-  targetOld = null;
-}
-
-function highlight(event: Event, section: SimpleSection) {
-  let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
-    ((event.target as HTMLElement).parentElement as HTMLDivElement) :
-    (event.target as HTMLDivElement);
-  target.classList.add('clicked');
-  targetOld = target;
-}
-
-// const props = defineProps(['displayLabel', 'hideLabel', 'sections', 'activatedSection']);
-
-function atHover(event: Event, section: SimpleSection) {
-  let target: HTMLDivElement = ((event.target as HTMLElement).tagName === 'IMG' || (event.target as HTMLElement).tagName === 'P') ?
-    ((event.target as HTMLElement).parentElement as HTMLDivElement) :
-    (event.target as HTMLDivElement);
-  if (colorScheme.value === 'light') {
-    target.style.background = Section.getColor(section.section.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-  } else {
-    target.style.background = 'var(--black)';
-  }
-}
-
-function atLeave(event: Event, index: number, section: SimpleSection) {
-  if (index !== isClicked.value) {
-    if(colorScheme.value === 'light') {
-      (event.target as HTMLDivElement).style.background = 'var(--white)' ;
-    } else {
-      (event.target as HTMLDivElement).style.background = getColor(
-        section
-          .section
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, ''));
-    }
-  }
-}
+});
 
 </script>
 
@@ -180,20 +92,13 @@ template {
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;
-  background-color: var(--white);
-  border: 2px solid var(--pink-divtec);
   padding: clamp(0px, 0.5vw, 7px) 0;
   border-radius: 30px;
   white-space: pre-wrap;
   transition: ease-in-out 0.15s;
   align-items: center;
 
-  @media screen and (prefers-color-scheme: dark) {
-    background-color: var(--black);
-  }
-
   p {
-    color: var(--pink-divtec);
     font-size: clamp(1px, 2.25vw, 24px);
     padding: 0 10px 0 0;
     white-space: nowrap;
@@ -205,15 +110,9 @@ template {
   }
 }
 
-div.clicked {
-  p {
-    color: var(--white) !important;
-  }
-}
-
 .icon:hover {
   cursor: pointer;
-
+  background-color: var(--bColor-hover)!important;
   p {
     color: var(--white) !important;
   }
