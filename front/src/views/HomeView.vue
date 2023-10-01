@@ -48,54 +48,19 @@
         </div>
         <ul class="stats" v-else-if="dataLoaded">
             <li>
-                <Roller
-                        :duration="1000"
-                        :value="racesRan?.toString()"
-                        :default-value="racesRan?.toString()"
-                        class="data"/>
+
+                <span class="data">{{ racesRan }}</span>
                 <span class="label">Courses effectuées</span>
             </li>
 
             <li>
-                <Roller
-                        :duration="1000"
-                        :value="activitiesRealisations?.toString()"
-                        :default-value="activitiesRealisations?.toString()"
-                        class="data"/>
+                <span class="data">{{ activitiesRealisations }}</span>
                 <span class="label">Activités effectuées</span>
             </li>
 
             <li>
                 <template v-if="fastestRace !== null">
-                    <span class="data">
-                            <template v-if="/:/.test(fastestRace || '')">
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split(':')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split(':')[0]"/>
-                                <span>:</span>
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split(':')[1].split('.')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split(':')[1].split('.')[0]"/>
-                            </template>
-                            <template v-else>
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split('.')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split('.')[0]"/>
-                            </template>
-                            <span>.</span>
-                            <Roller
-                                    char-set="number"
-                                    :default-value="fastestRace?.split('.')[1]"
-                                    :duration="1000"
-                                    :value="fastestRace?.split('.')[1]"/>
-                            <span v-if="fastestRace?.split(':').length === 1">s</span>
-                    </span>
+                    <span class="data">{{ fastestRace }}s</span>
                     <span class="label">est le temps de course le plus rapide</span>
                 </template>
                 <div class="null" v-else>
@@ -105,12 +70,7 @@
 
             <li>
                 <template v-if="lastActivity !== null">
-                    <Roller
-                            :char-set="'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzéàè'.split('')"
-                            :duration="1000"
-                            :default-value="lastActivity?.toString()"
-                            :value="lastActivity?.toString()"
-                            class="data"/>
+                    <p class="data">{{lastActivity}}</p>
                     <span class="label">vient d'être réalisé</span>
                 </template>
                 <div class="null" v-else>
@@ -128,10 +88,10 @@
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
+import type { Ref } from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';
 import { formatTime } from '@/models/race';
 import { RouterLink, useRouter } from 'vue-router';
-import { Roller } from 'vue-roller';
 import 'vue-roller/dist/style.css';
 import { useLocalStorage } from '@vueuse/core';
 
@@ -141,10 +101,57 @@ const router = useRouter();
 const display = useLocalStorage('display', 'modern');
 
 const socketio = new WebsocketConnection();
-const racesRan = ref<number>();
-const activitiesRealisations = ref<number>();
-const fastestRace = ref<string | null>();
-const lastActivity = ref<string | null>();
+
+const racesRanData = ref<number>();
+const racesRan = computed<number | undefined>({
+  get: () => racesRanData.value,
+  set: (v : number | undefined) => {
+    racesRanData.value = racesRanData.value ?? 0;
+    animateNumber(racesRanData, v ?? 0);
+  }
+});
+
+const activitiesRealisationsData = ref<number>();
+const activitiesRealisations = computed<number | undefined>({
+  get: () => activitiesRealisationsData.value,
+  set: (v : number | undefined) => {
+    activitiesRealisationsData.value = activitiesRealisationsData.value ?? 0;
+    animateNumber(activitiesRealisationsData, v ?? 0);
+  }
+});
+
+const fastestTimeMs = ref<number | null>();
+const fastestRace = computed<string | null | undefined>({
+  get:() => {
+    const { value } = fastestTimeMs;
+    if (!value && typeof value !== 'number') {
+      return value;
+    }
+    return formatTime(new Date(value));
+  },
+  set: (v: string | null | undefined) => {
+    if (!v && typeof v !== 'string') {
+      fastestTimeMs.value = v;
+      return;
+    }
+
+    fastestTimeMs.value = fastestTimeMs.value ?? 0;
+    animateNumber(fastestTimeMs, (new Date(v)).getTime());
+  }
+});
+
+const lastActivityValue = ref<string | null>();
+const lastActivity = computed<string|null|undefined>({
+  get: ()=>lastActivityValue.value,
+  set: (v: string | null | undefined) => {
+    if (v === undefined) {
+      lastActivityValue.value = undefined;
+      return;
+    }
+    lastActivityValue.value = lastActivityValue.value ?? '';
+    animateString(lastActivityValue, v ?? '');
+  }
+});
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
@@ -181,6 +188,81 @@ const enteredQueryId = () => {
   });
 };
 
+const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number, from?: number) => {
+  if (i === undefined) {
+    i = 0;
+  }
+
+  if (from === undefined) {
+    from = n.value || 0;
+  }
+
+  if (i >= Math.PI) {
+    n.value = to;
+    return;
+  }
+
+  n.value = Math.ceil(((1-Math.cos(i))/2) * (to - from) + from);
+
+  requestAnimationFrame(() => animateNumber(n, to, (i ?? 0) + 0.1, from));
+};
+
+/**
+ * Animate smoothly the apparition of a string, as well as its characters.
+ * Characters can only be added or removed once per frame.
+ * Already existing characters can only be replaced by a character adjacent to it in alphabetical order.
+ * Characters are added or removed at the end of the string.
+ * Transition of changing characters should follow a sinusoidal curve.
+ *
+ * @param {Ref<string | null | undefined>} n
+ * @param {string} to
+ * @param {number} i
+ * @param {string} from
+ */
+const animateString = (n: Ref<string | null | undefined>, to: string, i?: number, from?: string) => {
+  if (i === undefined) {
+    i = 0;
+  }
+
+  if (from === undefined) {
+    from = n.value || '';
+  }
+
+  if (n.value == to) {
+    return;
+  }
+
+  const toLength = to.length;
+
+  let nVal = n.value ?? '';
+
+  if (nVal.length > toLength) {
+    n.value = nVal.slice(0, nVal.length - 2);
+  } else if (nVal.length < toLength) {
+    n.value = nVal + 'a';
+  }
+
+  nVal = n.value ?? '';
+  console.log( nVal, to );
+  let newString = '';
+  for (let j = 0; j < nVal.length; j++) {
+    if (nVal[j] === to[j]) {
+      newString += nVal[j];
+      console.log('same', j, nVal[j], to[j], newString);
+    } else if (nVal.charCodeAt(j) < to.charCodeAt(j)) {
+      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )+ 1);
+      console.log('up', j, nVal[j], to[j], newString);
+    } else {
+      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )- 1);
+      console.log('down', j, nVal[j], to[j], newString);
+    }
+  }
+
+  n.value = newString;
+
+  requestAnimationFrame(() => animateString(n, to, (i ?? 0) + 0.1, from));
+};
+
 socketio
   .onRankingReceived(data => {
     statsError.value.ranking = undefined;
@@ -189,12 +271,13 @@ socketio
       return;
     }
 
-    racesRan.value = data.count;
-    const fastestTime = data.fastest?.total_time;
-    if (fastestTime) {
-      fastestRace.value = formatTime(new Date(fastestTime));
+    racesRan.value = 0;
+    animateNumber(racesRan, data.count);
+    if (data.fastest?.total_time) {
+      fastestTimeMs.value = fastestTimeMs.value ?? 0;
+      animateNumber(fastestTimeMs,  (new Date(data.fastest?.total_time)).getTime());
     } else {
-      fastestRace.value = null;
+      fastestTimeMs.value = null;
     }
 
   })
@@ -206,8 +289,10 @@ socketio
       return;
     }
 
-    activitiesRealisations.value = data.count;
-    lastActivity.value = data.last?.label ?? null;
+    if (!activitiesRealisations.value)
+      activitiesRealisations.value = 0;
+    animateNumber(activitiesRealisations, data.count);
+    lastActivity.value = data.last?.label;
   });
 
 onBeforeUnmount(() => {
@@ -299,7 +384,7 @@ div.home-root {
     list-style-type: none;
     padding: 0;
     display: grid;
-    grid-template-columns: min(calc(100vw - 40px), 420px);
+    grid-template-columns: calc(100vw - 40px);
     grid-gap: 20px;
     justify-items: center;
     justify-content: space-around;
@@ -326,14 +411,15 @@ div.home-root {
         font-weight: bold;
         font-size: 42px;
         margin-bottom: 10px;
+
+        justify-content: center;
+      }
+
+      span.data {
         display: flex;
         flex-direction: row;
         align-items: center;
         flex-wrap: nowrap;
-
-        &.roller, .roller {
-          justify-content: center;
-        }
       }
 
       .label {
@@ -364,7 +450,7 @@ div.home-root {
 
   @media screen and (min-width: 860px) {
     ul.stats {
-      grid-template-columns: repeat(2, min(50%, 420px));
+      grid-template-columns: repeat(2, 50%);
 
       li:nth-last-child(2), li:nth-last-child(1) {
         grid-column: 1 / 3;
@@ -378,7 +464,7 @@ div.home-root {
     grid-gap: 40px;
 
     ul.stats {
-      grid-template-columns: min(100%, 420px);
+      grid-template-columns: 100%;
       width: auto;
 
       li:nth-last-child(2), li:nth-last-child(1) {
@@ -388,17 +474,17 @@ div.home-root {
   }
 
   @media screen and (min-width: 1280px) {
-      grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 3fr;
 
-      ul.stats {
-        grid-template-columns: repeat(2, min(50%, 420px));
-        width: 100%;
+    ul.stats {
+      grid-template-columns: repeat(2, min(50%, 420px));
+      width: 100%;
 
-        li:nth-last-child(2), li:nth-last-child(1) {
-          grid-column: 1 / 3;
-        }
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 3;
       }
     }
+  }
 }
 
 .error {
@@ -415,6 +501,8 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 </style>
