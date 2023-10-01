@@ -48,45 +48,22 @@
         </div>
         <ul class="stats" v-else-if="dataLoaded">
             <li>
-                <Roller
-                        :duration="1000"
-                        :value="racesRan?.toString()"
-                        :default-value="racesRan?.toString()"
-                        class="data"/>
+                <TextTransition class="data" :data="racesRan!"/>
                 <span class="label">Courses effectuées</span>
             </li>
 
             <li>
+                <TextTransition class="data" :data="activitiesRealisations!"/>
+                <span class="label">Activités effectuées</span>
+            </li>
+
+            <li>
                 <template v-if="fastestRace !== null">
-                    <span class="data">
-                            <template v-if="/:/.test(fastestRace || '')">
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split(':')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split(':')[0]"/>
-                                <span>:</span>
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split(':')[1].split('.')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split(':')[1].split('.')[0]"/>
-                            </template>
-                            <template v-else>
-                                <Roller
-                                        char-set="number"
-                                        :default-value="fastestRace?.split('.')[0]"
-                                        :duration="1000"
-                                        :value="fastestRace?.split('.')[0]"/>
-                            </template>
-                            <span>.</span>
-                            <Roller
-                                    char-set="number"
-                                    :default-value="fastestRace?.split('.')[1]"
-                                    :duration="1000"
-                                    :value="fastestRace?.split('.')[1]"/>
-                            <span v-if="fastestRace?.split(':').length === 1">s</span>
-                    </span>
+                    <TextTransition class="data"
+                                    :data="fastestRace!"
+                                    :callback="(v: string | number) =>
+                                    formatTime(new Date(v)) + 's'
+"/>
                     <span class="label">est le temps de course le plus rapide</span>
                 </template>
                 <div class="null" v-else>
@@ -95,22 +72,8 @@
             </li>
 
             <li>
-                <Roller
-                        :duration="1000"
-                        :value="activitiesRealisations?.toString()"
-                        :default-value="activitiesRealisations?.toString()"
-                        class="data"/>
-                <span class="label">Activités effectuées</span>
-            </li>
-
-            <li>
                 <template v-if="lastActivity !== null">
-                    <Roller
-                            char-set="alphabet"
-                            :duration="1000"
-                            :default-value="lastActivity?.toString()"
-                            :value="lastActivity?.toString()"
-                            class="data"/>
+                    <TextTransition class="data" :data="lastActivity!"/>
                     <span class="label">vient d'être réalisé</span>
                 </template>
                 <div class="null" v-else>
@@ -128,22 +91,23 @@
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
-import { WebsocketConnection, restful } from '@/models/api';
-import { formatTime } from '@/models/race';
-import { useRouter, RouterLink } from 'vue-router';
-import { Roller } from 'vue-roller';
+import { restful, WebsocketConnection } from '@/models/api';
+import { RouterLink, useRouter } from 'vue-router';
 import 'vue-roller/dist/style.css';
 import { useLocalStorage } from '@vueuse/core';
+import { formatTime } from '@/models/race';
 
+const TextTransition = defineAsyncComponent(() => import('@/components/TextTransition.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 
 const router = useRouter();
 const display = useLocalStorage('display', 'modern');
 
 const socketio = new WebsocketConnection();
+
 const racesRan = ref<number>();
 const activitiesRealisations = ref<number>();
-const fastestRace = ref<string | null>();
+const fastestRace = ref<number | null>();
 const lastActivity = ref<string | null>();
 
 const userQueryId = ref<string>();
@@ -190,9 +154,8 @@ socketio
     }
 
     racesRan.value = data.count;
-    const fastestTime = data.fastest?.total_time;
-    if (fastestTime) {
-      fastestRace.value = formatTime(new Date(fastestTime));
+    if (data.fastest?.total_time) {
+      fastestRace.value = new Date(data.fastest?.total_time).getTime();
     } else {
       fastestRace.value = null;
     }
@@ -268,65 +231,9 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-    margin: 0;
-
-  ul.stats {
-    list-style-type: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: min(calc(100vw - 40px), 420px);
-    grid-gap: 20px;
-    justify-items: center;
-
-    li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 10px;
-      box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-      padding: 30px;
-      outline-offset: -12px;
-      position: relative;
-      width: 100%;
-
-      @media screen and (prefers-color-scheme: dark) {
-        box-shadow: none;
-        border: $dark-border;
-      }
-
-      .data {
-        font-weight: bold;
-        font-size: 42px;
-        padding-bottom: 10px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-
-      .label {
-        text-align: center;
-      }
-
-      .null {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: 500;
-        text-align: center;
-      }
-    }
-  }
-
-  div.intro {
-    text-align: center;
-
-    p:nth-child(3) {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-  }
+  margin: 0;
+  width: 100%;
+  min-width: fit-content;
 
   img.qr-code {
     width: 200px;
@@ -350,8 +257,111 @@ div.home-root {
 
     }
   }
-}
 
+  ul.stats {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: calc(100vw - 40px);
+    grid-gap: 20px;
+    justify-items: center;
+    justify-content: space-around;
+    width: 100%;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 10px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+      padding: 30px;
+      outline-offset: -12px;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+
+      @media screen and (prefers-color-scheme: dark) {
+        box-shadow: none;
+        border: $dark-border;
+      }
+
+      .data {
+        font-weight: bold;
+        font-size: 42px;
+        margin-bottom: 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+
+        justify-content: center;
+      }
+
+      .label {
+        text-align: center;
+      }
+
+      .null {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 500;
+        text-align: center;
+      }
+    }
+
+    div.intro {
+      text-align: center;
+
+      p:nth-child(3) {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    }
+  }
+
+
+  @media screen and (min-width: 860px) {
+    ul.stats {
+      grid-template-columns: repeat(2, 50%);
+
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 3;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+
+    ul.stats {
+      grid-template-columns: 100%;
+      width: auto;
+
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 2;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: 1fr 3fr;
+
+    ul.stats {
+      grid-template-columns: repeat(2, min(50%, 420px));
+      width: 100%;
+
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 3;
+      }
+    }
+  }
+}
 
 .error {
   margin-top: 10px;
@@ -367,6 +377,8 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 </style>
