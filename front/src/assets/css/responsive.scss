@@ -438,18 +438,6 @@
   }
 }
 
-@media screen and (min-width: 860px) {
-  #app {
-
-    //MARK: - Page home
-    div.home-root {
-      ul.stats {
-        grid-template-columns: 420px 420px;
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 1024px) {
   #app {
     div.video {
@@ -499,16 +487,6 @@
       margin-top: 10px;
     }
 
-    div.home-root {
-      display: grid;
-      grid-template-columns: auto auto;
-      grid-gap: 40px;
-
-      ul.stats {
-        grid-template-columns: 420px;
-      }
-    }
-
     div.avatar-txt {
       margin-left: 10px;
     }
@@ -555,24 +533,4 @@
     }
 
   }
-}
-
-/* Petit ordinateur */
-@media screen and (min-width: 1280px) {
-  #app div.home-root {
-    width: 1280px;
-    grid-template-columns: auto 50%;
-    grid-gap: 0;
-
-    ul.stats {
-      grid-template-columns: 43% 57%;
-      width: 100%;
-    }
-  }
-}
-
-
-/* Grand ordinateur */
-@media screen and (max-width: 1440px) {
-
 }

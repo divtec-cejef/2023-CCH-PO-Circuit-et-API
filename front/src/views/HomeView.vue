@@ -57,6 +57,15 @@
             </li>
 
             <li>
+                <Roller
+                        :duration="1000"
+                        :value="activitiesRealisations?.toString()"
+                        :default-value="activitiesRealisations?.toString()"
+                        class="data"/>
+                <span class="label">Activités effectuées</span>
+            </li>
+
+            <li>
                 <template v-if="fastestRace !== null">
                     <span class="data">
                             <template v-if="/:/.test(fastestRace || '')">
@@ -92,15 +101,6 @@
                 <div class="null" v-else>
                     Pas de courses réalisées
                 </div>
-            </li>
-
-            <li>
-                <Roller
-                        :duration="1000"
-                        :value="activitiesRealisations?.toString()"
-                        :default-value="activitiesRealisations?.toString()"
-                        class="data"/>
-                <span class="label">Activités effectuées</span>
             </li>
 
             <li>
@@ -268,7 +268,32 @@ div.home-root {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-    margin: 0;
+  margin: 0;
+  width: 100%;
+  min-width: fit-content;
+
+  img.qr-code {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  div.qr-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      opacity: 0.7;
+    }
+
+    button {
+      width: fit-content;
+      position: absolute;
+      padding: 0.3em 12px;
+
+    }
+  }
 
   ul.stats {
     list-style-type: none;
@@ -277,6 +302,8 @@ div.home-root {
     grid-template-columns: min(calc(100vw - 40px), 420px);
     grid-gap: 20px;
     justify-items: center;
+    justify-content: space-around;
+    width: 100%;
 
     li {
       display: flex;
@@ -323,41 +350,56 @@ div.home-root {
         text-align: center;
       }
     }
-  }
 
-  div.intro {
-    text-align: center;
+    div.intro {
+      text-align: center;
 
-    p:nth-child(3) {
-      margin-top: 10px;
-      font-weight: bold;
+      p:nth-child(3) {
+        margin-top: 10px;
+        font-weight: bold;
+      }
     }
   }
 
-  img.qr-code {
-    width: 200px;
-    display: block;
-    margin: 0 auto;
-  }
 
-  div.qr-code {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @media screen and (min-width: 860px) {
+    ul.stats {
+      grid-template-columns: repeat(2, min(50%, 420px));
 
-    img {
-      opacity: 0.7;
-    }
-
-    button {
-      width: fit-content;
-      position: absolute;
-      padding: 0.3em 12px;
-
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 3;
+      }
     }
   }
+
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+
+    ul.stats {
+      grid-template-columns: min(100%, 420px);
+      width: auto;
+
+      li:nth-last-child(2), li:nth-last-child(1) {
+        grid-column: 1 / 2;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+      grid-template-columns: 1fr 3fr;
+
+      ul.stats {
+        grid-template-columns: repeat(2, min(50%, 420px));
+        width: 100%;
+
+        li:nth-last-child(2), li:nth-last-child(1) {
+          grid-column: 1 / 3;
+        }
+      }
+    }
 }
-
 
 .error {
   margin-top: 10px;
