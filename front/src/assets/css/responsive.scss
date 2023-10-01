@@ -101,6 +101,16 @@
     div.icon {
       border-width: 1px !important;
     }
+
+    .content .with-100 {
+      position: sticky;
+      z-index: 3000;
+      bottom: 10px;
+      right: 15px;
+      display: flex;
+      justify-content: end;
+      top: 575px;
+    }
   }
 }
 
@@ -537,6 +547,5 @@
         margin-top: 25px;
       }
     }
-
   }
 }
