@@ -49,18 +49,18 @@
         <ul class="stats" v-else-if="dataLoaded">
             <li>
 
-                <span class="data">{{ racesRan }}</span>
+                <TextTransition class="data" :data="racesRan!"/>
                 <span class="label">Courses effectuées</span>
             </li>
 
             <li>
-                <span class="data">{{ activitiesRealisations }}</span>
+                <TextTransition class="data" :data="activitiesRealisations!"/>
                 <span class="label">Activités effectuées</span>
             </li>
 
             <li>
                 <template v-if="fastestRace !== null">
-                    <span class="data">{{ fastestRace }}s</span>
+                    <TextTransition class="data" :data="formatTime(new Date(fastestRace!)) + 's'"/>
                     <span class="label">est le temps de course le plus rapide</span>
                 </template>
                 <div class="null" v-else>
@@ -70,7 +70,7 @@
 
             <li>
                 <template v-if="lastActivity !== null">
-                    <p class="data">{{lastActivity}}</p>
+                    <TextTransition class="data" :data="lastActivity!"/>
                     <span class="label">vient d'être réalisé</span>
                 </template>
                 <div class="null" v-else>
@@ -88,13 +88,13 @@
 import qrCodeImg from '../assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
-import type { Ref } from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';
-import { formatTime } from '@/models/race';
 import { RouterLink, useRouter } from 'vue-router';
 import 'vue-roller/dist/style.css';
 import { useLocalStorage } from '@vueuse/core';
+import { formatTime } from '@/models/race';
 
+const TextTransition = defineAsyncComponent(() => import('@/components/TextTransition.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 
 const router = useRouter();
@@ -102,56 +102,10 @@ const display = useLocalStorage('display', 'modern');
 
 const socketio = new WebsocketConnection();
 
-const racesRanData = ref<number>();
-const racesRan = computed<number | undefined>({
-  get: () => racesRanData.value,
-  set: (v : number | undefined) => {
-    racesRanData.value = racesRanData.value ?? 0;
-    animateNumber(racesRanData, v ?? 0);
-  }
-});
-
-const activitiesRealisationsData = ref<number>();
-const activitiesRealisations = computed<number | undefined>({
-  get: () => activitiesRealisationsData.value,
-  set: (v : number | undefined) => {
-    activitiesRealisationsData.value = activitiesRealisationsData.value ?? 0;
-    animateNumber(activitiesRealisationsData, v ?? 0);
-  }
-});
-
-const fastestTimeMs = ref<number | null>();
-const fastestRace = computed<string | null | undefined>({
-  get:() => {
-    const { value } = fastestTimeMs;
-    if (!value && typeof value !== 'number') {
-      return value;
-    }
-    return formatTime(new Date(value));
-  },
-  set: (v: string | null | undefined) => {
-    if (!v && typeof v !== 'string') {
-      fastestTimeMs.value = v;
-      return;
-    }
-
-    fastestTimeMs.value = fastestTimeMs.value ?? 0;
-    animateNumber(fastestTimeMs, (new Date(v)).getTime());
-  }
-});
-
-const lastActivityValue = ref<string | null>();
-const lastActivity = computed<string|null|undefined>({
-  get: ()=>lastActivityValue.value,
-  set: (v: string | null | undefined) => {
-    if (v === undefined) {
-      lastActivityValue.value = undefined;
-      return;
-    }
-    lastActivityValue.value = lastActivityValue.value ?? '';
-    animateString(lastActivityValue, v ?? '');
-  }
-});
+const racesRan = ref<number>();
+const activitiesRealisations = ref<number>();
+const fastestRace = ref<number | null>();
+const lastActivity = ref<string | null>();
 
 const userQueryId = ref<string>();
 const queryIdError = ref<string>();
@@ -188,81 +142,6 @@ const enteredQueryId = () => {
   });
 };
 
-const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number, from?: number) => {
-  if (i === undefined) {
-    i = 0;
-  }
-
-  if (from === undefined) {
-    from = n.value || 0;
-  }
-
-  if (i >= Math.PI) {
-    n.value = to;
-    return;
-  }
-
-  n.value = Math.ceil(((1-Math.cos(i))/2) * (to - from) + from);
-
-  requestAnimationFrame(() => animateNumber(n, to, (i ?? 0) + 0.1, from));
-};
-
-/**
- * Animate smoothly the apparition of a string, as well as its characters.
- * Characters can only be added or removed once per frame.
- * Already existing characters can only be replaced by a character adjacent to it in alphabetical order.
- * Characters are added or removed at the end of the string.
- * Transition of changing characters should follow a sinusoidal curve.
- *
- * @param {Ref<string | null | undefined>} n
- * @param {string} to
- * @param {number} i
- * @param {string} from
- */
-const animateString = (n: Ref<string | null | undefined>, to: string, i?: number, from?: string) => {
-  if (i === undefined) {
-    i = 0;
-  }
-
-  if (from === undefined) {
-    from = n.value || '';
-  }
-
-  if (n.value == to) {
-    return;
-  }
-
-  const toLength = to.length;
-
-  let nVal = n.value ?? '';
-
-  if (nVal.length > toLength) {
-    n.value = nVal.slice(0, nVal.length - 2);
-  } else if (nVal.length < toLength) {
-    n.value = nVal + 'a';
-  }
-
-  nVal = n.value ?? '';
-  console.log( nVal, to );
-  let newString = '';
-  for (let j = 0; j < nVal.length; j++) {
-    if (nVal[j] === to[j]) {
-      newString += nVal[j];
-      console.log('same', j, nVal[j], to[j], newString);
-    } else if (nVal.charCodeAt(j) < to.charCodeAt(j)) {
-      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )+ 1);
-      console.log('up', j, nVal[j], to[j], newString);
-    } else {
-      newString += String.fromCharCode((nVal.charCodeAt(j) || 97 )- 1);
-      console.log('down', j, nVal[j], to[j], newString);
-    }
-  }
-
-  n.value = newString;
-
-  requestAnimationFrame(() => animateString(n, to, (i ?? 0) + 0.1, from));
-};
-
 socketio
   .onRankingReceived(data => {
     statsError.value.ranking = undefined;
@@ -271,13 +150,11 @@ socketio
       return;
     }
 
-    racesRan.value = 0;
-    animateNumber(racesRan, data.count);
+    racesRan.value = data.count;
     if (data.fastest?.total_time) {
-      fastestTimeMs.value = fastestTimeMs.value ?? 0;
-      animateNumber(fastestTimeMs,  (new Date(data.fastest?.total_time)).getTime());
+      fastestRace.value = new Date(data.fastest?.total_time).getTime();
     } else {
-      fastestTimeMs.value = null;
+      fastestRace.value = null;
     }
 
   })
@@ -289,10 +166,8 @@ socketio
       return;
     }
 
-    if (!activitiesRealisations.value)
-      activitiesRealisations.value = 0;
-    animateNumber(activitiesRealisations, data.count);
-    lastActivity.value = data.last?.label;
+    activitiesRealisations.value = data.count;
+    lastActivity.value = data.last?.label ?? null;
   });
 
 onBeforeUnmount(() => {
@@ -411,15 +286,13 @@ div.home-root {
         font-weight: bold;
         font-size: 42px;
         margin-bottom: 10px;
-
-        justify-content: center;
-      }
-
-      span.data {
+        text-align: center;
         display: flex;
         flex-direction: row;
         align-items: center;
         flex-wrap: nowrap;
+
+        justify-content: center;
       }
 
       .label {
