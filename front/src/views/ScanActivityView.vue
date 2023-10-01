@@ -8,9 +8,8 @@
                 <p>{{ nameActivity }}</p>
             </div>
         </div>
-        <qrcode-stream :camera="camera"
-                       @init="onInit"
-                       @decode="onDecode"
+        <qrcode-stream @camera-on="onInit"
+                       @detect="onDecode"
                        :track="paintOutline">
             <div class="loading-indicator" v-if="loading">
                 Chargement...
@@ -37,12 +36,15 @@
 </template>
 
 <script setup lang="ts">
-import { QrcodeStream } from 'vue-qrcode-reader/src';
+import { QrcodeStream } from 'vue-qrcode-reader';
 import { ref } from 'vue';
 import restful from '@/models/api';
 import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
+import type { DetectedBarcode } from 'barcode-detector';
+
+type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
 /**
@@ -73,7 +75,7 @@ function paintOutline(detectedCodes: any, ctx: CanvasRenderingContext2D) {
  * Fonction lancée à l'initialisation du composant de scan pour gérer les erreurs
  * @param promise Objet retourner par l'initialisation
  */
-async function onInit(promise: Promise<any>) {
+async function onInit(promise: Promise<MediaCapabilities>) {
   loading.value = true;
   try {
     await promise;
@@ -88,9 +90,9 @@ async function onInit(promise: Promise<any>) {
  * Fonction lancée au décodage d'un qr code
  * @param value Valeur décodé
  */
-async function onDecode(value: string) {
+async function onDecode(value: DetectedBarcode[]) {
   //Récupération des données de l'url
-  let urlQrCode = new URL(value).href;
+  let urlQrCode = new URL(value[0].rawValue).href;
   let queryId = urlQrCode.substring(urlQrCode.lastIndexOf('/') + 1);
   let idActivity = Number(router.currentRoute.value.query.idActivity || 0);
 
@@ -117,7 +119,6 @@ async function onDecode(value: string) {
  * Quitte la page et éteinds la camerae
  */
 async function quitPage() {
-  camera.value = 'off';
   await router.push({ path: '/admin' });
 }
 
@@ -133,7 +134,6 @@ function waitPopPupResult() {
 
 const loading = ref(false);
 const adminPost = useAdminPostStore();
-const camera = ref('auto');
 const validateScan = ref(false);
 const errorMessage = ref('');
 const addActivitySuccess = ref(true);
