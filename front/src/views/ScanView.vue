@@ -1,6 +1,6 @@
 <template>
     <div class="fullscreen">
-        <QrcodeStream @decode="onDecode"  />
+        <QrcodeStream @detect="onDecode"/>
         <div class="overlay">
             <div class="message">
                 <div>Vous pouvez scanner votre voiture !</div>
@@ -13,9 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import { QrcodeStream } from 'vue-qrcode-reader/src';
+import { QrcodeStream } from 'vue-qrcode-reader';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import type { DetectedBarcode } from 'barcode-detector';
 
 const router = useRouter();
 const error = ref<string>();
@@ -24,9 +25,9 @@ const error = ref<string>();
  * Récupère la valeur du scan
  * @param resultScan
  */
-function onDecode(resultScan:string) {
+function onDecode(resultScan:DetectedBarcode[]) {
   try {
-    let url = new URL(resultScan);
+    let url = new URL(resultScan[0].rawValue);
     if (url.hostname !== import.meta.env.VITE_DOMAIN_NAME || '') {
       error.value = 'Le code ne vient pas des portes ouvertes.';
     } else {
