@@ -1,47 +1,52 @@
 <template>
-    <fieldset class="rd-property" @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
+    <fieldset class="rd-property">
         <div class="img-avatar">
             <img v-if="!isPhone"
                 :src="imgRd?.default"
-                 :alt="`Icon changeant l'avatar ${props.avatarProperty.propNameFr}`">
+                 :alt="`Icon changeant l'avatar ${props.property.propNameFr}`"/>
         </div>
         <div class="rdbt-choice">
-            <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
+            <template v-for="item in props.property.propValues" :key="item.label">
                 <input type="radio"
-                       :name="`${props.avatarProperty.propNameSnakeCase}-${props.isPhone ? 'phone' : 'big'}`"
-                       :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`" :value=item.propValueEn
-                       :checked="props.config[props.avatarProperty.propNameEn as keyof Configs] === item.propValueEn">
-                <label :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
-                       class="radio-avatar">{{ item.propValueFr }}</label>
+                       :name="`${props.property.propNameSnakeCase}`"
+                       :id="`${props.property.propNameSnakeCase}-${item.value}`"
+                       :value=item.value
+                       :checked="props.property.selectedValue === item.value"
+                        @click.capture="onSelect(item)">
+                <label :for="`${props.property.propNameSnakeCase}-${item.value}`"
+                       class="radio-avatar">{{ item.label }}</label>
             </template>
         </div>
     </fieldset>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | boolean">
 import type { models } from '@/models/avatar';
 import { ref } from 'vue';
-import type { Configs } from 'holiday-avatar';
+
+type T = string | boolean;
 
 const props = defineProps<{
-    avatarProperty: models.radioProperty
+    property: models.RadioProperty<T>
     isPhone : boolean
-    config : Configs
 }>();
 
-const emit = defineEmits(['regenerateAvatar']);
+const emit = defineEmits<{
+  (e: 'update:property', property: models.RadioProperty<T>): void;
+}>();
 const imgRd = ref();
 
 //Importation de l'image de selector
-async function importImage() {
-  return await import(`../assets/img/${props.avatarProperty.propNameSnakeCase}.webp`);
-}
+import(`../assets/img/${props.property.propNameSnakeCase}.webp`)
+  .then((v) => {
+    imgRd.value = v;
+  });
 
-//Importation de l'image
-importImage().then((v) => {
-  imgRd.value = v;
-});
-
+const onSelect = (item: {label: string, value: T}) => {
+  const current = props.property;
+  current.selectedValue = item.value;
+  emit('update:property', current);
+};
 </script>
 
 <style scoped lang="scss">
