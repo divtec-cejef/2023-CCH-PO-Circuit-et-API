@@ -34,131 +34,131 @@
         <h1>Pilote</h1>
         <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
             imagination...</p>
-        <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
-            <div class="tab">
-                <div class="title">
-                    <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
-                        <label>
-                            <input name="tab" type="radio" :checked="numTabOpen == 1">
-                            <img src="../assets/img/face-color.webp" alt="Icon visage homme">
-                        </label>
-                    </div>
-                    <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
-                        <label>
-                            <input name="tab" type="radio" :checked="numTabOpen == 2">
-                            <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
-                        </label>
-                    </div>
-                </div>
-
-                <div class="tab-content">
-                    <div v-if="numTabOpen == 1">
-                        <template v-for="(props, key) in avatarPropertiesHead" :key="key">
-                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                                 :config="config"/>
-                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                               :is-phone="false" :config="config"/>
-                        </template>
-                    </div>
-                    <div v-else>
-                        <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
-                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                                 :config="config"/>
-                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                               :is-phone="false" :config="config"/>
-                        </template>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div :style="{display: displayMsgValid}" class="msg-success">
-                    <img :src="validateIcon"
-                         alt="Icon de validation de l'enregistrement des données">
-                </div>
-                <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-                </div>
-
-                <div class="modify-pseudo">
-                    <label for="pseudo">Pseudo </label>
-                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                           maxlength="10">
-                </div>
-
-                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
-                    Enregistrer
-                </button>
-            </div>
-        </div>
-
-        <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')" @change="enableButton">
-
-            <div class="avatar-and-pseudo">
-                <div class="modify-pseudo">
-                    <label for="pseudo">Pseudo </label>
-                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                           maxlength="10">
-                </div>
-
-                <div :style="{display: displayMsgValid}" class="msg-success">
-                    <img :src="validateIcon"
-                         alt="Icon de validation de l'enregistrement des données">
-                </div>
-                <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-                </div>
-
-            </div>
-
-            <div class="tab">
-                <div class="title">
-                    <template v-for="(props, key) in avatarProperties" :key="key">
-                        <div
-                                v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                                :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
+        <div class="modify-avatar" @change="enableButton">
+            <template v-if="isLaptop">
+                <div class="tab">
+                    <div class="title">
+                        <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                             <label>
-                                <input @click="clickTab(key)" name="tab-phone" type="radio"
-                                       :checked="numTabOpen == key">
-                                <ImageModifPhone :image-name="props.propNameSnakeCase"
-                                                 :image-name-fr="props.propNameFr"></ImageModifPhone>
+                                <input name="tab" type="radio" :checked="numTabOpen == 1">
+                                <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                             </label>
                         </div>
-                    </template>
+                        <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                            <label>
+                                <input name="tab" type="radio" :checked="numTabOpen == 2">
+                                <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div v-if="numTabOpen == 1">
+                            <template v-for="(props, key) in avatarPropertiesHead" :key="key">
+                                <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                                     @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                                     :config="config"/>
+                                <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
+                                                   :is-phone="false" :config="config"/>
+                            </template>
+                        </div>
+                        <div v-else>
+                            <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
+                                <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
+                                                     @regenerateAvatar="regenerateAvatar" :is-phone="false"
+                                                     :config="config"/>
+                                <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
+                                                   :is-phone="false" :config="config"/>
+                            </template>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="tab-content">
-                    <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
-                        <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
-                                             @regenerateAvatar="regenerateAvatar"
-                                             :config="config"
-                        />
+                <div>
+                    <div :style="{display: displayMsgValid}" class="msg-success">
+                        <img :src="validateIcon"
+                             alt="Icon de validation de l'enregistrement des données">
+                    </div>
+                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                        <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                    </div>
 
-                        <AvatarColorPicker
-                                v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                    <div class="modify-pseudo">
+                        <label for="pseudo">Pseudo </label>
+                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                               maxlength="10">
+                    </div>
+
+                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                        Enregistrer
+                    </button>
+                </div>
+            </template>
+            <template v-else>
+                <div class="avatar-and-pseudo">
+                    <div class="modify-pseudo">
+                        <label for="pseudo">Pseudo </label>
+                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                               maxlength="10">
+                    </div>
+
+                    <div :style="{display: displayMsgValid}" class="msg-success">
+                        <img :src="validateIcon"
+                             alt="Icon de validation de l'enregistrement des données">
+                    </div>
+                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                        <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                    </div>
+
+                </div>
+
+                <div class="tab">
+                    <div class="title">
+                        <template v-for="(props, key) in avatarProperties" :key="key">
+                            <div
+                                    v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                                    :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
+                                <label>
+                                    <input @click="clickTab(key)" name="tab-phone" type="radio"
+                                           :checked="numTabOpen == key">
+                                    <ImageModifPhone :image-name="props.propNameSnakeCase"
+                                                     :image-name-fr="props.propNameFr"></ImageModifPhone>
+                                </label>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="tab-content">
+                        <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
+                            <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
+                                                 @regenerateAvatar="regenerateAvatar"
+                                                 :config="config"
+                            />
+
+                            <AvatarColorPicker
+                                    v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
-                                :avatar-property="avatarProperties[numTabOpen + 1]"
-                                @regenerateAvatar="regenerateAvatar"
-                                :is-phone="true"
-                                :config="config"/>
-                    </template>
+                                    :avatar-property="avatarProperties[numTabOpen + 1]"
+                                    @regenerateAvatar="regenerateAvatar"
+                                    :is-phone="true"
+                                    :config="config"/>
+                        </template>
 
-                    <template v-else>
-                        <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
-                                           @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
-                    </template>
+                        <template v-else>
+                            <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
+                                               @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
+                        </template>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="bt-save-phone">
-                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
-                    Enregistrer
-                </button>
-            </div>
+                <div class="bt-save-phone">
+                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                        Enregistrer
+                    </button>
+                </div>
+            </template>
         </div>
 
         <div v-if="saveIsInvalid" class="show-error">
@@ -169,19 +169,21 @@
 </template>
 <script setup lang="ts">
 import { genConfig } from 'holiday-avatar';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
+import { onMounted, ref } from 'vue';
 import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
 import validateIcon from '@/assets/img/checked.png';
 import type { Configs } from 'holiday-avatar';
 import { useRouter } from 'vue-router';
-import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import type { Ref } from 'vue';
+import { useBreakpoints } from '@vueuse/core';
+
+import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
+import ImageModifPhone from '@/components/ImageModifPhone.vue';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 
 const router = useRouter();
 
@@ -194,7 +196,6 @@ const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo ?? '');
 const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
-const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
 const numTabOpen = ref(1);
@@ -281,27 +282,12 @@ if (!localStorage.getItem('lastPiloteName')) {
   localStorage.setItem('lastPiloteName', refPseudo.value);
 }
 
-
-/**
- * Change la valeur de la taille de l'écran
- */
-const changeValueWidthScreen = () => {
-  widthScreen.value = window.innerWidth;
-};
-
 // Change la classe des éléments des menus pour le petit contenu
-const classDisplayModif = computed(() => {
-  return widthScreen.value < LIMIT_LARGE_CONTENT;
+const classDisplayModif = useBreakpoints({
+  laptop: LIMIT_LARGE_CONTENT,
 });
 
-//Ecoute du resize de la page pour changer la largeur
-onMounted(() => {
-  window.addEventListener('resize', changeValueWidthScreen);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', changeValueWidthScreen);
-});
+const isLaptop = classDisplayModif.greaterOrEqual('laptop');
 
 /**
  * Connexion de l'utilisateur
@@ -898,9 +884,6 @@ function clickTab(numTab: number) {
   localStorage.setItem('numTabOpen', numTabOpen.value.toString());
 }
 
-//Lancement d'un premier calcul de la largeur de la page
-changeValueWidthScreen();
-
 //Si l'id de la voiture n'est pas défini alors retour à la page d'accueil
 if (!userCar.car.idCar) {
   router.push('/');
@@ -937,15 +920,6 @@ onBeforeRouteLeave((to) => {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
-
-
-.none {
-  display: none !important;
-}
-
-.display {
-  display: flex !important;
-}
 
 div.modify-pseudo {
   margin-top: 15px;
@@ -988,8 +962,9 @@ button {
   }
 }
 
-div.modify-avatar-phone {
-  flex-direction: column;
+div.modify-avatar {
+ @media screen and (max-width:  960px) {
+   flex-direction: column;
 
   div.content-avatar {
     display: flex;
@@ -1065,144 +1040,144 @@ div.modify-avatar-phone {
   }
 }
 
-div.modify-avatar {
-  width: 95%;
-  margin: 25px auto 0 auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  transition: all ease-in-out 0.1s;
-
-  > div:nth-child(2) {
+  @media screen and (min-width:  960px) {
+    width: 95%;
+    margin: 25px auto 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    width: 40%;
+    justify-content: space-between;
+    padding: 20px;
+    transition: all ease-in-out 0.1s;
 
-    div.content-avatar {
-      display: flex;
-      justify-content: end;
-      transition: all ease-in-out 0.2s;
-
-      div.avatar {
-        width: 300px;
-        height: 300px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-        border-radius: 200px;
-      }
-    }
-  }
-
-  div.tab {
-    display: flex;
-    width: 60%;
-    min-height: 480px;
-
-    div.title {
+    > div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      margin-right: 20px;
-      border-right: 1px solid rgba(194, 194, 194, 0.45);
-      padding-right: 20px;
+      align-items: center;
+      width: 40%;
 
-      > div {
-        transition: all 300ms ease-in-out;
+      div.content-avatar {
+        display: flex;
+        justify-content: end;
+        transition: all ease-in-out 0.2s;
 
-        * {
-          transition: all 300ms ease-in-out;
+        div.avatar {
+          width: 300px;
+          height: 300px;
+          box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
+          border-radius: 200px;
         }
+      }
+    }
 
-        &.tab-checked {
-          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
-          cursor: default;
+    div.tab {
+      display: flex;
+      width: 60%;
+      min-height: 480px;
+
+      div.title {
+        display: flex;
+        flex-direction: column;
+        margin-right: 20px;
+        border-right: 1px solid rgba(194, 194, 194, 0.45);
+        padding-right: 20px;
+
+        > div {
+          transition: all 300ms ease-in-out;
 
           * {
+            transition: all 300ms ease-in-out;
+          }
+
+          &.tab-checked {
+            box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
             cursor: default;
 
+            * {
+              cursor: default;
+
+            }
+          }
+
+          &:not(.tab-checked):hover {
+            box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
           }
         }
 
-        &:not(.tab-checked):hover {
-          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
+        .tab1 {
+          margin-bottom: 8px;
         }
-      }
 
-      .tab1 {
-        margin-bottom: 8px;
-      }
+        .tab2 {
+          margin-top: 8px;
+        }
 
-      .tab2 {
-        margin-top: 8px;
-      }
-
-      > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        box-shadow: inset 0 0 27px rgba(50, 50, 93, 0), rgba(50, 50, 93, 0.2) 0 13px 27px -5px;
-        border: 1px solid rgba(50, 50, 93, 0.1);
-        padding: 4px;
-        border-radius: 10px;
-        cursor: pointer;
-
-
-        label {
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0), rgba(50, 50, 93, 0.2) 0 13px 27px -5px;
+          border: 1px solid rgba(50, 50, 93, 0.1);
+          padding: 4px;
+          border-radius: 10px;
           cursor: pointer;
-          text-align: center;
-          width: 50px;
+
+
+          label {
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+          }
+
+          input {
+            display: none;
+          }
+
         }
 
-        input {
-          display: none;
+        img {
+          width: 45px;
         }
-
       }
 
-      img {
-        width: 45px;
-      }
-    }
 
-
-    div.tab-content {
-      display: flex;
-      flex-direction: column;
-
-      > div:nth-child(1) {
-        width: 100%;
-        height: 100%;
-      }
-
-      > div {
+      div.tab-content {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: start;
-      }
 
-      fieldset.color {
-        padding-left: 30px;
-      }
+        > div:nth-child(1) {
+          width: 100%;
+          height: 100%;
+        }
 
-      fieldset {
-        width: 100%;
-        padding-right: 30px;
-      }
+        > div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: start;
+        }
 
-      fieldset:nth-child(1) {
-        padding-left: 0;
-      }
+        fieldset.color {
+          padding-left: 30px;
+        }
 
-      div fieldset:nth-child(2) {
-        padding-left: 0;
+        fieldset {
+          width: 100%;
+          padding-right: 30px;
+        }
 
+        fieldset:nth-child(1) {
+          padding-left: 0;
+        }
+
+        div fieldset:nth-child(2) {
+          padding-left: 0;
+
+        }
       }
     }
   }
-
 }
 
 
