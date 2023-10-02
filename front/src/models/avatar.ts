@@ -6,7 +6,7 @@ export namespace models {
   /**
    * Représente une propriété de sélecteur de trait d'avatar
    */
-  export type RadioProperty<T = Configs[keyof Configs]> = {
+  export type RadioProperty<T = Exclude<Configs[keyof Configs], undefined>> = {
     propNameFr: string;
     propNameEn: string;
     propType: string;

@@ -12,11 +12,7 @@
                        :id="`${props.property.propNameSnakeCase}-${item.value}`"
                        :value=item.value
                        :checked="props.property.selectedValue === item.value"
-                        @click.capture="() => {
-                          const current = props.property;
-                          current.selectedValue = item.value;
-                          emit('update:property', current);
-                        }">
+                        @click.capture="onSelect(item)">
                 <label :for="`${props.property.propNameSnakeCase}-${item.value}`"
                        class="radio-avatar">{{ item.label }}</label>
             </template>
@@ -24,17 +20,19 @@
     </fieldset>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | boolean">
 import type { models } from '@/models/avatar';
 import { ref } from 'vue';
 
+type T = string | boolean;
+
 const props = defineProps<{
-    property: models.RadioProperty
+    property: models.RadioProperty<T>
     isPhone : boolean
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:property', property: models.RadioProperty): void;
+  (e: 'update:property', property: models.RadioProperty<T>): void;
 }>();
 const imgRd = ref();
 
@@ -44,6 +42,11 @@ import(`../assets/img/${props.property.propNameSnakeCase}.webp`)
     imgRd.value = v;
   });
 
+const onSelect = (item: {label: string, value: T}) => {
+  const current = props.property;
+  current.selectedValue = item.value;
+  emit('update:property', current);
+};
 </script>
 
 <style scoped lang="scss">
