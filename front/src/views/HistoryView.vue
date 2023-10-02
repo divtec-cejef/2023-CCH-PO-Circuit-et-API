@@ -432,7 +432,7 @@ template {
   height: calc(100vh - var(--height-screen-diff) - 70px);
   //position: relative;
   overflow: hidden;
-  background-color: var(--red);
+  background-color: var(--white);
 
   @media screen and (prefers-color-scheme: dark) {
     background-color: var(--black);
