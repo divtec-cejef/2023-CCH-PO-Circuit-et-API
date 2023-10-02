@@ -770,9 +770,6 @@ async function connect(queryId: string, password: string) {
 function avatarEquals(avatar1: Configs, avatar2: Configs) {
   let equality = true;
   Object.keys(avatar1).forEach((key) => {
-    if (avatar2 === undefined) {
-      return;
-    }
     if (avatar1[key as keyof Configs] !== avatar2[key as keyof Configs]) {
       equality = false;
     }
@@ -931,7 +928,7 @@ onBeforeRouteLeave((to) => {
   nextRoute.value = to.path;
 
   //Affichage de la page de confirmation
-  if (updateDisabled.value === false) {
+  if (!updateDisabled.value) {
     dialogExit.value?.showModal();
     return false;
   }
