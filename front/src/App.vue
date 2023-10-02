@@ -5,13 +5,15 @@
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
-        <HeaderApp v-else @clickMenu="menuIsClicked = $event"></HeaderApp>
-
-        <div :class="'btn ' + classMenuIcon" @click="clickMenu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="flex">
+            <div :class="'btn ' + classMenuIcon" @click="clickMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
+
+        <HeaderApp v-if="!menuIsClicked" @clickMenu="menuIsClicked = $event"></HeaderApp>
     </header>
 
     <header class="large">
@@ -118,7 +120,6 @@ if (userCarId) {
     }
     hasFinishedLoading.value = true;
 
-    console.log('salut odin');
   });
 } else {
   hasFinishedLoading.value = true;
@@ -135,7 +136,7 @@ if (userCarId) {
 
 //Elelement qui doivent disparaître
 .none {
-  display: none;
+  display: none !important;
 }
 
 footer#main-footer.display {
@@ -146,12 +147,8 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  position: fixed;
-  top: env(safe-area-inset-top);
-  left: 0;
-  right: 0;
-  z-index: 1000;
   background-color: var(--white);
+  overflow-y: scroll;
 
   img {
     height: 55px;
@@ -184,26 +181,41 @@ header.large {
   height: 100px;
 }
 
-.btn {
-  width: 57px;
-  height: 60px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  justify-content: center;
-  position: absolute;
-  right: 20px;
-  top: calc(env(safe-area-inset-top) + 20px);
+header.large {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  overflow-y: unset;
+}
 
-  span {
-    display: block;
-    width: 100%;
-    border-radius: 3px;
-    height: 5px;
-    background: var(--gray);
-    transition: all .3s;
-    position: relative;
+.flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  .btn {
+    width: 57px;
+    height: 70px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    right: 20px;
+    top: calc(env(safe-area-inset-top) + 20px);
+
+    span {
+      display: block;
+      width: 100%;
+      border-radius: 3px;
+      height: 5px;
+      background: var(--gray);
+      transition: all .3s;
+      position: relative;
+    }
   }
 }
 

@@ -160,7 +160,6 @@ socketio
 
   })
   .onActivityRealisation(data => {
-    console.dir({ data });
     statsError.value.activityRealisation = undefined;
     if ('message' in data) {
       statsError.value.activityRealisation = data.message;
