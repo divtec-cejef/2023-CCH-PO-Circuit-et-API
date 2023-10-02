@@ -103,13 +103,14 @@
     }
 
     .content .with-100 {
-      position: sticky;
+      position: fixed;
       z-index: 3000;
-      bottom: 10px;
+      bottom: 15px;
       right: 15px;
       display: flex;
       justify-content: end;
-      top: 575px;
+      margin-top: 0;
+      top: unset;
     }
   }
 }
