@@ -93,7 +93,6 @@ import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';
 import { RouterLink, useRouter } from 'vue-router';
-import 'vue-roller/dist/style.css';
 import { useLocalStorage } from '@vueuse/core';
 import { formatTime } from '@/models/race';
 
