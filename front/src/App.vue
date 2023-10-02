@@ -181,7 +181,7 @@ header.large {
   height: 100px;
 }
 
-header.large {
+header.large, header.closed.thin {
   position: fixed;
   top: env(safe-area-inset-top);
   left: 0;
