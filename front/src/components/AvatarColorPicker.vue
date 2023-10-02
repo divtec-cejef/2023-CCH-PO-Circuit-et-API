@@ -1,19 +1,23 @@
 <template>
-    <fieldset class="color"
-              @change="emit('regenerateAvatar',props.avatarProperty.propNameEn, ($event.target as any).value)">
-        <img v-if="avatarProperty.propNameEn == 'bgColor' && !isPhone " class="background" :src=colorImg
+    <fieldset class="color">
+        <img v-if="props.property.propNameEn === 'bgColor' && !isPhone " class="background" :src=colorImg
              alt="Palette de couleurs">
-        <img v-if="avatarProperty.propNameEn == 'faceColor' && !isPhone " class="faceSkin" :src=faceImg
+        <img v-if="props.property.propNameEn === 'faceColor' && !isPhone " class="faceSkin" :src=faceImg
              alt="Couleur de peau">
-        <template v-for="(item, key) in props.avatarProperty.propValues" :key="key">
+        <template v-for="(item, key) in props.property.propValues" :key="key">
             <input type="radio"
-                   :name="`${props.avatarProperty.propNameSnakeCase}-${props.isPhone ? 'phone' : 'big'}`"
-                   :id="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
-                   :value=item.propValueEn
-                   :checked=" props.config[props.avatarProperty.propNameEn as keyof Configs] === item.propValueEn">
-            <label :class="`radio-avatar ${item.propValueFr}`"
-                   :for="`${item.propValueEn.concat(props.avatarProperty.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
-                   :style="{'background-color': item.propValueEn}"></label>
+                   :name="`${props.property.propNameSnakeCase}-${props.isPhone ? 'phone' : 'big'}`"
+                   :id="`${item.value.concat(props.property.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
+                   :value=item.value
+                   :checked=" props.property.selectedValue === item.value">
+            <label :class="`radio-avatar ${item.label}`"
+                   :for="`${item.value.concat(props.property.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
+                   :style="{backgroundColor: item.value}"
+                   @click="() => {
+                     const current = props.property;
+                        current.selectedValue = item.value;
+                     emit('update:property',current );
+                   }"></label>
         </template>
     </fieldset>
 </template>
@@ -22,17 +26,15 @@
 import colorImg from '../assets/img/bg-color.webp';
 import faceImg from '../assets/img/skin.webp';
 import type { models } from '@/models/avatar';
-import type { Configs } from 'holiday-avatar';
 
 const props = defineProps<{
-  avatarProperty: models.radioProperty,
+  property: models.RadioProperty<string>,
   isPhone: boolean
-  config: Configs
 }>();
 
-const emit = defineEmits(['regenerateAvatar']);
-
-
+const emit = defineEmits<{
+  (e: 'update:property', property: models.RadioProperty): void;
+}>();
 </script>
 
 <style scoped>
