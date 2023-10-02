@@ -126,12 +126,9 @@
       width: 100%;
     }
 
-
-
     li#stage {
       width: 100%;
     }
-
 
     nav.header {
       display: flex;
@@ -145,16 +142,6 @@
         &.links {
           flex-direction: column;
         }
-
-        &.buttons {
-          flex-direction: column;
-          align-items: flex-start;
-          width: 100%;
-
-          li {
-            margin: .25em;
-          }
-        }
       }
     }
   }
@@ -162,51 +149,6 @@
 
 @media screen and (max-width: 800px) {
   #app {
-    ul.buttons {
-      li {
-        width: 100%;
-        display: flex;
-        justify-content: end;
-
-        button.logout-button {
-          background-color: var(--gray);
-          border-radius: 100px;
-          padding: 6px 15px;
-          border: 2px solid var(--gray);
-          transition: all 0.2ms ease-in-out;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          img {
-            margin-left: 10px;
-            width: 24px;
-            height: 24px;
-          }
-
-          span {
-            font-family: 'SF Pro Display', sans-serif;
-            font-weight: bold;
-            font-style: normal;
-            color: var(--white);
-          }
-
-          span {
-            display: block;
-          }
-
-          img:nth-child(2) {
-            display: none;
-          }
-
-          img:nth-child(3) {
-            display: block;
-            margin-left: 5px;
-          }
-        }
-      }
-    }
-
     div.best-race {
       margin-top: 20px;
       height: auto;
@@ -228,6 +170,27 @@
     margin-bottom: 30px;
   }
 
+  nav.header {
+    ul.links {
+      li {
+        &.logout-phone {
+          display: flex !important;
+        }
+
+        &.logout-big.tooltip {
+          display: none !important;
+        }
+
+        &#stage {
+          padding: 0;
+
+          a {
+            padding: 15px !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 /* Tablette */
@@ -301,9 +264,12 @@
             display: block;
           }
 
+          li.logout-phone img {
+            display: block;
+          }
+
           li {
             font-family: 'SF Pro Display', sans-serif;
-            display: inline-block;
             font-weight: bold;
             font-style: normal;
             margin: 0 5px;
@@ -319,7 +285,6 @@
         }
       }
     }
-
 
     div div.best-race {
       width: 100%;
@@ -458,7 +423,7 @@
     }
 
     div.content.bonus-map {
-        max-width: 100%;
+      max-width: 100%;
     }
   }
 }
@@ -481,7 +446,7 @@
     }
 
     header.large nav ul li {
-      margin: 0 10px !important;
+      margin: 0 10px;
     }
 
     h1 {
