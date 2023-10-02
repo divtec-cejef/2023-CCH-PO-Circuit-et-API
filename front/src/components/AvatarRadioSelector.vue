@@ -12,7 +12,7 @@
                        :id="`${props.property.propNameSnakeCase}-${item.value}`"
                        :value=item.value
                        :checked="props.property.selectedValue === item.value"
-                        @click.capture="(e) => {
+                        @click.capture="() => {
                           const current = props.property;
                           current.selectedValue = item.value;
                           emit('update:property', current);
