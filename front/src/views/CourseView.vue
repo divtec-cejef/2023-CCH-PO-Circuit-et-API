@@ -26,16 +26,22 @@
                 <div class="content-classement">
                     <div class="classement-head-container">
                         <h2>Classement</h2>
-                        <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser" />
+                        <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser"/>
                     </div>
                     <div ref="classement" class="classement-content">
-                        <ClassementRace :show-content="false" @load="scrollToUser" />
+                        <ClassementRace :show-content="false" @load="scrollToUser"/>
                     </div>
                 </div>
             </div>
         </div>
         <div v-else-if="hasCarRaces" class="content">
+            <h1>Course</h1>
             <p>Tu n'as encore fait aucune course ! Rendez-vous en bas du bâtiment pour y participer !</p>
+            <br>
+            <p>Si tu veux un avant goût clique
+                <RouterLink to="live">ici</RouterLink>
+                pour voir le live des courses...
+            </p>
         </div>
     </template>
     <div class="loading-race" v-else-if="socketConnected === undefined">
@@ -130,6 +136,10 @@ onUnmounted(() => socket.value?.destroy());
 <style scoped lang="scss">
 @import "src/assets/css/consts";
 
+div.content {
+  min-height: calc(100vh - var(--height-screen-diff) - 125px - 35px);
+}
+
 div.best-race {
   display: flex;
   flex-direction: row;
@@ -205,7 +215,7 @@ div.large-content {
 }
 
 .content-classement {
-  .classement-head-container{
+  .classement-head-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -232,6 +242,16 @@ div.large-content {
 }
 
 :deep(.button-classement div) {
-    box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+a {
+  font-weight: bold;
+  text-decoration: underline;
+  transition: all ease-in-out 0.3s;
+
+  &:hover {
+    color: var(--light-green)
+  }
 }
 </style>
