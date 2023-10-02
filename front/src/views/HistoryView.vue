@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content bonus-map">
         <div v-if="currentLabel.title !== null" ref="label" class="labelActivity"
              :style="{left: divLeft, top: divTop, display: divDisplay}">
             <div v-if="currentLabel.activities.length > 0">
@@ -430,9 +430,9 @@ template {
 .container {
   width: 100%;
   height: calc(100vh - var(--height-screen-diff) - 70px);
-  position: relative;
+  //position: relative;
   overflow: hidden;
-  background-color: var(--white);
+  background-color: var(--red);
 
   @media screen and (prefers-color-scheme: dark) {
     background-color: var(--black);
