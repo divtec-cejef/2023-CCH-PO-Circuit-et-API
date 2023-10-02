@@ -36,16 +36,13 @@
                          alt="Icon d'inscription à un stage">
                 </RouterLink>
             </li>
-        </ul>
-        <ul class="buttons">
-
-            <li v-if="userCar.car.idCar">
-                <button class="logout-button tooltip" @click="logOutUser">
-                    <span>Déconnexion</span>
-                    <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
-                    <img :src="exitPhoneImg" alt="Icon de déconnexion">
-                    <span class="tooltiptext">Déconnexion</span>
-                </button>
+            <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
+                <span>Déconnexion</span>
+                <img :src="exitPhoneImg" alt="Icon de déconnexion">
+            </li>
+            <li v-if="userCar.car.idCar" class="logout-big tooltip" @click="logOutUser">
+                <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
+                <span class="tooltiptext">Déconnexion</span>
             </li>
         </ul>
     </nav>
@@ -105,42 +102,11 @@ const adminPost = useAdminPostStore();
 <style scoped lang="scss">
 @import "src/assets/css/consts";
 
-nav {
-  height: 100%;
+nav.header {
 
-  ul {
-    margin-top: 75px;
+  ul.links {
     padding: 0;
     list-style: none;
-
-    li#stage a {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: space-between;
-      background-color: var(--pink-divtec);
-      border: 2px solid var(--pink-divtec);
-      padding: 7px 10px;
-      border-radius: 30px;
-
-      p {
-        color: var(--white);
-        margin-left: 4px;
-      }
-
-
-    }
-
-    li#stage {
-      a:hover {
-        background-color: var(--white);
-
-        p {
-          color: var(--pink-divtec);
-          margin-left: 4px;
-        }
-      }
-    }
 
     li {
       margin-top: 12px;
@@ -150,14 +116,16 @@ nav {
       align-items: center;
       display: flex;
       justify-content: space-between;
-
+      box-shadow: $default-shadow;
+      padding: 15px 15px;
+      border-radius: 50px;
 
       * {
         font-size: 27px;
       }
 
       a {
-          width: 100%;
+        width: 100%;
         transition: ease-in-out 0.15s;
 
         &:hover {
@@ -165,56 +133,64 @@ nav {
           transition: ease-in-out 0.15s;
         }
       }
-    }
-  }
 
-  ul.links {
+      &.logout-phone {
+        width: 100%;
+        background-color: var(--gray);
+        color: var(--white);
+        display: none;
+      }
 
-    li {
-      box-shadow: $default-shadow;
-      padding: 15px 15px;
-      border-radius: 50px;
-    }
+      &.logout-big.tooltip {
+        display: flex;
+        width: fit-content;
+        height: 45px;
+        margin-left: 0 !important;
 
-    li:last-child {
-      box-shadow: none;
-      padding: 0;
-    }
+        img {
+          height: 35px;
+          width: 35px;
+          display: block !important;
+          margin-left: 0;
+        }
+      }
 
-    img {
-      width: 22px;
-      margin-left: 10px;
+      &#stage a {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: var(--pink-divtec);
+        border: 2px solid var(--pink-divtec);
+        padding: 7px 10px;
+        border-radius: 30px;
+
+        p {
+          color: var(--white);
+          margin-left: 4px;
+        }
+
+        &:hover {
+          background-color: var(--white);
+
+          p {
+            color: var(--pink-divtec);
+            margin-left: 4px;
+          }
+        }
+      }
+
+      img {
+        width: 22px;
+        margin-left: 10px;
+      }
     }
   }
 }
-
-button.logout-button {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-
-
-  img {
-    height: 35px;
-  }
-
-  img:nth-child(3) {
-    display: none;
-  }
-
-  span:nth-child(1) {
-    display: none;
-  }
-}
-
 
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltiptext {
@@ -227,7 +203,7 @@ button.logout-button {
   border-radius: 100px;
   font-size: 15px !important;
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   font-style: italic;
   transition: all linear 0.3s;
   font-weight: normal;
