@@ -50,16 +50,11 @@ input[type=radio] {
     border-radius: 6px;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.25) 0 5px 15px;
-}
 
-.radio-avatar:hover {
-    box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
-
-    border: solid 3px var(--white);
-}
-
-input[type=radio]:checked + label.Blanc {
-    border: solid 3px var(--black);
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
+        border: solid 3px var(--white);
+    }
 }
 
 label.Blanc:hover {
@@ -69,6 +64,10 @@ label.Blanc:hover {
 input[type=radio]:checked + label {
     box-shadow: rgba(0, 0, 0, 0.4) 0 5px 20px;
     border: solid 3px var(--white);
+
+    &.Blanc {
+        border: solid 3px var(--black);
+    }
 }
 
 fieldset {
