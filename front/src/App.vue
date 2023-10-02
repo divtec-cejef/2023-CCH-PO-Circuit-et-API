@@ -182,6 +182,11 @@ header.large {
 }
 
 header.large {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  z-index: 1000;
   overflow-y: unset;
 }
 
