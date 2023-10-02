@@ -57,42 +57,22 @@
                             <template v-for="props in avatarPropertiesHead" :key="props.propNameEn">
                                 <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :is-phone="false"
                                                      :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
-                                                     @update:property="property => {
-                                                   console.log('updated', {property})
-                                                  const current = avatarProperties
-                                                  current[numTabOpen] = property;
-                                                  avatarProperties = current;
-                                                }"/>
+                                                     @update:property="property => avatarProperties[numTabOpen] = property"/>
                                 <AvatarColorPicker v-else :avatar-property="props"
                                                    :is-phone="false"
                                                    :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
-                                                   @update:property="property => {
-                                                   console.log('updated', {property})
-                                                  const current = avatarProperties
-                                                  current[numTabOpen] = property;
-                                                  avatarProperties = current;
-                                                }"/>
+                                                   @update:property="property => avatarProperties[numTabOpen] = property"/>
                             </template>
                         </div>
                         <div v-else>
                             <template v-for="props in avatarPropertiesClothes" :key="props.propNameEn">
                                 <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT"
                                                      :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
-                                                     @update:property="property => {
-                                                   console.log('updated', {property})
-                                                  const current = avatarProperties
-                                                  current[numTabOpen] = property;
-                                                  avatarProperties = current;
-                                                }"
+                                                     @update:property="property => avatarProperties[numTabOpen] = property"
                                                      :is-phone="false"/>
                                 <AvatarColorPicker v-else
                                                    :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
-                                                   @update:property="property => {
-                                                       console.log('updated', {property})
-                                                      const current = avatarProperties
-                                                      current[numTabOpen] = property;
-                                                      avatarProperties = current;
-                                                    }"
+                                                   @update:property="property => avatarProperties[numTabOpen] = property"
                                                    :is-phone="false"/>
                             </template>
                         </div>
@@ -156,33 +136,20 @@
                     <div class="tab-content">
                         <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
                             <AvatarRadioSelector :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                                 @update:property="property => {
-                                                   console.log('updated', {property})
-                                                  const current = avatarProperties
-                                                  current[numTabOpen] = property;
-                                                  avatarProperties = current;
-                                                }"
+                                                 @update:property="property => avatarProperties[numTabOpen] = property"
                                                  :is-phone="true"/>
                             <AvatarColorPicker
                                     v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
                                     :property="avatarProperties[numTabOpen + 1] as models.RadioProperty<string>"
-                                    @update:property="property => {
-                                      const current = avatarProperties
-                                      current[numTabOpen + 1] = property;
-                                        avatarProperties = current;
-                                    }"
+                                    @update:property="property => avatarProperties[numTabOpen + 1] = property"
                                     :is-phone="true"/>
                         </template>
 
                         <template v-else>
                             <AvatarColorPicker :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                               @update:property="property => {
-                                                  const current = avatarProperties
-                                                  current[numTabOpen] = property;
-                                                  avatarProperties = current;
-                                                }"
+                                               @update:property="property => avatarProperties[numTabOpen] = property"
                                                :is-phone="true"/>
                         </template>
 

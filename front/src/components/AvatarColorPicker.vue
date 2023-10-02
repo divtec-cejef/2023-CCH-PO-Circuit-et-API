@@ -13,11 +13,7 @@
             <label :class="`radio-avatar ${item.label}`"
                    :for="`${item.value.concat(props.property.propNameSnakeCase)}-${props.isPhone ? 'phone' : 'big'}`"
                    :style="{backgroundColor: item.value}"
-                   @click="() => {
-                     const current = props.property;
-                        current.selectedValue = item.value;
-                     emit('update:property',current );
-                   }"></label>
+                   @click="() => onChanged(item)"></label>
         </template>
     </fieldset>
 </template>
@@ -27,6 +23,7 @@ import colorImg from '../assets/img/bg-color.webp';
 import faceImg from '../assets/img/skin.webp';
 import type { models } from '@/models/avatar';
 
+
 const props = defineProps<{
   property: models.RadioProperty<string>,
   isPhone: boolean
@@ -35,6 +32,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:property', property: models.RadioProperty): void;
 }>();
+
+const onChanged = (item: {value: string, label: string}) => {
+  const current = props.property;
+  current.selectedValue = item.value;
+  emit('update:property',current );
+};
 </script>
 
 <style scoped>
