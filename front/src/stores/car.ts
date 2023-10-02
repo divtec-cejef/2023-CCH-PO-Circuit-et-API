@@ -19,7 +19,7 @@ export const useCarStore = defineStore('car', () => {
 
     if ('message' in dataUserCar) {
       console.error(dataUserCar);
-      return;
+      return status;
     }
 
     /**
@@ -49,7 +49,7 @@ export const useCarStore = defineStore('car', () => {
 
     if ('message' in dataUserCar) {
       console.error(dataUserCar.message);
-      return;
+      return status;
     }
 
     /**

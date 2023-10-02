@@ -15,4 +15,11 @@ import { HalfCircleSpinner } from 'epic-spinners';
 
 <style scoped lang="scss">
 
+div.spin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: calc(100vh - var(--height-screen-diff) - 125px - 35px);
+}
 </style>

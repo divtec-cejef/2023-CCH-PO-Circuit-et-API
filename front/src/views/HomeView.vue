@@ -62,8 +62,7 @@
                     <TextTransition class="data"
                                     :data="fastestRace!"
                                     :callback="(v: string | number) =>
-                                    formatTime(new Date(v)) + 's'
-"/>
+                                    formatTime(new Date(v)) + 's'"/>
                     <span class="label">est le temps de course le plus rapide</span>
                 </template>
                 <div class="null" v-else>

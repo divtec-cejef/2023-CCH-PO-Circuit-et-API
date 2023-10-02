@@ -23,7 +23,8 @@
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
-        <SpinLoading class="load-element" v-else></SpinLoading>
+        <SpinLoading class="load-element" v-else-if="hasError === false"></SpinLoading>
+        <ErrorConnection v-else></ErrorConnection>
     </main>
 
     <footer id="main-footer" :class="classMenuClicked">
@@ -32,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
@@ -40,6 +41,7 @@ import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { useLocalStorage } from '@vueuse/core';
+import ErrorConnection from '@/components/ErrorConnection.vue';
 
 /**
  * Gère le clic sur le menu
@@ -101,6 +103,7 @@ const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
+const hasError = ref(false);
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -108,8 +111,14 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then(() => {
+  userCar.initUserCarId(userCarId).then((v) => {
+
+    if (v == undefined) {
+      hasError.value = true;
+    }
     hasFinishedLoading.value = true;
+
+    console.log('salut odin');
   });
 } else {
   hasFinishedLoading.value = true;
