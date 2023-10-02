@@ -3,7 +3,7 @@
         <div class="img-avatar">
             <img v-if="!isPhone"
                 :src="imgRd?.default"
-                 :alt="`Icon changeant l'avatar ${props.property.propNameFr}`">
+                 :alt="`Icon changeant l'avatar ${props.property.propNameFr}`"/>
         </div>
         <div class="rdbt-choice">
             <template v-for="item in props.property.propValues" :key="item.label">
@@ -39,14 +39,10 @@ const emit = defineEmits<{
 const imgRd = ref();
 
 //Importation de l'image de selector
-async function importImage() {
-  return await import(`../assets/img/${props.property.propNameSnakeCase}.webp`);
-}
-
-//Importation de l'image
-importImage().then((v) => {
-  imgRd.value = v;
-});
+import(`../assets/img/${props.property.propNameSnakeCase}.webp`)
+  .then((v) => {
+    imgRd.value = v;
+  });
 
 </script>
 
