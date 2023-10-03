@@ -5,13 +5,7 @@
         <div class="content-1" :style="{
             width: props.displayRank ? '100%' : 'fit-content'
         }">
-            <div v-if="props.displayRank" class="rank">
-                <span>Rang</span>
-                <div>
-                    <span>#</span>
-                    <span>{{ props.rank }}</span>
-                </div>
-            </div>
+            <RankInfo v-if="props.displayRank" :rank="props.rank"></RankInfo>
             <div class="best-time">
                 <div>Manche n°{{ props.numRace }}</div>
                 <p class="hour">{{ formatHourDay(props.race.raceStart) }}</p>
@@ -65,6 +59,7 @@
 import NumberTime from '@/components/NumberTime.vue';
 import Race, { formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
 import type { models } from '@/models/api';
+import RankInfo from '@/components/RankInfo.vue';
 
 const props = defineProps<{
   race: Race | models.parsedData.RaceData,
@@ -92,41 +87,6 @@ div.race-content {
     max-width: 297px;
     margin: 0;
     width: 100%;
-
-    div.rank {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-      border-radius: 200px;
-      padding: 14px;
-      margin-top: 5px;
-      margin-left: 10px;
-      background-color: var(--dark-green);
-      color: var(--white);
-      width: 90px;
-      height: 90px;
-
-      > span {
-        font-size: 12px;
-        margin-bottom: -6px;
-      }
-
-      div {
-        display: flex;
-        align-items: center;
-
-        span:nth-child(1) {
-          font-size: 26px;
-        }
-
-        span:nth-child(2) {
-          font-size: 52px;
-          margin-top: 2px;
-          margin-bottom: 10px;
-        }
-      }
-    }
 
     div.best-time {
       width: 140px;
@@ -190,7 +150,7 @@ div.race-content {
       justify-content: center;
       align-items: center;
 
-       div {
+      div {
         font-weight: 515;
       }
 
@@ -224,7 +184,7 @@ div.race-content {
 
       p:nth-child(1) {
         font-size: 45px;
-          font-family: 'Digital-7 Mono', sans-serif;
+        font-family: 'Digital-7 Mono', sans-serif;
       }
 
       p:nth-child(2) {
