@@ -29,7 +29,7 @@
                     </li>
                     <li>
                         <span class="last-name">Gigandet</span>
-                        <span class="first-name">jules</span>
+                        <span class="first-name">Jules</span>
                     </li>
                 </ul>
             </li>
