@@ -17,7 +17,7 @@ const image = ref();
 
 //Importation de l'image de rank
 async function importImage() {
-  return await import(`../assets/img/${props.imageName}.webp`);
+  return await import(`../assets/img/${props.imageName}.avif`);
 }
 
 //Si l'utilisateur est sur le podium alors import image
