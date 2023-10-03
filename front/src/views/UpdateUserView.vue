@@ -602,14 +602,11 @@ const avatarProperties = computed<models.RadioProperty[]>({
     for (let property of v) {
       if (property.propNameEn in currentConfig) {
         (currentConfig[property.propNameEn as keyof Configs] as Configs[keyof Configs]) = property.selectedValue;
-        console.log('setting', property.propNameEn, property.selectedValue);
       }
     }
 
     // Affectation de la nouvelle config
     config.value = genConfig(currentConfig);
-
-    console.log({ v, currentConfig, generated: genConfig(currentConfig) });
 
     //Stockage dans le localstorage
     localStorage.setItem('configAvatar', JSON.stringify(currentConfig));
