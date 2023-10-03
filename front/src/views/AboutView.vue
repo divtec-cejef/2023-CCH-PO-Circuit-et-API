@@ -392,6 +392,7 @@ section {
       margin: .5em 0;
 
       ul {
+        width: 100%;
         li {
           a, div {
             display: grid;
@@ -399,7 +400,7 @@ section {
             transition: all 300ms ease-in-out;
             margin: auto auto 10px auto;
             padding: 1.5em;
-            width: 90%;
+            width: 100%;
             grid-gap: 5px;
             border-radius: 20px;
             box-shadow: $default-shadow;
