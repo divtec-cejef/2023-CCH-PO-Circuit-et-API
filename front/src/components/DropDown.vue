@@ -53,7 +53,7 @@ div.button-checked {
   justify-content: center;
   align-items: center;
   padding: 12px 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   width: 100%;
   transition: all ease-in-out 0.2s;
@@ -81,7 +81,6 @@ input {
 
 
 div.drop-down-content {
-  margin-top: 15px;
   display: flex;
   justify-content: center;
 
