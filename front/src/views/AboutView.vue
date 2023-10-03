@@ -119,7 +119,7 @@
 
         <p>
             Enfin, les horlogers et les laborantins ont ajouté des bonus physiques à la voiture,
-            respectivement [NOM DU BONUS] et une peinture spéciale.
+            respectivement un appui-tête et une peinture spéciale.
             Ce projet vise à rendre la visite des sections techniques plus interactive et amusante pour les visiteurs.
         </p>
         <h2>Librairies</h2>
