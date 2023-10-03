@@ -34,131 +34,134 @@
         <h1>Pilote</h1>
         <p>Sur cette page, tu peux modifier complètement ton avatar ainsi que ton pseudo ! Laisse courir ton
             imagination...</p>
-        <div :class="'modify-avatar ' + (classDisplayModif ? 'none' : 'display')" @change="enableButton">
-            <div class="tab">
-                <div class="title">
-                    <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
-                        <label>
-                            <input name="tab" type="radio" :checked="numTabOpen == 1">
-                            <img src="../assets/img/face-color.webp" alt="Icon visage homme">
-                        </label>
-                    </div>
-                    <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
-                        <label>
-                            <input name="tab" type="radio" :checked="numTabOpen == 2">
-                            <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
-                        </label>
-                    </div>
-                </div>
-
-                <div class="tab-content">
-                    <div v-if="numTabOpen == 1">
-                        <template v-for="(props, key) in avatarPropertiesHead" :key="key">
-                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                                 :config="config"/>
-                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                               :is-phone="false" :config="config"/>
-                        </template>
-                    </div>
-                    <div v-else>
-                        <template v-for="(props, key) in avatarPropertiesClothes" :key="key">
-                            <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :avatar-property=props
-                                                 @regenerateAvatar="regenerateAvatar" :is-phone="false"
-                                                 :config="config"/>
-                            <AvatarColorPicker v-else :avatar-property="props" @regenerateAvatar="regenerateAvatar"
-                                               :is-phone="false" :config="config"/>
-                        </template>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div :style="{display: displayMsgValid}" class="msg-success">
-                    <img :src="validateIcon"
-                         alt="Icon de validation de l'enregistrement des données">
-                </div>
-                <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-                </div>
-
-                <div class="modify-pseudo">
-                    <label for="pseudo">Pseudo </label>
-                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                           maxlength="10">
-                </div>
-
-                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
-                    Enregistrer
-                </button>
-            </div>
-        </div>
-
-        <div :class="'modify-avatar-phone ' + (classDisplayModif ? 'display' : 'none')" @change="enableButton">
-
-            <div class="avatar-and-pseudo">
-                <div class="modify-pseudo">
-                    <label for="pseudo">Pseudo </label>
-                    <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                           maxlength="10">
-                </div>
-
-                <div :style="{display: displayMsgValid}" class="msg-success">
-                    <img :src="validateIcon"
-                         alt="Icon de validation de l'enregistrement des données">
-                </div>
-                <div class="content-avatar" :style="{opacity: opacityAvatar}">
-                    <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
-                </div>
-
-            </div>
-
-            <div class="tab">
-                <div class="title">
-                    <template v-for="(props, key) in avatarProperties" :key="key">
-                        <div
-                                v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                                :class="'tab ' + `tab${key} ` + (numTabOpen == key ? 'clicked' : 'not-clicked')">
+        <div class="modify-avatar">
+            <template v-if="isLaptop">
+                <div class="tab">
+                    <div class="title">
+                        <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                             <label>
-                                <input @click="clickTab(key)" name="tab-phone" type="radio"
-                                       :checked="numTabOpen == key">
-                                <ImageModifPhone :image-name="props.propNameSnakeCase"
-                                                 :image-name-fr="props.propNameFr"></ImageModifPhone>
+                                <input name="tab" type="radio" :checked="numTabOpen == 1">
+                                <img src="../assets/img/face-color.webp" alt="Icon visage homme">
                             </label>
                         </div>
-                    </template>
+                        <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                            <label>
+                                <input name="tab" type="radio" :checked="numTabOpen == 2">
+                                <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div v-if="numTabOpen == 1">
+                            <template v-for="props in avatarPropertiesHead" :key="props.propNameEn">
+                                <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :is-phone="false"
+                                                     :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
+                                                     @update:property="property => avatarProperties[numTabOpen] = property"/>
+                                <AvatarColorPicker v-else :avatar-property="props"
+                                                   :is-phone="false"
+                                                   :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
+                                                   @update:property="property => avatarProperties[numTabOpen] = property"/>
+                            </template>
+                        </div>
+                        <div v-else>
+                            <template v-for="props in avatarPropertiesClothes" :key="props.propNameEn">
+                                <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT"
+                                                     :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
+                                                     @update:property="property => avatarProperties[numTabOpen] = property"
+                                                     :is-phone="false"/>
+                                <AvatarColorPicker v-else
+                                                   :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
+                                                   @update:property="property => avatarProperties[numTabOpen] = property"
+                                                   :is-phone="false"/>
+                            </template>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="tab-content">
-                    <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
-                        <AvatarRadioSelector :avatar-property=avatarProperties[numTabOpen] :is-phone="true"
-                                             @regenerateAvatar="regenerateAvatar"
-                                             :config="config"
-                        />
+                <div>
+                    <div :style="{display: displayMsgValid}" class="msg-success">
+                        <img :src="validateIcon"
+                             alt="Icon de validation de l'enregistrement des données">
+                    </div>
+                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                        <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                    </div>
 
-                        <AvatarColorPicker
-                                v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
+                    <div class="modify-pseudo">
+                        <label for="pseudo">Pseudo </label>
+                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                               maxlength="10">
+                    </div>
+
+                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                        Enregistrer
+                    </button>
+                </div>
+            </template>
+            <template v-else>
+                <div class="avatar-and-pseudo">
+                    <div class="modify-pseudo">
+                        <label for="pseudo">Pseudo </label>
+                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
+                               maxlength="10">
+                    </div>
+
+                    <div :style="{display: displayMsgValid}" class="msg-success">
+                        <img :src="validateIcon"
+                             alt="Icon de validation de l'enregistrement des données">
+                    </div>
+                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                        <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
+                    </div>
+
+                </div>
+
+                <div class="tab">
+                    <div class="title">
+                        <template v-for="(props, key) in avatarProperties" :key="key">
+                            <div @click="clickTab(key)"
+                                 v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                                 :class="'tab ' + `tab${key} ` + (numTabOpen === key ? 'clicked' : '')">
+                                <label>
+                                    <input name="tab-phone" type="radio"
+                                           :checked="numTabOpen == key">
+                                    <ImageModifPhone :image-name="props.propNameSnakeCase"
+                                                     :image-name-fr="props.propNameFr"></ImageModifPhone>
+                                </label>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="tab-content">
+                        <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
+                            <AvatarRadioSelector :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
+                                                 @update:property="property => avatarProperties[numTabOpen] = property"
+                                                 :is-phone="true"/>
+                            <AvatarColorPicker
+                                    v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
-                                :avatar-property="avatarProperties[numTabOpen + 1]"
-                                @regenerateAvatar="regenerateAvatar"
-                                :is-phone="true"
-                                :config="config"/>
-                    </template>
+                                    :property="avatarProperties[numTabOpen + 1] as models.RadioProperty<string>"
+                                    @update:property="property => avatarProperties[numTabOpen + 1] = property"
+                                    :is-phone="true"/>
+                        </template>
 
-                    <template v-else>
-                        <AvatarColorPicker :avatar-property="avatarProperties[numTabOpen]"
-                                           @regenerateAvatar="regenerateAvatar" :is-phone="true" :config="config"/>
-                    </template>
+                        <template v-else>
+                            <AvatarColorPicker :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
+                                               @update:property="property => avatarProperties[numTabOpen] = property"
+                                               :is-phone="true"/>
+                        </template>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="bt-save-phone">
-                <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
-                    Enregistrer
-                </button>
-            </div>
+                <div class="bt-save-phone">
+                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                        Enregistrer
+                    </button>
+                </div>
+            </template>
         </div>
 
         <div v-if="saveIsInvalid" class="show-error">
@@ -167,21 +170,25 @@
     </div>
 
 </template>
+
 <script setup lang="ts">
 import { genConfig } from 'holiday-avatar';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
+import { computed, onMounted, ref } from 'vue';
 import api from '@/models/api';
 import cancelIcon from '@/assets/img/cancel.png';
 import validateIcon from '@/assets/img/checked.png';
-import type { Configs } from 'holiday-avatar';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
+import { useBreakpoints } from '@vueuse/core';
+
+import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
-import { onBeforeRouteLeave } from 'vue-router';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
+
+import type { Configs } from 'holiday-avatar';
 import type { Ref } from 'vue';
+import type { models } from '@/models/avatar';
 
 const router = useRouter();
 
@@ -194,21 +201,437 @@ const saveIsInvalid = ref(false);
 const refPseudo = ref(car.pseudo ?? '');
 const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
-const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
 const numTabOpen = ref(1);
 
-const isAvatarEquals = ref(true);
-const isPseudoEquals = ref(true);
-
-// éléments de l'HTML
-const dialog = ref<HTMLDialogElement | null>(null);
-const updateDisabled = ref(true);
-const dialogExit = ref<HTMLDialogElement | null>(null);
+//Initialisation des constantes
+const NAME_HEAD_PROPS = 'head';
+const NAME_CLOTHES_PROPS = 'clothes';
+const TYPE_PROPS_TXT = 'txt';
+const TYPE_PROPS_COLOR = 'color';
 
 //Config
 const config = ref(genConfig(car.avatar));
+
+const avatarProperties = computed<models.RadioProperty[]>({
+  get: () => [
+    {
+      propNameFr: 'Genre',
+      propNameEn: 'sex',
+      propNameSnakeCase: 'sex',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'male',
+          label: 'Homme',
+        },
+        {
+          value: 'female',
+          label: 'Femme',
+        }
+      ],
+      selectedValue: config.value.sex
+    },
+    {
+      propNameFr: 'Couleur du visage',
+      propNameEn: 'faceColor',
+      propNameSnakeCase: 'face-color',
+      propType: TYPE_PROPS_COLOR,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: '#853',
+          label: 'BeigeFonce',
+        },
+        {
+          value: '#ECB',
+          label: 'BeigeClair',
+        },
+        {
+          value: '#F11',
+          label: 'Rouge',
+        },
+        {
+          value: '#C3B',
+          label: 'Rose',
+        },
+        {
+          value: '#13A',
+          label: 'Bleu',
+        },
+        {
+          value: '#3A4',
+          label: 'Vert',
+        },
+        {
+          value: '#FF0',
+          label: 'Jaune',
+        }
+      ],
+      selectedValue: config.value.faceColor
+    },
+    {
+      propNameFr: 'Type des yeux',
+      propNameEn: 'eyeType',
+      propNameSnakeCase: 'eye-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'circle',
+          label: 'Ronds',
+        },
+        {
+          value: 'oval',
+          label: 'Ovals',
+        },
+        {
+          value: 'smile',
+          label: 'Plissés',
+        }
+      ],
+      selectedValue: config.value.eyeType
+    },
+    {
+      propNameFr: 'Type de nez',
+      propNameEn: 'noseType',
+      propNameSnakeCase: 'nose-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'short',
+          label: 'Court',
+        },
+        {
+          value: 'long',
+          label: 'Long',
+        },
+        {
+          value: 'round',
+          label: 'Rond',
+        }
+      ],
+      selectedValue: config.value.noseType
+    },
+    {
+      propNameFr: 'Type de bouche',
+      propNameEn: 'mouthType',
+      propNameSnakeCase: 'mouth-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'laugh',
+          label: 'Rire',
+        },
+        {
+          value: 'smile',
+          label: 'Sourire',
+        },
+        {
+          value: 'peace',
+          label: 'Normal',
+        }
+      ],
+      selectedValue: config.value.mouthType
+    },
+    {
+      propNameFr: 'Taille des oreilles',
+      propNameEn: 'earSize',
+      propNameSnakeCase: 'ear-size',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'small',
+          label: 'Petites',
+        },
+        {
+          value: 'big',
+          label: 'Grandes',
+        }
+      ],
+      selectedValue: config.value.earSize
+    },
+    {
+      propNameFr: 'Type de cheveux',
+      propNameEn: 'hairType',
+      propNameSnakeCase: 'hair-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: 'normal',
+          label: 'Normaux',
+        },
+        {
+          value: 'thick',
+          label: 'Epais',
+        },
+        {
+          value: 'mohawk',
+          label: 'Crête',
+        },
+        {
+          value: 'femaleLong',
+          label: 'Très longs',
+        },
+        {
+          value: 'femaleShort',
+          label: 'Longs',
+        }
+      ],
+      selectedValue: config.value.hairType
+    },
+    {
+      propNameFr: 'Couleur de cheveux',
+      propNameEn: 'hairColor',
+      propNameSnakeCase: 'hair-color',
+      propType: TYPE_PROPS_COLOR,
+      propGroups: NAME_HEAD_PROPS,
+      propValues: [
+        {
+          value: '#000',
+          label: 'Noir',
+        },
+        {
+          value: '#974',
+          label: 'Brun',
+        },
+        {
+          value: '#E71',
+          label: 'Roux',
+        },
+        {
+          value: '#FFB',
+          label: 'Blond',
+        },
+        {
+          value: '#1C0',
+          label: 'Vert',
+        },
+        {
+          value: '#36E',
+          label: 'Bleu',
+        },
+        {
+          value: '#D0E',
+          label: 'Rose',
+        }
+      ],
+      selectedValue: config.value.hairColor
+    },
+    {
+      propNameFr: 'Couleur de fond',
+      propNameEn: 'bgColor',
+      propNameSnakeCase: 'bg-color',
+      propType: TYPE_PROPS_COLOR,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: '#067',
+          label: 'BleuCanard',
+        },
+        {
+          value: '#6CF',
+          label: 'BleuClair',
+        },
+        {
+          value: '#3A5',
+          label: 'Vert',
+        },
+        {
+          value: '#EF8',
+          label: 'Calipo',
+        },
+        {
+          value: '#FC0',
+          label: 'Jaune',
+        },
+        {
+          value: '#B22',
+          label: 'Rouge',
+        },
+        {
+          value: '#80F',
+          label: 'Violet',
+        }
+      ],
+      selectedValue: config.value.bgColor
+    },
+    {
+      propNameFr: 'Type de haut',
+      propNameEn: 'shirtType',
+      propNameSnakeCase: 'shirt-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: 'hoody',
+          label: 'Sweat',
+        },
+        {
+          value: 'short',
+          label: 'T-shirt',
+        },
+        {
+          value: 'polo',
+          label: 'Polo',
+        }
+      ],
+      selectedValue: config.value.shirtType
+    },
+    {
+      propNameFr: 'Couleur du haut (habit)',
+      propNameEn: 'shirtColor',
+      propNameSnakeCase: 'shirt-color',
+      propType: TYPE_PROPS_COLOR,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: '#CCC',
+          label: 'Gris',
+        },
+        {
+          value: '#FC0',
+          label: 'Jaune',
+        },
+        {
+          value: '#E81',
+          label: 'Orange',
+        },
+        {
+          value: '#D55',
+          label: 'Rouge',
+        },
+        {
+          value: '#0D4',
+          label: 'Vert',
+        },
+        {
+          value: '#6CF',
+          label: 'BleuClair',
+        },
+        {
+          value: '#44B',
+          label: 'Violet',
+        }
+      ],
+      selectedValue: config.value.shirtColor
+    },
+    {
+      propNameFr: 'Type de lunettes',
+      propNameEn: 'glassesType',
+      propNameSnakeCase: 'glasses-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: 'none',
+          label: 'Aucunes',
+        },
+        {
+          value: 'round',
+          label: 'Rondes',
+        },
+        {
+          value: 'square',
+          label: 'Carrées',
+        }
+      ],
+      selectedValue: config.value.glassesType
+    },
+    {
+      propNameFr: 'Type de chapeau',
+      propNameEn: 'hatType',
+      propNameSnakeCase: 'hat-type',
+      propType: TYPE_PROPS_TXT,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: 'none',
+          label: 'Aucun',
+        },
+        {
+          value: 'beanie',
+          label: 'Bonnet',
+        },
+        {
+          value: 'turban',
+          label: 'Turban',
+        }
+      ],
+      selectedValue: config.value.hatType
+    },
+    {
+      propNameFr: 'Couleur de chapeau',
+      propNameEn: 'hatColor',
+      propNameSnakeCase: 'hat-color',
+      propType: TYPE_PROPS_COLOR,
+      propGroups: NAME_CLOTHES_PROPS,
+      propValues: [
+        {
+          value: '#965',
+          label: 'Brun',
+        },
+        {
+          value: '#CCC',
+          label: 'Gris',
+        },
+        {
+          value: '#FBB',
+          label: 'Rose',
+        },
+        {
+          value: '#FC0',
+          label: 'Jaune',
+        },
+        {
+          value: '#D22',
+          label: 'Rouge',
+        },
+        {
+          value: '#7D8',
+          label: 'Vert',
+        },
+        {
+          value: '#87E',
+          label: 'Violet',
+        }
+      ],
+      selectedValue: config.value.hatColor
+    }
+  ],
+  set: (v) => {
+    let currentConfig = config.value;
+    for (let property of v) {
+      if (property.propNameEn in currentConfig) {
+        (currentConfig[property.propNameEn as keyof Configs] as Configs[keyof Configs]) = property.selectedValue;
+        console.log('setting', property.propNameEn, property.selectedValue);
+      }
+    }
+
+    // Affectation de la nouvelle config
+    config.value = genConfig(currentConfig);
+
+    console.log({ v, currentConfig, generated: genConfig(currentConfig) });
+
+    //Stockage dans le localstorage
+    localStorage.setItem('configAvatar', JSON.stringify(currentConfig));
+  }
+});
+
+//Tri de l'interface pour les deux tabs
+const avatarPropertiesHead = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_HEAD_PROPS));
+const avatarPropertiesClothes = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_CLOTHES_PROPS));
+
+
+// éléments de l'HTML
+const dialog = ref<HTMLDialogElement | null>(null);
+const dialogExit = ref<HTMLDialogElement | null>(null);
 
 //Gère le nom du pilote
 if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')) {
@@ -233,9 +656,6 @@ if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')
       localStorage.setItem('piloteName', piloteName.value);
       localStorage.setItem('lastPiloteName', piloteName.value);
     }
-    isPseudoEquals.value = localStorage.getItem('piloteName') == localStorage.getItem('lastPiloteName');
-    updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
-
   });
 }
 
@@ -265,13 +685,8 @@ if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvat
 
     //Rempli l'écran des valeurs de l'avatar
     fillAvatarPropreties(config.value);
-
-    isAvatarEquals.value = avatarEquals(config.value, JSON.parse(localStorage.getItem('lastConfigAvatar') || ''));
-    updateDisabled.value = isAvatarEquals.value && isPseudoEquals.value;
-
   });
 }
-
 
 if (!localStorage.getItem('lastConfigAvatar')) {
   localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
@@ -281,27 +696,12 @@ if (!localStorage.getItem('lastPiloteName')) {
   localStorage.setItem('lastPiloteName', refPseudo.value);
 }
 
-
-/**
- * Change la valeur de la taille de l'écran
- */
-const changeValueWidthScreen = () => {
-  widthScreen.value = window.innerWidth;
-};
-
 // Change la classe des éléments des menus pour le petit contenu
-const classDisplayModif = computed(() => {
-  return widthScreen.value < LIMIT_LARGE_CONTENT;
+const classDisplayModif = useBreakpoints({
+  laptop: LIMIT_LARGE_CONTENT,
 });
 
-//Ecoute du resize de la page pour changer la largeur
-onMounted(() => {
-  window.addEventListener('resize', changeValueWidthScreen);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', changeValueWidthScreen);
-});
+const isLaptop = classDisplayModif.greaterOrEqual('laptop');
 
 /**
  * Connexion de l'utilisateur
@@ -325,7 +725,7 @@ async function connect(queryId: string, password: string) {
   error.value = '';
 
   // Test si enregistrement des données de la voiture
-  if (refPseudo.value !== car.pseudo || !avatarEquals(config.value, userCar.car.avatar)) {
+  if (refPseudo.value !== car.pseudo || (userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar))) {
     await updateUser();
   }
 }
@@ -334,25 +734,24 @@ async function connect(queryId: string, password: string) {
  * Compare deux avatars
  * @returns true si les deux avatars sont identiques, false sinon
  */
-function avatarEquals(avatar1: any, avatar2: any) {
-  let equlality = true;
+function avatarEquals(avatar1: Configs, avatar2: Configs) {
+  let equality = true;
   Object.keys(avatar1).forEach((key) => {
-    if (avatar2 === undefined) {
-      return;
-    }
     if (avatar1[key as keyof Configs] !== avatar2[key as keyof Configs]) {
-      equlality = false;
+      equality = false;
     }
   });
-  return equlality;
+  return equality;
 }
 
-/**
- * Active le bouton d'enregistrement si les données ont changé
- */
-function enableButton() {
-  updateDisabled.value = avatarEquals(config.value, userCar.car.avatar) && refPseudo.value.toString() === car.pseudo?.toString();
-}
+const updateDisabled = computed(() => {
+  if (!userCar.car.avatar) {
+    return false;
+  }
+  const avatarEq = avatarEquals(config.value, userCar.car.avatar);
+  const pseudoEq = refPseudo.value.toString() === car.pseudo?.toString();
+  return avatarEq && pseudoEq;
+});
 
 /**
  * Quitter la page de modification
@@ -366,16 +765,12 @@ function cancel() {
  */
 function atChangePseudo() {
   localStorage.setItem('piloteName', refPseudo.value);
-  enableButton();
 }
 
 /**
  * Met à jour les données de l'utilisateur (de la voiture)
  */
 async function updateUser() {
-  // Désactivation du bouton d'enregistrement
-  updateDisabled.value = true;
-
   // Utilisateur Voiture pour l'enregistrement dans la db
   const reqUserCar = {
     token: userCar.token,
@@ -427,25 +822,6 @@ async function updateUser() {
 }
 
 /**
- * Regénère l'avatar
- * @param parameter Paramètre changé
- * @param value Nouvelle valeur
- */
-function regenerateAvatar(parameter: string, value: any) {
-
-  //Remplissage du champ changé
-  if (parameter in config.value) {
-    (config.value as { [index: string]: any })[parameter] = value;
-  }
-
-  // Affectation de la nouvelle config
-  config.value = genConfig(JSON.parse(JSON.stringify(config.value)));
-
-  //Stockage dans le localstorage
-  localStorage.setItem('configAvatar', JSON.stringify(config.value));
-}
-
-/**
  * Ferme la fenêtre modal
  */
 function closeModal() {
@@ -461,8 +837,6 @@ function openOtherPage() {
 }
 
 function quitPage() {
-  updateDisabled.value = true;
-
   //Changement de la localstorage
   localStorage.setItem('configAvatar', localStorage.getItem('lastConfigAvatar') || '');
   localStorage.setItem('piloteName', localStorage.getItem('lastPiloteName') || '');
@@ -474,408 +848,6 @@ function saveAndQuit() {
   updateUser().then(openOtherPage);
 }
 
-//Initialisation des constantes
-const NAME_HEAD_PROPS = 'head';
-const NAME_CLOTHES_PROPS = 'clothes';
-const TYPE_PROPS_TXT = 'txt';
-const TYPE_PROPS_COLOR = 'color';
-
-let avatarProperties = ref([
-  {
-    propNameFr: 'Genre',
-    propNameEn: 'sex',
-    propNameSnakeCase: 'sex',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'male',
-        propValueFr: 'Homme',
-      },
-      {
-        propValueEn: 'female',
-        propValueFr: 'Femme',
-      }
-    ],
-    selectedValueEn: config.value.sex
-  },
-  {
-    propNameFr: 'Couleur du visage',
-    propNameEn: 'faceColor',
-    propNameSnakeCase: 'face-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: '#853',
-        propValueFr: 'BeigeFonce',
-      },
-      {
-        propValueEn: '#ECB',
-        propValueFr: 'BeigeClair',
-      },
-      {
-        propValueEn: '#F11',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#C3B',
-        propValueFr: 'Rose',
-      },
-      {
-        propValueEn: '#13A',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#3A4',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#FF0',
-        propValueFr: 'Jaune',
-      }
-    ],
-    selectedValueEn: config.value.faceColor
-  },
-  {
-    propNameFr: 'Type des yeux',
-    propNameEn: 'eyeType',
-    propNameSnakeCase: 'eye-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'circle',
-        propValueFr: 'Ronds',
-      },
-      {
-        propValueEn: 'oval',
-        propValueFr: 'Ovals',
-      },
-      {
-        propValueEn: 'smile',
-        propValueFr: 'Plissés',
-      }
-    ],
-    selectedValueEn: config.value.eyeType
-  },
-  {
-    propNameFr: 'Type de nez',
-    propNameEn: 'noseType',
-    propNameSnakeCase: 'nose-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'short',
-        propValueFr: 'Court',
-      },
-      {
-        propValueEn: 'long',
-        propValueFr: 'Long',
-      },
-      {
-        propValueEn: 'round',
-        propValueFr: 'Rond',
-      }
-    ],
-    selectedValueEn: config.value.noseType
-  },
-  {
-    propNameFr: 'Type de bouche',
-    propNameEn: 'mouthType',
-    propNameSnakeCase: 'mouth-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'laugh',
-        propValueFr: 'Rire',
-      },
-      {
-        propValueEn: 'smile',
-        propValueFr: 'Sourire',
-      },
-      {
-        propValueEn: 'peace',
-        propValueFr: 'Normal',
-      }
-    ],
-    selectedValueEn: config.value.mouthType
-  },
-  {
-    propNameFr: 'Taille des oreilles',
-    propNameEn: 'earSize',
-    propNameSnakeCase: 'ear-size',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'small',
-        propValueFr: 'Petites',
-      },
-      {
-        propValueEn: 'big',
-        propValueFr: 'Grandes',
-      }
-    ],
-    selectedValueEn: config.value.earSize
-  },
-
-  {
-    propNameFr: 'Type de cheveux',
-    propNameEn: 'hairType',
-    propNameSnakeCase: 'hair-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: 'normal',
-        propValueFr: 'Normaux',
-      },
-      {
-        propValueEn: 'thick',
-        propValueFr: 'Epais',
-      },
-      {
-        propValueEn: 'mohawk',
-        propValueFr: 'Crête',
-      },
-      {
-        propValueEn: 'femaleLong',
-        propValueFr: 'Très longs',
-      },
-      {
-        propValueEn: 'femaleShort',
-        propValueFr: 'Longs',
-      }
-    ],
-    selectedValueEn: config.value.hairType
-  },
-  {
-    propNameFr: 'Couleur de cheveux',
-    propNameEn: 'hairColor',
-    propNameSnakeCase: 'hair-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_HEAD_PROPS,
-    propValues: [
-      {
-        propValueEn: '#000',
-        propValueFr: 'Noir',
-      },
-      {
-        propValueEn: '#974',
-        propValueFr: 'Brun',
-      },
-      {
-        propValueEn: '#E71',
-        propValueFr: 'Roux',
-      },
-      {
-        propValueEn: '#FFB',
-        propValueFr: 'Blond',
-      },
-      {
-        propValueEn: '#1C0',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#36E',
-        propValueFr: 'Bleu',
-      },
-      {
-        propValueEn: '#D0E',
-        propValueFr: 'Rose',
-      }
-    ],
-    selectedValueEn: config.value.hairColor
-  },
-  {
-    propNameFr: 'Couleur de fond',
-    propNameEn: 'bgColor',
-    propNameSnakeCase: 'bg-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: '#067',
-        propValueFr: 'BleuCanard',
-      },
-      {
-        propValueEn: '#6CF',
-        propValueFr: 'BleuClair',
-      },
-      {
-        propValueEn: '#3A5',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#EF8',
-        propValueFr: 'Calipo',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      },
-      {
-        propValueEn: '#B22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#80F',
-        propValueFr: 'Violet',
-      }
-    ],
-    selectedValueEn: config.value.bgColor
-  },
-  {
-    propNameFr: 'Type de haut',
-    propNameEn: 'shirtType',
-    propNameSnakeCase: 'shirt-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: 'hoody',
-        propValueFr: 'Sweat',
-      },
-      {
-        propValueEn: 'short',
-        propValueFr: 'T-shirt',
-      },
-      {
-        propValueEn: 'polo',
-        propValueFr: 'Polo',
-      }
-    ],
-    selectedValueEn: config.value.shirtType
-  },
-  {
-    propNameFr: 'Couleur du haut (habit)',
-    propNameEn: 'shirtColor',
-    propNameSnakeCase: 'shirt-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: '#CCC',
-        propValueFr: 'Gris',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      },
-      {
-        propValueEn: '#E81',
-        propValueFr: 'Orange',
-      },
-      {
-        propValueEn: '#D55',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#0D4',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#6CF',
-        propValueFr: 'BleuClair',
-      },
-      {
-        propValueEn: '#44B',
-        propValueFr: 'Violet',
-      }
-    ],
-    selectedValueEn: config.value.shirtColor
-  },
-  {
-    propNameFr: 'Type de lunettes',
-    propNameEn: 'glassesType',
-    propNameSnakeCase: 'glasses-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: 'none',
-        propValueFr: 'Aucunes',
-      },
-      {
-        propValueEn: 'round',
-        propValueFr: 'Rondes',
-      },
-      {
-        propValueEn: 'square',
-        propValueFr: 'Carrées',
-      }
-    ],
-    selectedValueEn: config.value.glassesType
-  },
-  {
-    propNameFr: 'Type de chapeau',
-    propNameEn: 'hatType',
-    propNameSnakeCase: 'hat-type',
-    propType: TYPE_PROPS_TXT,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: 'none',
-        propValueFr: 'Aucun',
-      },
-      {
-        propValueEn: 'beanie',
-        propValueFr: 'Bonnet',
-      },
-      {
-        propValueEn: 'turban',
-        propValueFr: 'Turban',
-      }
-    ],
-    selectedValueEn: config.value.hatType
-  },
-  {
-    propNameFr: 'Couleur de chapeau',
-    propNameEn: 'hatColor',
-    propNameSnakeCase: 'hat-color',
-    propType: TYPE_PROPS_COLOR,
-    propGroups: NAME_CLOTHES_PROPS,
-    propValues: [
-      {
-        propValueEn: '#965',
-        propValueFr: 'Brun',
-      },
-      {
-        propValueEn: '#CCC',
-        propValueFr: 'Gris',
-      },
-      {
-        propValueEn: '#FBB',
-        propValueFr: 'Rose',
-      },
-      {
-        propValueEn: '#FC0',
-        propValueFr: 'Jaune',
-      },
-      {
-        propValueEn: '#D22',
-        propValueFr: 'Rouge',
-      },
-      {
-        propValueEn: '#7D8',
-        propValueFr: 'Vert',
-      },
-      {
-        propValueEn: '#87E',
-        propValueFr: 'Violet',
-      }
-    ],
-    selectedValueEn: config.value.hatColor
-  }
-]);
-
-//Tri de l'interface pour les deux tabs
-const avatarPropertiesHead = avatarProperties.value.filter(props => props.propGroups === NAME_HEAD_PROPS);
-const avatarPropertiesClothes = avatarProperties.value.filter(props => props.propGroups === NAME_CLOTHES_PROPS);
-
 /**
  * Rempli les valeurs sélectionnées à l'écran en fonction de sa config
  * @param config Config de l'utilisateur
@@ -884,7 +856,7 @@ function fillAvatarPropreties(config: Configs) {
   for (let prop of avatarProperties.value) {
     let value = config[prop.propNameEn as keyof Configs];
     if (typeof value !== 'boolean') {
-      prop.selectedValueEn = value;
+      prop.selectedValue = value;
     }
   }
 }
@@ -897,9 +869,6 @@ function clickTab(numTab: number) {
   numTabOpen.value = numTab;
   localStorage.setItem('numTabOpen', numTabOpen.value.toString());
 }
-
-//Lancement d'un premier calcul de la largeur de la page
-changeValueWidthScreen();
 
 //Si l'id de la voiture n'est pas défini alors retour à la page d'accueil
 if (!userCar.car.idCar) {
@@ -926,7 +895,7 @@ onBeforeRouteLeave((to) => {
   nextRoute.value = to.path;
 
   //Affichage de la page de confirmation
-  if (updateDisabled.value === false) {
+  if (!updateDisabled.value) {
     dialogExit.value?.showModal();
     return false;
   }
@@ -937,15 +906,6 @@ onBeforeRouteLeave((to) => {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
-
-
-.none {
-  display: none !important;
-}
-
-.display {
-  display: flex !important;
-}
 
 div.modify-pseudo {
   margin-top: 15px;
@@ -988,8 +948,10 @@ button {
   }
 }
 
-div.modify-avatar-phone {
-  flex-direction: column;
+div.modify-avatar {
+  display: flex;
+    flex-direction: column;
+
 
   div.content-avatar {
     display: flex;
@@ -1006,54 +968,47 @@ div.modify-avatar-phone {
     }
   }
 
-  .tab-content {
-    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-    max-width: 595px;
-    margin: 0 auto;
-    border-radius: 7px;
-    padding: 2px 10px 8px 10px;
-  }
+  div.tab {
+    div.title {
+      display: flex;
 
-  div.title {
-    margin: 10px auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+      margin: 10px auto;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
 
-    div:nth-last-child(1) {
-      margin-right: 0;
-    }
+      .tab {
+        width: 45px;
+        padding: 8px;
+        border-radius: 5px;
+        margin: 5px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+        filter: grayscale(0.95);
+        transition: 0.2s ease-in-out;
 
-    div:nth-child(1) {
-      margin-left: 0;
-    }
+        &:hover, &.clicked {
+          filter: none;
+          transition: 0.2s ease-in-out;
+          cursor: pointer;
 
-    .tab, .not-clicked {
-      width: 45px;
-      padding: 8px;
-      border-radius: 5px;
-      margin: 5px;
-      box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-      filter: grayscale(0.95);
-      transition: 0.2s ease-in-out;
+          img {
+            cursor: pointer;
+          }
+        }
+      }
 
-    }
-
-    .tab:hover, .clicked {
-      filter: none;
-      transition: 0.2s ease-in-out;
-      cursor: pointer;
-
-
-      img {
-        cursor: pointer;
+      input {
+        display: none;
       }
     }
 
-    input {
-      display: none;
+    .tab-content {
+      box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+      max-width: 595px;
+      margin: 0 auto;
+      border-radius: 7px;
+      padding: 2px 10px 8px 10px;
     }
   }
 
@@ -1063,146 +1018,146 @@ div.modify-avatar-phone {
     width: 100%;
     justify-content: center;
   }
-}
 
-div.modify-avatar {
-  width: 95%;
-  margin: 25px auto 0 auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  transition: all ease-in-out 0.1s;
-
-  > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
+  @media screen and (min-width: 960px) {
+    width: 95%;
+    margin: 25px auto 0 auto;
+    flex-direction: row;
     align-items: center;
-    width: 40%;
+    justify-content: space-between;
+    padding: 20px;
+    transition: all ease-in-out 0.1s;
 
-    div.content-avatar {
-      display: flex;
-      justify-content: end;
-      transition: all ease-in-out 0.2s;
-
-      div.avatar {
-        width: 300px;
-        height: 300px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-        border-radius: 200px;
-      }
-    }
-  }
-
-  div.tab {
-    display: flex;
-    width: 60%;
-    min-height: 480px;
-
-    div.title {
+    > div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      margin-right: 20px;
-      border-right: 1px solid rgba(194, 194, 194, 0.45);
-      padding-right: 20px;
+      align-items: center;
+      width: 40%;
 
-      > div {
-        transition: all 300ms ease-in-out;
+      div.content-avatar {
+        div.avatar {
+          width: 300px;
+          height: 300px;
+        }
+      }
+    }
 
-        * {
-          transition: all 300ms ease-in-out;
+    div.tab {
+      display: flex;
+      width: 60%;
+      min-height: 480px;
+
+      div.title {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 0 20px 0 0;
+        align-items: start;
+        justify-content: start;
+        border-right: 1px solid rgba(194, 194, 194, 0.45);
+        padding-right: 20px;
+        width: fit-content;
+
+        .tab1 {
+          margin-bottom: 8px;
         }
 
-        &.tab-checked {
-          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
-          cursor: default;
+        .tab2 {
+          margin-top: 8px;
+        }
+
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0), rgba(50, 50, 93, 0.2) 0 13px 27px -5px;
+          border: 1px solid rgba(50, 50, 93, 0.1);
+          padding: 4px;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 300ms ease-in-out;
 
           * {
+            transition: all 300ms ease-in-out;
+          }
+
+          &.tab-checked {
+            box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
             cursor: default;
 
+            * {
+              cursor: default;
+            }
           }
+
+          &:not(.tab-checked):hover {
+            box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
+          }
+
+
+          label {
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+          }
+
+          input {
+            display: none;
+          }
+
         }
 
-        &:not(.tab-checked):hover {
-          box-shadow: inset 0 0 27px rgba(50, 50, 93, 0.1), rgba(50, 50, 93, 0) 0 13px 27px -5px;
-        }
-      }
-
-      .tab1 {
-        margin-bottom: 8px;
-      }
-
-      .tab2 {
-        margin-top: 8px;
-      }
-
-      > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        box-shadow: inset 0 0 27px rgba(50, 50, 93, 0), rgba(50, 50, 93, 0.2) 0 13px 27px -5px;
-        border: 1px solid rgba(50, 50, 93, 0.1);
-        padding: 4px;
-        border-radius: 10px;
-        cursor: pointer;
-
-
-        label {
-          cursor: pointer;
-          text-align: center;
-          width: 50px;
+        img {
+          width: 45px;
         }
 
         input {
-          display: none;
+          display: block;
         }
-
       }
 
-      img {
-        width: 45px;
-      }
-    }
 
-
-    div.tab-content {
-      display: flex;
-      flex-direction: column;
-
-      > div:nth-child(1) {
-        width: 100%;
-        height: 100%;
-      }
-
-      > div {
+      div.tab-content {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: start;
-      }
+        box-shadow: none;
+        max-width: 100%;
+        margin: unset;
+        border-radius: 0;
+        padding: 0;
 
-      fieldset.color {
-        padding-left: 30px;
-      }
+        > div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: start;
 
-      fieldset {
-        width: 100%;
-        padding-right: 30px;
-      }
+          &:nth-child(1) {
+            width: 100%;
+            height: 100%;
+          }
+        }
 
-      fieldset:nth-child(1) {
-        padding-left: 0;
-      }
+        fieldset {
+          width: 100%;
+          padding-right: 30px;
 
-      div fieldset:nth-child(2) {
-        padding-left: 0;
+          &.color {
+            padding-left: 30px;
+          }
 
+          &:nth-child(1) {
+            padding-left: 0;
+          }
+        }
+
+        div fieldset:nth-child(2) {
+          padding-left: 0;
+        }
       }
     }
   }
-
 }
 
 
