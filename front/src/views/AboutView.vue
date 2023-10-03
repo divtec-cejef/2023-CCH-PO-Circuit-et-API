@@ -323,6 +323,11 @@ ul {
       grid-column: span 2;
       width: 100%;
 
+      @media screen and (prefers-color-scheme: dark) {
+        box-shadow: none;
+        border: $dark-border;
+      }
+
       @media screen and (min-width: 425px) {
         width: 90%;
         padding: 1.5em;
@@ -349,6 +354,7 @@ ul {
           margin: auto;
           padding: 0;
           box-shadow: none;
+          border: none;
 
           h3 {
             margin: 0;
@@ -384,7 +390,8 @@ section {
     grid-template-columns: auto;
 
     @media screen and (min-width: 1000px) {
-      grid-template-columns: auto auto;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 20px;
       grid-auto-flow: column;
     }
 
@@ -407,11 +414,17 @@ section {
             border-radius: 20px;
             box-shadow: $default-shadow;
 
+            @media screen and (prefers-color-scheme: dark) {
+              box-shadow: none;
+              border: $dark-border;
+            }
+            
             @media screen and (min-width: 530px) {
               grid-template-columns: 1fr 1fr;
               margin: auto;
               width: fit-content;
               box-shadow: none;
+              border: none;
               padding: 0;
 
               span {
