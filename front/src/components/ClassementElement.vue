@@ -53,7 +53,7 @@
                 <div v-if="dropDownClicked" class="user-content phone">
                     <template v-if="!hasError">
                         <div>
-                            <DropDown name="Meilleure Course" @clickDropDown="clickBestRace"
+                            <DropDown name="Meilleure Course" @update:drop-down-clicked="clickBestRace"
                                       :drop-down-clicked="bestRaceDropDownClicked">
                                 <RaceInfo :race="raceData!.races[BEST_TIME_INDEX]"
                                           :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
@@ -64,14 +64,14 @@
                         </div>
 
                         <div>
-                            <DropDown name="Vidéo" @clickDropDown="clickVideo"
+                            <DropDown name="Vidéo" @update:drop-down-clicked="clickVideo"
                                       :drop-down-clicked="videoDropDownClicked">
                                 <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
                             </DropDown>
                         </div>
 
                         <div class="bonus">
-                            <DropDown name="Bonus" @clickDropDown="clickBonus"
+                            <DropDown name="Bonus" @update:drop-down-clicked="clickBonus"
                                       :drop-down-clicked="bonusDropDownClicked">
                                 <ul>
                                     <template v-for="(section, key) in listAllBonus" :key="key">
