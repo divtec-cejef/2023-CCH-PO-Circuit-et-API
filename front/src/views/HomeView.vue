@@ -32,12 +32,14 @@
                 </p>
                 <div class="link">
                     <p>{{ domaineName }}/</p>
-                    <input type="number" placeholder="****" v-model="userQueryId" max="9999">
+                    <input type="number"
+                           placeholder="****"
+                           v-model="userQueryId"
+                           :class="queryIdError ? 'errored' : ''">
                 </div>
                 <button type="submit"
                         @click.prevent="enteredQueryId">Valider
                 </button>
-                <span v-if="queryIdError" class="error">Id invalide !</span>
             </form>
         </div>
 
@@ -87,13 +89,14 @@
 </template>
 
 <script setup lang="ts">
-import qrCodeImg from '@/assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
-import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
+import {computed, defineAsyncComponent, onBeforeUnmount, ref, watchEffect} from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';
 import { RouterLink, useRouter } from 'vue-router';
 import { useLocalStorage } from '@vueuse/core';
 import { formatTime } from '@/models/race';
+
+import qrCodeImg from '@/assets/img/qrCode.gif';
 
 const TextTransition = defineAsyncComponent(() => import('@/components/TextTransition.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -108,9 +111,15 @@ const activitiesRealisations = ref<number>();
 const fastestRace = ref<number | null>();
 const lastActivity = ref<string | null>();
 
-const userQueryId = ref<string>();
+const userQueryId = ref<number>();
 const queryIdError = ref<string>();
 const domaineName = import.meta.env.VITE_DOMAIN_NAME || '';
+
+watchEffect(() => {
+  if (userQueryId.value && userQueryId.value.toString().length > 4) {
+    userQueryId.value = parseInt(userQueryId.value.toString().slice(0, 4));
+  }
+})
 
 const statsError = ref<{
   ranking: string | undefined,
@@ -130,6 +139,7 @@ if (localStorage.getItem('userCarId')) {
 }
 
 const enteredQueryId = () => {
+    queryIdError.value = undefined;
   restful.getDataOneCarQueryId(userQueryId.value ?? '').then((v) => {
     if ('message' in v.json) {
       queryIdError.value = v.json.message;
@@ -177,7 +187,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/consts";
+@import '@/assets/css/consts.scss';
+@import 'animate.css';
 
 h1 {
   text-align: center;
@@ -212,10 +223,15 @@ form {
   input {
     margin: .5em;
     text-align: center;
-    border-radius: 2px;
+    border-radius: .75em;
     border: 1px solid rgb(206, 206, 206);
     padding: .1em;
     width: 50px;
+
+    &.errored {
+      animation: 1s headShake;
+      outline: solid 2px red;
+    }
   }
 
   button {
@@ -231,6 +247,15 @@ div.home-root {
   margin: 0;
   width: 100%;
   min-width: fit-content;
+
+  div.intro {
+    text-align: center;
+
+    p:nth-child(3) {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  }
 
   img.qr-code {
     width: 200px;
@@ -307,15 +332,6 @@ div.home-root {
         font-size: 2rem;
         font-weight: 500;
         text-align: center;
-      }
-    }
-
-    div.intro {
-      text-align: center;
-
-      p:nth-child(3) {
-        margin-top: 10px;
-        font-weight: bold;
       }
     }
   }
