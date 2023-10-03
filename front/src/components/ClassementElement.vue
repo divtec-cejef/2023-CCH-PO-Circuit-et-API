@@ -179,7 +179,7 @@ classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' 
 
 //Importation de l'image de rank
 async function importImage() {
-  return await import(`../assets/img/rank${props.rank}.webp`);
+  return await import(`../assets/img/rank${props.rank}.avif`);
 }
 
 /**
