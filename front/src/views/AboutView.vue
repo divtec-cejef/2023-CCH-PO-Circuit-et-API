@@ -393,7 +393,8 @@ section {
 
       ul {
         width: 100%;
-        margin:  0;
+        margin: 0;
+
         li {
           a, div {
             display: grid;
