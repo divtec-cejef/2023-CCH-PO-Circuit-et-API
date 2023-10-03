@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
 import { useCarStore } from '@/stores/car';
-import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
+import {computed, defineAsyncComponent, onBeforeUnmount, ref, watchEffect} from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';
 import { RouterLink, useRouter } from 'vue-router';
 import { useLocalStorage } from '@vueuse/core';
@@ -111,9 +111,15 @@ const activitiesRealisations = ref<number>();
 const fastestRace = ref<number | null>();
 const lastActivity = ref<string | null>();
 
-const userQueryId = ref<string>();
+const userQueryId = ref<number>();
 const queryIdError = ref<string>();
 const domaineName = import.meta.env.VITE_DOMAIN_NAME || '';
+
+watchEffect(() => {
+  if (userQueryId.value && userQueryId.value.toString().length > 4) {
+    userQueryId.value = parseInt(userQueryId.value.toString().slice(0, 4));
+  }
+})
 
 const statsError = ref<{
   ranking: string | undefined,
