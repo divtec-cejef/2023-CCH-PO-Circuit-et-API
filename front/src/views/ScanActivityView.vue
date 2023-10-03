@@ -44,11 +44,11 @@ import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
 
-type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
-
 import arrow from '@/assets/img/arrow.avif';
 import checkedIcon from '@/assets/img/checked.avif';
 import cancelIcon from '@/assets/img/cancel.avif';
+
+type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
 
