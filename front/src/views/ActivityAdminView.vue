@@ -111,7 +111,7 @@ div.activity-list div {
 }
 
 div.content {
-  height: 100%;
+  height: calc(100vh - var(--height-screen-diff) - 125px - 35px);
 }
 
 div.no-authentification {
