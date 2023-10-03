@@ -2,7 +2,7 @@
     <div class="fullscreen">
         <div class="up-screen">
             <div @click="quitPage" class="return-back" v-if="!loading">
-                <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
+                <img :src="arrow" alt="Icon de retour en arrière">
             </div>
             <div class="name-activity">
                 <p>{{ nameActivity }}</p>
@@ -18,11 +18,11 @@
 
         <template v-if="validateScan">
             <div v-if="addActivitySuccess" class="message">
-                <img src="../assets/img/checked.png" alt="Icône de succès">
+                <img :src="checkedIcon" alt="Icône de succès">
                 <p>Activité ajoutée avec succès !</p>
             </div>
             <div v-else class="message">
-                <img src="../assets/img/cancel.png" alt="Icône d'erreur">
+                <img :src="cancelIcon" alt="Icône d'erreur">
                 <p>{{ errorMessage }}</p>
 
                 <button @click="() => {
@@ -43,6 +43,10 @@ import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
+
+import arrow from '@/assets/img/arrow.avif';
+import checkedIcon from '@/assets/img/checked.avif';
+import cancelIcon from '@/assets/img/cancel.avif';
 
 type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 

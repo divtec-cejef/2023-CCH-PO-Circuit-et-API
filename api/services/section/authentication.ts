@@ -4,7 +4,6 @@ import { SHA256 } from 'crypto-js';
 /**
  * Permet d'obtenir le mot de passe d'une section en fonction de son nom
  * @param name Le nom de la section
- * @
  */
 export const getPasswordBySectionName = async (name: string) => {
   const section = await prisma.section.findFirstOrThrow({

@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import colorImg from '../assets/img/bg-color.webp';
-import faceImg from '../assets/img/skin.webp';
+import colorImg from '@/assets/img/bg-color.avif';
+import faceImg from '@/assets/img/skin.avif';
 import type { models } from '@/models/avatar';
 
 

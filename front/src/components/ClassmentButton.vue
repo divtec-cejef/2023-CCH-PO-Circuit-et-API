@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import placeHolderImg from '@/assets/img/placeholder.webp';
-import topImg from '@/assets/img/top-10.webp';
+import placeHolderImg from '@/assets/img/placeholder.avif';
+import topImg from '@/assets/img/top-10.avif';
 import { useCarStore } from '@/stores/car';
 
 const userCar = useCarStore();
