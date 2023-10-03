@@ -81,6 +81,7 @@ input {
 
 
 div.drop-down-content {
+  margin-top: 18px;
   display: flex;
   justify-content: center;
 
