@@ -390,7 +390,8 @@ section {
     grid-template-columns: auto;
 
     @media screen and (min-width: 1000px) {
-      grid-template-columns: auto auto;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 20px;
       grid-auto-flow: column;
     }
 
