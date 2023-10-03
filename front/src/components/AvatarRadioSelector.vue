@@ -24,8 +24,6 @@
 import type { models } from '@/models/avatar';
 import { ref } from 'vue';
 
-type T = string | boolean;
-
 const props = defineProps<{
     property: models.RadioProperty<T>
     isPhone : boolean

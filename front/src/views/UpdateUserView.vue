@@ -53,26 +53,15 @@
                     </div>
 
                     <div class="tab-content">
-                        <div v-if="numTabOpen == 1">
-                            <template v-for="props in avatarPropertiesHead" :key="props.propNameEn">
-                                <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT" :is-phone="false"
-                                                     :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
-                                                     @update:property="property => avatarProperties[numTabOpen] = property"/>
-                                <AvatarColorPicker v-else :avatar-property="props"
-                                                   :is-phone="false"
-                                                   :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
-                                                   @update:property="property => avatarProperties[numTabOpen] = property"/>
-                            </template>
-                        </div>
-                        <div v-else>
-                            <template v-for="props in avatarPropertiesClothes" :key="props.propNameEn">
+                        <div>
+                            <template v-for="props in numTabOpen === 1 ? avatarPropertiesHead : avatarPropertiesClothes" :key="props.propNameEn">
                                 <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT"
                                                      :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
-                                                     @update:property="property => avatarProperties[numTabOpen] = property"
+                                                     @update:property="editProperties"
                                                      :is-phone="false"/>
                                 <AvatarColorPicker v-else
                                                    :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
-                                                   @update:property="property => avatarProperties[numTabOpen] = property"
+                                                   @update:property="editProperties"
                                                    :is-phone="false"/>
                             </template>
                         </div>
@@ -136,20 +125,20 @@
                     <div class="tab-content">
                         <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
                             <AvatarRadioSelector :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                                 @update:property="property => avatarProperties[numTabOpen] = property"
+                                                 @update:property="editProperties"
                                                  :is-phone="true"/>
                             <AvatarColorPicker
                                     v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
                                     :property="avatarProperties[numTabOpen + 1] as models.RadioProperty<string>"
-                                    @update:property="property => avatarProperties[numTabOpen + 1] = property"
+                                    @update:property="editProperties"
                                     :is-phone="true"/>
                         </template>
 
                         <template v-else>
                             <AvatarColorPicker :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                               @update:property="property => avatarProperties[numTabOpen] = property"
+                                               @update:property="editProperties"
                                                :is-phone="true"/>
                         </template>
 
@@ -626,6 +615,15 @@ const avatarProperties = computed<models.RadioProperty[]>({
     localStorage.setItem('configAvatar', JSON.stringify(currentConfig));
   }
 });
+
+const editProperties = (newValue: models.RadioProperty) => {
+  const currentProps = avatarProperties.value;
+    const index = currentProps.findIndex(v => v.propNameEn === newValue.propNameEn);
+    if (index !== -1) {
+        currentProps[index] = newValue;
+    }
+    avatarProperties.value = currentProps;
+}
 
 //Tri de l'interface pour les deux tabs
 const avatarPropertiesHead = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_HEAD_PROPS));
