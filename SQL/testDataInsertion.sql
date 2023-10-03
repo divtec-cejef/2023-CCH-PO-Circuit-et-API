@@ -234,7 +234,13 @@ VALUES ('PitStop', 1);
 
 -- Automatique
 INSERT INTO activity (label, id_section)
-VALUES ('', 2);
+VALUES ('ExercicePratique', 2);
+INSERT INTO activity (label, id_section)
+VALUES ('Pong', 2);
+INSERT INTO activity (label, id_section)
+VALUES ('CNCGaming', 2);
+INSERT INTO activity (label, id_section)
+VALUES ('Flipper', 2);
 
 -- Horlogerie
 INSERT INTO activity (label, id_section)
@@ -252,7 +258,7 @@ VALUES ('BrasageTemi', 4);
 
 -- Micromécanique
 INSERT INTO activity (label, id_section)
-VALUES ('', 5);
+VALUES ('MicroTime', 5);
 
 -- Laborantin
 INSERT INTO activity (label, id_section)
@@ -262,7 +268,7 @@ VALUES ('PH', 6);
 
 -- Dessin
 INSERT INTO activity (label, id_section)
-VALUES ('', 7);
+VALUES ('DessinezCEstGagné', 7);
 
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
