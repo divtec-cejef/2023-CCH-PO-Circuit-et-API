@@ -32,7 +32,7 @@
                 </p>
                 <div class="link">
                     <p>{{ domaineName }}/</p>
-                    <input type="number" placeholder="****" v-model="userQueryId" max="9999">
+                    <input type="number" placeholder="****" v-model="userQueryId">
                 </div>
                 <button type="submit"
                         @click.prevent="enteredQueryId">Valider
@@ -232,6 +232,15 @@ div.home-root {
   width: 100%;
   min-width: fit-content;
 
+  div.intro {
+    text-align: center;
+
+    p:nth-child(3) {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  }
+
   img.qr-code {
     width: 200px;
     display: block;
@@ -307,15 +316,6 @@ div.home-root {
         font-size: 2rem;
         font-weight: 500;
         text-align: center;
-      }
-    }
-
-    div.intro {
-      text-align: center;
-
-      p:nth-child(3) {
-        margin-top: 10px;
-        font-weight: bold;
       }
     }
   }
