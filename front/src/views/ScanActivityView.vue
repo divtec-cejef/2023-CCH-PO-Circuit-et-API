@@ -47,6 +47,7 @@ import type { DetectedBarcode } from 'barcode-detector';
 type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
+
 /**
  * Dessine le tour du code qr sur l'image de celui la
  * @param detectedCodes Code détecté par le lecteur
@@ -141,8 +142,8 @@ const nameActivity = ref('');
 
 //S'il n'y a pas d'authentification retour à la page admin
 if (!localStorage.getItem('tokenPost') ||
-    router.currentRoute.value.query.idActivity?.length == undefined ||
-    router.currentRoute.value.query.nameActivity?.length == undefined) {
+  router.currentRoute.value.query.idActivity?.length == undefined ||
+  router.currentRoute.value.query.nameActivity?.length == undefined) {
   router.push({ path: '/admin' });
 }
 
@@ -153,6 +154,10 @@ nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 </script>
 
 <style scoped lang="scss">
+
+div.fullscreen {
+  background-color: var(--black);
+}
 
 .loading-indicator {
   width: 100%;
