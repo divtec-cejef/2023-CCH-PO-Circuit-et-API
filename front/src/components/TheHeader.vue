@@ -32,7 +32,7 @@
             <li @click="clickMenu" id="stage">
                 <RouterLink to="stage">
                     <p>Stage</p>
-                    <img src="../assets/img/contract.png"
+                    <img :src="stageImg"
                          alt="Icon d'inscription à un stage">
                 </RouterLink>
             </li>
@@ -51,18 +51,19 @@
 <script setup lang="ts">
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
-import exitImg from '@/assets/img/exit.png';
-import exitPhoneImg from '@/assets/img/exit-phone.png';
+import exitImg from '@/assets/img/exit.avif';
+import exitPhoneImg from '@/assets/img/exit-phone.avif';
 import { useRouter } from 'vue-router';
 import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
 
-import houseImg from '@/assets/img/house.png';
-import editImg from '@/assets/img/edit.png';
-import rankingImg from '@/assets/img/top-three.png';
-import carImg from '@/assets/img/car.png';
-import bonusImg from '@/assets/img/trophy.png';
-import qrCodeimg from '@/assets/img/qr-code.png';
-import live from '@/assets/img/live.png';
+import houseImg from '@/assets/img/house.avif';
+import editImg from '@/assets/img/edit.avif';
+import rankingImg from '@/assets/img/top-three.avif';
+import carImg from '@/assets/img/car.avif';
+import bonusImg from '@/assets/img/trophy.avif';
+import qrCodeimg from '@/assets/img/qr-code.avif';
+import live from '@/assets/img/live.avif';
+import stageImg from  "@/assets/img/contract.avif";
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();

@@ -41,13 +41,13 @@
                         <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
                             <label>
                                 <input name="tab" type="radio" :checked="numTabOpen == 1">
-                                <img src="../assets/img/face-color.webp" alt="Icon visage homme">
+                                <img src="@/assets/img/face-color.avif" alt="Icon visage homme">
                             </label>
                         </div>
                         <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
                             <label>
                                 <input name="tab" type="radio" :checked="numTabOpen == 2">
-                                <img src="../assets/img/hanger.webp" alt="Icon de ceintre">
+                                <img src="@/assets/img/hanger.avif" alt="Icon de ceintre">
                             </label>
                         </div>
                     </div>
@@ -176,8 +176,8 @@ import { genConfig } from 'holiday-avatar';
 import { useCarStore } from '@/stores/car';
 import { computed, onMounted, ref } from 'vue';
 import api from '@/models/api';
-import cancelIcon from '@/assets/img/cancel.png';
-import validateIcon from '@/assets/img/checked.png';
+import cancelIcon from '@/assets/img/cancel.avif';
+import validateIcon from '@/assets/img/checked.avif';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useBreakpoints } from '@vueuse/core';
 

@@ -27,8 +27,8 @@
 import { computed, ref } from 'vue';
 import Section from '@/models/section';
 import getColor = Section.getColor;
-import trophy from '@/assets/img/trophy.png';
-import arrow from '@/assets/img/arrows-symbol.png';
+import trophy from '@/assets/img/trophy.avif';
+import arrow from '@/assets/img/arrows-symbol.avif';
 
 const props = defineProps<{
   sectionName: string,

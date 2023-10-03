@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import qrCodeImg from '../assets/img/qrCode.gif';
+import qrCodeImg from '@/assets/img/qrCode.gif';
 import { useCarStore } from '@/stores/car';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { restful, WebsocketConnection } from '@/models/api';

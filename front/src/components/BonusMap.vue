@@ -43,8 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import svg from '../assets/img/division-plan.png';
-import trophy from '../assets/img/trophy.png';
+import svg from '@/assets/img/division-plan.png';
+import trophy from '@/assets/img/trophy.avif';
 import { ref, watch } from 'vue';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Section from '@/models/section';

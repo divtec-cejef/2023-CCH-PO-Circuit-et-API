@@ -40,7 +40,7 @@ import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
-import logoImg from '@/assets/img/logo.webp';
+import logoImg from '@/assets/img/logo.avif';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { useLocalStorage } from '@vueuse/core';
 import ErrorConnection from '@/components/ErrorConnection.vue';
