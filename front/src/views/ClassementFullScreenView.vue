@@ -1,47 +1,265 @@
 <template>
-    <div class="fullscreen" ref="el">
-        <div>
-            <ClassementRace :show-content="false" @indexNewRace="scrollToNewRace"
-                            :index-new-element="indexNewElement >= 0 ? indexNewElement : undefined"/>
+    <div v-if="!isShowedUserContent" class="fullscreen" ref="el">
+        <div class="classement">
+            <ClassementRace :show-content="false" @indexNewRace="resultAction"
+                            :index-new-element="newElement"/>
+        </div>
+    </div>
+
+    <div v-else-if="newElement && raceToDisplay" class="fullscreen info-user">
+        <div class="content-div">
+            <div class="avatar-and-pseudo">
+                <AutoRegeneratedAvatar :avatar-config="newElement!.car.avatar"></AutoRegeneratedAvatar>
+                <span>{{ newElement!.car.pseudo }}</span>
+            </div>
+            <div class="result-race">
+                <div class="time">{{ formatTime(raceToDisplay!.totalTime) }}<span>s</span></div>
+                <RaceInfo :display-rank="false" :num-race="1" :race="raceToDisplay!" :rank="2"></RaceInfo>
+            </div>
+            <div class="rank-content">
+                <RankInfo :rank="newElement!.index"></RankInfo>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 
-import ClassementRace from '@/components/ClassementRace.vue';
 import { useScroll } from '@vueuse/core';
 import { ref } from 'vue';
+import type { models } from '@/models/api';
+import api from '@/models/api';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import { formatTime } from '../models/race';
+import RankInfo from '@/components/RankInfo.vue';
+import RaceInfo from '@/components/RaceInfo.vue';
+import ClassementRace from '@/components/ClassementRace.vue';
 
 const el = ref<HTMLElement | null>(null);
-const indexNewElement = ref(-1);
+
+const newElement = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
+
 const { y: posY } = useScroll(el, { behavior: 'smooth' });
+const isShowedUserContent = ref(false);
+const raceToDisplay = ref<models.parsedData.RaceData>();
+
+function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
+  newElement.value = element;
+
+  //scroll jusqu'à l'élément
+  if (newElement.value == undefined) {
+    console.error('Car undefined');
+    return;
+  }
+
+  showUserContent().then(() => {
+    scrollToNewRace();
+  });
+}
+
+async function showUserContent() {
+  //Récupère les courses de l'utilisateur
+  const { json: allRaceOneCar } = await api.getAllRaceOneCar(newElement.value?.car.id_car!);
+
+  console.log('aslkdhflksadhflkaj');
+  if ('message' in allRaceOneCar) {
+    console.error('Erreur. Récupération des courses impossibles.');
+    return;
+  }
+
+  //Récupération de la course
+  raceToDisplay.value = allRaceOneCar.races[0];
+
+  isShowedUserContent.value = true;
+  await new Promise(r => setTimeout(() => {
+    isShowedUserContent.value = false;
+  }, 6000));
+}
 
 /**
  * Scroll sur la page pour afficher la dernière course
- * @param index Index de l'élément
  */
-function scrollToNewRace(index: number) {
-  //scroll jusqu'à l'élément
-  indexNewElement.value = index;
-  posY.value = (index - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
+function scrollToNewRace() {
 
-  // On attends 6 secondes et on revient au début
+  console.log('sakut');
+  //Récupération de l'index
+  posY.value = (newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
+
+  //On attends 6 secondes et on revient au début
   setTimeout(() => {
     posY.value = 0;
-    indexNewElement.value = -1;
+    newElement.value!.index =-1;
   }, 6000);
 }
 </script>
 
 <style scoped lang="scss">
 
+div.fullscreen.info-user {
+  background-color: var(--white);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  div.content-div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    max-width: 800px;
+
+    div.avatar-and-pseudo {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        font-size: 27px;
+        font-weight: bold;
+      }
+
+      div.avatar {
+        width: 225px;
+        height: 225px;
+        margin-bottom: 20px;
+      }
+    }
+
+    div.result-race {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: end;
+
+
+      > .time {
+        width: fit-content;
+        font-size: 70px;
+        font-family: 'Digital-7 Mono', sans-serif;
+        display: flex;
+        align-items: center;
+
+        span {
+          font-family: 'Poppins', sans-serif;
+          font-size: 35px;
+          margin-left: 10px;
+          margin-top: 20px;
+        }
+      }
+    }
+
+    :deep(div.race-content) {
+
+      .content-2 {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column-reverse !important;
+        max-width: unset;
+
+        .vitesse {
+          width: fit-content;
+          flex-direction: column;
+          align-items: end;
+          justify-content: end;
+          margin-top: 10px !important;
+
+          div:nth-child(1) {
+            text-align: left;
+            width: fit-content;
+            font-size: 20px;
+          }
+        }
+
+        .time-inter {
+          width: 250px;
+          margin-bottom: 15px;
+
+          > div {
+            width: 100%;
+            text-align: right;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            font-size: 20px;
+          }
+
+          ul {
+            margin-left: 55px;
+
+            li {
+              span {
+                font-size: 28px;
+              }
+
+              p {
+                font-size: 32px;
+              }
+
+              div.number {
+                width: 30px;
+                height: 30px;
+
+                p {
+                  font-size: 26px !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .best-time {
+        display: none;
+      }
+    }
+  }
+
+  div.rank-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .rank {
+      width: 125px;
+      height: 125px;
+      margin: 0;
+
+      &:deep(> span) {
+        font-size: 20px;
+        margin-bottom: -15px;
+        margin-top: 5px;
+      }
+
+      &:deep(div) {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+        span:nth-child(1) {
+          font-size: 25px;
+        }
+
+        span:nth-child(2) {
+          font-size: 47px;
+          margin-top: 12px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+  }
+}
+
+
 div.fullscreen {
   background-color: var(--white);
   z-index: 10000;
   overflow-y: scroll;
 
-  > div {
+  > div.classement {
     margin: 35px auto 0 auto;
     width: 75%;
   }
