@@ -26,12 +26,12 @@ const props = defineProps<{
  * Emit pour le clique
  */
 const clickDropDown = () => {
-  emit('clickDropDown', !props.dropDownClicked);
+  emit('update:dropDownClicked', !props.dropDownClicked);
 };
 
 
 const emit = defineEmits<{
-  (e: 'clickDropDown', clicked: boolean): void
+  (e: 'update:dropDownClicked', clicked: boolean): void
 }>();
 
 

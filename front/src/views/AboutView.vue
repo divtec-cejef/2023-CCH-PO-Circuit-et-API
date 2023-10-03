@@ -127,34 +127,36 @@
             qui nous fournissent des technologies très utiles:</p>
         <section class="libs">
             <div>
-            <h3>Front-end</h3>
-            <ul>
-                <li v-for="(lib, index) in frontLibs" :key="index">
-                    <div v-if="display === 'legacy'">
-                        <span class="library-name">{{lib.name}}</span>
-                        <span class="author-name">{{lib.author}}</span>
-                    </div>
-                    <a :href="lib.link" v-else>
-                        <span class="library-name">{{lib.name}}</span>
-                        <span class="author-name">{{lib.author}}</span>
-                    </a>
-                </li>
-            </ul>
+                <DropDown name="FrontEnd" v-model:drop-down-clicked="frontIsUnwrapped">
+                    <ul>
+                        <li v-for="(lib, index) in frontLibs" :key="index">
+                            <div v-if="display === 'legacy'">
+                                <span class="library-name">{{ lib.name }}</span>
+                                <span class="author-name">{{ lib.author }}</span>
+                            </div>
+                            <a :href="lib.link" v-else>
+                                <span class="library-name">{{ lib.name }}</span>
+                                <span class="author-name">{{ lib.author }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </DropDown>
             </div>
             <div>
-            <h3>Back-end</h3>
-            <ul>
-                <li v-for="(lib, index) in backLibs" :key="index">
-                    <div v-if="display === 'legacy'">
-                        <span class="library-name">{{lib.name}}</span>
-                        <span class="author-name">{{lib.author}}</span>
-                    </div>
-                    <a :href="lib.link" v-else>
-                        <span class="library-name">{{lib.name}}</span>
-                        <span class="author-name">{{lib.author}}</span>
-                    </a>
-                </li>
-            </ul>
+                <DropDown name="BackEnd" v-model:drop-down-clicked="backIsUnwrapped">
+                    <ul>
+                        <li v-for="(lib, index) in backLibs" :key="index">
+                            <div v-if="display === 'legacy'">
+                                <span class="library-name">{{ lib.name }}</span>
+                                <span class="author-name">{{ lib.author }}</span>
+                            </div>
+                            <a :href="lib.link" v-else>
+                                <span class="library-name">{{ lib.name }}</span>
+                                <span class="author-name">{{ lib.author }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </DropDown>
             </div>
         </section>
     </div>
@@ -162,6 +164,8 @@
 
 <script setup lang="ts">
 import {useLocalStorage} from "@vueuse/core";
+import DropDown from "@/components/DropDown.vue";
+import {ref} from "vue";
 
 const frontLibs: {
   link: string,
@@ -236,7 +240,7 @@ const backLibs: {
   author: string
 }[] = [{
   link: 'https://expressjs.com',
-  name:'Express.JS',
+  name: 'Express.JS',
   author: 'Express.JS foundation'
 }, {
   link: 'https://prisma.io',
@@ -273,11 +277,15 @@ const backLibs: {
 }];
 backLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
+const frontIsUnwrapped = ref(false);
+const backIsUnwrapped = ref(false);
+
 const display = useLocalStorage('display', 'modern');
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/css/consts.scss";
+
 p {
   margin-bottom: 1em;
 }
@@ -316,8 +324,8 @@ ul {
       width: 100%;
 
       @media screen and (min-width: 425px) {
-      width: 90%;
-      padding:  1.5em;
+        width: 90%;
+        padding: 1.5em;
       }
 
       &:last-child:nth-child(odd) {
@@ -380,52 +388,56 @@ section {
       grid-auto-flow: column;
     }
 
-    ul {
-      li {
-        a, div {
-          display: grid;
-          grid-template-columns: auto;
-          transition: all 300ms ease-in-out;
-          margin: auto auto 10px auto;
-          padding: 1.5em;
-          width: 90%;
-          grid-gap: 5px;
-          border-radius: 20px;
-          box-shadow: $default-shadow;
+    > div {
+      margin: .5em 0;
 
-          @media screen and (min-width:  530px) {
-            grid-template-columns: 1fr 1fr;
-            margin: auto;
-            width: fit-content;
-            box-shadow: none;
-            padding: 0;
+      ul {
+        li {
+          a, div {
+            display: grid;
+            grid-template-columns: auto;
+            transition: all 300ms ease-in-out;
+            margin: auto auto 10px auto;
+            padding: 1.5em;
+            width: 90%;
+            grid-gap: 5px;
+            border-radius: 20px;
+            box-shadow: $default-shadow;
 
-            span {
-              &.library-name {
-                font-weight: bold;
-                justify-self: right;
-              }
+            @media screen and (min-width: 530px) {
+              grid-template-columns: 1fr 1fr;
+              margin: auto;
+              width: fit-content;
+              box-shadow: none;
+              padding: 0;
 
-              &.author-name {
-                justify-self: left;
+              span {
+                &.library-name {
+                  font-weight: bold;
+                  justify-self: right;
+                }
+
+                &.author-name {
+                  justify-self: left;
+                }
               }
             }
-          }
 
-          span.library-name {
-          font-weight: bold;
-          }
-
-          &:hover {
-            color: var(--gray);
-          }
-
-          span {
-            width: fit-content;
-            justify-self: center;
-
-            &.library-name {
+            span.library-name {
               font-weight: bold;
+            }
+
+            &:hover {
+              color: var(--gray);
+            }
+
+            span {
+              width: fit-content;
+              justify-self: center;
+
+              &.library-name {
+                font-weight: bold;
+              }
             }
           }
         }
