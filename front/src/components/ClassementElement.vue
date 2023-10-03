@@ -8,13 +8,16 @@
             </div>
             <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
             <div class="pseudo">{{ props.pseudo }}</div>
-            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
 
-            <img v-if="props.showContent" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
+            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
+            <img v-if="props.showContent"
+                 :src="arrowImg"
+                 alt="Icon de flèche pour déplier le contenu"
                  :style="{
-            transform: `rotate(${rotateImage}deg)`,
-            filter: userCar.car.pseudo == props.pseudo && Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50 ? 'grayscale(1) invert(1)' : ''
-        }"></div>
+                    transform: `rotate(${rotateImage}deg)`,
+                    filter: isOnDarkBg ? 'grayscale(1) invert(1)' : ''
+            }">
+        </div>
         <div v-if="props.showContent">
             <Transition>
                 <div v-if="dropDownClicked" class="user-content big">
@@ -121,6 +124,8 @@ const props = defineProps<{
   isNewElement?: boolean
 }>();
 
+console.log(props.pseudo, Color(props.avatar.bgColor).hsl().lightness());
+
 const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
 const dropDownClicked = ref(false);
@@ -155,23 +160,28 @@ const listAllBonus: Ref<{
 }[]> = ref([]);
 const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
-const colorFont = computed<string | null>(() => {
-  if (userCar.car.pseudo == props.pseudo) {
-    if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50) {
-      return colorScheme.value === 'dark' ? '#000' : null;
-    } else {
-      return colorScheme.value === 'dark' ? null : '#fff';
-    }
-  } else {
-    return null;
-  }
-});
 
 const colorScheme = usePreferredColorScheme();
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
   return dropDownClicked.value ? '90' : '0';
+});
+
+const isOnDarkBg = computed(() => {
+  if (userCar.car.pseudo === props.pseudo) {
+    return Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50
+  } else {
+    return colorScheme.value === 'dark'
+  }
+});
+
+const colorFont = computed<string | null>(() => {
+  if(isOnDarkBg.value) {
+    return colorScheme.value === 'dark' ? 'var(--white)' : '#fff';
+  } else {
+    return colorScheme.value === 'dark' ? '#000' : 'var(--black)';
+  }
 });
 
 // Ajoute une classe si l'élément de l'utilisateur
