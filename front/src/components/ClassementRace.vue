@@ -19,7 +19,7 @@
                 :time="new Date(race.total_time)"
                 :id-car="race.car!.id_car"
                 :show-content="props.showContent"
-                :is-new-element="key === props.indexNewElement"
+                :is-new-element="props.indexNewElement ? key === props.indexNewElement.index : false"
         />
     </template>
 </template>
@@ -36,7 +36,6 @@ const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
 const errorMessage = ref<string>();
 const lastListRace = ref<models.rawData.WsRaceData[]>([]);
-const index = ref(0);
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();
@@ -44,7 +43,7 @@ const socket = new WebsocketConnection();
 //Définition des props avec valeur par défaut
 const props = withDefaults(defineProps<{
   showContent?: boolean,
-  indexNewElement?: number
+  indexNewElement?: models.parsedData.RankingRaceDataOneCar
 }>(), {
   showContent: true
 });
@@ -62,25 +61,24 @@ socket.onRankingReceived((data) => {
 
   //Si ce n'est le premier chargement alors on recherche la course ajoutée en dernier
   if (lastListRace.value.length > 0) {
-    index.value = getRankLastRace();
-    emit('indexNewRace', index.value);
+    const newRace = getRankLastRace();
+    emit('indexNewRace', newRace);
   }
 
   //La nouvelle liste devient l'ancienne
   lastListRace.value = listRace.value;
-
   hasLoaded.value = true;
 
   emit('load');
 });
 
 /**
- * Compare les listes pour récupérer le rang de la dernière course
- */
-function getRankLastRace() {
+   * Compare les listes pour récupérer le rang de la dernière course
+   */
+function getRankLastRace() : models.parsedData.RankingRaceDataOneCar | undefined {
   //Si les listes sont vides
   if (!listRace.value || !lastListRace.value) {
-    return -1;
+    return;
   }
 
   //Compare les deux listes pour trouver le changement
@@ -88,11 +86,11 @@ function getRankLastRace() {
   for (let race of listRace.value) {
     //Si l'index est trop grand, ou que l'id de l'utilisateur est différents alors on retourne l'index
     if ((index >= lastListRace.value.length) || (race.id_race !== lastListRace.value[index].id_race)) {
-      return index;
+      return { index: index, car: race.car };
     }
     index++;
   }
-  return -1;
+  return;
 }
 
 
