@@ -22,10 +22,9 @@ const { y: posY } = useScroll(el, { behavior: 'smooth' });
  * @param index Index de l'élément
  */
 function scrollToNewRace(index: number) {
-  indexNewElement.value = index;
-  console.log(index);
   //scroll jusqu'à l'élément
-  posY.value = (index - 1) * 73 + 35 - (window.innerHeight / 2 - 60);
+  indexNewElement.value = index;
+  posY.value = (index - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
 
   // On attends 6 secondes et on revient au début
   setTimeout(() => {

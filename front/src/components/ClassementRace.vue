@@ -58,24 +58,17 @@ socket.onRankingReceived((data) => {
     return;
   }
 
-  console.log('Dernière liste : ', JSON.parse(JSON.stringify(lastListRace.value)));
-  console.log('Récéption des données du WEBSOCKET');
-
   listRace.value = data.races;
-  console.log('Ajout des données depuis le WEBSOCKET : ', JSON.parse(JSON.stringify(listRace.value)));
 
   //Si ce n'est le premier chargement alors on recherche la course ajoutée en dernier
   if (lastListRace.value.length > 0) {
     index.value = getRankLastRace();
-    console.log('Recherche de l\'index :', index);
     emit('indexNewRace', index.value);
   }
 
-  console.log('Valeur des listes après recherche : listRace : ', JSON.parse(JSON.stringify(listRace.value)), 'lastListRace : ', JSON.parse(JSON.stringify(lastListRace.value)));
   //La nouvelle liste devient l'ancienne
   lastListRace.value = listRace.value;
 
-  console.log('Valeur des listes après changement : listRace : ', JSON.parse(JSON.stringify(listRace.value)), 'lastListRace : ', JSON.parse(JSON.stringify(lastListRace.value)));
   hasLoaded.value = true;
 
   emit('load');
@@ -90,13 +83,11 @@ function getRankLastRace() {
     return -1;
   }
 
-  console.log('Valeur des listes dans la recherche : listRace : ', JSON.parse(JSON.stringify(listRace.value)), 'lastListRace : ', JSON.parse(JSON.stringify(lastListRace.value)));
-
   //Compare les deux listes pour trouver le changement
   let index = 0;
   for (let race of listRace.value) {
-    if ((index >= lastListRace.value.length) || (race.id_race != lastListRace.value[index].id_race)) {
-      console.log('Valeur des listes au retour de l\'index : listRace : ', JSON.parse(JSON.stringify(listRace.value)), 'lastListRace : ', JSON.parse(JSON.stringify(lastListRace.value)));
+    //Si l'index est trop grand, ou que l'id de l'utilisateur est différents alors on retourne l'index
+    if ((index >= lastListRace.value.length) || (race.id_race !== lastListRace.value[index].id_race)) {
       return index;
     }
     index++;
