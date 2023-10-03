@@ -129,8 +129,12 @@
             <div>
             <h3>Front-end</h3>
             <ul>
-                <li v-for="(lib, index) in frontLibs"  :key="index">
-                    <a :href="lib.link">
+                <li v-for="(lib, index) in frontLibs" :key="index">
+                    <div v-if="display === 'legacy'">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </div>
+                    <a :href="lib.link" v-else>
                         <span class="library-name">{{lib.name}}</span>
                         <span class="author-name">{{lib.author}}</span>
                     </a>
@@ -140,8 +144,12 @@
             <div>
             <h3>Back-end</h3>
             <ul>
-                <li v-for="(lib, index) in backLibs"  :key="index">
-                    <a :href="lib.link">
+                <li v-for="(lib, index) in backLibs" :key="index">
+                    <div v-if="display === 'legacy'">
+                        <span class="library-name">{{lib.name}}</span>
+                        <span class="author-name">{{lib.author}}</span>
+                    </div>
+                    <a :href="lib.link" v-else>
                         <span class="library-name">{{lib.name}}</span>
                         <span class="author-name">{{lib.author}}</span>
                     </a>
@@ -153,6 +161,8 @@
 </template>
 
 <script setup lang="ts">
+import {useLocalStorage} from "@vueuse/core";
+
 const frontLibs: {
   link: string,
   name: string,
@@ -263,6 +273,7 @@ const backLibs: {
 }];
 backLibs.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
+const display = useLocalStorage('display', 'modern');
 </script>
 
 <style lang="scss" scoped>
@@ -371,7 +382,7 @@ section {
 
     ul {
       li {
-        a {
+        a, div {
           display: grid;
           grid-template-columns: auto;
           transition: all 300ms ease-in-out;
