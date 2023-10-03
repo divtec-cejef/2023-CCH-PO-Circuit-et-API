@@ -85,7 +85,10 @@ export const getShortestRaces = async () => {
     });
   }
 
-  return rankingRes;
+  return rankingRes.sort((a, b) => {
+    const time = a.total_time.valueOf() - b.total_time.valueOf();
+    return time === 0 ? a.id_race - b.id_race : time;
+  });
 };
 
 /**
