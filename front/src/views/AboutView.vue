@@ -295,14 +295,19 @@ ul {
     }
 
     li {
-      padding:  1.5em;
+      padding: 1.5em .75em;
       border-radius: 20px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       box-shadow: $default-shadow;
       grid-column: span 2;
+      width: 100%;
+
+      @media screen and (min-width: 425px) {
       width: 90%;
+      padding:  1.5em;
+      }
 
       &:last-child:nth-child(odd) {
         @media screen and (min-width: 910px) {
