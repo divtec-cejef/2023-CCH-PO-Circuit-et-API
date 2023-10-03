@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import instaImg from '../assets/img/instagram.webp';
-import facebookImg from '../assets/img/facebook.webp';
+import instaImg from '@/assets/img/instagram.avif';
+import facebookImg from '@/assets/img/facebook.avif';
 import { useLocalStorage } from '@vueuse/core';
 
 const display = useLocalStorage('display', 'modern');

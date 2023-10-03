@@ -107,7 +107,7 @@ import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
-import arrowImg from '../assets/img/arrow.png';
+import arrowImg from '@/assets/img/arrow.avif';
 import { getNumRace } from '@/models/car';
 import RaceInfo from '@/components/RaceInfo.vue';
 
