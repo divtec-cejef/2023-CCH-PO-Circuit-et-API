@@ -46,6 +46,7 @@ function onDecode(resultScan:DetectedBarcode[]) {
 @import "@/assets/css/consts";
 .fullscreen {
     z-index: 10000;
+    background-color: var(--black);
 
     .overlay {
         position:absolute;

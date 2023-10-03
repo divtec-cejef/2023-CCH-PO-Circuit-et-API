@@ -16,7 +16,7 @@ export default defineConfig({
     port: parseInt(process.env.PORT ?? '3000'),
     host: true
   },
-  base: './',
+  base: '/',
   assetsInclude: [
     '**/*.glb'
   ]
