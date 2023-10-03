@@ -111,7 +111,7 @@ div.activity-list div {
 }
 
 div.content {
-  height: calc(100vh - var(--height-screen-diff));
+  height: 100%;
 }
 
 div.no-authentification {
@@ -120,7 +120,7 @@ div.no-authentification {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: calc(100vh - var(--height-screen-diff));
+  height: 100%;
 
   div {
     background-color: var(--white);
