@@ -13,11 +13,11 @@
         <ClassementElement
                 v-for="(race, key) in listRace"
                 :key="key"
-                :avatar="race.car?.avatar || '<indisponible>'"
+                :avatar="race.car?.avatar || genConfig()"
                 :rank="key + 1"
                 :pseudo="race.car?.pseudo || '<indisponible>'"
                 :time="new Date(race.total_time)"
-                :id-car="race.car?.id_car"
+                :id-car="race.car!.id_car"
                 :show-content="props.showContent"
                 :is-new-element="key === props.indexNewElement"
         />
@@ -30,6 +30,7 @@ import { WebsocketConnection } from '@/models/api';
 import type { models } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
 import SpinLoading from '@/components/SpinLoading.vue';
+import {genConfig} from "holiday-avatar";
 
 const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
