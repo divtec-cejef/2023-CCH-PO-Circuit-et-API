@@ -240,6 +240,13 @@ div.message {
   left: calc(50% - 90px);
   text-align: center;
 
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: var(--black);
+    color: var(--white);
+    box-shadow: none;
+    border: $dark-border;
+  }
+
   img {
     width: 70px;
   }
