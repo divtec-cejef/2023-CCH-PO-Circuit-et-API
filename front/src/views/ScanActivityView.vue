@@ -256,6 +256,12 @@ div.message {
     border: 1px solid var(--gray);
     border-radius: 10px;
     padding: 4px 8px;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+      border: $dark-border;
+    }
   }
 }
 
