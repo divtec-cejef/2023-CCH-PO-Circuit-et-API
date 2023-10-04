@@ -6,11 +6,10 @@
                             :index-new-element="newElement"/>
         </div>
     </div>
-
     <div v-if="newElement && raceToDisplay" :class="`fullscreen info-user ${classDisplayInfoRace}`">
         <div class="content-div">
             <div class="rank-content">
-                <RankInfo :rank="newElement!.index"></RankInfo>
+                <RankInfo :rank="newElement!.index + 1"></RankInfo>
             </div>
             <div class="result-race">
                 <div class="time">{{ formatTime(raceToDisplay!.totalTime) }}<span>s</span></div>
@@ -83,7 +82,9 @@ function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
 
   //Affichage des résultats et scroll à l'utilisateur
   showUserContent().then(() => {
-    scrollToNewRace();
+    wait(1).then(() => {
+      scrollToNewRace();
+    });
   });
 }
 
@@ -94,7 +95,6 @@ async function showUserContent() {
   //Récupère les courses de l'utilisateur
   const { json: allRaceOneCar } = await api.getAllRaceOneCar(newElement.value?.car.id_car!);
 
-  console.log('jaffiche');
   if ('message' in allRaceOneCar) {
     console.error('Erreur. Récupération des courses impossibles.');
     return;
@@ -107,7 +107,6 @@ async function showUserContent() {
   isShowedUserContent.value = true;
   await wait(6);
   isShowedUserContent.value = false;
-  console.log('j ai fini');
 }
 
 
@@ -126,11 +125,9 @@ function wait(seconds: number) {
  */
 function scrollToNewRace() {
 
-  console.log('sakut');
   //Récupération de l'index
   posY.value = (newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
 
-  console.log((newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60));
   //On attends 6 secondes et on revient au début
   setTimeout(() => {
     posY.value = 0;
@@ -154,17 +151,17 @@ div.fullscreen {
 div.fullscreen.info-user {
   background-color: var(--white);
   z-index: 10001;
-  display: none;
+  opacity: 0;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  transition: opacity 0.8s ease-in;
 
   &.display {
-    display: flex;
+    opacity: 1;
+    transition: opacity 0.8s ease-out;
     z-index: 10002;
   }
-
-
 
   div.content-div {
     display: flex;
@@ -338,4 +335,5 @@ div.fullscreen {
     width: 70%;
   }
 }
+
 </style>
