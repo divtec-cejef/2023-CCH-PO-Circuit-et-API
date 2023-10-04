@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isShowedUserContent" class="fullscreen" ref="el">
+    <div class="fullscreen" ref="el">
         <button v-if="buttonVisible" @click="openFullscreen">FULLSCREEN</button>
         <div class="classement">
             <ClassementRace :show-content="false" @indexNewRace="resultAction"
@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div v-else-if="newElement && raceToDisplay" class="fullscreen info-user">
+    <div v-if="newElement && raceToDisplay" :class="`fullscreen info-user ${classDisplayInfoRace}`">
         <div class="content-div">
             <div class="rank-content">
                 <RankInfo :rank="newElement!.index"></RankInfo>
@@ -27,7 +27,7 @@
 <script setup lang="ts">
 
 import { useScroll } from '@vueuse/core';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { models } from '@/models/api';
 import api from '@/models/api';
@@ -49,21 +49,29 @@ onMounted(() => {
   documentElement.value = document.documentElement;
 });
 
-/* Get the documentElement (<html>) to display the page in fullscreen */
+const classDisplayInfoRace = computed(() => {
+  return isShowedUserContent.value ? 'display' : 'none';
+});
 
-/* View in fullscreen */
+/**
+ * Met la page en full screen sans la barre de navigation
+ */
 function openFullscreen() {
   if (documentElement.value === null) {
     return;
   }
   if (documentElement.value.requestFullscreen) {
-    documentElement.value.requestFullscreen();
+    documentElement.value.requestFullscreen({ navigationUI: 'hide' });
   }
 
   //Disparition du bouton
   buttonVisible.value = false;
 }
 
+/**
+ * Fonction à lancer à l'ajout d'une nouvelle course
+ * @param element Element ajoutée
+ */
 function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
   newElement.value = element;
 
@@ -73,16 +81,20 @@ function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
     return;
   }
 
+  //Affichage des résultats et scroll à l'utilisateur
   showUserContent().then(() => {
     scrollToNewRace();
   });
 }
 
+/**
+ * Montre les données de la course
+ */
 async function showUserContent() {
   //Récupère les courses de l'utilisateur
   const { json: allRaceOneCar } = await api.getAllRaceOneCar(newElement.value?.car.id_car!);
 
-  console.log('aslkdhflksadhflkaj');
+  console.log('jaffiche');
   if ('message' in allRaceOneCar) {
     console.error('Erreur. Récupération des courses impossibles.');
     return;
@@ -91,10 +103,22 @@ async function showUserContent() {
   //Récupération de la course
   raceToDisplay.value = allRaceOneCar.races[0];
 
+  //Affiche et attends 6 secondes
   isShowedUserContent.value = true;
-  await new Promise(r => setTimeout(() => {
-    // isShowedUserContent.value = false;
-  }, 6000));
+  await wait(6);
+  isShowedUserContent.value = false;
+  console.log('j ai fini');
+}
+
+
+/**
+ * Attends un nombre de seconde en async
+ * @param seconds Nombre de secondes à attendre
+ */
+function wait(seconds: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, seconds * 1000);
+  });
 }
 
 /**
@@ -106,6 +130,7 @@ function scrollToNewRace() {
   //Récupération de l'index
   posY.value = (newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
 
+  console.log((newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60));
   //On attends 6 secondes et on revient au début
   setTimeout(() => {
     posY.value = 0;
@@ -129,10 +154,17 @@ div.fullscreen {
 div.fullscreen.info-user {
   background-color: var(--white);
   z-index: 10001;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
+  &.display {
+    display: flex;
+    z-index: 10002;
+  }
+
+
 
   div.content-div {
     display: flex;
