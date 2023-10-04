@@ -245,7 +245,6 @@ function clickClassementElement() {
     dropDownClicked.value = true;
 
   });
-
 }
 
 /**
@@ -415,7 +414,7 @@ div.classement-element {
     span {
       font-family: 'Poppins', sans-serif;
       font-size: 18px;
-        margin-left: 5px;
+      margin-left: 5px;
     }
   }
 }
