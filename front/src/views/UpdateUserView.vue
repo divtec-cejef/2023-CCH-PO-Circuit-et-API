@@ -7,8 +7,11 @@
             </div>
             <form @submit.prevent="() => connect(car.idQuery!, password)">
                 <label for="password">Code de la voiture </label>
-                <input type="text" id="password" name="password" v-model="password">
-                <p v-if="error.length > 0" class="error">Code invalide.</p>
+                <input type="text"
+                       id="password"
+                       name="password"
+                       v-model="password"
+                       :class="error.length > 0 ? 'errored' : ''">
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
                 </div>
@@ -707,6 +710,7 @@ const isLaptop = classDisplayModif.greaterOrEqual('laptop');
  * @param password mot de passe de la voiture
  */
 async function connect(queryId: string, password: string) {
+  error.value = ''
   //Récupération du Token avec le nom et mot de passe de l'URL
   let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
@@ -720,7 +724,6 @@ async function connect(queryId: string, password: string) {
   localStorage.setItem('carToken', userCar.token);
 
   dialog.value?.close();
-  error.value = '';
 
   // Test si enregistrement des données de la voiture
   if (refPseudo.value !== car.pseudo || (userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar))) {
@@ -904,6 +907,7 @@ onBeforeRouteLeave((to) => {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
+@import 'animate.css';
 
 div.modify-pseudo {
   margin-top: 15px;
@@ -1197,15 +1201,12 @@ div.modify-avatar {
     input {
       margin-bottom: .1em;
       border: 1px solid var(--black);
-    }
+      border-radius: 10px;
 
-    .error {
-      display: block;
-      height: 1em;
-      color: var(--red);
-      font-size: 1em;
-      font-style: italic;
-      margin-bottom: 10px;
+      &.errored {
+        border: 2px solid red;
+        animation: 600ms headShake;
+      }
     }
 
     button[type="submit"] {
