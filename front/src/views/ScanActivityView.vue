@@ -1,17 +1,17 @@
 <template>
     <div class="fullscreen">
         <div class="up-screen">
-            <div @click="quitPage" class="return-back" v-if="!loading">
+            <div v-if="!loading" class="return-back" @click="quitPage">
                 <img :src="arrow" alt="Icon de retour en arrière">
             </div>
             <div class="name-activity">
                 <p>{{ nameActivity }}</p>
             </div>
         </div>
-        <qrcode-stream @camera-on="onInit"
+        <qrcode-stream :track="paintOutline"
                        @detect="onDecode"
-                       :track="paintOutline">
-            <div class="loading-indicator" v-if="loading">
+                       @camera-on="onInit">
+            <div v-if="loading" class="loading-indicator">
                 Chargement...
             </div>
         </qrcode-stream>
@@ -25,21 +25,20 @@
                 <img :src="cancelIcon" alt="Icône d'erreur">
                 <p>{{ errorMessage }}</p>
 
-                <button @click="() => {
+                <button class="button-return" @click="() => {
                     validateScan = false
                     addActivitySuccess = true
-                }" class="button-return">OK
+                }">OK
                 </button>
             </div>
         </template>
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { QrcodeStream } from 'vue-qrcode-reader';
 import { ref } from 'vue';
 import restful from '@/models/api';
-import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
@@ -47,6 +46,7 @@ import type { DetectedBarcode } from 'barcode-detector';
 import arrow from '@/assets/img/arrow.webp';
 import checkedIcon from '@/assets/img/checked.webp';
 import cancelIcon from '@/assets/img/cancel.webp';
+import addRealisationCar = restful.addRealisationCar;
 
 type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
@@ -157,7 +157,8 @@ nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import "@/assets/css/consts.scss";
 
 div.fullscreen {
   background-color: var(--black);
@@ -193,6 +194,14 @@ div.up-screen {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+
+      img {
+        filter: invert(1);
+      }
+    }
 
     img {
       margin-right: -3px;
