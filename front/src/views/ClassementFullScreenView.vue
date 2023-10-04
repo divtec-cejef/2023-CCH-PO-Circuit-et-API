@@ -28,37 +28,36 @@
 
 import { useScroll } from '@vueuse/core';
 import { onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
 import type { models } from '@/models/api';
 import api from '@/models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import { formatTime } from '../models/race';
+import { formatTime } from '@/models/race';
 import RankInfo from '@/components/RankInfo.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
 import ClassementRace from '@/components/ClassementRace.vue';
 
 const el = ref<HTMLElement | null>(null);
-
 const newElement = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
-
 const { y: posY } = useScroll(el, { behavior: 'smooth' });
 const isShowedUserContent = ref(false);
 const raceToDisplay = ref<models.parsedData.RaceData>();
 const buttonVisible = ref(true);
-let elem: HTMLElement | null = null;
+const documentElement: Ref<HTMLElement | null> = ref(null);
 
 onMounted(() => {
-  elem = document.documentElement;
+  documentElement.value = document.documentElement;
 });
 
 /* Get the documentElement (<html>) to display the page in fullscreen */
 
 /* View in fullscreen */
 function openFullscreen() {
-  if (elem === null) {
+  if (documentElement.value === null) {
     return;
   }
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
+  if (documentElement.value.requestFullscreen) {
+    documentElement.value.requestFullscreen();
   }
 
   //Disparition du bouton
@@ -294,10 +293,8 @@ div.fullscreen.info-user {
         }
       }
     }
-
   }
 }
-
 
 div.fullscreen {
   background-color: var(--white);
