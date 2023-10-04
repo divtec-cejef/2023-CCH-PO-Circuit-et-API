@@ -15,7 +15,6 @@
                                     :name="activity.label"
                                     @click="openScan(activity.idActivity, activity.label)"
                     />
-
                 </div>
             </template>
         </template>
@@ -24,10 +23,10 @@
 
 <script lang="ts" setup>
 import ActivityAdmin from '@/components/ActivityAdmin.vue';
-import {ref} from 'vue';
+import { ref } from 'vue';
 import restful from '@/models/api';
-import {useAdminPostStore} from '@/stores/adminPost';
-import {useRouter} from 'vue-router';
+import { useAdminPostStore } from '@/stores/adminPost';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -106,6 +105,7 @@ function openHome() {
 
 <style lang="scss" scoped>
 @import "@/assets/css/consts.scss";
+
 div.activity-list div {
   margin: 20px 0;
 }
