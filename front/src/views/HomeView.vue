@@ -135,7 +135,7 @@ const dataLoaded = computed(() =>
 //Test si un utilisateur est déjà enregistré
 const userCar = useCarStore();
 if (localStorage.getItem('userCarId')) {
-  router.push({ path: `/${userCar.car.idQuery}` });
+  router.push({ path: `/${userCar.car.idQuery || ''}` });
 }
 
 const enteredQueryId = () => {

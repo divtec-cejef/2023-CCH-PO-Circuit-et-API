@@ -773,6 +773,18 @@ export namespace models {
       token: string | undefined,
       car: UpdateCarData
     }
+
+    /*
+     * Représente les données de la dernière voiture ajoutée au classement
+     */
+    export interface RankingRaceDataOneCar {
+      index: number
+      car: {
+        id_car: number,
+        pseudo: string,
+        avatar: Avatar.Avatar,
+      }
+    }
   }
 }
 
