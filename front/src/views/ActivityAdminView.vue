@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <template v-if="!loading">
-            <div class="no-authentification" v-if="adminPost.token == ''">
+            <div v-if="adminPost.token == ''" class="no-authentification">
                 <h1>Erreur</h1>
                 <p>Vous n'êtes pas authentifié...</p>
 
@@ -11,18 +11,17 @@
                 <h1>Scan des activités</h1>
                 <div class="activity-list">
                     <activity-admin v-for="(activity, key) in adminPost.listActivity"
-                                    @click="openScan(activity.idActivity, activity.label)"
-                                    :name="activity.label"
                                     :key="key"
+                                    :name="activity.label"
+                                    @click="openScan(activity.idActivity, activity.label)"
                     />
-
                 </div>
             </template>
         </template>
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import ActivityAdmin from '@/components/ActivityAdmin.vue';
 import { ref } from 'vue';
 import restful from '@/models/api';
@@ -104,7 +103,8 @@ function openHome() {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import "@/assets/css/consts.scss";
 
 div.activity-list div {
   margin: 20px 0;
@@ -130,12 +130,21 @@ div.no-authentification {
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
     margin-top: 20px;
     transition: 0.2s ease-in-out;
-  }
+    cursor: pointer;
 
-  div:hover {
-    background-color: var(--gray);
-    color: var(--white);
-    transition: 0.2s ease-in-out;
+    &:hover {
+      background-color: var(--gray);
+      color: var(--white);
+      transition: 0.2s ease-in-out;
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+      transition: 0.2s ease-in-out;
+      box-shadow: none;
+      border: $dark-border;
+    }
   }
 }
 </style>
