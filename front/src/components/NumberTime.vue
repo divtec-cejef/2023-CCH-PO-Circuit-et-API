@@ -1,11 +1,9 @@
 <template>
-
     <div class="number" :style="{backgroundColor: props.color}">
         <p>
             {{ props.number }}
         </p>
     </div>
-
 </template>
 
 <script setup lang="ts">
