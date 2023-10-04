@@ -7,11 +7,11 @@
             </div>
             <form @submit.prevent="() => connect(car.idQuery!, password)">
                 <label for="password">Code de la voiture </label>
-                <input type="text"
-                       id="password"
-                       name="password"
+                <input id="password"
                        v-model="password"
-                       :class="error.length > 0 ? 'errored' : ''">
+                       :class="error.length > 0 ? 'errored' : ''"
+                       name="password"
+                       type="text">
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
                 </div>
@@ -41,15 +41,15 @@
             <template v-if="isLaptop">
                 <div class="tab">
                     <div class="title">
-                        <div class="tab1" :class="numTabOpen === 1 ? 'tab-checked' : ''" @click="clickTab(1)">
+                        <div :class="numTabOpen === 1 ? 'tab-checked' : ''" class="tab1" @click="clickTab(1)">
                             <label>
-                                <input name="tab" type="radio" :checked="numTabOpen == 1">
+                                <input :checked="numTabOpen == 1" name="tab" type="radio">
                                 <img :src="faceIcon" alt="Icon visage homme">
                             </label>
                         </div>
-                        <div class="tab2" :class="numTabOpen === 2 ? 'tab-checked' : ''" @click="clickTab(2)">
+                        <div :class="numTabOpen === 2 ? 'tab-checked' : ''" class="tab2" @click="clickTab(2)">
                             <label>
-                                <input name="tab" type="radio" :checked="numTabOpen == 2">
+                                <input :checked="numTabOpen == 2" name="tab" type="radio">
                                 <img :src="hangerIcon" alt="Icon de ceintre">
                             </label>
                         </div>
@@ -59,13 +59,13 @@
                         <div>
                             <template v-for="props in numTabOpen === 1 ? avatarPropertiesHead : avatarPropertiesClothes" :key="props.propNameEn">
                                 <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT"
+                                                     :is-phone="false"
                                                      :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
-                                                     @update:property="editProperties"
-                                                     :is-phone="false"/>
+                                                     @update:property="editProperties"/>
                                 <AvatarColorPicker v-else
+                                                   :is-phone="false"
                                                    :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)! as models.RadioProperty<string>"
-                                                   @update:property="editProperties"
-                                                   :is-phone="false"/>
+                                                   @update:property="editProperties"/>
                             </template>
                         </div>
                     </div>
@@ -76,17 +76,16 @@
                         <img :src="validateIcon"
                              alt="Icon de validation de l'enregistrement des données">
                     </div>
-                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                    <div :style="{opacity: opacityAvatar}" class="content-avatar">
                         <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
                     </div>
 
                     <div class="modify-pseudo">
                         <label for="pseudo">Pseudo </label>
-                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                               maxlength="10">
+                        <input id="pseudo" v-model="pseudo" maxlength="10" name="pseudo" type="text">
                     </div>
 
-                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                    <button ref="updateButton" :disabled="updateDisabled" class="main" @click.prevent="updateUser">
                         Enregistrer
                     </button>
                 </div>
@@ -95,15 +94,14 @@
                 <div class="avatar-and-pseudo">
                     <div class="modify-pseudo">
                         <label for="pseudo">Pseudo </label>
-                        <input type="text" id="pseudo" name="pseudo" v-model="refPseudo" @input="atChangePseudo"
-                               maxlength="10">
+                        <input id="pseudo" v-model="pseudo" maxlength="10" name="pseudo" type="text">
                     </div>
 
                     <div :style="{display: displayMsgValid}" class="msg-success">
                         <img :src="validateIcon"
                              alt="Icon de validation de l'enregistrement des données">
                     </div>
-                    <div class="content-avatar" :style="{opacity: opacityAvatar}">
+                    <div :style="{opacity: opacityAvatar}" class="content-avatar">
                         <AutoRegeneratedAvatar :avatar-config="config"></AutoRegeneratedAvatar>
                     </div>
 
@@ -112,12 +110,12 @@
                 <div class="tab">
                     <div class="title">
                         <template v-for="(props, key) in avatarProperties" :key="key">
-                            <div @click="clickTab(key)"
-                                 v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
-                                 :class="'tab ' + `tab${key} ` + (numTabOpen === key ? 'clicked' : '')">
+                            <div v-if="props.propType != TYPE_PROPS_COLOR || props.propNameSnakeCase == 'bg-color' || props.propNameSnakeCase == 'face-color'"
+                                 :class="'tab ' + `tab${key} ` + (numTabOpen === key ? 'clicked' : '')"
+                                 @click="clickTab(key)">
                                 <label>
-                                    <input name="tab-phone" type="radio"
-                                           :checked="numTabOpen == key">
+                                    <input :checked="numTabOpen == key" name="tab-phone"
+                                           type="radio">
                                     <ImageModifPhone :image-name="props.propNameSnakeCase"
                                                      :image-name-fr="props.propNameFr"></ImageModifPhone>
                                 </label>
@@ -127,29 +125,29 @@
 
                     <div class="tab-content">
                         <template v-if="avatarProperties[numTabOpen].propType == TYPE_PROPS_TXT">
-                            <AvatarRadioSelector :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                                 @update:property="editProperties"
-                                                 :is-phone="true"/>
+                            <AvatarRadioSelector :is-phone="true"
+                                                 :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
+                                                 @update:property="editProperties"/>
                             <AvatarColorPicker
                                     v-if="avatarProperties[numTabOpen + 1].propType == TYPE_PROPS_COLOR
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'bg-color'
                             && avatarProperties[numTabOpen + 1].propNameSnakeCase != 'face-color'"
+                                    :is-phone="true"
                                     :property="avatarProperties[numTabOpen + 1] as models.RadioProperty<string>"
-                                    @update:property="editProperties"
-                                    :is-phone="true"/>
+                                    @update:property="editProperties"/>
                         </template>
 
                         <template v-else>
-                            <AvatarColorPicker :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
-                                               @update:property="editProperties"
-                                               :is-phone="true"/>
+                            <AvatarColorPicker :is-phone="true"
+                                               :property="avatarProperties[numTabOpen] as models.RadioProperty<string>"
+                                               @update:property="editProperties"/>
                         </template>
 
                     </div>
                 </div>
 
                 <div class="bt-save-phone">
-                    <button class="main" @click.prevent="updateUser" ref="updateButton" :disabled="updateDisabled">
+                    <button ref="updateButton" :disabled="updateDisabled" class="main" @click.prevent="updateUser">
                         Enregistrer
                     </button>
                 </div>
@@ -163,13 +161,15 @@
 
 </template>
 
-<script setup lang="ts">
-import { genConfig } from 'holiday-avatar';
-import { useCarStore } from '@/stores/car';
-import { computed, onMounted, ref } from 'vue';
+<script lang="ts" setup>
+import type {Configs} from 'holiday-avatar';
+import {genConfig} from 'holiday-avatar';
+import {useCarStore} from '@/stores/car';
+import type {Ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import api from '@/models/api';
-import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import { useBreakpoints } from '@vueuse/core';
+import {onBeforeRouteLeave, useRouter} from 'vue-router';
+import {useBreakpoints, useLocalStorage} from '@vueuse/core';
 
 import cancelIcon from '@/assets/img/cancel.webp';
 import validateIcon from '@/assets/img/checked.webp';
@@ -180,10 +180,7 @@ import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
-
-import type { Configs } from 'holiday-avatar';
-import type { Ref } from 'vue';
-import type { models } from '@/models/avatar';
+import type {models} from '@/models/avatar';
 
 const router = useRouter();
 
@@ -193,7 +190,6 @@ const { car } = userCar;
 const password = ref('');
 const error = ref('');
 const saveIsInvalid = ref(false);
-const refPseudo = ref(car.pseudo ?? '');
 const displayMsgValid = ref('none');
 const opacityAvatar = ref('');
 const LIMIT_LARGE_CONTENT = 960;
@@ -206,9 +202,68 @@ const NAME_CLOTHES_PROPS = 'clothes';
 const TYPE_PROPS_TXT = 'txt';
 const TYPE_PROPS_COLOR = 'color';
 
-//Config
-const config = ref(genConfig(car.avatar));
+// éléments de l'HTML
+const dialog = ref<HTMLDialogElement | null>(null);
+const dialogExit = ref<HTMLDialogElement | null>(null);
 
+const userCarIdLs = useLocalStorage<null | string>('userCarId', null);
+const carTokenLs = useLocalStorage<null | string>('carToken', null);
+const numTabOpenLs = useLocalStorage('numTabOpen', 1);
+
+const lastPseudo = useLocalStorage<null | string>('lastPiloteName', null);
+const pseudo = useLocalStorage<string>('piloteName', car.pseudo || '');
+//Gère le nom du pilote
+if (pseudo.value && lastPseudo.value) {
+  let piloteName = ref('');
+
+  //Récupération des données par l'api
+  api.getDataOneCarId(userCarIdLs.value || '0').then((v) => {
+
+    //Retour si erreur dans la requête
+    if ('message' in v.json) {
+      error.value = v.json.message;
+      return;
+    }
+
+    piloteName.value = v.json.pseudo;
+  });
+}
+lastPseudo.value = lastPseudo.value ?? pseudo.value;
+
+
+const config = useLocalStorage<Configs>('configAvatar', genConfig(car.avatar));
+const lastConfigAvatarLs = useLocalStorage<Configs>('lastConfigAvatar', config.value);
+// S'il y a quelque chose dans le localstorage avec, on compare avec les données dans la db
+if (config.value && lastConfigAvatarLs.value) {
+  let avatarValue: Ref<Configs> = ref(config.value);
+
+  //Récupération des données par l'api
+  api.getDataOneCarId(userCarIdLs.value || '0').then((v) => {
+
+    //Retour si erreur dans la requête
+    if ('message' in v.json) {
+      error.value = v.json.message;
+      return;
+    }
+
+    avatarValue.value = v.json.avatar;
+
+    //Test si les avatars stockés et en ligne sont égaux
+    if (avatarEquals(lastConfigAvatarLs.value!, avatarValue.value)) {
+      config.value = genConfig(config.value);
+    } else {
+      config.value = genConfig(avatarValue.value);
+      config.value = avatarValue.value;
+      lastConfigAvatarLs.value = avatarValue.value;
+    }
+
+    //Rempli l'écran des valeurs de l'avatar
+    fillAvatarPropreties(config.value);
+  });
+}
+lastConfigAvatarLs.value = lastConfigAvatarLs.value ?? config.value
+
+//Config
 const avatarProperties = computed<models.RadioProperty[]>({
   get: () => [
     {
@@ -618,84 +673,17 @@ const avatarProperties = computed<models.RadioProperty[]>({
 
 const editProperties = (newValue: models.RadioProperty) => {
   const currentProps = avatarProperties.value;
-    const index = currentProps.findIndex(v => v.propNameEn === newValue.propNameEn);
-    if (index !== -1) {
-        currentProps[index] = newValue;
-    }
-    avatarProperties.value = currentProps;
+  const index = currentProps.findIndex(v => v.propNameEn === newValue.propNameEn);
+  if (index !== -1) {
+    currentProps[index] = newValue;
+  }
+  avatarProperties.value = currentProps;
 }
 
 //Tri de l'interface pour les deux tabs
 const avatarPropertiesHead = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_HEAD_PROPS));
 const avatarPropertiesClothes = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_CLOTHES_PROPS));
 
-
-// éléments de l'HTML
-const dialog = ref<HTMLDialogElement | null>(null);
-const dialogExit = ref<HTMLDialogElement | null>(null);
-
-//Gère le nom du pilote
-if (localStorage.getItem('piloteName') && localStorage.getItem('lastPiloteName')) {
-  let piloteName = ref('');
-
-  //Récupération des données par l'api
-  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
-
-    //Retour si erreur dans la requête
-    if ('message' in v.json) {
-      error.value = v.json.message;
-      return;
-    }
-
-    piloteName.value = v.json.pseudo;
-
-    //Test si les avatars stockés et en ligne sont égaux
-    if (localStorage.getItem('lastPiloteName') == piloteName.value) {
-      refPseudo.value = localStorage.getItem('piloteName') || '';
-    } else {
-      refPseudo.value = piloteName.value;
-      localStorage.setItem('piloteName', piloteName.value);
-      localStorage.setItem('lastPiloteName', piloteName.value);
-    }
-  });
-}
-
-// S'il y a quelque chose dans le localstorage avec, on compare avec les données dans la db
-if (localStorage.getItem('configAvatar') && localStorage.getItem('lastConfigAvatar')) {
-  let avatarValue: Ref<Configs> = ref(config.value);
-
-  //Récupération des données par l'api
-  api.getDataOneCarId(localStorage.getItem('userCarId') || '0').then((v) => {
-
-    //Retour si erreur dans la requête
-    if ('message' in v.json) {
-      error.value = v.json.message;
-      return;
-    }
-
-    avatarValue.value = v.json.avatar;
-
-    //Test si les avatars stockés et en ligne sont égaux
-    if (avatarEquals(JSON.parse(localStorage.getItem('lastConfigAvatar') || ''), avatarValue.value)) {
-      config.value = genConfig(JSON.parse(localStorage.getItem('configAvatar') || ''));
-    } else {
-      config.value = genConfig(avatarValue.value);
-      localStorage.setItem('configAvatar', JSON.stringify(avatarValue.value));
-      localStorage.setItem('lastConfigAvatar', JSON.stringify(avatarValue.value));
-    }
-
-    //Rempli l'écran des valeurs de l'avatar
-    fillAvatarPropreties(config.value);
-  });
-}
-
-if (!localStorage.getItem('lastConfigAvatar')) {
-  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
-}
-
-if (!localStorage.getItem('lastPiloteName')) {
-  localStorage.setItem('lastPiloteName', refPseudo.value);
-}
 
 // Change la classe des éléments des menus pour le petit contenu
 const classDisplayModif = useBreakpoints({
@@ -721,12 +709,12 @@ async function connect(queryId: string, password: string) {
 
   //Si le token est valide
   userCar.token = valueToken.json.token;
-  localStorage.setItem('carToken', userCar.token);
+  carTokenLs.value = userCar.token;
 
   dialog.value?.close();
 
   // Test si enregistrement des données de la voiture
-  if (refPseudo.value !== car.pseudo || (userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar))) {
+  if (pseudo.value !== car.pseudo || (userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar))) {
     await updateUser();
   }
 }
@@ -750,7 +738,7 @@ const updateDisabled = computed(() => {
     return false;
   }
   const avatarEq = avatarEquals(config.value, userCar.car.avatar);
-  const pseudoEq = refPseudo.value.toString() === car.pseudo?.toString();
+  const pseudoEq = pseudo.value.toString() === car.pseudo?.toString();
   return avatarEq && pseudoEq;
 });
 
@@ -759,13 +747,6 @@ const updateDisabled = computed(() => {
  */
 function cancel() {
   router.push({ path: '/' });
-}
-
-/**
- * Lancement au changement de pseudo
- */
-function atChangePseudo() {
-  localStorage.setItem('piloteName', refPseudo.value);
 }
 
 /**
@@ -783,19 +764,19 @@ async function updateUser() {
   };
 
   // Vérification du pseudo
-  if (refPseudo.value.length < 3) {
-    refPseudo.value = userCar.car.pseudo ?? '';
+  if (pseudo.value.length < 3) {
+    pseudo.value = userCar.car.pseudo ?? '';
     saveIsInvalid.value = true;
     return;
   }
-  reqUserCar.car.pseudo = refPseudo.value;
+  reqUserCar.car.pseudo = pseudo.value;
   saveIsInvalid.value = false;
 
   // enregistrement de la voiture
   try {
     await api.updateCar(reqUserCar);
   } catch (e) {
-    localStorage.removeItem('carToken');
+    carTokenLs.value = null;
     dialog.value?.showModal();
     return;
   }
@@ -814,12 +795,12 @@ async function updateUser() {
   userCar.car.pseudo = reqUserCar.car.pseudo;
 
   //Stockage de "l'ancienne" config
-  localStorage.setItem('lastConfigAvatar', JSON.stringify(config.value));
-  localStorage.setItem('lastPiloteName', refPseudo.value);
+  lastConfigAvatarLs.value = config.value;
+  lastPseudo.value = pseudo.value;
 
   //Ajout du nouvel avatar et du nom dans Pinia
   userCar.car.avatar = JSON.parse(JSON.stringify(config.value));
-  userCar.car.pseudo = JSON.parse(JSON.stringify(refPseudo.value));
+  userCar.car.pseudo = JSON.parse(JSON.stringify(pseudo.value));
 }
 
 /**
@@ -834,13 +815,15 @@ function closeModal() {
  */
 function openOtherPage() {
   closeModal();
+  console.log("closed modal.");
   router.push({ path: nextRoute.value });
 }
 
 function quitPage() {
   //Changement de la localstorage
-  localStorage.setItem('configAvatar', localStorage.getItem('lastConfigAvatar') || '');
-  localStorage.setItem('piloteName', localStorage.getItem('lastPiloteName') || '');
+  config.value = lastConfigAvatarLs.value;
+  pseudo.value = lastPseudo.value;
+  console.log("quitting...");
 
   openOtherPage();
 }
@@ -868,7 +851,7 @@ function fillAvatarPropreties(config: Configs) {
  */
 function clickTab(numTab: number) {
   numTabOpen.value = numTab;
-  localStorage.setItem('numTabOpen', numTabOpen.value.toString());
+  numTabOpenLs.value = numTabOpen.value;
 }
 
 //Si l'id de la voiture n'est pas défini alors retour à la page d'accueil
@@ -877,7 +860,7 @@ if (!userCar.car.idCar) {
 }
 
 // Afficher la fenêtre de connexion si l'utilisateur n'est pas connecté
-userCar.token = localStorage.getItem('carToken') || '';
+userCar.token = carTokenLs.value || '';
 onMounted(() => {
   if (userCar.token === '') {
     dialog.value?.showModal();
@@ -885,8 +868,8 @@ onMounted(() => {
 });
 
 //Initialisation des variables
-if (localStorage.getItem('numTabOpen')) {
-  numTabOpen.value = Number(localStorage.getItem('numTabOpen'));
+if (numTabOpenLs.value) {
+  numTabOpen.value = numTabOpenLs.value;
 }
 
 //Quand on quitte la page alors on confirme si il y a eu des changements
@@ -901,11 +884,9 @@ onBeforeRouteLeave((to) => {
     return false;
   }
 });
-
-
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/consts";
 @import 'animate.css';
 
