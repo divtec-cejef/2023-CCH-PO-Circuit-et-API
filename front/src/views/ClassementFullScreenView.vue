@@ -1,5 +1,6 @@
 <template>
     <div v-if="!isShowedUserContent" class="fullscreen" ref="el">
+        <button v-if="buttonVisible" @click="openFullscreen">FULLSCREEN</button>
         <div class="classement">
             <ClassementRace :show-content="false" @indexNewRace="resultAction"
                             :index-new-element="newElement"/>
@@ -26,7 +27,7 @@
 <script setup lang="ts">
 
 import { useScroll } from '@vueuse/core';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { models } from '@/models/api';
 import api from '@/models/api';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
@@ -42,6 +43,27 @@ const newElement = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
 const { y: posY } = useScroll(el, { behavior: 'smooth' });
 const isShowedUserContent = ref(false);
 const raceToDisplay = ref<models.parsedData.RaceData>();
+const buttonVisible = ref(true);
+let elem: HTMLElement | null = null;
+
+onMounted(() => {
+  elem = document.documentElement;
+});
+
+/* Get the documentElement (<html>) to display the page in fullscreen */
+
+/* View in fullscreen */
+function openFullscreen() {
+  if (elem === null) {
+    return;
+  }
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  }
+
+  //Disparition du bouton
+  buttonVisible.value = false;
+}
 
 function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
   newElement.value = element;
@@ -94,6 +116,16 @@ function scrollToNewRace() {
 </script>
 
 <style scoped lang="scss">
+
+div.fullscreen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  button {
+    margin-top: 30px;
+  }
+}
 
 div.fullscreen.info-user {
   background-color: var(--white);
@@ -273,7 +305,7 @@ div.fullscreen {
   overflow-y: scroll;
 
   > div.classement {
-    margin: 35px auto 0 auto;
+    margin: 10px auto 0 auto;
     width: 70%;
   }
 }
