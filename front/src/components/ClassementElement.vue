@@ -110,7 +110,7 @@ import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
-import arrowImg from '@/assets/img/arrow.avif';
+import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
 import RaceInfo from '@/components/RaceInfo.vue';
 
@@ -189,7 +189,7 @@ classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' 
 
 //Importation de l'image de rank
 async function importImage() {
-  return await import(`../assets/img/rank${props.rank}.avif`);
+  return await import(`../assets/img/rank${props.rank}.webp`);
 }
 
 /**

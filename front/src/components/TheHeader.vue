@@ -51,19 +51,19 @@
 <script setup lang="ts">
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
-import exitImg from '@/assets/img/exit.avif';
-import exitPhoneImg from '@/assets/img/exit-phone.avif';
+import exitImg from '@/assets/img/exit.webp';
+import exitPhoneImg from '@/assets/img/exit-phone.webp';
 import { useRouter } from 'vue-router';
 import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
 
-import houseImg from '@/assets/img/house.avif';
-import editImg from '@/assets/img/edit.avif';
-import rankingImg from '@/assets/img/top-three.avif';
-import carImg from '@/assets/img/car.avif';
-import bonusImg from '@/assets/img/trophy.avif';
-import qrCodeimg from '@/assets/img/qr-code.avif';
-import live from '@/assets/img/live.avif';
-import stageImg from  "@/assets/img/contract.avif";
+import houseImg from '@/assets/img/house.webp';
+import editImg from '@/assets/img/edit.webp';
+import rankingImg from '@/assets/img/top-three.webp';
+import carImg from '@/assets/img/car.webp';
+import bonusImg from '@/assets/img/trophy.webp';
+import qrCodeimg from '@/assets/img/qr-code.webp';
+import live from '@/assets/img/live.webp';
+import stageImg from  "@/assets/img/contract.webp";
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();

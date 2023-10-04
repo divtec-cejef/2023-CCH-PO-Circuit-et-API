@@ -171,10 +171,10 @@ import api from '@/models/api';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useBreakpoints } from '@vueuse/core';
 
-import cancelIcon from '@/assets/img/cancel.avif';
-import validateIcon from '@/assets/img/checked.avif';
-import faceIcon from '@/assets/img/face-color.avif';
-import hangerIcon from '@/assets/img/hanger.avif';
+import cancelIcon from '@/assets/img/cancel.webp';
+import validateIcon from '@/assets/img/checked.webp';
+import faceIcon from '@/assets/img/face-color.webp';
+import hangerIcon from '@/assets/img/hanger.webp';
 
 import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';

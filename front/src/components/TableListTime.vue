@@ -61,11 +61,11 @@
 </template>
 
 <script setup lang="ts">
-import video from '@/assets/img/film.avif';
-import speed from '@/assets/img/speed.avif';
-import chronometer from '@/assets/img/chronometer.avif';
-import link from '@/assets/img/play-button.avif';
-import download from '@/assets/img/downloads-black.avif';
+import video from '@/assets/img/film.webp';
+import speed from '@/assets/img/speed.webp';
+import chronometer from '@/assets/img/chronometer.webp';
+import link from '@/assets/img/play-button.webp';
+import download from '@/assets/img/downloads-black.webp';
 import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
 import { onMounted, ref } from 'vue';

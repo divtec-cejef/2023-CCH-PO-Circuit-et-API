@@ -44,9 +44,9 @@ import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
 
-import arrow from '@/assets/img/arrow.avif';
-import checkedIcon from '@/assets/img/checked.avif';
-import cancelIcon from '@/assets/img/cancel.avif';
+import arrow from '@/assets/img/arrow.webp';
+import checkedIcon from '@/assets/img/checked.webp';
+import cancelIcon from '@/assets/img/cancel.webp';
 
 type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
