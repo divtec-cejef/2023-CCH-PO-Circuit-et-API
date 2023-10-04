@@ -37,7 +37,7 @@ const emit = defineEmits<{
 const imgRd = ref();
 
 //Importation de l'image de selector
-import(`../assets/img/${props.property.propNameSnakeCase}.avif`)
+import(`../assets/img/${props.property.propNameSnakeCase}.webp`)
   .then((v) => {
     imgRd.value = v;
   });

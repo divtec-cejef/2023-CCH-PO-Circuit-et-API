@@ -47,10 +47,10 @@ import type { PanZoom } from 'panzoom';
 import { ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
-import trophy from '@/assets/img/trophy.avif';
-import close from '@/assets/img/close.avif';
-import plus from '@/assets/img/plus.avif';
-import minus from '@/assets/img/minus.avif';
+import trophy from '@/assets/img/trophy.webp';
+import close from '@/assets/img/close.webp';
+import plus from '@/assets/img/plus.webp';
+import minus from '@/assets/img/minus.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 

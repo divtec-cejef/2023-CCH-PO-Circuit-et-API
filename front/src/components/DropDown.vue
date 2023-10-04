@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { defineEmits, defineProps, computed } from 'vue';
-import arrowImg from '@/assets/img/arrow.avif';
+import arrowImg from '@/assets/img/arrow.webp';
 
 const props = defineProps<{
   name: string
