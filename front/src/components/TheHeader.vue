@@ -1,15 +1,15 @@
 <template>
     <nav class="header">
         <ul class="links">
-            <li @click="clickMenu" class="accueil">
+            <li class="accueil" @click="clickMenu">
                 <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
                 <img :src="houseImg" alt="Image d'accueil">
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar">
+            <li v-if="userCar.car.idCar" @click="clickMenu">
                 <RouterLink to="/pilote">Pilote</RouterLink>
                 <img :src="editImg" alt="Image de modification pour le pilote">
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar">
+            <li v-if="userCar.car.idCar" @click="clickMenu">
                 <RouterLink to="/course">Mes Courses</RouterLink>
                 <img :src="carImg" alt="Image de voiture">
             </li>
@@ -21,7 +21,7 @@
                 <RouterLink to="/classement">Classement</RouterLink>
                 <img :src="rankingImg" alt="Image de classement">
             </li>
-            <li @click="clickMenu" v-if="adminPost.idSection">
+            <li v-if="adminPost.idSection" @click="clickMenu">
                 <RouterLink to="/admin">Admin</RouterLink>
                 <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
@@ -29,7 +29,7 @@
                 <RouterLink to="/live">Live</RouterLink>
                 <img :src="live" alt="Image de live pour le live">
             </li>
-            <li @click="clickMenu" id="stage">
+            <li id="stage" @click="clickMenu">
                 <RouterLink to="stage">
                     <p>Stage</p>
                     <img :src="stageImg"
@@ -48,7 +48,7 @@
     </nav>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useCarStore } from '@/stores/car';
 import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.webp';
@@ -59,11 +59,11 @@ import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
 import houseImg from '@/assets/img/house.webp';
 import editImg from '@/assets/img/edit.webp';
 import rankingImg from '@/assets/img/top-three.webp';
-import carImg from '@/assets/img/car.webp';
+import carImg from '@/assets/img/car-icon.webp';
 import bonusImg from '@/assets/img/trophy.webp';
 import qrCodeimg from '@/assets/img/qr-code.webp';
-import live from '@/assets/img/live.webp';
-import stageImg from  "@/assets/img/contract.webp";
+import live from '@/assets/img/live-icon.webp';
+import stageImg from "@/assets/img/contract.webp";
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
@@ -100,7 +100,7 @@ const adminPost = useAdminPostStore();
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "src/assets/css/consts";
 
 nav.header {
