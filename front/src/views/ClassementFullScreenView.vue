@@ -8,16 +8,16 @@
 
     <div v-else-if="newElement && raceToDisplay" class="fullscreen info-user">
         <div class="content-div">
-            <div class="avatar-and-pseudo">
-                <AutoRegeneratedAvatar :avatar-config="newElement!.car.avatar"></AutoRegeneratedAvatar>
-                <span>{{ newElement!.car.pseudo }}</span>
+            <div class="rank-content">
+                <RankInfo :rank="newElement!.index"></RankInfo>
             </div>
             <div class="result-race">
                 <div class="time">{{ formatTime(raceToDisplay!.totalTime) }}<span>s</span></div>
                 <RaceInfo :display-rank="false" :num-race="1" :race="raceToDisplay!" :rank="2"></RaceInfo>
             </div>
-            <div class="rank-content">
-                <RankInfo :rank="newElement!.index"></RankInfo>
+            <div class="avatar-and-pseudo">
+                <AutoRegeneratedAvatar :avatar-config="newElement!.car.avatar"></AutoRegeneratedAvatar>
+                <span>{{ newElement!.car.pseudo }}</span>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@ async function showUserContent() {
 
   isShowedUserContent.value = true;
   await new Promise(r => setTimeout(() => {
-    isShowedUserContent.value = false;
+    // isShowedUserContent.value = false;
   }, 6000));
 }
 
@@ -88,7 +88,7 @@ function scrollToNewRace() {
   //On attends 6 secondes et on revient au début
   setTimeout(() => {
     posY.value = 0;
-    newElement.value!.index =-1;
+    newElement.value!.index = -1;
   }, 6000);
 }
 </script>
@@ -105,10 +105,12 @@ div.fullscreen.info-user {
 
   div.content-div {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    max-width: 800px;
+    max-width: 700px;
 
     div.avatar-and-pseudo {
       width: fit-content;
@@ -116,24 +118,26 @@ div.fullscreen.info-user {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-top: 5px;
 
       span {
-        font-size: 27px;
+        font-size: 20px;
         font-weight: bold;
       }
 
       div.avatar {
-        width: 225px;
-        height: 225px;
-        margin-bottom: 20px;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
       }
     }
 
     div.result-race {
       display: flex;
       flex-direction: column;
-      justify-content: end;
-      align-items: end;
+      justify-content: center;
+      align-items: center;
+      width: fit-content;
 
 
       > .time {
@@ -142,6 +146,7 @@ div.fullscreen.info-user {
         font-family: 'Digital-7 Mono', sans-serif;
         display: flex;
         align-items: center;
+        margin: 10px 0;
 
         span {
           font-family: 'Poppins', sans-serif;
@@ -159,13 +164,16 @@ div.fullscreen.info-user {
         align-items: center;
         flex-direction: column-reverse !important;
         max-width: unset;
+        margin-top: 5px !important;
+
 
         .vitesse {
           width: fit-content;
           flex-direction: column;
-          align-items: end;
-          justify-content: end;
-          margin-top: 10px !important;
+          align-items: center;
+          justify-content: center;
+          margin-top: 8px !important;
+          margin-bottom: 10px;
 
           div:nth-child(1) {
             text-align: left;
@@ -180,14 +188,18 @@ div.fullscreen.info-user {
 
           > div {
             width: 100%;
-            text-align: right;
-            margin-right: 15px;
+            text-align: center;
             margin-bottom: 5px;
             font-size: 20px;
           }
 
           ul {
-            margin-left: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            margin-right: 0;
+            width: 100%;
 
             li {
               span {
@@ -221,14 +233,15 @@ div.fullscreen.info-user {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: fit-content;
 
     .rank {
-      width: 125px;
-      height: 125px;
+      width: 110px;
+      height: 110px;
       margin: 0;
 
       &:deep(> span) {
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: -15px;
         margin-top: 5px;
       }
@@ -239,11 +252,11 @@ div.fullscreen.info-user {
         align-items: center;
 
         span:nth-child(1) {
-          font-size: 25px;
+          font-size: 22px;
         }
 
         span:nth-child(2) {
-          font-size: 47px;
+          font-size: 42px;
           margin-top: 12px;
           margin-bottom: 10px;
         }
@@ -261,7 +274,7 @@ div.fullscreen {
 
   > div.classement {
     margin: 35px auto 0 auto;
-    width: 75%;
+    width: 70%;
   }
 }
 </style>
