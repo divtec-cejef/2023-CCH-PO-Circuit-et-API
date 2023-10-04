@@ -213,7 +213,13 @@ div.up-screen {
     font-style: italic;
     border-radius: 20px;
     padding: 7px 15px;
-    color: var(--white);
+    color: var(--black);
+    background-color: var(--white);
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+    }
   }
 }
 
