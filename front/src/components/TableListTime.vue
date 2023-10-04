@@ -25,7 +25,7 @@
             <tr v-for="(race, key) in sortListByOrderHour(usercar.car.listRace!)" :key="key">
                 <td>
                     <div>
-                        <NumberTime class="num-race" :number="getNumRace(race, usercar.car.listRace!).valueOf().toString()"
+                        <NumberTime :number="getNumRace(race, usercar.car.listRace!).valueOf().toString()" class="num-race"
                                     color="var(--blue)"/>
                     </div>
                 </td>
@@ -37,17 +37,17 @@
                 <td class="video">
                     <div>
                         <a v-if="race.videoUrl" :href="race.videoUrl.toString()" target="_blank">
-                            <img class="link dark-invert" :src=link
-                                 alt="Icon de lien pour visionner la vidéo de la course">
+                            <img :src=link alt="Icon de lien pour visionner la vidéo de la course"
+                                 class="link dark-invert">
                         </a>
                         <span v-else>
-                            <img class="link dark-invert" :src=link
-                                 alt="Icon de lien pour visionner la vidéo de la course">
+                            <img :src=link alt="Icon de lien pour visionner la vidéo de la course"
+                                 class="link dark-invert">
                         </span>
                     </div>
                     <div>
-                        <a v-if="race.videoUrl" :href="listVideoBlob[key]"
-                           :download="`course-divtec-${getNumRace(race, usercar.car.listRace!).valueOf().toString()}.mp4`">
+                        <a v-if="race.videoUrl" :download="`course-divtec-${getNumRace(race, usercar.car.listRace!).valueOf().toString()}.mp4`"
+                           :href="listVideoBlob[key]">
                             <img :src="download" alt="Icon de téléchargement pour chaque vidéo">
                         </a>
                         <span v-else>
@@ -60,10 +60,10 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import video from '@/assets/img/film.webp';
 import speed from '@/assets/img/speed.webp';
-import chronometer from '@/assets/img/chronometer.webp';
+import chronometer from '@/assets/img/chronometer-icon.webp';
 import link from '@/assets/img/play-button.webp';
 import download from '@/assets/img/downloads-black.webp';
 import NumberTime from '@/components/NumberTime.vue';
@@ -114,7 +114,7 @@ onMounted(async () => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/css/consts.scss';
 
 div.table {
