@@ -16,8 +16,8 @@
                 <RaceInfo :display-rank="false" :num-race="1" :race="raceToDisplay!" :rank="2"></RaceInfo>
             </div>
             <div class="avatar-and-pseudo">
-                <AutoRegeneratedAvatar :avatar-config="newElement!.car.avatar"></AutoRegeneratedAvatar>
-                <span>{{ newElement!.car.pseudo }}</span>
+                <AutoRegeneratedAvatar :avatar-config="newElement!.car!.avatar"></AutoRegeneratedAvatar>
+                <span>{{ newElement!.car!.pseudo }}</span>
             </div>
         </div>
     </div>
