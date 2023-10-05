@@ -168,7 +168,7 @@ import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
 import { computed, onMounted, ref } from 'vue';
 import api from '@/models/api';
-import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useBreakpoints, useLocalStorage } from '@vueuse/core';
 
 import cancelIcon from '@/assets/img/cancel.webp';
