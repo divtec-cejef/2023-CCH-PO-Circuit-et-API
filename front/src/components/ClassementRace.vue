@@ -30,7 +30,7 @@ import { WebsocketConnection } from '@/models/api';
 import type { models } from '@/models/api';
 import { ref, onUnmounted } from 'vue';
 import SpinLoading from '@/components/SpinLoading.vue';
-import {genConfig} from "holiday-avatar";
+import { genConfig } from 'holiday-avatar';
 
 const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
@@ -52,6 +52,7 @@ const emit = defineEmits(['indexNewRace', 'load']);
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
+
   if ('message' in data) {
     errorMessage.value = data.message;
     return;
@@ -73,9 +74,9 @@ socket.onRankingReceived((data) => {
 });
 
 /**
-   * Compare les listes pour récupérer le rang de la dernière course
-   */
-function getRankLastRace() : models.parsedData.RankingRaceDataOneCar | undefined {
+ * Compare les listes pour récupérer le rang de la dernière course
+ */
+function getRankLastRace(): models.parsedData.RankingRaceDataOneCar | undefined {
   //Si les listes sont vides
   if (!listRace.value || !lastListRace.value) {
     return;
@@ -85,12 +86,12 @@ function getRankLastRace() : models.parsedData.RankingRaceDataOneCar | undefined
   let index = 0;
   for (let race of listRace.value) {
     //Si l'index est trop grand, ou que l'id de l'utilisateur est différents alors on retourne l'index
-    if ((index >= lastListRace.value.length) || (race.id_race !== lastListRace.value[index].id_race)) {
+    if ((index >= lastListRace.value.length) || ((race.id_race !== lastListRace.value[index].id_race) && (race.total_time !== lastListRace.value[index].total_time))) {
       return { index: index, car: race.car };
     }
     index++;
   }
-  return;
+  return { index: -2, car: undefined };
 }
 
 
