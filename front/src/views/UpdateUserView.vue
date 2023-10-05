@@ -162,14 +162,14 @@
 </template>
 
 <script lang="ts" setup>
-import type {Configs} from 'holiday-avatar';
-import {genConfig} from 'holiday-avatar';
-import {useCarStore} from '@/stores/car';
-import type {Ref} from 'vue';
-import {computed, onMounted, ref} from 'vue';
+import type { Configs } from 'holiday-avatar';
+import { genConfig } from 'holiday-avatar';
+import { useCarStore } from '@/stores/car';
+import type { Ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import api from '@/models/api';
-import {onBeforeRouteLeave, useRouter} from 'vue-router';
-import {useBreakpoints, useLocalStorage} from '@vueuse/core';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { useBreakpoints, useLocalStorage } from '@vueuse/core';
 
 import cancelIcon from '@/assets/img/cancel.webp';
 import validateIcon from '@/assets/img/checked.webp';
@@ -180,7 +180,7 @@ import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
 import ImageModifPhone from '@/components/ImageModifPhone.vue';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
-import type {models} from '@/models/avatar';
+import type { models } from '@/models/avatar';
 
 const router = useRouter();
 
@@ -261,7 +261,7 @@ if (config.value && lastConfigAvatarLs.value) {
     fillAvatarPropreties(config.value);
   });
 }
-lastConfigAvatarLs.value = lastConfigAvatarLs.value ?? config.value
+lastConfigAvatarLs.value = lastConfigAvatarLs.value ?? config.value;
 
 //Config
 const avatarProperties = computed<models.RadioProperty[]>({
@@ -678,7 +678,7 @@ const editProperties = (newValue: models.RadioProperty) => {
     currentProps[index] = newValue;
   }
   avatarProperties.value = currentProps;
-}
+};
 
 //Tri de l'interface pour les deux tabs
 const avatarPropertiesHead = computed(() => avatarProperties.value.filter(prop => prop.propGroups === NAME_HEAD_PROPS));
@@ -698,7 +698,7 @@ const isLaptop = classDisplayModif.greaterOrEqual('laptop');
  * @param password mot de passe de la voiture
  */
 async function connect(queryId: string, password: string) {
-  error.value = ''
+  error.value = '';
   //Récupération du Token avec le nom et mot de passe de l'URL
   let valueToken = await api.authenticationQueryIdPwd(queryId, password);
 
@@ -815,7 +815,7 @@ function closeModal() {
  */
 function openOtherPage() {
   closeModal();
-  console.log("closed modal.");
+  console.log('closed modal.');
   router.push({ path: nextRoute.value });
 }
 
@@ -823,7 +823,7 @@ function quitPage() {
   //Changement de la localstorage
   config.value = lastConfigAvatarLs.value;
   pseudo.value = lastPseudo.value;
-  console.log("quitting...");
+  console.log('quitting...');
 
   openOtherPage();
 }
@@ -872,18 +872,6 @@ if (numTabOpenLs.value) {
   numTabOpen.value = numTabOpenLs.value;
 }
 
-//Quand on quitte la page alors on confirme si il y a eu des changements
-onBeforeRouteLeave((to) => {
-
-  //Récupération de la route cliqué
-  nextRoute.value = to.path;
-
-  //Affichage de la page de confirmation
-  if (!updateDisabled.value) {
-    dialogExit.value?.showModal();
-    return false;
-  }
-});
 </script>
 
 <style lang="scss" scoped>
