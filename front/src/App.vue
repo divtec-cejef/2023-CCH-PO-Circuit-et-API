@@ -1,7 +1,6 @@
 <template>
-
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
+        <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
@@ -17,7 +16,7 @@
     </header>
 
     <header class="large">
-        <RouterLink :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo grand prix de la Divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>
@@ -40,10 +39,11 @@ import { useCarStore } from '@/stores/car';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
-import logoImg from '@/assets/img/logo.avif';
+import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { useLocalStorage } from '@vueuse/core';
 import ErrorConnection from '@/components/ErrorConnection.vue';
+import { useRouter } from 'vue-router';
 
 /**
  * Gère le clic sur le menu
@@ -106,6 +106,7 @@ const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
 const hasError = ref(false);
+const router = useRouter();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -114,16 +115,22 @@ changeValueWidthScreen();
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
   userCar.initUserCarId(userCarId).then((v) => {
-
     if (v == undefined) {
       hasError.value = true;
     }
     hasFinishedLoading.value = true;
-
   });
 } else {
   hasFinishedLoading.value = true;
 }
+
+//Redirection des utilisateurs enregistrés vers leur page d'accueil
+router.beforeEach((to) => {
+  if(to.path === '/' && userCar.car.idQuery) {
+    router.push(`/${userCar.car.idQuery}`);
+  }
+});
+
 
 </script>
 

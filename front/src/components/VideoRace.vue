@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import downloadImg from '@/assets/img/downloads.avif';
+import downloadImg from '@/assets/img/downloads.webp';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
@@ -154,7 +154,7 @@ div.video {
       background-position: center;
       background-repeat: no-repeat;
       background-size: 22px;
-      background-image: url("@/assets/img/reload.avif");
+      background-image: url("@/assets/img/reload.webp");
       background-color: var(--gray);
       width: 50px;
       height: 30px;

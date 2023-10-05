@@ -8,13 +8,16 @@
             </div>
             <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
             <div class="pseudo">{{ props.pseudo }}</div>
-            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
 
-            <img v-if="props.showContent" :src="arrowImg" alt="Icon de flèche pour déplier le contenu"
+            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
+            <img v-if="props.showContent"
+                 :src="arrowImg"
+                 alt="Icon de flèche pour déplier le contenu"
                  :style="{
-            transform: `rotate(${rotateImage}deg)`,
-            filter: userCar.car.pseudo == props.pseudo && Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50 ? 'grayscale(1) invert(1)' : ''
-        }"></div>
+                    transform: `rotate(${rotateImage}deg)`,
+                    filter: isOnDarkBg ? 'grayscale(1) invert(1)' : ''
+            }">
+        </div>
         <div v-if="props.showContent">
             <Transition>
                 <div v-if="dropDownClicked" class="user-content big">
@@ -107,7 +110,7 @@ import VideoRace from '@/components/VideoRace.vue';
 import DropDownBonus from '@/components/DropDownBonus.vue';
 import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
-import arrowImg from '@/assets/img/arrow.avif';
+import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
 import RaceInfo from '@/components/RaceInfo.vue';
 
@@ -120,6 +123,8 @@ const props = defineProps<{
   showContent: boolean,
   isNewElement?: boolean
 }>();
+
+console.log(props.pseudo, Color(props.avatar.bgColor).hsl().lightness());
 
 const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
@@ -155,17 +160,6 @@ const listAllBonus: Ref<{
 }[]> = ref([]);
 const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
-const colorFont = computed<string | null>(() => {
-  if (userCar.car.pseudo == props.pseudo) {
-    if (Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() > 50) {
-      return colorScheme.value === 'dark' ? '#000' : null;
-    } else {
-      return colorScheme.value === 'dark' ? null : '#fff';
-    }
-  } else {
-    return null;
-  }
-});
 
 const colorScheme = usePreferredColorScheme();
 
@@ -174,12 +168,28 @@ const rotateImage = computed(() => {
   return dropDownClicked.value ? '90' : '0';
 });
 
+const isOnDarkBg = computed(() => {
+  if (userCar.car.pseudo === props.pseudo) {
+    return Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50
+  } else {
+    return colorScheme.value === 'dark'
+  }
+});
+
+const colorFont = computed<string | null>(() => {
+  if(isOnDarkBg.value) {
+    return colorScheme.value === 'dark' ? 'var(--white)' : '#fff';
+  } else {
+    return colorScheme.value === 'dark' ? '#000' : 'var(--black)';
+  }
+});
+
 // Ajoute une classe si l'élément de l'utilisateur
 classUserCarElement.value = userCar.car.pseudo == props.pseudo ? 'user-element' : '';
 
 //Importation de l'image de rank
 async function importImage() {
-  return await import(`../assets/img/rank${props.rank}.avif`);
+  return await import(`../assets/img/rank${props.rank}.webp`);
 }
 
 /**
@@ -235,7 +245,6 @@ function clickClassementElement() {
     dropDownClicked.value = true;
 
   });
-
 }
 
 /**
@@ -405,7 +414,7 @@ div.classement-element {
     span {
       font-family: 'Poppins', sans-serif;
       font-size: 18px;
-        margin-left: 5px;
+      margin-left: 5px;
     }
   }
 }

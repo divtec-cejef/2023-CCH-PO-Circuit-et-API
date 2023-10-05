@@ -18,7 +18,7 @@
             </div>
 
             <div class="content-list-classement">
-                <div class="table-large-content" v-if="car.listRace!.length > 1">
+                <div class="table-large-content" v-if="car.listRace!.length > 0">
                     <h2>Liste de courses</h2>
                     <TableListTime/>
                 </div>

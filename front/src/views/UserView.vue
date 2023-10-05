@@ -95,7 +95,7 @@
         <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
             <h2>Erreur</h2>
             <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-            <RouterLink :to="`/${userCar.car.idQuery}`">
+            <RouterLink :to="`/${userCar.car.idQuery || ''}`">
                 <button>Accueil</button>
             </RouterLink>
         </div>
@@ -112,12 +112,12 @@ import { ref, watch } from 'vue';
 import { useCarStore } from '@/stores/car';
 import { useRouter } from 'vue-router';
 import api from '@/models/api';
-import badgeCourse from '@/assets/img/course.avif';
-import badgeClassement from '@/assets/img/classement.avif';
-import badgeModif from '@/assets/img/modification.avif';
-import badgeVideo from '@/assets/img/video.avif';
-import badgeStage from '@/assets/img/stage.avif';
-import badgeLive from '@/assets/img/live.avif';
+import badgeCourse from '@/assets/img/course.webp';
+import badgeClassement from '@/assets/img/classement.webp';
+import badgeModif from '@/assets/img/modification.webp';
+import badgeVideo from '@/assets/img/video.webp';
+import badgeStage from '@/assets/img/stage.webp';
+import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
@@ -178,7 +178,6 @@ watch(useRouter().currentRoute, async (newUrl) => {
 <style scoped lang="scss">
 
 div.loading-page {
-  height: calc(100vh - var(--height-screen-diff));
   display: flex;
   justify-content: center;
   align-items: center;
