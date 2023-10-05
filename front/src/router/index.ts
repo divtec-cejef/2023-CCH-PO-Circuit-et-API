@@ -19,7 +19,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/:id',
+      path: '/:id([0-9]{4})',
       name: 'utilisateur',
       component: UserView
     },
@@ -85,12 +85,13 @@ const router = createRouter({
     },
     {
       name: '404',
-      path: '/not-found',
+      alias: ['/not-found', '/404'],
+      path: '/:p(.*)*',
       component: NotFoundView
     }
   ],
-  scrollBehavior () {
-    return { top: 0 };
+  scrollBehavior() {
+    return {top: 0};
   }
 });
 
