@@ -124,8 +124,6 @@ const props = defineProps<{
   isNewElement?: boolean
 }>();
 
-console.log(props.pseudo, Color(props.avatar.bgColor).hsl().lightness());
-
 const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
 const dropDownClicked = ref(false);
@@ -170,9 +168,9 @@ const rotateImage = computed(() => {
 
 const isOnDarkBg = computed(() => {
   if (userCar.car.pseudo === props.pseudo) {
-    return Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50
+    return Color(userCar.car.avatar?.bgColor ?? '#000').hsl().lightness() < 50;
   } else {
-    return colorScheme.value === 'dark'
+    return colorScheme.value === 'dark';
   }
 });
 
