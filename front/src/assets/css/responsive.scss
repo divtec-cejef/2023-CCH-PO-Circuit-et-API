@@ -84,18 +84,6 @@
   }
 }
 
-@media screen and (min-width: 475px) {
-  #app {
-    div.badges {
-      :nth-child(3) {
-        margin-top: 0;
-      }
-
-      width: 420px;
-    }
-  }
-}
-
 @media screen and (max-width: 500px) {
   #app {
     div.icon {
@@ -326,28 +314,8 @@
     }
 
     div.badges {
-      display: flex;
       flex-direction: row;
-      width: 470px;
-      flex-wrap: wrap;
-      margin: 50px auto 0 auto;
       align-self: start;
-
-      * {
-        margin-top: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-
-      :nth-child(3) {
-        margin-top: 0 !important;
-      }
-
-      :nth-child(4),
-      :nth-child(5),
-      :nth-child(6) {
-        margin-top: 25px;
-      }
     }
 
     footer div.stage {
@@ -369,7 +337,6 @@
 @media screen and (max-width: 960px) {
 
   #app {
-
     .avatar-and-pseudo {
       display: flex;
       flex-direction: column;
@@ -455,18 +422,6 @@
       font-size: 25px;
     }
 
-
-    div.user-data {
-      display: flex;
-      align-items: center;
-      align-content: space-between;
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 650px;
-      width: 100%;
-      margin-top: 10px;
-    }
-
     div.avatar-txt {
       margin-left: 10px;
     }
@@ -484,31 +439,5 @@
       width: 470px;
       align-self: start;
       margin-right: 10px;
-    }
-
-    div.badges {
-      display: flex;
-      flex-direction: row;
-      width: 470px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-      align-self: start;
-      margin-right: 10px;
-
-      * {
-        margin-top: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-
-      :nth-child(3) {
-        margin-top: 0;
-      }
-
-      :nth-child(4),
-      :nth-child(5),
-      :nth-child(6) {
-        margin-top: 25px;
-      }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
+        <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
             <SpinLoading></SpinLoading>
         </div>
 
@@ -30,6 +30,7 @@
                     </Suspense>
                 </div>
 
+                <section>
                 <h2>Instructions</h2>
                 <ul class="list-instruction">
                     <li>
@@ -61,7 +62,9 @@
                     </li>
 
                 </ul>
+                </section>
 
+                <section>
                 <h2>Tableau de bord</h2>
                 <div class="badges">
                     <RouterLink to="/course">
@@ -89,10 +92,11 @@
                         <p>Live</p>
                     </RouterLink>
                 </div>
+                </section>
             </div>
         </div>
 
-        <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+        <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
             <h2>Erreur</h2>
             <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
             <RouterLink :to="`/${userCar.car.idQuery || ''}`">
@@ -104,13 +108,11 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { defineAsyncComponent } from 'vue';
+<script lang="ts" setup>
+import {defineAsyncComponent, ref, watch} from 'vue';
 
-import { RouterLink } from 'vue-router';
-import { ref, watch } from 'vue';
-import { useCarStore } from '@/stores/car';
-import { useRouter } from 'vue-router';
+import {RouterLink, useRouter} from 'vue-router';
+import {useCarStore} from '@/stores/car';
 import api from '@/models/api';
 import badgeCourse from '@/assets/img/course.webp';
 import badgeClassement from '@/assets/img/classement.webp';
@@ -121,8 +123,8 @@ import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
-import { HollowDotsSpinner } from 'epic-spinners';
-import { usePreferredColorScheme } from '@vueuse/core';
+import {HollowDotsSpinner} from 'epic-spinners';
+import {usePreferredColorScheme} from '@vueuse/core';
 
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -175,7 +177,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 div.loading-page {
   display: flex;
@@ -224,6 +226,26 @@ div.user-data {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    align-items: center;
+    align-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 650px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   div.avatar-txt {
     display: flex;
@@ -308,11 +330,19 @@ div.user-data {
   }
 
   div.badges {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 80%;
-    margin-top: 30px;
+    margin: 1.5em auto auto;
+    display: grid;
+    justify-items: center;
+    grid-column-gap: 15vw;
+    grid-row-gap: 1.25em;
+    width: fit-content;
+    grid-template-columns: 1fr 1fr;
+
+    @media screen and (min-width: 475px) {
+      grid-column-gap: 2.75em;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: auto;
+    }
 
     p {
       margin: 5px 0;
@@ -321,21 +351,6 @@ div.user-data {
     img {
       width: 110px;
       height: 110px;
-    }
-
-    > :nth-child(odd) {
-      margin-left: 5px;
-    }
-
-    > :nth-child(even) {
-      margin-right: 5px;
-    }
-
-    :nth-child(3),
-    :nth-child(4),
-    :nth-child(5),
-    :nth-child(6) {
-      margin-top: 20px;
     }
   }
 
