@@ -1,5 +1,4 @@
 <template>
-
     <header :class="classMenuHeader">
         <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo tuture divtec">
@@ -44,6 +43,7 @@ import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { useLocalStorage } from '@vueuse/core';
 import ErrorConnection from '@/components/ErrorConnection.vue';
+import { useRouter } from 'vue-router';
 
 /**
  * Gère le clic sur le menu
@@ -106,6 +106,7 @@ const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
 const hasError = ref(false);
+const router = useRouter();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -114,12 +115,11 @@ changeValueWidthScreen();
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
   userCar.initUserCarId(userCarId).then((v) => {
-
     if (v == undefined) {
       hasError.value = true;
     }
+    router.push(`/${userCar.car.idQuery || ''}`);
     hasFinishedLoading.value = true;
-
   });
 } else {
   hasFinishedLoading.value = true;
