@@ -17,20 +17,24 @@
 </template>
 
 <script lang="ts" setup>
-
 import car1 from "@/assets/img/voiture(1).webp";
 import car2 from "@/assets/img/voiture(2).webp";
 import car3 from "@/assets/img/voiture(3).webp";
 
 import { ref } from "vue";
+import { useCssVar } from "@vueuse/core";
+
 
 const props = defineProps<{width: number}>();
 
 const carImage = ref<HTMLImageElement | null>(null);
 const roadContainer = ref<HTMLElement | null>(null);
 
+const time = useCssVar('--time', roadContainer);
+
 function runCar() {
   let newCar: HTMLImageElement;
+  time.value = `${7/1080*props.width}s`
   if (carImage.value && roadContainer.value) {
     const way: "left" | "right" = Math.floor(Math.random() * 2) ? "left" : "right";
     newCar = carImage.value.cloneNode(true) as HTMLImageElement;
@@ -85,12 +89,14 @@ runCar();
 <style lang="scss" scoped>
 .road-container {
   position: relative;
+  max-width: 100vw;
+  overflow: hidden;
 
   .road-car {
     position: absolute;
     width: 100px;
     height: 100px;
-    transition: all 7s linear;
+    transition: all var(--time) linear;
 
     &#template {
       display: none;
