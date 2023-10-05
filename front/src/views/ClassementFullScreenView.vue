@@ -31,6 +31,7 @@
                 <br>
                 Scanne le QR code pour récupérer ton temps et ta vidéo !
             </p>
+            <Road :width="width"></Road>
         </div>
     </div>
 </template>
@@ -47,16 +48,19 @@ import { formatTime } from '@/models/race';
 import RankInfo from '@/components/RankInfo.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
 import ClassementRace from '@/components/ClassementRace.vue';
+import Road from '@/components/Road.vue';
+import { useWindowSize } from '@vueuse/core';
 
 const el = ref<HTMLElement | null>(null);
 const newElement = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
-const { y: posY } = useScroll(el,  { behavior: 'smooth' });
+const { y: posY } = useScroll(el, { behavior: 'smooth' });
 const isShowedUserContent = ref(false);
 const showContentWorstRace = ref(false);
 const raceToDisplay = ref<models.parsedData.RaceData>();
 const buttonVisible = ref(true);
 const documentElement: Ref<HTMLElement | null> = ref(null);
 const TIME_TO_WAIT_SHOW = 8;
+const { width } = useWindowSize();
 
 onMounted(() => {
   documentElement.value = document.documentElement;
@@ -195,6 +199,10 @@ div.fullscreen {
     h2 {
       width: fit-content;
 
+    }
+
+    p {
+      margin-bottom: 100px;
     }
   }
 }
