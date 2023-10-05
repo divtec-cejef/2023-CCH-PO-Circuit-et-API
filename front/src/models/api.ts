@@ -777,13 +777,13 @@ export namespace models {
     /*
      * Représente les données de la dernière voiture ajoutée au classement
      */
-    export interface RankingRaceDataOneCar {
+    export type RankingRaceDataOneCar = {
       index: number
       car: {
         id_car: number,
         pseudo: string,
         avatar: Avatar.Avatar,
-      }
+      }  | undefined
     }
   }
 }

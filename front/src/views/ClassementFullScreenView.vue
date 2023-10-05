@@ -9,16 +9,29 @@
     <div v-if="newElement && raceToDisplay" :class="`fullscreen info-user ${classDisplayInfoRace}`">
         <div class="content-div">
             <div class="rank-content">
-                <RankInfo :rank="newElement!.index + 1"></RankInfo>
+                <RankInfo :rank="newElement ? newElement.index + 1 : 600"></RankInfo>
             </div>
             <div class="result-race">
                 <div class="time">{{ formatTime(raceToDisplay!.totalTime) }}<span>s</span></div>
                 <RaceInfo :display-rank="false" :num-race="1" :race="raceToDisplay!" :rank="2"></RaceInfo>
             </div>
             <div class="avatar-and-pseudo">
-                <AutoRegeneratedAvatar :avatar-config="newElement!.car.avatar"></AutoRegeneratedAvatar>
-                <span>{{ newElement!.car.pseudo }}</span>
+                <AutoRegeneratedAvatar :avatar-config="newElement!.car!.avatar"></AutoRegeneratedAvatar>
+                <span>{{ newElement!.car!.pseudo }}</span>
             </div>
+        </div>
+    </div>
+
+    <div v-if="newElement" :class="`fullscreen worst-race ${classDisplayWorstRace}`">
+        <div class="result">
+            <h2>Résultat</h2>
+            <p>
+                Ta course est moins bonne que la précédente...
+                <br>
+                <br>
+                Scanne le QR code pour récupérer ton temps et ta vidéo !
+            </p>
+            <Road :width="width"></Road>
         </div>
     </div>
 </template>
@@ -35,14 +48,19 @@ import { formatTime } from '@/models/race';
 import RankInfo from '@/components/RankInfo.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
 import ClassementRace from '@/components/ClassementRace.vue';
+import Road from '@/components/Road.vue';
+import { useWindowSize } from '@vueuse/core';
 
 const el = ref<HTMLElement | null>(null);
 const newElement = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
 const { y: posY } = useScroll(el, { behavior: 'smooth' });
 const isShowedUserContent = ref(false);
+const showContentWorstRace = ref(false);
 const raceToDisplay = ref<models.parsedData.RaceData>();
 const buttonVisible = ref(true);
 const documentElement: Ref<HTMLElement | null> = ref(null);
+const TIME_TO_WAIT_SHOW = 8;
+const { width } = useWindowSize();
 
 onMounted(() => {
   documentElement.value = document.documentElement;
@@ -50,6 +68,10 @@ onMounted(() => {
 
 const classDisplayInfoRace = computed(() => {
   return isShowedUserContent.value ? 'display' : 'none';
+});
+
+const classDisplayWorstRace = computed(() => {
+  return showContentWorstRace.value ? 'display' : 'none';
 });
 
 /**
@@ -71,18 +93,34 @@ function openFullscreen() {
  * Fonction à lancer à l'ajout d'une nouvelle course
  * @param element Element ajoutée
  */
-function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
+function resultAction(element: models.parsedData.RankingRaceDataOneCar | undefined) {
   newElement.value = element;
 
   //scroll jusqu'à l'élément
   if (newElement.value == undefined) {
     console.error('Car undefined');
     return;
+
+  }
+
+  //Si l'utilisateur réalise une course moins bonne que la précédente alors on affiche le contenu en fonction
+  if (newElement.value.index === -2) {
+    showContentWorstRace.value = true;
+    wait(TIME_TO_WAIT_SHOW).then(() => {
+      showContentWorstRace.value = false;
+    });
+    return;
+  }
+
+  //Si la voiture est indéfinie alors on sort
+  if (!newElement.value.car) {
+    console.error('Car undefined');
+    return;
   }
 
   //Affichage des résultats et scroll à l'utilisateur
   showUserContent().then(() => {
-    wait(1).then(() => {
+    wait(2).then(() => {
       scrollToNewRace();
     });
   });
@@ -93,7 +131,7 @@ function resultAction(element: models.parsedData.RankingRaceDataOneCar) {
  */
 async function showUserContent() {
   //Récupère les courses de l'utilisateur
-  const { json: allRaceOneCar } = await api.getAllRaceOneCar(newElement.value?.car.id_car!);
+  const { json: allRaceOneCar } = await api.getAllRaceOneCar(newElement.value?.car?.id_car!);
 
   if ('message' in allRaceOneCar) {
     console.error('Erreur. Récupération des courses impossibles.');
@@ -105,8 +143,10 @@ async function showUserContent() {
 
   //Affiche et attends 6 secondes
   isShowedUserContent.value = true;
-  await wait(6);
+  await wait(TIME_TO_WAIT_SHOW);
   isShowedUserContent.value = false;
+
+  raceToDisplay.value = undefined;
 }
 
 
@@ -128,7 +168,7 @@ function scrollToNewRace() {
   //Récupération de l'index
   posY.value = (newElement.value?.index! - 1) * 73 + 50 - (window.innerHeight / 2 - 60);
 
-  //On attends 6 secondes et on revient au début
+  //On attends 6 seconde    s et on revient au début
   setTimeout(() => {
     posY.value = 0;
     newElement.value!.index = -1;
@@ -146,20 +186,51 @@ div.fullscreen {
   button {
     margin-top: 30px;
   }
+
+  .result {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    width: 80%;
+
+    h2 {
+      width: fit-content;
+
+    }
+
+    p {
+      margin-bottom: 100px;
+    }
+  }
+}
+
+div.fullscreen.worst-race {
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+  z-index: 0;
+
+  &.display {
+    opacity: 1;
+    transition: opacity 0.8s ease-in;
+    z-index: 10002;
+  }
 }
 
 div.fullscreen.info-user {
   background-color: var(--white);
-  z-index: 10001;
+  z-index: 0;
   opacity: 0;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  transition: opacity 0.8s ease-in;
+  transition: opacity 1s ease-out;
 
   &.display {
     opacity: 1;
-    transition: opacity 0.8s ease-out;
+    transition: opacity 1s ease-in;
     z-index: 10002;
   }
 
@@ -331,7 +402,7 @@ div.fullscreen {
   overflow-y: scroll;
 
   > div.classement {
-    margin: 10px auto 0 auto;
+    margin: 0 auto 0 auto;
     width: 70%;
   }
 }
