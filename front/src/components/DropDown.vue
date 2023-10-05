@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { defineEmits, defineProps, computed } from 'vue';
-import arrowImg from '@/assets/img/arrow.avif';
+import arrowImg from '@/assets/img/arrow.webp';
 
 const props = defineProps<{
   name: string
@@ -43,6 +43,7 @@ const rotateImage = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/consts.scss';
 div {
   width: 100%;
 }
@@ -54,9 +55,15 @@ div.button-checked {
   align-items: center;
   padding: 12px 10px;
   border-radius: 20px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  box-shadow: $default-shadow;
   width: 100%;
   transition: all ease-in-out 0.2s;
+
+
+  @media screen and (prefers-color-scheme: dark) {
+    box-shadow: none;
+    border: $dark-border;
+  }
 
   img {
     width: 12px;
@@ -64,6 +71,10 @@ div.button-checked {
     margin-left: 15px;
     margin-top: 2px;
     transition: all ease-in-out 0.3s;
+
+    @media screen and (prefers-color-scheme: dark) {
+      filter: invert(1);
+    }
   }
 
   &:hover {
