@@ -24,7 +24,7 @@ import car3 from "@/assets/img/voiture(3).webp";
 
 import { ref } from "vue";
 
-const { width } = defineProps<{width: number}>();
+const props = defineProps<{width: number}>();
 
 const carImage = ref<HTMLImageElement | null>(null);
 const roadContainer = ref<HTMLElement | null>(null);
@@ -33,7 +33,6 @@ function runCar() {
   let newCar: HTMLImageElement;
   if (carImage.value && roadContainer.value) {
     const way: "left" | "right" = Math.floor(Math.random() * 2) ? "left" : "right";
-    console.log(way);
     newCar = carImage.value.cloneNode(true) as HTMLImageElement;
     roadContainer.value.appendChild(newCar);
     newCar.id = "";
@@ -57,13 +56,13 @@ function runCar() {
       newCar.style.left = "-100px";
       newCar.style.transform = "rotate(-90deg) scale(.7) translateX(-15px) ";
     } else {
-      newCar.style.left = `${width}px`;
+      newCar.style.left = `${props.width}px`;
       newCar.style.transform = "rotate(90deg) scale(.7) translateX(-45px)";
     }
 
     setTimeout(() => {
       if (way === "right") {
-        newCar.style.left = `${width}px`;
+        newCar.style.left = `${props.width}px`;
       } else {
         newCar.style.left = "-100px";
       }
