@@ -21,7 +21,7 @@ import car1 from "@/assets/img/voiture(1).webp";
 import car2 from "@/assets/img/voiture(2).webp";
 import car3 from "@/assets/img/voiture(3).webp";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useCssVar } from "@vueuse/core";
 
 
@@ -31,10 +31,14 @@ const carImage = ref<HTMLImageElement | null>(null);
 const roadContainer = ref<HTMLElement | null>(null);
 
 const time = useCssVar('--time', roadContainer);
+const timeN = ref(0);
+watch(timeN, () => {
+  time.value = `${timeN.value}s`
+});
 
 function runCar() {
   let newCar: HTMLImageElement;
-  time.value = `${7/1080*props.width}s`
+  timeN.value = 7/1080*props.width;
   if (carImage.value && roadContainer.value) {
     const way: "left" | "right" = Math.floor(Math.random() * 2) ? "left" : "right";
     newCar = carImage.value.cloneNode(true) as HTMLImageElement;
@@ -75,7 +79,7 @@ function runCar() {
       if (newCar) {
         newCar.remove();
       }
-    }, 10000);
+    }, timeN.value * 1000);
   }
   setTimeout(() => {
     runCar();
