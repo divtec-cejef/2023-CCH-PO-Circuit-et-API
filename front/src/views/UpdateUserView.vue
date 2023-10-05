@@ -57,7 +57,8 @@
 
                     <div class="tab-content">
                         <div>
-                            <template v-for="props in numTabOpen === 1 ? avatarPropertiesHead : avatarPropertiesClothes" :key="props.propNameEn">
+                            <template v-for="props in numTabOpen === 1 ? avatarPropertiesHead : avatarPropertiesClothes"
+                                      :key="props.propNameEn">
                                 <AvatarRadioSelector v-if="props.propType == TYPE_PROPS_TXT"
                                                      :is-phone="false"
                                                      :property="avatarProperties.find(v=>v.propNameEn === props.propNameEn)!"
@@ -168,7 +169,7 @@ import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
 import { computed, onMounted, ref } from 'vue';
 import api from '@/models/api';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useBreakpoints, useLocalStorage } from '@vueuse/core';
 
 import cancelIcon from '@/assets/img/cancel.webp';
@@ -872,6 +873,19 @@ if (numTabOpenLs.value) {
   numTabOpen.value = numTabOpenLs.value;
 }
 
+//Quand on quitte la page alors on confirme si il y a eu des changements
+onBeforeRouteLeave((to) => {
+
+  //Récupération de la route cliqué
+  nextRoute.value = to.path;
+
+  //Affichage de la page de confirmation
+  if (!updateDisabled.value) {
+    dialogExit.value?.showModal();
+    return false;
+  }
+});
+
 </script>
 
 <style lang="scss" scoped>
@@ -921,7 +935,7 @@ button {
 
 div.modify-avatar {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
 
 
   div.content-avatar {
