@@ -118,12 +118,19 @@ if (userCarId) {
     if (v == undefined) {
       hasError.value = true;
     }
-    router.push(`/${userCar.car.idQuery || ''}`);
     hasFinishedLoading.value = true;
   });
 } else {
   hasFinishedLoading.value = true;
 }
+
+//Redirection des utilisateurs enregistrés vers leur page d'accueil
+router.beforeEach((to) => {
+  if(to.path === '/' && userCar.car.idQuery) {
+    router.push(`/${userCar.car.idQuery}`);
+  }
+});
+
 
 </script>
 
