@@ -24,7 +24,7 @@
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
-        <SpinLoading class="load-element" v-else-if="hasError === false"></SpinLoading>
+        <SpinLoading v-else-if="hasError === false" class="load-element"></SpinLoading>
         <ErrorConnection v-else></ErrorConnection>
     </main>
 
@@ -33,17 +33,16 @@
     </footer>
 </template>
 
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+<script lang="ts" setup>
+import {RouterLink, RouterView, useRouter} from 'vue-router';
+import {useCarStore} from '@/stores/car';
+import {computed, onMounted, onUnmounted, ref} from 'vue';
 import HeaderApp from '@/components/TheHeader.vue';
 import FooterApp from '@/components/TheFooter.vue';
 import logoImg from '@/assets/img/logo.webp';
 import SpinLoading from '@/components/SpinLoading.vue';
-import { useLocalStorage } from '@vueuse/core';
+import {useLocalStorage} from '@vueuse/core';
 import ErrorConnection from '@/components/ErrorConnection.vue';
-import { useRouter } from 'vue-router';
 
 /**
  * Gère le clic sur le menu
@@ -134,7 +133,7 @@ router.beforeEach((to) => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 //Le contenu large est caché pour les petits écran
 .large {
