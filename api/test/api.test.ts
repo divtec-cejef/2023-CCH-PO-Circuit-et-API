@@ -1,5 +1,5 @@
 // ajouts des variables d'environnement
-import { it, before } from 'mocha';
+import { before, it } from 'mocha';
 
 // importation des modules
 import chai from 'chai';
