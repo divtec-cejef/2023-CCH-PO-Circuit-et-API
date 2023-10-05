@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
+
 const HistoryView = () => import('@/views/HistoryView.vue');
 const AboutView = () => import('@/views/AboutView.vue');
 const CourseView = () => import('@/views/CourseView.vue');
@@ -12,12 +13,13 @@ const ScanActivityView = () => import('@/views/ScanActivityView.vue');
 const ClassementFullScreenView = () => import('@/views/ClassementFullScreenView.vue');
 const StageView = () => import('@/views/StageView.vue');
 const LiveView = () => import('@/views/LiveView.vue');
+const NotFoundView = () => import('@/views/404View.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/:id',
+      path: '/:id([0-9]{4})',
       name: 'utilisateur',
       component: UserView
     },
@@ -80,10 +82,16 @@ const router = createRouter({
       path: '/live',
       name: 'live',
       component: LiveView
+    },
+    {
+      name: '404',
+      alias: ['/not-found', '/404'],
+      path: '/:p(.*)*',
+      component: NotFoundView
     }
   ],
-  scrollBehavior () {
-    return { top: 0 };
+  scrollBehavior() {
+    return {top: 0};
   }
 });
 

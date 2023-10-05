@@ -30,7 +30,7 @@
                 <img :src="live" alt="Image de live pour le live">
             </li>
             <li id="stage" @click="clickMenu">
-                <RouterLink to="stage">
+                <RouterLink to="/stage">
                     <p>Stage</p>
                     <img :src="stageImg"
                          alt="Icon d'inscription à un stage">
@@ -49,12 +49,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useCarStore } from '@/stores/car';
-import { useAdminPostStore } from '@/stores/adminPost';
+import {useCarStore} from '@/stores/car';
+import {useAdminPostStore} from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.webp';
 import exitPhoneImg from '@/assets/img/exit-phone.webp';
-import { useRouter } from 'vue-router';
-import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
+import {useRouter} from 'vue-router';
+import {useLocalStorage, usePreferredColorScheme} from '@vueuse/core';
 
 import houseImg from '@/assets/img/house.webp';
 import editImg from '@/assets/img/edit.webp';
