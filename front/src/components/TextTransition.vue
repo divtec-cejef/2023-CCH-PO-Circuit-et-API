@@ -1,10 +1,10 @@
 <template>
     <span>
-        {{props.callback ? props.callback(displayed ?? props.data) : displayed ?? props.data}}
+        {{ props.callback ? props.callback(displayed ?? props.data) : displayed ?? props.data }}
     </span>
 </template>
 
-<script setup lang="ts" generic="T extends number | string">
+<script generic="T extends number | string" lang="ts" setup>
 import type { Ref } from 'vue';
 import { ref, watch } from 'vue';
 
@@ -15,7 +15,7 @@ const props = defineProps<{
   callback?: (v: T) => string | number;
 }>();
 
-const displayed = typeof props.data === 'string' ?ref<T>('') : ref<T>(0);
+const displayed = typeof props.data === 'string' ? ref<string>('') : ref<number>(0);
 
 const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number, from?: number) => {
   if (i === undefined) {
@@ -31,9 +31,9 @@ const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number
     return;
   }
 
-  n.value = Math.ceil(((1-Math.cos(i))/2) * (to - from) + from);
+  n.value = Math.ceil(( ( 1 - Math.cos(i) ) / 2 ) * ( to - from ) + from);
 
-  requestAnimationFrame(() => animateNumber(n, to, (i ?? 0) + 0.1, from));
+  requestAnimationFrame(() => animateNumber(n, to, ( i ?? 0 ) + 0.1, from));
 };
 
 const animateString = (n: Ref<string | null | undefined>, to: string, i?: number, from?: string) => {
@@ -64,34 +64,34 @@ const animateString = (n: Ref<string | null | undefined>, to: string, i?: number
   nVal = n.value ?? '';
   let newString = '';
   for (let j = 0; j < nVal.length; j++) {
-    if (nVal[j] === to[j]) {
-      newString += nVal[j];
-    } else if (alphabet.indexOf(nVal[j]) < alphabet.indexOf(to[j])) {
-      const characterIndex = alphabet.indexOf(nVal[j] ?? 'a');
-      newString += alphabet[(characterIndex === -1 ? middle : characterIndex) + 1];
+    if (nVal[ j ] === to[ j ]) {
+      newString += nVal[ j ];
+    } else if (alphabet.indexOf(nVal[ j ]) < alphabet.indexOf(to[ j ])) {
+      const characterIndex = alphabet.indexOf(nVal[ j ] ?? 'a');
+      newString += alphabet[ ( characterIndex === -1 ? middle : characterIndex ) + 1 ];
     } else {
-      const characterIndex = alphabet.indexOf(nVal[j] ?? 'a');
-      newString += alphabet[(characterIndex === -1 ? middle : characterIndex) - 1];
+      const characterIndex = alphabet.indexOf(nVal[ j ] ?? 'a');
+      newString += alphabet[ ( characterIndex === -1 ? middle : characterIndex ) - 1 ];
     }
   }
 
   n.value = newString;
 
-  requestAnimationFrame(() => animateString(n, to, (i ?? 0) + 0.1, from));
+  requestAnimationFrame(() => animateString(n, to, ( i ?? 0 ) + 0.1, from));
 };
 
-watch(props, (v, old) => {
+watch(() => props.data, (v, old) => {
+  console.log(old);
   if (old)
-    displayed.value = old.data;
-  const { data } = v;
-  if (typeof data === 'string')
-    animateString(displayed as Ref<string>, data);
+    displayed.value = old;
+  if (typeof v === 'string')
+    animateString(displayed as Ref<string>, v);
   else
-    animateNumber(displayed as Ref<number>, data);
+    animateNumber(displayed as Ref<number>, v);
 }, { immediate: true });
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 </style>
