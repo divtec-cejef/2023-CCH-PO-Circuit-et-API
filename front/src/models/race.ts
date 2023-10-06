@@ -46,6 +46,7 @@ export default class Race {
  * @param date
  */
 export function formatTime(date: Date) {
+  console.log(date.getMinutes());
   if (date.getMinutes() === 0)
     return format(date, 'ss.SS');
   else
@@ -107,4 +108,14 @@ export function formatkmHtoCmS(speed: number) {
  */
 export function formatSpeed(speed: number) {
   return Math.round(formatkmHtoCmS(speed) * 10) / 10;
+}
+
+/**
+ * Calcul du temps intermédiaire
+ * @param sector Temps du temps intermédiaire
+ * @param raceStart Heure du début de course
+ */
+export function calculateSector(sector: Date, raceStart : Date) {
+  console.log(sector.getTime() - raceStart.getTime());
+  return new Date(sector.getTime() - raceStart.getTime());
 }
