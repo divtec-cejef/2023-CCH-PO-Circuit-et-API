@@ -62,7 +62,7 @@ import VideoRace from '@/components/VideoRace.vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 import ErrorConnection from '@/components/ErrorConnection.vue';
 import TableListTime from '@/components/TableListTime.vue';
-import ClassementRace from '@/components/ClassementRace.vue';
+import ClassementRace from '@/components/ClassementRaceFullScreen.vue';
 import ClassmentButton from '@/components/ClassmentButton.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
 
