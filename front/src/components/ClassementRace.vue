@@ -61,7 +61,7 @@ socket.onRankingReceived((data) => {
   listRace.value = data.races;
 
   //Si ce n'est le premier chargement alors on recherche la course ajoutée en dernier
-  if (lastListRace.value.length > 0) {
+  if (listRace.value.length > 0) {
     const newRace = getRankLastRace();
     emit('indexNewRace', newRace);
   }
@@ -79,6 +79,7 @@ socket.onRankingReceived((data) => {
 function getRankLastRace(): models.parsedData.RankingRaceDataOneCar | undefined {
   //Si les listes sont vides
   if (!listRace.value || !lastListRace.value) {
+    console.log('Liste vide');
     return;
   }
 
@@ -87,10 +88,12 @@ function getRankLastRace(): models.parsedData.RankingRaceDataOneCar | undefined 
   for (let race of listRace.value) {
     //Si l'index est trop grand, ou que l'id de l'utilisateur est différents alors on retourne l'index
     if ((index >= lastListRace.value.length) || ((race.id_race !== lastListRace.value[index].id_race) && (race.total_time !== lastListRace.value[index].total_time))) {
+      console.log('Nouvelle course');
       return { index: index, car: race.car };
     }
     index++;
   }
+  console.log('Aucune nouvelle course');
   return { index: -2, car: undefined };
 }
 

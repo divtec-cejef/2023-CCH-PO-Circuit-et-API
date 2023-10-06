@@ -96,11 +96,11 @@ function openFullscreen() {
 function resultAction(element: models.parsedData.RankingRaceDataOneCar | undefined) {
   newElement.value = element;
 
+  console.log('New element', newElement.value);
   //scroll jusqu'à l'élément
   if (newElement.value == undefined) {
     console.error('Car undefined');
     return;
-
   }
 
   //Si l'utilisateur réalise une course moins bonne que la précédente alors on affiche le contenu en fonction
