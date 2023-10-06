@@ -149,7 +149,7 @@ onUnmounted(() => {
   justify-content: center;
   text-align: center;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
 
   h2 {
     width: fit-content;
