@@ -2,7 +2,7 @@
     <div class="fullscreen" ref="el">
         <button v-if="buttonVisible" @click="openFullscreen">FULLSCREEN</button>
         <div class="classement">
-            <ClassementRace :show-content="false" @indexNewRace="resultAction"
+            <ClassementRaceFullScreen :show-content="false" @indexNewRace="resultAction"
                             :new-element="newElementIndexColor"/>
         </div>
     </div>
@@ -47,9 +47,9 @@ import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import { formatTime } from '@/models/race';
 import RankInfo from '@/components/RankInfo.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
-import ClassementRace from '@/components/ClassementRace.vue';
 import Road from '@/components/Road.vue';
 import { useWindowSize } from '@vueuse/core';
+import ClassementRaceFullScreen from '@/components/ClassementRaceFullScreen.vue';
 
 const el = ref<HTMLElement | null>(null);
 const newElementIndexColor = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
