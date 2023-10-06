@@ -7,7 +7,7 @@
         <SpinLoading></SpinLoading>
     </div>
     <template v-else-if="listRace?.length === 0">
-        <div class="result fullscreen">
+        <div class="no-race fullscreen">
             <h2>Aucune course n'a été encore réalisée !</h2>
             <p>
                 <br>
@@ -21,15 +21,15 @@
     </template>
     <template v-else>
         <ClassementElement
-                v-for="(race, key) in listRaceToDisplay"
-                :key="key"
-                :avatar="race.car?.avatar || genConfig()"
-                :rank="key + 1"
-                :pseudo="race.car?.pseudo || '<indisponible>'"
-                :time="new Date(race.total_time)"
-                :id-car="race.car!.id_car"
-                :show-content="props.showContent"
-                :is-new-element="props.newElement ? key === props.newElement.index : false"
+            v-for="(race, key) in listRaceToDisplay"
+            :key="key"
+            :avatar="race.car?.avatar || genConfig()"
+            :rank="key + 1"
+            :pseudo="race.car?.pseudo || '<indisponible>'"
+            :time="new Date(race.total_time)"
+            :id-car="race.car!.id_car"
+            :show-content="props.showContent"
+            :is-new-element="props.newElement ? key === props.newElement.index : false"
         />
     </template>
 </template>
@@ -57,8 +57,8 @@ const socket = new WebsocketConnection();
 
 //Définition des props avec valeur par défaut
 const props = withDefaults(defineProps<{
-  showContent?: boolean,
-  newElement?: models.parsedData.RankingRaceDataOneCar
+    showContent?: boolean,
+    newElement?: models.parsedData.RankingRaceDataOneCar
 }>(), {
   showContent: true
 });
@@ -136,29 +136,29 @@ onUnmounted(() => {
 <style scoped lang="scss">
 
 .loading-ranking {
-  height: calc(60vh - var(--height-screen-diff));
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: calc(60vh - var(--height-screen-diff));
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.result {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-  width: 100%;
-
-  h2 {
-    width: fit-content;
+.no-race {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-  }
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
 
-  p {
-    margin-bottom: 100px;
-  }
+    h2 {
+        width: fit-content;
+        text-align: center;
+    }
+
+    p {
+        margin-bottom: 100px;
+    }
 }
 
 </style>
