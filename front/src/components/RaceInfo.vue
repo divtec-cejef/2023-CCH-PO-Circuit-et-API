@@ -37,14 +37,14 @@
                     <li>
                         <NumberTime class="num-race" number="1" color="var(--red)"/>
                         <p>{{
-                            formatTime(props.race.sector1)
+                            formatTime(calculateSector(new Date(props.race.sector1), new Date(props.race.raceStart)))
                             }}</p>
                         <span>s</span>
                     </li>
                     <li>
                         <NumberTime class="num-race" number="2" color="var(--blue)"/>
                         <p>{{
-                            formatTime(props.race.sector2)
+                                formatTime(calculateSector(new Date(props.race.sector2), new Date(props.race.raceStart)))
                             }}</p>
                         <span>s</span>
                     </li>
@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import NumberTime from '@/components/NumberTime.vue';
-import Race, { formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
+import Race, { calculateSector, formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
 import type { models } from '@/models/api';
 import RankInfo from '@/components/RankInfo.vue';
 
@@ -67,6 +67,7 @@ const props = defineProps<{
   rank: number
   displayRank: boolean
 }>();
+
 </script>
 
 <style scoped lang="scss">
