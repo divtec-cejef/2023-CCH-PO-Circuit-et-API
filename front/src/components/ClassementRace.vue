@@ -7,11 +7,21 @@
         <SpinLoading></SpinLoading>
     </div>
     <template v-else-if="listRace?.length === 0">
-        <p>Aucune donnée n'est disponible</p>
+        <div class="result fullscreen">
+            <h2>Aucune course n'a été encore réalisée !</h2>
+            <p>
+                <br>
+                Soit le premier à prendre le départ !
+                <br>
+                <br>
+                3, 2, 1, GO !
+            </p>
+            <Road :width="width"></Road>
+        </div>
     </template>
     <template v-else>
         <ClassementElement
-                v-for="(race, key) in listRace"
+                v-for="(race, key) in listRaceToDisplay"
                 :key="key"
                 :avatar="race.car?.avatar || genConfig()"
                 :rank="key + 1"
@@ -19,7 +29,7 @@
                 :time="new Date(race.total_time)"
                 :id-car="race.car!.id_car"
                 :show-content="props.showContent"
-                :is-new-element="props.indexNewElement ? key === props.indexNewElement.index : false"
+                :is-new-element="props.newElement ? key === props.newElement.index : false"
         />
     </template>
 </template>
@@ -28,14 +38,19 @@
 import ClassementElement from '@/components/ClassementElement.vue';
 import { WebsocketConnection } from '@/models/api';
 import type { models } from '@/models/api';
-import { ref, onUnmounted } from 'vue';
+import { ref, onUnmounted, watch } from 'vue';
 import SpinLoading from '@/components/SpinLoading.vue';
 import { genConfig } from 'holiday-avatar';
+import Road from '@/components/Road.vue';
+import { useWindowSize } from '@vueuse/core/index';
 
 const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
+const listRaceToDisplay = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
 const errorMessage = ref<string>();
 const lastListRace = ref<models.rawData.WsRaceData[]>([]);
+const { width } = useWindowSize();
+const emit = defineEmits(['indexNewRace', 'load']);
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();
@@ -43,12 +58,23 @@ const socket = new WebsocketConnection();
 //Définition des props avec valeur par défaut
 const props = withDefaults(defineProps<{
   showContent?: boolean,
-  indexNewElement?: models.parsedData.RankingRaceDataOneCar
+  newElement?: models.parsedData.RankingRaceDataOneCar
 }>(), {
   showContent: true
 });
 
-const emit = defineEmits(['indexNewRace', 'load']);
+//Ecoute le changement d'index pour raffraichir la liste d'utilisateur
+watch(() => props.newElement, async (element) => {
+  if (element === undefined) {
+    return;
+  }
+
+  //Si l'index est valide alors on affiche la liste complète
+  if (element!.index !== -1) {
+    listRaceToDisplay.value = listRace.value;
+  }
+});
+
 
 // Met à jour les données à la réception d'évènement
 socket.onRankingReceived((data) => {
@@ -64,6 +90,10 @@ socket.onRankingReceived((data) => {
   if (lastListRace.value.length > 0) {
     const newRace = getRankLastRace();
     emit('indexNewRace', newRace);
+  } else if (listRace.value?.length === 1) {
+    emit('indexNewRace', { index: 0, car: listRace.value![0].car });
+  } else {
+    listRaceToDisplay.value = listRace.value;
   }
 
   //La nouvelle liste devient l'ancienne
@@ -79,6 +109,7 @@ socket.onRankingReceived((data) => {
 function getRankLastRace(): models.parsedData.RankingRaceDataOneCar | undefined {
   //Si les listes sont vides
   if (!listRace.value || !lastListRace.value) {
+    console.error('Liste vide');
     return;
   }
 
@@ -109,6 +140,25 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.result {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: 80%;
+
+  h2 {
+    width: fit-content;
+    text-align: center;
+  }
+
+  p {
+    margin-bottom: 100px;
+  }
 }
 
 </style>
