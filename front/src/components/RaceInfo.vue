@@ -7,10 +7,10 @@
         }">
             <RankInfo v-if="props.displayRank" :rank="props.rank"></RankInfo>
             <div class="best-time">
-                <div>Manche n°{{ 1 }}</div>
-                <p class="hour">{{ formatHourDay(new Date()) }}</p>
+                <div>Manche n°{{ props.numRace }}</div>
+                <p class="hour">{{ formatHourDay(props.race.raceStart) }}</p>
                 <div class="race-time">
-                    <span>{{ formatTime(new Date()) }}</span>
+                    <span>{{ formatTime(props.race.totalTime) }}</span>
                     <span>s</span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             }">
                 <div>Vitesse instantanée</div>
                 <div class="speed-max">
-                    <p>{{ formatSpeed(45) }}</p>
+                    <p>{{ formatSpeed(props.race.speed) }}</p>
                     <p>{{ unitSpeed }}</p>
                 </div>
             </div>
@@ -37,14 +37,14 @@
                     <li>
                         <NumberTime class="num-race" number="1" color="var(--red)"/>
                         <p>{{
-                            formatTime(new Date())
+                            formatTime(props.race.sector1)
                             }}</p>
                         <span>s</span>
                     </li>
                     <li>
                         <NumberTime class="num-race" number="2" color="var(--blue)"/>
                         <p>{{
-                            formatTime(new Date())
+                            formatTime(props.race.sector2)
                             }}</p>
                         <span>s</span>
                     </li>
