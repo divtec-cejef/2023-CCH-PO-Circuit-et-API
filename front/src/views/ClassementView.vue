@@ -60,6 +60,8 @@ function scrollToTop() {
 @import "@/assets/css/consts.scss";
 
 .content {
+  flex: 1;
+
   .top-container {
     display: flex;
     flex-direction: row;
