@@ -27,7 +27,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import downloadImg from '@/assets/img/downloads.webp';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
@@ -70,7 +70,7 @@ if (props.url) {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "src/assets/css/consts";
 
 div.video {
@@ -99,41 +99,41 @@ div.video {
     box-shadow: $default-shadow;
   }
 
-  .disabled-button {
-    button {
-      opacity: 0.5 !important;
+  a {
+    button.download {
+      margin-top: 12px;
+      background-color: var(--white);
+      width: 100%;
+      height: 37px;
+      border: none;
+      transition: all ease-in-out 0.2s;
+      color: var(--black);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        margin-right: 5px;
+      }
+
+      img {
+        width: 14px;
+        margin-left: 5px;
+      }
+
+      &:hover {
+        opacity: 0.5;
+      }
     }
 
-    button:hover {
-      font-weight: normal;
-      opacity: 0.5 !important;
-      cursor: not-allowed;
-    }
-  }
+    &.disabled-button {
 
-  button.download {
-    margin-top: 12px;
-    background-color: var(--white);
-    width: 100%;
-    height: 37px;
-    border: none;
-    transition: all ease-in-out 0.2s;
-    color: var(--gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    span {
-      margin-right: 5px;
-    }
-
-    img {
-      width: 14px;
-      margin-left: 5px;
-    }
-
-    &:hover {
-      opacity: 0.5;
+      button.download {
+        opacity: 0.5 !important;
+        font-weight: normal;
+        cursor: not-allowed;
+      }
     }
   }
 
