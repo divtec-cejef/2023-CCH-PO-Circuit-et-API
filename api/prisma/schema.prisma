@@ -28,7 +28,7 @@ model car {
   id_car    Int         @id @default(autoincrement())
   password  String      @db.VarChar(64)
   query_id  String      @unique @db.VarChar(100)
-  pseudo    String      @db.VarChar(50)
+  pseudo    String      @unique @db.VarChar(50)
   avatar    Json        @db.Json
   car_token car_token[]
   race      race[]
