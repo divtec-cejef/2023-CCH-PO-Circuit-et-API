@@ -75,6 +75,11 @@ const animateString = (n: Ref<string | null | undefined>, to: string, i?: number
     }
   }
 
+  if (n.value === newString) {
+    n.value = to;
+    return;
+  }
+
   n.value = newString;
 
   requestAnimationFrame(() => animateString(n, to, ( i ?? 0 ) + 0.1, from));
