@@ -6,7 +6,7 @@ CREATE TABLE car
     id_car   SERIAL,
     password VARCHAR(64)  NOT NULL,
     query_id VARCHAR(100) NOT NULL UNIQUE,
-    pseudo   VARCHAR(50)  NOT NULL,
+    pseudo   VARCHAR(50)  NOT NULL UNIQUE,
     avatar   json         NOT NULL,
     PRIMARY KEY (id_car)
 );
