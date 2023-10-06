@@ -63,15 +63,17 @@ const props = withDefaults(defineProps<{
   showContent: true
 });
 
+//Ecoute le changement d'index pour raffraichir la liste d'utilisateur
+watch(() => props.newElement, async (element) => {
+  if (element === undefined) {
+    return;
+  }
 
-if (props.newElement) {
-  watch(props.newElement, async (element) => {
-    if (element.index !== -1) {
-      console.log('salut odin');
-      listRaceToDisplay.value = listRace.value;
-    }
-  });
-}
+  //Si l'index est valide alors on affiche la liste complète
+  if (element!.index !== -1) {
+    listRaceToDisplay.value = listRace.value;
+  }
+});
 
 
 // Met à jour les données à la réception d'évènement
