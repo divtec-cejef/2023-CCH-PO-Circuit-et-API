@@ -893,7 +893,7 @@ onBeforeRouteLeave((to) => {
   nextRoute.value = to.path;
 
   //Affichage de la page de confirmation
-  if (!updateDisabled.value) {
+  if (!updateDisabled.value && localStorage.getItem("userCarId") !== null) {
     dialogExit.value?.showModal();
     return false;
   }
