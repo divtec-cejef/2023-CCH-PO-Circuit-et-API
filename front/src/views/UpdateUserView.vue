@@ -23,8 +23,10 @@
                 <h2>Avertissement</h2>
                 <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
             </div>
-            <div>Tu n'as as enregistré tes modifications !
-                <br>Es-tu sûr de vouloir quitter ?
+            <div>
+                <p>Tu n'as as enregistré tes modifications!</p>
+
+                <p>Es-tu sûr de vouloir quitter?</p>
             </div>
             <div class="button-container">
                 <button @click="closeModal">Non</button>
@@ -938,11 +940,9 @@ div.modify-pseudo {
 }
 
 button {
-  padding: 12px;
   border-radius: 20px;
   cursor: pointer;
   margin-top: 10px;
-  width: 120px;
   text-align: center;
   transition: ease-in-out 0.3s;
 
@@ -1171,7 +1171,7 @@ input.errored {
 #connection-dialog, #exit-dialog {
   border: none;
   border-radius: 1em;
-  padding: 15px 20px;
+  padding: 15px;
 
   div.header {
     h2 {
@@ -1213,25 +1213,6 @@ input.errored {
         animation: 600ms headShake;
       }
     }
-
-    button[type="submit"] {
-      background-color: var(--white);
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 8px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all ease-in-out 0.2s;
-      width: fit-content;
-    }
-
-    button[type="submit"]:hover {
-      background-color: var(--accent);
-      border: 2px solid var(--accent);
-      color: var(--white);
-      transition: all ease-in-out 0.2s;
-    }
-
     div.button-container {
       display: flex;
       justify-content: center;
@@ -1239,6 +1220,35 @@ input.errored {
   }
 }
 
+#connection-dialog {
+  width: 250px;
+  div.header {
+    align-items: flex-start;
+    justify-content: space-between;
+    button {
+      margin: 0;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: .75em;
+
+    input {
+      margin: .75em 0 0;
+      width: 6em;
+      text-align: center;
+      padding: .5em;
+      border-radius: 20px;
+    }
+
+    label {
+      width: fit-content;
+      margin: 0;
+    }
+  }
+}
 
 #exit-dialog {
   width: 500px;
@@ -1251,6 +1261,7 @@ input.errored {
     margin-top: 35px;
 
     button {
+      width: 7em;
       margin: 0 5px;
       padding: 5px 3px;
     }
