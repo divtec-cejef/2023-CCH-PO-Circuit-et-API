@@ -24,25 +24,27 @@
             v-for="(race, key) in listRaceToDisplay"
             :key="key"
             :avatar="race.car?.avatar || genConfig()"
-            :rank="key + 1"
-            :pseudo="race.car?.pseudo || '<indisponible>'"
-            :time="new Date(race.total_time)"
             :id-car="race.car!.id_car"
-            :show-content="props.showContent"
             :is-new-element="props.newElement ? key === props.newElement.index : false"
+            :pseudo="race.car?.pseudo || '<indisponible>'"
+            :rank="key + 1"
+            :show-content="props.showContent"
+            :time="new Date(race.total_time)"
         />
     </template>
 </template>
 
-<script setup lang="ts">
-import ClassementElement from '@/components/ClassementElement.vue';
-import { WebsocketConnection } from '@/models/api';
+<script lang="ts" setup>
+
 import type { models } from '@/models/api';
-import { ref, onUnmounted, watch } from 'vue';
-import SpinLoading from '@/components/SpinLoading.vue';
+import { WebsocketConnection } from '@/models/api';
+import { defineAsyncComponent, onUnmounted, ref, watch } from 'vue';
 import { genConfig } from 'holiday-avatar';
-import Road from '@/components/Road.vue';
 import { useWindowSize } from '@vueuse/core/index';
+
+const ClassementElement = defineAsyncComponent(() => import('@/components/ClassementElement.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const Road = defineAsyncComponent(() => import('@/components/Road.vue'));
 
 const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
@@ -133,7 +135,7 @@ onUnmounted(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 .loading-ranking {
     height: calc(60vh - var(--height-screen-diff));

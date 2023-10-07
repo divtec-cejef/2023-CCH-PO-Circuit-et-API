@@ -1,10 +1,10 @@
 <template>
-    <div class="race-content" :style="{
+    <div :style="{
         marginRight: props.displayRank ? '25' : '0'
-    }">
-        <div class="content-1" :style="{
+    }" class="race-content">
+        <div :style="{
             width: props.displayRank ? '100%' : 'fit-content'
-        }">
+        }" class="content-1">
             <RankInfo v-if="props.displayRank" :rank="props.rank"></RankInfo>
             <div class="best-time">
                 <div>Manche n°{{ props.numRace }}</div>
@@ -15,15 +15,15 @@
                 </div>
             </div>
         </div>
-        <div class="content-2" :style="{
+        <div :style="{
             flexDirection: props.displayRank ? 'row' : 'column-reverse',
             width: props.displayRank ? '100%' : 'fit-content',
             minWidth: props.displayRank ? '280' : '0',
             marginTop: props.displayRank ? '35px' : '20px'
-        }">
-            <div class="vitesse" :style="{
+        }" class="content-2">
+            <div :style="{
                 marginTop: props.displayRank ? '0' : '25px'
-            }">
+            }" class="vitesse">
                 <div>Vitesse instantanée</div>
                 <div class="speed-max">
                     <p>{{ formatSpeed(props.race.speed) }}</p>
@@ -35,14 +35,14 @@
                 <div>Temps intermédiaires</div>
                 <ul>
                     <li>
-                        <NumberTime class="num-race" number="1" color="var(--red)"/>
+                        <NumberTime class="num-race" color="var(--red)" number="1"/>
                         <p>{{
                             formatTime(calculateSector(new Date(props.race.sector1), new Date(props.race.raceStart)))
                             }}</p>
                         <span>s</span>
                     </li>
                     <li>
-                        <NumberTime class="num-race" number="2" color="var(--blue)"/>
+                        <NumberTime class="num-race" color="var(--blue)" number="2"/>
                         <p>{{
                                 formatTime(calculateSector(new Date(props.race.sector2), new Date(props.race.raceStart)))
                             }}</p>
@@ -56,10 +56,12 @@
 </template>
 
 <script lang="ts" setup>
-import NumberTime from '@/components/NumberTime.vue';
 import Race, { calculateSector, formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
 import type { models } from '@/models/api';
-import RankInfo from '@/components/RankInfo.vue';
+import { defineAsyncComponent } from "vue";
+
+const NumberTime = defineAsyncComponent(() => import('@/components/NumberTime.vue'));
+const RankInfo = defineAsyncComponent(() => import('@/components/RankInfo.vue'));
 
 const props = defineProps<{
   race: Race | models.parsedData.RaceData,
@@ -70,7 +72,7 @@ const props = defineProps<{
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 div.race-content {
   flex: 1;
   height: fit-content;
