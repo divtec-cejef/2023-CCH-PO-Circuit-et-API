@@ -43,18 +43,20 @@
 </template>
 
 <script lang="ts" setup>
-import BonusMap from '@/components/BonusMap.vue';
+
 import type { PanZoom } from 'panzoom';
 import panzoom from 'panzoom';
-import { ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
-import SpinLoading from '@/components/SpinLoading.vue';
-import ErrorConnection from '@/components/ErrorConnection.vue';
+
+const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 const userCar = useCarStore();
 const { car } = userCar;
