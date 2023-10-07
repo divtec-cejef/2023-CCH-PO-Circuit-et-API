@@ -1,9 +1,9 @@
 <template>
-    <div class="fullscreen" ref="el">
+    <div ref="el" class="fullscreen">
         <button v-if="buttonVisible" @click="openFullscreen">FULLSCREEN</button>
         <div class="classement">
-            <ClassementRaceFullScreen :show-content="false" @indexNewRace="resultAction"
-                            :new-element="newElementIndexColor"/>
+            <ClassementRaceFullScreen :new-element="newElementIndexColor" :show-content="false"
+                            @indexNewRace="resultAction"/>
         </div>
     </div>
     <div v-if="elementToDisplay && raceToDisplay" :class="`fullscreen info-user ${classDisplayInfoRace}`">
@@ -36,20 +36,20 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
-import { useScroll } from '@vueuse/core';
-import { computed, onMounted, ref } from 'vue';
+import { useScroll, useWindowSize } from '@vueuse/core';
 import type { Ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
 import type { models } from '@/models/api';
 import api from '@/models/api';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import { formatTime } from '@/models/race';
-import RankInfo from '@/components/RankInfo.vue';
-import RaceInfo from '@/components/RaceInfo.vue';
-import Road from '@/components/Road.vue';
-import { useWindowSize } from '@vueuse/core';
-import ClassementRaceFullScreen from '@/components/ClassementRaceFullScreen.vue';
+
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const RankInfo = defineAsyncComponent(() => import('@/components/RankInfo.vue'));
+const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
+const Road = defineAsyncComponent(() => import('@/components/Road.vue'));
+const ClassementRaceFullScreen = defineAsyncComponent(() => import('@/components/ClassementRaceFullScreen.vue'));
 
 const el = ref<HTMLElement | null>(null);
 const newElementIndexColor = ref<models.parsedData.RankingRaceDataOneCar | undefined>();
@@ -179,7 +179,7 @@ function scrollToNewRace() {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 div.fullscreen {
   display: flex;

@@ -174,7 +174,7 @@ import type { Configs } from 'holiday-avatar';
 import { genConfig } from 'holiday-avatar';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
 import api from '@/models/api';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useBreakpoints, useLocalStorage } from '@vueuse/core';
@@ -183,12 +183,12 @@ import cancelIcon from '@/assets/img/cancel.webp';
 import validateIcon from '@/assets/img/checked.webp';
 import faceIcon from '@/assets/img/face-color.webp';
 import hangerIcon from '@/assets/img/hanger.webp';
-
-import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
-import ImageModifPhone from '@/components/ImageModifPhone.vue';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import type { models } from '@/models/avatar';
+
+const AvatarColorPicker = defineAsyncComponent(() => import('@/components/AvatarColorPicker.vue'));
+const ImageModifPhone = defineAsyncComponent(() => import('@/components/ImageModifPhone.vue'));
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const AvatarRadioSelector = defineAsyncComponent(() => import('@/components/AvatarRadioSelector.vue'));
 
 const router = useRouter();
 
