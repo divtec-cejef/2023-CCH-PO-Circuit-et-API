@@ -22,12 +22,13 @@
 </template>
 
 <script lang="ts" setup>
-import ActivityAdmin from '@/components/ActivityAdmin.vue';
-import { ref } from 'vue';
+
+import { defineAsyncComponent, ref } from 'vue';
 import restful from '@/models/api';
 import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 
+const ActivityAdmin = defineAsyncComponent(() => import('@/components/ActivityAdmin.vue'));
 const router = useRouter();
 
 //Initialisation des variables

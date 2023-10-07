@@ -66,11 +66,12 @@ import speed from '@/assets/img/speed.webp';
 import chronometer from '@/assets/img/chronometer-icon.webp';
 import link from '@/assets/img/play-button.webp';
 import download from '@/assets/img/downloads-black.webp';
-import NumberTime from '@/components/NumberTime.vue';
 import { useCarStore } from '@/stores/car';
-import { onMounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { formatSpeed, formatTime, sortListByOrderHour, unitSpeed } from '@/models/race';
 import { getNumRace } from '@/models/car';
+
+const NumberTime = defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 
 /**
  * Création de l'objet blob
