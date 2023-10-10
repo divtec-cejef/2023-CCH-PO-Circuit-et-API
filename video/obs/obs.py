@@ -46,6 +46,7 @@ class Obs:
         """
         if not self.record_started():
             raise Exception("Record not started")
+        time.sleep(1)
         self.cl.stop_record()
         time.sleep(.5)
         self.change_scene('global')
