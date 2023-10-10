@@ -89,13 +89,14 @@ async def upload(id_race: int):
     path = "C:\\Users\\Admin\\Videos\\"
     files = list(filter(os.path.isfile, glob.glob(path + "*")))
     files.sort(key=lambda x: os.path.getmtime(x))
-    time.sleep(1)
+    time.sleep(3)
 
     # Renommage du fichier
     file_name = f"{id_race}.mp4"
     file_path = path + file_name
     os.rename(files[-1], file_path)
     logger.info("File renamed to " + file_name)
+    time.sleep(2)
 
     # Upload du fichier
     try:
@@ -111,7 +112,7 @@ async def upload(id_race: int):
             logger.info("File removed")
         return {400: {"description": "Error while uploading file"}}
 
-    time.sleep(.5)
+    time.sleep(1)
     os.remove(file_path)
     logger.info("File removed")
 
