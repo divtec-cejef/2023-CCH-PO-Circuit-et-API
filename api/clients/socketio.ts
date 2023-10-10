@@ -11,11 +11,11 @@ export async function emitEvent (io: TypedEventBroadcaster<{[eventName: string]:
     io.emit(eventName, data);
   } catch (e) {
     if (typeof e === 'string') {
-      io.emit('updatedUserRaces', { message: e });
+      io.emit(eventName, { message: e });
     } else if (e instanceof Error) {
-      io.emit('updatedUserRaces', { message: e.message });
+      io.emit(eventName, { message: e.message });
     } else {
-      io.emit('updatedUserRaces', { message: 'internal server error' });
+      io.emit(eventName, { message: 'internal server error' });
     }
   }
 }
