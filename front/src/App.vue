@@ -34,15 +34,16 @@
 </template>
 
 <script lang="ts" setup>
-import {RouterLink, RouterView, useRouter} from 'vue-router';
-import {useCarStore} from '@/stores/car';
-import {computed, onMounted, onUnmounted, ref} from 'vue';
-import HeaderApp from '@/components/TheHeader.vue';
-import FooterApp from '@/components/TheFooter.vue';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { useCarStore } from '@/stores/car';
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
 import logoImg from '@/assets/img/logo.webp';
-import SpinLoading from '@/components/SpinLoading.vue';
-import {useLocalStorage} from '@vueuse/core';
-import ErrorConnection from '@/components/ErrorConnection.vue';
+import { useLocalStorage } from '@vueuse/core';
+
+const HeaderApp = defineAsyncComponent(() => import('@/components/TheHeader.vue'));
+const FooterApp = defineAsyncComponent(() => import('@/components/TheFooter.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 /**
  * Gère le clic sur le menu
