@@ -1,6 +1,10 @@
 import time
-
 import obsws_python as obs
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Obs:
@@ -13,7 +17,9 @@ class Obs:
         Constructeur de la classe Obs
         :return: none
         """
-        self.cl = obs.ReqClient(host='localhost', port=4455, password='kfPjS8HbBvwhju8J')
+        self.cl = obs.ReqClient(host=os.environ['OBS_URL'],
+                                port=int(os.environ['OBS_PORT']),
+                                password=os.environ['OBS_PASSWORD'])
         self.scenes = self.cl.get_scene_list().scenes
 
     def start_record(self):
