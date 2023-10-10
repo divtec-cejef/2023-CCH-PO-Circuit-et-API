@@ -1,15 +1,24 @@
-import sio from 'socket.io';
 import type { Socket } from 'socket.io';
-import {
-  getShortestRaces,
-  getRacesByCar,
-  getRankByCar,
-  getNumberRaces,
-  getShortestRace
-} from '../services/race';
+import sio from 'socket.io';
+import { getNumberRaces, getRacesByCar, getRankByCar, getShortestRace, getShortestRaces } from '../services/race';
 import { getCarById } from '../services/car';
 import http from 'http';
-import { getRealisationCount, mostRealisedActivity, lastRealisedActivity } from '../services/realise';
+import { getRealisationCount, lastRealisedActivity, mostRealisedActivity } from '../services/realise';
+import { TypedEventBroadcaster } from "socket.io/dist/typed-events";
+
+export async function emitEvent (io: TypedEventBroadcaster<{[eventName: string]: any}>, eventName: string, data: any) {
+  try {
+    io.emit(eventName, data);
+  } catch (e) {
+    if (typeof e === 'string') {
+      io.emit(eventName, { message: e });
+    } else if (e instanceof Error) {
+      io.emit(eventName, { message: e.message });
+    } else {
+      io.emit(eventName, { message: 'internal server error' });
+    }
+  }
+}
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -40,59 +49,28 @@ export default function buildSioServer (server: http.Server) {
         return;
       }
 
-      // envoyer les données de manches au client
-      try {
-        socket.emit('updatedUserRaces', {
-          races: await getRacesByCar(socket.data.carId),
-          rank: await getRankByCar(socket.data.carId)
-        });
-      } catch (e) {
-        if (typeof e === 'string') {
-          socket.emit('updatedUserRaces', { message: e });
-        } else if (e instanceof Error) {
-          socket.emit('updatedUserRaces', { message: e.message });
-        } else {
-          socket.emit('updatedUserRaces', { message: 'internal server error' });
-        }
-      }
+      await emitEvent(socket, 'updatedUserRaces', {
+        races: await getRacesByCar(socket.data.carId),
+        rank: await getRankByCar(socket.data.carId)
+      });
 
       console.log(`User connected with car id ${socket.handshake.query.carId}\n`);
     }
 
     // envoyer les données de classement au client
-    try {
       const ranking = {
         races: await getShortestRaces(),
         count: await getNumberRaces(),
         fastest: await getShortestRace()
       };
-      socket.emit('updatedRaces', ranking);
-    } catch (e) {
-      if (typeof e === 'string') {
-        socket.emit('updatedRaces', { message: e });
-      } else if (e instanceof Error) {
-        socket.emit('updatedRaces', { message: e.message });
-      } else {
-        socket.emit('updatedRaces', { message: 'internal server error' });
-      }
-    }
+    await emitEvent(socket, 'updatedRaces', ranking);
 
     // envoyer les données d'activité au client
-    try {
-      socket.emit('updatedActivities', {
-        count: await getRealisationCount(),
-        mostPopular: await mostRealisedActivity(),
-        last: await lastRealisedActivity()
-      });
-    } catch (e) {
-      if (typeof e === 'string') {
-        socket.emit('updatedActivities', { message: e });
-      } else if (e instanceof Error) {
-        socket.emit('updatedActivities', { message: e.message });
-      } else {
-        socket.emit('updatedActivities', { message: 'internal server error' });
-      }
-    }
+    await emitEvent(socket, 'updatedActivities', {
+      count: await getRealisationCount(),
+      mostPopular: await mostRealisedActivity(),
+      last: await lastRealisedActivity()
+    })
 
     socket.on('disconnect', () => {
       console.log('user disconnected\n');
