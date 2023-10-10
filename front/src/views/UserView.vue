@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="loading-page" v-if="codeBackApi === api.ReturnCodes.NoCode">
+        <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
             <SpinLoading></SpinLoading>
         </div>
 
@@ -16,47 +16,37 @@
                 </div>
 
                 <div class="car-3d">
-                    <div :class="`loading${modelLoaded?' loaded':''}`">
-                        <hollow-dots-spinner
-                                :dot-size="12"
-                                :dots-num="3"
-                                color="#7f7f7f"
-                        />
-                    </div>
-                    <div :class="modelLoaded?'':'hidden'">
-                        <Renderer id="car" ref="renderer" antialias
-                                  :orbit-ctrl="{
-                               autoRotate: true,
-                               autoRotateSpeed: -2.0,
-                               enableDamping: true,
-                               dampingFactor: 0.05
-                           }"
-                                  width="400px" height="300px">
-                            <Camera :position="{ x: 1, y: 0.5, z: 0 }" :near=".01"/>
-                            <Scene :background="preferredColor === 'dark' ? '#1a1a1a' : '#fff'">
-                                <PointLight :position="{x: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{x: -10}" :intensity="2"></PointLight>
-                                <PointLight :position="{y: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{y: -10}" :intensity="2"></PointLight>
-                                <PointLight :position="{z: 10}" :intensity="2"></PointLight>
-                                <PointLight :position="{z: -10}" :intensity="2"></PointLight>
-                                <GltfModel ref="object" :src="carModel" :scale="{x:.01, y:.01, z:.01}"
-                                           @load="() => modelLoaded = true"/>
-                            </Scene>
-                        </Renderer>
-                    </div>
+                    <Suspense>
+                        <ModelRender :model="carModel">
+                            <img :src="colorScheme === 'dark'
+                            ? carGifDark
+                            : carGifLight" alt="Animation de la voiture en 3D">
+                        </ModelRender>
+                        <template #fallback>
+                            <div class="loading">
+                            <HollowDotsSpinner/>
+                            </div>
+                        </template>
+                    </Suspense>
                 </div>
 
+                <section>
                 <h2>Instructions</h2>
                 <ul class="list-instruction">
                     <li>
                         <NumberTime color="var(--blue)" number="1"></NumberTime>
-                        <p>Balade toi dans les différentes sections du bâtiment et
-                            réalise des activités pour obtenir des bonus !</p>
+                        <p>Balade toi dans les différents ateliers du bâtiment et
+                            réalise des activités pour obtenir des
+                            <RouterLink to="bonus">bonus</RouterLink>
+                            !
+                        </p>
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="2"></NumberTime>
-                        <p>Modifie tes données de pilotes.</p>
+                        <p>Modifie tes données de
+                            <RouterLink to="pilote">pilotes</RouterLink>
+                            .
+                        </p>
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="3"></NumberTime>
@@ -65,11 +55,16 @@
                     </li>
                     <li>
                         <NumberTime color="var(--blue)" number="4"></NumberTime>
-                        <p>Analyse ton résultat et récupère la vidéo de ta course !</p>
+                        <p>Analyse ton résultat et récupère la
+                            <RouterLink to="course">vidéo</RouterLink>
+                            de ta course !
+                        </p>
                     </li>
 
                 </ul>
+                </section>
 
+                <section>
                 <h2>Tableau de bord</h2>
                 <div class="badges">
                     <RouterLink to="/course">
@@ -88,24 +83,23 @@
                         <img :src=badgeModif alt="Badge modification">
                         <p>Modifier</p>
                     </RouterLink>
-
-                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                       target="_blank">
+                    <RouterLink to="/stage">
                         <img :src=badgeStage alt="Badge inscription stage">
                         <p>Stage</p>
-                    </a>
-                    <RouterLink to="/">
+                    </RouterLink>
+                    <RouterLink to="/live">
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
                     </RouterLink>
                 </div>
+                </section>
             </div>
         </div>
 
-        <div class="error-no-car" v-else-if="codeBackApi === api.ReturnCodes.NotFound">
+        <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
             <h2>Erreur</h2>
             <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-            <RouterLink :to="`/${userCar.car.idQuery}`">
+            <RouterLink :to="`/${userCar.car.idQuery || ''}`">
                 <button>Accueil</button>
             </RouterLink>
         </div>
@@ -114,14 +108,12 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { RouterLink } from 'vue-router';
-import { ref, watch } from 'vue';
-import { useCarStore } from '@/stores/car';
-import { useRouter } from 'vue-router';
-import { GltfModel, Renderer, Camera, PointLight, Scene } from 'troisjs';
+<script lang="ts" setup>
+import {defineAsyncComponent, ref, watch} from 'vue';
+
+import {RouterLink, useRouter} from 'vue-router';
+import {useCarStore} from '@/stores/car';
 import api from '@/models/api';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import badgeCourse from '@/assets/img/course.webp';
 import badgeClassement from '@/assets/img/classement.webp';
 import badgeModif from '@/assets/img/modification.webp';
@@ -129,26 +121,34 @@ import badgeVideo from '@/assets/img/video.webp';
 import badgeStage from '@/assets/img/stage.webp';
 import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
-import SpinLoading from '@/components/SpinLoading.vue';
-import { HollowDotsSpinner } from 'epic-spinners';
-import ErrorConnection from '@/components/ErrorConnection.vue';
-import NumberTime from '@/components/NumberTime.vue';
-import { usePreferredColorScheme } from '@vueuse/core';
+import carGifLight from '@/assets/img/car-spin-light.gif';
+import carGifDark from '@/assets/img/car-spin-dark.gif';
+import {HollowDotsSpinner} from 'epic-spinners';
+import {usePreferredColorScheme} from '@vueuse/core';
+
+const SpinLoading =
+  defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection =
+  defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
+const NumberTime =
+  defineAsyncComponent(() => import('@/components/NumberTime.vue'));
+const AutoRegeneratedAvatar =
+  defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const ModelRender =
+  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
-const modelLoaded = ref(false);
 const codeBackApi = ref(0);
-
-//Initialisation du schéma de couleur préféré
-const preferredColor = usePreferredColorScheme();
+const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
   //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
   if (newUrl.params.id === car.idQuery) {
     codeBackApi.value = api.ReturnCodes.Success;
+    return;
   }
 
   //Initialisation des données
@@ -165,6 +165,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
     //Si la requête est valide alors on stocke l'id dans le localstorage
     if (codeBackApi.value == api.ReturnCodes.Success) {
       localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
+      localStorage.removeItem('carToken');
     }
   });
 },
@@ -176,10 +177,9 @@ watch(useRouter().currentRoute, async (newUrl) => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 div.loading-page {
-  height: calc(100vh - var(--height-screen-diff));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -227,6 +227,26 @@ div.user-data {
   justify-content: start;
   align-items: center;
 
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    align-items: center;
+    align-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 650px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   div.avatar-txt {
     display: flex;
     flex-direction: column;
@@ -267,6 +287,18 @@ div.user-data {
         margin-left: 10px;
       }
     }
+
+    a {
+      color: var(--blue);
+      transition: all ease-in-out;
+      text-decoration: underline;
+      font-weight: bold;
+
+
+      &:hover {
+        color: var(--black);
+      }
+    }
   }
 
   img#avatar {
@@ -298,11 +330,19 @@ div.user-data {
   }
 
   div.badges {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 80%;
-    margin-top: 30px;
+    margin: 1.5em auto auto;
+    display: grid;
+    justify-items: center;
+    grid-column-gap: 15vw;
+    grid-row-gap: 1.25em;
+    width: fit-content;
+    grid-template-columns: 1fr 1fr;
+
+    @media screen and (min-width: 475px) {
+      grid-column-gap: 2.75em;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: auto;
+    }
 
     p {
       margin: 5px 0;
@@ -311,21 +351,6 @@ div.user-data {
     img {
       width: 110px;
       height: 110px;
-    }
-
-    > :nth-child(odd) {
-      margin-left: 5px;
-    }
-
-    > :nth-child(even) {
-      margin-right: 5px;
-    }
-
-    :nth-child(3),
-    :nth-child(4),
-    :nth-child(5),
-    :nth-child(6) {
-      margin-top: 20px;
     }
   }
 
@@ -360,21 +385,15 @@ div.user-data {
   div.car-3d {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin: 50px auto auto auto;
+    max-width: 100vw;
 
-    div.loading {
-      font-size: 2em;
-      font-weight: bolder;
-      position: absolute;
-      width: fit-content;
-
-
-      &.loaded {
-        display: none;
-      }
+    .loading {
+      width: 100%;
+      height: 100%;
     }
   }
 }

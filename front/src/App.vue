@@ -1,29 +1,31 @@
 <template>
-
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
+        <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
             <img :src=logoImg alt="Logo tuture divtec">
         </RouterLink>
 
-        <HeaderApp v-else @clickMenu="menuIsClicked = $event"></HeaderApp>
-
-        <div :class="'btn ' + classMenuIcon" @click="clickMenu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="flex">
+            <div :class="'btn ' + classMenuIcon" @click="clickMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
+
+        <HeaderApp v-if="!menuIsClicked" @clickMenu="menuIsClicked = $event"></HeaderApp>
     </header>
 
     <header class="large">
-        <RouterLink :to="userCar.car.idQuery !== undefined ? `/${userCar.car.idQuery}` : '/'">
-            <img :src=logoImg alt="Logo tuture divtec">
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">
+            <img :src=logoImg alt="Logo grand prix de la Divtec">
         </RouterLink>
         <HeaderApp></HeaderApp>
     </header>
 
     <main :class="classMenuClicked">
         <RouterView v-if="hasFinishedLoading"/>
-        <SpinLoading class="load-element" v-else></SpinLoading>
+        <SpinLoading v-else-if="hasError === false" class="load-element"></SpinLoading>
+        <ErrorConnection v-else></ErrorConnection>
     </main>
 
     <footer id="main-footer" :class="classMenuClicked">
@@ -31,14 +33,17 @@
     </footer>
 </template>
 
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+<script lang="ts" setup>
+import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import HeaderApp from '@/components/TheHeader.vue';
-import FooterApp from '@/components/TheFooter.vue';
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
 import logoImg from '@/assets/img/logo.webp';
-import SpinLoading from '@/components/SpinLoading.vue';
+import { useLocalStorage } from '@vueuse/core';
+
+const HeaderApp = defineAsyncComponent(() => import('@/components/TheHeader.vue'));
+const FooterApp = defineAsyncComponent(() => import('@/components/TheFooter.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 /**
  * Gère le clic sur le menu
@@ -46,6 +51,17 @@ import SpinLoading from '@/components/SpinLoading.vue';
 function clickMenu() {
   menuIsClicked.value = !menuIsClicked.value;
 }
+
+/**
+ * Enregistrer display=legacy
+ */
+const display = useLocalStorage('display', 'modern');
+const params = location.search.slice(1).split('&');
+params.forEach((item) => {
+  if (item === 'display=legacy') {
+    display.value = 'legacy';
+  }
+});
 
 /**
  * Change la valeur de la taille de l'écran
@@ -85,11 +101,12 @@ onUnmounted(() => {
 
 //Initialisation de la voiture
 const userCar = useCarStore();
-const { car } = userCar;
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
 const LIMIT_LARGE_CONTENT = 700;
 const menuIsClicked = ref(true);
+const hasError = ref(false);
+const router = useRouter();
 
 //Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
@@ -97,17 +114,27 @@ changeValueWidthScreen();
 //Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
-  userCar.initUserCarId(userCarId).then(() => {
+  userCar.initUserCarId(userCarId).then((v) => {
+    if (v == undefined) {
+      hasError.value = true;
+    }
     hasFinishedLoading.value = true;
-    car.idCar = Number(userCarId);
   });
 } else {
   hasFinishedLoading.value = true;
 }
 
+//Redirection des utilisateurs enregistrés vers leur page d'accueil
+router.beforeEach((to) => {
+  if(to.path === '/' && userCar.car.idQuery) {
+    router.push(`/${userCar.car.idQuery}`);
+  }
+});
+
+
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 //Le contenu large est caché pour les petits écran
 .large {
@@ -116,7 +143,7 @@ if (userCarId) {
 
 //Elelement qui doivent disparaître
 .none {
-  display: none;
+  display: none !important;
 }
 
 footer#main-footer.display {
@@ -126,11 +153,9 @@ footer#main-footer.display {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 25px 15px;
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
+  padding: 15px;
   background-color: var(--white);
+  overflow-y: scroll;
 
   img {
     height: 55px;
@@ -148,11 +173,8 @@ header {
   }
 
   &.open.thin {
-    height: calc(100vh + 20px);
-
-    .btn {
-      margin-top: 8px;
-    }
+    display: block;
+    height: calc(100vh + 20px - env(safe-area-inset-bottom) - env(safe-area-inset-top));
   }
 }
 
@@ -166,23 +188,41 @@ header.large {
   height: 100px;
 }
 
-.btn {
-  width: 57px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  justify-content: center;
-  height: fit-content;
+header.large, header.closed.thin {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  overflow-y: unset;
+}
 
-  span {
-    display: block;
-    width: 100%;
-    border-radius: 3px;
-    height: 5px;
-    background: var(--gray);
-    transition: all .3s;
-    position: relative;
+.flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  .btn {
+    width: 57px;
+    height: 70px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    right: 20px;
+    top: calc(env(safe-area-inset-top) + 20px);
+
+    span {
+      display: block;
+      width: 100%;
+      border-radius: 3px;
+      height: 5px;
+      background: var(--gray);
+      transition: all .3s;
+      position: relative;
+    }
   }
 }
 

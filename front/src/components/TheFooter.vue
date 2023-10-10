@@ -1,28 +1,36 @@
 <template>
     <p class="emt">EMT, Portes ouvertes 2023</p>
-    <div class="stage">Inscris toi à un stage <a
-            href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu">
-        ici</a> !
+    <div class="stage">Inscris toi à un stage
+        <RouterLink to="/stage">
+            ici
+        </RouterLink> !
     </div>
     <div class="link">
-        <a target="_blank" href="https://www.instagram.com/emtporrentruy/">
-            <img :src=instaImg
-                 alt="Logo instagram"></a>
-        <a target="_blank" href="https://www.facebook.com/DivtecCEJEF/">
-            <img :src=facebookImg
-                 alt="Logo faceboook"></a>
-        <RouterLink to="apropos">
+        <template v-if="display !== 'legacy'">
+            <a href="https://www.instagram.com/emtporrentruy/" target="_blank">
+                <img :src=instaImg
+                     alt="Logo instagram">
+            </a>
+            <a href="https://www.facebook.com/DivtecCEJEF/" target="_blank">
+                <img :src=facebookImg
+                     alt="Logo faceboook">
+            </a>
+        </template>
+        <RouterLink to="/apropos">
             A Propos
         </RouterLink>
     </div>
 </template>
 
-<script setup lang="ts">
-import instaImg from '../assets/img/instagram.webp';
-import facebookImg from '../assets/img/facebook.webp';
+<script lang="ts" setup>
+import instaImg from '@/assets/img/instagram.webp';
+import facebookImg from '@/assets/img/facebook.webp';
+import {useLocalStorage} from '@vueuse/core';
+
+const display = useLocalStorage('display', 'modern');
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 p.emt {
   text-align: left;

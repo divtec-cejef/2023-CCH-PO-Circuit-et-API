@@ -1,7 +1,11 @@
 @media screen and (max-width: 320px) {
-  #app {
+  body #app {
     button:not(:disabled):hover {
       font-weight: normal;
+    }
+
+    main.display {
+      padding: 125px 2px 2px 2px !important;
     }
   }
 }
@@ -16,6 +20,7 @@
     footer {
       display: flex;
       flex-direction: row;
+
       p {
         width: fit-content;
         font-size: 15px;
@@ -28,6 +33,17 @@
         padding-left: 10px;
         padding-right: 10px;
       }
+    }
+  }
+}
+
+@media screen and (min-width: 400px) {
+  main {
+    &.display {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 }
@@ -68,32 +84,26 @@
   }
 }
 
-@media screen and (min-width: 475px) {
-  #app {
-    div.badges {
-      :nth-child(3) {
-        margin-top: 0;
-      }
-
-      width: 420px;
-    }
-  }
-}
-
 @media screen and (max-width: 500px) {
   #app {
-
-    div.button-classement {
-      margin: -50px auto 0 auto;
+    div.icon {
+      border-width: 1px !important;
     }
 
-    div.icon {
-       border-width: 1px !important;
-     }
+    .content .with-100 {
+      position: fixed;
+      z-index: 3000;
+      bottom: 15px;
+      right: 15px;
+      display: flex;
+      justify-content: end;
+      margin-top: 0;
+      top: unset;
+    }
   }
 }
 
-/* Encran plus petit que 700px*/
+/* Ecran plus petit que 700px*/
 @media screen and (max-width: 740px) {
   #app {
     main.display {
@@ -104,56 +114,75 @@
       width: 100%;
     }
 
-    div.button-classement {
+    li#stage {
       width: 100%;
     }
 
-    li#stage {
-      width: 130px;
-    }
-
-
-    nav ul.header {
+    nav.header {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
 
-    }
+      ul {
+        display: flex;
 
-    button.logout-button {
-      background-color: var(--gray);
-      border-radius: 100px;
-      padding: 7px 14px;
-      border: 2px solid var(--gray);
-      transition: all 0.2ms ease-in-out;
-
-      span {
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: bold;
-        font-style: normal;
-        color: var(--white);
-      };
-
-      span {
-        display: block;
-      }
-
-      img:nth-child(2) {
-        display: none;
-      }
-
-      img:nth-child(3) {
-        display: block;
-        margin-left: 5px;
-
+        &.links {
+          flex-direction: column;
+        }
       }
     }
-
-
   }
-};
+}
+
+@media screen and (max-width: 800px) {
+  #app {
+    div.best-race {
+      margin-top: 20px;
+      height: auto;
+      flex-direction: column;
+    }
+
+    div.race-content {
+      margin-right: 0;
+    }
+
+    div.video-race {
+      margin-top: 25px;
+      margin-left: 0;
+    }
+  }
+
+  .table-large-content {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  nav.header {
+    ul.links {
+      li {
+        &.logout-phone {
+          display: flex !important;
+        }
+
+        &.logout-big.tooltip {
+          display: none !important;
+        }
+
+        &#stage {
+          padding: 0;
+
+          a {
+            padding: 15px !important;
+          }
+        }
+      }
+    }
+  }
+}
 
 /* Tablette */
-@media screen and (min-width: 740px) {
+@media screen and (min-width: 800px) {
   #app {
 
     .table-list-time tr {
@@ -189,6 +218,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
 
       ul li.accueil {
         display: none;
@@ -207,9 +237,27 @@
           align-items: center;
           justify-content: start;
 
+          &.links {
+            li {
+              box-shadow: none;
+              padding: 0 2px;
+            }
+
+            img {
+              display: none;
+            }
+          }
+
+          li#stage img {
+            display: block;
+          }
+
+          li.logout-phone img {
+            display: block;
+          }
+
           li {
             font-family: 'SF Pro Display', sans-serif;
-            display: inline-block;
             font-weight: bold;
             font-style: normal;
             margin: 0 5px;
@@ -218,10 +266,13 @@
               font-size: 24px;
             }
           }
+
+          li#stage {
+            width: fit-content;
+          }
         }
       }
     }
-
 
     div div.best-race {
       width: 100%;
@@ -231,24 +282,12 @@
       height: 300px;
       align-items: center;
 
+
       div.content-1 {
         justify-content: space-between;
-        width: 32%;
-      }
-
-      div.content-2 {
-        width: 32%;
-      }
-
-
-      div.informations {
-        width: 32%;
-        margin-bottom: 0;
       }
 
       div.video {
-        width: 40%;
-        height: 235px;
         margin: 0;
       }
     }
@@ -262,49 +301,29 @@
       div.table-large-content {
         display: flex;
         flex-direction: column;
-
-        table {
-          align-self: center;
-        }
+        flex: 1;
+        margin-right: 25px;
       }
-
-
 
       div.content-classement {
         flex: 1;
         display: flex;
         flex-direction: column;
-        margin-left: 50px;
-      }
-    }
-
-    div.badges {
-      display: flex;
-      flex-direction: row;
-      width: 470px;
-      flex-wrap: wrap;
-      margin: 50px auto 0 auto;
-      align-self: start;
-
-      * {
-        margin-top: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-
-      :nth-child(3) {
-        margin-top: 0 !important;
-      }
-
-      :nth-child(4),
-      :nth-child(5),
-      :nth-child(6) {
-        margin-top: 25px;
+        margin-left: 25px;
       }
     }
 
     footer div.stage {
       display: block;
+    }
+
+    div.table table td.video {
+      padding: 5px;
+
+      img {
+        width: 22px;
+        margin: 0;
+      }
     }
   }
 }
@@ -313,7 +332,6 @@
 @media screen and (max-width: 960px) {
 
   #app {
-
     .avatar-and-pseudo {
       display: flex;
       flex-direction: column;
@@ -324,6 +342,7 @@
       display: flex;
       justify-content: center;
     }
+
     fieldset.color {
       justify-content: center !important;
       flex-wrap: wrap;
@@ -333,7 +352,6 @@
       justify-content: center !important;
       flex-wrap: wrap;
       align-content: center;
-
       align-items: center;
 
       .rdbt-choice {
@@ -348,17 +366,26 @@
       height: 250px;
       margin-top: 70px;
     }
+
+    .user-content.big {
+      display: none;
+      background-color: red;
+    }
+
+    .user-content.phone {
+      display: flex;
+    }
   }
 }
 
-@media screen and (min-width: 860px) {
+@media screen and (max-width: 1024px) {
   #app {
+    div.video {
+      max-width: 372px !important;
+    }
 
-    //MARK: - Page home
-    div.home-root {
-      ul.stats {
-        grid-template-columns: 420px 420px;
-      }
+    div.content.bonus-map {
+      max-width: 100%;
     }
   }
 }
@@ -370,8 +397,6 @@
     font-size: 16px;
   }
 
-  #app {
-
     .table-list-time tr {
       th,
       td {
@@ -381,7 +406,7 @@
     }
 
     header.large nav ul li {
-      margin: 0 10px !important;
+      margin: 0 10px;
     }
 
     h1 {
@@ -392,35 +417,11 @@
       font-size: 25px;
     }
 
-
-    div.user-data {
-      display: flex;
-      align-items: center;
-      align-content: space-between;
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 650px;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    div.home-root {
-      display: grid;
-      grid-template-columns: auto auto;
-      grid-gap: 40px;
-
-      ul.stats {
-        grid-template-columns: 420px;
-      }
-    }
-
     div.avatar-txt {
       margin-left: 10px;
     }
 
     h2 {
-      width: 470px;
-      align-self: start;
       margin-right: 10px;
       margin-top: 15px;
     }
@@ -434,53 +435,4 @@
       align-self: start;
       margin-right: 10px;
     }
-
-    div.badges {
-      display: flex;
-      flex-direction: row;
-      width: 470px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-      align-self: start;
-      margin-right: 10px;
-
-      * {
-        margin-top: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-
-      :nth-child(3) {
-        margin-top: 0;
-      }
-
-      :nth-child(4),
-      :nth-child(5),
-      :nth-child(6) {
-        margin-top: 25px;
-      }
-    }
-
-
-  }
-}
-
-/* Petit ordinateur */
-@media screen and (min-width: 1280px) {
-  #app div.home-root {
-    width: 1280px;
-    grid-template-columns: auto 50%;
-    grid-gap: 0;
-
-    ul.stats {
-      grid-template-columns: 43% 57%;
-      width: 100%;
-    }
-  }
-}
-
-
-/* Grand ordinateur */
-@media screen and (max-width: 1440px) {
-
 }

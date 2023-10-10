@@ -1,16 +1,17 @@
 <template>
-    <div class="content">
-        <div v-if="currentLabel.title !== null" ref="label" class="labelActivity"
-             :style="{left: divLeft, top: divTop, display: divDisplay}">
+    <div class="content bonus-map">
+        <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
+             class="labelActivity">
             <div v-if="currentLabel.activities.length > 0">
                 <div class="label-header"><span>Activités :</span>
                     <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
                 </div>
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
-                        <img :src=trophy alt="Trophé"
-                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`}"/>
-                        <span>{{ activity['labelActivity'] }}</span>
+                        <img :src=trophy
+                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"
+                             alt="Trophé"/>
+                        <span>{{ activity[ 'labelActivity' ] }}</span>
                     </li>
                 </ul>
             </div>
@@ -26,25 +27,36 @@
         <div v-else-if="!hasLoaded" class="loading-map">
             <SpinLoading></SpinLoading>
         </div>
-        <div class="container" v-else>
+        <div v-else class="container">
             <div :ref="panzoomable">
-                <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections"
-                          :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
+                <BonusMap :activated-section="activatedSection" :display-label="displayLabel"
+                          :no-activity-sections="noActivitySections"
+                          :sections="allSections" :un-clicked="sectionUnCLicked"></BonusMap>
+            </div>
+
+            <div v-if="isNotTouchPointer()" class="zoom-buttons">
+                <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
+                <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
             </div>
         </div>
     </div>
 </template>
 
-<script setup lang="ts">
-import BonusMap from '@/components/BonusMap.vue';
+<script lang="ts" setup>
+
+import type { PanZoom } from 'panzoom';
 import panzoom from 'panzoom';
-import { ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
-import trophy from '../assets/img/trophy.png';
-import close from '../assets/img/close.png';
-import SpinLoading from '@/components/SpinLoading.vue';
-import ErrorConnection from '@/components/ErrorConnection.vue';
+import trophy from '@/assets/img/trophy.webp';
+import close from '@/assets/img/close.webp';
+import plus from '@/assets/img/plus.webp';
+import minus from '@/assets/img/minus.webp';
+
+const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 const userCar = useCarStore();
 const { car } = userCar;
@@ -74,9 +86,14 @@ function getRealisedActivity() {
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
       const { json: dataActivity, status: status } = v;
+      if ('message' in dataActivity) {
+        hasError.value = true;
+        return;
+      }
+
       if (status.valueOf() === api.ReturnCodes.Success) {
         for (let activity of dataActivity) {
-          realisedActivity.value.push(activity['id_activity']);
+          realisedActivity.value.push(activity.idActivity);
         }
       } else {
         hasError.value = true;
@@ -89,31 +106,39 @@ function getRealisedActivity() {
 
 function getSectionAndActivities() {
   sectionActivities.value = [];
-  api.getAllSections().then((v: { json: { label: string, id_section: number }[], status: number }) => {
+  api.getAllSections().then(v => {
     const { json: dataSections, status: statusActivities } = v;
+
+    if ('message' in dataSections) {
+      hasError.value = true;
+      return;
+    }
 
     if (statusActivities.valueOf() === api.ReturnCodes.Success) {
       for (let section of dataSections) {
         for (let sections of allSections.value) {
-          if (sections['section'] === section['label']) {
-            sections['id'] = section['id_section'];
+          if (sections.section === section.label) {
+            sections.id = section.idSection;
           }
         }
 
-        api.getAllActivitiesOneSection(section.id_section)
+        api.getAllActivitiesOneSection(section.idSection)
           .then((v) => {
             const { json: dataActivities, status: statusActivities } = v;
+
+            if ('message' in dataActivities) {
+              hasError.value = true;
+              return;
+            }
 
             if (statusActivities.valueOf() === api.ReturnCodes.Success) {
               sectionActivities.value.push(
                 {
-                  idSection: section.id_section,
+                  idSection: section.idSection,
                   labelSection: section.label,
                   activities: [],
                 });
               for (let activity of dataActivities) {
-                if (typeof activity === 'string')
-                  continue;
                 for (let section of sectionActivities.value) {
                   if (section?.idSection === activity.idSection) {
                     section?.activities.push(
@@ -146,8 +171,8 @@ function sectionBonusAcorded(idSection: number) {
   let bonusAcorded = false;
   for (let section of sectionActivities.value) {
     if (section?.idSection === idSection) {
-      for (let activity of section['activities']) {
-        if (activityIsRealised(activity['idActivity'])) {
+      for (let activity of section[ 'activities' ]) {
+        if (activityIsRealised(activity[ 'idActivity' ])) {
           bonusAcorded = true;
         }
       }
@@ -159,8 +184,8 @@ function sectionBonusAcorded(idSection: number) {
 function getSectionBonusAcorded() {
   for (let section of sectionActivities.value) {
     if (sectionBonusAcorded(section.idSection)) {
-      if (!activatedSection.value.includes(section['idSection'])) {
-        activatedSection.value.push(section['idSection']);
+      if (!activatedSection.value.includes(section[ 'idSection' ])) {
+        activatedSection.value.push(section[ 'idSection' ]);
       }
     }
   }
@@ -170,12 +195,12 @@ function getNoActivitySections() {
   for (let section of allSections.value) {
     let present = false;
     for (let sectionActivity of sectionActivities.value) {
-      if (section.id === sectionActivity['idSection']) {
+      if (section.id === sectionActivity[ 'idSection' ]) {
         present = true;
       }
     }
     if (!present) {
-      noActivitySections.value.push(section['id']);
+      noActivitySections.value.push(section[ 'id' ]);
     }
   }
 }
@@ -196,15 +221,20 @@ let currentLabel = ref<{
 });
 let zoomfactor: number = 1;
 
-// let posx = 0;
-// let posy = 0;
+function isNotTouchPointer() {
+  return !matchMedia('(pointer: coarse)').matches;
+}
+
+let panzoomElement: null | PanZoom = null;
+let mapElement: null | HTMLElement = null;
 
 const panzoomable = (v: any) => {
   let element = panzoom(v, {
     bounds: true,
     boundsPadding: 0.2,
-    maxZoom: 5,
+    maxZoom: 2.5,
     minZoom: 0.5,
+    zoomDoubleClickSpeed: 1,
     onTouch: function (e: any) {
       e.preventDefault();
     },
@@ -218,7 +248,32 @@ const panzoomable = (v: any) => {
     zoomfactor = element.getTransform().scale;
     hideDiv();
   });
+
+  panzoomElement = element;
+  mapElement = v;
 };
+
+function zoomIn() {
+  if (panzoomElement === null || mapElement === null) {
+    return;
+  }
+  let boundings = mapElement.getBoundingClientRect();
+  let transform = panzoomElement.getTransform();
+  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
+  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
+  panzoomElement.smoothZoom(cx, cy, 1.3);
+}
+
+function zoomOut() {
+  if (panzoomElement === null || mapElement === null) {
+    return;
+  }
+  let boundings = mapElement.getBoundingClientRect();
+  let transform = panzoomElement.getTransform();
+  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
+  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
+  panzoomElement.smoothZoom(cx, cy, 0.7);
+}
 
 function hideDiv() {
   divDisplay.value = 'none';
@@ -229,56 +284,56 @@ const allSections = ref([{
   section: 'Informatique',
   id: -1,
   labelSection: 'Informaticien-ne',
-  posX: 22,
-  posY: 30,
+  posX: 26,
+  posY: 25,
 }, {
   section: 'Automatique',
   id: -1,
   labelSection: 'Automaticien-ne',
-  posX: 45,
-  posY: 65,
+  posX: 35,
+  posY: 45,
 }, {
   section: 'Horlogerie',
   id: -1,
   labelSection: 'Horloger-ère',
-  posX: 77,
-  posY: 65,
+  posX: 77.5,
+  posY: 48,
 }, {
   section: 'Electronique',
   id: -1,
   labelSection: 'Electronicien-ne',
   posX: 73,
-  posY: 17,
+  posY: 8,
 }, {
   section: 'Micromécanique',
   id: -1,
   labelSection: 'Micromécanicien-ne',
-  posX: 47,
-  posY: 8,
+  posX: 38,
+  posY: 6,
 }, {
   section: 'Laborantin',
   id: -1,
   labelSection: 'Laborantin-e',
   posX: 77,
-  posY: 79,
+  posY: 63,
 }, {
   section: 'Dessinateur',
   id: -1,
   labelSection: 'Dessinateur-trice',
-  posX: 35,
-  posY: 15,
+  posX: 22,
+  posY: 1.9,
 }, {
   section: 'Mécatronique',
   id: -1,
   labelSection: 'Mécatronicien-ne',
   posX: 20,
-  posY: 80,
+  posY: 63,
 }, {
-  section: 'Industries2.0',
+  section: 'Industries4.0',
   id: -1,
-  labelSection: 'Industrie 2.0',
-  posX: 15,
-  posY: 20,
+  labelSection: 'Industrie 4.0',
+  posX: 10,
+  posY: 10.7,
 }]);
 
 function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
@@ -300,16 +355,14 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
 function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHeight: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
-    pos = posy - (10 + divHeight);
+    pos = posy - ( 10 + divHeight );
   } else {
-    pos = posy + (10 + dif * zoomfactor);
+    pos = posy + ( 10 + dif * zoomfactor );
   }
   const minHeightPx = getComputedStyle(document.documentElement)
     .getPropertyValue('--height-screen-diff');
   const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
-  console.log('minHeight: ' + minHeight);
   if (pos < minHeight) {
-    console.log('minHeight: ' + minHeight);
     pos = minHeight;
   } else if (pos > window.innerHeight - divHeight) {
     pos = window.innerHeight - divHeight;
@@ -332,13 +385,13 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   };
   let heightOffset = 0;
   for (let section of sectionActivities.value) {
-    if (section['idSection'] === currentSection.value?.id ?? -1) {
-      for (let activity of section['activities']) {
+    if (section[ 'idSection' ] === currentSection.value?.id ?? -1) {
+      for (let activity of section[ 'activities' ]) {
         currentLabel.value.activities.push(
           {
-            idActivity: activity['idActivity'],
-            labelActivity: activity['labelActivity'],
-            realised: activityIsRealised(activity['idActivity']),
+            idActivity: activity[ 'idActivity' ],
+            labelActivity: activity[ 'labelActivity' ],
+            realised: activityIsRealised(activity[ 'idActivity' ]),
           });
         heightOffset += 20;
         if (heightOffset > 20) {
@@ -358,8 +411,14 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/consts";
+
+div.content {
+  width: 100vw;
+  max-width: 1175px;
+}
+
 template {
   width: 100%;
   height: 100%;
@@ -368,26 +427,60 @@ template {
   background-color: var(--white);
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
   }
 }
 
 .container {
   width: 100%;
   height: calc(100vh - var(--height-screen-diff) - 70px);
-  position: relative;
+  //position: relative;
   overflow: hidden;
   background-color: var(--white);
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
+  }
+
+  div.zoom-buttons {
+    z-index: 10000000;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      padding: 10px;
+      margin: 0;
+      line-height: 0;
+      font-size: 0;
+      background-color: var(--white);
+      box-shadow: rgba(100, 100, 111, 0.3) 0 7px 10px 0;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+
+      img {
+        width: 25px;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+
+    button:first-child {
+      margin-bottom: 10px;
+    }
   }
 }
 
 
 .labelActivity {
   width: 250px;
-  padding: 10px;
+  padding: .75em 1.25em;
   display: none;
   position: absolute;
   z-index: 100;
@@ -397,7 +490,7 @@ template {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
   @media screen and (prefers-color-scheme: dark) {
-    background-color:var(--black);
+    background-color: var(--black);
     box-shadow: none;
     border: $dark-border;
   }
@@ -409,6 +502,7 @@ template {
 
   ul {
     padding-left: 0;
+    margin: 10px 0;
   }
 
   li {
@@ -431,7 +525,8 @@ template {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 10px;
+    margin: 5px 0;
+    font-weight: 500;
 
     span {
       max-width: 200px;

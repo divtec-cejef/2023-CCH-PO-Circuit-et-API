@@ -1,17 +1,19 @@
-import { routeHandler } from '../../../models';
+import type { RealisedActivityToCreate } from '../../../models';
+import { RouteHandler } from '../../../models';
 import { checkStructureOrThrow } from 'check-structure';
 import { getActivityById } from '../../../services/activity/';
-import type { realisedActivityToCreate } from '../../../models';
 import {
   createRealisedActivity,
-  getRealisationCount, mostRealisedActivity,
+  getRealisationCount,
+  mostRealisedActivity,
   realisationExists
 } from '../../../services/realise';
 import { getCarByQueryId } from '../../../services/car';
 import validateSection from '../../../services/section/validate-token';
 import { Server } from 'socket.io';
+import { emitEvent } from "../../../clients/socketio";
 
-declare type realisedActivityRequest = {
+declare type RealisedActivityRequest = {
   id_activity: number,
   query_id: string,
   date_time: string,
@@ -23,11 +25,11 @@ declare type realisedActivityRequest = {
  * @param res Reponse
  * @returns l'activité réalisée
  */
-export const route: routeHandler<null, unknown, realisedActivityRequest> = async (req, res) => {
+export const route: RouteHandler<null, unknown, RealisedActivityRequest> = async (req, res) => {
   const realisedActivity = req.body;
 
   // vérification de l'authentification
-  const { authorization } = req.headers;
+  const {authorization} = req.headers;
   const sectId = await validateSection(res, authorization);
   if (!sectId) {
     return;
@@ -42,9 +44,9 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     });
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(400).json({ message: e });
+      res.status(400).json({message: e});
     } else if (e instanceof Error) {
-      res.status(400).json({ message: e.message });
+      res.status(400).json({message: e.message});
     } else {
       res.status(400).send();
     }
@@ -54,30 +56,30 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
   // Vérification de l'existence de l'activité
   const activity = await getActivityById(realisedActivity.id_activity);
   if (activity === null) {
-    res.status(404).json({ message: 'Activity not found' });
+    res.status(404).json({message: 'Activity not found'});
     return;
   }
 
-  if (activity.id_section !== sectId) {
-    res.status(403).json({ message: 'You are not allowed to perform this action.' });
+  if (activity.id_section !== sectId && !(sectId === 9 && process.env.CONTEXT === "TESTING")) {
+    res.status(403).json({message: 'You are not allowed to perform this action.'});
     return;
   }
 
   // vérification de l'existence de la voiture
   if (await getCarByQueryId(realisedActivity.query_id) === null) {
-    res.status(404).json({ message: 'Car not found' });
+    res.status(404).json({message: 'Car not found'});
     return;
   }
 
   // Création de l'activité
-  const realisedActivityToCreate: realisedActivityToCreate = {
+  const realisedActivityToCreate: RealisedActivityToCreate = {
     id_activity: realisedActivity.id_activity,
     query_id: realisedActivity.query_id,
     date_time: new Date(realisedActivity.date_time)
   };
 
   if (await realisationExists(realisedActivityToCreate)) {
-    res.status(409).json({ message: 'Activity is already realised for specified car!' });
+    res.status(409).json({message: 'Activity is already realised for specified car!'});
     return;
   }
 
@@ -86,18 +88,21 @@ export const route: routeHandler<null, unknown, realisedActivityRequest> = async
     res.json(await createRealisedActivity(realisedActivityToCreate));
   } catch (e) {
     if (typeof e === 'string') {
-      res.status(500).json({ message: e });
+      res.status(500).json({message: e});
     } else if (e instanceof Error) {
-      res.status(500).json({ message: e.message });
+      res.status(500).json({message: e.message});
     } else {
       res.status(500).send();
     }
+    return;
   }
 
-  (res.app.get('socketio') as Server).emit('updatedActivities', {
+  const socket: Server = req.app.get('socketio');
+  await emitEvent(socket, 'updatedActivities', {
     count: await getRealisationCount(),
-    mostPopular: await mostRealisedActivity()
-  });
+    mostPopular: await mostRealisedActivity(),
+    last: await getActivityById(realisedActivityToCreate.id_activity)
+  })
 };
 
 export default route;

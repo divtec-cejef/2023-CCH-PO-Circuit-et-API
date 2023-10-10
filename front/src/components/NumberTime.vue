@@ -1,17 +1,15 @@
 <template>
-
     <div class="number" :style="{backgroundColor: props.color}">
         <p>
             {{ props.number }}
         </p>
     </div>
-
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
-    number: string;
-    color: string;
+  number: string;
+  color: string;
 }>();
 </script>
 
@@ -23,7 +21,8 @@ div.number {
   color: var(--white);
   font-size: 14px;
   font-weight: bold;
-  padding: 10px;
+  min-width: 22px;
+  min-height: 22px;
   border-radius: 200px;
   width: 21px;
   height: 21px;

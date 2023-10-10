@@ -1,15 +1,24 @@
-import sio from 'socket.io';
 import type { Socket } from 'socket.io';
-import {
-  getShortestRaces,
-  getRacesByCar,
-  getRankByCar,
-  getNumberRaces,
-  getShortestRace
-} from '../services/race';
+import sio from 'socket.io';
+import { getNumberRaces, getRacesByCar, getRankByCar, getShortestRace, getShortestRaces } from '../services/race';
 import { getCarById } from '../services/car';
 import http from 'http';
-import { getRealisationCount, mostRealisedActivity } from '../services/realise';
+import { getRealisationCount, lastRealisedActivity, mostRealisedActivity } from '../services/realise';
+import { TypedEventBroadcaster } from "socket.io/dist/typed-events";
+
+export async function emitEvent (io: TypedEventBroadcaster<{[eventName: string]: any}>, eventName: string, data: any) {
+  try {
+    io.emit(eventName, data);
+  } catch (e) {
+    if (typeof e === 'string') {
+      io.emit(eventName, { message: e });
+    } else if (e instanceof Error) {
+      io.emit(eventName, { message: e.message });
+    } else {
+      io.emit(eventName, { message: 'internal server error' });
+    }
+  }
+}
 
 export default function buildSioServer (server: http.Server) {
   const io = new sio.Server(server, {
@@ -20,7 +29,9 @@ export default function buildSioServer (server: http.Server) {
   });
 
   io.on('connection', async (socket: Socket) => {
-    if (socket.handshake.query.carId !== undefined) {
+    if (!socket.handshake.query.carId) {
+      console.log('User connected anonymously\n');
+    } else {
       if (typeof socket.handshake.query.carId !== 'string') {
         socket.disconnect(true);
         return;
@@ -38,29 +49,28 @@ export default function buildSioServer (server: http.Server) {
         return;
       }
 
-      // envoyer les données de manches au client
-      socket.emit('updatedUserRaces', {
+      await emitEvent(socket, 'updatedUserRaces', {
         races: await getRacesByCar(socket.data.carId),
         rank: await getRankByCar(socket.data.carId)
       });
 
       console.log(`User connected with car id ${socket.handshake.query.carId}\n`);
-    } else {
-      console.log('User connected anonymously\n');
     }
 
     // envoyer les données de classement au client
-    socket.emit('updatedRaces', {
-      races: await getShortestRaces(),
-      count: await getNumberRaces(),
-      fastest: await getShortestRace()
-    });
+      const ranking = {
+        races: await getShortestRaces(),
+        count: await getNumberRaces(),
+        fastest: await getShortestRace()
+      };
+    await emitEvent(socket, 'updatedRaces', ranking);
 
     // envoyer les données d'activité au client
-    socket.emit('updatedActivities', {
+    await emitEvent(socket, 'updatedActivities', {
       count: await getRealisationCount(),
-      mostPopular: await mostRealisedActivity()
-    });
+      mostPopular: await mostRealisedActivity(),
+      last: await lastRealisedActivity()
+    })
 
     socket.on('disconnect', () => {
       console.log('user disconnected\n');

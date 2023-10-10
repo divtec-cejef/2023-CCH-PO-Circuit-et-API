@@ -1,13 +1,13 @@
 SET
     search_path TO cars;
 
-TRUNCATE token CASCADE;
-TRUNCATE car_token CASCADE;
-TRUNCATE race CASCADE;
-TRUNCATE realise CASCADE;
-TRUNCATE car CASCADE;
-TRUNCATE activity CASCADE;
-TRUNCATE section CASCADE;
+TRUNCATE token RESTART IDENTITY CASCADE;
+TRUNCATE car_token RESTART IDENTITY CASCADE;
+TRUNCATE race RESTART IDENTITY CASCADE;
+TRUNCATE realise RESTART IDENTITY CASCADE;
+TRUNCATE car RESTART IDENTITY CASCADE;
+TRUNCATE activity RESTART IDENTITY CASCADE;
+TRUNCATE section RESTART IDENTITY CASCADE;
 
 INSERT INTO car (password, query_id, pseudo, avatar)
 VALUES ('03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '4356', 'PlayerOne', '{
@@ -219,20 +219,56 @@ VALUES ('Dessinateur', '7117e1cf54893b6c3ec43b1aa59422503a749b5c084d401e9041b4d9
 INSERT INTO section (label, password)
 VALUES ('Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06fe');
 
+-- --------------------- Activités ---------------------
+-- Informatique
 INSERT INTO activity (label, id_section)
-VALUES ('Informer', 1);
+VALUES ('SequentialFactory', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('Automatiser', 2);
+VALUES ('SQLHack', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('Horlogifier', 3);
+VALUES ('RepairMaster', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('Electroniser', 4);
+VALUES ('HackerMania', 1);
 INSERT INTO activity (label, id_section)
-VALUES ('Micromécaniser', 5);
+VALUES ('PitStop', 1);
+
+-- Automatique
 INSERT INTO activity (label, id_section)
-VALUES ('Laborantiser', 6);
+VALUES ('ExercicePratique', 2);
 INSERT INTO activity (label, id_section)
-VALUES ('Dessiner', 7);
+VALUES ('Pong', 2);
+INSERT INTO activity (label, id_section)
+VALUES ('CNCGaming', 2);
+INSERT INTO activity (label, id_section)
+VALUES ('Flipper', 2);
+
+-- Horlogerie
+INSERT INTO activity (label, id_section)
+VALUES ('MontagePrécision', 3);
+INSERT INTO activity (label, id_section)
+VALUES ('Klockan', 3);
+
+-- Electronique
+INSERT INTO activity (label, id_section)
+VALUES ('DépartAthlétisme', 4);
+INSERT INTO activity (label, id_section)
+VALUES ('HérissePoils', 4);
+INSERT INTO activity (label, id_section)
+VALUES ('BrasageTemi', 4);
+
+-- Micromécanique
+INSERT INTO activity (label, id_section)
+VALUES ('MicroTime', 5);
+
+-- Laborantin
+INSERT INTO activity (label, id_section)
+VALUES ('IdentOdeur', 6);
+INSERT INTO activity (label, id_section)
+VALUES ('PH', 6);
+
+-- Dessin
+INSERT INTO activity (label, id_section)
+VALUES ('DessinezCEstGagné', 7);
 
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
@@ -257,72 +293,72 @@ VALUES (2, 2, '2023-03-31 11:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (2, 7, '2023-03-31 11:55:32');
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (1, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (1, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (1, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (1, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (1, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (1, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (2, '2023-03-31 12:55:32.122', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (2, '2023-03-31 13:01:25.252', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (2, '2023-03-31 13:18:56.742', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (2, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (2, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (2, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (3, '2023-03-31 12:55:32.123', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (3, '2023-03-31 13:01:25.253', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (3, '2023-03-31 13:18:56.723', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (3, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (3, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (3, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (4, '2023-03-31 12:55:32.124', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (4, '2023-03-31 13:01:25.254', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (4, '2023-03-31 13:18:56.724', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (4, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (4, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (4, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (5, '2023-03-31 12:55:32.125', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (5, '2023-03-31 13:01:25.255', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (5, '2023-03-31 13:18:56.725', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (5, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (5, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (5, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (6, '2023-03-31 12:55:32.126', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (6, '2023-03-31 13:01:25.256', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (6, '2023-03-31 13:18:56.726', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (6, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (6, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (6, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (7, '2023-03-31 12:55:32.127', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (7, '2023-03-31 13:01:25.257', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (7, '2023-03-31 13:18:56.727', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (7, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (7, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (7, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (8, '2023-03-31 12:55:32.128', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (8, '2023-03-31 13:01:25.258', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (8, '2023-03-31 13:18:56.728', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (8, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (8, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (8, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (9, '2023-03-31 12:55:32.129', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (9, '2023-03-31 13:01:25.259', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (9, '2023-03-31 13:18:56.729', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (9, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (9, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (9, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);
 
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (10, '2023-03-31 12:55:32.120', '2023-03-31 12:55:48.445','2023-03-31 12:56:12.389');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (10, '2023-03-31 13:01:25.250', '2023-03-31 13:01:47.987','2023-03-31 13:02:02.895');
-INSERT INTO race (id_car, race_start, sector1, race_finish)
-VALUES (10, '2023-03-31 13:18:56.720', '2023-03-31 13:19:23.546','2023-03-31 13:20:06.915');
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (10, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (10, '2023-03-31 13:01:25.251', '2023-03-31 13:01:47.987','2023-03-31 13:01:50.987','2023-03-31 13:02:02.895', 30.0);
+INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
+VALUES (10, '2023-03-31 13:18:56.721', '2023-03-31 13:19:23.546','2023-03-31 13:19:30.546','2023-03-31 13:20:06.915', 30.0);

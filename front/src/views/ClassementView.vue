@@ -1,116 +1,95 @@
 <template>
     <div class="content">
-        <h1>Classement</h1>
-        <p>Ici tu vois tout les temps des pilotes !</p>
-
-        <div class="button-classement">
-            <div>
-                <button v-if="userCar.car.idCar !== 0"
-                        class="classement-user"
-                        @click="scrollToUser"
-                        :style="{ backgroundImage: `url(${placeHolderImg})`}">
-                </button>
-                <button
-                        class="classement-top"
-                        @click="scrollToTop"
-                        :style="{ backgroundImage: `url(${topImg})`}">
-                </button>
+        <div class="top-container">
+            <div class="text-container">
+                <h1>Classement</h1>
             </div>
         </div>
+        <div class="with-100">
+            <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser"/>
+        </div>
 
-        <div class="classement">
+        <div ref="classment" class="classement">
             <ClassementRace/>
         </div>
     </div>
 </template>
-<script setup lang="ts">
-import ClassementRace from '@/components/ClassementRace.vue';
-import placeHolderImg from '../assets/img/placeholder.webp';
-import topImg from '../assets/img/top-10.webp';
+<script lang="ts" setup>
 import { useCarStore } from '@/stores/car';
+import { useElementBounding, useScroll, useWindowSize } from '@vueuse/core';
+import { defineAsyncComponent, ref } from 'vue';
+
+const ClassementRace = defineAsyncComponent(() => import('@/components/ClassementRace.vue'));
+const ClassmentButton = defineAsyncComponent(() => import('@/components/ClassmentButton.vue'));
+
+const classment = ref<HTMLElement | null>(null);
+const scroll = useScroll(window, { behavior: 'smooth' });
+const { height: classementHeight } = useWindowSize();
+const { top: classmentTop } = useElementBounding(classment);
+const userCar = useCarStore();
+
+if (userCar.car.idCar !== undefined) {
+  userCar.initUserAllRaceCar();
+}
 
 /**
- * Scroll à l'élément de l'utilisateur
+ * Change le scroll du classement pour le mettre à la hauteur de l'utilisateur
  */
 function scrollToUser() {
-  let screenHeight = window.innerHeight;
-  window.scrollTo(0, 10 * 50 + 250 - screenHeight / 2);
+  const rank = userCar.car.rank || 0;
+  const self = classment.value?.children[rank - 1] as HTMLElement;
+  if (!self)
+    return;
+  const { top: topPos } = useElementBounding(self);
+
+  const middle = classementHeight.value / 2 - 236; // 236 = offset entre le haut de la page et le haut du classement
+  const elementOffset = topPos.value - classmentTop.value;
+  const targetMiddlePosition = elementOffset + (63 / 2);
+  scroll.y.value = Math.max(0, targetMiddlePosition - middle);
 }
 
 /**
- * Scroll jusqu'au haut de la page
+ * Change le scroll du classement pour le mettre en haut du classement
  */
 function scrollToTop() {
-  window.scrollTo(0, document.body.scrollTop);
+  scroll.y.value = 0;
 }
-
-const userCar = useCarStore();
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/consts.scss";
 
-.classement {
-  width: 90%;
-  margin: 20px auto 0 auto;
-}
+.content {
+  flex: 1;
 
-p {
-  width: 70%;
-}
-
-
-div.button-classement {
-  width: 90%;
-  margin: -35px auto 0 auto;
-  display: flex;
-  justify-content: end;
-  position: sticky;
-  top: 40px;
-
-  div {
-    background-color: var(--white);
-    border-radius: 20px;
-    padding: .5em;
-    box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0 8px 16px -8px;
-    margin-right: 10px;
+  .top-container {
     display: flex;
-    align-content: center;
-    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: space-between;
+    width: calc(100% - 110px);
+    margin-bottom: 1.5rem;
+  }
 
-    @media screen and (prefers-color-scheme: dark) {
-      background-color: transparent;
-      box-shadow: none;
-      border: $dark-border;
+  .with-100 {
+    width: 100%;
+    position: sticky;
+    display: flex;
+    z-index: 10;
+    justify-content: end;
+    top: 110px;
+    margin-top: -80px;
+
+    .buttons {
+      width: fit-content
     }
+  }
 
-    button {
-      background-color: transparent;
-      border: none;
-      border-radius: 100%;
-      background-position: center;
-      background-size: 30px;
-      background-repeat: no-repeat;
-      width: 40px;
-      height: 40px;
-
-
-      &.classement-top {
-        margin-left: 5px;
-      }
-
-      &:hover {
-        transform: scale(1.1);
-        background-color: rgba(lightgray, 0.25);
-      }
-    }
+  .classement {
+    width: 100%;
+    margin: 30px 0 0 0;
   }
 }
 
-button {
-  cursor: pointer;
-  transition: 0.3s all ease-in-out;
-}
 
 </style>

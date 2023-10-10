@@ -1,4 +1,4 @@
-import { routeHandler } from '../../models';
+import { RouteHandler } from '../../models';
 import { getShortestRaces } from '../../services/race';
 
 /**
@@ -7,7 +7,7 @@ import { getShortestRaces } from '../../services/race';
  * @param res Reponse
  * @returns toutes les voitures
  */
-export const route: routeHandler = async (req, res) => {
+export const route: RouteHandler = async (req, res) => {
   try {
     res.json(await getShortestRaces());
   } catch (e) {

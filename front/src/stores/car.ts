@@ -17,9 +17,9 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarQueryId(queryId.toString());
 
-    if (typeof dataUserCar === 'string') {
+    if ('message' in dataUserCar) {
       console.error(dataUserCar);
-      return;
+      return status;
     }
 
     /**
@@ -47,9 +47,9 @@ export const useCarStore = defineStore('car', () => {
     //Récupère les informations de la voiture
     const { json: dataUserCar, status } = await api.getDataOneCarId(idCar.toString());
 
-    if (typeof dataUserCar === 'string') {
-      console.error(dataUserCar);
-      return;
+    if ('message' in dataUserCar) {
+      console.error(dataUserCar.message);
+      return status;
     }
 
     /**
@@ -72,10 +72,14 @@ export const useCarStore = defineStore('car', () => {
   /**
    * Initialisation des courses de l'utilisateur dans le store
    */
-  async function initUserAllRaceCar() {
+  async function  initUserAllRaceCar() {
     const socket = new WebsocketConnection(car.value.idCar);
 
     socket.onUserRace(async (races) => {
+      if ('message' in races) {
+        console.error(races.message);
+        return;
+      }
       //Récupération du rang de la voiture
       car.value.rank = races.rank;
 
@@ -83,7 +87,13 @@ export const useCarStore = defineStore('car', () => {
       car.value.listRace = [];
 
       car.value.listRace = races.races.map(race =>
-        new Race(race.id_race, new Date(race.race_start), new Date(race.total_time), new Date(race.sector1))
+        new Race(race.id_race,
+          new Date(race.race_start),
+          new Date(race.total_time),
+          new Date(race.sector1),
+          new Date(race.sector2),
+          race.speed,
+          race.video_url)
       );
     });
 

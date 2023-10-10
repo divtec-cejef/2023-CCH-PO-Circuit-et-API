@@ -1,50 +1,57 @@
 <template>
     <div class="fullscreen">
         <div class="up-screen">
-            <div @click="quitPage" class="return-back" v-if="!loading">
-                <img src="../assets/img/arrow.png" alt="Icon de retour en arrière">
+            <div v-if="!loading" class="return-back" @click="quitPage">
+                <img :src="arrow" alt="Icon de retour en arrière">
             </div>
             <div class="name-activity">
                 <p>{{ nameActivity }}</p>
             </div>
         </div>
-        <qrcode-stream :camera="camera"
-                       @init="onInit"
-                       @decode="onDecode"
-                       :track="paintOutline">
-            <div class="loading-indicator" v-if="loading">
+        <qrcode-stream :track="paintOutline"
+                       @detect="onDecode"
+                       @camera-on="onInit">
+            <div v-if="loading" class="loading-indicator">
                 Chargement...
             </div>
         </qrcode-stream>
 
         <template v-if="validateScan">
             <div v-if="addActivitySuccess" class="message">
-                <img src="../assets/img/checked.png" alt="Icône de succès">
+                <img :src="checkedIcon" alt="Icône de succès">
                 <p>Activité ajoutée avec succès !</p>
             </div>
             <div v-else class="message">
-                <img src="../assets/img/cancel.png" alt="Icône d'erreur">
+                <img :src="cancelIcon" alt="Icône d'erreur">
                 <p>{{ errorMessage }}</p>
 
-                <button @click="() => {
+                <button class="button-return" @click="() => {
                     validateScan = false
                     addActivitySuccess = true
-                }" class="button-return">OK
+                }">OK
                 </button>
             </div>
         </template>
     </div>
 </template>
 
-<script setup lang="ts">
-import { QrcodeStream } from 'vue-qrcode-reader/src';
+<script lang="ts" setup>
+import { QrcodeStream } from 'vue-qrcode-reader';
 import { ref } from 'vue';
 import restful from '@/models/api';
-import addRealisationCar = restful.addRealisationCar;
 import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
+import type { DetectedBarcode } from 'barcode-detector';
+
+import arrow from '@/assets/img/arrow.webp';
+import checkedIcon from '@/assets/img/checked.webp';
+import cancelIcon from '@/assets/img/cancel.webp';
+import addRealisationCar = restful.addRealisationCar;
+
+type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
+
 /**
  * Dessine le tour du code qr sur l'image de celui la
  * @param detectedCodes Code détecté par le lecteur
@@ -73,7 +80,7 @@ function paintOutline(detectedCodes: any, ctx: CanvasRenderingContext2D) {
  * Fonction lancée à l'initialisation du composant de scan pour gérer les erreurs
  * @param promise Objet retourner par l'initialisation
  */
-async function onInit(promise: Promise<any>) {
+async function onInit(promise: Promise<MediaCapabilities>) {
   loading.value = true;
   try {
     await promise;
@@ -88,9 +95,9 @@ async function onInit(promise: Promise<any>) {
  * Fonction lancée au décodage d'un qr code
  * @param value Valeur décodé
  */
-async function onDecode(value: string) {
+async function onDecode(value: DetectedBarcode[]) {
   //Récupération des données de l'url
-  let urlQrCode = new URL(value).href;
+  let urlQrCode = new URL(value[0].rawValue).href;
   let queryId = urlQrCode.substring(urlQrCode.lastIndexOf('/') + 1);
   let idActivity = Number(router.currentRoute.value.query.idActivity || 0);
 
@@ -99,11 +106,11 @@ async function onDecode(value: string) {
 
   //Traitement de la réponse
   validateScan.value = true;
-  if (result == restful.ReturnCodes.Success) {
+  if (result.status === restful.ReturnCodes.Success) {
     addActivitySuccess.value = true;
     waitPopPupResult();
 
-  } else if (result == restful.ReturnCodes.Conflict) {
+  } else if (result.status === restful.ReturnCodes.Conflict) {
     addActivitySuccess.value = false;
     errorMessage.value = 'L\'activité à déjà été réalisé par cette voiture !';
 
@@ -117,7 +124,6 @@ async function onDecode(value: string) {
  * Quitte la page et éteinds la camerae
  */
 async function quitPage() {
-  camera.value = 'off';
   await router.push({ path: '/admin' });
 }
 
@@ -133,7 +139,6 @@ function waitPopPupResult() {
 
 const loading = ref(false);
 const adminPost = useAdminPostStore();
-const camera = ref('auto');
 const validateScan = ref(false);
 const errorMessage = ref('');
 const addActivitySuccess = ref(true);
@@ -141,8 +146,8 @@ const nameActivity = ref('');
 
 //S'il n'y a pas d'authentification retour à la page admin
 if (!localStorage.getItem('tokenPost') ||
-    router.currentRoute.value.query.idActivity?.length == undefined ||
-    router.currentRoute.value.query.nameActivity?.length == undefined) {
+  router.currentRoute.value.query.idActivity?.length == undefined ||
+  router.currentRoute.value.query.nameActivity?.length == undefined) {
   router.push({ path: '/admin' });
 }
 
@@ -152,7 +157,12 @@ nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import "@/assets/css/consts.scss";
+
+div.fullscreen {
+  background-color: var(--black);
+}
 
 .loading-indicator {
   width: 100%;
@@ -185,6 +195,14 @@ div.up-screen {
     align-items: center;
     justify-content: center;
 
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+
+      img {
+        filter: invert(1);
+      }
+    }
+
     img {
       margin-right: -3px;
       width: 25px;
@@ -195,7 +213,13 @@ div.up-screen {
     font-style: italic;
     border-radius: 20px;
     padding: 7px 15px;
-    color: var(--white);
+    color: var(--black);
+    background-color: var(--white);
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+    }
   }
 }
 
@@ -216,6 +240,13 @@ div.message {
   left: calc(50% - 90px);
   text-align: center;
 
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: var(--black);
+    color: var(--white);
+    box-shadow: none;
+    border: $dark-border;
+  }
+
   img {
     width: 70px;
   }
@@ -225,6 +256,12 @@ div.message {
     border: 1px solid var(--gray);
     border-radius: 10px;
     padding: 4px 8px;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+      border: $dark-border;
+    }
   }
 }
 

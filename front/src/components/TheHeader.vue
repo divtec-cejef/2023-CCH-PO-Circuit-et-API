@@ -1,56 +1,75 @@
 <template>
-    <nav>
-        <ul class="header">
-            <li @click="clickMenu" class="accueil">
-                <RouterLink :to="`/${userCar.car.idQuery}`">Accueil</RouterLink>
+    <nav class="header">
+        <ul class="links">
+            <li class="accueil" @click="clickMenu">
+                <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
+                <img :src="houseImg" alt="Image d'accueil">
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar">
+            <li v-if="userCar.car.idCar" @click="clickMenu">
                 <RouterLink to="/pilote">Pilote</RouterLink>
+                <img :src="editImg" alt="Image de modification pour le pilote">
             </li>
-            <li @click="clickMenu" v-if="userCar.car.idCar">
+            <li v-if="userCar.car.idCar" @click="clickMenu">
                 <RouterLink to="/course">Mes Courses</RouterLink>
+                <img :src="carImg" alt="Image de voiture">
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/historique">Bonus</RouterLink>
+                <RouterLink to="/bonus">Bonus</RouterLink>
+                <img :src="bonusImg" alt="Image de bonus">
             </li>
             <li @click="clickMenu">
                 <RouterLink to="/classement">Classement</RouterLink>
+                <img :src="rankingImg" alt="Image de classement">
             </li>
-            <li @click="clickMenu" v-if="adminPost.idSection">
+            <li v-if="adminPost.idSection" @click="clickMenu">
                 <RouterLink to="/admin">Admin</RouterLink>
+                <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
-            <li @click="clickMenu" id="stage">
-                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=p6gkJM1-REK-fgRvoEMkIDWILil6JahCo6JdgNf5EXJUMVpKQjBWOFZDT0IzRzc0QlY4RUNQTFk5SCQlQCN0PWcu"
-                   target="_blank">
+            <li @click="clickMenu">
+                <RouterLink to="/live">Live</RouterLink>
+                <img :src="live" alt="Image de live pour le live">
+            </li>
+            <li id="stage" @click="clickMenu">
+                <RouterLink to="/stage">
                     <p>Stage</p>
-                    <img src="../assets/img/contract.png"
+                    <img :src="stageImg"
                          alt="Icon d'inscription à un stage">
-                </a>
+                </RouterLink>
             </li>
-            <li v-if="userCar.car.idCar">
-                <button class="logout-button tooltip" @click="logOutUser">
-                    <span>Déconnexion</span>
-                    <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
-                    <img :src="exitPhoneImg" alt="Icon de déconnexion">
-                    <span class="tooltiptext">Déconnexion</span>
-                </button>
+            <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
+                <span>Déconnexion</span>
+                <img :src="exitPhoneImg" alt="Icon de déconnexion">
+            </li>
+            <li v-if="userCar.car.idCar" class="logout-big tooltip" @click="logOutUser">
+                <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
+                <span class="tooltiptext">Déconnexion</span>
             </li>
         </ul>
     </nav>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import {useCarStore} from '@/stores/car';
+import {useAdminPostStore} from '@/stores/adminPost';
+import exitImg from '@/assets/img/exit.webp';
+import exitPhoneImg from '@/assets/img/exit-phone.webp';
+import {useRouter} from 'vue-router';
+import {useLocalStorage, usePreferredColorScheme} from '@vueuse/core';
 
-import { useCarStore } from '@/stores/car';
-import { useAdminPostStore } from '@/stores/adminPost';
-import exitImg from '@/assets/img/exit.png';
-import exitPhoneImg from '@/assets/img/exit-phone.png';
-import { useRouter } from 'vue-router';
-import { usePreferredColorScheme } from '@vueuse/core';
+import houseImg from '@/assets/img/house.webp';
+import editImg from '@/assets/img/edit.webp';
+import rankingImg from '@/assets/img/top-three.webp';
+import carImg from '@/assets/img/car-icon.webp';
+import bonusImg from '@/assets/img/trophy.webp';
+import qrCodeimg from '@/assets/img/qr-code.webp';
+import live from '@/assets/img/live-icon.webp';
+import stageImg from "@/assets/img/contract.webp";
 
 const colorScheme = usePreferredColorScheme();
-
 const router = useRouter();
+
+const displayRef = useLocalStorage('display', 'modern');
+
 const clickMenu = () => {
   emit('clickMenu', true);
 };
@@ -59,8 +78,10 @@ const clickMenu = () => {
  * Log out de l'utilisateur
  */
 function logOutUser() {
+  const display = displayRef.value;
   //Suppresion du localstorage
   localStorage.clear();
+  localStorage.setItem('display', display);
 
   //Clear les stores pinia
   userCar.$reset();
@@ -79,90 +100,98 @@ const adminPost = useAdminPostStore();
 
 </script>
 
-<style scoped lang="scss">
-nav ul {
-  margin-top: 30px;
-  padding: 0;
-  list-style: none;
+<style lang="scss" scoped>
+@import "src/assets/css/consts";
 
-  li#stage a {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    background-color: var(--pink-divtec);
-    border: 2px solid var(--pink-divtec);
-    padding: 7px 10px;
-    border-radius: 30px;
+nav.header {
 
-    p {
-      color: var(--white);
-      margin-left: 4px;
-    }
+  ul.links {
+    padding: 0;
+    list-style: none;
 
-    img {
-      width: 20px;
-      margin-left: 7px;
-    }
-  }
+    li {
+      margin-top: 12px;
+      font-family: 'SF Pro Display', sans-serif;
+      font-weight: bold;
+      font-style: normal;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: $default-shadow;
+      padding: 15px 15px;
+      border-radius: 50px;
 
-  li#stage a:hover {
-    background-color: var(--white);
-
-    p {
-      color: var(--pink-divtec);
-      margin-left: 4px;
-    }
-  }
-
-  li {
-    margin-top: 12px;
-    font-family: 'SF Pro Display', sans-serif;
-    font-weight: bold;
-    font-style: normal;
-
-    * {
-      font-size: 27px;
-    }
-
-    a {
-      transition: ease-in-out 0.15s;
-
-      &:hover {
-        color: var(--gray);
-        transition: ease-in-out 0.15s;
+      * {
+        font-size: 27px;
       }
 
+      a {
+        width: 100%;
+        transition: ease-in-out 0.15s;
 
+        &:hover {
+          color: var(--gray);
+          transition: ease-in-out 0.15s;
+        }
+      }
+
+      &.logout-phone {
+        width: 100%;
+        background-color: var(--gray);
+        color: var(--white);
+        display: none;
+      }
+
+      &.logout-big.tooltip {
+        display: flex;
+        width: fit-content;
+        height: 45px;
+        margin-left: 0 !important;
+
+        img {
+          height: 35px;
+          width: 35px;
+          display: block !important;
+          margin-left: 0;
+        }
+      }
+
+      &#stage a {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: var(--pink-divtec);
+        border: 2px solid var(--pink-divtec);
+        padding: 7px 10px;
+        border-radius: 30px;
+
+        p {
+          color: var(--white);
+          margin-left: 4px;
+        }
+
+        &:hover {
+          background-color: var(--white);
+
+          p {
+            color: var(--pink-divtec);
+            margin-left: 4px;
+          }
+        }
+      }
+
+      img {
+        width: 22px;
+        margin-left: 10px;
+      }
     }
   }
 }
-
-button.logout-button {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  img {
-    height: 35px;
-  }
-
-  img:nth-child(3) {
-    display: none;
-  }
-
-  span:nth-child(1) {
-    display: none;
-  }
-}
-
 
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltiptext {
@@ -175,10 +204,10 @@ button.logout-button {
   border-radius: 100px;
   font-size: 15px !important;
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   font-style: italic;
   transition: all linear 0.3s;
-
+  font-weight: normal;
 }
 
 .tooltip:hover .tooltiptext {
