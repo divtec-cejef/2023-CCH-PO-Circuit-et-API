@@ -11,6 +11,7 @@ import {
 import { getCarByQueryId } from '../../../services/car';
 import validateSection from '../../../services/section/validate-token';
 import { Server } from 'socket.io';
+import { emitEvent } from "../../../clients/socketio";
 
 declare type RealisedActivityRequest = {
   id_activity: number,
@@ -97,21 +98,11 @@ export const route: RouteHandler<null, unknown, RealisedActivityRequest> = async
   }
 
   const socket: Server = req.app.get('socketio');
-  try {
-    socket.emit('updatedActivities', {
-      count: await getRealisationCount(),
-      mostPopular: await mostRealisedActivity(),
-      last: await getActivityById(realisedActivityToCreate.id_activity)
-    });
-  } catch (e) {
-    if (typeof e === 'string') {
-      socket.emit('updatedActivities', {message: e});
-    } else if (e instanceof Error) {
-      socket.emit('updatedActivities', {message: e.message});
-    } else {
-      socket.emit('updatedActivities', {message: 'internal server error'});
-    }
-  }
+  await emitEvent(socket, 'updatedActivities', {
+    count: await getRealisationCount(),
+    mostPopular: await mostRealisedActivity(),
+    last: await getActivityById(realisedActivityToCreate.id_activity)
+  })
 };
 
 export default route;

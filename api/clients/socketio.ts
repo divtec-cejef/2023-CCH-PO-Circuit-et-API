@@ -4,8 +4,9 @@ import { getNumberRaces, getRacesByCar, getRankByCar, getShortestRace, getShorte
 import { getCarById } from '../services/car';
 import http from 'http';
 import { getRealisationCount, lastRealisedActivity, mostRealisedActivity } from '../services/realise';
+import { TypedEventBroadcaster } from "socket.io/dist/typed-events";
 
-export async function emitEvent (io: sio.Socket, eventName: string, data: any) {
+export async function emitEvent (io: TypedEventBroadcaster<{[eventName: string]: any}>, eventName: string, data: any) {
   try {
     io.emit(eventName, data);
   } catch (e) {
