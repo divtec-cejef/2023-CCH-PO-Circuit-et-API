@@ -1,5 +1,6 @@
 import type { RouteHandler } from '../models';
 import type { Server } from 'socket.io';
+import { emitEvent } from "../clients/socketio";
 
 /**
  * Controller pour la route de test à la racine
@@ -9,6 +10,7 @@ import type { Server } from 'socket.io';
  */
 const route: RouteHandler = (req, res) => {
   res.send('It works');
-  req.app.get<Server>('socketio').emit('hello', 'world');
+  const server: Server  = req.app.get('socketio');
+  emitEvent(server, 'updatedUserRaces', { message: 'test' })
 };
 export default route;
