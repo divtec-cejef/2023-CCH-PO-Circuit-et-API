@@ -111,6 +111,17 @@ export const getPasswordByQueryId = async (carQueryId: string) => {
  * @returns la voiture mise à jour
  */
 export const updateCar = async (carToUpdate: CarToUpdate) => {
+  if(await prisma.car.findFirst({
+    where: {
+      pseudo: carToUpdate.pseudo,
+      NOT: {
+        id_car: carToUpdate.id_car
+      }
+    }
+  })) {
+    throw new Error('Pseudo déjà utilisé');
+  }
+
   return await prisma.car.update({
     where: {
       id_car: carToUpdate.id_car

@@ -83,8 +83,16 @@ export const route: RouteHandler<null, unknown, CarToUpdate> = async (req, res) 
     res.status(200).send(await updateCar(carToUpdate));
   } catch (e) {
     if (typeof e === 'string') {
+      if (e === 'Pseudo déjà utilisé') {
+        res.status(400).json({ message: e });
+        return;
+      }
       res.status(500).json({ message: e });
     } else if (e instanceof Error) {
+      if (e.message === 'Pseudo déjà utilisé') {
+        res.status(400).json({ message: e.message });
+        return;
+      }
       res.status(500).json({ message: e.message });
     } else {
       res.status(500).send();

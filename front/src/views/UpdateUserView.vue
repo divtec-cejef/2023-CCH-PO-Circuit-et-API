@@ -23,8 +23,10 @@
                 <h2>Avertissement</h2>
                 <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
             </div>
-            <div>Tu n'as as enregistré tes modifications !
-                <br>Es-tu sûr de vouloir quitter ?
+            <div>
+                <p>Tu n'as as enregistré tes modifications!</p>
+
+                <p>Es-tu sûr de vouloir quitter?</p>
             </div>
             <div class="button-container">
                 <button @click="closeModal">Non</button>
@@ -83,7 +85,8 @@
 
                     <div class="modify-pseudo">
                         <label for="pseudo">Pseudo </label>
-                        <input id="pseudo" v-model="pseudo" maxlength="10" name="pseudo" type="text">
+                        <input id="pseudo" v-model="pseudo" :class="duplicatePseudoError ? 'errored' : ''"
+                               maxlength="10" name="pseudo" type="text">
                     </div>
 
                     <button ref="updateButton" :disabled="updateDisabled" class="main" @click.prevent="updateUser">
@@ -95,7 +98,7 @@
                 <div class="avatar-and-pseudo">
                     <div class="modify-pseudo">
                         <label for="pseudo">Pseudo </label>
-                        <input id="pseudo" v-model="pseudo" maxlength="10" name="pseudo" type="text">
+                        <input id="pseudo" v-model="pseudo" :class="duplicatePseudoError ? 'errored' : ''" maxlength="10" name="pseudo" type="text">
                     </div>
 
                     <div :style="{display: displayMsgValid}" class="msg-success">
@@ -158,6 +161,10 @@
         <div v-if="saveIsInvalid" class="show-error">
             <p>* Le pseudo doit contenir au moins 3 caractères.</p>
         </div>
+
+        <div v-if="duplicatePseudoError" class="show-error">
+            <p>* Ce pseudo est déjà utilisé.</p>
+        </div>
     </div>
 
 </template>
@@ -167,7 +174,7 @@ import type { Configs } from 'holiday-avatar';
 import { genConfig } from 'holiday-avatar';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
 import api from '@/models/api';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useBreakpoints, useLocalStorage } from '@vueuse/core';
@@ -176,12 +183,12 @@ import cancelIcon from '@/assets/img/cancel.webp';
 import validateIcon from '@/assets/img/checked.webp';
 import faceIcon from '@/assets/img/face-color.webp';
 import hangerIcon from '@/assets/img/hanger.webp';
-
-import AvatarColorPicker from '@/components/AvatarColorPicker.vue';
-import ImageModifPhone from '@/components/ImageModifPhone.vue';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
-import AvatarRadioSelector from '@/components/AvatarRadioSelector.vue';
 import type { models } from '@/models/avatar';
+
+const AvatarColorPicker = defineAsyncComponent(() => import('@/components/AvatarColorPicker.vue'));
+const ImageModifPhone = defineAsyncComponent(() => import('@/components/ImageModifPhone.vue'));
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const AvatarRadioSelector = defineAsyncComponent(() => import('@/components/AvatarRadioSelector.vue'));
 
 const router = useRouter();
 
@@ -196,6 +203,8 @@ const opacityAvatar = ref('');
 const LIMIT_LARGE_CONTENT = 960;
 const nextRoute = ref('');
 const numTabOpen = ref(1);
+
+const duplicatePseudoError = ref(false);
 
 //Initialisation des constantes
 const NAME_HEAD_PROPS = 'head';
@@ -660,7 +669,7 @@ const avatarProperties = computed<models.RadioProperty[]>({
     let currentConfig = config.value;
     for (let property of v) {
       if (property.propNameEn in currentConfig) {
-        (currentConfig[property.propNameEn as keyof Configs] as Configs[keyof Configs]) = property.selectedValue;
+        ( currentConfig[ property.propNameEn as keyof Configs ] as Configs[keyof Configs] ) = property.selectedValue;
       }
     }
 
@@ -676,7 +685,7 @@ const editProperties = (newValue: models.RadioProperty) => {
   const currentProps = avatarProperties.value;
   const index = currentProps.findIndex(v => v.propNameEn === newValue.propNameEn);
   if (index !== -1) {
-    currentProps[index] = newValue;
+    currentProps[ index ] = newValue;
   }
   avatarProperties.value = currentProps;
 };
@@ -715,7 +724,7 @@ async function connect(queryId: string, password: string) {
   dialog.value?.close();
 
   // Test si enregistrement des données de la voiture
-  if (pseudo.value !== car.pseudo || (userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar))) {
+  if (pseudo.value !== car.pseudo || ( userCar.car.avatar && !avatarEquals(config.value, userCar.car.avatar) )) {
     await updateUser();
   }
 }
@@ -727,7 +736,7 @@ async function connect(queryId: string, password: string) {
 function avatarEquals(avatar1: Configs, avatar2: Configs) {
   let equality = true;
   Object.keys(avatar1).forEach((key) => {
-    if (avatar1[key as keyof Configs] !== avatar2[key as keyof Configs]) {
+    if (avatar1[ key as keyof Configs ] !== avatar2[ key as keyof Configs ]) {
       equality = false;
     }
   });
@@ -754,6 +763,7 @@ function cancel() {
  * Met à jour les données de l'utilisateur (de la voiture)
  */
 async function updateUser() {
+  duplicatePseudoError.value = false;
   // Utilisateur Voiture pour l'enregistrement dans la db
   const reqUserCar = {
     token: userCar.token,
@@ -775,7 +785,12 @@ async function updateUser() {
 
   // enregistrement de la voiture
   try {
-    await api.updateCar(reqUserCar);
+    const res = await api.updateCar(reqUserCar);
+    console.log(res);
+    if ('message' in res.json && res.json.message === "Pseudo déjà utilisé") {
+      duplicatePseudoError.value = true;
+      return;
+    }
   } catch (e) {
     carTokenLs.value = null;
     dialog.value?.showModal();
@@ -839,7 +854,7 @@ function saveAndQuit() {
  */
 function fillAvatarPropreties(config: Configs) {
   for (let prop of avatarProperties.value) {
-    let value = config[prop.propNameEn as keyof Configs];
+    let value = config[ prop.propNameEn as keyof Configs ];
     if (typeof value !== 'boolean') {
       prop.selectedValue = value;
     }
@@ -880,7 +895,7 @@ onBeforeRouteLeave((to) => {
   nextRoute.value = to.path;
 
   //Affichage de la page de confirmation
-  if (!updateDisabled.value) {
+  if (!updateDisabled.value && localStorage.getItem("userCarId") !== null) {
     dialogExit.value?.showModal();
     return false;
   }
@@ -909,6 +924,11 @@ div.modify-pseudo {
     border-radius: 3px;
     padding: 3px;
     border: 1px solid var(--black);
+
+    &.errored {
+      border: 2px solid red;
+      animation: 600ms headShake;
+    }
   }
 
   label {
@@ -920,11 +940,9 @@ div.modify-pseudo {
 }
 
 button {
-  padding: 12px;
   border-radius: 20px;
   cursor: pointer;
   margin-top: 10px;
-  width: 120px;
   text-align: center;
   transition: ease-in-out 0.3s;
 
@@ -1145,11 +1163,15 @@ div.modify-avatar {
   }
 }
 
+input.errored {
+  border: 2px solid red;
+  animation: 600ms headShake;
+}
 
 #connection-dialog, #exit-dialog {
   border: none;
   border-radius: 1em;
-  padding: 15px 20px;
+  padding: 15px;
 
   div.header {
     h2 {
@@ -1191,25 +1213,6 @@ div.modify-avatar {
         animation: 600ms headShake;
       }
     }
-
-    button[type="submit"] {
-      background-color: var(--white);
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 8px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all ease-in-out 0.2s;
-      width: fit-content;
-    }
-
-    button[type="submit"]:hover {
-      background-color: var(--accent);
-      border: 2px solid var(--accent);
-      color: var(--white);
-      transition: all ease-in-out 0.2s;
-    }
-
     div.button-container {
       display: flex;
       justify-content: center;
@@ -1217,6 +1220,35 @@ div.modify-avatar {
   }
 }
 
+#connection-dialog {
+  width: 250px;
+  div.header {
+    align-items: flex-start;
+    justify-content: space-between;
+    button {
+      margin: 0;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: .75em;
+
+    input {
+      margin: .75em 0 0;
+      width: 6em;
+      text-align: center;
+      padding: .5em;
+      border-radius: 20px;
+    }
+
+    label {
+      width: fit-content;
+      margin: 0;
+    }
+  }
+}
 
 #exit-dialog {
   width: 500px;
@@ -1229,6 +1261,7 @@ div.modify-avatar {
     margin-top: 35px;
 
     button {
+      width: 7em;
       margin: 0 5px;
       padding: 5px 3px;
     }

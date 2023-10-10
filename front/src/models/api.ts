@@ -1,4 +1,4 @@
-import { Socket, io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import api from '@/models/api';
 import type Avatar from '@/models/avatar';
 
@@ -420,10 +420,6 @@ export namespace restful {
       // Envoie la requête
       const response = await fetch(`${routeApi}car`, requestOptions);
 
-      if (!(response.status === api.ReturnCodes.Success)) {
-        return { json: { message: 'Unauthorized.' }, status: response.status };
-      }
-
       const json: models.rawData.CarData = await response.json();
 
       if ('message' in json) {
@@ -433,6 +429,11 @@ export namespace restful {
           },
           status: response.status
         };
+      }
+
+      if (!(response.status === api.ReturnCodes.Success)) {
+        console.error(json)
+        return { json: { message: 'Erreur'}, status: response.status };
       }
 
       const parsedJson = {

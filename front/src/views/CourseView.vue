@@ -6,10 +6,10 @@
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
             <div class="best-race">
-                <RaceInfo :race="car.listRace![BEST_TIME_INDEX]"
-                          :rank="car.rank!"
+                <RaceInfo :display-rank="true"
                           :num-race="getNumRace(car.listRace![BEST_TIME_INDEX], car.listRace!)"
-                          :display-rank="true"
+                          :race="car.listRace![BEST_TIME_INDEX]"
+                          :rank="car.rank!"
                 />
 
                 <div class="video-race">
@@ -18,7 +18,7 @@
             </div>
 
             <div class="content-list-classement">
-                <div class="table-large-content" v-if="car.listRace!.length > 0">
+                <div v-if="car.listRace!.length > 0" class="table-large-content">
                     <h2>Liste de courses</h2>
                     <TableListTime/>
                 </div>
@@ -44,27 +44,27 @@
             </p>
         </div>
     </template>
-    <div class="loading-race" v-else-if="socketConnected === undefined">
+    <div v-else-if="socketConnected === undefined" class="loading-race">
         <SpinLoading></SpinLoading>
     </div>
     <ErrorConnection v-else></ErrorConnection>
 </template>
 
-<script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+<script lang="ts" setup>
+import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useCarStore } from '@/stores/car';
 import type { WebsocketConnection } from '@/models/api';
 import { useRouter } from 'vue-router';
 import { useElementSize, useScroll } from '@vueuse/core';
 import { getNumRace } from '@/models/car';
 
-import VideoRace from '@/components/VideoRace.vue';
-import SpinLoading from '@/components/SpinLoading.vue';
-import ErrorConnection from '@/components/ErrorConnection.vue';
-import TableListTime from '@/components/TableListTime.vue';
-import ClassementRace from '@/components/ClassementRace.vue';
-import ClassmentButton from '@/components/ClassmentButton.vue';
-import RaceInfo from '@/components/RaceInfo.vue';
+const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
+const TableListTime = defineAsyncComponent(() => import('@/components/TableListTime.vue'));
+const ClassementRace = defineAsyncComponent(() => import('@/components/ClassementRaceFullScreen.vue'));
+const ClassmentButton = defineAsyncComponent(() => import('@/components/ClassmentButton.vue'));
+const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
 //Initialisation des constantes
 const BEST_TIME_INDEX = 0;
@@ -133,7 +133,7 @@ onUnmounted(() => socket.value?.destroy());
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "src/assets/css/consts";
 
 div.content {

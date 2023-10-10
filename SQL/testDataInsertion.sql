@@ -246,7 +246,7 @@ VALUES ('Flipper', 2);
 INSERT INTO activity (label, id_section)
 VALUES ('MontagePrécision', 3);
 INSERT INTO activity (label, id_section)
-VALUES ('HorlogeJouet', 3);
+VALUES ('Klockan', 3);
 
 -- Electronique
 INSERT INTO activity (label, id_section)

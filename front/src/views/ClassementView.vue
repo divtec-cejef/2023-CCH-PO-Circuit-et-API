@@ -6,20 +6,21 @@
             </div>
         </div>
         <div class="with-100">
-            <ClassmentButton class="buttons" @scrollToUser="scrollToUser" @scrollToTop="scrollToTop"/>
+            <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser"/>
         </div>
 
-        <div class="classement" ref="classment">
+        <div ref="classment" class="classement">
             <ClassementRace/>
         </div>
     </div>
 </template>
-<script setup lang="ts">
-import ClassementRace from '@/components/ClassementRace.vue';
+<script lang="ts" setup>
 import { useCarStore } from '@/stores/car';
-import { useWindowSize, useElementBounding, useScroll } from '@vueuse/core';
-import { ref } from 'vue';
-import ClassmentButton from '@/components/ClassmentButton.vue';
+import { useElementBounding, useScroll, useWindowSize } from '@vueuse/core';
+import { defineAsyncComponent, ref } from 'vue';
+
+const ClassementRace = defineAsyncComponent(() => import('@/components/ClassementRace.vue'));
+const ClassmentButton = defineAsyncComponent(() => import('@/components/ClassmentButton.vue'));
 
 const classment = ref<HTMLElement | null>(null);
 const scroll = useScroll(window, { behavior: 'smooth' });
@@ -56,10 +57,12 @@ function scrollToTop() {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/consts.scss";
 
 .content {
+  flex: 1;
+
   .top-container {
     display: flex;
     flex-direction: row;

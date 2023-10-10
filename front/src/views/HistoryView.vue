@@ -1,16 +1,17 @@
 <template>
     <div class="content bonus-map">
-        <div v-if="currentLabel.title !== null" ref="label" class="labelActivity"
-             :style="{left: divLeft, top: divTop, display: divDisplay}">
+        <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
+             class="labelActivity">
             <div v-if="currentLabel.activities.length > 0">
                 <div class="label-header"><span>Activités :</span>
                     <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
                 </div>
                 <ul>
                     <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
-                        <img :src=trophy alt="Trophé"
-                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"/>
-                        <span>{{ activity['labelActivity'] }}</span>
+                        <img :src=trophy
+                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"
+                             alt="Trophé"/>
+                        <span>{{ activity[ 'labelActivity' ] }}</span>
                     </li>
                 </ul>
             </div>
@@ -26,13 +27,14 @@
         <div v-else-if="!hasLoaded" class="loading-map">
             <SpinLoading></SpinLoading>
         </div>
-        <div class="container" v-else>
+        <div v-else class="container">
             <div :ref="panzoomable">
-                <BonusMap :display-label="displayLabel" :un-clicked="sectionUnCLicked" :sections="allSections"
-                          :no-activity-sections="noActivitySections" :activated-section="activatedSection"></BonusMap>
+                <BonusMap :activated-section="activatedSection" :display-label="displayLabel"
+                          :no-activity-sections="noActivitySections"
+                          :sections="allSections" :un-clicked="sectionUnCLicked"></BonusMap>
             </div>
 
-            <div class="zoom-buttons" v-if="isNotTouchPointer()">
+            <div v-if="isNotTouchPointer()" class="zoom-buttons">
                 <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
                 <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
             </div>
@@ -40,19 +42,21 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import BonusMap from '@/components/BonusMap.vue';
-import panzoom from 'panzoom';
+<script lang="ts" setup>
+
 import type { PanZoom } from 'panzoom';
-import { ref } from 'vue';
+import panzoom from 'panzoom';
+import { defineAsyncComponent, ref } from 'vue';
 import api from '@/models/api';
 import { useCarStore } from '@/stores/car';
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
-import SpinLoading from '@/components/SpinLoading.vue';
-import ErrorConnection from '@/components/ErrorConnection.vue';
+
+const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 const userCar = useCarStore();
 const { car } = userCar;
@@ -167,8 +171,8 @@ function sectionBonusAcorded(idSection: number) {
   let bonusAcorded = false;
   for (let section of sectionActivities.value) {
     if (section?.idSection === idSection) {
-      for (let activity of section['activities']) {
-        if (activityIsRealised(activity['idActivity'])) {
+      for (let activity of section[ 'activities' ]) {
+        if (activityIsRealised(activity[ 'idActivity' ])) {
           bonusAcorded = true;
         }
       }
@@ -180,8 +184,8 @@ function sectionBonusAcorded(idSection: number) {
 function getSectionBonusAcorded() {
   for (let section of sectionActivities.value) {
     if (sectionBonusAcorded(section.idSection)) {
-      if (!activatedSection.value.includes(section['idSection'])) {
-        activatedSection.value.push(section['idSection']);
+      if (!activatedSection.value.includes(section[ 'idSection' ])) {
+        activatedSection.value.push(section[ 'idSection' ]);
       }
     }
   }
@@ -191,12 +195,12 @@ function getNoActivitySections() {
   for (let section of allSections.value) {
     let present = false;
     for (let sectionActivity of sectionActivities.value) {
-      if (section.id === sectionActivity['idSection']) {
+      if (section.id === sectionActivity[ 'idSection' ]) {
         present = true;
       }
     }
     if (!present) {
-      noActivitySections.value.push(section['id']);
+      noActivitySections.value.push(section[ 'id' ]);
     }
   }
 }
@@ -255,8 +259,8 @@ function zoomIn() {
   }
   let boundings = mapElement.getBoundingClientRect();
   let transform = panzoomElement.getTransform();
-  let cx = transform.x + (boundings.width - boundings.left) / 2;
-  let cy = transform.y + (boundings.height - boundings.top) / 2;
+  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
+  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
   panzoomElement.smoothZoom(cx, cy, 1.3);
 }
 
@@ -266,8 +270,8 @@ function zoomOut() {
   }
   let boundings = mapElement.getBoundingClientRect();
   let transform = panzoomElement.getTransform();
-  let cx = transform.x + (boundings.width - boundings.left) / 2;
-  let cy = transform.y + (boundings.height - boundings.top) / 2;
+  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
+  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
   panzoomElement.smoothZoom(cx, cy, 0.7);
 }
 
@@ -351,9 +355,9 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
 function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHeight: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
-    pos = posy - (10 + divHeight);
+    pos = posy - ( 10 + divHeight );
   } else {
-    pos = posy + (10 + dif * zoomfactor);
+    pos = posy + ( 10 + dif * zoomfactor );
   }
   const minHeightPx = getComputedStyle(document.documentElement)
     .getPropertyValue('--height-screen-diff');
@@ -381,13 +385,13 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   };
   let heightOffset = 0;
   for (let section of sectionActivities.value) {
-    if (section['idSection'] === currentSection.value?.id ?? -1) {
-      for (let activity of section['activities']) {
+    if (section[ 'idSection' ] === currentSection.value?.id ?? -1) {
+      for (let activity of section[ 'activities' ]) {
         currentLabel.value.activities.push(
           {
-            idActivity: activity['idActivity'],
-            labelActivity: activity['labelActivity'],
-            realised: activityIsRealised(activity['idActivity']),
+            idActivity: activity[ 'idActivity' ],
+            labelActivity: activity[ 'labelActivity' ],
+            realised: activityIsRealised(activity[ 'idActivity' ]),
           });
         heightOffset += 20;
         if (heightOffset > 20) {
@@ -407,7 +411,7 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/consts";
 
 div.content {
@@ -467,7 +471,6 @@ template {
     }
 
 
-
     button:first-child {
       margin-bottom: 10px;
     }
@@ -477,7 +480,7 @@ template {
 
 .labelActivity {
   width: 250px;
-  padding: 10px;
+  padding: .75em 1.25em;
   display: none;
   position: absolute;
   z-index: 100;
@@ -499,6 +502,7 @@ template {
 
   ul {
     padding-left: 0;
+    margin: 10px 0;
   }
 
   li {
@@ -521,7 +525,8 @@ template {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 10px;
+    margin: 5px 0;
+    font-weight: 500;
 
     span {
       max-width: 200px;

@@ -7,43 +7,42 @@
         <SpinLoading></SpinLoading>
     </div>
     <template v-else-if="listRace?.length === 0">
-        <p>Aucune donnée n'est disponible</p>
+        <p>Aucune course n'a encore été réalisé !</p>
     </template>
     <template v-else>
         <ClassementElement
-                v-for="(race, key) in listRace"
-                :key="key"
-                :avatar="race.car?.avatar || genConfig()"
-                :rank="key + 1"
-                :pseudo="race.car?.pseudo || '<indisponible>'"
-                :time="new Date(race.total_time)"
-                :id-car="race.car!.id_car"
-                :show-content="props.showContent"
-                :is-new-element="props.indexNewElement ? key === props.indexNewElement.index : false"
+            v-for="(race, key) in listRace"
+            :key="key"
+            :avatar="race.car?.avatar || genConfig()"
+            :id-car="race.car!.id_car"
+            :is-new-element="false"
+            :pseudo="race.car?.pseudo || '<indisponible>'"
+            :rank="key + 1"
+            :show-content="props.showContent"
+            :time="new Date(race.total_time)"
         />
     </template>
 </template>
 
-<script setup lang="ts">
-import ClassementElement from '@/components/ClassementElement.vue';
-import { WebsocketConnection } from '@/models/api';
+<script lang="ts" setup>
 import type { models } from '@/models/api';
-import { ref, onUnmounted } from 'vue';
-import SpinLoading from '@/components/SpinLoading.vue';
+import { WebsocketConnection } from '@/models/api';
+import { defineAsyncComponent, onUnmounted, ref } from 'vue';
 import { genConfig } from 'holiday-avatar';
+
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ClassementElement = defineAsyncComponent(() => import('@/components/ClassementElement.vue'));
 
 const hasLoaded = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
 const errorMessage = ref<string>();
-const lastListRace = ref<models.rawData.WsRaceData[]>([]);
 
 // Se connecte au websocket
 const socket = new WebsocketConnection();
 
 //Définition des props avec valeur par défaut
 const props = withDefaults(defineProps<{
-  showContent?: boolean,
-  indexNewElement?: models.parsedData.RankingRaceDataOneCar
+    showContent?: boolean,
 }>(), {
   showContent: true
 });
@@ -59,40 +58,10 @@ socket.onRankingReceived((data) => {
   }
 
   listRace.value = data.races;
-
-  //Si ce n'est le premier chargement alors on recherche la course ajoutée en dernier
-  if (lastListRace.value.length > 0) {
-    const newRace = getRankLastRace();
-    emit('indexNewRace', newRace);
-  }
-
-  //La nouvelle liste devient l'ancienne
-  lastListRace.value = listRace.value;
   hasLoaded.value = true;
 
   emit('load');
 });
-
-/**
- * Compare les listes pour récupérer le rang de la dernière course
- */
-function getRankLastRace(): models.parsedData.RankingRaceDataOneCar | undefined {
-  //Si les listes sont vides
-  if (!listRace.value || !lastListRace.value) {
-    return;
-  }
-
-  //Compare les deux listes pour trouver le changement
-  let index = 0;
-  for (let race of listRace.value) {
-    //Si l'index est trop grand, ou que l'id de l'utilisateur est différents alors on retourne l'index
-    if ((index >= lastListRace.value.length) || ((race.id_race !== lastListRace.value[index].id_race) && (race.total_time !== lastListRace.value[index].total_time))) {
-      return { index: index, car: race.car };
-    }
-    index++;
-  }
-  return { index: -2, car: undefined };
-}
 
 
 // Déconnecte le websocket à la fermeture de la page
@@ -102,13 +71,13 @@ onUnmounted(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
 .loading-ranking {
-  height: calc(60vh - var(--height-screen-diff));
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: calc(60vh - var(--height-screen-diff));
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 </style>
