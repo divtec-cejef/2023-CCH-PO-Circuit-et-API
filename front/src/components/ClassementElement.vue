@@ -4,7 +4,7 @@
              :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
              @click="clickClassementElement">
             <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
-            <div v-else class="rank-image" :style="{ backgroundImage: `url(${backgroundImage?.default})`}">
+            <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image">
             </div>
             <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
             <div class="pseudo">{{ props.pseudo }}</div>
@@ -12,11 +12,11 @@
             <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
             <img v-if="props.showContent"
                  :src="arrowImg"
-                 alt="Icon de flèche pour déplier le contenu"
                  :style="{
                     transform: `rotate(${rotateImage}deg)`,
                     filter: isOnDarkBg ? 'grayscale(1) invert(1)' : ''
-            }">
+            }"
+                 alt="Icon de flèche pour déplier le contenu">
         </div>
         <div v-if="props.showContent">
             <Transition>
@@ -24,10 +24,10 @@
                     <template v-if="!hasError">
                         <div>
                             <h3>Meilleure course</h3>
-                            <RaceInfo :race="raceData!.races[BEST_TIME_INDEX]"
+                            <RaceInfo :display-rank="false"
                                       :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                                      :rank="raceData!.rank"
-                                      :display-rank="false">
+                                      :race="raceData!.races[BEST_TIME_INDEX]"
+                                      :rank="raceData!.rank">
                             </RaceInfo>
                         </div>
 
@@ -41,9 +41,9 @@
                             <ul>
                                 <template v-for="(section, key) in listAllBonus" :key="key">
                                     <li>
-                                        <DropDownBonus :section-name="section.name"
+                                        <DropDownBonus :list-activity="section.listActivity"
                                                        :realised="section.realised"
-                                                       :list-activity="section.listActivity"/>
+                                                       :section-name="section.name"/>
                                     </li>
                                 </template>
                             </ul>
@@ -56,32 +56,32 @@
                 <div v-if="dropDownClicked" class="user-content phone">
                     <template v-if="!hasError">
                         <div>
-                            <DropDown name="Meilleure Course" @update:drop-down-clicked="clickBestRace"
-                                      :drop-down-clicked="bestRaceDropDownClicked">
-                                <RaceInfo :race="raceData!.races[BEST_TIME_INDEX]"
+                            <DropDown :drop-down-clicked="bestRaceDropDownClicked" name="Meilleure Course"
+                                      @update:drop-down-clicked="clickBestRace">
+                                <RaceInfo :display-rank="false"
                                           :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                                          :rank="raceData!.rank"
-                                          :display-rank="false">
+                                          :race="raceData!.races[BEST_TIME_INDEX]"
+                                          :rank="raceData!.rank">
                                 </RaceInfo>
                             </DropDown>
                         </div>
 
                         <div>
-                            <DropDown name="Vidéo" @update:drop-down-clicked="clickVideo"
-                                      :drop-down-clicked="videoDropDownClicked">
+                            <DropDown :drop-down-clicked="videoDropDownClicked" name="Vidéo"
+                                      @update:drop-down-clicked="clickVideo">
                                 <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
                             </DropDown>
                         </div>
 
                         <div class="bonus">
-                            <DropDown name="Bonus" @update:drop-down-clicked="clickBonus"
-                                      :drop-down-clicked="bonusDropDownClicked">
+                            <DropDown :drop-down-clicked="bonusDropDownClicked" name="Bonus"
+                                      @update:drop-down-clicked="clickBonus">
                                 <ul>
                                     <template v-for="(section, key) in listAllBonus" :key="key">
                                         <li :class="section.realised ? '': 'not-realised'">
-                                            <DropDownBonus :section-name="section.name"
+                                            <DropDownBonus :list-activity="section.listActivity"
                                                            :realised="section.realised"
-                                                           :list-activity="section.listActivity"/>
+                                                           :section-name="section.name"/>
                                         </li>
                                     </template>
                                 </ul>
@@ -95,24 +95,25 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
-import { computed, ref } from 'vue';
-import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import { computed, defineAsyncComponent, ref } from 'vue';
 import type { Configs } from 'holiday-avatar';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
 import type { models } from '@/models/api';
 import api from '@/models/api';
-import VideoRace from '@/components/VideoRace.vue';
-import DropDownBonus from '@/components/DropDownBonus.vue';
-import DropDown from '@/components/DropDown.vue';
 import { Section } from '@/models/section';
 import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
-import RaceInfo from '@/components/RaceInfo.vue';
+
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
+const DropDownBonus = defineAsyncComponent(() => import('@/components/DropDownBonus.vue'));
+const DropDown = defineAsyncComponent(() => import('@/components/DropDown.vue'));
+const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
 const props = defineProps<{
   idCar: number | string;
@@ -341,7 +342,7 @@ if (props.rank <= PODIUM) {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "src/assets/css/consts";
 
 div.all-content {

@@ -1,20 +1,20 @@
 <template>
     <div>
-        <div :class="`section-name${realised ? ' section-realised' : ''}`" @click="clickBonus = !clickBonus"
-             :style="styleDropDown(color)">
+        <div :class="`section-name${realised ? ' section-realised' : ''}`" :style="styleDropDown(color)"
+             @click="clickBonus = !clickBonus">
             <div class="trophee-name">
-                <img :src="trophy" alt="Trophé indiquant l'état de l'activité"
-                     :class="props.realised ? '' : 'not-realised'">
+                <img :class="props.realised ? '' : 'not-realised'" :src="trophy"
+                     alt="Trophé indiquant l'état de l'activité">
                 <p>{{ sectionName }}</p>
             </div>
-            <img :src="arrow" alt="Flèche pour dérouler l'element" :style="styleImg()"
-                 :class="props.realised ? '' : 'not-realised'">
+            <img :class="props.realised ? '' : 'not-realised'" :src="arrow" :style="styleImg()"
+                 alt="Flèche pour dérouler l'element">
         </div>
         <transition>
-            <div class="activity" v-if="clickBonus">
+            <div v-if="clickBonus" class="activity">
                 <ul>
                     <li v-for="(activity, key) in listActivity" :key="key">
-                        <img :src="trophy" alt="Image de trophée" :class="activity.realised ? '' : 'not-realised'">
+                        <img :class="activity.realised ? '' : 'not-realised'" :src="trophy" alt="Image de trophée">
                         {{ activity.name }}
                     </li>
                 </ul>
@@ -23,12 +23,12 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from 'vue';
 import Section from '@/models/section';
-import getColor = Section.getColor;
 import trophy from '@/assets/img/trophy.webp';
 import arrow from '@/assets/img/arrows-symbol.webp';
+import getColor = Section.getColor;
 
 const props = defineProps<{
   sectionName: string,
@@ -74,7 +74,7 @@ const styleImg = () => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "src/assets/css/consts";
 
 ul {
@@ -140,6 +140,7 @@ div {
     ul li {
       display: flex;
       align-items: center;
+      margin: 5px 0;
 
       img {
         width: 17px;
