@@ -5,6 +5,7 @@ const AboutView = () => import('@/views/AboutView.vue');
 const CourseView = () => import('@/views/CourseView.vue');
 const UserView = () => import('@/views/UserView.vue');
 const ClassementView = () => import('@/views/ClassementView.vue');
+const ScanneurQRBonusView = () => import('@/views/ScanneurQRBonusView.vue');
 const HomeView = () => import('@/views/HomeView.vue');
 const ScanView = () => import('@/views/ScanView.vue');
 const UpdateUserView = () => import('@/views/UpdateUserView.vue');
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/course',
       name: 'course',
       component: CourseView
+    },
+    {
+      path: '/scanneurQR',
+      name: 'scanneurQR',
+      component: ScanneurQRBonusView
     },
     {
       path: '/apropos',
