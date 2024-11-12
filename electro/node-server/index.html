@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner un QR Code</title>
+</head>
+<body>
+    <h1>Scanner un QR Code</h1>
+    <video id="video" width="400" height="300" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <p id="result"></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        // Se connecte au serveur
+        const socket = io();
+        
+        // Fonction pour analyser chaque frame de la vidéo
+        function scanQRCode() {
+            const videoElement = document.getElementById('video');
+            const canvasElement = document.getElementById('canvas');
+            const canvas = canvasElement.getContext('2d');
+
+            // Définir la taille du canevas pour correspondre à celle de la vidéo
+            canvasElement.width = videoElement.videoWidth;
+            canvasElement.height = videoElement.videoHeight;
+
+            // Vérifier si la vidéo a une taille valide (éviter un canvas de taille 0)
+            if (canvasElement.width === 0 || canvasElement.height === 0) {
+                return;
+            }
+
+            // Dessiner le contenu de la vidéo sur le canevas
+            canvas.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+            // Extraire les données de l'image du canevas
+            const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+
+            // Utiliser jsQR pour détecter un QR Code
+            const qrCode = jsQR(imageData.data, canvasElement.width, canvasElement.height);
+
+            // Si un QR Code est détecté, afficher le résultat
+            if (qrCode) {
+                document.getElementById('result').textContent = "QR Code détecté : " + qrCode.data;
+                if (qrCode.data.length === 4) {
+                    socket.emit("newCar", qrCode.data);
+                }
+            } else {
+                document.getElementById('result').textContent = "Aucun QR Code détecté.";
+            }
+
+            // Continuer à scanner chaque frame
+            requestAnimationFrame(scanQRCode);
+        }
+
+        // Fonction pour démarrer la caméra
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                const videoElement = document.getElementById('video');
+                videoElement.srcObject = stream;
+
+                // Vérifier si le flux vidéo est bien attaché
+                videoElement.onloadedmetadata = () => {
+                    console.log("Les métadonnées de la vidéo sont chargées !");
+                    videoElement.play();  // Jouer la vidéo dès que les métadonnées sont chargées
+                };
+
+                // Ajout d'un event listener pour 'play' pour confirmer que la vidéo joue
+                videoElement.onplay = () => {
+                    console.log("La vidéo commence à jouer !");
+                    scanQRCode();  // Démarrer le scan après que la vidéo commence à jouer
+                };
+                
+            } catch (err) {
+                console.error("Erreur d'accès à la caméra : ", err);
+            }
+        }
+
+        window.onload = () => {
+            startCamera(); // Démarrer la caméra lors du chargement de la page
+        };
+
+    </script>
+</body>
+</html>

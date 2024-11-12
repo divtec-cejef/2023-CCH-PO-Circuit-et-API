@@ -1,9 +1,29 @@
-import serial;
+import serial
+import socketio
 
+# Se connecte au seveur socketio
+sio = socketio.Client()
+sio.connect("http://localhost:3000")
+
+@sio.on("newCar")
+def newCar(id):
+    print("New car : " + str(id))
+
+while (True):
+    pass
+
+"""# Configure le port
 ser = serial.Serial()
-ser.baudrate = 19200
-ser.port = "COM1"
+ser.baudrate = 9600
+ser.port = "COM3"
+
+# Ouvre le port et l'utilise
 ser.open()
-ser.is_open
-ser.close()
-ser.is_open
+
+print(ser.read())
+print(ser.read())
+print(ser.read())
+print(ser.read())
+
+ser.close()"""
+
