@@ -210,8 +210,7 @@ VALUES ('Horlogerie', 'e229cdd135b8014d69025d7aaf04bd5316e8de9181a2973694de9514b
 INSERT INTO section (label, password)
 VALUES ('Electronique', 'b614cd5a268540d1ab11aea45bed86ee5002488a32bff0840582a65e6affedcc');
 INSERT INTO section (label, password)
-VALUES ('Micromécanique',
-        'fe829e5c54c84f7e55b5754baea10bc5d8a117c9d66e7c385877d303d44beda1');
+VALUES ('Micromécanique', 'fe829e5c54c84f7e55b5754baea10bc5d8a117c9d66e7c385877d303d44beda1');
 INSERT INTO section (label, password)
 VALUES ('Laborantin', 'a70d7c214b845c2c05a508649250d7707daa35a08c88b42b6c4c4d74589c4713');
 INSERT INTO section (label, password)
@@ -222,53 +221,31 @@ VALUES ('Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06f
 -- --------------------- Activités ---------------------
 -- Informatique
 INSERT INTO activity (label, id_section)
-VALUES ('SequentialFactory', 1);
-INSERT INTO activity (label, id_section)
-VALUES ('SQLHack', 1);
-INSERT INTO activity (label, id_section)
-VALUES ('RepairMaster', 1);
-INSERT INTO activity (label, id_section)
-VALUES ('HackerMania', 1);
-INSERT INTO activity (label, id_section)
-VALUES ('PitStop', 1);
+VALUES ('Atelier Informatique', 1);
 
 -- Automatique
 INSERT INTO activity (label, id_section)
-VALUES ('ExercicePratique', 2);
-INSERT INTO activity (label, id_section)
-VALUES ('Pong', 2);
-INSERT INTO activity (label, id_section)
-VALUES ('CNCGaming', 2);
-INSERT INTO activity (label, id_section)
-VALUES ('Flipper', 2);
+VALUES ('Atelier Automatique', 2);
 
 -- Horlogerie
 INSERT INTO activity (label, id_section)
-VALUES ('MontagePrécision', 3);
-INSERT INTO activity (label, id_section)
-VALUES ('Klockan', 3);
+VALUES ('Atelier Horlogerie', 3);
 
 -- Electronique
 INSERT INTO activity (label, id_section)
-VALUES ('DépartAthlétisme', 4);
-INSERT INTO activity (label, id_section)
-VALUES ('HérissePoils', 4);
-INSERT INTO activity (label, id_section)
-VALUES ('BrasageTemi', 4);
+VALUES ('Atelier Electronique', 4);
 
 -- Micromécanique
 INSERT INTO activity (label, id_section)
-VALUES ('MicroTime', 5);
+VALUES ('Atelier Micromécanique', 5);
 
 -- Laborantin
 INSERT INTO activity (label, id_section)
-VALUES ('IdentOdeur', 6);
-INSERT INTO activity (label, id_section)
-VALUES ('PH', 6);
+VALUES ('Atelier Laborantin', 6);
 
 -- Dessin
 INSERT INTO activity (label, id_section)
-VALUES ('DessinezCEstGagné', 7);
+VALUES ('Atelier Dessinateur', 7);
 
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
@@ -284,14 +261,7 @@ INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 6, '2023-03-31 14:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 7, '2023-03-31 15:25:32');
-INSERT INTO realise (id_car, id_activity, date_time)
-VALUES (2, 1, '2023-03-31 09:25:32');
-INSERT INTO realise (id_car, id_activity, date_time)
-VALUES (2, 3, '2023-03-31 10:25:32');
-INSERT INTO realise (id_car, id_activity, date_time)
-VALUES (2, 2, '2023-03-31 11:25:32');
-INSERT INTO realise (id_car, id_activity, date_time)
-VALUES (2, 7, '2023-03-31 11:55:32');
+
 
 INSERT INTO race (id_car, race_start, sector1, sector2, race_finish, speed)
 VALUES (1, '2023-03-31 12:55:32.121', '2023-03-31 12:55:48.445', '2023-03-31 12:55:52.445', '2023-03-31 12:56:12.389', 30.0);

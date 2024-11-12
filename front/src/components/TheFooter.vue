@@ -1,5 +1,5 @@
 <template>
-    <p class="emt">EMT, Portes ouvertes 2023</p>
+    <p class="emt">EMT, Portes ouvertes 2024</p>
     <div class="stage">Inscris toi à un stage
         <RouterLink to="/stage">
             ici
