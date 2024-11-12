@@ -29,6 +29,9 @@
                 <RouterLink to="/live">Live</RouterLink>
                 <img :src="live" alt="Image de live pour le live">
             </li>
+            <li @click="clickMenu">
+                <RouterLink to="/scanneurQR">Scanneur carte</RouterLink>
+            </li>
             <li id="stage" @click="clickMenu">
                 <RouterLink to="/stage">
                     <p>Stage</p>

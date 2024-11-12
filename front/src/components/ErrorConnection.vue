@@ -2,7 +2,7 @@
     <div class="error-no-co">
         <h2>Erreur</h2>
         <p>Problème de connexion...</p>
-        <p>Ressayez.</p>
+        <p>Réessayez.</p>
     </div>
 </template>
 
