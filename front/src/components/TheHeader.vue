@@ -30,7 +30,7 @@
                 <img :src="live" alt="Image de live pour le live">
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/scanneurQR">Scanneur carte</RouterLink>
+                <RouterLink to="/scanneurQR">Scanneur bonus</RouterLink>
             </li>
             <li id="stage" @click="clickMenu">
                 <RouterLink to="/stage">
