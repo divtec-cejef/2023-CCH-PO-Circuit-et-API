@@ -25,7 +25,6 @@ serverHttps.listen(8080, () => {
   console.log("Https opened on *:8080");
 });
 
-
 server.listen(3000, () => {
   console.log("listening on *:3000");
 });
