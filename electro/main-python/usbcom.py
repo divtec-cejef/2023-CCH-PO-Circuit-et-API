@@ -47,6 +47,21 @@ ser.open()
 time.sleep(5)
 print("Ready")
 
+def get_id_car(Query_ID):
+    res = requests.get(jelastic_api + "car/query-id/" + Query_ID)
+    print(res)
+    return res.json()["id_car"]
+
+def get_bonus(id_car):
+    res = requests.get(jelastic_api + "activity/by-car/" + str(id_car))
+    json = res.json()
+    bonus = []
+    for test in json:
+        if test['id_section'] not in bonus:
+            bonus.append(test['id_section'])
+
+    return bonus
+
 @sio.on("newCar")
 def newCar(id):
     global raceStarted, actualCarID, dictionary, ser
@@ -55,7 +70,17 @@ def newCar(id):
         print("New car : " + str(id))
         actualCarID = str(id)
         dictionary["query_id"] = actualCarID
-        ser.write((actualCarID + "," + "0,0,0,0,0,0,0,0,").encode()) # Récupérer les bonus
+        print(get_bonus(get_id_car(actualCarID)))
+        bonus = get_bonus(get_id_car(actualCarID))
+        bonusStr = ",0,0,0,0,0,0,0,0"
+
+        for id in bonus:
+            newId = id * 2 + 1
+            bonusStr[: newId] + "1" + bonusStr[newId + 1:]
+
+        message = actualCarID + bonusStr
+        print(message)
+        ser.write(message.encode()) # Récupérer les bonus
 
 while (True):
     # Attend un message, exemple (1111,01,0000)
