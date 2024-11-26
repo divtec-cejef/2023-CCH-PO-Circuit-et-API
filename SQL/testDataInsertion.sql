@@ -7,6 +7,7 @@ TRUNCATE race RESTART IDENTITY CASCADE;
 TRUNCATE realise RESTART IDENTITY CASCADE;
 TRUNCATE car RESTART IDENTITY CASCADE;
 TRUNCATE activity RESTART IDENTITY CASCADE;
+TRUNCATE business RESTART IDENTITY CASCADE;
 TRUNCATE section RESTART IDENTITY CASCADE;
 
 INSERT INTO car (password, query_id, pseudo, avatar)
@@ -200,7 +201,6 @@ VALUES ('ec53d08aca4ee303c639a2568bf6898573b8670a172ebe23ef4dc0aa745cbb13', '436
 }');
 
 
-
 INSERT INTO section (label, password)
 VALUES ('Informatique', '756b86d14c1ea1941e91468ad9838f550ed56d14730a1b86221d187b60b50888');
 INSERT INTO section (label, password)
@@ -246,6 +246,35 @@ VALUES ('Atelier Laborantin', 6);
 -- Dessin
 INSERT INTO activity (label, id_section)
 VALUES ('Atelier Dessinateur', 7);
+
+-- FORUM
+INSERT INTO activity (label, id_section)
+VALUES ('Forum', 8);
+
+-- -------------------- Entreprises ---------------------
+INSERT INTO business (label)
+VALUES ('VarinEtampage SA');
+INSERT INTO business (label)
+VALUES ('Willemin-Macodel SA');
+INSERT INTO business (label)
+VALUES ('Louis-Lang');
+INSERT INTO business (label)
+VALUES ('Sphinx Outils SA');
+INSERT INTO business (label)
+VALUES ('Louis-Belet');
+INSERT INTO business (label)
+VALUES ('Pierre Steulet SA');
+INSERT INTO business (label)
+VALUES ('CEPIM');
+INSERT INTO business (label)
+VALUES ('Atelier Busch');
+INSERT INTO business (label_random)
+SELECT label
+FROM business
+WHERE id = (
+    SELECT FLOOR(1 + (RAND() * (SELECT COUNT(*) FROM business)))
+);
+
 
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
