@@ -62,7 +62,7 @@ CREATE TABLE business
     id_business     SERIAL,
     label           VARCHAR(50) NOT NULL,
     label_random    VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_business),
+    PRIMARY KEY (id_business)
 );
 
 DROP TABLE IF EXISTS token CASCADE;
