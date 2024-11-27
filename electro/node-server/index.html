@@ -10148,8 +10148,8 @@
             // Si un QR Code est détecté, afficher le résultat
             if (qrCode) {
                 document.getElementById('result').textContent = "QR Code détecté : " + qrCode.data;
-                if (qrCode.data.length === 4) {
-                    socket.emit("newCar", qrCode.data);
+                if (qrCode.data.substr(0, 13) === "gp.divtec.ch/") {
+                    socket.emit("newCar", qrCode.data.substr(13, 4));
                 }
             } else {
                 document.getElementById('result').textContent = "Aucun QR Code détecté.";

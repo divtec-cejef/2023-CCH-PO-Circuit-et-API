@@ -69,6 +69,7 @@ def newCar(id):
         raceStarted = True
         print("New car : " + str(id))
         actualCarID = str(id)
+        print(actualCarID)
         dictionary["query_id"] = actualCarID
         print(get_bonus(get_id_car(actualCarID)))
         bonus = get_bonus(get_id_car(actualCarID))
@@ -76,7 +77,7 @@ def newCar(id):
 
         for id in bonus:
             newId = id * 2 + 1
-            bonusStr[: newId] + "1" + bonusStr[newId + 1:]
+            bonusStr = bonusStr[: newId] + "1" + bonusStr[newId + 1:]
 
         message = actualCarID + bonusStr
         print(message)
@@ -100,7 +101,7 @@ while (True):
         elif (int(message[0]) == 4 or int(message[0]) == 5):
             # Calculer le temps du secteur (ajout de minutes et secondes)
             added_minutes = int(message[1]) // 6000
-            added_seconds = (int(message[1]) // 100) % 60
+            added_seconds = (int(message[1]) / 100) % 60
             sectorTime = time.localtime(time.mktime(startTime) + added_minutes * 60 + added_seconds)
             sectorTimeFormated = ("{:4}-{:0>2}-{:0>2}T{:0>2}:{:0>2}:{:0>2}.000Z".format(
                 sectorTime.tm_year, sectorTime.tm_mon, sectorTime.tm_mday,
@@ -111,7 +112,7 @@ while (True):
                 dictionary["sector2"] = sectorTimeFormated
         elif (message[0] == "06"):
             added_minutes = int(message[1]) // 6000
-            added_seconds = (int(message[1]) // 100) % 60
+            added_seconds = (int(message[1]) / 100) % 60
             finishTime = time.localtime(time.mktime(startTime) + added_minutes * 60 + added_seconds)
             finishTimeFormated = ("{:4}-{:0>2}-{:0>2}T{:0>2}:{:0>2}:{:0>2}.000Z".format(
                 finishTime.tm_year, finishTime.tm_mon, finishTime.tm_mday,
