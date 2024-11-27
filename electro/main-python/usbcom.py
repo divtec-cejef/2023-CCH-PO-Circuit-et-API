@@ -7,7 +7,7 @@ import time
 raceStarted = False
 actualCarID = ""
 startTime = None
-distance = 50 # Distance entre les deux capteurs
+distance = 200 # Taille du circuit
 
 # API
 jelastic_api = 'https://voiture.divtec.me/api/'
@@ -100,8 +100,8 @@ while (True):
             dictionary["race_start"] = startTimeFormated
         elif (int(message[0]) == 4 or int(message[0]) == 5):
             # Calculer le temps du secteur (ajout de minutes et secondes)
-            added_minutes = int(message[1]) // 6000
-            added_seconds = (int(message[1]) / 100) % 60
+            added_minutes = float(message[1]) // 6000
+            added_seconds = (float(message[1]) / 100) % 60
             sectorTime = time.localtime(time.mktime(startTime) + added_minutes * 60 + added_seconds)
             sectorTimeFormated = ("{:4}-{:0>2}-{:0>2}T{:0>2}:{:0>2}:{:0>2}.000Z".format(
                 sectorTime.tm_year, sectorTime.tm_mon, sectorTime.tm_mday,
@@ -111,8 +111,9 @@ while (True):
             else:
                 dictionary["sector2"] = sectorTimeFormated
         elif (message[0] == "06"):
-            added_minutes = int(message[1]) // 6000
-            added_seconds = (int(message[1]) / 100) % 60
+            added_minutes = float(message[1]) // 6000
+            added_seconds = (float(message[1]) / 100) % 60
+            print(added_seconds)
             finishTime = time.localtime(time.mktime(startTime) + added_minutes * 60 + added_seconds)
             finishTimeFormated = ("{:4}-{:0>2}-{:0>2}T{:0>2}:{:0>2}:{:0>2}.000Z".format(
                 finishTime.tm_year, finishTime.tm_mon, finishTime.tm_mday,
