@@ -101,7 +101,7 @@
         </ul>
         <h2>Le projet</h2>
         <p>
-            Dans le cadre des portes ouvertes 2023 de la division technique à Porrentruy,
+            Dans le cadre des portes ouvertes 2024 de la division technique à Porrentruy,
             un projet impliquant les différentes sections de l'école a été lancé il y a 7 mois.
             L'objectif était de créer un système ludique pour encourager les visiteurs à explorer
             les différentes sections du bâtiment.
@@ -163,9 +163,9 @@
 </template>
 
 <script setup lang="ts">
-import {useLocalStorage} from "@vueuse/core";
-import DropDown from "@/components/DropDown.vue";
-import {ref} from "vue";
+import { useLocalStorage } from '@vueuse/core';
+import DropDown from '@/components/DropDown.vue';
+import { ref } from 'vue';
 
 const frontLibs: {
   link: string,
