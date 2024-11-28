@@ -7,19 +7,19 @@
                      alt="Trophé indiquant l'état de l'activité">
                 <p>{{ sectionName }}</p>
             </div>
-            <img :class="props.realised ? '' : 'not-realised'" :src="arrow" :style="styleImg()"
-                 alt="Flèche pour dérouler l'element">
+<!--            <img :class="props.realised ? '' : 'not-realised'" :src="arrow" :style="styleImg()"-->
+<!--                 alt="Flèche pour dérouler l'element">-->
         </div>
-        <transition>
-            <div v-if="clickBonus" class="activity">
-                <ul>
-                    <li v-for="(activity, key) in listActivity" :key="key">
-                        <img :class="activity.realised ? '' : 'not-realised'" :src="trophy" alt="Image de trophée">
-                        {{ activity.name }}
-                    </li>
-                </ul>
-            </div>
-        </transition>
+<!--        <transition>-->
+<!--            <div v-if="clickBonus" class="activity">-->
+<!--                <ul>-->
+<!--                    <li v-for="(activity, key) in listActivity" :key="key">-->
+<!--                        <img :class="activity.realised ? '' : 'not-realised'" :src="trophy" alt="Image de trophée">-->
+<!--                        {{ activity.name }}-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </transition>-->
     </div>
 </template>
 
