@@ -54,11 +54,6 @@
                             plus tu iras vite !</p>
                     </li>
                     <li>
-                        <NumberTime color="var(--blue)" number="3"></NumberTime>
-                        <p>Une fois que t'as réalisé la course, tu pourra aller chercher un cadeau d'une entreprise
-                            tirée au sort !</p>
-                    </li>
-                    <li>
                         <NumberTime color="var(--blue)" number="4"></NumberTime>
                         <p>Analyse ton résultat et récupère la
                             <RouterLink to="course">vidéo</RouterLink>
@@ -68,14 +63,6 @@
 
                 </ul>
                 </section>
-
-                <section>
-                  
-                <h2>Entreprise tirée au sort</h2>
-                <div v-if="selectedBusiness">
-                  <p>{{ selectedBusiness }}</p>
-                </div>
-              </section>
 
                 <section>
                 <h2>Tableau de bord</h2>
@@ -139,7 +126,6 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import {HollowDotsSpinner} from 'epic-spinners';
 import {usePreferredColorScheme} from '@vueuse/core';
 
-const selectedBusiness = await fetch('https://gp.divtec.ch/');
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection =
@@ -150,7 +136,6 @@ const AutoRegeneratedAvatar =
   defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const ModelRender =
   defineAsyncComponent(() => import('@/components/ModelRender.vue'));
-
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();

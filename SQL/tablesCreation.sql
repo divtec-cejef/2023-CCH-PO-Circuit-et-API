@@ -56,15 +56,6 @@ CREATE TABLE realise
     FOREIGN KEY (id_activity) REFERENCES activity (id_activity)
 );
 
-DROP TABLE IF EXISTS race CASCADE;
-CREATE TABLE business
-(
-    id_business     SERIAL,
-    label           VARCHAR(50) NOT NULL,
-    label_random    VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_business)
-);
-
 DROP TABLE IF EXISTS token CASCADE;
 CREATE TABLE token
 (
