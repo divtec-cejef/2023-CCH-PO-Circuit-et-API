@@ -1,98 +1,98 @@
 <template>
-    <div class="all-content">
-        <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-             :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
-             @click="clickClassementElement">
-            <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
-            <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image">
-            </div>
-            <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
-            <div class="pseudo">{{ props.pseudo }}</div>
+  <div class="all-content">
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement">
+      <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
+      <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image">
+      </div>
+      <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+      <div class="pseudo">{{ props.pseudo }}</div>
 
-            <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
-            <img v-if="props.showContent"
-                 :src="arrowImg"
-                 :style="{
+      <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
+      <img v-if="props.showContent"
+           :src="arrowImg"
+           :style="{
                     transform: `rotate(${rotateImage}deg)`,
                     filter: isOnDarkBg ? 'grayscale(1) invert(1)' : ''
             }"
-                 alt="Icon de flèche pour déplier le contenu">
-        </div>
-        <div v-if="props.showContent">
-            <Transition>
-                <div v-if="dropDownClicked" class="user-content big">
-                    <template v-if="!hasError">
-                        <div>
-                            <h3>Meilleure course</h3>
-                            <RaceInfo :display-rank="false"
-                                      :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                                      :race="raceData!.races[BEST_TIME_INDEX]"
-                                      :rank="raceData!.rank">
-                            </RaceInfo>
-                        </div>
-
-                        <div>
-                            <h3>Vidéo</h3>
-                            <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                        </div>
-
-                        <div class="bonus">
-                            <h3>Bonus</h3>
-                            <ul>
-                                <template v-for="(section, key) in listAllBonus" :key="key">
-                                    <li>
-                                        <DropDownBonus :list-activity="section.listActivity"
-                                                       :realised="section.realised"
-                                                       :section-name="section.name"/>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                    </template>
-                    <div v-else><h3>Erreur !</h3></div>
-                </div>
-            </Transition>
-            <Transition>
-                <div v-if="dropDownClicked" class="user-content phone">
-                    <template v-if="!hasError">
-                        <div>
-                            <DropDown :drop-down-clicked="bestRaceDropDownClicked" name="Meilleure Course"
-                                      @update:drop-down-clicked="clickBestRace">
-                                <RaceInfo :display-rank="false"
-                                          :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                                          :race="raceData!.races[BEST_TIME_INDEX]"
-                                          :rank="raceData!.rank">
-                                </RaceInfo>
-                            </DropDown>
-                        </div>
-
-                        <div>
-                            <DropDown :drop-down-clicked="videoDropDownClicked" name="Vidéo"
-                                      @update:drop-down-clicked="clickVideo">
-                                <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-                            </DropDown>
-                        </div>
-
-                        <div class="bonus">
-                            <DropDown :drop-down-clicked="bonusDropDownClicked" name="Bonus"
-                                      @update:drop-down-clicked="clickBonus">
-                                <ul>
-                                    <template v-for="(section, key) in listAllBonus" :key="key">
-                                        <li :class="section.realised ? '': 'not-realised'">
-                                            <DropDownBonus :list-activity="section.listActivity"
-                                                           :realised="section.realised"
-                                                           :section-name="section.name"/>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </DropDown>
-                        </div>
-                    </template>
-                    <div v-else><h3>Erreur !</h3></div>
-                </div>
-            </Transition>
-        </div>
+           alt="Icon de flèche pour déplier le contenu">
     </div>
+    <div v-if="props.showContent">
+      <Transition>
+        <div v-if="dropDownClicked" class="user-content big">
+          <template v-if="!hasError">
+            <div>
+              <h3>Meilleure course</h3>
+              <RaceInfo :display-rank="false"
+                        :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                        :race="raceData!.races[BEST_TIME_INDEX]"
+                        :rank="raceData!.rank">
+              </RaceInfo>
+            </div>
+
+            <div>
+              <h3>Vidéo</h3>
+              <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+            </div>
+
+            <div class="bonus">
+              <h3>Bonus</h3>
+              <ul>
+                <template v-for="(section, key) in listAllBonus" :key="key">
+                  <li>
+                    <DropDownBonus :list-activity="section.listActivity"
+                                   :realised="section.realised"
+                                   :section-name="section.name"/>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+          <div v-else><h3>Erreur !</h3></div>
+        </div>
+      </Transition>
+      <Transition>
+        <div v-if="dropDownClicked" class="user-content phone">
+          <template v-if="!hasError">
+            <div>
+              <DropDown :drop-down-clicked="bestRaceDropDownClicked" name="Meilleure Course"
+                        @update:drop-down-clicked="clickBestRace">
+                <RaceInfo :display-rank="false"
+                          :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                          :race="raceData!.races[BEST_TIME_INDEX]"
+                          :rank="raceData!.rank">
+                </RaceInfo>
+              </DropDown>
+            </div>
+
+            <div>
+              <DropDown :drop-down-clicked="videoDropDownClicked" name="Vidéo"
+                        @update:drop-down-clicked="clickVideo">
+                <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
+              </DropDown>
+            </div>
+
+            <div class="bonus">
+              <DropDown :drop-down-clicked="bonusDropDownClicked" name="Bonus"
+                        @update:drop-down-clicked="clickBonus">
+                <ul>
+                  <template v-for="(section, key) in listAllBonus" :key="key">
+                    <li :class="section.realised ? '': 'not-realised'">
+                      <DropDownBonus :list-activity="section.listActivity"
+                                     :realised="section.realised"
+                                     :section-name="section.name"/>
+                    </li>
+                  </template>
+                </ul>
+              </DropDown>
+            </div>
+          </template>
+          <div v-else><h3>Erreur !</h3></div>
+        </div>
+      </Transition>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -176,7 +176,7 @@ const isOnDarkBg = computed(() => {
 });
 
 const colorFont = computed<string | null>(() => {
-  if(isOnDarkBg.value) {
+  if (isOnDarkBg.value) {
     return colorScheme.value === 'dark' ? 'var(--white)' : '#fff';
   } else {
     return colorScheme.value === 'dark' ? '#000' : 'var(--black)';
@@ -241,6 +241,8 @@ function clickClassementElement() {
   getAllDataUser().then(() => {
     //Tri les activités
     fillDataActivity();
+    console.log(listAllBonus.value);
+
     dropDownClicked.value = true;
 
   });
@@ -274,6 +276,7 @@ async function getAllDataUser() {
     return;
   }
   listAllSection.value = dataSections;
+  console.log('Liste des sections : ', listAllSection.value);
 }
 
 /**
@@ -283,11 +286,10 @@ function fillDataActivity() {
 
   //Vide la liste
   listAllBonus.value = [];
-  for (let section of listAllSection.value!) {
-
+  for (let section of listAllSection.value) {
     //Test s'il y a des activités dans la section
     if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) {
-      return;
+      continue;
     }
 
     //Initialisation de la liste d'activités
