@@ -11,6 +11,7 @@ services:
     ports:
       - 5432:5432
   api:
+    user: node
     image: node:16.19.1
     volumes:
       - ../api:/app

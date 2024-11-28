@@ -15,6 +15,7 @@ const ClassementFullScreenView = () => import('@/views/ClassementFullScreenView.
 const StageView = () => import('@/views/StageView.vue');
 const LiveView = () => import('@/views/LiveView.vue');
 const NotFoundView = () => import('@/views/404View.vue');
+const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -78,6 +79,11 @@ const router = createRouter({
       path: '/admin/full-screen-classement',
       name: 'full-screen-classement',
       component: ClassementFullScreenView
+    },
+    {
+      path: '/admin/randomly-select-business',
+      name: 'randomly-select-business',
+      component: RandomlySelectBusinessView
     },
     {
       path: '/stage',
