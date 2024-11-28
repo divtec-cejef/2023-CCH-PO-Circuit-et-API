@@ -8,7 +8,10 @@ export namespace Section {
     'mecatronique',
     'horlogerie',
     'laborantin',
-    'informatique'];
+    'informatique',
+    'mecanicien-auto',
+    'qualiticien'
+  ];
 
   export const SectionNameHasActivity = [
     'dessinateur',
@@ -17,10 +20,13 @@ export namespace Section {
     'automatique',
     'horlogerie',
     'laborantin',
-    'informatique'
+    'informatique', 
+    'mecanicien-auto',
+    'qualiticien'
   ];
 
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
+    console.log(sectionName);
     if (!SectionName.includes(sectionName)) {
       throw new Error('Not a valid section.');
     }
@@ -34,7 +40,9 @@ export namespace Section {
       laborantin: '#2ccdbd',
       mecatronique: '#d30369',
       micromecanique: '#099ad9',
-      informatique: '#766eb1'
+      informatique: '#766eb1',
+      'mecanicien-auto': '#f4038c',
+      qualiticien: '#156385',
     };
 
     return colors[sectionName];
