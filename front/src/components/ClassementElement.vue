@@ -276,7 +276,6 @@ async function getAllDataUser() {
     return;
   }
   listAllSection.value = dataSections;
-  console.log('Liste des sections : ', listAllSection.value);
 }
 
 /**
