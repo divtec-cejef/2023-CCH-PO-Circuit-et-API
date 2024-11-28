@@ -247,6 +247,10 @@ VALUES ('Atelier Laborantin', 6);
 INSERT INTO activity (label, id_section)
 VALUES ('Atelier Dessinateur', 7);
 
+-- FORUM
+INSERT INTO activity (label, id_section)
+VALUES ('Forum', 8);
+
 INSERT INTO realise (id_car, id_activity, date_time)
 VALUES (1, 1, '2023-03-31 09:25:32');
 INSERT INTO realise (id_car, id_activity, date_time)

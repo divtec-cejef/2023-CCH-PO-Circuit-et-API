@@ -13,7 +13,6 @@ app.all('*', (req, res) => {
     res.sendFile('index.html', {root: 'dist'});
 });
 
-
 app.listen(httpPort, () => {
     console.log(`HTTP server listening on port ${httpPort}`);
 });
