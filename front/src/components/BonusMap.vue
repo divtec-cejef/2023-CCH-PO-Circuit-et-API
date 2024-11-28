@@ -15,15 +15,9 @@
              '--bColor-hover': colorScheme !== 'dark' ? getColor(formatName(section.section)) : 'var(--black)',
              border: `2px solid ${getColor(formatName(section.section))}`,
          }"
-         @click="(event) => {
-             props.displayLabel(
-             (event?.target as HTMLDivElement)?.getBoundingClientRect().left,
-             (event?.target as HTMLDivElement)?.getBoundingClientRect().top,
-             section.labelSection)
-             isClicked = index
-         }">
+         >
 
-        <img v-if="section.id !== -1"
+        <img v-if="section.id"
              :src=trophy
              alt="image de trophée (médaille)"
              :style="{filter: `${activatedSection.includes(section.id) ? 'none': 'grayscale(100%)'}`,

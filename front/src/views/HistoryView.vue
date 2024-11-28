@@ -1,45 +1,45 @@
 <template>
-    <div class="content bonus-map">
-        <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
-             class="labelActivity">
-            <div v-if="currentLabel.activities.length > 0">
-                <div class="label-header"><span>Activités :</span>
-                    <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
-                </div>
-                <ul>
-                    <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
-                        <img :src=trophy
-                             :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"
-                             alt="Trophé"/>
-                        <span>{{ activity[ 'labelActivity' ] }}</span>
-                    </li>
-                </ul>
-            </div>
-            <div v-if="currentLabel.activities.length <= 0" class="label-header">
-                <span>Il n'y a pas d'activités dans cette section</span>
-                <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
-            </div>
+  <div class="content bonus-map">
+    <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
+         class="labelActivity">
+      <div v-if="currentLabel.activities.length > 0">
+        <div class="label-header"><span>Activités :</span>
+          <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
+        </div>
+        <ul>
+          <li v-for="activity in currentLabel.activities" :key="activity.idActivity">
+            <img :src=trophy
+                 :style="{filter: `${activity.realised ? 'none': 'grayscale(100%)'}`, opacity: `${activity.realised ? '1': '0.4'}`}"
+                 alt="Trophé"/>
+            <span>{{ activity['labelActivity'] }}</span>
+          </li>
+        </ul>
+      </div>
+      <div v-if="currentLabel.activities.length <= 0" class="label-header">
+        <span>Il n'y a pas d'activités dans cette section</span>
+        <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
+      </div>
 
-        </div>
-        <div v-if="hasError">
-            <ErrorConnection></ErrorConnection>
-        </div>
-        <div v-else-if="!hasLoaded" class="loading-map">
-            <SpinLoading></SpinLoading>
-        </div>
-        <div v-else class="container">
-            <div :ref="panzoomable">
-                <BonusMap :activated-section="activatedSection" :display-label="displayLabel"
-                          :no-activity-sections="noActivitySections"
-                          :sections="allSections" :un-clicked="sectionUnCLicked"></BonusMap>
-            </div>
-
-            <div v-if="isNotTouchPointer()" class="zoom-buttons">
-                <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
-                <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
-            </div>
-        </div>
     </div>
+    <div v-if="hasError">
+      <ErrorConnection></ErrorConnection>
+    </div>
+    <div v-else-if="!hasLoaded" class="loading-map">
+      <SpinLoading></SpinLoading>
+    </div>
+    <div v-else class="container">
+      <div :ref="panzoomable">
+        <BonusMap :activated-section="activatedSection" :display-label="displayLabel"
+                  :no-activity-sections="noActivitySections"
+                  :sections="allSections" :un-clicked="sectionUnCLicked"></BonusMap>
+      </div>
+
+      <div v-if="isNotTouchPointer()" class="zoom-buttons">
+        <button @mouseup="zoomIn"><img :src="plus" alt="Image de plus pour zoomer"></button>
+        <button @mouseup="zoomOut"><img :src="minus" alt="Image de moins pour dézoomer"></button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -171,8 +171,8 @@ function sectionBonusAcorded(idSection: number) {
   let bonusAcorded = false;
   for (let section of sectionActivities.value) {
     if (section?.idSection === idSection) {
-      for (let activity of section[ 'activities' ]) {
-        if (activityIsRealised(activity[ 'idActivity' ])) {
+      for (let activity of section['activities']) {
+        if (activityIsRealised(activity['idActivity'])) {
           bonusAcorded = true;
         }
       }
@@ -184,8 +184,8 @@ function sectionBonusAcorded(idSection: number) {
 function getSectionBonusAcorded() {
   for (let section of sectionActivities.value) {
     if (sectionBonusAcorded(section.idSection)) {
-      if (!activatedSection.value.includes(section[ 'idSection' ])) {
-        activatedSection.value.push(section[ 'idSection' ]);
+      if (!activatedSection.value.includes(section['idSection'])) {
+        activatedSection.value.push(section['idSection']);
       }
     }
   }
@@ -195,12 +195,12 @@ function getNoActivitySections() {
   for (let section of allSections.value) {
     let present = false;
     for (let sectionActivity of sectionActivities.value) {
-      if (section.id === sectionActivity[ 'idSection' ]) {
+      if (section.id === sectionActivity['idSection']) {
         present = true;
       }
     }
     if (!present) {
-      noActivitySections.value.push(section[ 'id' ]);
+      noActivitySections.value.push(section['id']);
     }
   }
 }
@@ -259,8 +259,8 @@ function zoomIn() {
   }
   let boundings = mapElement.getBoundingClientRect();
   let transform = panzoomElement.getTransform();
-  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
-  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
+  let cx = transform.x + (boundings.width - boundings.left) / 2;
+  let cy = transform.y + (boundings.height - boundings.top) / 2;
   panzoomElement.smoothZoom(cx, cy, 1.3);
 }
 
@@ -270,8 +270,8 @@ function zoomOut() {
   }
   let boundings = mapElement.getBoundingClientRect();
   let transform = panzoomElement.getTransform();
-  let cx = transform.x + ( boundings.width - boundings.left ) / 2;
-  let cy = transform.y + ( boundings.height - boundings.top ) / 2;
+  let cx = transform.x + (boundings.width - boundings.left) / 2;
+  let cy = transform.y + (boundings.height - boundings.top) / 2;
   panzoomElement.smoothZoom(cx, cy, 0.7);
 }
 
@@ -309,7 +309,7 @@ const allSections = ref([{
   id: -1,
   labelSection: 'Micromécanicien-ne',
   posX: 38,
-  posY: 6,
+  posY: 7,
 }, {
   section: 'Laborantin',
   id: -1,
@@ -328,6 +328,13 @@ const allSections = ref([{
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 63,
+},
+{
+  section: 'Qualiticien',
+  id: -1,
+  labelSection: 'Qualiticien-ne',
+  posX: 34,
+  posY: 12,
 }, {
   section: 'Industries4.0',
   id: -1,
@@ -355,9 +362,9 @@ function calculatePositionX(posx: number, dif: number, zoomfactor: number) {
 function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHeight: number) {
   let pos;
   if (posy > window.innerHeight / 2) {
-    pos = posy - ( 10 + divHeight );
+    pos = posy - (10 + divHeight);
   } else {
-    pos = posy + ( 10 + dif * zoomfactor );
+    pos = posy + (10 + dif * zoomfactor);
   }
   const minHeightPx = getComputedStyle(document.documentElement)
     .getPropertyValue('--height-screen-diff');
@@ -385,13 +392,13 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   };
   let heightOffset = 0;
   for (let section of sectionActivities.value) {
-    if (section[ 'idSection' ] === currentSection.value?.id ?? -1) {
-      for (let activity of section[ 'activities' ]) {
+    if (section['idSection'] === currentSection.value?.id ?? -1) {
+      for (let activity of section['activities']) {
         currentLabel.value.activities.push(
           {
-            idActivity: activity[ 'idActivity' ],
-            labelActivity: activity[ 'labelActivity' ],
-            realised: activityIsRealised(activity[ 'idActivity' ]),
+            idActivity: activity['idActivity'],
+            labelActivity: activity['labelActivity'],
+            realised: activityIsRealised(activity['idActivity']),
           });
         heightOffset += 20;
         if (heightOffset > 20) {
