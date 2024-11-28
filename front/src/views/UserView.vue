@@ -109,10 +109,10 @@
 </template>
 
 <script lang="ts" setup>
-import {defineAsyncComponent, ref, watch} from 'vue';
+import { defineAsyncComponent, ref, watch } from 'vue';
 
-import {RouterLink, useRouter} from 'vue-router';
-import {useCarStore} from '@/stores/car';
+import { RouterLink, useRouter } from 'vue-router';
+import { useCarStore } from '@/stores/car';
 import api from '@/models/api';
 import badgeCourse from '@/assets/img/course.webp';
 import badgeClassement from '@/assets/img/classement.webp';
@@ -123,8 +123,8 @@ import badgeLive from '@/assets/img/live.webp';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
-import {HollowDotsSpinner} from 'epic-spinners';
-import {usePreferredColorScheme} from '@vueuse/core';
+import { HollowDotsSpinner } from 'epic-spinners';
+import { usePreferredColorScheme } from '@vueuse/core';
 
 const SpinLoading =
   defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
