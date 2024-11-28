@@ -344,6 +344,43 @@ export namespace restful {
     }
   }
 
+  export async function addForumCar(queryId: number | string): ModelResultHandler<null> {
+
+    // POST request using fetch with async/await
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        // eslint-disable-next-line camelcase
+        query_id: queryId,
+        // eslint-disable-next-line camelcase
+        date_time: new Date()
+      })
+    };
+
+    try {
+      const response = await fetch(`${routeApi}realise/forum`, requestOptions);
+      const json = await response.json();
+
+      if ('message' in json) {
+        return { json: { message: json.message }, status: response.status };
+      }
+
+      return { json: null, status: response.status };
+    } catch (e) {
+      if (typeof e === 'string') {
+        return { json: { message: e }, status: ReturnCodes.Generic };
+      } else if (e instanceof Error) {
+        return { json: { message: e.message }, status: ReturnCodes.Generic };
+      } else {
+        return { json: { message: JSON.stringify(e) }, status: ReturnCodes.Generic };
+      }
+    }
+  }
+
   /**
    * Lance une requête POST pour récupérer un token d'authentification
    * @param queryId Identifiant d'url de la voiture
