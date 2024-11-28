@@ -25,6 +25,9 @@
                 <RouterLink to="/admin">Admin</RouterLink>
                 <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
             </li>
+            <li v-if="adminPost.idSection" @click="clickMenu">
+              <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
+            </li>
             <li @click="clickMenu">
                 <RouterLink to="/live">Live</RouterLink>
                 <img :src="live" alt="Image de live pour le live">
