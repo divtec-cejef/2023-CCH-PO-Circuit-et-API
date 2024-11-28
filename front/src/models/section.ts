@@ -26,7 +26,6 @@ export namespace Section {
   ];
 
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
-    console.log(sectionName);
     if (!SectionName.includes(sectionName)) {
       throw new Error('Not a valid section.');
     }
