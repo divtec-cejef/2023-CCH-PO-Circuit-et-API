@@ -4,9 +4,6 @@
             <div v-if="!loading" class="return-back" @click="quitPage">
                 <img :src="arrow" alt="Icône de retour en arrière">
             </div>
-            <div class="name-activity">
-                <p>{{ nameActivity }}</p>
-            </div>
         </div>
         <qrcode-stream :track="paintOutline"
                        @detect="onDecode"
@@ -39,18 +36,22 @@
 import { QrcodeStream } from 'vue-qrcode-reader';
 import { ref } from 'vue';
 import restful from '@/models/api';
-import { useAdminPostStore } from '@/stores/adminPost';
 import { useRouter } from 'vue-router';
 import type { DetectedBarcode } from 'barcode-detector';
 
 import arrow from '@/assets/img/arrow.webp';
 import checkedIcon from '@/assets/img/checked.webp';
 import cancelIcon from '@/assets/img/cancel.webp';
-import addRealisationCar = restful.addRealisationCar;
+import { useCarStore } from '@/stores/car';
 
 type MediaCapabilities = ReturnType<typeof MediaStreamTrack.prototype.getCapabilities>;
 
 const router = useRouter();
+const carStore = useCarStore();
+
+if(!carStore.car.idQuery) {
+  router.push('/');
+}
 
 /**
  * Dessine le tour du code qr sur l'image de celui la
@@ -96,27 +97,21 @@ async function onInit(promise: Promise<MediaCapabilities>) {
  * @param value Valeur décodé
  */
 async function onDecode(value: DetectedBarcode[]) {
+  if(!carStore.car.idQuery){
+    await router.push('/');
+    return;
+  }
   //Récupération des données de l'url
   let urlQrCode = new URL(value[0].rawValue).href;
-  let queryId = urlQrCode.substring(urlQrCode.lastIndexOf('/') + 1);
-  let idActivity = Number(router.currentRoute.value.query.idActivity || 0);
 
-  //Lancement de la requête
-  const result = await addRealisationCar(idActivity, queryId, adminPost.token);
-
-  //Traitement de la réponse
   validateScan.value = true;
-  if (result.status === restful.ReturnCodes.Success) {
+
+  if(urlQrCode === 'https://vqr.vc/KhPHUkVyW') {
+    await restful.addForumCar(carStore.car.idQuery);
     addActivitySuccess.value = true;
-    waitPopPupResult();
-
-  } else if (result.status === restful.ReturnCodes.Conflict) {
-    addActivitySuccess.value = false;
-    errorMessage.value = 'Le bonus à déjà été activé par cette voiture !';
-
   } else {
     addActivitySuccess.value = false;
-    errorMessage.value = 'Erreur indéterminée !';
+    errorMessage.value = 'Le QR code scanné n\'est pas valide';
   }
 }
 
@@ -124,37 +119,18 @@ async function onDecode(value: DetectedBarcode[]) {
  * Quitte la page et éteind la camera
  */
 async function quitPage() {
-  await router.push({ path: '/admin' });
+  await router.push({ path: '/' });
 }
 
 /**
  * Lance un timer pour afficher le résultat du scan
  * Le ferme après un certain temps.
  */
-function waitPopPupResult() {
-  setTimeout(() => {
-    validateScan.value = false;
-  }, 1500);
-}
 
 const loading = ref(false);
-const adminPost = useAdminPostStore();
 const validateScan = ref(false);
 const errorMessage = ref('');
 const addActivitySuccess = ref(true);
-const nameActivity = ref('');
-
-//S'il n'y a pas d'authentification retour à la page admin
-if (!localStorage.getItem('tokenPost') ||
-  router.currentRoute.value.query.idActivity?.length == undefined ||
-  router.currentRoute.value.query.nameActivity?.length == undefined) {
-  router.push({ path: '/admin' });
-}
-
-//Récupération du nom de l'activité
-nameActivity.value = String(router.currentRoute.value.query.nameActivity || '');
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -183,14 +159,15 @@ div.up-screen {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 35px;
+  padding: 20px;
 
   div.return-back {
     background-color: var(--white);
     rotate: 180deg;
-    border-radius: 20px;
+    border-radius: 999px;
     padding: 8px;
     width: 45px;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
