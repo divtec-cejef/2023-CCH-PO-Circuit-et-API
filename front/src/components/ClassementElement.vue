@@ -241,7 +241,6 @@ function clickClassementElement() {
   getAllDataUser().then(() => {
     //Tri les activités
     fillDataActivity();
-    console.log(listAllBonus.value);
 
     dropDownClicked.value = true;
 
