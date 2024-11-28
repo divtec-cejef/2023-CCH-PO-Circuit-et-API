@@ -29,11 +29,11 @@
               <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/live">Live</RouterLink>
-                <img :src="live" alt="Image de live pour le live">
+                <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
             </li>
             <li @click="clickMenu">
-                <RouterLink to="/scanneurQR">Scanneur carte</RouterLink>
+              <RouterLink to="/live">Live</RouterLink>
+              <img :src="live" alt="Image de live pour le live">
             </li>
             <li id="stage" @click="clickMenu">
                 <RouterLink to="/stage">
