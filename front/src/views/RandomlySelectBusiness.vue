@@ -38,7 +38,7 @@ const start = () => {
 </script>
 
 <template>
-  <div class="flex flex-col fullscreen justify-evenly">
+  <div class="flex flex-col h-full w-full justify-evenly">
     <h2>
         {{ shownIndex !== null ? businesses[shownIndex] : 'Tirage au sort des entreprises' }}
     </h2>
@@ -55,11 +55,18 @@ h2 {
   text-align: center;
 }
 
+.h-full {
+  height: calc(100vh - 200px - 65px);
+}
+
+.w-full {
+  width: 100%;
+}
+
 .flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   flex-direction: column;
 }
 
