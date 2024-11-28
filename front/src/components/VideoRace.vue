@@ -1,30 +1,30 @@
 <template>
-    <div class="video">
-        <template v-if="props.url">
-            <video
-                    :src="props.url"
-                    autoplay
-                    controls
-                    loop>
-            </video>
-            <a v-if="disabledDownload" :href="blobBestVideo" download="course-divtec-1.mp4">
-                <button class="download">
-                    <span>Télécharge la vidéo ici !</span>
-                    <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
-                </button>
-            </a>
-            <a v-else class="disabled-button">
-                <button class="download">
-                    <span>Télécharge la vidéo ici !</span>
-                    <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
-                </button>
-            </a>
-        </template>
-        <div v-else>
-            <p>La vidéo n'est pas encore disponible !</p>
-            <button @click="router.go(0)"/>
-        </div>
+  <div class="video">
+    <template v-if="props.url">
+      <video
+          :src="props.url"
+          autoplay
+          controls
+          loop>
+      </video>
+      <a v-if="disabledDownload" :href="blobBestVideo" download="course-divtec-1.mp4">
+        <button class="download">
+          <span>Télécharge la vidéo ici !</span>
+          <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
+        </button>
+      </a>
+      <a v-else class="disabled-button">
+        <button class="download">
+          <span>Télécharge la vidéo ici !</span>
+          <img :src="downloadImg" alt="Bouton de téléchargement de la vidéo">
+        </button>
+      </a>
+    </template>
+    <div v-else>
+      <p>La vidéo n'est pas encore disponible !</p>
+      <button @click="router.go(0)"/>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
