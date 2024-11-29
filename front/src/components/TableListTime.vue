@@ -12,7 +12,7 @@
                 <th>
                     <div>
                         <img :src=speed alt="Image vitesse max">
-                        <span>Vitesse</span>
+                        <span>Réaction</span>
                     </div>
                 </th>
                 <th>
