@@ -31,10 +31,6 @@
             <li @click="clickMenu">
                 <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
             </li>
-            <li @click="clickMenu">
-              <RouterLink to="/live">Live</RouterLink>
-              <img :src="live" alt="Image de live pour le live">
-            </li>
             <li id="stage" @click="clickMenu">
                 <RouterLink to="/stage">
                     <p>Stage</p>
@@ -55,12 +51,12 @@
 </template>
 
 <script lang="ts" setup>
-import {useCarStore} from '@/stores/car';
-import {useAdminPostStore} from '@/stores/adminPost';
+import { useCarStore } from '@/stores/car';
+import { useAdminPostStore } from '@/stores/adminPost';
 import exitImg from '@/assets/img/exit.webp';
 import exitPhoneImg from '@/assets/img/exit-phone.webp';
-import {useRouter} from 'vue-router';
-import {useLocalStorage, usePreferredColorScheme} from '@vueuse/core';
+import { useRouter } from 'vue-router';
+import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
 
 import houseImg from '@/assets/img/house.webp';
 import editImg from '@/assets/img/edit.webp';
@@ -69,7 +65,7 @@ import carImg from '@/assets/img/car-icon.webp';
 import bonusImg from '@/assets/img/trophy.webp';
 import qrCodeimg from '@/assets/img/qr-code.webp';
 import live from '@/assets/img/live-icon.webp';
-import stageImg from "@/assets/img/contract.webp";
+import stageImg from '@/assets/img/contract.webp';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
