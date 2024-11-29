@@ -93,7 +93,7 @@ export function sortListByOrderHour(listRace: Race[] | models.parsedData.RaceDat
 }
 
 //Constante d'unité de course
-export const unitSpeed = 'cm/s';
+export const unitSpeed = 'ms';
 
 /**
  * Transforme une vitesse de base en km/h en cm/s
@@ -107,7 +107,7 @@ export function formatkmHtoCmS(speed: number) {
  * @param speed Vitesse à arrondir
  */
 export function formatSpeed(speed: number) {
-  return Math.round(formatkmHtoCmS(speed) * 10) / 10;
+  return Math.round(speed * 100) / 100;
 }
 
 /**
