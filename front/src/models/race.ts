@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import type { models }  from '@/models/api';
+import type { models } from '@/models/api';
 
 export default class Race {
   idRace: number = 0;
@@ -12,15 +12,15 @@ export default class Race {
   videoUrl: String = '';
 
   /**
-   * Constructeur d'une course
-   * @param idRace Id de la course
-   * @param raceStart Heure à laquelle la course a été faite
-   * @param totalTime Temps de la course
-   * @param sector1 Premier temps intermédiaire
-   * @param sector2 Deuxième temps intermédiaire
-   * @param speed Vitesse de la course
-   * @param videoUrl Url de la vidéo
-   */
+     * Constructeur d'une course
+     * @param idRace Id de la course
+     * @param raceStart Heure à laquelle la course a été faite
+     * @param totalTime Temps de la course
+     * @param sector1 Premier temps intermédiaire
+     * @param sector2 Deuxième temps intermédiaire
+     * @param speed Vitesse de la course
+     * @param videoUrl Url de la vidéo
+     */
   constructor(idRace: number, raceStart: Date, totalTime: Date, sector1: Date, sector2: Date, speed: number, videoUrl: string) {
     this.idRace = idRace;
     this.raceStart = raceStart;
@@ -33,9 +33,9 @@ export default class Race {
 
 
   /**
-   * Calcul du temps intermédiaire
-   * @param sector Temps du temps intermédiaire
-   */
+     * Calcul du temps intermédiaire
+     * @param sector Temps du temps intermédiaire
+     */
   calculateSector(sector: Date) {
     return new Date(sector.getTime() - this.raceStart.getTime());
   }
@@ -93,7 +93,7 @@ export function sortListByOrderHour(listRace: Race[] | models.parsedData.RaceDat
 }
 
 //Constante d'unité de course
-export const unitSpeed = 'ms';
+export const unitSpeed = 's';
 
 /**
  * Transforme une vitesse de base en km/h en cm/s
@@ -107,7 +107,7 @@ export function formatkmHtoCmS(speed: number) {
  * @param speed Vitesse à arrondir
  */
 export function formatSpeed(speed: number) {
-  return Math.round(speed * 100) / 100;
+  return speed / 100;
 }
 
 /**
@@ -115,7 +115,7 @@ export function formatSpeed(speed: number) {
  * @param sector Temps du temps intermédiaire
  * @param raceStart Heure du début de course
  */
-export function calculateSector(sector: Date, raceStart : Date) {
+export function calculateSector(sector: Date, raceStart: Date) {
   console.log(sector.getTime() - raceStart.getTime());
   return new Date(sector.getTime() - raceStart.getTime());
 }
