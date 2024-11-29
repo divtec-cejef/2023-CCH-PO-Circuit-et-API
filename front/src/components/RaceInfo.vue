@@ -24,7 +24,7 @@
             <div :style="{
                 marginTop: props.displayRank ? '0' : '25px'
             }" class="vitesse">
-                <div>Vitesse instantanée</div>
+                <div>Temps de réaction</div>
                 <div class="speed-max">
                     <p>{{ formatSpeed(props.race.speed) }}</p>
                     <p>{{ unitSpeed }}</p>
@@ -58,7 +58,7 @@
 <script lang="ts" setup>
 import Race, { calculateSector, formatHourDay, formatSpeed, formatTime, unitSpeed } from '@/models/race';
 import type { models } from '@/models/api';
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue';
 
 const NumberTime = defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 const RankInfo = defineAsyncComponent(() => import('@/components/RankInfo.vue'));
