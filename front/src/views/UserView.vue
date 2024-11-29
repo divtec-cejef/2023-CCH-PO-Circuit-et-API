@@ -87,7 +87,7 @@
                         <img :src=badgeStage alt="Badge inscription stage">
                         <p>Stage</p>
                     </RouterLink>
-                    <RouterLink to="/live">
+                    <RouterLink to="/">
                         <img :src=badgeLive alt="Badge live">
                         <p>Live</p>
                     </RouterLink>
