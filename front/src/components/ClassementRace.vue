@@ -10,6 +10,7 @@
         <p>Aucune course n'a encore été réalisé !</p>
     </template>
     <template v-else>
+      <img src="src/assets/img/podium.png" alt="podium">
         <ClassementElement
             v-for="(race, key) in listRace"
             :key="key"

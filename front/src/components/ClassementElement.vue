@@ -4,7 +4,7 @@
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
       <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
-      <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image">
+      <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image podium">
       </div>
       <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
       <div class="pseudo">{{ props.pseudo }}</div>
@@ -360,6 +360,12 @@ div.classement-element {
   padding: 9px;
   border-radius: 4px;
   transition: all ease-in-out 0.3s;
+
+  .podium {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+  }
 
   &.open {
     margin-bottom: 0;

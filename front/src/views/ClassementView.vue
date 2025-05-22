@@ -2,7 +2,7 @@
     <div class="content">
         <div class="top-container">
             <div class="text-container">
-                <h1>Classement</h1>
+                <h1>Classement en cour de modif</h1>
             </div>
         </div>
         <div class="with-100">
