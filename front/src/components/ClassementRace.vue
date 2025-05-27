@@ -83,7 +83,9 @@ onUnmounted(() => {
 
 .imgPodium {
   padding-top: 8%;
-  width: 100%;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 </style>

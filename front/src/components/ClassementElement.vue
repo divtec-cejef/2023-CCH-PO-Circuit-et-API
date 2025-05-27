@@ -1,26 +1,15 @@
 <template>
-  <div class="all-content" v-if="props.rank == 1" style="position: absolute; top: 25%; left: 42%; min-width: 15%">
+  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="position: absolute; top: 55%; left: 45%; min-width: 10%;">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
-      <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
-      <div class="pseudo">{{ props.pseudo }}</div>
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="position: absolute; bottom: 127%; left: 16%; min-width: 15%; width: 70%; height: 200%"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 20px">{{ props.pseudo }}</div>
 
-      <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
+      <div class="time" style="color: black; font-size: 25px">{{ formatTime(props.time) }}<span>s</span></div>
     </div>
   </div>
-  <div class="all-content" v-else-if="props.rank == 2" style="position: absolute; top: 37%; left: 25%; min-width: 15%">
-    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
-         @click="clickClassementElement">
-      <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
-      <div class="pseudo">{{ props.pseudo }}</div>
-
-      <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
-
-    </div>
-  </div>
-  <div class="all-content" v-else-if="props.rank == 3" style="position: absolute; top: 41%; left: 60%; min-width: 15%">
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 2" style="position: absolute; top: 37%; left: 25%; min-width: 15%">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
@@ -31,7 +20,18 @@
 
     </div>
   </div>
-  <div class="all-content" v-else>
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 3" style="position: absolute; top: 41%; left: 60%; min-width: 15%">
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement">
+      <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+      <div class="pseudo">{{ props.pseudo }}</div>
+
+      <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
+
+    </div>
+  </div>
+  <div class="all-content" v-on:click="select()" v-else>
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
@@ -60,6 +60,7 @@ import api from '@/models/api';
 import { Section } from '@/models/section';
 import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
+import router from "@/router";
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
@@ -76,6 +77,10 @@ const props = defineProps<{
   showContent: boolean,
   isNewElement?: boolean
 }>();
+
+function select() {
+  router.push(`/detailJoueur/${props.rank-1}`);
+}
 
 const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
