@@ -16,6 +16,8 @@ const StageView = () => import('@/views/StageView.vue');
 const LiveView = () => import('@/views/LiveView.vue');
 const NotFoundView = () => import('@/views/404View.vue');
 const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
+const DetailJoueur = () => import('@/views/detailJoueurView/[id].vue');
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -94,6 +96,11 @@ const router = createRouter({
       path: '/live',
       name: 'live',
       component: LiveView
+    },
+    {
+      name: 'detailJoueur',
+      path: '/detailJoueur/:id',
+      component: DetailJoueur
     },
     {
       name: '404',
