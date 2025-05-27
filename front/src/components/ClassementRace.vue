@@ -10,7 +10,7 @@
         <p>Aucune course n'a encore été réalisé !</p>
     </template>
     <template v-else>
-      <img src="src/assets/img/podium.png" alt="podium">
+      <img src="src/assets/img/podium.png" alt="podium" class="imgPodium">
         <ClassementElement
             v-for="(race, key) in listRace"
             :key="key"
@@ -79,6 +79,11 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.imgPodium {
+  padding-top: 8%;
+  width: 100%;
 }
 
 </style>
