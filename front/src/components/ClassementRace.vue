@@ -10,17 +10,16 @@
         <p>Aucune course n'a encore été réalisé !</p>
     </template>
     <template v-else>
-      <img src="src/assets/img/podium.png" alt="podium" class="imgPodium">
-        <ClassementElement
-            v-for="(race, key) in listRace"
-            :key="key"
-            :avatar="race.car?.avatar || genConfig()"
-            :id-car="race.car!.id_car"
-            :is-new-element="false"
-            :pseudo="race.car?.pseudo || '<indisponible>'"
-            :rank="key + 1"
-            :show-content="props.showContent"
-            :time="new Date(race.total_time)"
+      <ClassementElement
+          v-for="(race, key) in listRace"
+          :key="key"
+          :avatar="race.car?.avatar || genConfig()"
+          :id-car="race.car!.id_car"
+          :is-new-element="false"
+          :pseudo="race.car?.pseudo || '<indisponible>'"
+          :rank="key + 1"
+          :show-content="props.showContent"
+          :time="new Date(race.total_time)"
         />
     </template>
 </template>
