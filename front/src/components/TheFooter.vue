@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import instaImg from '@/assets/img/instagram.webp';
 import facebookImg from '@/assets/img/facebook.webp';
-import {useLocalStorage} from '@vueuse/core';
+import { useLocalStorage } from '@vueuse/core';
 
 const display = useLocalStorage('display', 'modern');
 </script>
