@@ -4,15 +4,13 @@
             <SpinLoading></SpinLoading>
         </div>
 
-        <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+        <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
             <div class="user-data">
                 <div class="avatar-txt">
                     <RouterLink to="pilote">
                         <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
                     </RouterLink>
-
                     <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-                    <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
                 </div>
 
                 <div class="car-3d">
@@ -29,69 +27,54 @@
                         </template>
                     </Suspense>
                 </div>
-
                 <section>
-                <h2>Instructions</h2>
-                <ul class="list-instruction">
-                    <li>
-                        <NumberTime color="var(--blue)" number="1"></NumberTime>
-                        <p>Balade toi dans les différents ateliers du bâtiment et
-                            réalise des activités pour obtenir des
-                            <RouterLink to="bonus">bonus</RouterLink>
-                            !
-                        </p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="2"></NumberTime>
-                        <p>Modifie tes données de
-                            <RouterLink to="pilote">pilotes</RouterLink>
-                            .
-                        </p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="3"></NumberTime>
-                        <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                            plus tu iras vite !</p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="4"></NumberTime>
-                        <p>Analyse ton résultat et récupère la
-                            <RouterLink to="course">vidéo</RouterLink>
-                            de ta course !
-                        </p>
-                    </li>
-
-                </ul>
-                </section>
-
-                <section>
-                <h2>Tableau de bord</h2>
+                <h2>Mes bonus</h2>
                 <div class="badges">
-                    <RouterLink to="/course">
-                        <img :src=badgeCourse alt="Badge course">
-                        <p>Course</p>
-                    </RouterLink>
-                    <RouterLink to="/classement">
-                        <img :src=badgeClassement alt="Badge classement">
-                        <p>Classement</p>
-                    </RouterLink>
-                    <RouterLink to="/course">
-                        <img :src=badgeVideo alt="Badge vidéo">
-                        <p>Video</p>
-                    </RouterLink>
-                    <RouterLink to="/pilote">
-                        <img :src=badgeModif alt="Badge modification">
-                        <p>Modifier</p>
-                    </RouterLink>
-                    <RouterLink to="/stage">
-                        <img :src=badgeStage alt="Badge inscription stage">
-                        <p>Stage</p>
-                    </RouterLink>
-                    <RouterLink to="/">
-                        <img :src=badgeLive alt="Badge live">
-                        <p>Live</p>
-                    </RouterLink>
-                </div>
+                    <div style="background-color: #EDE9FE">
+                      <img :src="badgeAutomaticien" alt="Badge automaticien">
+                      <p style="font-size: 1.1rem; color: black">Automaticien</p>
+                    </div>
+
+                    <div style="background-color: #E5E7EB">
+                      <img :src="badgeInconnu" alt="Badge desinateur">
+                      <p style="font-size: 1.1rem; color: black">Desinateur</p>
+                    </div>
+
+                    <div style="background-color: #FCE7F3">
+                      <img :src=badgeElectronicien alt="Badge electronicien">
+                      <p style="font-size: 1.1rem; color: black">Electronicien</p>
+                    </div>
+
+                    <div style="background-color: #FEF9C3">
+                      <img :src=badgeHorloger alt="Badge horloger">
+                      <p style="font-size: 1.1rem; color: black">Horloger</p>
+                    </div>
+
+                    <div style="background-color: #E0F2FE">
+                      <img :src=badgeInformaticien alt="Badge informaticien">
+                      <p style="font-size: 1.1rem; color: black">Informaticien</p>
+                    </div>
+
+                    <div style="background-color: #DCFCE7">
+                      <img :src=badgeLaborentin alt="Badge laborantin">
+                      <p style="font-size: 1.1rem; color: black">Laborantin</p>
+                    </div>
+
+                    <div style="background-color: #E5E7EB">
+                      <img :src=badgeInconnu alt="Badge mecanicien">
+                      <p style="font-size: 1.1rem; color: black">Mécanicien</p>
+                    </div>
+
+                    <div style="background-color: #DBEAFE">
+                      <img style="margin: 0 auto; display: block" :src=badgeMicromecanicien alt="Badge micromecanicien">
+                      <p style="font-size: 1.1rem; color: black">Micromécanicien</p>
+                    </div>
+
+                    <div style="background-color: #E5E7EB">
+                      <img :src=badgeInconnu alt="Badge qualiticien">
+                      <p style="font-size: 1.1rem; color: black">Qualiticien</p>
+                    </div>
+                  </div>
                 </section>
             </div>
         </div>
@@ -114,12 +97,13 @@ import { defineAsyncComponent, ref, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import api from '@/models/api';
-import badgeCourse from '@/assets/img/course.webp';
-import badgeClassement from '@/assets/img/classement.webp';
-import badgeModif from '@/assets/img/modification.webp';
-import badgeVideo from '@/assets/img/video.webp';
-import badgeStage from '@/assets/img/stage.webp';
-import badgeLive from '@/assets/img/live.webp';
+import badgeAutomaticien from '@/assets/img/automaticien.png';
+import badgeElectronicien from '@/assets/img/electronicien.png';
+import badgeHorloger from '@/assets/img/horloger.png';
+import badgeInformaticien from '@/assets/img/informaticien.png';
+import badgeLaborentin from '@/assets/img/laborentin.png';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.png';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
@@ -178,7 +162,6 @@ watch(useRouter().currentRoute, async (newUrl) => {
 </script>
 
 <style lang="scss" scoped>
-
 div.loading-page {
   display: flex;
   justify-content: center;
@@ -329,7 +312,12 @@ div.user-data {
     align-self: start;
   }
 
+  .badges div {
+    padding: 15px;
+    border-radius: 5%;
+  }
   div.badges {
+    border-radius: 15px;
     margin: 1.5em auto auto;
     display: grid;
     justify-items: center;
@@ -397,6 +385,4 @@ div.user-data {
     }
   }
 }
-
-
 </style>
