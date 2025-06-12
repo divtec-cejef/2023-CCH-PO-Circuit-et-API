@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import api, { type models } from '@/models/api';
 import { WebsocketConnection } from '@/models/api';
-import { onUnmounted, ref, type Ref } from 'vue';
+import { defineAsyncComponent, onUnmounted, ref, } from 'vue';
 import { useRoute } from 'vue-router';
 import { Section } from '@/models/section';
-import {Avatar} from "holiday-avatar";
-import AutoRegeneratedAvatar from "@/components/AutoRegeneratedAvatar.vue";
+import type {Configs} from "holiday-avatar";
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 
 const route = useRoute();
 const id = Number(route.params.id);
-
 const hasLoaded = ref(false);
 const errorMessage = ref<string>();
 
@@ -100,15 +99,28 @@ function getColorClass(name: string): string {
     "Micromécanique": "color-micormecanique",
     "Qualiticien": "color-qualiticien",
   };
-
   return color[name];
 }
 
+const props = defineProps<{
+  idCar: number | string;
+  rank: number;
+  pseudo: string;
+  time: Date;
+  avatar: Configs;
+  showContent: boolean,
+  isNewElement?: boolean
+}>();
 </script>
 
 <template>
   <h1>Détail joueur {{ listRace[id].car.pseudo }}</h1>
-  <AutoRegeneratedAvatar :avatar-config="listRace[id].car.avatar" />
+  <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+  <div>
+    <h2>Meilleure course</h2>
+    {{ props.avatar }}
+  </div>
+
   <div>
     <h2>Bonus</h2>
     <ul>
