@@ -32,47 +32,47 @@
                 <div class="badges">
                     <div style="background-color: #EDE9FE">
                       <img :src="badgeAutomaticien" alt="Badge automaticien">
-                      <p style="font-size: 1.1rem; color: black">Automaticien</p>
+                      <p>Automaticien</p>
                     </div>
 
                     <div style="background-color: #E5E7EB">
                       <img :src="badgeInconnu" alt="Badge desinateur">
-                      <p style="font-size: 1.1rem; color: black">Desinateur</p>
+                      <p>Desinateur</p>
                     </div>
 
                     <div style="background-color: #FCE7F3">
                       <img :src=badgeElectronicien alt="Badge electronicien">
-                      <p style="font-size: 1.1rem; color: black">Electronicien</p>
+                      <p>Electronicien</p>
                     </div>
 
                     <div style="background-color: #FEF9C3">
                       <img :src=badgeHorloger alt="Badge horloger">
-                      <p style="font-size: 1.1rem; color: black">Horloger</p>
+                      <p>Horloger</p>
                     </div>
 
                     <div style="background-color: #E0F2FE">
                       <img :src=badgeInformaticien alt="Badge informaticien">
-                      <p style="font-size: 1.1rem; color: black">Informaticien</p>
+                      <p>Informaticien</p>
                     </div>
 
                     <div style="background-color: #DCFCE7">
                       <img :src=badgeLaborentin alt="Badge laborantin">
-                      <p style="font-size: 1.1rem; color: black">Laborantin</p>
+                      <p>Laborantin</p>
                     </div>
 
                     <div style="background-color: #E5E7EB">
                       <img :src=badgeInconnu alt="Badge mecanicien">
-                      <p style="font-size: 1.1rem; color: black">Mécanicien</p>
+                      <p>Mécanicien</p>
                     </div>
 
                     <div style="background-color: #DBEAFE">
                       <img style="margin: 0 auto; display: block" :src=badgeMicromecanicien alt="Badge micromecanicien">
-                      <p style="font-size: 1.1rem; color: black">Micromécanicien</p>
+                      <p>Micromécanicien</p>
                     </div>
 
                     <div style="background-color: #E5E7EB">
                       <img :src=badgeInconnu alt="Badge qualiticien">
-                      <p style="font-size: 1.1rem; color: black">Qualiticien</p>
+                      <p>Qualiticien</p>
                     </div>
                   </div>
                 </section>
@@ -221,6 +221,20 @@ div.user-data {
     height: 650px;
     width: 100%;
     margin-top: 10px;
+
+    .car-3d {
+      margin-top: -350px !important;
+      margin-left: -50px !important;
+    }
+
+    div.avatar {
+      margin-bottom: 10px;
+      margin-top: -275px;
+    }
+
+    .avatar-txt p {
+      margin-top: -60px;
+    }
   }
 
   section {
@@ -235,7 +249,6 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
-    margin-top: 20px;
 
     p:nth-child(2) {
       font-size: 18px;
@@ -313,9 +326,23 @@ div.user-data {
   }
 
   .badges div {
-    padding: 15px;
+    width: 160px;
+    height: 160px;
+    padding: 10px;
     border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
   }
+
+
+  .badges div p {
+    font-size: 1.1rem;
+    color: black;
+  }
+
   div.badges {
     border-radius: 15px;
     margin: 1.5em auto auto;
@@ -385,4 +412,23 @@ div.user-data {
     }
   }
 }
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+.badges img {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+}
+
+.badges div:hover img {
+  animation: rotateOnce 0.6s ease-in-out forwards;
+}
+
 </style>
