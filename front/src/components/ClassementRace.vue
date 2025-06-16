@@ -20,6 +20,7 @@
           :rank="key + 1"
           :show-content="props.showContent"
           :time="new Date(race.total_time)"
+          style="display: inline-flex;"
         />
     </template>
 </template>
