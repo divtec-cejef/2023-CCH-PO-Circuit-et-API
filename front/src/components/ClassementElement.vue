@@ -1,96 +1,62 @@
 <template>
-  <div class="all-content">
+  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="min-width: 300px; width: 33%; margin: 0 5px; box-shadow: none">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         style="padding-right: 28%; margin-top: 0; width: 100%; height: 30%; background-size: cover; background-image: url('src/assets/img/or.png'); display: flex; flex-direction: column; border: none;"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 30%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 20px; padding-left: 25%;">{{ props.pseudo }}</div>
+
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 25%;">{{ formatTime(props.time) }}<span>s</span></div>
+    </div>
+  </div>
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 2" style="min-width: 230px; width: 26%; margin: 0 5px; box-shadow: none">
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         style="padding-right: 20%; margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/argent.png'); display: flex; flex-direction: column; border: none;"
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement">
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 20%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 18px; padding-left: 25%;">{{ props.pseudo }}</div>
+
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 25%;">{{ formatTime(props.time) }}<span>s</span></div>
+    </div>
+  </div>
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 3" style="min-width: 230px; width: 26%; margin: 0 5px; box-shadow: none">
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         style="padding-right: 20%; margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/bronze.png'); display: flex; flex-direction: column; border: none;"
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement">
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 20%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 18px; padding-left: 15%;">{{ props.pseudo }}</div>
+
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 15%;">{{ formatTime(props.time) }}<span>s</span></div>
+    </div>
+  </div>
+  <div class="all-content" v-on:click="select()" v-else style="width: 100%">
+    <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
+         :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
+         @click="clickClassementElement"
+         style="width: 100%">
       <div v-if="props.rank > PODIUM" class="rank">#{{ props.rank }}</div>
       <div v-else :style="{ backgroundImage: `url(${backgroundImage?.default})`}" class="rank-image">
       </div>
       <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
       <div class="pseudo">{{ props.pseudo }}</div>
 
+      <div
+          v-for="section in listAllBonus"
+          :key="section.idSection"
+          class="listBadge"
+      >
+        <img
+            :src="getSectionBadge(section.name, section.realised)"
+            :alt="`Badge ${section.name}`"
+        />
+      </div>
+
+
       <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
-      <img v-if="props.showContent"
-           :src="arrowImg"
-           :style="{
-                    transform: `rotate(${rotateImage}deg)`,
-                    filter: isOnDarkBg ? 'grayscale(1) invert(1)' : ''
-            }"
-           alt="Icon de flèche pour déplier le contenu">
-    </div>
-    <div v-if="props.showContent">
-      <Transition>
-        <div v-if="dropDownClicked" class="user-content big">
-          <template v-if="!hasError">
-            <div>
-              <h3>Meilleure course</h3>
-              <RaceInfo :display-rank="false"
-                        :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                        :race="raceData!.races[BEST_TIME_INDEX]"
-                        :rank="raceData!.rank">
-              </RaceInfo>
-            </div>
 
-            <div>
-              <h3>Vidéo</h3>
-              <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-            </div>
-
-            <div class="bonus">
-              <h3>Bonus</h3>
-              <ul>
-                <template v-for="(section, key) in listAllBonus" :key="key">
-                  <li>
-                    <DropDownBonus :list-activity="section.listActivity"
-                                   :realised="section.realised"
-                                   :section-name="section.name"/>
-                  </li>
-                </template>
-              </ul>
-            </div>
-          </template>
-          <div v-else><h3>Erreur !</h3></div>
-        </div>
-      </Transition>
-      <Transition>
-        <div v-if="dropDownClicked" class="user-content phone">
-          <template v-if="!hasError">
-            <div>
-              <DropDown :drop-down-clicked="bestRaceDropDownClicked" name="Meilleure Course"
-                        @update:drop-down-clicked="clickBestRace">
-                <RaceInfo :display-rank="false"
-                          :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                          :race="raceData!.races[BEST_TIME_INDEX]"
-                          :rank="raceData!.rank">
-                </RaceInfo>
-              </DropDown>
-            </div>
-
-            <div>
-              <DropDown :drop-down-clicked="videoDropDownClicked" name="Vidéo"
-                        @update:drop-down-clicked="clickVideo">
-                <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>
-              </DropDown>
-            </div>
-
-            <div class="bonus">
-              <DropDown :drop-down-clicked="bonusDropDownClicked" name="Bonus"
-                        @update:drop-down-clicked="clickBonus">
-                <ul>
-                  <template v-for="(section, key) in listAllBonus" :key="key">
-                    <li :class="section.realised ? '': 'not-realised'">
-                      <DropDownBonus :list-activity="section.listActivity"
-                                     :realised="section.realised"
-                                     :section-name="section.name"/>
-                    </li>
-                  </template>
-                </ul>
-              </DropDown>
-            </div>
-          </template>
-          <div v-else><h3>Erreur !</h3></div>
-        </div>
-      </Transition>
     </div>
   </div>
 </template>
@@ -99,7 +65,8 @@
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
-import { computed, defineAsyncComponent, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 import type { Configs } from 'holiday-avatar';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
@@ -108,6 +75,14 @@ import api from '@/models/api';
 import { Section } from '@/models/section';
 import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
+import router from '@/router';
+import badgeAutomaticien from '@/assets/img/automaticien.png';
+import badgeElectronicien from '@/assets/img/electronicien.png';
+import badgeHorloger from '@/assets/img/horloger.png';
+import badgeInformaticien from '@/assets/img/informaticien.png';
+import badgeLaborentin from '@/assets/img/laborentin.png';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.png';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
@@ -115,6 +90,16 @@ const DropDownBonus = defineAsyncComponent(() => import('@/components/DropDownBo
 const DropDown = defineAsyncComponent(() => import('@/components/DropDown.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
+const listAllBonus = ref<{
+  name: string;
+  idSection: number;
+  realised: boolean;
+  listActivity: { name: string; realised: boolean }[];
+}[]>([]);
+
+onMounted(() => {
+  loadBonusList();
+});
 const props = defineProps<{
   idCar: number | string;
   rank: number;
@@ -124,6 +109,10 @@ const props = defineProps<{
   showContent: boolean,
   isNewElement?: boolean
 }>();
+
+function select() {
+  router.push(`/detailJoueur/${props.rank-1}`);
+}
 
 const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
@@ -148,19 +137,72 @@ const bonusDropDownClicked = ref(false);
 const listActivityOneCarApi: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
 
-const listAllBonus: Ref<{
-  name: string,
-  idSection: number,
-  realised: boolean,
-  listActivity: {
-    name: string,
-    realised: boolean
-  }[]
-}[]> = ref([]);
 const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
-
 const colorScheme = usePreferredColorScheme();
+
+function getSectionColor(name: string): string {
+  const color: Record<string, string> = {
+    'Automatique': '#EDE9FE',
+    'Dessinateur': '#E5E7EB',
+    'Electronique': '#FCE7F3',
+    'Horlogerie': '#FEF9C3',
+    'Informatique': '#E0F2FE',
+    'Laborantin': '#DCFCE7',
+    'Mécanicien-auto': '#E5E7EB',
+    'Micromécanique': '#DBEAFE',
+    'Qualiticien': '#E5E7EB',
+  };
+  return color[name] ?? '#E5E7EB';
+}
+
+function getSectionBadge(name: string, realised: boolean): string {
+  console.log('getSectionBadge', { name, realised });
+  const badgeMap: Record<string, string> = {
+    'Automatique': badgeAutomaticien,
+    'Dessinateur': badgeInconnu,
+    'Electronique': badgeElectronicien,
+    'Horlogerie': badgeHorloger,
+    'Informatique': badgeInformaticien,
+    'Laborantin': badgeLaborentin,
+    'Mécanicien-auto': badgeInconnu,
+    'Micromécanique': badgeMicromecanicien,
+    'Qualiticien': badgeInconnu,
+  };
+
+  if (!realised) return badgeInconnu;
+  return badgeMap[name] ?? badgeInconnu;
+}
+
+async function loadBonusList() {
+  const { json: activities } = await api.getActivityOneCar(props.idCar);
+  const { json: sections } = await api.getAllSections();
+
+  const listActivityOneCarApi = activities;
+
+  listAllBonus.value = [];
+
+  for (const section of sections) {
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
+
+    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
+
+    const listActivityUser = activitiesList.map((activity) => ({
+      name: activity.label,
+      realised: listActivityOneCarApi.some((a) => a.idActivity === activity.idActivity),
+    }));
+
+    const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
+
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      realised: sectionRealised,
+      listActivity: listActivityUser,
+    });
+  }
+}
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
@@ -344,6 +386,13 @@ if (props.rank <= PODIUM) {
 
 <style lang="scss" scoped>
 @import "src/assets/css/consts";
+
+.listBadge {
+  font-size: 1.1rem;
+  color: black;
+  background: none;
+
+}
 
 div.all-content {
   box-shadow: $default-shadow;
