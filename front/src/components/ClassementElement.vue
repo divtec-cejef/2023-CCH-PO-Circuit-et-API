@@ -45,6 +45,7 @@
 
       <div
           v-for="section in listAllBonus"
+          v-if="screenWidth > 670"
           :key="section.idSection"
           class="listBadge"
       >
@@ -89,6 +90,8 @@ const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'
 const DropDownBonus = defineAsyncComponent(() => import('@/components/DropDownBonus.vue'));
 const DropDown = defineAsyncComponent(() => import('@/components/DropDown.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
+
+const screenWidth = ref(screen.width);
 
 const listAllBonus = ref<{
   name: string;
