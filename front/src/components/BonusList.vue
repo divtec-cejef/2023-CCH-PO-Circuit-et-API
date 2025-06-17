@@ -110,7 +110,6 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
-div.user-data {
   .badges div {
     width: 160px;
     height: 160px;
@@ -153,7 +152,6 @@ div.user-data {
       height: 110px;
     }
   }
-}
 @keyframes rotateOnce {
   from {
     transform: rotate(0deg) scale(1);
