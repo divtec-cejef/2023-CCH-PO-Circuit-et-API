@@ -1,6 +1,8 @@
 <template>
-  <button @click="mapOnClicked()">Carte 🗺️</button>
-  <button @click="descriptionOnClicked()">Description 📃</button>
+  <div class="button-group">
+    <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte 🗺️</button>
+    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description 📃</button>
+  </div>
 
   <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
@@ -684,4 +686,23 @@ div.badges {
   animation: rotateOnce 0.6s ease-in-out forwards;
 }
 
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+button {
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: gray;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button.selected {
+  background-color: #ce0064;
+  color: white;
+}
 </style>
