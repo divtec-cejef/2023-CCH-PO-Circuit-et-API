@@ -1,36 +1,38 @@
 <template>
+  <div class="layout">
     <header :class="classMenuHeader">
-        <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
-            <img :src=logoImg alt="Logo tuture divtec">
-        </RouterLink>
+      <RouterLink v-if="menuIsClicked" :to="`/${userCar.car.idQuery || ''}`">
+        <img :src=logoImg alt="Logo tuture divtec">
+      </RouterLink>
 
-        <div class="flex">
-            <div :class="'btn ' + classMenuIcon" @click="clickMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+      <div class="flex">
+        <div :class="'btn ' + classMenuIcon" @click="clickMenu">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+      </div>
 
-        <HeaderApp v-if="!menuIsClicked" @clickMenu="menuIsClicked = $event"></HeaderApp>
+      <HeaderApp v-if="!menuIsClicked" @clickMenu="menuIsClicked = $event"></HeaderApp>
     </header>
 
     <header class="large">
-        <RouterLink :to="`/${userCar.car.idQuery || ''}`">
-            <img :src=logoImg alt="Logo grand prix de la Divtec">
-        </RouterLink>
-        <HeaderApp></HeaderApp>
+      <RouterLink :to="`/${userCar.car.idQuery || ''}`">
+        <img :src=logoImg alt="Logo grand prix de la Divtec">
+      </RouterLink>
+      <HeaderApp></HeaderApp>
     </header>
 
     <main :class="classMenuClicked">
-        <RouterView v-if="hasFinishedLoading"/>
-        <SpinLoading v-else-if="hasError === false" class="load-element"></SpinLoading>
-        <ErrorConnection v-else></ErrorConnection>
+      <RouterView v-if="hasFinishedLoading"/>
+      <SpinLoading v-else-if="hasError === false" class="load-element"></SpinLoading>
+      <ErrorConnection v-else></ErrorConnection>
     </main>
 
     <footer id="main-footer" :class="classMenuClicked">
-        <FooterApp/>
+      <FooterApp/>
     </footer>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -45,16 +47,10 @@ const FooterApp = defineAsyncComponent(() => import('@/components/TheFooter.vue'
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
-/**
- * Gère le clic sur le menu
- */
 function clickMenu() {
   menuIsClicked.value = !menuIsClicked.value;
 }
 
-/**
- * Enregistrer display=legacy
- */
 const display = useLocalStorage('display', 'modern');
 const params = location.search.slice(1).split('&');
 params.forEach((item) => {
@@ -63,15 +59,10 @@ params.forEach((item) => {
   }
 });
 
-/**
- * Change la valeur de la taille de l'écran
- */
 const changeValueWidthScreen = () => {
   widthScreen.value = window.innerWidth;
 };
 
-
-// Change la classe des éléments des menus pour le petit contenu
 const classMenuClicked = computed(() => {
   if (widthScreen.value < LIMIT_LARGE_CONTENT) {
     return menuIsClicked.value ? 'display' : 'none';
@@ -80,17 +71,14 @@ const classMenuClicked = computed(() => {
   }
 });
 
-// Change la classe de l'header en fonction de l'état du menu
 const classMenuHeader = computed(() => {
   return menuIsClicked.value ? 'closed thin' : 'open thin';
 });
 
-// Change la classe pour le logo du menu
 const classMenuIcon = computed(() => {
   return menuIsClicked.value ? 'not-active' : 'active';
 });
 
-//Ecoute du resize de la page pour changer la largeur
 onMounted(() => {
   window.addEventListener('resize', changeValueWidthScreen);
 });
@@ -99,7 +87,6 @@ onUnmounted(() => {
   window.removeEventListener('resize', changeValueWidthScreen);
 });
 
-//Initialisation de la voiture
 const userCar = useCarStore();
 const hasFinishedLoading = ref(false);
 const widthScreen = ref(0);
@@ -108,10 +95,8 @@ const menuIsClicked = ref(true);
 const hasError = ref(false);
 const router = useRouter();
 
-//Initialisation des variables avec des données de l'écran actuel
 changeValueWidthScreen();
 
-//Récupération des données de la voiture, si elle est dans le localstorage
 const userCarId = localStorage.getItem('userCarId');
 if (userCarId) {
   userCar.initUserCarId(userCarId).then((v) => {
@@ -124,24 +109,30 @@ if (userCarId) {
   hasFinishedLoading.value = true;
 }
 
-//Redirection des utilisateurs enregistrés vers leur page d'accueil
 router.beforeEach((to) => {
   if(to.path === '/' && userCar.car.idQuery) {
     router.push(`/${userCar.car.idQuery}`);
   }
 });
-
-
 </script>
 
 <style lang="scss" scoped>
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-//Le contenu large est caché pour les petits écran
+main {
+  flex: 1;
+  padding-top: 125px;
+}
+
+//Le contenu large est caché pour les petits écrans
 .large {
   display: none;
 }
 
-//Elelement qui doivent disparaître
 .none {
   display: none !important;
 }
@@ -169,17 +160,12 @@ header {
 
   &.closed {
     align-items: center;
-
   }
 
   &.open.thin {
     display: block;
     height: calc(100vh + 20px - env(safe-area-inset-bottom) - env(safe-area-inset-top));
   }
-}
-
-main {
-  padding-top: 125px;
 }
 
 header.closed.thin,
@@ -226,7 +212,6 @@ header.large, header.closed.thin {
   }
 }
 
-
 span + span {
   margin-top: 8.75px;
 }
@@ -266,84 +251,38 @@ html body div header .active span {
 }
 
 @keyframes top {
-  0% {
-    top: 0;
-    transform: rotate(0);
-  }
-  50% {
-    top: 13.75px;
-    transform: rotate(0);
-  }
-  100% {
-    top: 13.75px;
-    transform: rotate(45deg);
-  }
+  0% { top: 0; transform: rotate(0); }
+  50% { top: 13.75px; transform: rotate(0); }
+  100% { top: 13.75px; transform: rotate(45deg); }
 }
 
 @keyframes top-2 {
-  0% {
-    top: 13.75px;
-    transform: rotate(45deg);
-  }
-  50% {
-    top: 13.75px;
-    transform: rotate(0deg);
-  }
-  100% {
-    top: 0;
-    transform: rotate(0deg);
-  }
+  0% { top: 13.75px; transform: rotate(45deg); }
+  50% { top: 13.75px; transform: rotate(0deg); }
+  100% { top: 0; transform: rotate(0deg); }
 }
 
 @keyframes bottom {
-  0% {
-    bottom: 0;
-    transform: rotate(0);
-  }
-  50% {
-    bottom: 13.75px;
-    transform: rotate(0);
-  }
-  100% {
-    bottom: 13.75px;
-    transform: rotate(135deg);
-  }
+  0% { bottom: 0; transform: rotate(0); }
+  50% { bottom: 13.75px; transform: rotate(0); }
+  100% { bottom: 13.75px; transform: rotate(135deg); }
 }
 
 @keyframes bottom-2 {
-  0% {
-    bottom: 13.75px;
-    transform: rotate(135deg);
-  }
-  50% {
-    bottom: 13.75px;
-    transform: rotate(0);
-  }
-  100% {
-    bottom: 0;
-    transform: rotate(0);
-  }
+  0% { bottom: 13.75px; transform: rotate(135deg); }
+  50% { bottom: 13.75px; transform: rotate(0); }
+  100% { bottom: 0; transform: rotate(0); }
 }
 
 @keyframes scaled {
-  50% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(0);
-  }
+  50% { transform: scale(0); }
+  100% { transform: scale(0); }
 }
 
 @keyframes scaled-2 {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0); }
+  50% { transform: scale(0); }
+  100% { transform: scale(1); }
 }
 
 .load-element {
@@ -364,6 +303,5 @@ footer {
   align-items: center;
   text-align: center;
   padding: 0 35px;
-  margin-top: 15px;
 }
 </style>
