@@ -27,55 +27,7 @@
                         </template>
                     </Suspense>
                 </div>
-                <section>
-                <h2>Mes bonus</h2>
-                <div class="badges">
-                    <div style="background-color: #EDE9FE">
-                      <img :src="badgeAutomaticien" alt="Badge automaticien">
-                      <p>Automaticien</p>
-                    </div>
-
-                    <div style="background-color: #E5E7EB">
-                      <img :src="badgeInconnu" alt="Badge desinateur">
-                      <p>Desinateur</p>
-                    </div>
-
-                    <div style="background-color: #FCE7F3">
-                      <img :src=badgeElectronicien alt="Badge electronicien">
-                      <p>Electronicien</p>
-                    </div>
-
-                    <div style="background-color: #FEF9C3">
-                      <img :src=badgeHorloger alt="Badge horloger">
-                      <p>Horloger</p>
-                    </div>
-
-                    <div style="background-color: #E0F2FE">
-                      <img :src=badgeInformaticien alt="Badge informaticien">
-                      <p>Informaticien</p>
-                    </div>
-
-                    <div style="background-color: #DCFCE7">
-                      <img :src=badgeLaborentin alt="Badge laborantin">
-                      <p>Laborantin</p>
-                    </div>
-
-                    <div style="background-color: #E5E7EB">
-                      <img :src=badgeInconnu alt="Badge mecanicien">
-                      <p>Mécanicien</p>
-                    </div>
-
-                    <div style="background-color: #DBEAFE">
-                      <img style="margin: 0 auto; display: block" :src=badgeMicromecanicien alt="Badge micromecanicien">
-                      <p>Micromécanicien</p>
-                    </div>
-
-                    <div style="background-color: #E5E7EB">
-                      <img :src=badgeInconnu alt="Badge qualiticien">
-                      <p>Qualiticien</p>
-                    </div>
-                  </div>
-                </section>
+              <BonusList :id-car="car.idCar" />
             </div>
         </div>
 
@@ -93,33 +45,20 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent, ref, watch } from 'vue';
-
 import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import api from '@/models/api';
-import badgeAutomaticien from '@/assets/img/automaticien.png';
-import badgeElectronicien from '@/assets/img/electronicien.png';
-import badgeHorloger from '@/assets/img/horloger.png';
-import badgeInformaticien from '@/assets/img/informaticien.png';
-import badgeLaborentin from '@/assets/img/laborentin.png';
-import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
-import badgeInconnu from '@/assets/img/sectionInconnu.png';
+import { HollowDotsSpinner } from 'epic-spinners';
+import { usePreferredColorScheme } from '@vueuse/core';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
-import { HollowDotsSpinner } from 'epic-spinners';
-import { usePreferredColorScheme } from '@vueuse/core';
+import api from '@/models/api';
+import BonusList from "@/components/BonusList.vue";
 
-const SpinLoading =
-  defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
-const ErrorConnection =
-  defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
-const NumberTime =
-  defineAsyncComponent(() => import('@/components/NumberTime.vue'));
-const AutoRegeneratedAvatar =
-  defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const ModelRender =
-  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -157,8 +96,6 @@ watch(useRouter().currentRoute, async (newUrl) => {
   deep: true,
   immediate: true
 });
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -325,78 +262,6 @@ div.user-data {
     align-self: start;
   }
 
-  .badges div {
-    width: 160px;
-    height: 160px;
-    padding: 10px;
-    border-radius: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-
-  .badges div p {
-    font-size: 1.1rem;
-    color: black;
-  }
-
-  div.badges {
-    border-radius: 15px;
-    margin: 1.5em auto auto;
-    display: grid;
-    justify-items: center;
-    grid-column-gap: 15vw;
-    grid-row-gap: 1.25em;
-    width: fit-content;
-    grid-template-columns: 1fr 1fr;
-
-    @media screen and (min-width: 475px) {
-      grid-column-gap: 2.75em;
-      grid-template-columns: 1fr 1fr 1fr;
-      width: auto;
-    }
-
-    p {
-      margin: 5px 0;
-    }
-
-    img {
-      width: 110px;
-      height: 110px;
-    }
-  }
-
-  a {
-
-    p {
-      transition: ease-in-out 0.2s;
-
-    }
-
-    img {
-      transition: ease-in-out 0.2s;
-    }
-  }
-
-  a:hover {
-    img {
-      filter: grayscale(0.4);
-      transition: ease-in-out 0.2s;
-    }
-
-    p {
-      font-weight: bold;
-      transition: ease-in-out 0.2s;
-    }
-  }
-
-  div.hidden {
-    opacity: 0;
-  }
-
   div.car-3d {
     position: relative;
     display: flex;
@@ -412,23 +277,4 @@ div.user-data {
     }
   }
 }
-
-@keyframes rotateOnce {
-  from {
-    transform: rotate(0deg) scale(1);
-  }
-  to {
-    transform: rotate(360deg) scale(1.2);
-  }
-}
-
-.badges img {
-  transition: transform 0.3s ease-in-out;
-  transform: scale(1);
-}
-
-.badges div:hover img {
-  animation: rotateOnce 0.6s ease-in-out forwards;
-}
-
 </style>
