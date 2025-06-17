@@ -1,6 +1,6 @@
 <template>
-  <button @click="mapOnClicked()">Carte</button>
-  <button @click="descriptionOnClicked()">Description</button>
+  <button @click="mapOnClicked()">Carte 🗺️</button>
+  <button @click="descriptionOnClicked()">Description 📃</button>
 
   <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
@@ -683,4 +683,5 @@ div.badges {
 .badges div:hover img {
   animation: rotateOnce 0.6s ease-in-out forwards;
 }
+
 </style>
