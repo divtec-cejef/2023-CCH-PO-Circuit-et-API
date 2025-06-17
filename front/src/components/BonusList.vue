@@ -18,13 +18,15 @@
 </template>
 
 <script setup lang="ts">
-import badgeAutomaticien from '@/assets/img/automaticien.png';
-import badgeElectronicien from '@/assets/img/electronicien.png';
-import badgeHorloger from '@/assets/img/horloger.png';
-import badgeInformaticien from '@/assets/img/informaticien.png';
-import badgeLaborentin from '@/assets/img/laborentin.png';
-import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
-import badgeInconnu from '@/assets/img/sectionInconnu.png';
+import badgeAutomaticien from '@/assets/img/automaticien.webp';
+import badgeElectronicien from '@/assets/img/electronicien.webp';
+import badgeHorloger from '@/assets/img/horloger.webp';
+import badgeInformaticien from '@/assets/img/informaticien.webp';
+import badgeLaborentin from '@/assets/img/laborentin.webp';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
+import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
+import badgeMecaAuto from '@/assets/img/meca-auto.webp';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 import { onMounted, ref } from 'vue';
 import api, { type models } from '@/models/api';
 import { Section } from '@/models/section';
@@ -64,12 +66,12 @@ function getSectionBadge(name: string, realised: boolean): string {
   console.log('getSectionBadge', { name, realised });
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
-    'Dessinateur': badgeInconnu,
+    'Dessinateur': badgeDessinateur,
     'Electronique': badgeElectronicien,
     'Horlogerie': badgeHorloger,
     'Informatique': badgeInformaticien,
     'Laborantin': badgeLaborentin,
-    'Mécanicien-auto': badgeInconnu,
+    'Mécanicien-auto': badgeMecaAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeInconnu,
   };
