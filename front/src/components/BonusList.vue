@@ -1,19 +1,19 @@
 <template>
   <section>
-  <h2>Mes bonus</h2>
-  <div class="badges">
-    <div
-        v-for="section in listAllBonus"
-        :key="section.idSection"
-        :style="{ backgroundColor: getSectionColor(section.name) }"
-    >
-      <img
-          :src="getSectionBadge(section.name, section.realised)"
-          :alt="`Badge ${section.name}`"
-      />
-      <p>{{ section.name }}</p>
+    <h2>Mes bonus</h2>
+    <div class="badges">
+      <div
+          v-for="section in listAllBonus"
+          :key="section.idSection"
+          :style="{ backgroundColor: getSectionColor(section.name) }"
+      >
+        <img
+            :src="getSectionBadge(section.name, section.realised)"
+            :alt="`Badge ${section.name}`"
+        />
+        <p>{{ section.name }}</p>
+      </div>
     </div>
-  </div>
   </section>
 </template>
 
@@ -110,7 +110,6 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
-div.user-data {
   .badges div {
     width: 160px;
     height: 160px;
@@ -153,7 +152,7 @@ div.user-data {
       height: 110px;
     }
   }
-}
+
 @keyframes rotateOnce {
   from {
     transform: rotate(0deg) scale(1);
