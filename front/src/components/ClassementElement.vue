@@ -1,35 +1,35 @@
 <template>
-  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="width: 30%; margin: 0 5px; box-shadow: none">
+  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="min-width: 300px; width: 33%; margin: 0 5px; box-shadow: none">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-         style="margin-top: 0; width: 100%; height: 30%; background-size: cover; background-image: url('src/assets/img/or.png'); display: flex; flex-direction: column; border: none;"
+         style="padding-right: 28%; margin-top: 0; width: 100%; height: 30%; background-size: cover; background-image: url('src/assets/img/or.png'); display: flex; flex-direction: column; border: none;"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
-      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 10%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
-      <div class="pseudo" style="color: black; font-size: 20px">{{ props.pseudo }}</div>
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 30%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 20px; padding-left: 25%;">{{ props.pseudo }}</div>
 
-      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%;">{{ formatTime(props.time) }}<span>s</span></div>
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 25%;">{{ formatTime(props.time) }}<span>s</span></div>
     </div>
   </div>
-  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 2" style="width: 26%; margin: 0 5px; box-shadow: none">
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 2" style="min-width: 230px; width: 26%; margin: 0 5px; box-shadow: none">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-         style="margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/argent.png'); display: flex; flex-direction: column; border: none;"
+         style="padding-right: 20%; margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/argent.png'); display: flex; flex-direction: column; border: none;"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
-      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 10%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
-      <div class="pseudo" style="color: black; font-size: 18px">{{ props.pseudo }}</div>
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 20%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 18px; padding-left: 25%;">{{ props.pseudo }}</div>
 
-      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%;">{{ formatTime(props.time) }}<span>s</span></div>
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 25%;">{{ formatTime(props.time) }}<span>s</span></div>
     </div>
   </div>
-  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 3" style="width: 26%; margin: 0 5px; box-shadow: none">
+  <div class="all-content" v-on:click="select()" v-else-if="props.rank == 3" style="min-width: 230px; width: 26%; margin: 0 5px; box-shadow: none">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
-         style="margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/bronze.png'); display: flex; flex-direction: column; border: none;"
+         style="padding-right: 20%; margin-top: 0; width: 100%; height: 29%; background-size: cover; background-image: url('src/assets/img/bronze.png'); display: flex; flex-direction: column; border: none;"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
          @click="clickClassementElement">
-      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 10%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
-      <div class="pseudo" style="color: black; font-size: 18px">{{ props.pseudo }}</div>
+      <AutoRegeneratedAvatar :avatar-config="props.avatar" style="margin-top: 40%; margin-bottom: 50%; margin-left: 20%; width: 130px; height: 130px"></AutoRegeneratedAvatar>
+      <div class="pseudo" style="color: black; font-size: 18px; padding-left: 15%;">{{ props.pseudo }}</div>
 
-      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%;">{{ formatTime(props.time) }}<span>s</span></div>
+      <div class="time" style="color: black; font-size: 23px; margin-bottom: 20%; padding-left: 15%;">{{ formatTime(props.time) }}<span>s</span></div>
     </div>
   </div>
   <div class="all-content" v-on:click="select()" v-else style="width: 100%">
