@@ -43,6 +43,18 @@
       <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
       <div class="pseudo">{{ props.pseudo }}</div>
 
+      <div
+          v-for="section in listAllBonus"
+          :key="section.idSection"
+          class="listBadge"
+      >
+        <img
+            :src="getSectionBadge(section.name, section.realised)"
+            :alt="`Badge ${section.name}`"
+        />
+      </div>
+
+
       <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
 
     </div>
@@ -53,7 +65,8 @@
 import { formatTime } from '@/models/race';
 import { useCarStore } from '@/stores/car';
 import type { Ref } from 'vue';
-import { computed, defineAsyncComponent, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 import type { Configs } from 'holiday-avatar';
 import { usePreferredColorScheme } from '@vueuse/core';
 import Color from 'color';
@@ -63,6 +76,13 @@ import { Section } from '@/models/section';
 import arrowImg from '@/assets/img/arrow.webp';
 import { getNumRace } from '@/models/car';
 import router from '@/router';
+import badgeAutomaticien from '@/assets/img/automaticien.png';
+import badgeElectronicien from '@/assets/img/electronicien.png';
+import badgeHorloger from '@/assets/img/horloger.png';
+import badgeInformaticien from '@/assets/img/informaticien.png';
+import badgeLaborentin from '@/assets/img/laborentin.png';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.png';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
@@ -70,6 +90,16 @@ const DropDownBonus = defineAsyncComponent(() => import('@/components/DropDownBo
 const DropDown = defineAsyncComponent(() => import('@/components/DropDown.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
+const listAllBonus = ref<{
+  name: string;
+  idSection: number;
+  realised: boolean;
+  listActivity: { name: string; realised: boolean }[];
+}[]>([]);
+
+onMounted(() => {
+  loadBonusList();
+});
 const props = defineProps<{
   idCar: number | string;
   rank: number;
@@ -107,19 +137,72 @@ const bonusDropDownClicked = ref(false);
 const listActivityOneCarApi: Ref<models.parsedData.Activities> | Ref<undefined> = ref();
 const hasError = ref(false);
 
-const listAllBonus: Ref<{
-  name: string,
-  idSection: number,
-  realised: boolean,
-  listActivity: {
-    name: string,
-    realised: boolean
-  }[]
-}[]> = ref([]);
 const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
-
 const colorScheme = usePreferredColorScheme();
+
+function getSectionColor(name: string): string {
+  const color: Record<string, string> = {
+    'Automatique': '#EDE9FE',
+    'Dessinateur': '#E5E7EB',
+    'Electronique': '#FCE7F3',
+    'Horlogerie': '#FEF9C3',
+    'Informatique': '#E0F2FE',
+    'Laborantin': '#DCFCE7',
+    'Mécanicien-auto': '#E5E7EB',
+    'Micromécanique': '#DBEAFE',
+    'Qualiticien': '#E5E7EB',
+  };
+  return color[name] ?? '#E5E7EB';
+}
+
+function getSectionBadge(name: string, realised: boolean): string {
+  console.log('getSectionBadge', { name, realised });
+  const badgeMap: Record<string, string> = {
+    'Automatique': badgeAutomaticien,
+    'Dessinateur': badgeInconnu,
+    'Electronique': badgeElectronicien,
+    'Horlogerie': badgeHorloger,
+    'Informatique': badgeInformaticien,
+    'Laborantin': badgeLaborentin,
+    'Mécanicien-auto': badgeInconnu,
+    'Micromécanique': badgeMicromecanicien,
+    'Qualiticien': badgeInconnu,
+  };
+
+  if (!realised) return badgeInconnu;
+  return badgeMap[name] ?? badgeInconnu;
+}
+
+async function loadBonusList() {
+  const { json: activities } = await api.getActivityOneCar(props.idCar);
+  const { json: sections } = await api.getAllSections();
+
+  const listActivityOneCarApi = activities;
+
+  listAllBonus.value = [];
+
+  for (const section of sections) {
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
+
+    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
+
+    const listActivityUser = activitiesList.map((activity) => ({
+      name: activity.label,
+      realised: listActivityOneCarApi.some((a) => a.idActivity === activity.idActivity),
+    }));
+
+    const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
+
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      realised: sectionRealised,
+      listActivity: listActivityUser,
+    });
+  }
+}
 
 // Retourne l'angle de l'image en fonction de si l'utilisateur a cliqué
 const rotateImage = computed(() => {
@@ -303,6 +386,13 @@ if (props.rank <= PODIUM) {
 
 <style lang="scss" scoped>
 @import "src/assets/css/consts";
+
+.listBadge {
+  font-size: 1.1rem;
+  color: black;
+  background: none;
+
+}
 
 div.all-content {
   box-shadow: $default-shadow;
