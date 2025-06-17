@@ -74,23 +74,18 @@ import Color from 'color';
 import type { models } from '@/models/api';
 import api from '@/models/api';
 import { Section } from '@/models/section';
-import arrowImg from '@/assets/img/arrow.webp';
-import { getNumRace } from '@/models/car';
 import router from '@/router';
-import badgeAutomaticien from '@/assets/img/automaticien.png';
-import badgeElectronicien from '@/assets/img/electronicien.png';
-import badgeHorloger from '@/assets/img/horloger.png';
-import badgeInformaticien from '@/assets/img/informaticien.png';
-import badgeLaborentin from '@/assets/img/laborentin.png';
-import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
-import badgeInconnu from '@/assets/img/sectionInconnu.png';
+import badgeAutomaticien from '@/assets/img/automaticien.webp';
+import badgeElectronicien from '@/assets/img/electronicien.webp';
+import badgeHorloger from '@/assets/img/horloger.webp';
+import badgeInformaticien from '@/assets/img/informaticien.webp';
+import badgeLaborentin from '@/assets/img/laborentin.webp';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
+import badgeDessinateur from '@/assets/img/dessinateurs.webp';
+import badgeMecAuto from '@/assets/img/meca-auto.webp';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
-const DropDownBonus = defineAsyncComponent(() => import('@/components/DropDownBonus.vue'));
-const DropDown = defineAsyncComponent(() => import('@/components/DropDown.vue'));
-const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
-
 const screenWidth = ref(screen.width);
 
 const listAllBonus = ref<{
@@ -116,8 +111,6 @@ const props = defineProps<{
 function select() {
   router.push(`/detailJoueur/${props.rank-1}`);
 }
-
-const BEST_TIME_INDEX = 0;
 const userCar = useCarStore();
 const dropDownClicked = ref(false);
 const classUserCarElement = ref('');
@@ -144,31 +137,16 @@ const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 
 const colorScheme = usePreferredColorScheme();
 
-function getSectionColor(name: string): string {
-  const color: Record<string, string> = {
-    'Automatique': '#EDE9FE',
-    'Dessinateur': '#E5E7EB',
-    'Electronique': '#FCE7F3',
-    'Horlogerie': '#FEF9C3',
-    'Informatique': '#E0F2FE',
-    'Laborantin': '#DCFCE7',
-    'Mécanicien-auto': '#E5E7EB',
-    'Micromécanique': '#DBEAFE',
-    'Qualiticien': '#E5E7EB',
-  };
-  return color[name] ?? '#E5E7EB';
-}
-
 function getSectionBadge(name: string, realised: boolean): string {
   console.log('getSectionBadge', { name, realised });
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
-    'Dessinateur': badgeInconnu,
+    'Dessinateur': badgeDessinateur,
     'Electronique': badgeElectronicien,
     'Horlogerie': badgeHorloger,
     'Informatique': badgeInformaticien,
     'Laborantin': badgeLaborentin,
-    'Mécanicien-auto': badgeInconnu,
+    'Mécanicien-auto': badgeMecAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeInconnu,
   };
