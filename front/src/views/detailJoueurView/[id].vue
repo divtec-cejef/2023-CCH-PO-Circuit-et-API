@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import api, { type models } from '@/models/api';
 import { WebsocketConnection } from '@/models/api';
-import { defineAsyncComponent, onUnmounted, ref, } from 'vue';
+import {defineAsyncComponent, onUnmounted, type Ref, ref,} from 'vue';
 import { useRoute } from 'vue-router';
 import { Section } from '@/models/section';
-import type {Configs} from "holiday-avatar";
+import type { Configs } from 'holiday-avatar';
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
+const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
 
 const route = useRoute();
 const id = Number(route.params.id);
 const hasLoaded = ref(false);
 const errorMessage = ref<string>();
 
+const BEST_TIME_INDEX = 0;
+const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
+const hasError = ref(false);
 const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
 const listActivityOneCarApi = ref<models.parsedData.Activities | undefined>();
 const listAllSection = ref<models.parsedData.SectionName[]>([]);
@@ -43,6 +48,7 @@ socket.onRankingReceived(async (data) => {
 });
 
 onUnmounted(() => socket.destroy());
+
 
 async function loadUserData() {
   if (!listRace.value || !listRace.value[id]) return;
@@ -89,53 +95,33 @@ async function buildBonusList() {
 
 function getColorClass(name: string): string {
   const color: Record<string, string> = {
-    "Automatique": "color-automatique",
-    "Dessinateur": "color-dessinateur",
-    "Electronique": "color-electronique",
-    "Horlogerie": "color-horlogerie",
-    "Informatique": "color-informatique",
-    "Laborantin": "color-laborantin",
-    "Mécanicien-auto": "color-mecanicien",
-    "Micromécanique": "color-micormecanique",
-    "Qualiticien": "color-qualiticien",
+    'Automatique': 'color-automatique',
+    'Dessinateur': 'color-dessinateur',
+    'Electronique': 'color-electronique',
+    'Horlogerie': 'color-horlogerie',
+    'Informatique': 'color-informatique',
+    'Laborantin': 'color-laborantin',
+    'Mécanicien-auto': 'color-mecanicien',
+    'Micromécanique': 'color-micormecanique',
+    'Qualiticien': 'color-qualiticien',
   };
   return color[name];
 }
-
-const props = defineProps<{
-  idCar: number | string;
-  rank: number;
-  pseudo: string;
-  time: Date;
-  avatar: Configs;
-  showContent: boolean,
-  isNewElement?: boolean
-}>();
 </script>
 
 <template>
   <h1>Détail joueur {{ listRace[id].car.pseudo }}</h1>
-  <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
+  <AutoRegeneratedAvatar :avatar-config="listRace[id].car.avatar"/>
   <div>
     <h2>Meilleure course</h2>
-    {{ props.avatar }}
+<!--    <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>-->
   </div>
 
-  <div>
-    <h2>Bonus</h2>
-    <ul>
-      <li v-for="section in listAllBonus" :key="section.idSection">
-        <span v-if="section.realised">✅</span>
-        <span v-else>❌</span>
-        <span class="section-nom" :class="getColorClass(section.name)">
-            {{ section.name }}
-        </span>
-      </li>
-    </ul>
-  </div>
+  <BonusList :id-car="listRace[id].car.id_car"></BonusList>
 
   <h2>Voiture</h2>
-  <h2>Vidéo</h2>
+
+
 </template>
 
 <style scoped lang="scss">
