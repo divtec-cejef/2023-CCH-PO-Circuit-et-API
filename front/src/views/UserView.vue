@@ -105,7 +105,6 @@ div.loading-page {
   align-items: center;
 }
 
-
 #app div.error-no-car {
   top: calc(50% - 75px);
   left: calc(50% - 200px);
