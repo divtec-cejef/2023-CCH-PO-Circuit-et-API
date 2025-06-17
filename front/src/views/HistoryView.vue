@@ -1,5 +1,8 @@
 <template>
-  <div class="content bonus-map">
+  <button @click="mapOnClicked()">Carte</button>
+  <button @click="descriptionOnClicked()">Description</button>
+
+  <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
          class="labelActivity">
       <div v-if="currentLabel.activities.length > 0">
@@ -40,6 +43,63 @@
       </div>
     </div>
   </div>
+  <div v-else-if="descriptionIsShown">
+    <div class="badges">
+      <div style="background-color: #EDE9FE">
+        <img :src="badgeAutomaticien" alt="Badge automaticien">
+        <p>Automaticien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #E5E7EB">
+        <img :src="badgeInconnu" alt="Badge desinateur">
+        <p>Desinateur</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #FCE7F3">
+        <img :src=badgeElectronicien alt="Badge electronicien">
+        <p>Electronicien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #FEF9C3">
+        <img :src=badgeHorloger alt="Badge horloger">
+        <p>Horloger</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #E0F2FE">
+        <img :src=badgeInformaticien alt="Badge informaticien">
+        <p>Informaticien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #DCFCE7">
+        <img :src=badgeLaborentin alt="Badge laborantin">
+        <p>Laborantin</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #E5E7EB">
+        <img :src=badgeInconnu alt="Badge mecanicien">
+        <p>Mécanicien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #DBEAFE">
+        <img style="margin: 0 auto; display: block" :src=badgeMicromecanicien alt="Badge micromecanicien">
+        <p>Micromécanicien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+
+      <div style="background-color: #E5E7EB">
+        <img :src=badgeInconnu alt="Badge qualiticien">
+        <p>Qualiticien</p>
+      </div>
+      <p>description description description description description description description description description</p>
+      </div>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -53,6 +113,13 @@ import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
+import badgeAutomaticien from '@/assets/img/automaticien.png';
+import badgeElectronicien from '@/assets/img/electronicien.png';
+import badgeHorloger from '@/assets/img/horloger.png';
+import badgeInformaticien from '@/assets/img/informaticien.png';
+import badgeLaborentin from '@/assets/img/laborentin.png';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.png';
 
 const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -68,6 +135,23 @@ const divDisplay = ref<string>('none');
 const sectionUnCLicked = ref<boolean>(true);
 const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
+
+const mapIsShown = ref(true);
+const descriptionIsShown = ref(false);
+
+function mapOnClicked() {
+  mapIsShown.value = true;
+  descriptionIsShown.value = false;
+  console.log('Carte affichée ?', mapIsShown.value);
+  console.log('Description affichée ?', descriptionIsShown.value);
+}
+
+function descriptionOnClicked() {
+  mapIsShown.value = false;
+  descriptionIsShown.value = true;
+  console.log('Carte affichée ?', mapIsShown.value);
+  console.log('Description affichée ?', descriptionIsShown.value);
+}
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{
@@ -554,5 +638,49 @@ template {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.badges div p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+.badges div {
+  width: 160px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+div.badges {
+  border-radius: 15px;
+  margin: 1.5em auto auto;
+  display: grid;
+  justify-items: center;
+  grid-row-gap: 1.25em;
+  width: fit-content;
+  grid-template-columns: 1fr;
+}
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+.badges img {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+}
+
+.badges div:hover img {
+  animation: rotateOnce 0.6s ease-in-out forwards;
 }
 </style>
