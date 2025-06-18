@@ -237,5 +237,6 @@ nav.header {
   background-color: #ce0064;
   color: white;
   border-radius: 50px;
+  padding: 10px !important;
 }
 </style>
