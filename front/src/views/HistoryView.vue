@@ -46,62 +46,98 @@
     </div>
   </div>
   <div v-else-if="descriptionIsShown">
-    <div class="badges">
-      <div style="background-color: #EDE9FE">
-        <img :src="badgeAutomaticien" alt="Badge automaticien">
-        <p>Automaticien</p>
+    <div class="badges-liste">
+      <div>
+        <div class="badge" style="background-color: #EDE9FE">
+          <img :src="badgeAutomaticien" alt="Badge automaticien">
+          <p>Automaticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #E5E7EB">
-        <img :src="badgeInconnu" alt="Badge desinateur">
-        <p>Desinateur</p>
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src="badgeDessinateur" alt="Badge desinateur">
+          <p>Desinateur</p>
+        </div>
+        <div class="badge-decription">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #FCE7F3">
-        <img :src=badgeElectronicien alt="Badge electronicien">
-        <p>Electronicien</p>
+      <div>
+        <div class="badge" style="background-color: #FCE7F3">
+          <img :src=badgeElectronicien alt="Badge electronicien">
+          <p>Electronicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #FEF9C3">
-        <img :src=badgeHorloger alt="Badge horloger">
-        <p>Horloger</p>
+      <div>
+        <div class="badge" style="background-color: #FEF9C3">
+          <img :src=badgeHorloger alt="Badge horloger">
+          <p>Horloger</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #E0F2FE">
-        <img :src=badgeInformaticien alt="Badge informaticien">
-        <p>Informaticien</p>
+      <div>
+        <div class="badge" style="background-color: #E0F2FE">
+          <img :src=badgeInformaticien alt="Badge informaticien">
+          <p>Informaticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #DCFCE7">
-        <img :src=badgeLaborentin alt="Badge laborantin">
-        <p>Laborantin</p>
+      <div>
+        <div class="badge" style="background-color: #DCFCE7">
+          <img :src=badgeLaborentin alt="Badge laborantin">
+          <p>Laborantin</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #E5E7EB">
-        <img :src=badgeInconnu alt="Badge mecanicien">
-        <p>Mécanicien</p>
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src=badgeMecaAuto alt="Badge mecanicien">
+          <p>Mécanicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #DBEAFE">
-        <img style="margin: 0 auto; display: block" :src=badgeMicromecanicien alt="Badge micromecanicien">
-        <p>Micromécanicien</p>
+      <div>
+        <div class="badge" style="background-color: #DBEAFE">
+          <img :src=badgeMicromecanicien alt="Badge micromecanicien">
+          <p>Micromécanicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
-      <p>description description description description description description description description description</p>
 
-      <div style="background-color: #E5E7EB">
-        <img :src=badgeInconnu alt="Badge qualiticien">
-        <p>Qualiticien</p>
-      </div>
-      <p>description description description description description description description description description</p>
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src=badgeInconnu alt="Badge qualiticien">
+          <p>Qualiticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -115,13 +151,15 @@ import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
-import badgeAutomaticien from '@/assets/img/automaticien.png';
-import badgeElectronicien from '@/assets/img/electronicien.png';
-import badgeHorloger from '@/assets/img/horloger.png';
-import badgeInformaticien from '@/assets/img/informaticien.png';
-import badgeLaborentin from '@/assets/img/laborentin.png';
-import badgeMicromecanicien from '@/assets/img/micromecanicien.png';
-import badgeInconnu from '@/assets/img/sectionInconnu.png';
+import badgeAutomaticien from '@/assets/img/automaticien.webp';
+import badgeElectronicien from '@/assets/img/electronicien.webp';
+import badgeHorloger from '@/assets/img/horloger.webp';
+import badgeInformaticien from '@/assets/img/informaticien.webp';
+import badgeLaborentin from '@/assets/img/laborentin.webp';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
+import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
+import badgeMecaAuto from '@/assets/img/meca-auto.webp';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -208,40 +246,35 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section.idSection)
-          .then((v) => {
-            const { json: dataActivities, status: statusActivities } = v;
-
-            if ('message' in dataActivities) {
-              hasError.value = true;
-              return;
-            }
-
-            if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-              sectionActivities.value.push(
-                {
-                  idSection: section.idSection,
-                  labelSection: section.label,
-                  activities: [],
-                });
-              for (let activity of dataActivities) {
-                for (let section of sectionActivities.value) {
-                  if (section?.idSection === activity.idSection) {
-                    section?.activities.push(
-                      {
-                        idActivity: activity.idActivity,
-                        labelActivity: activity.label,
-                      });
-                  }
+        api.getAllActivitiesOneSection(section.idSection).then((v) => {
+          const { json: dataActivities, status: statusActivities } = v;
+          if ('message' in dataActivities) {
+            hasError.value = true;
+            return;
+          }
+          if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+            sectionActivities.value.push({
+              idSection: section.idSection,
+              labelSection: section.label,
+              activities: [],
+            });
+            for (let activity of dataActivities) {
+              for (let section of sectionActivities.value) {
+                if (section?.idSection === activity.idSection) {
+                  section?.activities.push({
+                    idActivity: activity.idActivity,
+                    labelActivity: activity.label,
+                  });
                 }
               }
-              getSectionBonusAcorded();
-              getNoActivitySections();
-              hasLoaded.value = true;
-            } else {
-              hasError.value = true;
             }
-          });
+            getSectionBonusAcorded();
+            getNoActivitySections();
+            hasLoaded.value = true;
+          } else {
+            hasError.value = true;
+          }
+        });
       }
     } else {
       hasError.value = true;
@@ -414,8 +447,7 @@ const allSections = ref([{
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 63,
-},
-{
+}, {
   section: 'Qualiticien',
   id: -1,
   labelSection: 'Qualiticien-ne',
@@ -452,8 +484,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   } else {
     pos = posy + (10 + dif * zoomfactor);
   }
-  const minHeightPx = getComputedStyle(document.documentElement)
-    .getPropertyValue('--height-screen-diff');
+  const minHeightPx = getComputedStyle(document.documentElement).getPropertyValue('--height-screen-diff');
   const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
   if (pos < minHeight) {
     pos = minHeight;
@@ -480,12 +511,11 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   for (let section of sectionActivities.value) {
     if (section['idSection'] === currentSection.value?.id ?? -1) {
       for (let activity of section['activities']) {
-        currentLabel.value.activities.push(
-          {
-            idActivity: activity['idActivity'],
-            labelActivity: activity['labelActivity'],
-            realised: activityIsRealised(activity['idActivity']),
-          });
+        currentLabel.value.activities.push({
+          idActivity: activity['idActivity'],
+          labelActivity: activity['labelActivity'],
+          realised: activityIsRealised(activity['idActivity']),
+        });
         heightOffset += 20;
         if (heightOffset > 20) {
           heightOffset += 10;
@@ -641,31 +671,36 @@ template {
   justify-content: center;
   align-items: center;
 }
-.badges div p {
-  font-size: 1.1rem;
-  color: black;
+
+.badges-liste {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
-.badges div {
+.badges-liste div {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.badge {
   width: 160px;
   height: 160px;
   padding: 10px;
   border-radius: 5%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column !important;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
 }
 
-div.badges {
-  border-radius: 15px;
-  margin: 1.5em auto auto;
-  display: grid;
-  justify-items: center;
-  grid-row-gap: 1.25em;
-  width: fit-content;
-  grid-template-columns: 1fr;
+.badge p {
+  font-size: 1.1rem;
+  color: black;
 }
 
 @keyframes rotateOnce {
@@ -677,12 +712,12 @@ div.badges {
   }
 }
 
-.badges img {
+.badges-liste img {
   transition: transform 0.3s ease-in-out;
   transform: scale(1);
 }
 
-.badges div:hover img {
+.badges-liste div:hover img {
   animation: rotateOnce 0.6s ease-in-out forwards;
 }
 
@@ -705,4 +740,21 @@ button.selected {
   background-color: #ce0064;
   color: white;
 }
+
+@media screen and (max-width: 768px) {
+  .badge {
+    width: 100px;
+    height: 100px;
+  }
+
+  .badge p {
+    font-size: 15px;
+  }
+
+  .badge-description {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+}
+
 </style>
