@@ -353,7 +353,6 @@ function fillDataActivity() {
       listActivity: listActivityUser
     });
   }
-
 }
 
 //Si l'utilisateur est sur le podium alors import image
