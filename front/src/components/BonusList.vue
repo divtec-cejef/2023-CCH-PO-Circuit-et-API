@@ -50,12 +50,12 @@ const listAllBonus = ref<{
 function getSectionColor(name: string): string {
   const color: Record<string, string> = {
     'Automatique': '#EDE9FE',
-    'Dessinateur': '#E5E7EB',
+    'Dessinateur': '#D1FFB5',
     'Electronique': '#FCE7F3',
     'Horlogerie': '#FEF9C3',
     'Informatique': '#E0F2FE',
     'Laborantin': '#DCFCE7',
-    'Mécanicien-auto': '#E5E7EB',
+    'Mécanicien-auto': '#FFDCB6',
     'Micromécanique': '#DBEAFE',
     'Qualiticien': '#E5E7EB',
   };
