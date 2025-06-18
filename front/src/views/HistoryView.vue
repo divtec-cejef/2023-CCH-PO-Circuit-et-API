@@ -1,5 +1,10 @@
 <template>
-  <div class="content bonus-map">
+  <div class="button-group">
+    <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte 🗺️</button>
+    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description 📃</button>
+  </div>
+
+  <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
          class="labelActivity">
       <div v-if="currentLabel.activities.length > 0">
@@ -40,6 +45,99 @@
       </div>
     </div>
   </div>
+  <div v-else-if="descriptionIsShown">
+    <div class="badges-liste">
+      <div>
+        <div class="badge" style="background-color: #EDE9FE">
+          <img :src="badgeAutomaticien" alt="Badge automaticien">
+          <p>Automaticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src="badgeDessinateur" alt="Badge desinateur">
+          <p>Desinateur</p>
+        </div>
+        <div class="badge-decription">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #FCE7F3">
+          <img :src=badgeElectronicien alt="Badge electronicien">
+          <p>Electronicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #FEF9C3">
+          <img :src=badgeHorloger alt="Badge horloger">
+          <p>Horloger</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #E0F2FE">
+          <img :src=badgeInformaticien alt="Badge informaticien">
+          <p>Informaticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #DCFCE7">
+          <img :src=badgeLaborentin alt="Badge laborantin">
+          <p>Laborantin</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src=badgeMecaAuto alt="Badge mecanicien">
+          <p>Mécanicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #DBEAFE">
+          <img :src=badgeMicromecanicien alt="Badge micromecanicien">
+          <p>Micromécanicien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="badge" style="background-color: #E5E7EB">
+          <img :src=badgeInconnu alt="Badge qualiticien">
+          <p>Qualiticien</p>
+        </div>
+        <div class="badge-description">
+          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -53,6 +151,15 @@ import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
+import badgeAutomaticien from '@/assets/img/automaticien.webp';
+import badgeElectronicien from '@/assets/img/electronicien.webp';
+import badgeHorloger from '@/assets/img/horloger.webp';
+import badgeInformaticien from '@/assets/img/informaticien.webp';
+import badgeLaborentin from '@/assets/img/laborentin.webp';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
+import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
+import badgeMecaAuto from '@/assets/img/meca-auto.webp';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -68,6 +175,23 @@ const divDisplay = ref<string>('none');
 const sectionUnCLicked = ref<boolean>(true);
 const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
+
+const mapIsShown = ref(true);
+const descriptionIsShown = ref(false);
+
+function mapOnClicked() {
+  mapIsShown.value = true;
+  descriptionIsShown.value = false;
+  console.log('Carte affichée ?', mapIsShown.value);
+  console.log('Description affichée ?', descriptionIsShown.value);
+}
+
+function descriptionOnClicked() {
+  mapIsShown.value = false;
+  descriptionIsShown.value = true;
+  console.log('Carte affichée ?', mapIsShown.value);
+  console.log('Description affichée ?', descriptionIsShown.value);
+}
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{
@@ -122,40 +246,35 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section.idSection)
-          .then((v) => {
-            const { json: dataActivities, status: statusActivities } = v;
-
-            if ('message' in dataActivities) {
-              hasError.value = true;
-              return;
-            }
-
-            if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-              sectionActivities.value.push(
-                {
-                  idSection: section.idSection,
-                  labelSection: section.label,
-                  activities: [],
-                });
-              for (let activity of dataActivities) {
-                for (let section of sectionActivities.value) {
-                  if (section?.idSection === activity.idSection) {
-                    section?.activities.push(
-                      {
-                        idActivity: activity.idActivity,
-                        labelActivity: activity.label,
-                      });
-                  }
+        api.getAllActivitiesOneSection(section.idSection).then((v) => {
+          const { json: dataActivities, status: statusActivities } = v;
+          if ('message' in dataActivities) {
+            hasError.value = true;
+            return;
+          }
+          if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+            sectionActivities.value.push({
+              idSection: section.idSection,
+              labelSection: section.label,
+              activities: [],
+            });
+            for (let activity of dataActivities) {
+              for (let section of sectionActivities.value) {
+                if (section?.idSection === activity.idSection) {
+                  section?.activities.push({
+                    idActivity: activity.idActivity,
+                    labelActivity: activity.label,
+                  });
                 }
               }
-              getSectionBonusAcorded();
-              getNoActivitySections();
-              hasLoaded.value = true;
-            } else {
-              hasError.value = true;
             }
-          });
+            getSectionBonusAcorded();
+            getNoActivitySections();
+            hasLoaded.value = true;
+          } else {
+            hasError.value = true;
+          }
+        });
       }
     } else {
       hasError.value = true;
@@ -328,8 +447,7 @@ const allSections = ref([{
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 63,
-},
-{
+}, {
   section: 'Qualiticien',
   id: -1,
   labelSection: 'Qualiticien-ne',
@@ -366,8 +484,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   } else {
     pos = posy + (10 + dif * zoomfactor);
   }
-  const minHeightPx = getComputedStyle(document.documentElement)
-    .getPropertyValue('--height-screen-diff');
+  const minHeightPx = getComputedStyle(document.documentElement).getPropertyValue('--height-screen-diff');
   const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
   if (pos < minHeight) {
     pos = minHeight;
@@ -394,12 +511,11 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   for (let section of sectionActivities.value) {
     if (section['idSection'] === currentSection.value?.id ?? -1) {
       for (let activity of section['activities']) {
-        currentLabel.value.activities.push(
-          {
-            idActivity: activity['idActivity'],
-            labelActivity: activity['labelActivity'],
-            realised: activityIsRealised(activity['idActivity']),
-          });
+        currentLabel.value.activities.push({
+          idActivity: activity['idActivity'],
+          labelActivity: activity['labelActivity'],
+          realised: activityIsRealised(activity['idActivity']),
+        });
         heightOffset += 20;
         if (heightOffset > 20) {
           heightOffset += 10;
@@ -555,4 +671,90 @@ template {
   justify-content: center;
   align-items: center;
 }
+
+.badges-liste {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.badges-liste div {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.badge {
+  width: 160px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.badge p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+.badges-liste img {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+}
+
+.badges-liste div:hover img {
+  animation: rotateOnce 0.6s ease-in-out forwards;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+button {
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: gray;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button.selected {
+  background-color: #ce0064;
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .badge {
+    width: 100px;
+    height: 100px;
+  }
+
+  .badge p {
+    font-size: 15px;
+  }
+
+  .badge-description {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+}
+
 </style>
