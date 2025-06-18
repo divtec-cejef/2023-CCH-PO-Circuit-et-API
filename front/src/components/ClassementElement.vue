@@ -85,9 +85,7 @@ import badgeDessinateur from '@/assets/img/dessinateurs.webp';
 import badgeMecAuto from '@/assets/img/meca-auto.webp';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-let element = document.getElementById('listBadge');
-const screenWidth = ref(screen.width);
-console.log('Width :' + screenWidth.value);
+const screenWidth = ref(window.screen.width);
 
 const listAllBonus = ref<{
   name: string;
@@ -140,7 +138,6 @@ const listAllSection: Ref<models.parsedData.SectionName[]> = ref([]);
 const colorScheme = usePreferredColorScheme();
 
 function getSectionBadge(name: string, realised: boolean): string {
-  console.log('getSectionBadge', { name, realised });
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
     'Dessinateur': badgeDessinateur,
