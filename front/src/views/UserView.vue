@@ -53,7 +53,7 @@ import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
-import BonusList from "@/components/BonusList.vue";
+import BonusList from '@/components/BonusList.vue';
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
@@ -104,7 +104,6 @@ div.loading-page {
   justify-content: center;
   align-items: center;
 }
-
 
 #app div.error-no-car {
   top: calc(50% - 75px);
