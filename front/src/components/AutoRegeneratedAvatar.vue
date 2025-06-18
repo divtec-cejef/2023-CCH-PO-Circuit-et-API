@@ -1,7 +1,7 @@
 <template>
-    <div class="avatar">
-        <v-runtime-template :template="template"/>
-    </div>
+  <div class="avatar">
+    <v-runtime-template :template="template"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -41,8 +41,8 @@ export default defineComponent({
 
 <style scoped>
 .avatar div {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 </style>

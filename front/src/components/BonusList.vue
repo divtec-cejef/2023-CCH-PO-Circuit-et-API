@@ -1,5 +1,20 @@
 <template>
   <section>
+<<<<<<< amelioration-details-joueurs
+    <h2>Mes bonus</h2>
+    <div class="badges">
+      <div
+          v-for="section in listAllBonus"
+          :key="section.idSection"
+          :style="{ backgroundColor: getSectionColor(section.name) }"
+      >
+        <img
+            :src="getSectionBadge(section.name, section.realised)"
+            :alt="`Badge ${section.name}`"
+        />
+        <p>{{ section.name }}</p>
+      </div>
+=======
   <h2>Mes bonus</h2>
   <div class="badges-liste">
     <div
@@ -12,8 +27,8 @@
           :alt="`Badge ${section.name}`"
       />
       <p>{{ section.name }}</p>
+>>>>>>> develop
     </div>
-  </div>
   </section>
 </template>
 
@@ -112,7 +127,11 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< amelioration-details-joueurs
+  .badges div {
+=======
   .badges-liste div {
+>>>>>>> develop
     width: 160px;
     height: 160px;
     padding: 10px;
@@ -154,6 +173,10 @@ async function loadBonusList() {
       height: 110px;
     }
   }
+<<<<<<< amelioration-details-joueurs
+
+=======
+>>>>>>> develop
 @keyframes rotateOnce {
   from {
     transform: rotate(0deg) scale(1);
