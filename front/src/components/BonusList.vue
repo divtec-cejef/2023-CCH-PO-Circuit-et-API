@@ -63,7 +63,6 @@ function getSectionColor(name: string): string {
 }
 
 function getSectionBadge(name: string, realised: boolean): string {
-  console.log('getSectionBadge', { name, realised });
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
     'Dessinateur': badgeDessinateur,
