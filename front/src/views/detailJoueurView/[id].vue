@@ -55,8 +55,6 @@ socket.onRankingReceived(async (data) => {
   emit('load');
 });
 
-onUnmounted(() => socket.destroy());
-
 async function loadUserData() {
   if (!listRace.value || !listRace.value[id]) return;
 
@@ -113,7 +111,7 @@ async function buildBonusList() {
 </script>
 
 <template>
-  <h1>Joueur {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
+  <h1 @click="console.log(listRace[id])" >Joueur {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
 
   <RouterLink to="../pilote">
     <AutoRegeneratedAvatar style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>

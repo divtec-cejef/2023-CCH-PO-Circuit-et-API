@@ -10,7 +10,7 @@
         </div>
 
         <div ref="classment" class="classement">
-            <ClassementRace/>
+            <ClassementRace :showBonus="true"/>
         </div>
     </div>
 </template>
