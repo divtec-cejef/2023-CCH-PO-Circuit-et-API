@@ -1,7 +1,7 @@
 <template>
   <section>
   <h2>Mes bonus</h2>
-  <div class="badges">
+  <div class="badges-liste">
     <div
         v-for="section in listAllBonus"
         :key="section.idSection"
@@ -112,7 +112,7 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
-  .badges div {
+  .badges-liste div {
     width: 160px;
     height: 160px;
     padding: 10px;
@@ -124,12 +124,12 @@ async function loadBonusList() {
     box-sizing: border-box;
   }
 
-  .badges div p {
+  .badges-liste div p {
     font-size: 1.1rem;
     color: black;
   }
 
-  div.badges {
+  div.badges-liste {
     border-radius: 15px;
     margin: 1.5em auto auto;
     display: grid;
@@ -163,12 +163,12 @@ async function loadBonusList() {
   }
 }
 
-.badges img {
+.badges-liste img {
   transition: transform 0.3s ease-in-out;
   transform: scale(1);
 }
 
-.badges div:hover img {
+.badges-liste div:hover img {
   animation: rotateOnce 0.6s ease-in-out forwards;
 }
 </style>
