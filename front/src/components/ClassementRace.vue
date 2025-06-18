@@ -20,6 +20,7 @@
           :rank="key + 1"
           :show-content="props.showContent"
           :time="new Date(race.total_time)"
+          :showBonus="showBonus"
           style="display: inline-flex;"
         />
     </template>
@@ -44,8 +45,9 @@ const socket = new WebsocketConnection();
 //Définition des props avec valeur par défaut
 const props = withDefaults(defineProps<{
     showContent?: boolean,
+    showBonus?: boolean,
 }>(), {
-  showContent: true
+  showContent: true,
 });
 
 const emit = defineEmits(['indexNewRace', 'load']);

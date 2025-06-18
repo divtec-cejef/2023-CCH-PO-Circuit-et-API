@@ -42,19 +42,18 @@
       </div>
       <AutoRegeneratedAvatar :avatar-config="props.avatar"/>
       <div class="pseudo">{{ props.pseudo }}</div>
-
-      <div
-          v-for="section in listAllBonus"
-          v-if="screenWidth > 670"
-          :key="section.idSection"
-          class="listBadge"
-      >
-        <img
-            :src="getSectionBadge(section.name, section.realised)"
-            :alt="`Badge ${section.name}`"
-        />
-      </div>
-
+      <div v-if="showBonus && (screenWidth > 600)" style=" display: inline-flex">
+        <div
+            id="listBadge"
+            v-for="section in listAllBonus"
+            :key="section.idSection"
+        >
+          <img
+              :src="getSectionBadge(section.name, section.realised)"
+              :alt="`Badge ${section.name}`"
+          />
+        </div>
+    </div>
 
       <div class="time">{{ formatTime(props.time) }}<span>s</span></div>
 
@@ -86,7 +85,9 @@ import badgeDessinateur from '@/assets/img/dessinateurs.webp';
 import badgeMecAuto from '@/assets/img/meca-auto.webp';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+let element = document.getElementById('listBadge');
 const screenWidth = ref(screen.width);
+console.log('Width :' + screenWidth.value);
 
 const listAllBonus = ref<{
   name: string;
@@ -106,6 +107,7 @@ const props = defineProps<{
   avatar: Configs;
   showContent: boolean,
   isNewElement?: boolean
+  showBonus?: boolean,
 }>();
 
 function select() {
@@ -367,7 +369,7 @@ if (props.rank <= PODIUM) {
 <style lang="scss" scoped>
 @import "src/assets/css/consts";
 
-.listBadge {
+#listBadge {
   font-size: 1.1rem;
   color: black;
   background: none;
