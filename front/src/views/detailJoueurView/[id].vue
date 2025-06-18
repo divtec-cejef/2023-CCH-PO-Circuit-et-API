@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import api, { type models } from '@/models/api';
 import { WebsocketConnection } from '@/models/api';
-import {defineAsyncComponent, onUnmounted, type Ref, ref,} from 'vue';
-import { useRoute } from 'vue-router';
+import { defineAsyncComponent, onMounted, onUnmounted, type Ref, ref } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 import { Section } from '@/models/section';
 import type { Configs } from 'holiday-avatar';
+import { getNumRace } from '@/models/car';
+import carModel from '@/assets/other/car.glb';
+import carGifDark from '@/assets/img/car-spin-dark.gif';
+import carGifLight from '@/assets/img/car-spin-light.gif';
+import { usePreferredColorScheme } from '@vueuse/core/index';
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
+const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
+const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
+const colorScheme = usePreferredColorScheme();
 
 const route = useRoute();
 const id = Number(route.params.id);
@@ -49,11 +57,21 @@ socket.onRankingReceived(async (data) => {
 
 onUnmounted(() => socket.destroy());
 
-
 async function loadUserData() {
   if (!listRace.value || !listRace.value[id]) return;
 
   const carId = listRace.value[id].car.id_car;
+
+  /* <En test> */
+  //Récupère les courses de l'utilisateur
+  const { json: allRaceOneCar } = await api.getAllRaceOneCar(carId);
+  if ('message' in allRaceOneCar) {
+    hasError.value = true;
+    return;
+  }
+  raceData.value = allRaceOneCar;
+  /* </En test> */
+
 
   // Charge les activités de la voiture
   const { json: activities } = await api.getActivityOneCar(carId);
@@ -92,39 +110,54 @@ async function buildBonusList() {
     });
   }
 }
-
-function getColorClass(name: string): string {
-  const color: Record<string, string> = {
-    'Automatique': 'color-automatique',
-    'Dessinateur': 'color-dessinateur',
-    'Electronique': 'color-electronique',
-    'Horlogerie': 'color-horlogerie',
-    'Informatique': 'color-informatique',
-    'Laborantin': 'color-laborantin',
-    'Mécanicien-auto': 'color-mecanicien',
-    'Micromécanique': 'color-micormecanique',
-    'Qualiticien': 'color-qualiticien',
-  };
-  return color[name];
-}
 </script>
 
 <template>
-  <h1>Détail joueur {{ listRace[id].car.pseudo }}</h1>
-  <AutoRegeneratedAvatar :avatar-config="listRace[id].car.avatar"/>
-  <div>
+  <h1>Joueur {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
+
+  <RouterLink to="../pilote">
+    <AutoRegeneratedAvatar style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>
+  </RouterLink>
+  <div class="contenu">
     <h2>Meilleure course</h2>
-<!--    <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl"></VideoRace>-->
+    <div class="course">
+      <RaceInfo :display-rank="false"
+                :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                :race="raceData!.races[BEST_TIME_INDEX]"
+                :rank="raceData!.rank"
+                class="contenu-course">
+      </RaceInfo>
+      <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl" class="contenu-course"></VideoRace>
+    </div>
   </div>
 
-  <BonusList :id-car="listRace[id].car.id_car"></BonusList>
-
-  <h2>Voiture</h2>
-
-
+  <div class="contenu">
+    <BonusList :id-car="listRace[id].car.id_car"></BonusList>
+  </div>
+  <div class="contenu">
+    <h2>Voiture</h2>
+    <ModelRender :model="carModel">
+      <img :src="colorScheme === 'dark'
+                            ? carGifDark
+                            : carGifLight" alt="Animation de la voiture en 3D">
+    </ModelRender>
+  </div>
 </template>
 
 <style scoped lang="scss">
+.course {
+  display: inline-flex;
+  .contenu-course {
+    margin: 0 15px;
+  }
+}
+
+.contenu {
+  margin-top: 15px;
+  text-align: left;
+  min-width: 60%;
+}
+
 li {
   list-style-type: none;
 }
