@@ -110,8 +110,7 @@ async function loadBonusList() {
   align-items: center;
   box-sizing: border-box;
   @media screen and (max-width: 425px) {
-    width: 120px;
-    height: 120px;
+    margin: 0.5em auto auto
   }
 }
 
@@ -123,6 +122,10 @@ async function loadBonusList() {
 @media screen and (max-width: 765px) {
   h2 {
     text-align: center;
+  }
+  .badges-liste > div:nth-last-child(1):nth-child(odd) {
+    grid-column: span 2;
+    justify-self: center;
   }
 }
 
