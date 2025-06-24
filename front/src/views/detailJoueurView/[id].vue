@@ -111,28 +111,29 @@ async function buildBonusList() {
 </script>
 
 <template>
-  <h1 @click="console.log(listRace[id])" >Rang {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
-
-  <RouterLink to="../pilote">
-    <AutoRegeneratedAvatar style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>
-  </RouterLink>
-  <div class="contenu">
+  <div class="contenu-en-tete">
+    <h1 @click="console.log(listRace[id])" >Rang {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
+    <RouterLink to="../pilote">
+      <AutoRegeneratedAvatar class="avatar" style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>
+    </RouterLink>
+  </div>
+  <div class="contenu-course">
     <h2>Meilleure course</h2>
     <div class="course">
       <RaceInfo :display-rank="false"
                 :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
                 :race="raceData!.races[BEST_TIME_INDEX]"
                 :rank="raceData!.rank"
-                class="contenu-course">
+                class="race-info">
       </RaceInfo>
       <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl" class="contenu-course"></VideoRace>
     </div>
   </div>
 
-  <div class="contenu">
+  <div class="contenu-bonus">
     <BonusList :id-car="listRace[id].car.id_car"></BonusList>
   </div>
-  <div class="contenu">
+  <div class="contenu-voiture">
     <h2>Voiture</h2>
     <ModelRender :model="carModel">
       <img :src="colorScheme === 'dark'
@@ -145,55 +146,47 @@ async function buildBonusList() {
 <style scoped lang="scss">
 .course {
   display: inline-flex;
-  .contenu-course {
+  .race-info {
     margin: 0 15px;
   }
 }
 
-.contenu {
-  margin-top: 15px;
-  text-align: left;
-  min-width: 60%;
+@media screen and (min-width: 765px) {
+  .contenu-course {
+    margin-left: -70%;
+    margin-right: 0;
+  }
+  .contenu-bonus {
+    margin-right: -70%;
+    margin-left: 0;
+    margin-top: -40%;
+  }
+  .contenu-voiture {
+    margin-left: -70%;
+    margin-top: -20%;
+  }
+  .contenu-en-tete {
+    display: flex;
+
+    h1 {
+      margin-top: 15%;
+      margin-left: -5%;
+      margin-right: 5%;
+    }
+  }
 }
 
-li {
-  list-style-type: none;
-}
+@media screen and (max-width: 765px) {
+  h1, h2 {
+    text-align: center;
+  }
 
-/* Bonus */
-.section-nom {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-  font-weight: bold;
-  color: white;
-  margin-left: 1rem;
-}
-.color-automatique {
-  background-color: #a055ad;
-}
-.color-dessinateur {
-  background-color: #43b02a;
-}
-.color-electronique {
-  background-color: #bd1e6c;
-}
-.color-horlogerie {
-  background-color: #ffcd00;
-}
-.color-informatique {
-  background-color: #766eb1;
-}
-.color-laborantin {
-  background-color: #2cd5c4;
-}
-.color-mecanicien {
-  background-color: #07a0e1;
-}
-.color-micormecanique {
-  background-color: #07a0e1;
-}
-.color-qualiticien {
-  background-color: #156385;
+  .avatar {
+    display: block;
+    margin: 20px auto;
+    width: 130px;
+    height: 130px;
+  }
+
 }
 </style>
