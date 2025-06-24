@@ -116,6 +116,12 @@ async function loadBonusList() {
   color: black;
 }
 
+@media screen and (max-width: 765px) {
+  h2 {
+    text-align: center;
+  }
+}
+
 div.badges-liste {
   border-radius: 15px;
   margin: 1.5em auto auto;
@@ -130,6 +136,10 @@ div.badges-liste {
     grid-column-gap: 2.75em;
     grid-template-columns: 1fr 1fr 1fr;
     width: auto;
+
+    h2 {
+      text-align: center;
+    }
   }
 
   p {
