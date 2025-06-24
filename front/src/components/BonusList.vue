@@ -5,7 +5,7 @@
     <div
         v-for="section in listAllBonus"
         :key="section.idSection"
-        :style="{ backgroundColor: getSectionColor(section.name) }"
+        :style="{ backgroundColor: getSectionColor(section.realised) }"
     >
       <img
           :src="getSectionBadge(section.name, section.realised)"
@@ -47,19 +47,8 @@ const listAllBonus = ref<{
   listActivity: { name: string; realised: boolean }[];
 }[]>([]);
 
-function getSectionColor(name: string): string {
-  const color: Record<string, string> = {
-    'Automatique': '#EDE9FE',
-    'Dessinateur': '#D1FFB5',
-    'Electronique': '#FCE7F3',
-    'Horlogerie': '#FEF9C3',
-    'Informatique': '#E0F2FE',
-    'Laborantin': '#DCFCE7',
-    'Mécanicien-auto': '#FFDCB6',
-    'Micromécanique': '#DBEAFE',
-    'Qualiticien': '#E5E7EB',
-  };
-  return color[name] ?? '#E5E7EB';
+function getSectionColor(realised: boolean): string {
+  return realised ? '#d1ffb5' : 'grey';
 }
 
 function getSectionBadge(name: string, realised: boolean): string {
