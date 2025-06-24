@@ -46,97 +46,22 @@
     </div>
   </div>
   <div v-else-if="descriptionIsShown">
-    <div class="badges-liste">
-      <div>
-        <div class="badge" style="background-color: #EDE9FE">
-          <img :src="badgeAutomaticien" alt="Badge automaticien">
-          <p>Automaticien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #E5E7EB">
-          <img :src="badgeDessinateur" alt="Badge desinateur">
-          <p>Desinateur</p>
-        </div>
-        <div class="badge-decription">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #FCE7F3">
-          <img :src=badgeElectronicien alt="Badge electronicien">
-          <p>Electronicien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #FEF9C3">
-          <img :src=badgeHorloger alt="Badge horloger">
-          <p>Horloger</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #E0F2FE">
-          <img :src=badgeInformaticien alt="Badge informaticien">
-          <p>Informaticien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #DCFCE7">
-          <img :src=badgeLaborentin alt="Badge laborantin">
-          <p>Laborantin</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #E5E7EB">
-          <img :src=badgeMecaAuto alt="Badge mecanicien">
-          <p>Mécanicien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #DBEAFE">
-          <img :src=badgeMicromecanicien alt="Badge micromecanicien">
-          <p>Micromécanicien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="badge" style="background-color: #E5E7EB">
-          <img :src=badgeInconnu alt="Badge qualiticien">
-          <p>Qualiticien</p>
-        </div>
-        <div class="badge-description">
-          <p>Il permet de bla bla bla pour bla bla bla blabla bla bla</p>
-        </div>
-      </div>
-    </div>
+   <div
+       v-for="section in listAllBonus"
+       :key="section.idSection"
+       class="badges-liste"
+   >
+     <div>
+     <div class="badge" :style="{ backgroundColor: getSectionColor(section.name) }">
+       <img
+           :src="getSectionBadge(section.name, section.realised)"
+           :alt="`Badge ${section.name}`"
+       />
+       <p>{{ section.name }}</p>
+     </div>
+     <p class="badge-description">{{ section.description }}</p>
+   </div>
+   </div>
   </div>
 </template>
 
@@ -144,9 +69,11 @@
 
 import type { PanZoom } from 'panzoom';
 import panzoom from 'panzoom';
-import { defineAsyncComponent, ref } from 'vue';
-import api from '@/models/api';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
+import api, { type models } from '@/models/api';
 import { useCarStore } from '@/stores/car';
+import { Section } from '@/models/section';
+
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
@@ -179,18 +106,30 @@ const hasError = ref<boolean>(false);
 const mapIsShown = ref(true);
 const descriptionIsShown = ref(false);
 
+onMounted(() => {
+  loadBonusList();
+});
+
+const listAllBonus = ref<{
+  name: string;
+  idSection: number;
+  realised: boolean;
+  listActivity: { name: string; realised: boolean }[];
+  description: string;
+}[]>([]);
+
+const listDescription = ref<{
+  descriptionText: [string, string][];
+}[]>([]);
+
 function mapOnClicked() {
   mapIsShown.value = true;
   descriptionIsShown.value = false;
-  console.log('Carte affichée ?', mapIsShown.value);
-  console.log('Description affichée ?', descriptionIsShown.value);
 }
 
 function descriptionOnClicked() {
   mapIsShown.value = false;
   descriptionIsShown.value = true;
-  console.log('Carte affichée ?', mapIsShown.value);
-  console.log('Description affichée ?', descriptionIsShown.value);
 }
 
 let realisedActivity = ref<number[]>([]);
@@ -532,6 +471,93 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   divDisplay.value = 'block';
 
 }
+async function loadBonusList() {
+  const { json: activities } = await api.getActivityOneCar(car.idCar);
+  const { json: sections } = await api.getAllSections();
+
+  const listActivityOneCarApi = activities;
+
+  listAllBonus.value = [];
+  listDescription.value.push({
+    descriptionText: [
+      ['Automatique', 'Description auto'],
+      ['Dessinateur', 'Description dessinateur'],
+      ['Electronique', 'Description Electro'],
+      ['Horlogerie', 'Description dessinateur'],
+      ['Informatique', 'Description info'],
+      ['Laborantin', 'Description labo'],
+      ['Mécanicien-auto', 'Description meca-auto'],
+      ['Micromécanique', 'Description micro'],
+      ['Qualiticien', 'Description qualiticien'],
+    ]
+  });
+
+  for (const section of sections) {
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
+
+    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
+
+    const listActivityUser = activitiesList.map((activity) => ({
+      name: activity.label,
+      realised: listActivityOneCarApi.some((a) => a.idActivity === activity.idActivity),
+    }));
+
+    const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
+
+    let descriptionTxt = 'Description non trouvée';
+
+    for (const obj of listDescription.value) {
+      for (const [name, description] of obj.descriptionText) {
+        if (name === section.label) {
+          descriptionTxt = description;
+        }
+      }
+    }
+
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      realised: sectionRealised,
+      listActivity: listActivityUser,
+      description: descriptionTxt,
+    });
+  }
+}
+
+function getSectionColor(name: string): string {
+  const color: Record<string, string> = {
+    'Automatique': '#EDE9FE',
+    'Dessinateur': '#D1FFB5',
+    'Electronique': '#FCE7F3',
+    'Horlogerie': '#FEF9C3',
+    'Informatique': '#E0F2FE',
+    'Laborantin': '#DCFCE7',
+    'Mécanicien-auto': '#FFDCB6',
+    'Micromécanique': '#DBEAFE',
+    'Qualiticien': '#E5E7EB',
+  };
+  return color[name] ?? '#E5E7EB';
+}
+
+function getSectionBadge(name: string, realised: boolean): string {
+  const badgeMap: Record<string, string> = {
+    'Automatique': badgeAutomaticien,
+    'Dessinateur': badgeDessinateur,
+    'Electronique': badgeElectronicien,
+    'Horlogerie': badgeHorloger,
+    'Informatique': badgeInformaticien,
+    'Laborantin': badgeLaborentin,
+    'Mécanicien-auto': badgeMecaAuto,
+    'Micromécanique': badgeMicromecanicien,
+    'Qualiticien': badgeInconnu,
+  };
+
+  if (!realised) return badgeInconnu;
+  return badgeMap[name] ?? badgeInconnu;
+}
+
+
 </script>
 
 <style lang="scss" scoped>

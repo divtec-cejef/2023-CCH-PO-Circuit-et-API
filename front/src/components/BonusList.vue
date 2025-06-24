@@ -99,7 +99,6 @@ async function loadBonusList() {
     }));
 
     const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
-
     listAllBonus.value.push({
       name: section.label,
       idSection: section.idSection,
@@ -108,6 +107,7 @@ async function loadBonusList() {
     });
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
