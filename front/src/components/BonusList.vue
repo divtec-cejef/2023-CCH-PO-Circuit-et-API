@@ -5,10 +5,11 @@
     <div
         v-for="section in listAllBonus"
         :key="section.idSection"
-        :style="{ backgroundColor: getSectionColor(section.name) }"
+        :style="{ backgroundColor: getSectionColor(section.realised) }"
+        :class="{ 'not-realised': !section.realised }"
     >
       <img
-          :src="getSectionBadge(section.name, section.realised)"
+          :src="getSectionBadge(section.name)"
           :alt="`Badge ${section.name}`"
       />
       <p>{{ section.name }}</p>
@@ -47,22 +48,11 @@ const listAllBonus = ref<{
   listActivity: { name: string; realised: boolean }[];
 }[]>([]);
 
-function getSectionColor(name: string): string {
-  const color: Record<string, string> = {
-    'Automatique': '#EDE9FE',
-    'Dessinateur': '#D1FFB5',
-    'Electronique': '#FCE7F3',
-    'Horlogerie': '#FEF9C3',
-    'Informatique': '#E0F2FE',
-    'Laborantin': '#DCFCE7',
-    'Mécanicien-auto': '#FFDCB6',
-    'Micromécanique': '#DBEAFE',
-    'Qualiticien': '#E5E7EB',
-  };
-  return color[name] ?? '#E5E7EB';
+function getSectionColor(realised: boolean): string {
+  return realised ? '#d1ffb5' : '#d3d3d3';
 }
 
-function getSectionBadge(name: string, realised: boolean): string {
+function getSectionBadge(name: string): string {
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
     'Dessinateur': badgeDessinateur,
@@ -74,9 +64,7 @@ function getSectionBadge(name: string, realised: boolean): string {
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeInconnu,
   };
-
-  if (!realised) return badgeInconnu;
-  return badgeMap[name] ?? badgeInconnu;
+  return badgeMap[name];
 }
 
 async function loadBonusList() {
@@ -111,49 +99,48 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
+.badges-liste div {
+  width: 160px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
 
-  .badges-liste div {
-    width: 160px;
-    height: 160px;
-    padding: 10px;
-    border-radius: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
+.badges-liste div p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+div.badges-liste {
+  border-radius: 15px;
+  margin: 1.5em auto auto;
+  display: grid;
+  justify-items: center;
+  grid-column-gap: 15vw;
+  grid-row-gap: 1.25em;
+  width: fit-content;
+  grid-template-columns: 1fr 1fr;
+
+  @media screen and (min-width: 475px) {
+    grid-column-gap: 2.75em;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: auto;
   }
 
-  .badges-liste div p {
-    font-size: 1.1rem;
-    color: black;
+  p {
+    margin: 5px 0;
   }
 
-  div.badges-liste {
-    border-radius: 15px;
-    margin: 1.5em auto auto;
-    display: grid;
-    justify-items: center;
-    grid-column-gap: 15vw;
-    grid-row-gap: 1.25em;
-    width: fit-content;
-    grid-template-columns: 1fr 1fr;
-
-    @media screen and (min-width: 475px) {
-      grid-column-gap: 2.75em;
-      grid-template-columns: 1fr 1fr 1fr;
-      width: auto;
-    }
-
-    p {
-      margin: 5px 0;
-    }
-
-    img {
-      width: 110px;
-      height: 110px;
-    }
+  img {
+    width: 110px;
+    height: 110px;
   }
+}
 
 @keyframes rotateOnce {
   from {
@@ -171,5 +158,10 @@ async function loadBonusList() {
 
 .badges-liste div:hover img {
   animation: rotateOnce 0.6s ease-in-out forwards;
+}
+
+.badges-liste div.not-realised img {
+  opacity: 0.4;
+  filter: grayscale(60%);
 }
 </style>
