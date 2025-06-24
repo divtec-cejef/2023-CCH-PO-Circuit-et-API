@@ -46,7 +46,7 @@ export default class Race {
  * @param date
  */
 export function formatTime(date: Date) {
-  console.log(date.getMinutes());
+  //console.log(date.getMinutes());
   if (date.getMinutes() === 0)
     return format(date, 'ss.SS');
   else
@@ -116,6 +116,6 @@ export function formatSpeed(speed: number) {
  * @param raceStart Heure du début de course
  */
 export function calculateSector(sector: Date, raceStart: Date) {
-  console.log(sector.getTime() - raceStart.getTime());
+  //console.log(sector.getTime() - raceStart.getTime());
   return new Date(sector.getTime() - raceStart.getTime());
 }

@@ -13,6 +13,40 @@
                     <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
                 </div>
 
+              <div style="margin-right: 10px">
+                <h2>Instructions</h2>
+                <ul class="list-instruction">
+                  <li>
+                    <NumberTime color="var(--blue)" number="1"></NumberTime>
+                    <p>Balade toi dans les différents ateliers du bâtiment et
+                      réalise des activités pour obtenir des
+                      <RouterLink to="bonus">bonus</RouterLink>
+                      !
+                    </p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="2"></NumberTime>
+                    <p>Modifie tes données de
+                      <RouterLink to="pilote">pilotes</RouterLink>
+                      .
+                    </p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="3"></NumberTime>
+                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                      plus tu iras vite !</p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="4"></NumberTime>
+                    <p>Analyse ton résultat et récupère la
+                      <RouterLink to="course">vidéo</RouterLink>
+                      de ta course !
+                    </p>
+                  </li>
+
+                </ul>
+              </div>
+
                 <div class="car-3d">
                     <Suspense>
                         <ModelRender :model="carModel">
@@ -54,6 +88,7 @@ import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
 import BonusList from '@/components/BonusList.vue';
+import NumberTime from '@/components/NumberTime.vue';
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
@@ -145,6 +180,7 @@ div.user-data {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  margin-top: 50px;
 
   @media screen and (min-width: 1024px) {
     display: grid;
@@ -156,7 +192,6 @@ div.user-data {
     flex-wrap: wrap;
     height: 650px;
     width: 100%;
-    margin-top: 10px;
 
     .car-3d {
       margin-top: -350px !important;

@@ -9,7 +9,7 @@
         <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
         <img :src="houseImg" alt="Image d'accueil"/>
       </li>
-      <li :class="{ 'active': route.path === `/${userCar.car.idQuery || ''}`}" v-if="userCar.car.idCar" @click="clickMenu">
+      <li class="logout-big tooltip" :class="{ 'active': route.path === `/${userCar.car.idQuery || ''}`}" @click="clickMenu">
         <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
       </li>
       <li :class="{ 'active': route.path === '/pilote' }" v-if="userCar.car.idCar" @click="clickMenu">
