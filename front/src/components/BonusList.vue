@@ -109,6 +109,10 @@ async function loadBonusList() {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  @media screen and (max-width: 425px) {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 .badges-liste div p {
@@ -126,7 +130,7 @@ div.badges-liste {
   width: fit-content;
   grid-template-columns: 1fr 1fr;
 
-  @media screen and (min-width: 475px) {
+  @media screen and (min-width: 580px) {
     grid-column-gap: 2.75em;
     grid-template-columns: 1fr 1fr 1fr;
     width: auto;
