@@ -52,9 +52,9 @@
        class="badges-liste"
    >
      <div>
-     <div class="badge" :style="{ backgroundColor: getSectionColor(section.name) }">
+     <div class="badge" :class="{ 'not-realised': !section.realised }" :style="{ backgroundColor: getSectionColor(section.realised) }">
        <img
-           :src="getSectionBadge(section.name, section.realised)"
+           :src="getSectionBadge(section.name)"
            :alt="`Badge ${section.name}`"
        />
        <p>{{ section.name }}</p>
@@ -525,22 +525,11 @@ async function loadBonusList() {
   }
 }
 
-function getSectionColor(name: string): string {
-  const color: Record<string, string> = {
-    'Automatique': '#EDE9FE',
-    'Dessinateur': '#D1FFB5',
-    'Electronique': '#FCE7F3',
-    'Horlogerie': '#FEF9C3',
-    'Informatique': '#E0F2FE',
-    'Laborantin': '#DCFCE7',
-    'Mécanicien-auto': '#FFDCB6',
-    'Micromécanique': '#DBEAFE',
-    'Qualiticien': '#E5E7EB',
-  };
-  return color[name] ?? '#E5E7EB';
+function getSectionColor(realised: boolean): string {
+  return realised ? '#d1ffb5' : '#d3d3d3';
 }
 
-function getSectionBadge(name: string, realised: boolean): string {
+function getSectionBadge(name: string): string {
   const badgeMap: Record<string, string> = {
     'Automatique': badgeAutomaticien,
     'Dessinateur': badgeDessinateur,
@@ -552,9 +541,7 @@ function getSectionBadge(name: string, realised: boolean): string {
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeInconnu,
   };
-
-  if (!realised) return badgeInconnu;
-  return badgeMap[name] ?? badgeInconnu;
+  return badgeMap[name];
 }
 
 
@@ -783,4 +770,8 @@ button.selected {
   }
 }
 
+.badges-liste div.not-realised img {
+  opacity: 0.4;
+  filter: grayscale(60%);
+}
 </style>
