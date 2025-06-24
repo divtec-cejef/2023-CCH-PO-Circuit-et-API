@@ -1,5 +1,5 @@
 <template>
-  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="min-width: 300px; width: 33%; margin: 0 5px; box-shadow: none">
+  <div class="all-content" v-on:click="select()" v-if="props.rank == 1" style="min-width: 300px; width: 33%; margin: 0 5px ; box-shadow: none">
     <div :class="'classement-element '+ classUserCarElement + (dropDownClicked ? ' open' : ' ')"
          style="padding-right: 28%; margin-top: 0; width: 100%; height: 30%; background-size: cover; background-image: url('src/assets/img/or.png'); display: flex; flex-direction: column; border: none;"
          :style="{ backgroundColor: backgroundColor || undefined, color : colorFont || undefined}"
@@ -49,6 +49,7 @@
             :key="section.idSection"
         >
           <img
+              v-if="badgeInconnu != getSectionBadge(section.name, section.realised)"
               :src="getSectionBadge(section.name, section.realised)"
               :alt="`Badge ${section.name}`"
           />
