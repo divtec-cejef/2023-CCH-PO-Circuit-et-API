@@ -28,7 +28,7 @@
                         <h2>Classement</h2>
                         <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser"/>
                     </div>
-                    <div ref="classement" class="classement-content">
+                    <div ref="classement" class="classement-content" style="min-height: 450px">
                         <ClassementRace :show-content="false" :show-bonus="false" @load="scrollToUser"/>
                     </div>
                 </div>
