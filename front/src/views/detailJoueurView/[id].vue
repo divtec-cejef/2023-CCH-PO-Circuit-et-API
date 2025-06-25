@@ -151,7 +151,7 @@ async function buildBonusList() {
   }
 }
 
-@media screen and (min-width: 765px) {
+@media screen and (min-width: 1224px) {
   .contenu-course {
     margin-left: -70%;
     margin-right: 0;
