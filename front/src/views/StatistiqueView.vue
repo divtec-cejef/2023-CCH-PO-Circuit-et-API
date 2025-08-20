@@ -3,7 +3,7 @@
 import * as CanvasJS from '@canvasjs/charts';
 import { onMounted } from 'vue';
 onMounted(async () => {
-  var chart = new CanvasJS.Chart('chartContainer', {
+  var chartColumn = new CanvasJS.Chart('chartColumnContainer', {
     title: {
       text: 'Activité effectuer par section'
     },
@@ -22,7 +22,17 @@ onMounted(async () => {
       ]
     }]
   });
-  chart.render();
+  chartColumn.render();
+  var chartPie = new CanvasJS.Chart('chartPieContainer', {
+    data: [{
+      type: 'pie',
+      dataPoints: [
+        { label: 'Nombre de course possèdant une vidéo', y: 195 },
+        { label: 'Nombre de course sans vidéo', y: 348 }
+      ]
+    }]
+  });
+  chartPie.render();
 });
 </script>
 <template>
@@ -83,7 +93,9 @@ onMounted(async () => {
   </div>
   <div>
     <h2>Quelque graphiques</h2>
-    <div id="chartContainer" style="height: 300px; width: 100%;">
+    <div id="chartColumnContainer" style="height: 300px; width: 100%;">
+    </div>
+    <div id="chartPieContainer" style="height: 300px; width: 100%;">
     </div>
   </div>
 
@@ -111,5 +123,6 @@ onMounted(async () => {
 
 div {
   width: 100%;
+  margin-top: 10px;
 }
 </style>
