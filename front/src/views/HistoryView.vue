@@ -52,7 +52,14 @@
        class="badges-liste"
    >
      <div>
-     <div class="badge" :class="{ 'not-realised': !section.realised }" :style="{ backgroundColor: getSectionColor(section.realised) }">
+     <div v-if="car.idCar !== null" class="badge" :class="{ 'not-realised': !section.realised }" :style="{ backgroundColor: getSectionColor(section.realised) }">
+       <img
+           :src="getSectionBadge(section.name)"
+           :alt="`Badge ${section.name}`"
+       />
+       <p>{{ section.name }}</p>
+     </div>
+     <div v-else class="badge" :class="{ 'not-realised': false }" :style="{ backgroundColor: getSectionColor(false) }">
        <img
            :src="getSectionBadge(section.name)"
            :alt="`Badge ${section.name}`"

@@ -17,6 +17,7 @@ const LiveView = () => import('@/views/LiveView.vue');
 const NotFoundView = () => import('@/views/404View.vue');
 const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
 const DetailJoueur = () => import('@/views/detailJoueurView/[id].vue');
+const StatistiqueView = () => import('@/views/StatistiqueView.vue');
 
 
 const router = createRouter({
@@ -107,6 +108,11 @@ const router = createRouter({
       alias: ['/not-found', '/404'],
       path: '/:p(.*)*',
       component: NotFoundView
+    },
+    {
+      name: 'statistique',
+      path: '/admin/statistique',
+      component: StatistiqueView
     }
   ],
   scrollBehavior() {
