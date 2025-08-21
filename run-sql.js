@@ -18,7 +18,7 @@ const nomRequete = [
     'NombreActiviteEffectue',
     'NombreDeVoitureAyantEffectueMinimumUneActivite',
     'NombreDeVoitureAyantEffectueMinimumUneCourse',
-    'NombreDeParticipantEffectueeMinimumUneCourse&UneActivite'
+    'NombreDeParticipantEffectueeMinimumUneCourseEtUneActivite'
 ]
 
 async function run() {
