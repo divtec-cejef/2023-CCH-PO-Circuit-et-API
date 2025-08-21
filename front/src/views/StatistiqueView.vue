@@ -2,6 +2,46 @@
 
 import * as CanvasJS from '@canvasjs/charts';
 import { onMounted } from 'vue';
+
+import { Client } from 'pg';
+import fs from 'fs/promises';
+import path from 'path';
+
+// Config PostgreSQL
+const client = new Client({
+  user: 'webadmin',
+  host: '195.15.237.246',
+  database: 'postgres',
+  password: 'IZeSDT1Sfi',
+  port: 5432,
+});
+
+async function runSQLFile() {
+  try {
+    // Connexion à la DB
+    await client.connect();
+
+    // Lire le fichier SQL
+    const sqlFilePath = path.join('statistique.sql');
+    const sqlQuery = fs.readFileSync(sqlFilePath, 'utf8');
+
+    // Exécuter la requête
+    const result = await client.query(sqlQuery);
+
+    // Sauvegarder le résultat en JSON
+    const jsonFilePath = path.join('result.json');
+    fs.writeFileSync(jsonFilePath, JSON.stringify(result.rows, null, 2));
+
+    console.log('Résultats sauvegardés dans result.json');
+  } catch (err) {
+    console.error('Erreur :', err);
+  } finally {
+    await client.end();
+  }
+}
+
+runSQLFile();
+
 onMounted(async () => {
   var chartColumn = new CanvasJS.Chart('chartColumnContainer', {
     title: {
