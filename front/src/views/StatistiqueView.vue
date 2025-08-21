@@ -2,7 +2,7 @@
 
 import * as CanvasJS from '@canvasjs/charts';
 import { onMounted } from 'vue';
-import * as statistique from '../../../result.json';
+import * as statistique from '../../../resultats-statistique/resultatStat_2024-2025.json';
 console.log(statistique);
 
 const nbrActiviteEffectuer = statistique.NombreActiviteEffectue[0].count;
