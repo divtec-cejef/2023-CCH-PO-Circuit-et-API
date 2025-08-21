@@ -19,8 +19,8 @@ const nomRequete = [
     'NombreActiviteEffectue',
     'NombreDeVoitureAyantEffectueMinimumUneActivite',
     'NombreDeVoitureAyantEffectueMinimumUneCourse',
-    'NombreDeParticipantEffectueeMinimumUneCourse&UneActivite'
-];
+    'NombreDeParticipantEffectueeMinimumUneCourseEtUneActivite'
+]
 
 const NomFichierRequeteSQL = "statistique.sql"
 const cheminDossierRequeteSQL = "resultats-statistique/"

@@ -2,45 +2,15 @@
 
 import * as CanvasJS from '@canvasjs/charts';
 import { onMounted } from 'vue';
+import * as statistique from '../../../result.json';
+console.log(statistique);
 
-import { Client } from 'pg';
-import fs from 'fs/promises';
-import path from 'path';
-
-// Config PostgreSQL
-const client = new Client({
-  user: 'webadmin',
-  host: '195.15.237.246',
-  database: 'postgres',
-  password: 'IZeSDT1Sfi',
-  port: 5432,
-});
-
-async function runSQLFile() {
-  try {
-    // Connexion à la DB
-    await client.connect();
-
-    // Lire le fichier SQL
-    const sqlFilePath = path.join('statistique.sql');
-    const sqlQuery = fs.readFileSync(sqlFilePath, 'utf8');
-
-    // Exécuter la requête
-    const result = await client.query(sqlQuery);
-
-    // Sauvegarder le résultat en JSON
-    const jsonFilePath = path.join('result.json');
-    fs.writeFileSync(jsonFilePath, JSON.stringify(result.rows, null, 2));
-
-    console.log('Résultats sauvegardés dans result.json');
-  } catch (err) {
-    console.error('Erreur :', err);
-  } finally {
-    await client.end();
-  }
-}
-
-runSQLFile();
+const nbrActiviteEffectuer = statistique.NombreActiviteEffectue[0].count;
+const participantAyantEffectuerMinUneActivite = statistique.NombreDeVoitureAyantEffectueMinimumUneActivite.length;
+const nbrCourseEffectuer = statistique.NombreDeCourse[0].count;
+const participantAyantEffectuerMinUneCourse = statistique.NombreDeVoitureAyantEffectueMinimumUneCourse.length;
+const nbrVoiture = statistique.NombreDeVoiture[0].count;
+const participantAyantEffectuerMinUneCourseEtUneActivite = statistique.NombreDeParticipantEffectueeMinimumUneCourseEtUneActivite.length;
 
 onMounted(async () => {
   var chartColumn = new CanvasJS.Chart('chartColumnContainer', {
@@ -50,15 +20,15 @@ onMounted(async () => {
     data: [{
       type: 'column',
       dataPoints: [
-        { label: 'Mécanicien-auto', y: 90 },
-        { label: 'Qualiticien', y: 96 },
-        { label: 'Laborantin', y: 113 },
-        { label: 'Micromécanique', y: 115 },
-        { label: 'Informatique', y: 116 },
-        { label: 'Electronique', y: 182 },
-        { label: 'Automatique', y: 186 },
-        { label: 'Horlogerie', y: 192 },
-        { label: 'Dessinateur', y: 197 }
+        { label: statistique.ActiviteLesPlusEffectue[0].label, y: parseInt(statistique.ActiviteLesPlusEffectue[0].count) },
+        { label: statistique.ActiviteLesPlusEffectue[1].label, y: parseInt(statistique.ActiviteLesPlusEffectue[1].count) },
+        { label: statistique.ActiviteLesPlusEffectue[2].label, y: parseInt(statistique.ActiviteLesPlusEffectue[2].count) },
+        { label: statistique.ActiviteLesPlusEffectue[3].label, y: parseInt(statistique.ActiviteLesPlusEffectue[3].count) },
+        { label: statistique.ActiviteLesPlusEffectue[4].label, y: parseInt(statistique.ActiviteLesPlusEffectue[4].count) },
+        { label: statistique.ActiviteLesPlusEffectue[5].label, y: parseInt(statistique.ActiviteLesPlusEffectue[5].count) },
+        { label: statistique.ActiviteLesPlusEffectue[6].label, y: parseInt(statistique.ActiviteLesPlusEffectue[6].count) },
+        { label: statistique.ActiviteLesPlusEffectue[7].label, y: parseInt(statistique.ActiviteLesPlusEffectue[7].count) },
+        { label: statistique.ActiviteLesPlusEffectue[8].label, y: parseInt(statistique.ActiviteLesPlusEffectue[8].count) },
       ]
     }]
   });
@@ -67,31 +37,32 @@ onMounted(async () => {
     data: [{
       type: 'pie',
       dataPoints: [
-        { label: 'Nombre de course possèdant une vidéo', y: 195 },
-        { label: 'Nombre de course sans vidéo', y: 348 }
+        { label: 'Nombre de course possèdant une vidéo', y: parseInt(statistique.NombreDeCourseAvecVideo[0].count) },
+        { label: 'Nombre de course sans vidéo', y: nbrCourseEffectuer - parseInt(statistique.NombreDeCourseAvecVideo[0].count) }
       ]
     }]
   });
   chartPie.render();
 });
+
 </script>
 <template>
   <h1>Statistiques</h1>
   <div>
-    <h2>Quelque chiffres</h2>
+    <h2>Quelques chiffres</h2>
     <div class="chiffres">
       <h3>Activité : </h3>
       <div class="stat">
         <div>
-          <p>1288</p>
+          <p><strong>{{ nbrActiviteEffectuer }}</strong></p>
           <p>Activité effectué</p>
         </div>
         <div>
-          <p>428</p>
+          <p><strong>{{ participantAyantEffectuerMinUneActivite }}</strong></p>
           <p>Participant(e)s ayant effectuer au minimum une activité</p>
         </div>
         <div>
-          <p>3</p>
+          <p><strong>{{ (nbrActiviteEffectuer/participantAyantEffectuerMinUneActivite).toPrecision(4) }}</strong></p>
           <p>Activité moyenne effectué par participant</p>
         </div>
       </div>
@@ -100,15 +71,15 @@ onMounted(async () => {
       <h3>Courses : </h3>
       <div class="stat">
         <div>
-          <p>543</p>
+          <p><strong>{{ nbrCourseEffectuer }}</strong></p>
           <p>Course effectuées</p>
         </div>
         <div>
-          <p>302</p>
+          <p><strong>{{ participantAyantEffectuerMinUneCourse }}</strong></p>
           <p>Participant(e)s ayant effectuer au minimum une course</p>
         </div>
         <div>
-          <p>1.79</p>
+          <p><strong>{{ (nbrCourseEffectuer/participantAyantEffectuerMinUneCourse).toPrecision(4) }}</strong></p>
           <p>Course moyenne effectué par participent</p>
         </div>
       </div>
@@ -117,15 +88,15 @@ onMounted(async () => {
       <h3>Voitures : </h3>
       <div class="stat">
         <div>
-          <p>700</p>
+          <p><strong>{{ nbrVoiture }}</strong></p>
           <p>Voiture</p>
         </div>
         <div>
-          <p>253</p>
+          <p><strong>{{ participantAyantEffectuerMinUneCourseEtUneActivite }}</strong></p>
           <p>Participant(e)s ayant effectuer au minimum une course et une activité</p>
         </div>
         <div>
-          <p>43%</p>
+          <p><strong>{{ (100 / nbrVoiture * participantAyantEffectuerMinUneCourse).toPrecision(4) }}%</strong></p>
           <p>Voiture ayant effectuer au minimum une course</p>
         </div>
       </div>
@@ -138,7 +109,6 @@ onMounted(async () => {
     <div id="chartPieContainer" style="height: 300px; width: 100%;">
     </div>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -159,6 +129,7 @@ onMounted(async () => {
   padding: 10px;
   border-radius: 10px;
   max-width: 30%;
+  text-align: center;
 }
 
 div {
