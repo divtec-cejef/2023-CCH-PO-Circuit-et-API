@@ -1,13 +1,14 @@
 // run-sql.js (CommonJS)
 const { Client } = require("pg");
 const fs = require("fs");
+const readline = require("readline");
 
 const client = new Client({
-  user: "webadmin",
-  host: "195.15.237.246",
-  database: "postgres",
-  password: "IZeSDT1Sfi",
-  port: 5432,
+    user: "webadmin",
+    host: "195.15.237.246",
+    database: "postgres",
+    password: "IZeSDT1Sfi",
+    port: 5432,
 });
 
 const nomRequete = [
@@ -19,34 +20,61 @@ const nomRequete = [
     'NombreDeVoitureAyantEffectueMinimumUneActivite',
     'NombreDeVoitureAyantEffectueMinimumUneCourse',
     'NombreDeParticipantEffectueeMinimumUneCourse&UneActivite'
-]
+];
 
-async function run() {
-  try {
-    await client.connect();
+const NomFichierRequeteSQL = "statistique.sql"
+const cheminDossierRequeteSQL = "resultats-statistique/"
 
-    const sqlFile = fs.readFileSync("statistique.sql", "utf8");
-    const queries = sqlFile
-        .split(";")
-        .map(q => q.trim())
-        .filter(q => q.length > 0);
+function poserUneQuestion(question) {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-    let allResults = {};
+    return new Promise(resolve => {
+        rl.question(question, (answer) => {
+            rl.close();
+            resolve(answer);
+        });
+    });
+}
+async function createFile(nomFichierACreer) {
+    try {
+        await client.connect();
 
-    for (let i = 0; i < queries.length; i++) {
-      console.log(`▶️ Exécution de la requête ${i+1}`);
-      const res = await client.query(queries[i]);
-      allResults[nomRequete[i]] = res.rows;
+        const sqlFile = fs.readFileSync(NomFichierRequeteSQL, "utf8");
+        const queries = sqlFile
+            .split(";")
+            .map(q => q.trim())
+            .filter(q => q.length > 0);
+
+        let allResults = {};
+
+        for (let i = 0; i < queries.length; i++) {
+            console.log(`▶️ Exécution de la requête ${i+1}: ${nomRequete[i]}`);
+            const res = await client.query(queries[i]);
+            allResults[nomRequete[i]] = res.rows;
+        }
+
+        fs.writeFileSync(cheminDossierRequeteSQL + nomFichierACreer, JSON.stringify(allResults, null, 2));
+        console.log("✅ Résultats sauvegardés dans /resultats-statistique/" + nomFichierACreer);
+
+    } catch (err) {
+        console.error("❌ Erreur :", err);
+    } finally {
+        await client.end();
     }
-
-    fs.writeFileSync("result.json", JSON.stringify(allResults, null, 2));
-    console.log("✅ Résultats sauvegardés dans result.json");
-
-  } catch (err) {
-    console.error("❌ Erreur :", err);
-  } finally {
-    await client.end();
-  }
 }
 
-run();
+async function creerOuModifierFichier() {
+    console.log("Bonjour !");
+    console.log("Avant de créer le fichier JSON, il faudra me donner l'année actuel (exemple rentrée en aout 2024 [2024-2025])");
+    console.log("Mais si vous voulez modifier un fichier spécifique (changer totalement les données, entrez son année cela la remplacera");
+
+    const reponseAnnee = await poserUneQuestion("Choisissez une année (exemple 2024-2025) : ");
+    const nomFichier = "resultatStat_" + reponseAnnee + ".json";
+
+    createFile(nomFichier);
+}
+
+creerOuModifierFichier()
