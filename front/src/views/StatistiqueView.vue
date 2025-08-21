@@ -1,6 +1,6 @@
 <script setup lang="js">
 import * as CanvasJS from '@canvasjs/charts';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, nextTick } from 'vue';
 
 import stat2024A2025 from '../../../resultats-statistique/resultatStat_2024-2025.json';
 import stat2025A2026 from '../../../resultats-statistique/resultatStat_2025-2026.json';
@@ -22,6 +22,10 @@ const participantAyantEffectuerMinUneCourseEtUneActivite = ref(0);
 const activitesLesPlusEffectue = ref([]);
 const nbrCourseAvecVideo = ref(0);
 
+// variables pour stocker les graphiques
+let chartColumn = null;
+let chartPie = null;
+
 function updateStats(annee) {
   const stat = statistiquesParAnnee[annee];
 
@@ -41,13 +45,20 @@ function updateStats(annee) {
   activitesLesPlusEffectue.value = stat.ActiviteLesPlusEffectue || [];
   nbrCourseAvecVideo.value = stat.NombreDeCourseAvecVideo?.[0]?.count || 0;
 
-  renderCharts();
+  // attendre que Vue recrée les div (grâce à :key)
+  nextTick(() => {
+    renderCharts();
+  });
 }
 
 function renderCharts() {
   if (!dataDisponible.value) return;
 
-  const chartColumn = new CanvasJS.Chart('chartColumnContainer', {
+  // détruire les anciens graphiques s’ils existent
+  if (chartColumn) chartColumn.destroy();
+  if (chartPie) chartPie.destroy();
+
+  chartColumn = new CanvasJS.Chart('chartColumnContainer', {
     title: { text: 'Activité effectuer par section' },
     data: [{
       type: 'column',
@@ -59,7 +70,7 @@ function renderCharts() {
   });
   chartColumn.render();
 
-  const chartPie = new CanvasJS.Chart('chartPieContainer', {
+  chartPie = new CanvasJS.Chart('chartPieContainer', {
     data: [{
       type: 'pie',
       dataPoints: [
@@ -74,6 +85,11 @@ function renderCharts() {
 onMounted(() => {
   updateStats(anneeActif.value);
 });
+
+// déclenche updateStats automatiquement quand l’année change
+watch(anneeActif, (nouvelleAnnee) => {
+  updateStats(nouvelleAnnee);
+});
 </script>
 
 <template>
@@ -81,7 +97,7 @@ onMounted(() => {
 
   <div>
     <label>Choisir une année : </label>
-    <select v-model="anneeActif" @change="updateStats(anneeActif)">
+    <select v-model="anneeActif">
       <option v-for="(value, annee) in statistiquesParAnnee" :key="annee" :value="annee">
         {{ annee }}
       </option>
@@ -112,7 +128,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
       <div class="chiffres">
         <h3>Courses : </h3>
         <div class="stat">
@@ -130,7 +145,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
       <div class="chiffres">
         <h3>Voitures : </h3>
         <div class="stat">
@@ -149,11 +163,10 @@ onMounted(() => {
         </div>
       </div>
     </div>
-
     <div>
       <h2>Quelques graphiques</h2>
-      <div id="chartColumnContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
-      <div id="chartPieContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
+      <div :key="anneeActif + '-column'" id="chartColumnContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
+      <div :key="anneeActif + '-pie'" id="chartPieContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
     </div>
   </div>
 </template>
@@ -163,7 +176,6 @@ onMounted(() => {
   background-color: black;
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 25px;
 }
 
 .stat{
@@ -178,6 +190,11 @@ onMounted(() => {
   border-radius: 10px;
   max-width: 30%;
   text-align: center;
+}
+
+div {
+  width: 100%;
+  margin-top: 10px;
 }
 
 .aucune-donnees {
