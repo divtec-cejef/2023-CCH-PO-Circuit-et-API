@@ -61,7 +61,8 @@
                         </template>
                     </Suspense>
                 </div>
-              <BonusList :id-car="car.idCar" />
+              <BonusList :id-car="car.idCar"/>
+              <div style="margin-top: 50px; margin-bottom: 10px"></div>
             </div>
         </div>
 
@@ -190,22 +191,7 @@ div.user-data {
     align-content: space-between;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 650px;
     width: 100%;
-
-    .car-3d {
-      margin-top: -350px !important;
-      margin-left: -50px !important;
-    }
-
-    div.avatar {
-      margin-bottom: 10px;
-      margin-top: -275px;
-    }
-
-    .avatar-txt p {
-      margin-top: -60px;
-    }
   }
 
   section {
