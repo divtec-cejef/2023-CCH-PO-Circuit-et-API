@@ -1,112 +1,172 @@
 <script setup lang="js">
-
 import * as CanvasJS from '@canvasjs/charts';
-import { onMounted } from 'vue';
-import * as statistique from '../../../resultats-statistique/resultatStat_2024-2025.json';
-console.log(statistique);
+import { onMounted, ref, watch, nextTick } from 'vue';
 
-const nbrActiviteEffectuer = statistique.NombreActiviteEffectue[0].count;
-const participantAyantEffectuerMinUneActivite = statistique.NombreDeVoitureAyantEffectueMinimumUneActivite.length;
-const nbrCourseEffectuer = statistique.NombreDeCourse[0].count;
-const participantAyantEffectuerMinUneCourse = statistique.NombreDeVoitureAyantEffectueMinimumUneCourse.length;
-const nbrVoiture = statistique.NombreDeVoiture[0].count;
-const participantAyantEffectuerMinUneCourseEtUneActivite = statistique.NombreDeParticipantEffectueeMinimumUneCourseEtUneActivite.length;
+import stat2024A2025 from '../../../resultats-statistique/resultatStat_2024-2025.json';
+import stat2025A2026 from '../../../resultats-statistique/resultatStat_2025-2026.json';
 
-onMounted(async () => {
-  var chartColumn = new CanvasJS.Chart('chartColumnContainer', {
-    title: {
-      text: 'Activité effectuer par section'
-    },
+const statistiquesParAnnee = {
+  '2024-2025': stat2024A2025,
+  '2025-2026': stat2025A2026
+};
+
+const anneeActif = ref('2024-2025');
+
+const dataDisponible = ref(true);
+const nbrActiviteEffectuer = ref(0);
+const participantAyantEffectuerMinUneActivite = ref(0);
+const nbrCourseEffectuer = ref(0);
+const participantAyantEffectuerMinUneCourse = ref(0);
+const nbrVoiture = ref(0);
+const participantAyantEffectuerMinUneCourseEtUneActivite = ref(0);
+const activitesLesPlusEffectue = ref([]);
+const nbrCourseAvecVideo = ref(0);
+
+// variables pour stocker les graphiques
+let chartColumn = null;
+let chartPie = null;
+
+function updateStats(annee) {
+  const stat = statistiquesParAnnee[annee];
+
+  if (!stat || Object.keys(stat).length === 0) {
+    dataDisponible.value = false;
+    return;
+  }
+
+  dataDisponible.value = true;
+
+  nbrActiviteEffectuer.value = stat.NombreActiviteEffectue?.[0]?.count || 0;
+  participantAyantEffectuerMinUneActivite.value = stat.NombreDeVoitureAyantEffectueMinimumUneActivite?.length || 0;
+  nbrCourseEffectuer.value = stat.NombreDeCourse?.[0]?.count || 0;
+  participantAyantEffectuerMinUneCourse.value = stat.NombreDeVoitureAyantEffectueMinimumUneCourse?.length || 0;
+  nbrVoiture.value = stat.NombreDeVoiture?.[0]?.count || 0;
+  participantAyantEffectuerMinUneCourseEtUneActivite.value = stat.NombreDeParticipantEffectueeMinimumUneCourseEtUneActivite?.length || 0;
+  activitesLesPlusEffectue.value = stat.ActiviteLesPlusEffectue || [];
+  nbrCourseAvecVideo.value = stat.NombreDeCourseAvecVideo?.[0]?.count || 0;
+
+  // attendre que Vue recrée les div (grâce à :key)
+  nextTick(() => {
+    renderCharts();
+  });
+}
+
+function renderCharts() {
+  if (!dataDisponible.value) return;
+
+  // détruire les anciens graphiques s’ils existent
+  if (chartColumn) chartColumn.destroy();
+  if (chartPie) chartPie.destroy();
+
+  chartColumn = new CanvasJS.Chart('chartColumnContainer', {
+    title: { text: 'Activité effectuer par section' },
     data: [{
       type: 'column',
-      dataPoints: [
-        { label: statistique.ActiviteLesPlusEffectue[0].label, y: parseInt(statistique.ActiviteLesPlusEffectue[0].count) },
-        { label: statistique.ActiviteLesPlusEffectue[1].label, y: parseInt(statistique.ActiviteLesPlusEffectue[1].count) },
-        { label: statistique.ActiviteLesPlusEffectue[2].label, y: parseInt(statistique.ActiviteLesPlusEffectue[2].count) },
-        { label: statistique.ActiviteLesPlusEffectue[3].label, y: parseInt(statistique.ActiviteLesPlusEffectue[3].count) },
-        { label: statistique.ActiviteLesPlusEffectue[4].label, y: parseInt(statistique.ActiviteLesPlusEffectue[4].count) },
-        { label: statistique.ActiviteLesPlusEffectue[5].label, y: parseInt(statistique.ActiviteLesPlusEffectue[5].count) },
-        { label: statistique.ActiviteLesPlusEffectue[6].label, y: parseInt(statistique.ActiviteLesPlusEffectue[6].count) },
-        { label: statistique.ActiviteLesPlusEffectue[7].label, y: parseInt(statistique.ActiviteLesPlusEffectue[7].count) },
-        { label: statistique.ActiviteLesPlusEffectue[8].label, y: parseInt(statistique.ActiviteLesPlusEffectue[8].count) },
-      ]
+      dataPoints: activitesLesPlusEffectue.value.map(a => ({
+        label: a.label,
+        y: parseInt(a.count)
+      }))
     }]
   });
   chartColumn.render();
-  var chartPie = new CanvasJS.Chart('chartPieContainer', {
+
+  chartPie = new CanvasJS.Chart('chartPieContainer', {
     data: [{
       type: 'pie',
       dataPoints: [
-        { label: 'Nombre de course possèdant une vidéo', y: parseInt(statistique.NombreDeCourseAvecVideo[0].count) },
-        { label: 'Nombre de course sans vidéo', y: nbrCourseEffectuer - parseInt(statistique.NombreDeCourseAvecVideo[0].count) }
+        { label: 'Nombre de course possèdant une vidéo', y: nbrCourseAvecVideo.value },
+        { label: 'Nombre de course sans vidéo', y: nbrCourseEffectuer.value - nbrCourseAvecVideo.value }
       ]
     }]
   });
   chartPie.render();
+}
+
+onMounted(() => {
+  updateStats(anneeActif.value);
 });
 
+// déclenche updateStats automatiquement quand l’année change
+watch(anneeActif, (nouvelleAnnee) => {
+  updateStats(nouvelleAnnee);
+});
 </script>
+
 <template>
-  <h1>Statistiques</h1>
+  <h1>Statistiques {{ anneeActif }}</h1>
+
   <div>
-    <h2>Quelques chiffres</h2>
-    <div class="chiffres">
-      <h3>Activité : </h3>
-      <div class="stat">
-        <div>
-          <p><strong>{{ nbrActiviteEffectuer }}</strong></p>
-          <p>Activité effectué</p>
-        </div>
-        <div>
-          <p><strong>{{ participantAyantEffectuerMinUneActivite }}</strong></p>
-          <p>Participant(e)s ayant effectuer au minimum une activité</p>
-        </div>
-        <div>
-          <p><strong>{{ (nbrActiviteEffectuer/participantAyantEffectuerMinUneActivite).toPrecision(4) }}</strong></p>
-          <p>Activité moyenne effectué par participant</p>
-        </div>
-      </div>
-    </div>
-    <div class="chiffres">
-      <h3>Courses : </h3>
-      <div class="stat">
-        <div>
-          <p><strong>{{ nbrCourseEffectuer }}</strong></p>
-          <p>Course effectuées</p>
-        </div>
-        <div>
-          <p><strong>{{ participantAyantEffectuerMinUneCourse }}</strong></p>
-          <p>Participant(e)s ayant effectuer au minimum une course</p>
-        </div>
-        <div>
-          <p><strong>{{ (nbrCourseEffectuer/participantAyantEffectuerMinUneCourse).toPrecision(4) }}</strong></p>
-          <p>Course moyenne effectué par participent</p>
-        </div>
-      </div>
-    </div>
-    <div class="chiffres">
-      <h3>Voitures : </h3>
-      <div class="stat">
-        <div>
-          <p><strong>{{ nbrVoiture }}</strong></p>
-          <p>Voiture</p>
-        </div>
-        <div>
-          <p><strong>{{ participantAyantEffectuerMinUneCourseEtUneActivite }}</strong></p>
-          <p>Participant(e)s ayant effectuer au minimum une course et une activité</p>
-        </div>
-        <div>
-          <p><strong>{{ (100 / nbrVoiture * participantAyantEffectuerMinUneCourse).toPrecision(4) }}%</strong></p>
-          <p>Voiture ayant effectuer au minimum une course</p>
-        </div>
-      </div>
-    </div>
+    <label>Choisir une année : </label>
+    <select v-model="anneeActif">
+      <option v-for="(value, annee) in statistiquesParAnnee" :key="annee" :value="annee">
+        {{ annee }}
+      </option>
+    </select>
   </div>
-  <div>
-    <h2>Quelque graphiques</h2>
-    <div id="chartColumnContainer" style="height: 300px; width: 100%;">
+
+  <div v-if="!dataDisponible" class="aucune-donnees">
+    <p>Désolée, pour l'instant aucunes statistiques disponibles pour cette année.</p>
+  </div>
+
+  <div v-else>
+    <div>
+      <h2>Quelques chiffres</h2>
+      <div class="chiffres">
+        <h3>Activité : </h3>
+        <div class="stat">
+          <div>
+            <p><strong>{{ nbrActiviteEffectuer }}</strong></p>
+            <p>Activité effectué</p>
+          </div>
+          <div>
+            <p><strong>{{ participantAyantEffectuerMinUneActivite }}</strong></p>
+            <p>Participant(e)s ayant effectuer au minimum une activité</p>
+          </div>
+          <div>
+            <p><strong>{{ (nbrActiviteEffectuer/participantAyantEffectuerMinUneActivite).toPrecision(4) }}</strong></p>
+            <p>Activité moyenne effectué par participant</p>
+          </div>
+        </div>
+      </div>
+      <div class="chiffres">
+        <h3>Courses : </h3>
+        <div class="stat">
+          <div>
+            <p><strong>{{ nbrCourseEffectuer }}</strong></p>
+            <p>Course effectuées</p>
+          </div>
+          <div>
+            <p><strong>{{ participantAyantEffectuerMinUneCourse }}</strong></p>
+            <p>Participant(e)s ayant effectuer au minimum une course</p>
+          </div>
+          <div>
+            <p><strong>{{ (nbrCourseEffectuer/participantAyantEffectuerMinUneCourse).toPrecision(4) }}</strong></p>
+            <p>Course moyenne effectué par participant</p>
+          </div>
+        </div>
+      </div>
+      <div class="chiffres">
+        <h3>Voitures : </h3>
+        <div class="stat">
+          <div>
+            <p><strong>{{ nbrVoiture }}</strong></p>
+            <p>Voiture</p>
+          </div>
+          <div>
+            <p><strong>{{ participantAyantEffectuerMinUneCourseEtUneActivite }}</strong></p>
+            <p>Participant(e)s ayant effectuer au minimum une course et une activité</p>
+          </div>
+          <div>
+            <p><strong>{{ (100 / nbrVoiture * participantAyantEffectuerMinUneCourse).toPrecision(4) }}%</strong></p>
+            <p>Voiture ayant effectuer au minimum une course</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="chartPieContainer" style="height: 300px; width: 100%;">
+    <div>
+      <h2>Quelques graphiques</h2>
+      <div :key="anneeActif + '-column'" id="chartColumnContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
+      <div :key="anneeActif + '-pie'" id="chartPieContainer" style="height: 300px; width: 100%; margin-bottom: 50px"></div>
     </div>
   </div>
 </template>
@@ -135,5 +195,14 @@ onMounted(async () => {
 div {
   width: 100%;
   margin-top: 10px;
+}
+
+.aucune-donnees {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffcccc;
+  border-radius: 10px;
+  color: #990000;
+  font-weight: bold;
 }
 </style>
