@@ -27,7 +27,7 @@ import badgeLaborentin from '@/assets/img/laborentin.webp';
 import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
 import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
 import badgeMecaAuto from '@/assets/img/meca-auto.webp';
-import badgeInconnu from '@/assets/img/sectionInconnu.webp';
+import badgeQualiticien from '@/assets/img/qualiticien.webp';
 import { onMounted, ref } from 'vue';
 import api, { type models } from '@/models/api';
 import { Section } from '@/models/section';
@@ -62,7 +62,7 @@ function getSectionBadge(name: string): string {
     'Laborantin': badgeLaborentin,
     'Mécanicien-auto': badgeMecaAuto,
     'Micromécanique': badgeMicromecanicien,
-    'Qualiticien': badgeInconnu,
+    'Qualiticien': badgeQualiticien,
   };
   return badgeMap[name];
 }
