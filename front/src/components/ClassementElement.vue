@@ -82,6 +82,7 @@ import badgeInformaticien from '@/assets/img/informaticien.webp';
 import badgeLaborentin from '@/assets/img/laborentin.webp';
 import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
+import badgeQualiticien from '@/assets/img/qualiticien.webp';
 import badgeDessinateur from '@/assets/img/dessinateurs.webp';
 import badgeMecAuto from '@/assets/img/meca-auto.webp';
 
@@ -148,7 +149,7 @@ function getSectionBadge(name: string, realised: boolean): string {
     'Laborantin': badgeLaborentin,
     'Mécanicien-auto': badgeMecAuto,
     'Micromécanique': badgeMicromecanicien,
-    'Qualiticien': badgeInconnu,
+    'Qualiticien': badgeQualiticien,
   };
 
   if (!realised) return badgeInconnu;
