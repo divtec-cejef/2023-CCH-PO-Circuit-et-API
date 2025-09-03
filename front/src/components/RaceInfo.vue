@@ -1,57 +1,57 @@
 <template>
-    <div :style="{
+  <div :style="{
         marginRight: props.displayRank ? '25' : '0'
     }" class="race-content">
-        <div :style="{
+    <div :style="{
             width: props.displayRank ? '100%' : 'fit-content'
         }" class="content-1">
-            <RankInfo v-if="props.displayRank" :rank="props.rank"></RankInfo>
-            <div class="best-time">
-                <div>Manche n°{{ props.numRace }}</div>
-                <p class="hour">{{ formatHourDay(props.race.raceStart) }}</p>
-                <div class="race-time">
-                    <span>{{ formatTime(props.race.totalTime) }}</span>
-                    <span>s</span>
-                </div>
-            </div>
+      <RankInfo v-if="props.displayRank" :rank="props.rank"></RankInfo>
+      <div class="best-time">
+        <div>Manche n°{{ props.numRace }}</div>
+        <p class="hour">{{ formatHourDay(props.race.raceStart) }}</p>
+        <div class="race-time">
+          <span>{{ formatTime(props.race.totalTime) }}</span>
+          <span>s</span>
         </div>
-        <div :style="{
+      </div>
+    </div>
+    <div :style="{
             flexDirection: props.displayRank ? 'row' : 'column-reverse',
             width: props.displayRank ? '100%' : 'fit-content',
             minWidth: props.displayRank ? '280' : '0',
             marginTop: props.displayRank ? '35px' : '20px'
         }" class="content-2">
-            <div :style="{
+      <div :style="{
                 marginTop: props.displayRank ? '0' : '25px'
             }" class="vitesse">
-                <div>Temps de réaction</div>
-                <div class="speed-max">
-                    <p>{{ formatSpeed(props.race.speed) }}</p>
-                    <p>{{ unitSpeed }}</p>
-                </div>
-            </div>
-
-            <div class="time-inter">
-                <div>Temps intermédiaires</div>
-                <ul>
-                    <li>
-                        <NumberTime class="num-race" color="var(--red)" number="1"/>
-                        <p>{{
-                            formatTime(calculateSector(new Date(props.race.sector1), new Date(props.race.raceStart)))
-                            }}</p>
-                        <span>s</span>
-                    </li>
-                    <li>
-                        <NumberTime class="num-race" color="var(--blue)" number="2"/>
-                        <p>{{
-                                formatTime(calculateSector(new Date(props.race.sector2), new Date(props.race.raceStart)))
-                            }}</p>
-                        <span>s</span>
-                    </li>
-                </ul>
-            </div>
+        <div>Temps de réaction</div>
+        <div class="speed-max">
+          <p>{{ formatSpeed(props.race.speed) }}</p>
+          <p>{{ unitSpeed }}</p>
         </div>
+      </div>
+
+      <div class="time-inter">
+        <div>Temps intermédiaires</div>
+        <ul>
+          <li>
+            <NumberTime class="num-race" color="var(--red)" number="1"/>
+            <p>{{
+                formatTime(calculateSector(new Date(props.race.sector1), new Date(props.race.raceStart)))
+              }}</p>
+            <span>s</span>
+          </li>
+          <li>
+            <NumberTime class="num-race" color="var(--blue)" number="2"/>
+            <p>{{
+                formatTime(calculateSector(new Date(props.race.sector2), new Date(props.race.raceStart)))
+              }}</p>
+            <span>s</span>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 
 </template>
 

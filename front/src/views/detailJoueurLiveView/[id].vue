@@ -1,30 +1,26 @@
 <script setup lang="ts">
 import api, { type models } from '@/models/api';
 import { WebsocketConnection } from '@/models/api';
-import { defineAsyncComponent, type Ref, ref } from 'vue';
+import { defineAsyncComponent, onMounted, type Ref, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { Section } from '@/models/section';
 import { getNumRace } from '@/models/car';
-import carModel from '@/assets/other/car.glb';
-import carGifDark from '@/assets/img/car-spin-dark.gif';
-import carGifLight from '@/assets/img/car-spin-light.gif';
-import { usePreferredColorScheme } from '@vueuse/core/index';
+import { useCarStore } from "@/stores/car";
+
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
-const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
-const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
-const colorScheme = usePreferredColorScheme();
+
+const userCar = useCarStore();
 
 const route = useRoute();
-const id = Number(route.params.id);
+const carId = route.params.id as string;
 const hasLoaded = ref(false);
 const errorMessage = ref<string>();
 
 const BEST_TIME_INDEX = 0;
 const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
 const hasError = ref(false);
-const listRace = ref<Exclude<models.rawData.WsRaceData, models.rawData.Error>[]>();
 const listActivityOneCarApi = ref<models.parsedData.Activities | undefined>();
 const listAllSection = ref<models.parsedData.SectionName[]>([]);
 const listAllBonus = ref<
@@ -46,7 +42,6 @@ socket.onRankingReceived(async (data) => {
     return;
   }
 
-  listRace.value = data.races;
   hasLoaded.value = true;
 
   await loadUserData();
@@ -55,11 +50,9 @@ socket.onRankingReceived(async (data) => {
 });
 
 async function loadUserData() {
-  if (!listRace.value || !listRace.value[id]) return;
+  // if (!listRace.value || !listRace.value[id]) return;
 
-  const carId = listRace.value[id].car.id_car;
-  console.log('carId', carId);
-
+  // const carId = listRace.value[id].car.id_car;
   /* <En test> */
   //Récupère les courses de l'utilisateur
   const { json: allRaceOneCar } = await api.getAllRaceOneCar(carId);
@@ -107,86 +100,75 @@ async function buildBonusList() {
       listActivity: listActivityUser,
     });
   }
+  onMounted(async () => {
+    await userCar.initUserCarId(carId);
+    hasLoaded.value = true;
+  });
 }
 </script>
 
 <template>
   <div class="contenu-en-tete">
-    <h1 @click="console.log(listRace[id])" >Rang {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
     <RouterLink to="../pilote">
-      <AutoRegeneratedAvatar class="avatar" style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>
+      <AutoRegeneratedAvatar class="avatar"
+                             style="margin-top: 20px; margin-right: 30px; width: 130px; height: 130px"
+                             :avatar-config="userCar.car.avatar"/>
     </RouterLink>
-  </div>
-  <div class="contenu-course">
-    <h2>Meilleure course</h2>
-    <div class="course">
-      <RaceInfo :display-rank="false"
-                :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
-                :race="raceData!.races[BEST_TIME_INDEX]"
-                :rank="raceData!.rank"
-                class="race-info">
-      </RaceInfo>
-      <VideoRace :url="raceData!.races[BEST_TIME_INDEX].videoUrl" class="contenu-course"></VideoRace>
-    </div>
+    <h1>{{ userCar.car.pseudo }}</h1>
   </div>
 
-  <div class="contenu-bonus">
-    <BonusList :id-car="listRace[id].car.id_car"></BonusList>
-  </div>
-  <div class="contenu-voiture">
-    <h2>Voiture</h2>
-    <ModelRender :model="carModel">
-      <img :src="colorScheme === 'dark'
-                            ? carGifDark
-                            : carGifLight" alt="Animation de la voiture en 3D">
-    </ModelRender>
+  <div class="contenu-principal">
+    <div class="contenu-bonus">
+      <BonusList :id-car="userCar.car.idCar"/>
+    </div>
+
+    <div class="contenu-course">
+      <h2>Meilleure course</h2>
+      <div class="course">
+        <RaceInfo :display-rank="false"
+                  :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
+                  :race="raceData!.races[BEST_TIME_INDEX]"
+                  :rank="raceData!.rank"
+                  class="race-info"/>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <style scoped lang="scss">
+.contenu-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.contenu-bonus {
+  flex: 1;
+}
+
+.contenu-course {
+  flex: 2;
+}
+
 .course {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
+
   .race-info {
-    margin: 0 15px;
+    margin: 0;
   }
 }
-
-@media screen and (min-width: 1224px) {
-  .contenu-course {
-    margin-left: -70%;
-    margin-right: 0;
-  }
-  .contenu-bonus {
-    margin-right: -70%;
-    margin-left: 0;
-    margin-top: -40%;
-  }
-  .contenu-voiture {
-    margin-left: -70%;
-    margin-top: -20%;
-  }
-  .contenu-en-tete {
-    display: flex;
-
-    h1 {
-      margin-top: 15%;
-      margin-left: -5%;
-      margin-right: 5%;
-    }
-  }
+.contenu-en-tete {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-@media screen and (max-width: 765px) {
-  h1, h2 {
-    text-align: center;
-  }
-
-  .avatar {
-    display: block;
-    margin: 20px auto;
-    width: 130px;
-    height: 130px;
-  }
-
+.contenu-en-tete h1 {
+  margin: 0;
 }
+
 </style>
