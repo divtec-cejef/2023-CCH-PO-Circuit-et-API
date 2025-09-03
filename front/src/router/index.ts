@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const HistoryView = () => import('@/views/HistoryView.vue');
 const AboutView = () => import('@/views/AboutView.vue');
@@ -16,7 +16,9 @@ const StageView = () => import('@/views/StageView.vue');
 const LiveView = () => import('@/views/LiveView.vue');
 const NotFoundView = () => import('@/views/404View.vue');
 const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
-const DetailJoueur = () => import('@/views/detailJoueurView/[id].vue');
+const DetailJoueurView = () => import('@/views/detailJoueurView/[id].vue');
+const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue');
+const DetailCourseLiveView = () => import('@/views/detailCourseLiveView/[id].vue');
 const StatistiqueView = () => import('@/views/StatistiqueView.vue');
 
 
@@ -101,7 +103,7 @@ const router = createRouter({
     {
       name: 'detailJoueur',
       path: '/detailJoueur/:id',
-      component: DetailJoueur
+      component: DetailJoueurView
     },
     {
       name: '404',
@@ -113,10 +115,20 @@ const router = createRouter({
       name: 'statistique',
       path: '/admin/statistique',
       component: StatistiqueView
-    }
+    },
+    {
+      name:'detailJoueurLive',
+      path: '/admin/detailJoueurLive/:id',
+      component: DetailJoueurLiveView
+    },
+    {
+      name:'detailCourseLive',
+      path: '/admin/detailCourseLive/:id',
+      component: DetailCourseLiveView
+    },
   ],
   scrollBehavior() {
-    return {top: 0};
+    return { top: 0 };
   }
 });
 
