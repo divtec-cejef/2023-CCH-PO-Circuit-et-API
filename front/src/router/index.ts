@@ -21,7 +21,6 @@ const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue
 const DetailCourseLiveView = () => import('@/views/detailCourseLiveView.vue');
 const StatistiqueView = () => import('@/views/StatistiqueView.vue');
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
