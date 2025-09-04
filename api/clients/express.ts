@@ -87,7 +87,7 @@ const recursiveDirRead = (dir: string) => {
         };
         app[method](routePath, cb);
 
-        console.log(`inserted [${method}] route: ` + routePath);
+        console.log(`inserted [${String(method)}] route: ` + routePath);
       } catch (e) {
         if (e instanceof TypeError) {
           console.log(`Error: ${path} is not a valid route`);

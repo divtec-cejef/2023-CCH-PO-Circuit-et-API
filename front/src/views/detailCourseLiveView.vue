@@ -1,43 +1,31 @@
-<script setup lang="ts">
-import { defineAsyncComponent } from 'vue';
-import { useCarStore } from '@/stores/car';
-import { getNumRace } from '@/models/car';
-
-const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
-const cars = useCarStore();
-console.log(cars);
-
-const raceDetail = cars.listRace![(car.listRace?.length ? car.listRace?.length : 1) - 1];
-
-console.log(raceDetail);
-
-const getLatestRace = async () => {
-  // récupération des informations de la course et de la voiture
-  const race: { id_race: number, total_time: Date, id_car: number }[] = await fetch().$queryRaw`select race.* FROM cars.race order by race.id_race desc limit 1;`;
-
-  console.dir({ race });
-
-  // création du résultat
-
-  return race;
-};
-
-getLatestRace();
-</script>
-
 <template>
-  <div class="best-race">
-    <!--<RaceInfo :display-rank="true"
-              :num-race="getNumRace(raceDisplay, car.listRace!)"
-              :race="raceDisplay"
-              :rank="car.rank!"
-    />-->
-    <div class="video-race">
-      <VideoRace :url="raceDetail.videoUrl"></VideoRace>
-    </div>
-  </div>
+  <v-card v-if="lastRace">
+    <v-card-title>Dernière course : {{ lastRace.car.pseudo }}</v-card-title>
+    <v-card-subtitle>
+      Temps total : {{ lastRace.total_time }}
+    </v-card-subtitle>
+  </v-card>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<script>
+export default {
+  data() {
+    return { lastRace: null };
+  },
+  mounted() {
+    this.fetchLastRace();
+    setInterval(this.fetchLastRace, 5000); // mise à jour toutes les 5 secondes
+  },
+  methods: {
+    async fetchLastRace() {
+      try {
+        const res = await fetch('/race/getLast');
+        if (!res.ok) throw new Error('Erreur fetch');
+        this.lastRace = await res.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+};
+</script>
