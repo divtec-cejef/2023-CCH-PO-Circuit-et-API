@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import {calculateSector, formatHourDayV2, formatTime} from "@/models/race";
+import { formatHourDayV2 } from "@/models/race";
 import AutoRegeneratedAvatar from "@/components/AutoRegeneratedAvatar.vue";
-
-const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
-const NumberTime = defineAsyncComponent(() => import('@/components/NumberTime.vue'));
 
 const API_URL = 'http://localhost:3000';
 
