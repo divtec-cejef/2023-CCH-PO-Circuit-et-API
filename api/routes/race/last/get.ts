@@ -7,8 +7,7 @@ export const route: RouteHandler = async (req, res) => {
     if (!lastRace) return res.status(404).json({ message: 'Aucune course trouvée' });
 
     res.json({
-      id: lastRace.id_race,
-      car: lastRace.car,
+      race: lastRace
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Erreur serveur inconnue';
