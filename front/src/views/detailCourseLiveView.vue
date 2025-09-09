@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { formatHourDayV2 } from "@/models/race";
-import AutoRegeneratedAvatar from "@/components/AutoRegeneratedAvatar.vue";
+import { formatHourDayV2 } from '@/models/race';
+import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 
 const API_URL = 'http://localhost:3000';
 
@@ -55,8 +55,8 @@ function getSecondsInDate(x: String) {
       <section class="sectors">
         <h2>Temps intermédiaires</h2>
         <div class="sector-times">
-          <p>1️⃣ Premier secteur : {{ getSecondsInDate(race.sector1) - getSecondsInDate(race.race_start) }} s</p>
-          <p>2️⃣ Deuxième secteur : {{ getSecondsInDate(race.sector2) - getSecondsInDate(race.race_start) }} s</p>
+          <p>1️⃣ Premier secteur : {{ (getSecondsInDate(race.sector1) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
+          <p>2️⃣ Deuxième secteur : {{ (getSecondsInDate(race.sector2) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
         </div>
       </section>
     </div>
