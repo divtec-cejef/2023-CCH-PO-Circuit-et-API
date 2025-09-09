@@ -18,9 +18,8 @@ const NotFoundView = () => import('@/views/404View.vue');
 const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
 const DetailJoueurView = () => import('@/views/detailJoueurView/[id].vue');
 const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue');
-const DetailCourseLiveView = () => import('@/views/detailCourseLiveView/[id].vue');
+const DetailCourseLiveView = () => import('@/views/detailCourseLiveView.vue');
 const StatistiqueView = () => import('@/views/StatistiqueView.vue');
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -123,7 +122,7 @@ const router = createRouter({
     },
     {
       name:'detailCourseLive',
-      path: '/admin/detailCourseLive/:id',
+      path: '/admin/detailCourseLive',
       component: DetailCourseLiveView
     },
   ],

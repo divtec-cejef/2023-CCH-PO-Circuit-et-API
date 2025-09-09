@@ -1,6 +1,6 @@
-import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import type { models } from '@/models/api';
+import { format, parseISO } from 'date-fns';
 
 export default class Race {
   idRace: number = 0;
@@ -62,13 +62,20 @@ export function formatHour(hour: Date) {
   return format(hour, 'kk:mm');
 }
 
+export function formatHourDay(hour: Date) {
+  const formatHour = format(hour, 'EEEE kk', { locale: fr }) + 'h' + format(hour, 'mm', { locale: fr });
+  return formatHour[0].toUpperCase() + formatHour.slice(1);
+}
+
+
 /**
  * Formate une date heure pour afficher le jour en français, l'heure et les secondes
  * @param hour
  */
-export function formatHourDay(hour: Date) {
-  const formatHour = format(hour, 'EEEE kk', { locale: fr }) + 'h' + format(hour, 'mm', { locale: fr });
-  return formatHour[0].toUpperCase() + formatHour.slice(1);
+export function formatHourDayV2(date: string) {
+  if (!date) return '';
+  const parsedDate = parseISO(date);
+  return format(parsedDate, 'HH:mm:ss');
 }
 
 /**
