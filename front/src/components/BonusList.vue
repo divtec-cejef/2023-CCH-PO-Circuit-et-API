@@ -1,19 +1,19 @@
 <template>
   <section>
-  <h2>Mes bonus</h2>
-  <div class="badges-liste">
-    <div
-        v-for="section in listAllBonus"
-        :key="section.idSection"
-        :style="{ backgroundColor: getSectionColor(section.realised) }"
-        :class="{ 'not-realised': !section.realised }"
-    >
-      <img
-          :src="getSectionBadge(section.name)"
-          :alt="`Badge ${section.name}`"
-      />
-      <p>{{ section.name }}</p>
-    </div>
+    <h2>Mes bonus</h2>
+    <div class="badges-liste">
+      <div
+          v-for="section in listAllBonus"
+          :key="section.idSection"
+          :style="{ backgroundColor: getSectionColor(section.realised) }"
+          :class="{ 'not-realised': !section.realised }"
+      >
+        <img
+            :src="getSectionBadge(section.name)"
+            :alt="`Badge ${section.name}`"
+        />
+        <p>{{ section.name }}</p>
+      </div>
     </div>
   </section>
 </template>

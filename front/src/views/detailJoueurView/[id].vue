@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import api, { type models } from '@/models/api';
 import { WebsocketConnection } from '@/models/api';
-import { defineAsyncComponent, onMounted, onUnmounted, type Ref, ref } from 'vue';
+import { defineAsyncComponent, type Ref, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { Section } from '@/models/section';
-import type { Configs } from 'holiday-avatar';
 import { getNumRace } from '@/models/car';
 import carModel from '@/assets/other/car.glb';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
@@ -59,6 +58,7 @@ async function loadUserData() {
   if (!listRace.value || !listRace.value[id]) return;
 
   const carId = listRace.value[id].car.id_car;
+  console.log('carId', carId);
 
   /* <En test> */
   //Récupère les courses de l'utilisateur
