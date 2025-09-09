@@ -1,15 +1,14 @@
 import { RouteHandler } from '../../models';
-import { getShortestRaces } from '../../services/race';
+import { getLastRace } from '../../services/race';
 
 /**
- * Controller get pour la route /race
- * @param req Requete
- * @param res Reponse
- * @returns toutes les voitures
+ * Controller pour récupérer la dernière course
  */
 export const route: RouteHandler = async (req, res) => {
   try {
-    res.json(await getShortestRaces());
+    const lastRace = await getLastRace();
+    if (!lastRace) return res.status(404).json({ message: 'Aucune course trouvée' });
+    res.json(lastRace);
   } catch (e) {
     if (typeof e === 'string') {
       res.status(500).json({ message: e });
@@ -20,4 +19,5 @@ export const route: RouteHandler = async (req, res) => {
     }
   }
 };
+
 export default route;
