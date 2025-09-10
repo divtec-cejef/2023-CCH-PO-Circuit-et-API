@@ -5,20 +5,18 @@ import { defineAsyncComponent, onMounted, type Ref, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { Section } from '@/models/section';
 import { getNumRace } from '@/models/car';
-import { useCarStore } from '@/stores/car';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
-const userCar = useCarStore();
 
 const route = useRoute();
 const carId = route.params.id as string;
 const hasLoaded = ref(false);
 const errorMessage = ref<string>();
-
 const BEST_TIME_INDEX = 0;
+const carData: Ref<models.parsedData.CarData> | Ref<undefined> = ref();
 const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
 const hasError = ref(false);
 const listActivityOneCarApi = ref<models.parsedData.Activities | undefined>();
@@ -52,8 +50,6 @@ socket.onRankingReceived(async (data) => {
 async function loadUserData() {
   // if (!listRace.value || !listRace.value[id]) return;
 
-  // const carId = listRace.value[id].car.id_car;
-  /* <En test> */
   //Récupère les courses de l'utilisateur
   const { json: allRaceOneCar } = await api.getAllRaceOneCar(carId);
   if ('message' in allRaceOneCar) {
@@ -61,7 +57,14 @@ async function loadUserData() {
     return;
   }
   raceData.value = allRaceOneCar;
-  /* </En test> */
+
+
+  const { json: oneCarQueryID } = await api.getDataOneCarQueryId(carId);
+  if ('message' in oneCarQueryID) {
+    hasError.value = true;
+    return;
+  }
+  carData.value = oneCarQueryID;
 
 
   // Charge les activités de la voiture
@@ -101,7 +104,6 @@ async function buildBonusList() {
     });
   }
   onMounted(async () => {
-    await userCar.initUserCarId(carId);
     hasLoaded.value = true;
   });
 }
@@ -112,24 +114,27 @@ async function buildBonusList() {
     <RouterLink to="../pilote">
       <AutoRegeneratedAvatar class="avatar"
                              style="margin-top: 20px; margin-right: 30px; width: 130px; height: 130px"
-                             :avatar-config="userCar.car.avatar"/>
+                             :avatar-config="carData!.avatar"/>
     </RouterLink>
-    <h1>{{ userCar.car.pseudo }}</h1>
+    <h1>{{ carData!.pseudo }}</h1>
   </div>
 
   <div class="contenu-principal">
     <div class="contenu-bonus">
-      <BonusList :id-car="userCar.car.idCar"/>
+      <BonusList :id-car="carData!.idCar"/>
     </div>
 
     <div class="contenu-course">
       <h2>Meilleure course</h2>
-      <div class="course">
+      <div v-if="raceData?.races.length != 0" class="course">
         <RaceInfo :display-rank="false"
                   :num-race="getNumRace(raceData!.races[BEST_TIME_INDEX], raceData!.races)"
                   :race="raceData!.races[BEST_TIME_INDEX]"
                   :rank="raceData!.rank"
                   class="race-info"/>
+      </div>
+      <div v-else>
+        <p>Aucune course effectué</p>
       </div>
     </div>
   </div>
