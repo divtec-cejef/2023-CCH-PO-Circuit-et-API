@@ -5,7 +5,7 @@ import { defineAsyncComponent, onMounted, type Ref, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { Section } from '@/models/section';
 import { getNumRace } from '@/models/car';
-import { useCarStore } from "@/stores/car";
+import { useCarStore } from '@/stores/car';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
 const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
