@@ -410,4 +410,9 @@ div.fullscreen {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  div.fullscreen {
+    background-color: var(--black);
+  }
+}
 </style>
