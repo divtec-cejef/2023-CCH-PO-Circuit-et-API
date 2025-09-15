@@ -181,6 +181,11 @@ function scrollToNewRace() {
 
 <style lang="scss" scoped>
 
+.classement {
+  width: 100%;
+  margin: 30px 0 0 0;
+}
+
 div.fullscreen {
   display: flex;
   align-items: center;
