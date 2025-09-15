@@ -18,7 +18,6 @@ const getLatestRace = async () => {
   }
 };
 
-
 const race = ref<any | null>(null);
 onMounted(async () => {
   race.value = await getLatestRace();
