@@ -50,6 +50,15 @@ socket.onRankingReceived(async (data) => {
 async function loadUserData() {
   // if (!listRace.value || !listRace.value[id]) return;
 
+
+
+  const { json: oneCarQueryID } = await api.getDataOneCarId(carId);
+  if ('message' in oneCarQueryID) {
+    hasError.value = true;
+    return;
+  }
+  carData.value = oneCarQueryID;
+
   //Récupère les courses de l'utilisateur
   const { json: allRaceOneCar } = await api.getAllRaceOneCar(carId);
   if ('message' in allRaceOneCar) {
@@ -57,15 +66,6 @@ async function loadUserData() {
     return;
   }
   raceData.value = allRaceOneCar;
-
-
-  const { json: oneCarQueryID } = await api.getDataOneCarQueryId(carId);
-  if ('message' in oneCarQueryID) {
-    hasError.value = true;
-    return;
-  }
-  carData.value = oneCarQueryID;
-
 
   // Charge les activités de la voiture
   const { json: activities } = await api.getActivityOneCar(carId);
