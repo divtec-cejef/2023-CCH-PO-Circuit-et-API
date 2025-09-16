@@ -25,7 +25,7 @@ export namespace restful {
    */
   export async function getDataOneCarQueryId(queryId: number | string): ModelResultHandler<models.parsedData.CarData> {
     try {
-      const routeCar = `${routeApi}car/${queryId}`;
+      const routeCar = `${routeApi}car/query-id/${queryId}`;
       const res = await fetch(routeCar);
       const json: models.rawData.CarData = await res.json();
 
