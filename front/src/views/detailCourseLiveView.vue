@@ -2,8 +2,11 @@
 import { ref, onMounted } from 'vue';
 import { formatHourDayV2 } from '@/models/race';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
+import QrcodeVue from 'qrcode.vue';
 
 const API_URL = 'http://localhost:3000';
+
+const race = ref<any | null>(null);
 
 const getLatestRace = async () => {
   try {
@@ -18,7 +21,6 @@ const getLatestRace = async () => {
   }
 };
 
-const race = ref<any | null>(null);
 onMounted(async () => {
   race.value = await getLatestRace();
 });
@@ -28,6 +30,7 @@ function getSecondsInDate(x: String) {
   const seconds = date.getTime() / 1000.0;
   return seconds.toFixed(2);
 }
+
 </script>
 <template>
   <div class="race-container">
@@ -43,20 +46,30 @@ function getSecondsInDate(x: String) {
         />
         <p class="pseudo">{{ race.car.pseudo }}</p>
       </section>
+      <section class="content">
+        <section class="race-details">
+          <h2>Détails de la course</h2>
+          <p><strong>Heure de début :</strong> {{ formatHourDayV2(race.race_start) }}</p>
+          <p><strong>Temps total :</strong> {{ getSecondsInDate(race.total_time) }} s</p>
+          <p><strong>Temps de réaction :</strong> {{ (race.speed / 100).toFixed(2) }} s</p>
+        </section>
 
-      <section class="race-details">
-        <h2>Détails de la course</h2>
-        <p><strong>Heure de début :</strong> {{ formatHourDayV2(race.race_start) }}</p>
-        <p><strong>Temps total :</strong> {{ getSecondsInDate(race.total_time) }} s</p>
-        <p><strong>Temps de réaction :</strong> {{ (race.speed / 100).toFixed(2) }} s</p>
+        <section class="sectors">
+          <h2>Temps intermédiaires</h2>
+          <div class="sector-times">
+            <p>1️⃣ Premier secteur : {{ (getSecondsInDate(race.sector1) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
+            <p>2️⃣ Deuxième secteur : {{ (getSecondsInDate(race.sector2) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
+          </div>
+        </section>
       </section>
 
-      <section class="sectors">
-        <h2>Temps intermédiaires</h2>
-        <div class="sector-times">
-          <p>1️⃣ Premier secteur : {{ (getSecondsInDate(race.sector1) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
-          <p>2️⃣ Deuxième secteur : {{ (getSecondsInDate(race.sector2) - getSecondsInDate(race.race_start)).toFixed(2) }} s</p>
-        </div>
+      <section class="qr-code">
+        <h2>QR Code :</h2>
+        <QrcodeVue
+            :value="`https://cpp.ch/videos/courses/${race.id_race}.mp4`"
+            :size="150"
+            level="H"
+        />
       </section>
     </div>
   </div>
