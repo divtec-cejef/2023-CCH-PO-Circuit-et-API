@@ -28,6 +28,7 @@ import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
 import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
 import badgeMecaAuto from '@/assets/img/meca-auto.webp';
 import badgeQualiticien from '@/assets/img/qualiticien.webp';
+import badgeForum from '@/assets/img/forum.webp';
 import { onMounted, ref } from 'vue';
 import api, { type models } from '@/models/api';
 import { Section } from '@/models/section';
@@ -63,6 +64,7 @@ function getSectionBadge(name: string): string {
     'Mécanicien-auto': badgeMecaAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeQualiticien,
+    'Forum' : badgeForum,
   };
   return badgeMap[name];
 }
