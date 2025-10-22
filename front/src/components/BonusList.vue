@@ -50,7 +50,7 @@ const listAllBonus = ref<{
 }[]>([]);
 
 function getSectionColor(realised: boolean): string {
-  return realised ? '#d1ffb5' : '#d3d3d3';
+  return realised ? '#d1ffb5' : '#393939';
 }
 
 function getSectionBadge(name: string): string {
@@ -187,6 +187,6 @@ div.badges-liste {
 
 .badges-liste div.not-realised img {
   opacity: 0.4;
-  filter: grayscale(60%);
+  filter: grayscale(100%);
 }
 </style>
