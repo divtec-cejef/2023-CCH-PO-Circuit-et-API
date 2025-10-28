@@ -44,7 +44,7 @@ export const getActivityById = async (id: number) => {
 export const getActivitiesByCarId = (id: number) =>
   prisma.$queryRaw`SELECT realise.id_activity,
                           activity.label AS label_activity,
-                          date_time,
+                          date_time,    
                           section.id_section,
                           section.label  AS label_section
                    FROM activity
