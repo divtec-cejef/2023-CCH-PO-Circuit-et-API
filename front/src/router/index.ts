@@ -21,6 +21,8 @@ const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue
 const DetailCourseLiveView = () => import('@/views/detailCourseLiveView.vue');
 const StatistiqueView = () => import('@/views/StatistiqueView.vue');
 
+const SponsorsView = () => import('@/views/SponsorsView.vue');
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -124,6 +126,11 @@ const router = createRouter({
       name:'detailCourseLive',
       path: '/admin/detailCourseLive',
       component: DetailCourseLiveView
+    },
+    {
+      name:'sponsors',
+      path: '/admin/sponsors',
+      component: SponsorsView
     },
   ],
   scrollBehavior() {
