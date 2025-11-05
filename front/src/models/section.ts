@@ -10,7 +10,8 @@ export namespace Section {
     'laborantin',
     'informatique',
     'mecanicien-auto',
-    'qualiticien'
+    'qualiticien',
+    'forum'
   ];
 
   export const SectionNameHasActivity = [
@@ -22,7 +23,8 @@ export namespace Section {
     'laborantin',
     'informatique', 
     'mecanicien-auto',
-    'qualiticien'
+    'qualiticien',
+    'forum',
   ];
 
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {

@@ -1,53 +1,60 @@
 <template>
-    <nav class="header">
-        <ul class="links">
-            <li class="accueil" @click="clickMenu">
-                <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
-                <img :src="houseImg" alt="Image d'accueil">
-            </li>
-            <li v-if="userCar.car.idCar" @click="clickMenu">
-                <RouterLink to="/pilote">Pilote</RouterLink>
-                <img :src="editImg" alt="Image de modification pour le pilote">
-            </li>
-            <li v-if="userCar.car.idCar" @click="clickMenu">
-                <RouterLink to="/course">Mes Courses</RouterLink>
-                <img :src="carImg" alt="Image de voiture">
-            </li>
-            <li @click="clickMenu">
-                <RouterLink to="/bonus">Bonus</RouterLink>
-                <img :src="bonusImg" alt="Image de bonus">
-            </li>
-            <li @click="clickMenu">
-                <RouterLink to="/classement">Classement</RouterLink>
-                <img :src="rankingImg" alt="Image de classement">
-            </li>
-            <li v-if="adminPost.idSection" @click="clickMenu">
-                <RouterLink to="/admin">Admin</RouterLink>
-                <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
-            </li>
-            <li v-if="adminPost.idSection" @click="clickMenu">
-              <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
-            </li>
-            <li @click="clickMenu">
-                <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
-            </li>
-            <li id="stage" @click="clickMenu">
-                <RouterLink to="/stage">
-                    <p>Stage</p>
-                    <img :src="stageImg"
-                         alt="Icon d'inscription à un stage">
-                </RouterLink>
-            </li>
-            <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
-                <span>Déconnexion</span>
-                <img :src="exitPhoneImg" alt="Icon de déconnexion">
-            </li>
-            <li v-if="userCar.car.idCar" class="logout-big tooltip" @click="logOutUser">
-                <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
-                <span class="tooltiptext">Déconnexion</span>
-            </li>
-        </ul>
-    </nav>
+  <nav class="header">
+    <ul class="links">
+      <li
+          :class="{ active: route.path === `/${userCar.car.idQuery || ''}` }"
+          class="accueil"
+          @click="clickMenu"
+      >
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
+        <img :src="houseImg" alt="Image d'accueil"/>
+      </li>
+      <li class="logout-big tooltip" :class="{ 'active': route.path === `/${userCar.car.idQuery || ''}`}" @click="clickMenu">
+        <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
+      </li>
+      <li :class="{ 'active': route.path === '/pilote' }" v-if="userCar.car.idCar" @click="clickMenu">
+        <RouterLink to="/pilote">Pilote</RouterLink>
+        <img :src="editImg" alt="Image de modification pour le pilote">
+      </li>
+      <li :class="{ 'active': route.path === '/course' }" v-if="userCar.car.idCar" @click="clickMenu">
+        <RouterLink to="/course">Mes Courses</RouterLink>
+        <img :src="carImg" alt="Image de voiture">
+      </li>
+      <li :class="{ 'active': route.path === '/bonus' }" @click="clickMenu">
+        <RouterLink to="/bonus">Bonus</RouterLink>
+        <img :src="bonusImg" alt="Image de bonus">
+      </li>
+      <li :class="{ 'active': route.path === '/classement' }" @click="clickMenu">
+        <RouterLink to="/classement">Classement</RouterLink>
+        <img :src="rankingImg" alt="Image de classement">
+      </li>
+      <li v-if="adminPost.idSection" @click="clickMenu">
+        <RouterLink to="/admin">Admin</RouterLink>
+        <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
+      </li>
+      <li v-if="adminPost.idSection" @click="clickMenu">
+        <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
+      </li>
+      <li @click="clickMenu">
+        <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
+      </li>
+      <li :class="{ 'active': route.path === '/stage' }" @click="clickMenu">
+        <RouterLink to="/stage">
+          <p>Stage</p>
+          <img :src="stageImg"
+               alt="Icon d'inscription à un stage">
+        </RouterLink>
+      </li>
+      <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
+        <span>Déconnexion</span>
+        <img :src="exitPhoneImg" alt="Icon de déconnexion">
+      </li>
+      <li v-if="userCar.car.idCar" class="logout-big tooltip" @click="logOutUser">
+        <img :src="colorScheme === 'dark' ? exitPhoneImg :exitImg" alt="Icon de déconnexion">
+        <span class="tooltiptext">Déconnexion</span>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script lang="ts" setup>
@@ -57,6 +64,7 @@ import exitImg from '@/assets/img/exit.webp';
 import exitPhoneImg from '@/assets/img/exit-phone.webp';
 import { useRouter } from 'vue-router';
 import { useLocalStorage, usePreferredColorScheme } from '@vueuse/core';
+import { useRoute } from 'vue-router';
 
 import houseImg from '@/assets/img/house.webp';
 import editImg from '@/assets/img/edit.webp';
@@ -69,6 +77,7 @@ import stageImg from '@/assets/img/contract.webp';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
+const route = useRoute();
 
 const displayRef = useLocalStorage('display', 'modern');
 
@@ -224,4 +233,10 @@ nav.header {
   margin-left: -80px;
 }
 
+.active {
+  background-color: #ce0064;
+  color: white;
+  border-radius: 50px;
+  padding: 10px !important;
+}
 </style>

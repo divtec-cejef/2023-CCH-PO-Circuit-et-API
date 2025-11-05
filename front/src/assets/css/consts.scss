@@ -2,7 +2,6 @@ $dark-border: 1px solid rgba(white, 0.25);
 $default-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
 :root {
-  /* footer height + footer margin-top */
   --height-screen-diff: calc(65px + 15px);
   --black: #161715;
   --white: #FFFFFF;
@@ -15,10 +14,13 @@ $default-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   --pink-divtec: #ce0064;
 
   --accent: var(--dark-green);
+}
 
-  @media screen and (prefers-color-scheme: dark) {
+@media screen and (prefers-color-scheme: dark) {
+  :root {
     --blue: #136cbf;
     --black: #1a1a1a;
     --white: #efefef;
   }
 }
+

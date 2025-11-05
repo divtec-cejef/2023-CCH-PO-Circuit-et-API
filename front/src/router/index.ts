@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const HistoryView = () => import('@/views/HistoryView.vue');
 const AboutView = () => import('@/views/AboutView.vue');
@@ -16,6 +16,12 @@ const StageView = () => import('@/views/StageView.vue');
 const LiveView = () => import('@/views/LiveView.vue');
 const NotFoundView = () => import('@/views/404View.vue');
 const RandomlySelectBusinessView = () => import('@/views/RandomlySelectBusiness.vue');
+const DetailJoueurView = () => import('@/views/detailJoueurView/[id].vue');
+const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue');
+const DetailCourseLiveView = () => import('@/views/detailCourseLiveView.vue');
+const StatistiqueView = () => import('@/views/StatistiqueView.vue');
+
+const SponsorsView = () => import('@/views/SponsorsView.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -96,14 +102,39 @@ const router = createRouter({
       component: LiveView
     },
     {
+      name: 'detailJoueur',
+      path: '/detailJoueur/:id',
+      component: DetailJoueurView
+    },
+    {
       name: '404',
       alias: ['/not-found', '/404'],
       path: '/:p(.*)*',
       component: NotFoundView
-    }
+    },
+    {
+      name: 'statistique',
+      path: '/admin/statistique',
+      component: StatistiqueView
+    },
+    {
+      name:'detailJoueurLive',
+      path: '/admin/detailJoueurLive/:id',
+      component: DetailJoueurLiveView
+    },
+    {
+      name:'detailCourseLive',
+      path: '/admin/detailCourseLive',
+      component: DetailCourseLiveView
+    },
+    {
+      name:'sponsors',
+      path: '/admin/sponsors',
+      component: SponsorsView
+    },
   ],
   scrollBehavior() {
-    return {top: 0};
+    return { top: 0 };
   }
 });
 

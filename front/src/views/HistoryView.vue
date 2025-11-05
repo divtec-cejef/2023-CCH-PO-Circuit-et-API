@@ -1,5 +1,10 @@
 <template>
-  <div class="content bonus-map">
+  <div class="button-group">
+    <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte 🗺️</button>
+    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description 📃</button>
+  </div>
+
+  <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
          class="labelActivity">
       <div v-if="currentLabel.activities.length > 0">
@@ -40,19 +45,56 @@
       </div>
     </div>
   </div>
+  <div v-else-if="descriptionIsShown">
+   <div
+       v-for="section in listAllBonus"
+       :key="section.idSection"
+       class="badges-liste"
+   >
+     <div>
+     <div v-if="car.idCar !== null" class="badge" :class="{ 'not-realised': !section.realised }" :style="{ backgroundColor: getSectionColor(section.realised) }">
+       <img
+           :src="getSectionBadge(section.name)"
+           :alt="`Badge ${section.name}`"
+       />
+       <p>{{ section.name }}</p>
+     </div>
+     <div v-else class="badge" :class="{ 'not-realised': false }" :style="{ backgroundColor: getSectionColor(false) }">
+       <img
+           :src="getSectionBadge(section.name)"
+           :alt="`Badge ${section.name}`"
+       />
+       <p>{{ section.name }}</p>
+     </div>
+     <p class="badge-description">{{ section.description }}</p>
+   </div>
+   </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 
 import type { PanZoom } from 'panzoom';
 import panzoom from 'panzoom';
-import { defineAsyncComponent, ref } from 'vue';
-import api from '@/models/api';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
+import api, { type models } from '@/models/api';
 import { useCarStore } from '@/stores/car';
+import { Section } from '@/models/section';
+
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
+import badgeAutomaticien from '@/assets/img/automaticien.webp';
+import badgeElectronicien from '@/assets/img/electronicien.webp';
+import badgeHorloger from '@/assets/img/horloger.webp';
+import badgeInformaticien from '@/assets/img/informaticien.webp';
+import badgeLaborentin from '@/assets/img/laborentin.webp';
+import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
+import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
+import badgeMecaAuto from '@/assets/img/meca-auto.webp';
+import badgeQualiticien from '@/assets/img/qualiticien.webp';
+import badgeForum from '@/assets/img/forum.webp';
 
 const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -68,6 +110,35 @@ const divDisplay = ref<string>('none');
 const sectionUnCLicked = ref<boolean>(true);
 const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
+
+const mapIsShown = ref(true);
+const descriptionIsShown = ref(false);
+
+onMounted(() => {
+  loadBonusList();
+});
+
+const listAllBonus = ref<{
+  name: string;
+  idSection: number;
+  realised: boolean;
+  listActivity: { name: string; realised: boolean }[];
+  description: string;
+}[]>([]);
+
+const listDescription = ref<{
+  descriptionText: [string, string][];
+}[]>([]);
+
+function mapOnClicked() {
+  mapIsShown.value = true;
+  descriptionIsShown.value = false;
+}
+
+function descriptionOnClicked() {
+  mapIsShown.value = false;
+  descriptionIsShown.value = true;
+}
 
 let realisedActivity = ref<number[]>([]);
 let sectionActivities = ref<{
@@ -122,40 +193,35 @@ function getSectionAndActivities() {
           }
         }
 
-        api.getAllActivitiesOneSection(section.idSection)
-          .then((v) => {
-            const { json: dataActivities, status: statusActivities } = v;
-
-            if ('message' in dataActivities) {
-              hasError.value = true;
-              return;
-            }
-
-            if (statusActivities.valueOf() === api.ReturnCodes.Success) {
-              sectionActivities.value.push(
-                {
-                  idSection: section.idSection,
-                  labelSection: section.label,
-                  activities: [],
-                });
-              for (let activity of dataActivities) {
-                for (let section of sectionActivities.value) {
-                  if (section?.idSection === activity.idSection) {
-                    section?.activities.push(
-                      {
-                        idActivity: activity.idActivity,
-                        labelActivity: activity.label,
-                      });
-                  }
+        api.getAllActivitiesOneSection(section.idSection).then((v) => {
+          const { json: dataActivities, status: statusActivities } = v;
+          if ('message' in dataActivities) {
+            hasError.value = true;
+            return;
+          }
+          if (statusActivities.valueOf() === api.ReturnCodes.Success) {
+            sectionActivities.value.push({
+              idSection: section.idSection,
+              labelSection: section.label,
+              activities: [],
+            });
+            for (let activity of dataActivities) {
+              for (let section of sectionActivities.value) {
+                if (section?.idSection === activity.idSection) {
+                  section?.activities.push({
+                    idActivity: activity.idActivity,
+                    labelActivity: activity.label,
+                  });
                 }
               }
-              getSectionBonusAcorded();
-              getNoActivitySections();
-              hasLoaded.value = true;
-            } else {
-              hasError.value = true;
             }
-          });
+            getSectionBonusAcorded();
+            getNoActivitySections();
+            hasLoaded.value = true;
+          } else {
+            hasError.value = true;
+          }
+        });
       }
     } else {
       hasError.value = true;
@@ -328,8 +394,7 @@ const allSections = ref([{
   labelSection: 'Mécatronicien-ne',
   posX: 20,
   posY: 63,
-},
-{
+}, {
   section: 'Qualiticien',
   id: -1,
   labelSection: 'Qualiticien-ne',
@@ -366,8 +431,7 @@ function calculatePositionY(posy: number, dif: number, zoomfactor: number, divHe
   } else {
     pos = posy + (10 + dif * zoomfactor);
   }
-  const minHeightPx = getComputedStyle(document.documentElement)
-    .getPropertyValue('--height-screen-diff');
+  const minHeightPx = getComputedStyle(document.documentElement).getPropertyValue('--height-screen-diff');
   const minHeight = parseInt(minHeightPx.substring(0, minHeightPx.length - 2)) + 35;
   if (pos < minHeight) {
     pos = minHeight;
@@ -394,12 +458,11 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   for (let section of sectionActivities.value) {
     if (section['idSection'] === currentSection.value?.id ?? -1) {
       for (let activity of section['activities']) {
-        currentLabel.value.activities.push(
-          {
-            idActivity: activity['idActivity'],
-            labelActivity: activity['labelActivity'],
-            realised: activityIsRealised(activity['idActivity']),
-          });
+        currentLabel.value.activities.push({
+          idActivity: activity['idActivity'],
+          labelActivity: activity['labelActivity'],
+          realised: activityIsRealised(activity['idActivity']),
+        });
         heightOffset += 20;
         if (heightOffset > 20) {
           heightOffset += 10;
@@ -416,6 +479,82 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   divDisplay.value = 'block';
 
 }
+async function loadBonusList() {
+  const { json: activities } = await api.getActivityOneCar(car.idCar);
+  const { json: sections } = await api.getAllSections();
+
+  const listActivityOneCarApi = activities;
+
+  listAllBonus.value = [];
+  listDescription.value.push({
+    descriptionText: [
+      ['Automatique', 'Permet d’accélérer la voiture grâce aux barrières'],
+      ['Dessinateur', 'Permet de personnaliser la voiture'],
+      ['Électronique', 'Permet au deuxième ascenseur de monter plus vite'],
+      ['Horlogerie', 'Permet au premier ascenseur de monter plus vite'],
+      ['Informatique', 'Permet d’accélérer la voiture grâce aux barrières'],
+      ['Laborantin', 'Donne un boost de vitesse grâce à une soufflette'],
+      ['Mécanicien-auto', 'Permet de personnaliser la voiture'],
+      ['Micromécanique', 'Accélère le démarrage de la voiture'],
+      ['Qualiticien', 'Réduit le temps de la course (enlève un peu de temps)'],
+      ['Forum', 'Réduit le temps de la course (enlève un peu de temps)'],
+    ]
+  });
+
+  for (const section of sections) {
+    if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
+
+    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
+
+    const listActivityUser = activitiesList.map((activity) => ({
+      name: activity.label,
+      realised: listActivityOneCarApi.some((a) => a.idActivity === activity.idActivity),
+    }));
+
+    const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
+
+    let descriptionTxt = 'Description non trouvée';
+
+    for (const obj of listDescription.value) {
+      for (const [name, description] of obj.descriptionText) {
+        if (name === section.label) {
+          descriptionTxt = description;
+        }
+      }
+    }
+
+    listAllBonus.value.push({
+      name: section.label,
+      idSection: section.idSection,
+      realised: sectionRealised,
+      listActivity: listActivityUser,
+      description: descriptionTxt,
+    });
+  }
+}
+
+function getSectionColor(realised: boolean): string {
+  return realised ? '#d1ffb5' : '#d3d3d3';
+}
+
+function getSectionBadge(name: string): string {
+  const badgeMap: Record<string, string> = {
+    'Automatique': badgeAutomaticien,
+    'Dessinateur': badgeDessinateur,
+    'Electronique': badgeElectronicien,
+    'Horlogerie': badgeHorloger,
+    'Informatique': badgeInformaticien,
+    'Laborantin': badgeLaborentin,
+    'Mécanicien-auto': badgeMecaAuto,
+    'Micromécanique': badgeMicromecanicien,
+    'Qualiticien': badgeQualiticien,
+    'Forum' : badgeForum
+  };
+  return badgeMap[name];
+}
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -554,5 +693,95 @@ template {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.badges-liste {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.badges-liste div {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.badge {
+  width: 160px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.badge p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+.badges-liste img {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+}
+
+.badges-liste div:hover img {
+  animation: rotateOnce 0.6s ease-in-out forwards;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+button {
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: gray;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button.selected {
+  background-color: #ce0064;
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .badge {
+    width: 100px;
+    height: 100px;
+  }
+
+  .badge p {
+    font-size: 15px;
+  }
+
+  .badge-description {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.badges-liste div.not-realised img {
+  opacity: 0.4;
+  filter: grayscale(60%);
 }
 </style>

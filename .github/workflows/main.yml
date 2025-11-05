@@ -69,3 +69,4 @@ jobs:
         cd front
         npm install
         npx vue-tsc --noemit && echo "Type checking succeeded"
+

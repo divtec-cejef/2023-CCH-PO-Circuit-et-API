@@ -4,16 +4,48 @@
             <SpinLoading></SpinLoading>
         </div>
 
-        <div v-else-if="codeBackApi === api.ReturnCodes.Success">
+        <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
             <div class="user-data">
                 <div class="avatar-txt">
                     <RouterLink to="pilote">
                         <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
                     </RouterLink>
-
                     <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-                    <p>Tu trouveras tout ce dont tu as besoin sur ces pages...</p>
                 </div>
+
+              <div style="margin-right: 10px">
+                <h2>Instructions</h2>
+                <ul class="list-instruction">
+                  <li>
+                    <NumberTime color="var(--blue)" number="1"></NumberTime>
+                    <p>Balade toi dans les différents ateliers du bâtiment et
+                      réalise des activités pour obtenir des
+                      <RouterLink to="bonus">bonus</RouterLink>
+                      !
+                    </p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="2"></NumberTime>
+                    <p>Modifie tes données de
+                      <RouterLink to="pilote">pilotes</RouterLink>
+                      .
+                    </p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="3"></NumberTime>
+                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                      plus tu iras vite !</p>
+                  </li>
+                  <li>
+                    <NumberTime color="var(--blue)" number="4"></NumberTime>
+                    <p>Analyse ton résultat et récupère la
+                      <RouterLink to="course">vidéo</RouterLink>
+                      de ta course !
+                    </p>
+                  </li>
+
+                </ul>
+              </div>
 
                 <div class="car-3d">
                     <Suspense>
@@ -29,70 +61,8 @@
                         </template>
                     </Suspense>
                 </div>
-
-                <section>
-                <h2>Instructions</h2>
-                <ul class="list-instruction">
-                    <li>
-                        <NumberTime color="var(--blue)" number="1"></NumberTime>
-                        <p>Balade toi dans les différents ateliers du bâtiment et
-                            réalise des activités pour obtenir des
-                            <RouterLink to="bonus">bonus</RouterLink>
-                            !
-                        </p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="2"></NumberTime>
-                        <p>Modifie tes données de
-                            <RouterLink to="pilote">pilotes</RouterLink>
-                            .
-                        </p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="3"></NumberTime>
-                        <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                            plus tu iras vite !</p>
-                    </li>
-                    <li>
-                        <NumberTime color="var(--blue)" number="4"></NumberTime>
-                        <p>Analyse ton résultat et récupère la
-                            <RouterLink to="course">vidéo</RouterLink>
-                            de ta course !
-                        </p>
-                    </li>
-
-                </ul>
-                </section>
-
-                <section>
-                <h2>Tableau de bord</h2>
-                <div class="badges">
-                    <RouterLink to="/course">
-                        <img :src=badgeCourse alt="Badge course">
-                        <p>Course</p>
-                    </RouterLink>
-                    <RouterLink to="/classement">
-                        <img :src=badgeClassement alt="Badge classement">
-                        <p>Classement</p>
-                    </RouterLink>
-                    <RouterLink to="/course">
-                        <img :src=badgeVideo alt="Badge vidéo">
-                        <p>Video</p>
-                    </RouterLink>
-                    <RouterLink to="/pilote">
-                        <img :src=badgeModif alt="Badge modification">
-                        <p>Modifier</p>
-                    </RouterLink>
-                    <RouterLink to="/stage">
-                        <img :src=badgeStage alt="Badge inscription stage">
-                        <p>Stage</p>
-                    </RouterLink>
-                    <RouterLink to="/">
-                        <img :src=badgeLive alt="Badge live">
-                        <p>Live</p>
-                    </RouterLink>
-                </div>
-                </section>
+              <BonusList :id-car="car.idCar"/>
+              <div style="margin-top: 50px; margin-bottom: 10px"></div>
             </div>
         </div>
 
@@ -110,32 +80,21 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent, ref, watch } from 'vue';
-
 import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
-import api from '@/models/api';
-import badgeCourse from '@/assets/img/course.webp';
-import badgeClassement from '@/assets/img/classement.webp';
-import badgeModif from '@/assets/img/modification.webp';
-import badgeVideo from '@/assets/img/video.webp';
-import badgeStage from '@/assets/img/stage.webp';
-import badgeLive from '@/assets/img/live.webp';
+import { HollowDotsSpinner } from 'epic-spinners';
+import { usePreferredColorScheme } from '@vueuse/core';
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
-import { HollowDotsSpinner } from 'epic-spinners';
-import { usePreferredColorScheme } from '@vueuse/core';
+import api from '@/models/api';
+import BonusList from '@/components/BonusList.vue';
+import NumberTime from '@/components/NumberTime.vue';
 
-const SpinLoading =
-  defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
-const ErrorConnection =
-  defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
-const NumberTime =
-  defineAsyncComponent(() => import('@/components/NumberTime.vue'));
-const AutoRegeneratedAvatar =
-  defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const ModelRender =
-  defineAsyncComponent(() => import('@/components/ModelRender.vue'));
+const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
+const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
+const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
+const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
 
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
@@ -173,18 +132,14 @@ watch(useRouter().currentRoute, async (newUrl) => {
   deep: true,
   immediate: true
 });
-
-
 </script>
 
 <style lang="scss" scoped>
-
 div.loading-page {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 #app div.error-no-car {
   top: calc(50% - 75px);
@@ -226,6 +181,7 @@ div.user-data {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  margin-top: 50px;
 
   @media screen and (min-width: 1024px) {
     display: grid;
@@ -235,9 +191,7 @@ div.user-data {
     align-content: space-between;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 650px;
     width: 100%;
-    margin-top: 10px;
   }
 
   section {
@@ -252,7 +206,6 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
-    margin-top: 20px;
 
     p:nth-child(2) {
       font-size: 18px;
@@ -329,59 +282,6 @@ div.user-data {
     align-self: start;
   }
 
-  div.badges {
-    margin: 1.5em auto auto;
-    display: grid;
-    justify-items: center;
-    grid-column-gap: 15vw;
-    grid-row-gap: 1.25em;
-    width: fit-content;
-    grid-template-columns: 1fr 1fr;
-
-    @media screen and (min-width: 475px) {
-      grid-column-gap: 2.75em;
-      grid-template-columns: 1fr 1fr 1fr;
-      width: auto;
-    }
-
-    p {
-      margin: 5px 0;
-    }
-
-    img {
-      width: 110px;
-      height: 110px;
-    }
-  }
-
-  a {
-
-    p {
-      transition: ease-in-out 0.2s;
-
-    }
-
-    img {
-      transition: ease-in-out 0.2s;
-    }
-  }
-
-  a:hover {
-    img {
-      filter: grayscale(0.4);
-      transition: ease-in-out 0.2s;
-    }
-
-    p {
-      font-weight: bold;
-      transition: ease-in-out 0.2s;
-    }
-  }
-
-  div.hidden {
-    opacity: 0;
-  }
-
   div.car-3d {
     position: relative;
     display: flex;
@@ -397,6 +297,4 @@ div.user-data {
     }
   }
 }
-
-
 </style>
