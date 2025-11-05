@@ -30,6 +30,8 @@
             :rank="key + 1"
             :show-content="props.showContent"
             :time="new Date(race.total_time)"
+            :showBonus="true"
+            style="display: inline-flex;"
         />
     </template>
 </template>
@@ -86,7 +88,7 @@ socket.onRankingReceived((data) => {
     return;
   }
 
-  listRace.value = data.races;
+  listRace.value = data.races.sort(function(a, b){return a.id_race - b.id_race;}).slice(data.races.length - 10).sort(function(a, b){return a.total_time > b.total_time ? 1 : 0;});
 
   //Si ce n'est le premier chargement alors on recherche la course ajoutée en dernier
   if (lastListRace.value.length > 0) {

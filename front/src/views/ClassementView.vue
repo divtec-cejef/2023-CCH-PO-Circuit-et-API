@@ -9,8 +9,17 @@
             <ClassmentButton class="buttons" @scrollToTop="scrollToTop" @scrollToUser="scrollToUser"/>
         </div>
 
+
+      <div class="button-group">
+        <button @click="classementGlobal = true;" :class="{ selected: classementGlobal }">Global</button>
+        <button @click="classementGlobal = false" :class="{ selected: !classementGlobal}">Recent</button>
+      </div>
         <div ref="classment" class="classement">
-            <ClassementRace/>
+
+          <ClassementRace v-if="classementGlobal" :showBonus="true"/>
+
+
+          <ClassementRaceRecent v-else :showBonus="true"/>
         </div>
     </div>
 </template>
@@ -20,6 +29,7 @@ import { useElementBounding, useScroll, useWindowSize } from '@vueuse/core';
 import { defineAsyncComponent, ref } from 'vue';
 
 const ClassementRace = defineAsyncComponent(() => import('@/components/ClassementRace.vue'));
+const ClassementRaceRecent = defineAsyncComponent(() => import('@/components/ClassementRaceRecent.vue'));
 const ClassmentButton = defineAsyncComponent(() => import('@/components/ClassmentButton.vue'));
 
 const classment = ref<HTMLElement | null>(null);
@@ -27,6 +37,7 @@ const scroll = useScroll(window, { behavior: 'smooth' });
 const { height: classementHeight } = useWindowSize();
 const { top: classmentTop } = useElementBounding(classment);
 const userCar = useCarStore();
+const classementGlobal = ref(false);
 
 if (userCar.car.idCar !== undefined) {
   userCar.initUserAllRaceCar();
@@ -91,5 +102,24 @@ function scrollToTop() {
   }
 }
 
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+button {
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: gray;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button.selected {
+  background-color: #ce0064;
+  color: white;
+}
 
 </style>
