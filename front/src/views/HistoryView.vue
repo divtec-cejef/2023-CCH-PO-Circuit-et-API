@@ -488,16 +488,16 @@ async function loadBonusList() {
   listAllBonus.value = [];
   listDescription.value.push({
     descriptionText: [
-      ['Automatique', 'Description auto'],
-      ['Dessinateur', 'Description dessinateur'],
-      ['Electronique', 'Description Electro'],
-      ['Horlogerie', 'Description dessinateur'],
-      ['Informatique', 'Description info'],
-      ['Laborantin', 'Description labo'],
-      ['Mécanicien-auto', 'Description meca-auto'],
-      ['Micromécanique', 'Description micro'],
-      ['Qualiticien', 'Description qualiticien'],
-      ['Forum', 'Description Forum'],
+      ['Automatique', 'Permet d’accélérer la voiture grâce aux barrières'],
+      ['Dessinateur', 'Permet de personnaliser la voiture'],
+      ['Électronique', 'Permet au deuxième ascenseur de monter plus vite'],
+      ['Horlogerie', 'Permet au premier ascenseur de monter plus vite'],
+      ['Informatique', 'Permet d’accélérer la voiture grâce aux barrières'],
+      ['Laborantin', 'Donne un boost de vitesse grâce à une soufflette'],
+      ['Mécanicien-auto', 'Permet de personnaliser la voiture'],
+      ['Micromécanique', 'Accélère le démarrage de la voiture'],
+      ['Qualiticien', 'Réduit le temps de la course (enlève un peu de temps)'],
+      ['Forum', 'Réduit le temps de la course (enlève un peu de temps)'],
     ]
   });
 
