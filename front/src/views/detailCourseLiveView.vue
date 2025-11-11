@@ -4,7 +4,7 @@ import { formatHourDayV2 } from '@/models/race';
 import AutoRegeneratedAvatar from '@/components/AutoRegeneratedAvatar.vue';
 import QrcodeVue from 'qrcode.vue';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://gp.divtec.ch/api';
 
 const race = ref<any | null>(null);
 
