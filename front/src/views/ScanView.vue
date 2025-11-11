@@ -1,5 +1,10 @@
 <template>
     <div class="fullscreen">
+      <div class="up-screen">
+        <div class="return-back" @click="quitPage">
+          <img :src="arrow" alt="Icône de retour en arrière">
+        </div>
+      </div>
         <QrcodeStream @detect="onDecode"/>
         <div class="overlay">
             <div class="message">
@@ -17,9 +22,17 @@ import { QrcodeStream } from 'vue-qrcode-reader';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import type { DetectedBarcode } from 'barcode-detector';
+import arrow from '@/assets/img/arrow.webp';
 
 const router = useRouter();
 const error = ref<string>();
+
+/**
+ * Quitte la page et éteind la camera
+ */
+async function quitPage() {
+  await router.push({ path: '/' });
+}
 
 /**
  * Récupère la valeur du scan
@@ -44,6 +57,58 @@ function onDecode(resultScan:DetectedBarcode[]) {
 
 <style scoped lang="scss">
 @import "@/assets/css/consts";
+
+div.up-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  div.return-back {
+    background-color: var(--white);
+    rotate: 180deg;
+    border-radius: 999px;
+    padding: 8px;
+    width: 45px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+
+      img {
+        filter: invert(1);
+      }
+    }
+
+    img {
+      margin-right: -3px;
+      width: 25px;
+    }
+  }
+
+  div.name-activity {
+    font-style: italic;
+    border-radius: 20px;
+    padding: 7px 15px;
+    color: var(--black);
+    background-color: var(--white);
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: var(--black);
+      color: var(--white);
+    }
+  }
+}
+
 .fullscreen {
     z-index: 10000;
     background-color: var(--black);
