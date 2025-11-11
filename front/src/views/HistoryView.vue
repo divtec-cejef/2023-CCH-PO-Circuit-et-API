@@ -490,14 +490,14 @@ async function loadBonusList() {
     descriptionText: [
       ['Automatique', 'Permet d’accélérer la voiture grâce aux barrières'],
       ['Dessinateur', 'Permet de personnaliser la voiture'],
-      ['Électronique', 'Permet au deuxième ascenseur de monter plus vite'],
+      ['Electronique', 'Permet au deuxième ascenseur de monter plus vite'],
       ['Horlogerie', 'Permet au premier ascenseur de monter plus vite'],
       ['Informatique', 'Permet d’accélérer la voiture grâce aux barrières'],
       ['Laborantin', 'Donne un boost de vitesse grâce à une soufflette'],
       ['Mécanicien-auto', 'Permet de personnaliser la voiture'],
       ['Micromécanique', 'Accélère le démarrage de la voiture'],
       ['Qualiticien', 'Réduit le temps de la course (enlève un peu de temps)'],
-      ['Forum', 'Réduit le temps de la course (enlève un peu de temps)'],
+      ['Forum', 'Réduit le temps de la course'],
     ]
   });
 
