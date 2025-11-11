@@ -101,70 +101,65 @@ async function loadBonusList() {
 </script>
 
 <style lang="scss" scoped>
+.badges-liste {
+  display: grid;
+  justify-items: center;
+  gap: 1.5em;
+  margin: 1.5em auto;
+  width: 100%;
+  max-width: 900px;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .badges-liste div {
-  width: 160px;
-  height: 160px;
-  padding: 10px;
-  border-radius: 5%;
+  background-color: #393939;
+  border-radius: 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  @media screen and (max-width: 425px) {
-    margin: 0.5em auto auto
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 180px;
+  padding: 12px;
+  transition: transform 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    max-width: 140px;
+    padding: 8px;
   }
+}
+
+.badges-liste img {
+  width: 75%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
 }
 
 .badges-liste div p {
+  margin-top: 0.5em;
   font-size: 1.1rem;
+  text-align: center;
   color: black;
-}
 
-@media screen and (max-width: 765px) {
-  h2 {
-    text-align: center;
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
   }
 }
 
-@media screen and (max-width: 579px) {
-  h2 {
-    text-align: center;
-  }
-  .badges-liste > div:nth-last-child(1):nth-child(odd) {
-    grid-column: span 2;
-    justify-self: center;
-  }
+.badges-liste div:hover img {
+  animation: rotateOnce 0.6s ease-in-out forwards;
 }
 
-div.badges-liste {
-  border-radius: 15px;
-  margin: 1.5em auto auto;
-  display: grid;
-  justify-items: center;
-  grid-column-gap: 15vw;
-  grid-row-gap: 1.25em;
-  width: fit-content;
-  grid-template-columns: 1fr 1fr;
-
-  @media screen and (min-width: 580px) {
-    grid-column-gap: 2.75em;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: auto;
-
-    h2 {
-      text-align: center;
-    }
-  }
-
-  p {
-    margin: 5px 0;
-  }
-
-  img {
-    width: 110px;
-    height: 110px;
-  }
+.badges-liste div.not-realised img {
+  opacity: 0.4;
+  filter: grayscale(100%);
 }
 
 @keyframes rotateOnce {
@@ -176,17 +171,4 @@ div.badges-liste {
   }
 }
 
-.badges-liste img {
-  transition: transform 0.3s ease-in-out;
-  transform: scale(1);
-}
-
-.badges-liste div:hover img {
-  animation: rotateOnce 0.6s ease-in-out forwards;
-}
-
-.badges-liste div.not-realised img {
-  opacity: 0.4;
-  filter: grayscale(100%);
-}
 </style>
