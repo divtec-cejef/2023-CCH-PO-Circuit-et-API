@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+// Import des images
 import badgeEntreprise1 from '@/assets/img/1.png';
 import badgeEntreprise2 from '@/assets/img/2.png';
 import badgeEntreprise3 from '@/assets/img/3.png';
 import badgeEntreprise4 from '@/assets/img/4.png';
 import badgeEntreprise5 from '@/assets/img/5.png';
 
+// Sponsors
 const sponsors = [
   { name: 'Sponsors-1', image: badgeEntreprise1 },
   { name: 'Sponsors-2', image: badgeEntreprise2 },
@@ -15,11 +18,20 @@ const sponsors = [
   { name: 'Sponsors-5', image: badgeEntreprise5 },
 ];
 
+// Réactivité
 const currentIndex = ref(0);
 const isRunning = ref(false);
 const winner = ref<string | null>(null);
 const bounce = ref(false);
 
+// Récupérer query_id depuis l'URL
+const route = useRoute();
+const carQueryId = Number(route.query.query_id);
+if (isNaN(carQueryId)) {
+  console.error('query_id invalide dans l’URL');
+}
+
+const API_URL = 'http://localhost:3000';
 function startAnimation() {
   if (isRunning.value) return;
   isRunning.value = true;
@@ -35,7 +47,6 @@ function startAnimation() {
     currentIndex.value = (currentIndex.value + 1) % sponsors.length;
     cycles++;
 
-    // ralentissement progressif avec easing
     if (cycles > totalCycles - 5) {
       speed += Math.pow(cycles - (totalCycles - 5), 2) * 20;
     }
@@ -43,16 +54,45 @@ function startAnimation() {
     if (cycles >= totalCycles && currentIndex.value === targetIndex) {
       isRunning.value = false;
       winner.value = sponsors[targetIndex].name;
-
-      // déclencher le rebond à l’arrêt
       bounce.value = true;
       setTimeout(() => (bounce.value = false), 300);
+
+      // Récupérer query_id au moment de l'envoi
+      const queryId = Number(route.query.query_id);
+      if (isNaN(queryId)) {
+        console.error('query_id invalide dans l’URL');
+        return;
+      }
+
+      // Envoi du sponsor gagnant à l'API
+      sendSponsorToApi(queryId, sponsors[targetIndex].name);
+
     } else {
       setTimeout(spin, speed);
     }
   };
 
   spin();
+}
+
+async function sendSponsorToApi(carQueryId: number, selectedSponsor: string) {
+  try {
+    const res = await fetch(`${API_URL}/car/sponsor?id=${carQueryId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sponsor: selectedSponsor }),
+    });
+
+    if (!res.ok) {
+      console.error('Erreur API:', await res.json());
+      return;
+    }
+
+    const updatedCar = await res.json();
+    console.log('Sponsor mis à jour:', updatedCar);
+  } catch (err) {
+    console.error('Erreur réseau:', err);
+  }
 }
 
 // Lancer le tirage automatiquement au chargement
@@ -138,21 +178,11 @@ onMounted(() => {
 }
 
 @keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  30% {
-    transform: translateY(-10px);
-  }
-  50% {
-    transform: translateY(5px);
-  }
-  70% {
-    transform: translateY(-5px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+  50% { transform: translateY(5px); }
+  70% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
 
 .winner {
@@ -162,13 +192,10 @@ onMounted(() => {
   font-weight: bold;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s;
 }
-.fade-enter-from,
-.fade-leave-to {
+.fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
 </style>
-

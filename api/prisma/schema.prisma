@@ -29,6 +29,7 @@ model car {
   password  String      @db.VarChar(64)
   query_id  String      @unique @db.VarChar(100)
   pseudo    String      @unique @db.VarChar(50)
+  sponsor_name   String?
   avatar    Json        @db.Json
   car_token car_token[]
   race      race[]
