@@ -10,6 +10,7 @@ export default class Car {
   avatar: Configs | undefined;
   listRace: Race[] | undefined;
   rank: number | undefined;
+  sponsorName: string | undefined;
 }
 
 /**
