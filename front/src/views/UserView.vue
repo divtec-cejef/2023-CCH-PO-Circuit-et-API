@@ -1,81 +1,81 @@
 <template>
-    <div class="content">
-        <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
-            <SpinLoading></SpinLoading>
+  <div class="content">
+    <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
+      <SpinLoading></SpinLoading>
+    </div>
+
+    <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
+      <div class="user-data">
+        <div class="avatar-txt">
+          <RouterLink to="pilote">
+            <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+          </RouterLink>
+          <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
         </div>
 
-        <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
-            <div class="user-data">
-                <div class="avatar-txt">
-                    <RouterLink to="pilote">
-                        <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
-                    </RouterLink>
-                    <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-                </div>
+        <div style="margin-right: 10px">
+          <h2>Instructions</h2>
+          <ul class="list-instruction">
+            <li>
+              <NumberTime color="var(--blue)" number="1"></NumberTime>
+              <p>Balade toi dans les différents ateliers du bâtiment et
+                réalise des activités pour obtenir des
+                <RouterLink to="bonus">bonus</RouterLink>
+                !
+              </p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="2"></NumberTime>
+              <p>Modifie tes données de
+                <RouterLink to="pilote">pilotes</RouterLink>
+                .
+              </p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="3"></NumberTime>
+              <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                plus tu iras vite !</p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="4"></NumberTime>
+              <p>Analyse ton résultat et récupère la
+                <RouterLink to="course">vidéo</RouterLink>
+                de ta course !
+              </p>
+            </li>
 
-              <div style="margin-right: 10px">
-                <h2>Instructions</h2>
-                <ul class="list-instruction">
-                  <li>
-                    <NumberTime color="var(--blue)" number="1"></NumberTime>
-                    <p>Balade toi dans les différents ateliers du bâtiment et
-                      réalise des activités pour obtenir des
-                      <RouterLink to="bonus">bonus</RouterLink>
-                      !
-                    </p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="2"></NumberTime>
-                    <p>Modifie tes données de
-                      <RouterLink to="pilote">pilotes</RouterLink>
-                      .
-                    </p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="3"></NumberTime>
-                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                      plus tu iras vite !</p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="4"></NumberTime>
-                    <p>Analyse ton résultat et récupère la
-                      <RouterLink to="course">vidéo</RouterLink>
-                      de ta course !
-                    </p>
-                  </li>
+          </ul>
+        </div>
 
-                </ul>
-              </div>
-
-                <div class="car-3d">
-                    <Suspense>
-                        <ModelRender :model="carModel">
-                            <img :src="colorScheme === 'dark'
+        <div class="car-3d">
+          <Suspense>
+            <ModelRender :model="carModel">
+              <img :src="colorScheme === 'dark'
                             ? carGifDark
                             : carGifLight" alt="Animation de la voiture en 3D">
-                        </ModelRender>
-                        <template #fallback>
-                            <div class="loading">
-                            <HollowDotsSpinner/>
-                            </div>
-                        </template>
-                    </Suspense>
-                </div>
-              <BonusList :id-car="car.idCar"/>
-              <div style="margin-top: 50px; margin-bottom: 10px"></div>
-            </div>
+            </ModelRender>
+            <template #fallback>
+              <div class="loading">
+                <HollowDotsSpinner/>
+              </div>
+            </template>
+          </Suspense>
         </div>
-
-        <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
-            <h2>Erreur</h2>
-            <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-            <RouterLink :to="`/${userCar.car.idQuery || ''}`">
-                <button>Accueil</button>
-            </RouterLink>
-        </div>
-
-        <ErrorConnection v-else></ErrorConnection>
+        <BonusList :id-car="car.idCar"/>
+        <div style="margin-top: 50px; margin-bottom: 10px"></div>
+      </div>
     </div>
+
+    <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
+      <h2>Erreur</h2>
+      <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
+      <RouterLink :to="`/${userCar.car.idQuery || ''}`">
+        <button>Accueil</button>
+      </RouterLink>
+    </div>
+
+    <ErrorConnection v-else></ErrorConnection>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -90,6 +90,8 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
 import BonusList from '@/components/BonusList.vue';
 import NumberTime from '@/components/NumberTime.vue';
+import cesarGris from '@/assets/img/cesar-gris.png';
+import cesarJaune from '@/assets/img/cesar-jaune.png';
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
@@ -104,34 +106,34 @@ const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
-  //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
-  if (newUrl.params.id === car.idQuery) {
-    codeBackApi.value = api.ReturnCodes.Success;
-    return;
-  }
+      //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
+      if (newUrl.params.id === car.idQuery) {
+        codeBackApi.value = api.ReturnCodes.Success;
+        return;
+      }
 
-  //Initialisation des données
-  let status = userCar.initUserCarQueryId(newUrl.params.id);
+      //Initialisation des données
+      let status = userCar.initUserCarQueryId(newUrl.params.id);
 
-  //Récupère le code de réponse de l'api
-  status.then((value) => {
-    if (value === undefined) {
-      return;
-    }
+      //Récupère le code de réponse de l'api
+      status.then((value) => {
+        if (value === undefined) {
+          return;
+        }
 
-    codeBackApi.value = value;
+        codeBackApi.value = value;
 
-    //Si la requête est valide alors on stocke l'id dans le localstorage
-    if (codeBackApi.value == api.ReturnCodes.Success) {
-      localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
-      localStorage.removeItem('carToken');
-    }
-  });
-},
-{
-  deep: true,
-  immediate: true
-});
+        //Si la requête est valide alors on stocke l'id dans le localstorage
+        if (codeBackApi.value == api.ReturnCodes.Success) {
+          localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
+          localStorage.removeItem('carToken');
+        }
+      });
+    },
+    {
+      deep: true,
+      immediate: true
+    });
 </script>
 
 <style lang="scss" scoped>
