@@ -1,7 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import api from '@/models/api';
 import type Avatar from '@/models/avatar';
-import { types } from 'sass';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -604,7 +603,6 @@ export namespace models {
    * Contient les structures des données brutes retournées par les endpoints de l'api
    */
   export namespace rawData {
-    import Null = types.Null;
 
     export interface Error {
       message: string;
