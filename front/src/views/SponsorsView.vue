@@ -31,7 +31,7 @@ if (isNaN(carQueryId)) {
   console.error('query_id invalide dans l’URL');
 }
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://gp.divtec.ch/api';
 function startAnimation() {
   if (isRunning.value) return;
   isRunning.value = true;
