@@ -30,6 +30,7 @@ export const useCarStore = defineStore('car', () => {
       car.value.pseudo = dataUserCar.pseudo;
       car.value.idQuery = dataUserCar.queryId;
       car.value.avatar = dataUserCar.avatar;
+      car.value.sponsorName = dataUserCar.sponsorName;
 
       //Stockage de l'id
       localStorage.setItem('userCarId', car.value.idCar.toString());

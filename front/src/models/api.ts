@@ -1,6 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import api from '@/models/api';
 import type Avatar from '@/models/avatar';
+import { types } from 'sass';
 
 const routeApi: string = import.meta.env.VITE_ROUTE_API;
 
@@ -42,7 +43,8 @@ export namespace restful {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
@@ -74,7 +76,8 @@ export namespace restful {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
@@ -469,15 +472,16 @@ export namespace restful {
       }
 
       if (!(response.status === api.ReturnCodes.Success)) {
-        console.error(json)
-        return { json: { message: 'Erreur'}, status: response.status };
+        console.error(json);
+        return { json: { message: 'Erreur' }, status: response.status };
       }
 
       const parsedJson = {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: response.status };
     } catch (e) {
@@ -600,6 +604,8 @@ export namespace models {
    * Contient les structures des données brutes retournées par les endpoints de l'api
    */
   export namespace rawData {
+    import Null = types.Null;
+
     export interface Error {
       message: string;
     }
@@ -629,7 +635,8 @@ export namespace models {
       id_car: number,
       query_id: string,
       pseudo: string,
-      avatar: Avatar.Avatar
+      avatar: Avatar.Avatar,
+      sponsorName: string
     } | Error
 
     /**
@@ -714,7 +721,8 @@ export namespace models {
       idCar: number,
       queryId: string,
       pseudo: string,
-      avatar: Avatar.Avatar
+      avatar: Avatar.Avatar,
+      sponsorName: string
     }
 
     /**
