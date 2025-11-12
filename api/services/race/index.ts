@@ -2,7 +2,6 @@ import prisma from '../../clients/prismadb';
 import { RaceToCreate, RaceToCreateWithQueryId } from '../../models';
 import { Prisma } from '@prisma/client';
 
-
 /**
  * Retourne les manches d'une course d'une voiture donnée
  * @param id id de la voiture
@@ -34,7 +33,8 @@ declare type Race = {
   car: {
     id_car: number,
     pseudo: string,
-    avatar: Prisma.JsonValue
+    avatar: Prisma.JsonValue,
+    sponsorName: string
   }
 }
 
@@ -201,4 +201,3 @@ export const getLastRace = async (): Promise<Race | null> => {
     include: { car: true }
   });
 };
-
