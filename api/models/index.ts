@@ -38,4 +38,5 @@ export interface CarToUpdate {
   id_car: number;
   pseudo: string;
   avatar: Prisma.JsonObject;
+  sponsor_name: string | null;
 }

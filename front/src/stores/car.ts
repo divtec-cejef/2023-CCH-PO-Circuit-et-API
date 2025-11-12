@@ -88,13 +88,13 @@ export const useCarStore = defineStore('car', () => {
       car.value.listRace = [];
 
       car.value.listRace = races.races.map(race =>
-          new Race(race.id_race,
-              new Date(race.race_start),
-              new Date(race.total_time),
-              new Date(race.sector1),
-              new Date(race.sector2),
-              race.speed,
-              race.video_url)
+        new Race(race.id_race,
+          new Date(race.race_start),
+          new Date(race.total_time),
+          new Date(race.sector1),
+          new Date(race.sector2),
+          race.speed,
+          race.video_url)
       );
     });
 
