@@ -13,16 +13,7 @@
           <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
         </div>
 
-        <div class="sponsor">
-          <div v-if="car.sponsorName">
-            <img :src="cesarGris">
-          </div>
-          <div v-else>
-            <img :src="cesarJaune" >
-          </div>
-        </div>
-
-        <div style="margin-right: 10px">
+        <div class="instructions">
           <h2>Instructions</h2>
           <ul class="list-instruction">
             <li>
@@ -54,6 +45,16 @@
             </li>
 
           </ul>
+        </div>
+
+        <div class="sponsor">
+          <div v-if="car.sponsorName">
+            <img :src="cesarGris">
+          </div>
+          <div v-else>
+            <img :src="cesarJaune" >
+          </div>
+          <img :src="imageSponsor">
         </div>
 
         <div class="car-3d">
@@ -88,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, ref, watch } from 'vue';
+import { defineAsyncComponent, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { HollowDotsSpinner } from 'epic-spinners';
@@ -103,6 +104,22 @@ import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
+// Import des images
+import badgeEntreprise1 from '@/assets/img/1.png';
+import badgeEntreprise2 from '@/assets/img/2.png';
+import badgeEntreprise3 from '@/assets/img/3.png';
+import badgeEntreprise4 from '@/assets/img/4.png';
+import badgeEntreprise5 from '@/assets/img/5.png';
+
+// Sponsors
+const sponsors = [
+  { name: 'Sponsors-1', image: badgeEntreprise1 },
+  { name: 'Sponsors-2', image: badgeEntreprise2 },
+  { name: 'Sponsors-3', image: badgeEntreprise3 },
+  { name: 'Sponsors-4', image: badgeEntreprise4 },
+  { name: 'Sponsors-5', image: badgeEntreprise5 },
+];
+
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
@@ -113,6 +130,20 @@ let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
 const colorScheme = usePreferredColorScheme();
+
+const imageSponsor = ref(badgeInconnu);
+
+function getSponsors() {
+  for (let i = 0; i < sponsors.length; i++) {
+    if (sponsors[i].name == car.sponsorName) {
+      imageSponsor.value = sponsors[i].image;
+    }
+  }
+}
+
+onMounted(() => {
+  getSponsors();
+});
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -316,13 +347,19 @@ div.user-data {
     align-items: center;
     margin: 50px auto auto auto;
     max-width: 100vw;
-    @media (min-width: 1000px) {
-
-    }
   }
 
   .bonus {
     max-width: 600px;
+  }
+
+  .instructions {
+    margin-right: 10px;
+    margin-top: 20px;
+    @media (min-width: 1000px) {
+      margin-top: 0;
+      margin-left: 70px;
+    }
   }
 }
 </style>
