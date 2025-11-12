@@ -13,6 +13,15 @@
           <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
         </div>
 
+        <div class="sponsor">
+          <div v-if="car.sponsorName">
+            <img :src="cesarGris">
+          </div>
+          <div v-else>
+            <img :src="cesarJaune" >
+          </div>
+        </div>
+
         <div style="margin-right: 10px">
           <h2>Instructions</h2>
           <ul class="list-instruction">
@@ -61,7 +70,7 @@
             </template>
           </Suspense>
         </div>
-        <BonusList :id-car="car.idCar"/>
+        <BonusList class="bonus" :id-car="car.idCar"/>
         <div style="margin-top: 50px; margin-bottom: 10px"></div>
       </div>
     </div>
@@ -92,6 +101,7 @@ import BonusList from '@/components/BonusList.vue';
 import NumberTime from '@/components/NumberTime.vue';
 import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
@@ -106,34 +116,34 @@ const colorScheme = usePreferredColorScheme();
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
-      //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
-      if (newUrl.params.id === car.idQuery) {
-        codeBackApi.value = api.ReturnCodes.Success;
-        return;
-      }
+  //Lancement de la requête de récupération seulement à l'initialisation de la page et au changement
+  if (newUrl.params.id === car.idQuery) {
+    codeBackApi.value = api.ReturnCodes.Success;
+    return;
+  }
 
-      //Initialisation des données
-      let status = userCar.initUserCarQueryId(newUrl.params.id);
+  //Initialisation des données
+  let status = userCar.initUserCarQueryId(newUrl.params.id);
 
-      //Récupère le code de réponse de l'api
-      status.then((value) => {
-        if (value === undefined) {
-          return;
-        }
+  //Récupère le code de réponse de l'api
+  status.then((value) => {
+    if (value === undefined) {
+      return;
+    }
 
-        codeBackApi.value = value;
+    codeBackApi.value = value;
 
-        //Si la requête est valide alors on stocke l'id dans le localstorage
-        if (codeBackApi.value == api.ReturnCodes.Success) {
-          localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
-          localStorage.removeItem('carToken');
-        }
-      });
-    },
-    {
-      deep: true,
-      immediate: true
-    });
+    //Si la requête est valide alors on stocke l'id dans le localstorage
+    if (codeBackApi.value == api.ReturnCodes.Success) {
+      localStorage.setItem('userCarId', userCar.car.idCar?.toString() ?? '');
+      localStorage.removeItem('carToken');
+    }
+  });
+},
+{
+  deep: true,
+  immediate: true
+});
 </script>
 
 <style lang="scss" scoped>
@@ -186,12 +196,12 @@ div.user-data {
   margin-top: 50px;
 
   @media screen and (min-width: 1024px) {
-    display: grid;
+    display: flex;
     grid-template-rows: auto auto;
     grid-auto-flow: column;
     align-items: center;
     align-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
   }
@@ -297,6 +307,22 @@ div.user-data {
       width: 100%;
       height: 100%;
     }
+  }
+  .sponsor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto auto auto;
+    max-width: 100vw;
+    @media (min-width: 1000px) {
+
+    }
+  }
+
+  .bonus {
+    max-width: 600px;
   }
 }
 </style>
