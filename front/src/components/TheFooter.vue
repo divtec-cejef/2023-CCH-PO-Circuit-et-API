@@ -1,5 +1,5 @@
 <template>
-    <p class="emt">EMT, Portes ouvertes 2024</p>
+    <p class="emt">EMT, Portes ouvertes 2025</p>
     <div class="stage">Inscris toi à un stage
         <RouterLink to="/stage">
             ici
@@ -31,6 +31,39 @@ const display = useLocalStorage('display', 'modern');
 </script>
 
 <style lang="scss" scoped>
+div.link {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+
+  img {
+    width: 25px;
+    display: none; // masqué par défaut (desktop)
+    margin-right: 15px;
+    transition: 0.2s filter ease-in-out;
+  }
+
+  img:hover {
+    filter: grayscale(8%) brightness(80%) sepia(40%) hue-rotate(50deg) saturate(300%);
+  }
+
+  @media (max-width: 768px) {
+    img {
+      display: inline-block;
+    }
+  }
+
+  a {
+    color: var(--white);
+    font-weight: bold;
+    transition: all ease-in-out 0.2s;
+  }
+
+  a:hover {
+    color: var(--light-green);
+  }
+}
 
 p.emt {
   text-align: left;
@@ -40,10 +73,6 @@ p.emt {
   width: 275px;
   text-align: center;
   font-size: 16px;
-}
-
-.footer p:nth-child(1) {
-  text-align: left;
 }
 
 div.stage {
@@ -57,42 +86,6 @@ div.stage {
 
   a:hover {
     color: var(--white);
-    transition: 0.1s ease-in-out;
-
   }
 }
-
-div.link {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-
-  img {
-    width: 25px;
-  }
-
-  img:nth-child(1) {
-    margin-right: 15px;
-    transition: 0.2s filter ease-in-out;
-  }
-
-  img:hover {
-    filter: grayscale(8%) brightness(80%) sepia(40%) hue-rotate(50deg) saturate(300%);
-    transition: 0.2s filter ease-in-out;
-
-  }
-
-  a {
-    color: var(--white);
-    font-weight: bold;
-    transition: all ease-in-out 0.2s;
-  }
-
-  a:hover {
-    color: var(--light-green);
-    transition: all ease-in-out 0.2s;
-  }
-}
-
 </style>
