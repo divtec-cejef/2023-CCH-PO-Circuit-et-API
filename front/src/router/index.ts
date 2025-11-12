@@ -20,7 +20,6 @@ const DetailJoueurView = () => import('@/views/detailJoueurView/[id].vue');
 const DetailJoueurLiveView = () => import('@/views/detailJoueurLiveView/[id].vue');
 const DetailCourseLiveView = () => import('@/views/detailCourseLiveView.vue');
 const StatistiqueView = () => import('@/views/StatistiqueView.vue');
-
 const SponsorsView = () => import('@/views/SponsorsView.vue');
 
 const router = createRouter({
@@ -128,7 +127,7 @@ const router = createRouter({
       component: DetailCourseLiveView
     },
     {
-      name:'sponsors',
+      name:'sponsor',
       path: '/admin/sponsors',
       component: SponsorsView
     },

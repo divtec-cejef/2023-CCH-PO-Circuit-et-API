@@ -30,6 +30,7 @@ model car {
   query_id  String      @unique @db.VarChar(100)
   pseudo    String      @unique @db.VarChar(50)
   avatar    Json        @db.Json
+  sponsorName  String?  @db.VarChar(100)
   car_token car_token[]
   race      race[]
   realise   realise[]

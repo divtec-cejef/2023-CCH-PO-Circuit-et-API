@@ -132,3 +132,16 @@ export const updateCar = async (carToUpdate: CarToUpdate) => {
     }
   });
 };
+
+/**
+ * Met à jour uniquement le sponsorName d'une voiture
+ * @param queryId id de la voiture
+ * @param sponsorName nouveau nom du sponsor
+ * @returns la voiture mise à jour
+ */
+export const updateCarSponsor = async (queryId: string, sponsorName: string) => {
+  return await prisma.car.update({
+    where: { query_id: queryId },
+    data: { sponsorName }
+  });
+};
