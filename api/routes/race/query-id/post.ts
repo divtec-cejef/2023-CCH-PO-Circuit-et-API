@@ -12,7 +12,7 @@ import { getCarByQueryId } from '../../../services/car';
 import type { Server } from 'socket.io';
 import validateSection from '../../../services/section/validate-token';
 import { getSectionById } from '../../../services/section';
-import { emitEvent } from "../../../clients/socketio";
+import { emitEvent } from '../../../clients/socketio';
 
 declare type Datable = Date | string
 
@@ -134,7 +134,7 @@ export const route: RouteHandler<null, unknown, RaceRequest> = async (req, res) 
     await emitEvent(s1, 'updatedUserRaces', {
       races: await getRacesByCar(s1.data.carId),
       rank: await getRankByCar(s1.data.carId)
-    })
+    });
   }
 };
 
