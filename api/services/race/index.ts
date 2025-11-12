@@ -34,7 +34,7 @@ declare type Race = {
     id_car: number,
     pseudo: string,
     avatar: Prisma.JsonValue,
-    sponsorName: string
+    sponsor_name: string | null,
   }
 }
 
@@ -61,8 +61,9 @@ export const getShortestRaces = async () => {
   const cars: {
     id_car: number,
     pseudo: string,
-    avatar: Prisma.JsonValue
-  }[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar
+    avatar: Prisma.JsonValue,
+    sponsor_name: string
+  }[] = await prisma.$queryRaw`SELECT id_car, pseudo, avatar, sponsor_name
                                FROM car
                                WHERE id_car IN (SELECT id_car FROM ranking)`;
 
