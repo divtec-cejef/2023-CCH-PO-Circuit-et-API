@@ -90,6 +90,8 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
 import BonusList from '@/components/BonusList.vue';
 import NumberTime from '@/components/NumberTime.vue';
+import cesarGris from '@/assets/img/cesar-gris.png';
+import cesarJaune from '@/assets/img/cesar-jaune.png';
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
