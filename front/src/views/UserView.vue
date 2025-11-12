@@ -1,85 +1,95 @@
 <template>
-    <div class="content">
-        <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
-            <SpinLoading></SpinLoading>
+  <div class="content">
+    <div v-if="codeBackApi === api.ReturnCodes.NoCode" class="loading-page">
+      <SpinLoading></SpinLoading>
+    </div>
+
+    <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
+      <div class="user-data">
+        <div class="avatar-txt">
+          <RouterLink to="pilote">
+            <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
+          </RouterLink>
+          <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
         </div>
 
-        <div v-else-if="codeBackApi === api.ReturnCodes.Success" style="margin-top: -50px">
-            <div class="user-data">
-                <div class="avatar-txt">
-                    <RouterLink to="pilote">
-                        <AutoRegeneratedAvatar :avatar-config="car.avatar"/>
-                    </RouterLink>
-                    <p>Bienvenue <span>{{ car.pseudo }}</span> !<br></p>
-                </div>
+        <div class="instructions">
+          <h2>Instructions</h2>
+          <ul class="list-instruction">
+            <li>
+              <NumberTime color="var(--blue)" number="1"></NumberTime>
+              <p>Balade toi dans les différents ateliers du bâtiment et
+                réalise des activités pour obtenir des
+                <RouterLink to="bonus">bonus</RouterLink>
+                !
+              </p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="2"></NumberTime>
+              <p>Modifie tes données de
+                <RouterLink to="pilote">pilotes</RouterLink>
+                .
+              </p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="3"></NumberTime>
+              <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
+                plus tu iras vite !</p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="4"></NumberTime>
+              <p>Analyse ton résultat et récupère la
+                <RouterLink to="course">vidéo</RouterLink>
+                de ta course !
+              </p>
+            </li>
 
-              <div style="margin-right: 10px">
-                <h2>Instructions</h2>
-                <ul class="list-instruction">
-                  <li>
-                    <NumberTime color="var(--blue)" number="1"></NumberTime>
-                    <p>Balade toi dans les différents ateliers du bâtiment et
-                      réalise des activités pour obtenir des
-                      <RouterLink to="bonus">bonus</RouterLink>
-                      !
-                    </p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="2"></NumberTime>
-                    <p>Modifie tes données de
-                      <RouterLink to="pilote">pilotes</RouterLink>
-                      .
-                    </p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="3"></NumberTime>
-                    <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                      plus tu iras vite !</p>
-                  </li>
-                  <li>
-                    <NumberTime color="var(--blue)" number="4"></NumberTime>
-                    <p>Analyse ton résultat et récupère la
-                      <RouterLink to="course">vidéo</RouterLink>
-                      de ta course !
-                    </p>
-                  </li>
+          </ul>
+        </div>
 
-                </ul>
-              </div>
+        <div class="sponsor">
+          <div v-if="car.sponsorName">
+            <img :src="cesarGris">
+          </div>
+          <div v-else>
+            <img :src="cesarJaune" >
+          </div>
+          <img :src="imageSponsor">
+        </div>
 
-                <div class="car-3d">
-                    <Suspense>
-                        <ModelRender :model="carModel">
-                            <img :src="colorScheme === 'dark'
+        <div class="car-3d">
+          <Suspense>
+            <ModelRender :model="carModel">
+              <img :src="colorScheme === 'dark'
                             ? carGifDark
                             : carGifLight" alt="Animation de la voiture en 3D">
-                        </ModelRender>
-                        <template #fallback>
-                            <div class="loading">
-                            <HollowDotsSpinner/>
-                            </div>
-                        </template>
-                    </Suspense>
-                </div>
-              <BonusList :id-car="car.idCar"/>
-              <div style="margin-top: 50px; margin-bottom: 10px"></div>
-            </div>
+            </ModelRender>
+            <template #fallback>
+              <div class="loading">
+                <HollowDotsSpinner/>
+              </div>
+            </template>
+          </Suspense>
         </div>
-
-        <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
-            <h2>Erreur</h2>
-            <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
-            <RouterLink :to="`/${userCar.car.idQuery || ''}`">
-                <button>Accueil</button>
-            </RouterLink>
-        </div>
-
-        <ErrorConnection v-else></ErrorConnection>
+        <BonusList class="bonus" :id-car="car.idCar"/>
+        <div style="margin-top: 50px; margin-bottom: 10px"></div>
+      </div>
     </div>
+
+    <div v-else-if="codeBackApi === api.ReturnCodes.NotFound" class="error-no-car">
+      <h2>Erreur</h2>
+      <p>Malheureusement aucune voiture ne correspond à l'URL...</p>
+      <RouterLink :to="`/${userCar.car.idQuery || ''}`">
+        <button>Accueil</button>
+      </RouterLink>
+    </div>
+
+    <ErrorConnection v-else></ErrorConnection>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, ref, watch } from 'vue';
+import { defineAsyncComponent, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { HollowDotsSpinner } from 'epic-spinners';
@@ -90,6 +100,25 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
 import BonusList from '@/components/BonusList.vue';
 import NumberTime from '@/components/NumberTime.vue';
+import cesarGris from '@/assets/img/cesar-gris.png';
+import cesarJaune from '@/assets/img/cesar-jaune.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
+
+// Import des images
+import badgeEntreprise1 from '@/assets/img/1.png';
+import badgeEntreprise2 from '@/assets/img/2.png';
+import badgeEntreprise3 from '@/assets/img/3.png';
+import badgeEntreprise4 from '@/assets/img/4.png';
+import badgeEntreprise5 from '@/assets/img/5.png';
+
+// Sponsors
+const sponsors = [
+  { name: 'Sponsors-1', image: badgeEntreprise1 },
+  { name: 'Sponsors-2', image: badgeEntreprise2 },
+  { name: 'Sponsors-3', image: badgeEntreprise3 },
+  { name: 'Sponsors-4', image: badgeEntreprise4 },
+  { name: 'Sponsors-5', image: badgeEntreprise5 },
+];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
@@ -101,6 +130,20 @@ let userCar = useCarStore();
 const { car } = userCar;
 const codeBackApi = ref(0);
 const colorScheme = usePreferredColorScheme();
+
+const imageSponsor = ref(badgeInconnu);
+
+function getSponsors() {
+  for (let i = 0; i < sponsors.length; i++) {
+    if (sponsors[i].name == car.sponsorName) {
+      imageSponsor.value = sponsors[i].image;
+    }
+  }
+}
+
+onMounted(() => {
+  getSponsors();
+});
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -184,12 +227,12 @@ div.user-data {
   margin-top: 50px;
 
   @media screen and (min-width: 1024px) {
-    display: grid;
+    display: flex;
     grid-template-rows: auto auto;
     grid-auto-flow: column;
     align-items: center;
     align-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
   }
@@ -294,6 +337,28 @@ div.user-data {
     .loading {
       width: 100%;
       height: 100%;
+    }
+  }
+  .sponsor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto auto auto;
+    max-width: 100vw;
+  }
+
+  .bonus {
+    max-width: 600px;
+  }
+
+  .instructions {
+    margin-right: 10px;
+    margin-top: 20px;
+    @media (min-width: 1000px) {
+      margin-top: 0;
+      margin-left: 70px;
     }
   }
 }

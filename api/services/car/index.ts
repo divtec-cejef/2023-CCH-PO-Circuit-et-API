@@ -30,7 +30,8 @@ export const getCarByQueryId = async (carQueryId: string) => {
       id_car: true,
       query_id: true,
       pseudo: true,
-      avatar: true
+      avatar: true,
+      sponsor_name: true
     }
   });
 };
@@ -111,7 +112,7 @@ export const getPasswordByQueryId = async (carQueryId: string) => {
  * @returns la voiture mise à jour
  */
 export const updateCar = async (carToUpdate: CarToUpdate) => {
-  if(await prisma.car.findFirst({
+  if (await prisma.car.findFirst({
     where: {
       pseudo: carToUpdate.pseudo,
       NOT: {

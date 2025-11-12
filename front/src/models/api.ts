@@ -42,7 +42,8 @@ export namespace restful {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
@@ -74,7 +75,8 @@ export namespace restful {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: res.status };
     } catch (e) {
@@ -205,8 +207,8 @@ export namespace restful {
    * Obtient toutes les sections
    */
   export async function getAllSections(): ModelResultHandler<
-    Exclude<models.parsedData.SectionName, models.rawData.Error>[]
-    > {
+      Exclude<models.parsedData.SectionName, models.rawData.Error>[]
+      > {
     try {
       const res = await fetch(`${routeApi}section/`);
       const json: Exclude<models.rawData.SectionName, models.rawData.Error>[] | models.rawData.Error = await res.json();
@@ -469,15 +471,16 @@ export namespace restful {
       }
 
       if (!(response.status === api.ReturnCodes.Success)) {
-        console.error(json)
-        return { json: { message: 'Erreur'}, status: response.status };
+        console.error(json);
+        return { json: { message: 'Erreur' }, status: response.status };
       }
 
       const parsedJson = {
         idCar: json.id_car,
         queryId: json.query_id,
         pseudo: json.pseudo,
-        avatar: json.avatar
+        avatar: json.avatar,
+        sponsorName: json.sponsorName
       };
       return { json: parsedJson, status: response.status };
     } catch (e) {
@@ -507,13 +510,13 @@ export class WebsocketConnection {
   constructor(carId?: number) {
     // Définis les paramètres du socket, si on doit passer la voiture ou pas
     const parameters =
-      carId !== undefined
-        ? {
-          query: {
-            carId,
-          },
-        }
-        : undefined;
+        carId !== undefined
+          ? {
+            query: {
+              carId,
+            },
+          }
+          : undefined;
 
     // Se connecte au websocket
     this.socket = io(`${(new URL(routeApi)).protocol}//${(new URL(routeApi)).host}`, parameters);
@@ -600,6 +603,7 @@ export namespace models {
    * Contient les structures des données brutes retournées par les endpoints de l'api
    */
   export namespace rawData {
+
     export interface Error {
       message: string;
     }
@@ -629,7 +633,8 @@ export namespace models {
       id_car: number,
       query_id: string,
       pseudo: string,
-      avatar: Avatar.Avatar
+      avatar: Avatar.Avatar,
+      sponsorName: string
     } | Error
 
     /**
@@ -714,7 +719,8 @@ export namespace models {
       idCar: number,
       queryId: string,
       pseudo: string,
-      avatar: Avatar.Avatar
+      avatar: Avatar.Avatar,
+      sponsorName: string
     }
 
     /**
