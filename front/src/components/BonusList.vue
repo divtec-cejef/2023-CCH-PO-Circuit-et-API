@@ -109,7 +109,7 @@ async function loadBonusList() {
   width: 100%;
   max-width: 900px;
 
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -126,12 +126,16 @@ async function loadBonusList() {
   box-sizing: border-box;
   aspect-ratio: 1 / 1;
   width: 100%;
-  max-width: 180px;
+  max-width: 160px;
+  min-width: 160px;
+  height: 170px;
   padding: 12px;
   transition: transform 0.3s ease-in-out;
 
   @media (max-width: 768px) {
     max-width: 140px;
+    min-width: 140px;
+    height: 145px;
     padding: 8px;
   }
 }
