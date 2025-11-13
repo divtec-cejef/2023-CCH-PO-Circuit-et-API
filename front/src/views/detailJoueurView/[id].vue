@@ -10,7 +10,7 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import { usePreferredColorScheme } from '@vueuse/core/index';
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
+const BonusList3 = defineAsyncComponent(() => import('@/components/BonusList4.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
@@ -131,7 +131,7 @@ async function buildBonusList() {
   </div>
 
   <div class="contenu-bonus">
-    <BonusList :id-car="listRace[id].car.id_car"></BonusList>
+    <BonusList3 :id-car="listRace[id].car.id_car"></BonusList3>
   </div>
   <div class="contenu-voiture">
     <h2>Voiture</h2>

@@ -71,7 +71,7 @@
             </template>
           </Suspense>
         </div>
-        <BonusList class="bonus" :id-car="car.idCar"/>
+        <BonusList5 class="bonus" :id-car="car.idCar"/>
         <div style="margin-top: 50px; margin-bottom: 10px"></div>
       </div>
     </div>
@@ -98,7 +98,7 @@ import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
-import BonusList from '@/components/BonusList.vue';
+import BonusList5 from '@/components/BonusList5.vue';
 import NumberTime from '@/components/NumberTime.vue';
 import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';

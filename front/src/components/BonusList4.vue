@@ -109,7 +109,7 @@ async function loadBonusList() {
   width: 100%;
   max-width: 900px;
 
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
