@@ -47,14 +47,14 @@
           </ul>
         </div>
 
-        <div class="sponsor">
+        <div class="sponsor" @click="log()">
           <div v-if="car.sponsorName">
             <img :src="cesarGris">
           </div>
           <div v-else>
             <img :src="cesarJaune" >
           </div>
-          <img :src="imageSponsor">
+          <img :src="imageSponsor" style="margin-top: -165px">
         </div>
 
         <div class="car-3d">
@@ -71,7 +71,7 @@
             </template>
           </Suspense>
         </div>
-        <BonusList class="bonus" :id-car="car.idCar"/>
+        <BonusList5 class="bonus" :id-car="car.idCar"/>
         <div style="margin-top: 50px; margin-bottom: 10px"></div>
       </div>
     </div>
@@ -94,11 +94,12 @@ import { RouterLink, useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/car';
 import { HollowDotsSpinner } from 'epic-spinners';
 import { usePreferredColorScheme } from '@vueuse/core';
+
 import carModel from '@/assets/other/car.glb';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import carGifDark from '@/assets/img/car-spin-dark.gif';
 import api from '@/models/api';
-import BonusList from '@/components/BonusList.vue';
+import BonusList5 from '@/components/BonusList5.vue';
 import NumberTime from '@/components/NumberTime.vue';
 import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';
@@ -128,22 +129,40 @@ const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
+const sponsorCar = fetch(`http://localhost:3000/car/sponsor/${car.idQuery}`);
 const codeBackApi = ref(0);
 const colorScheme = usePreferredColorScheme();
 
 const imageSponsor = ref(badgeInconnu);
 
-function getSponsors() {
-  for (let i = 0; i < sponsors.length; i++) {
-    if (sponsors[i].name == car.sponsorName) {
-      imageSponsor.value = sponsors[i].image;
+async function getSponsors(carId: string) {
+  try {
+    const response = await fetch(`https://gp.divtec.ch/api/car/sponsor/${carId}`);
+    if (!response.ok) throw new Error('API error');
+
+    const sponsorCar = await response.json(); // { sponsor_name: "Sponsors-4" }
+
+    // Trouver l'image correspondante dans ton tableau de sponsors
+    const matchedSponsor = sponsors.find(
+      s => s.name === sponsorCar.sponsor_name
+    );
+
+    if (matchedSponsor) {
+      imageSponsor.value = matchedSponsor.image;
+    } else {
+      imageSponsor.value = badgeInconnu;
     }
+  } catch (error) {
+    console.error('Erreur récupération sponsor:', error);
   }
 }
 
-onMounted(() => {
-  getSponsors();
+
+onMounted(async () => {
+  await getSponsors(String(car.idQuery));
+  console.log(car.sponsorName);
 });
+
 
 //Ecoute la route
 watch(useRouter().currentRoute, async (newUrl) => {
@@ -175,6 +194,9 @@ watch(useRouter().currentRoute, async (newUrl) => {
   deep: true,
   immediate: true
 });
+function log() {
+  console.log(car.sponsorName);
+}
 </script>
 
 <style lang="scss" scoped>
