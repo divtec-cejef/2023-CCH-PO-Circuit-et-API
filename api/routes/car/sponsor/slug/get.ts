@@ -1,0 +1,28 @@
+import type { RouteHandler } from '../../../../models';
+import { getSponsorsByQueryId } from '../../../../services/car';
+
+/**
+ * Controller pour la route /car/:slug
+ * @param req Requete
+ * @param res Reponse
+ * @returns une voiture correspondant à son ID
+ */
+const route: RouteHandler<{ slug: string; }> = async (req, res) => {
+  const id = parseInt(req.params.slug);
+
+  if (typeof id === null || isNaN(id)) {
+    res.status(400).json({ message: 'Invalid id' });
+
+    return;
+  }
+
+  const car = await getSponsorsByQueryId(String(id));
+
+  if (!car) {
+    res.status(404).json({ message: 'Car not found' });
+    return;
+  }
+
+  res.json(car);
+};
+export default route;

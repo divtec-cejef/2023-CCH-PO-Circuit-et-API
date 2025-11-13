@@ -11,7 +11,8 @@ export const getCars = async () => {
       id_car: true,
       query_id: true,
       pseudo: true,
-      avatar: true
+      avatar: true,
+      sponsor_name: true
     }
   });
 };
@@ -51,6 +52,17 @@ export const getCarById = async (carId: number) => {
       query_id: true,
       pseudo: true,
       avatar: true
+    }
+  });
+};
+
+export const getSponsorsByQueryId = async (carQueryId: string) => {
+  return await prisma.car.findFirst({
+    where: {
+      query_id: carQueryId
+    },
+    select: {
+      sponsor_name: true
     }
   });
 };

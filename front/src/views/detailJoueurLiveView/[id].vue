@@ -7,7 +7,7 @@ import { Section } from '@/models/section';
 import { getNumRace } from '@/models/car';
 
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const BonusList = defineAsyncComponent(() => import('@/components/BonusList.vue'));
+const BonusList3 = defineAsyncComponent(() => import('@/components/BonusList4.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 
 
@@ -121,7 +121,7 @@ async function buildBonusList() {
 
   <div class="contenu-principal">
     <div class="contenu-bonus">
-      <BonusList :id-car="carData!.idCar"/>
+      <BonusList3 :id-car="carData!.idCar"/>
     </div>
 
     <div class="contenu-course">
