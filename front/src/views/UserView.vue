@@ -137,7 +137,7 @@ const imageSponsor = ref(badgeInconnu);
 
 async function getSponsors(carId: string) {
   try {
-    const response = await fetch(`http://localhost:3000/car/sponsor/${carId}`);
+    const response = await fetch(`https://gp.divtec.ch/api/car/sponsor/${carId}`);
     if (!response.ok) throw new Error('API error');
 
     const sponsorCar = await response.json(); // { sponsor_name: "Sponsors-4" }
