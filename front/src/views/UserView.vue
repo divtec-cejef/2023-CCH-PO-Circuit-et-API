@@ -48,7 +48,7 @@
         </div>
 
         <div class="sponsor" @click="log()">
-          <div v-if="car.sponsorName">
+          <div v-if="!aSponsor">
             <img :src="cesarGris">
           </div>
           <div v-else>
@@ -135,6 +135,8 @@ const colorScheme = usePreferredColorScheme();
 
 const imageSponsor = ref(badgeInconnu);
 
+const aSponsor = ref(false);
+
 async function getSponsors(carId: string) {
   try {
     const response = await fetch(`https://gp.divtec.ch/api/car/sponsor/${carId}`);
@@ -149,6 +151,7 @@ async function getSponsors(carId: string) {
 
     if (matchedSponsor) {
       imageSponsor.value = matchedSponsor.image;
+      aSponsor.value = true;
     } else {
       imageSponsor.value = badgeInconnu;
     }
