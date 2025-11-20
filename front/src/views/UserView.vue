@@ -55,6 +55,9 @@
             <img :src="cesarJaune" >
           </div>
           <img :src="imageSponsor" style="margin-top: -165px">
+
+          <p style="margin-top: 40px" >{{sponsorName}}</p>
+          <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
         </div>
 
         <div class="car-3d">
@@ -129,13 +132,13 @@ const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
-const sponsorCar = fetch(`http://localhost:3000/car/sponsor/${car.idQuery}`);
 const codeBackApi = ref(0);
 const colorScheme = usePreferredColorScheme();
 
 const imageSponsor = ref(badgeInconnu);
 
 const aSponsor = ref(false);
+const sponsorName = ref("Vous n'avez pas de sponsor.");
 
 async function getSponsors(carId: string) {
   try {
@@ -152,6 +155,7 @@ async function getSponsors(carId: string) {
     if (matchedSponsor) {
       imageSponsor.value = matchedSponsor.image;
       aSponsor.value = true;
+      sponsorName.value = matchedSponsor.name;
     } else {
       imageSponsor.value = badgeInconnu;
     }
