@@ -109,19 +109,17 @@ import cesarJaune from '@/assets/img/cesar-jaune.png';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 // Import des images
-import badgeEntreprise1 from '@/assets/img/1.png';
-import badgeEntreprise2 from '@/assets/img/2.png';
-import badgeEntreprise3 from '@/assets/img/3.png';
-import badgeEntreprise4 from '@/assets/img/4.png';
-import badgeEntreprise5 from '@/assets/img/5.png';
+import badgeGlobaz from '@/assets/img/globaz.png';
+import badgeDecovi from '@/assets/img/decovi.png';
+import badgeBusch from '@/assets/img/Busch.png';
+import badgeLouisLang from '@/assets/img/Louis lang.png';
 
 // Sponsors
 const sponsors = [
-  { name: 'Sponsors-1', image: badgeEntreprise1 },
-  { name: 'Sponsors-2', image: badgeEntreprise2 },
-  { name: 'Sponsors-3', image: badgeEntreprise3 },
-  { name: 'Sponsors-4', image: badgeEntreprise4 },
-  { name: 'Sponsors-5', image: badgeEntreprise5 },
+  { name: 'Globaz', image: badgeGlobaz },
+  { name: 'Décovi', image: badgeDecovi },
+  { name: 'Atelier Busch', image: badgeBusch },
+  { name: 'Louis-lang', image: badgeLouisLang },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
