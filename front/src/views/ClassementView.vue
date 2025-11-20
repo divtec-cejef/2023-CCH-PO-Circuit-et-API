@@ -37,7 +37,7 @@ const scroll = useScroll(window, { behavior: 'smooth' });
 const { height: classementHeight } = useWindowSize();
 const { top: classmentTop } = useElementBounding(classment);
 const userCar = useCarStore();
-const classementGlobal = ref(false);
+const classementGlobal = ref(true);
 
 if (userCar.car.idCar !== undefined) {
   userCar.initUserAllRaceCar();

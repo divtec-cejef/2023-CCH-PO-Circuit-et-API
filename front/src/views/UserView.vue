@@ -48,13 +48,16 @@
         </div>
 
         <div class="sponsor" @click="log()">
-          <div v-if="car.sponsorName">
+          <div v-if="!aSponsor">
             <img :src="cesarGris">
           </div>
           <div v-else>
             <img :src="cesarJaune" >
           </div>
           <img :src="imageSponsor" style="margin-top: -165px">
+
+          <p style="margin-top: 40px" >{{sponsorName}}</p>
+          <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
         </div>
 
         <div class="car-3d">
@@ -106,19 +109,17 @@ import cesarJaune from '@/assets/img/cesar-jaune.png';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 // Import des images
-import badgeEntreprise1 from '@/assets/img/1.png';
-import badgeEntreprise2 from '@/assets/img/2.png';
-import badgeEntreprise3 from '@/assets/img/3.png';
-import badgeEntreprise4 from '@/assets/img/4.png';
-import badgeEntreprise5 from '@/assets/img/5.png';
+import badgeGlobaz from '@/assets/img/globaz.png';
+import badgeDecovi from '@/assets/img/decovi.png';
+import badgeBusch from '@/assets/img/Busch.png';
+import badgeLouisLang from '@/assets/img/Louis lang.png';
 
 // Sponsors
 const sponsors = [
-  { name: 'Sponsors-1', image: badgeEntreprise1 },
-  { name: 'Sponsors-2', image: badgeEntreprise2 },
-  { name: 'Sponsors-3', image: badgeEntreprise3 },
-  { name: 'Sponsors-4', image: badgeEntreprise4 },
-  { name: 'Sponsors-5', image: badgeEntreprise5 },
+  { name: 'Globaz', image: badgeGlobaz },
+  { name: 'Décovi', image: badgeDecovi },
+  { name: 'Atelier Busch', image: badgeBusch },
+  { name: 'Louis-lang', image: badgeLouisLang },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -129,11 +130,13 @@ const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.
 //Initialisation de la voiture en fonction de l'url
 let userCar = useCarStore();
 const { car } = userCar;
-const sponsorCar = fetch(`http://localhost:3000/car/sponsor/${car.idQuery}`);
 const codeBackApi = ref(0);
 const colorScheme = usePreferredColorScheme();
 
 const imageSponsor = ref(badgeInconnu);
+
+const aSponsor = ref(false);
+const sponsorName = ref("Vous n'avez pas de sponsor.");
 
 async function getSponsors(carId: string) {
   try {
@@ -149,6 +152,8 @@ async function getSponsors(carId: string) {
 
     if (matchedSponsor) {
       imageSponsor.value = matchedSponsor.image;
+      aSponsor.value = true;
+      sponsorName.value = matchedSponsor.name;
     } else {
       imageSponsor.value = badgeInconnu;
     }
