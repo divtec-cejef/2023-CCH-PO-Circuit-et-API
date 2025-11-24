@@ -49,9 +49,9 @@ function getSecondsInDate(x: String) {
       <section class="content">
         <section class="race-details">
           <h2>Détails de la course</h2>
-          <p><strong>Heure de début :</strong> {{ formatHourDayV2(race.race_start) }}</p>
-          <p><strong>Temps total :</strong> {{ getSecondsInDate(race.total_time) }} s</p>
+          <p><strong>Temps total :</strong> <strong style="font-size: 30px; color: greenyellow">{{ getSecondsInDate(race.total_time) }}</strong> s</p>
           <p><strong>Temps de réaction :</strong> {{ (race.speed / 100).toFixed(2) }} s</p>
+          <p><strong>Heure de début :</strong> {{ formatHourDayV2(race.race_start) }}</p>
         </section>
 
         <section class="sectors">
@@ -84,5 +84,25 @@ section {
 }
 .pseudo {
   font-size: 24px;
+}
+h1 {
+  margin-left: 15%;
+}
+
+.driver-info {
+  margin-left: 35%;
+  p {
+    margin-left: 8%;
+  }
+}
+.qr-code {
+  margin-left: 35%;
+}
+
+.content {
+  display: flex;
+  section {
+    margin-right: 30px;
+  }
 }
 </style>
