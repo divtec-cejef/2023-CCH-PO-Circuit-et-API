@@ -47,7 +47,7 @@
           </ul>
         </div>
 
-        <div class="sponsor" @click="log()">
+        <div class="sponsor">
           <div v-if="!aSponsor">
             <img :src="cesarGris">
           </div>
@@ -113,6 +113,7 @@ import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeDecovi from '@/assets/img/decovi.png';
 import badgeBusch from '@/assets/img/Busch.png';
 import badgeLouisLang from '@/assets/img/Louis lang.png';
+import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
 
 // Sponsors
 const sponsors = [
@@ -120,6 +121,7 @@ const sponsors = [
   { name: 'Décovi', image: badgeDecovi },
   { name: 'Atelier Busch', image: badgeBusch },
   { name: 'Louis-lang', image: badgeLouisLang },
+  { name: 'Willemin-Macodel', image: badgeWillemin },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -165,7 +167,6 @@ async function getSponsors(carId: string) {
 
 onMounted(async () => {
   await getSponsors(String(car.idQuery));
-  console.log(car.sponsorName);
 });
 
 
@@ -199,9 +200,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
   deep: true,
   immediate: true
 });
-function log() {
-  console.log(car.sponsorName);
-}
+
 </script>
 
 <style lang="scss" scoped>
