@@ -55,8 +55,9 @@
           </div>
           <img :src="imageSponsor" style="margin-top: -165px">
 
-          <p style="margin-top: 40px" >{{sponsorName}}</p>
-          <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
+          <p style="margin-top: 40px">{{sponsorName}}</p>
+          <p v-if="!aSponsor">pour gagner un sponsor.</p>
+          <RouterLink v-else class="recompense" to="bonus">Obtenir une récompense</RouterLink>
         </div>
 
         <BonusList5 class="bonus" :id-car="car.idCar"/>
@@ -138,7 +139,7 @@ const colorScheme = usePreferredColorScheme();
 const imageSponsor = ref(badgeInconnu);
 
 const aSponsor = ref(false);
-const sponsorName = ref("Vous n'avez pas de sponsor.");
+const sponsorName = ref('Effectuez une course');
 
 async function getSponsors(carId: string) {
   try {
@@ -389,5 +390,12 @@ div.user-data {
       margin-left: 70px;
     }
   }
+}
+
+.recompense {
+  background-color: #ce0064;
+  padding: 5px;
+  border-radius: 15px;
+  margin-top: 15px;
 }
 </style>
