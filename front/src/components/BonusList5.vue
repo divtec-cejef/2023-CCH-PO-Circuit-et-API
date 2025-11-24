@@ -115,6 +115,17 @@ async function loadBonusList() {
   }
 }
 
+h2 {
+  text-align: center;
+  margin-top: 0.5em;
+  margin-left: 45%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin-left: 0;
+  }
+}
+
 .badges-liste div {
   background-color: #393939;
   border-radius: 10%;
