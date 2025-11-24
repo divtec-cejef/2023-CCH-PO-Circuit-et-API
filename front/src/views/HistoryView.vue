@@ -1,7 +1,8 @@
 <template>
   <div class="button-group">
-    <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte 🗺️</button>
-    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description 📃</button>
+    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description</button>
+    <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Sponsor</button>
+    <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte</button>
   </div>
 
   <div v-if="mapIsShown" class="content bonus-map">
@@ -46,29 +47,56 @@
     </div>
   </div>
   <div v-else-if="descriptionIsShown">
-   <div
-       v-for="section in listAllBonus"
-       :key="section.idSection"
-       class="badges-liste"
-   >
-     <div>
-     <div v-if="car.idCar !== null" class="badge" :class="{ 'not-realised': !section.realised }" :style="{ backgroundColor: getSectionColor(section.realised) }">
-       <img
-           :src="getSectionBadge(section.name)"
-           :alt="`Badge ${section.name}`"
-       />
-       <p>{{ section.name }}</p>
-     </div>
-     <div v-else class="badge" :class="{ 'not-realised': false }" :style="{ backgroundColor: getSectionColor(false) }">
-       <img
-           :src="getSectionBadge(section.name)"
-           :alt="`Badge ${section.name}`"
-       />
-       <p>{{ section.name }}</p>
-     </div>
-     <p class="badge-description">{{ section.description }}</p>
-   </div>
-   </div>
+    <div
+        v-for="section in listAllBonus"
+        :key="section.idSection"
+        class="badges-liste"
+    >
+      <div>
+        <div
+            v-if="car.idCar !== null"
+            class="badge"
+            :class="{ 'not-realised': !section.realised }"
+            :style="{ backgroundColor: getSectionColor(section.realised) }"
+        >
+          <img :src="getSectionBadge(section.name)" />
+          <p>{{ section.name }}</p>
+        </div>
+
+        <div
+            v-else
+            class="badge"
+            :style="{ backgroundColor: getSectionColor(false) }"
+        >
+          <img :src="getSectionBadge(section.name)" />
+          <p>{{ section.name }}</p>
+        </div>
+
+        <p class="badge-description">{{ section.description }}</p>
+      </div>
+    </div>
+  </div>
+  <div v-else-if="sponsorIsShown">
+    <div class="sponsor" style="margin-top: -50px">
+      <div v-if="!aSponsor">
+        <img :src="cesarGris">
+      </div>
+      <div v-else>
+        <img :src="cesarJaune" >
+      </div>
+      <img :src="imageSponsor" style="margin-top: -165px">
+
+      <p style="margin-top: 40px" >{{sponsorName}}</p>
+      <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
+    </div>
+    <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
+    <ol>
+      <li>Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au stand
+        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{sponsorName}}</strong>
+      </li>
+      <li>Montrez le bage que vous avez obtenue afin de gagner un prix</li>
+    </ol>
+
   </div>
 </template>
 
@@ -95,6 +123,14 @@ import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
 import badgeMecaAuto from '@/assets/img/meca-auto.webp';
 import badgeQualiticien from '@/assets/img/qualiticien.webp';
 import badgeForum from '@/assets/img/forum.webp';
+import badgeGlobaz from '@/assets/img/globaz.png';
+import badgeDecovi from '@/assets/img/decovi.png';
+import badgeBusch from '@/assets/img/Busch.png';
+import badgeLouisLang from '@/assets/img/Louis lang.png';
+import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
+import cesarGris from '@/assets/img/cesar-gris.png';
+import cesarJaune from '@/assets/img/cesar-jaune.png';
+import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 const BonusMap = defineAsyncComponent(() => import('@/components/BonusMap.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -102,6 +138,11 @@ const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorCon
 
 const userCar = useCarStore();
 const { car } = userCar;
+
+const aSponsor = ref(false);
+const sponsorName = ref("Vous n'avez pas de sponsor.");
+const imageSponsor = ref(badgeInconnu);
+
 
 const label = ref<HTMLDivElement>();
 const divLeft = ref<string>('0');
@@ -111,8 +152,9 @@ const sectionUnCLicked = ref<boolean>(true);
 const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
 
-const mapIsShown = ref(true);
-const descriptionIsShown = ref(false);
+const mapIsShown = ref(false);
+const descriptionIsShown = ref(true);
+const sponsorIsShown = ref(false);
 
 onMounted(() => {
   loadBonusList();
@@ -130,14 +172,30 @@ const listDescription = ref<{
   descriptionText: [string, string][];
 }[]>([]);
 
+const sponsors = [
+  { name: 'Globaz', image: badgeGlobaz },
+  { name: 'Décovi', image: badgeDecovi },
+  { name: 'Atelier Busch', image: badgeBusch },
+  { name: 'Louis-lang', image: badgeLouisLang },
+  { name: 'Willemin-Macodel', image: badgeWillemin },
+];
+
 function mapOnClicked() {
-  mapIsShown.value = true;
   descriptionIsShown.value = false;
+  sponsorIsShown.value = false;
+  mapIsShown.value = true;
 }
 
 function descriptionOnClicked() {
   mapIsShown.value = false;
+  sponsorIsShown.value = false;
   descriptionIsShown.value = true;
+}
+
+function sponsorOnClicked() {
+  mapIsShown.value = false;
+  descriptionIsShown.value = false;
+  sponsorIsShown.value = true;
 }
 
 let realisedActivity = ref<number[]>([]);
@@ -554,6 +612,34 @@ function getSectionBadge(name: string): string {
   return badgeMap[name];
 }
 
+async function getSponsors(carId: string) {
+  try {
+    const response = await fetch(`https://gp.divtec.ch/api/car/sponsor/${carId}`);
+    if (!response.ok) throw new Error('API error');
+
+    const sponsorCar = await response.json(); // { sponsor_name: "Sponsors-4" }
+
+    // Trouver l'image correspondante dans ton tableau de sponsors
+    const matchedSponsor = sponsors.find(
+      s => s.name === sponsorCar.sponsor_name
+    );
+
+    if (matchedSponsor) {
+      imageSponsor.value = matchedSponsor.image;
+      aSponsor.value = true;
+      sponsorName.value = matchedSponsor.name;
+    } else {
+      imageSponsor.value = badgeInconnu;
+    }
+  } catch (error) {
+    console.error('Erreur récupération sponsor:', error);
+  }
+}
+
+
+onMounted(async () => {
+  await getSponsors(String(car.idQuery));
+});
 
 </script>
 
@@ -783,5 +869,15 @@ button.selected {
 .badges-liste div.not-realised img {
   opacity: 0.4;
   filter: grayscale(60%);
+}
+
+.sponsor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto auto auto;
+  max-width: 100vw;
 }
 </style>

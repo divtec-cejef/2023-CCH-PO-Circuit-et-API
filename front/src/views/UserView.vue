@@ -43,11 +43,10 @@
                 de ta course !
               </p>
             </li>
-
           </ul>
         </div>
 
-        <div class="sponsor" @click="log()">
+        <div class="sponsor">
           <div v-if="!aSponsor">
             <img :src="cesarGris">
           </div>
@@ -59,6 +58,8 @@
           <p style="margin-top: 40px" >{{sponsorName}}</p>
           <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
         </div>
+
+        <BonusList5 class="bonus" :id-car="car.idCar"/>
 
         <div class="car-3d">
           <Suspense>
@@ -74,7 +75,6 @@
             </template>
           </Suspense>
         </div>
-        <BonusList5 class="bonus" :id-car="car.idCar"/>
         <div style="margin-top: 50px; margin-bottom: 10px"></div>
       </div>
     </div>
@@ -113,6 +113,7 @@ import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeDecovi from '@/assets/img/decovi.png';
 import badgeBusch from '@/assets/img/Busch.png';
 import badgeLouisLang from '@/assets/img/Louis lang.png';
+import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
 
 // Sponsors
 const sponsors = [
@@ -120,6 +121,7 @@ const sponsors = [
   { name: 'Décovi', image: badgeDecovi },
   { name: 'Atelier Busch', image: badgeBusch },
   { name: 'Louis-lang', image: badgeLouisLang },
+  { name: 'Willemin-Macodel', image: badgeWillemin },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -165,7 +167,6 @@ async function getSponsors(carId: string) {
 
 onMounted(async () => {
   await getSponsors(String(car.idQuery));
-  console.log(car.sponsorName);
 });
 
 
@@ -199,9 +200,7 @@ watch(useRouter().currentRoute, async (newUrl) => {
   deep: true,
   immediate: true
 });
-function log() {
-  console.log(car.sponsorName);
-}
+
 </script>
 
 <style lang="scss" scoped>
@@ -276,6 +275,8 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
+
+    margin: 0 35%;
 
     p:nth-child(2) {
       font-size: 18px;
