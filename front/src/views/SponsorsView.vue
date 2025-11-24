@@ -7,6 +7,7 @@ import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeDecovi from '@/assets/img/decovi.png';
 import badgeBusch from '@/assets/img/Busch.png';
 import badgeLouisLang from '@/assets/img/Louis lang.png';
+import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
 
 // Sponsors
 const sponsors = [
@@ -14,6 +15,7 @@ const sponsors = [
   { name: 'Décovi', image: badgeDecovi },
   { name: 'Atelier Busch', image: badgeBusch },
   { name: 'Louis-lang', image: badgeLouisLang },
+  { name: 'Willemin-Macodel', image: badgeWillemin },
 ];
 
 const currentHighlight = ref(0); // index du logo sur lequel le background est
@@ -92,13 +94,11 @@ onMounted(() => startAnimation());
     </div>
 
     <div v-if="winner" class="winner">
-      <div style="margin-top: 20px">Vous avez débloqué le sponsor : <strong>{{ winner }}</strong></div>
       <div style="margin-top: 30px"><h2 style="text-align: center">Que faut il faire ?</h2></div>
-        <ul style="text-align: left">
-          <ol>1) Rendez-vous sur le site gp.divtec.ch et scanez votre voiture</ol>
-          <ol>2) Dans l'accueil vous verrez ce badge que vous venez de débloquer</ol>
-          <ol>3) Allez à la cafétéria, puis montrez ce badge afin de gagnez une petite récompense</ol>
-        </ul>
+        <div style="text-align: center">
+          Allez à la salle de GYM, au stand <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ winner }}</strong>, pour gagner un prix
+          </div>
+      <div style="color: red; margin-top: 15px">Plus d'information sur la page bonus, dans l'onglet sponsor</div>
     </div>
   </div>
 </template>
