@@ -43,7 +43,6 @@
                 de ta course !
               </p>
             </li>
-
           </ul>
         </div>
 
@@ -60,6 +59,8 @@
           <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
         </div>
 
+        <BonusList5 class="bonus" :id-car="car.idCar"/>
+
         <div class="car-3d">
           <Suspense>
             <ModelRender :model="carModel">
@@ -74,7 +75,6 @@
             </template>
           </Suspense>
         </div>
-        <BonusList5 class="bonus" :id-car="car.idCar"/>
         <div style="margin-top: 50px; margin-bottom: 10px"></div>
       </div>
     </div>
@@ -276,6 +276,8 @@ div.user-data {
     flex-direction: column;
     align-items: center;
     max-width: 300px;
+
+    margin: 0 35%;
 
     p:nth-child(2) {
       font-size: 18px;
