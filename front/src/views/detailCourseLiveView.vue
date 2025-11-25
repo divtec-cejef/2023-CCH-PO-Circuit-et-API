@@ -102,7 +102,7 @@ h1 {
 .content {
   display: flex;
   section {
-    margin-right: 30px;
+    margin-right: 50px;
   }
 }
 </style>
