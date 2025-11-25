@@ -33,28 +33,31 @@ function startAnimation() {
   currentHighlight.value = 0;
 
   const targetIndex = Math.floor(Math.random() * sponsors.length);
-  const totalCycles = sponsors.length * 5 + targetIndex; // plusieurs passages
+  const totalCycles = sponsors.length * 5 + targetIndex;
   let cycle = 0;
-  let speed = 150; // vitesse visible
+  let speed = 150;
+  let lastTime = performance.now();
 
-  const spin = () => {
-    currentHighlight.value = (currentHighlight.value + 1) % sponsors.length;
-    cycle++;
+  const spin = (time: number) => {
+    if (time - lastTime >= speed) {
+      currentHighlight.value = (currentHighlight.value + 1) % sponsors.length;
+      cycle++;
+      lastTime = time;
 
-    // Ralentissement progressif à la fin
-    if (cycle > totalCycles - 4) speed += 150;
+      // Ralentissement progressif à la fin
+      if (cycle > totalCycles - 4) speed += 150;
 
-    if (cycle >= totalCycles) {
-      isRunning.value = false;
-      winner.value = sponsors[targetIndex].name;
-      sendSponsorToApi(carQueryId, winner.value!);
-      return;
+      if (cycle >= totalCycles) {
+        isRunning.value = false;
+        winner.value = sponsors[targetIndex].name;
+        sendSponsorToApi(carQueryId, winner.value!);
+        return;
+      }
     }
-
-    setTimeout(spin, speed);
+    requestAnimationFrame(spin);
   };
 
-  spin();
+  requestAnimationFrame(spin);
 }
 
 async function sendSponsorToApi(carQueryId: number, selectedSponsor: string) {
@@ -79,6 +82,7 @@ async function sendSponsorToApi(carQueryId: number, selectedSponsor: string) {
 
 onMounted(() => startAnimation());
 </script>
+
 <template>
   <div class="sponsor-container">
     <div class="sponsor-row">
@@ -94,11 +98,15 @@ onMounted(() => startAnimation());
     </div>
 
     <div v-if="winner" class="winner">
-      <div style="margin-top: 30px"><h2 style="text-align: center">Que faut il faire ?</h2></div>
-        <div style="text-align: center">
-          Allez à la salle de GYM, au stand <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ winner }}</strong>, pour gagner un prix
-          </div>
-      <div style="color: red; margin-top: 15px">Plus d'information sur la page bonus, dans l'onglet sponsor</div>
+      <div style="margin-top: 30px"><h2 style="text-align: center">Que faut-il faire ?</h2></div>
+      <div style="text-align: center">
+        Allez à la salle de GYM, au stand
+        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ winner }}</strong>,
+        pour gagner un prix
+      </div>
+      <div style="color: red; margin-top: 15px">
+        Plus d'information sur la page bonus, dans l'onglet sponsor
+      </div>
     </div>
   </div>
 </template>
@@ -118,28 +126,28 @@ onMounted(() => startAnimation());
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: background-color 0.3s, transform 0.3s;
+}
 
-  img {
-    width: 100px;
-    height: auto;
-    margin-bottom: 0.5rem;
-  }
+.sponsor-item img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
 
-  .name {
-    font-weight: 600;
-    color: white;
-    font-size: 1.2rem;
-  }
+.sponsor-item .name {
+  font-weight: 600;
+  color: white;
+  font-size: 1.2rem;
+}
 
-  &.highlighted {
-    background-color: #f39c12; /* couleur qui défile */
-    transform: scale(1.05);
-  }
+.sponsor-item.highlighted {
+  background-color: #f39c12; /* couleur qui défile */
+  transform: scale(1.05);
+}
 
-  &.winner {
-    background-color: #28a745 !important; /* couleur gagnant */
-    transform: scale(1.1);
-  }
+.sponsor-item.winner {
+  background-color: #28a745 !important; /* couleur gagnant */
+  transform: scale(1.1);
 }
 
 .winner {
@@ -147,5 +155,4 @@ onMounted(() => startAnimation());
   font-size: 1.2rem;
   font-weight: bold;
 }
-
 </style>
