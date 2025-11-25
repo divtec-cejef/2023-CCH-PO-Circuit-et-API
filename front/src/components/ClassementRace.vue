@@ -21,6 +21,7 @@
           :show-content="props.showContent"
           :time="new Date(race.total_time)"
           :showBonus="showBonus"
+          :recent="false"
           style="display: inline-flex;"
         />
     </template>
