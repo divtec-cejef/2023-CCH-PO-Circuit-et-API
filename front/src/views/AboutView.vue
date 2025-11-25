@@ -8,16 +8,29 @@
                 <ul>
                     <li>
                         <span class="last-name">Beuchat</span>
-                        <span class="first-name">Odin</span>
+                        <span class="first-name">Odin (2024)</span>
                     </li>
                     <li>
                         <span class="last-name">Glauser</span>
-                        <span class="first-name">Tobias</span>
+                        <span class="first-name">Tobias (2024)</span>
                     </li>
                     <li>
                         <span class="last-name">Renaud</span>
-                        <span class="first-name">Chloé</span>
+                        <span class="first-name">Chloé (2024)</span>
+                        <span></span>
                     </li>
+                  <li>
+                      <span class="last-name">Juillerat</span>
+                      <span class="first-name">Nathan (2025)</span>
+                  </li>
+                  <li>
+                      <span class="last-name">Drici</span>
+                      <span class="first-name">Rédouane (2025)</span>
+                  </li>
+                  <li>
+                    <span class="last-name">Tserendorj</span>
+                    <span class="first-name">Undarmaa (2025)</span>
+                  </li>
                 </ul>
             </li>
             <li>
@@ -25,11 +38,16 @@
                 <ul>
                     <li>
                         <span class="last-name">Michel</span>
-                        <span class="first-name">Gaëtan</span>
+                        <span class="first-name">Gaëtan (2024)</span>
                     </li>
                     <li>
                         <span class="last-name">Gigandet</span>
-                        <span class="first-name">Jules</span>
+                        <span class="first-name">Jules (2024)</span>
+                        <span></span>
+                    </li>
+                    <li>
+                        <span class="last-name">Santos Marques</span>
+                        <span class="first-name">Kylian (2025)</span>
                     </li>
                 </ul>
             </li>
