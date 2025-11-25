@@ -408,8 +408,8 @@ const allSections = ref([{
   section: 'Informatique',
   id: -1,
   labelSection: 'Informaticien-ne',
-  posX: 26,
-  posY: 25,
+  posX: 72,
+  posY: 20,
 }, {
   section: 'Automatique',
   id: -1,
