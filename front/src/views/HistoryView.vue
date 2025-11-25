@@ -91,10 +91,10 @@
     </div>
     <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
     <ol>
-      <li>Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au stand
+      <li style="line-height: 1.6;">Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au stand
         <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{sponsorName}}</strong>
       </li>
-      <li>Montrez le bage que vous avez obtenue afin de gagner un prix</li>
+      <li style="margin-top: 25px">Montrez le bage que vous avez obtenue afin de gagner un prix</li>
     </ol>
 
   </div>
