@@ -109,12 +109,13 @@ const props = defineProps<{
   time: Date;
   avatar: Configs;
   showContent: boolean,
-  isNewElement?: boolean
+  isNewElement?: boolean,
   showBonus?: boolean,
+  recent?: boolean,
 }>();
 
 function select() {
-  router.push(`/detailJoueur/${props.rank-1}`);
+  router.push(`/detailJoueur/${props.rank-1}?recent=${props.recent}`);
 }
 const userCar = useCarStore();
 const dropDownClicked = ref(false);
