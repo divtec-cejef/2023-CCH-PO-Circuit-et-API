@@ -10,7 +10,7 @@ import carGifDark from '@/assets/img/car-spin-dark.gif';
 import carGifLight from '@/assets/img/car-spin-light.gif';
 import { usePreferredColorScheme } from '@vueuse/core/index';
 const AutoRegeneratedAvatar = defineAsyncComponent(() => import('@/components/AutoRegeneratedAvatar.vue'));
-const BonusList3 = defineAsyncComponent(() => import('@/components/BonusList4.vue'));
+const BonusList4 = defineAsyncComponent(() => import('@/components/BonusList4.vue'));
 const VideoRace = defineAsyncComponent(() => import('@/components/VideoRace.vue'));
 const RaceInfo = defineAsyncComponent(() => import('@/components/RaceInfo.vue'));
 const ModelRender = defineAsyncComponent(() => import('@/components/ModelRender.vue'));
@@ -21,6 +21,7 @@ const id = Number(route.params.id);
 const hasLoaded = ref(false);
 const errorMessage = ref<string>();
 
+const recent = Number(route.query.recent);
 const BEST_TIME_INDEX = 0;
 const raceData: Ref<models.parsedData.RacesData> | Ref<undefined> = ref();
 const hasError = ref(false);
@@ -46,7 +47,11 @@ socket.onRankingReceived(async (data) => {
     return;
   }
 
-  listRace.value = data.races;
+  if (recent) {
+    listRace.value = data.races.sort(function(a, b){return a.id_race - b.id_race;}).slice(data.races.length - 10).sort(function(a, b){return a.total_time > b.total_time ? 1 : 0;});
+  } else {
+    listRace.value = data.races;
+  }
   hasLoaded.value = true;
 
   await loadUserData();
@@ -112,7 +117,7 @@ async function buildBonusList() {
 
 <template>
   <div class="contenu-en-tete">
-    <h1 @click="console.log(listRace[id])" >Rang {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
+    <h1>Rang {{ id+1 }} : {{ listRace[id].car.pseudo }}</h1>
     <RouterLink to="../pilote">
       <AutoRegeneratedAvatar class="avatar" style=" margin-top: 20px; width: 130px; height: 130px" :avatar-config="listRace[id].car.avatar"/>
     </RouterLink>
@@ -131,7 +136,7 @@ async function buildBonusList() {
   </div>
 
   <div class="contenu-bonus">
-    <BonusList3 :id-car="listRace[id].car.id_car"></BonusList3>
+    <BonusList4 :id-car="listRace[id].car.id_car"></BonusList4>
   </div>
   <div class="contenu-voiture">
     <h2>Voiture</h2>
