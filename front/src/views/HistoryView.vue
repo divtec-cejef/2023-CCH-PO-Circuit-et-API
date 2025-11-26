@@ -1,6 +1,5 @@
 <template>
   <div class="button-group">
-    <button @click="descriptionOnClicked()" :class="{ selected: descriptionIsShown}">Description</button>
     <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Sponsor</button>
     <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte</button>
   </div>
@@ -25,11 +24,10 @@
         <span>Il n'y a pas d'activités dans cette section</span>
         <div @click="() => {hideDiv()}"><img :src=close alt="fermer" class="dark-invert"></div>
       </div>
-
     </div>
     <div v-if="hasError">
-      <ErrorConnection></ErrorConnection>
-    </div>
+    <ErrorConnection></ErrorConnection>
+  </div>
     <div v-else-if="!hasLoaded" class="loading-map">
       <SpinLoading></SpinLoading>
     </div>
@@ -46,58 +44,29 @@
       </div>
     </div>
   </div>
-  <div v-else-if="descriptionIsShown">
-    <div
-        v-for="section in listAllBonus"
-        :key="section.idSection"
-        class="badges-liste"
-    >
-      <div>
-        <div
-            v-if="car.idCar !== null"
-            class="badge"
-            :class="{ 'not-realised': !section.realised }"
-            :style="{ backgroundColor: getSectionColor(section.realised) }"
-        >
-          <img :src="getSectionBadge(section.name)" />
-          <p>{{ section.name }}</p>
-        </div>
-
-        <div
-            v-else
-            class="badge"
-            :style="{ backgroundColor: getSectionColor(false) }"
-        >
-          <img :src="getSectionBadge(section.name)" />
-          <p>{{ section.name }}</p>
-        </div>
-
-        <p class="badge-description">{{ section.description }}</p>
-      </div>
-    </div>
-  </div>
   <div v-else-if="sponsorIsShown">
     <div class="sponsor" style="margin-top: -50px">
       <div v-if="!aSponsor">
         <img :src="cesarGris">
       </div>
       <div v-else>
-        <img :src="cesarJaune" >
+        <img :src="cesarJaune">
       </div>
       <img :src="imageSponsor" style="margin-top: -165px">
 
-      <p style="margin-top: 40px" >{{sponsorName}}</p>
+      <p style="margin-top: 40px">{{ sponsorName }}</p>
       <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
     </div>
     <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
     <ol>
-      <li style="line-height: 1.6;">Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au stand
-        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{sponsorName}}</strong>
+      <li style="line-height: 1.6;">Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au
+        stand
+        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ sponsorName }}</strong>
       </li>
       <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de gagner un prix</li>
     </ol>
-
   </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -113,16 +82,6 @@ import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
-import badgeAutomaticien from '@/assets/img/automaticien.webp';
-import badgeElectronicien from '@/assets/img/electronicien.webp';
-import badgeHorloger from '@/assets/img/horloger.webp';
-import badgeInformaticien from '@/assets/img/informaticien.webp';
-import badgeLaborentin from '@/assets/img/laborentin.webp';
-import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
-import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
-import badgeMecaAuto from '@/assets/img/meca-auto.webp';
-import badgeQualiticien from '@/assets/img/qualiticien.webp';
-import badgeForum from '@/assets/img/forum.webp';
 import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeDecovi from '@/assets/img/decovi.png';
 import badgeBusch from '@/assets/img/Busch.png';
@@ -143,7 +102,6 @@ const aSponsor = ref(false);
 const sponsorName = ref("Vous n'avez pas de sponsor.");
 const imageSponsor = ref(badgeInconnu);
 
-
 const label = ref<HTMLDivElement>();
 const divLeft = ref<string>('0');
 const divTop = ref<string>('0');
@@ -153,8 +111,7 @@ const hasLoaded = ref<boolean>(false);
 const hasError = ref<boolean>(false);
 
 const mapIsShown = ref(false);
-const descriptionIsShown = ref(true);
-const sponsorIsShown = ref(false);
+const sponsorIsShown = ref(true);
 
 onMounted(() => {
   loadBonusList();
@@ -165,11 +122,6 @@ const listAllBonus = ref<{
   idSection: number;
   realised: boolean;
   listActivity: { name: string; realised: boolean }[];
-  description: string;
-}[]>([]);
-
-const listDescription = ref<{
-  descriptionText: [string, string][];
 }[]>([]);
 
 const sponsors = [
@@ -181,20 +133,13 @@ const sponsors = [
 ];
 
 function mapOnClicked() {
-  descriptionIsShown.value = false;
   sponsorIsShown.value = false;
   mapIsShown.value = true;
 }
 
-function descriptionOnClicked() {
-  mapIsShown.value = false;
-  sponsorIsShown.value = false;
-  descriptionIsShown.value = true;
-}
 
 function sponsorOnClicked() {
   mapIsShown.value = false;
-  descriptionIsShown.value = false;
   sponsorIsShown.value = true;
 }
 
@@ -407,55 +352,55 @@ function hideDiv() {
 const allSections = ref([{
   section: 'Informatique',
   id: -1,
-  labelSection: 'Informaticien-ne',
+  labelSection: 'Informatique',
   posX: 72,
   posY: 20,
 }, {
-  section: 'Automatique',
+  section: 'Automatisation',
   id: -1,
-  labelSection: 'Automaticien-ne',
+  labelSection: 'Automatisation',
   posX: 35,
   posY: 45,
 }, {
   section: 'Horlogerie',
   id: -1,
-  labelSection: 'Horloger-ère',
+  labelSection: 'Horlogerie',
   posX: 77.5,
   posY: 48,
 }, {
   section: 'Electronique',
   id: -1,
-  labelSection: 'Electronicien-ne',
+  labelSection: 'Electronique',
   posX: 73,
   posY: 8,
 }, {
   section: 'Micromécanique',
   id: -1,
-  labelSection: 'Micromécanicien-ne',
+  labelSection: 'Micromécanique',
   posX: 38,
   posY: 7,
 }, {
-  section: 'Laborantin',
+  section: 'Chimie',
   id: -1,
-  labelSection: 'Laborantin-e',
+  labelSection: 'Chimie',
   posX: 77,
   posY: 63,
 }, {
-  section: 'Dessinateur',
+  section: 'Dessin technique',
   id: -1,
-  labelSection: 'Dessinateur-trice',
+  labelSection: 'Dessin technique',
   posX: 22,
   posY: 1.9,
 }, {
   section: 'Mécatronique',
   id: -1,
-  labelSection: 'Mécatronicien-ne',
+  labelSection: 'Mécatronique',
   posX: 20,
   posY: 63,
 }, {
   section: 'Qualiticien',
   id: -1,
-  labelSection: 'Qualiticien-ne',
+  labelSection: 'Qualiticien',
   posX: 34,
   posY: 12,
 }, {
@@ -537,6 +482,7 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
   divDisplay.value = 'block';
 
 }
+
 async function loadBonusList() {
   const { json: activities } = await api.getActivityOneCar(car.idCar);
   const { json: sections } = await api.getAllSections();
@@ -544,20 +490,6 @@ async function loadBonusList() {
   const listActivityOneCarApi = activities;
 
   listAllBonus.value = [];
-  listDescription.value.push({
-    descriptionText: [
-      ['Automatique', 'Permet d’accélérer la voiture grâce aux barrières'],
-      ['Dessinateur', 'Permet de personnaliser la voiture'],
-      ['Electronique', 'Permet au deuxième ascenseur de monter plus vite'],
-      ['Horlogerie', 'Permet au premier ascenseur de monter plus vite'],
-      ['Informatique', 'Permet d’accélérer la voiture grâce aux barrières'],
-      ['Laborantin', 'Donne un boost de vitesse grâce à une soufflette'],
-      ['Mécanicien-auto', 'Permet de personnaliser la voiture'],
-      ['Micromécanique', 'Accélère le démarrage de la voiture'],
-      ['Qualiticien', 'Réduit le temps de la course (enlève un peu de temps)'],
-      ['Forum', 'Réduit le temps de la course'],
-    ]
-  });
 
   for (const section of sections) {
     if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
@@ -572,44 +504,13 @@ async function loadBonusList() {
 
     const sectionRealised = listActivityOneCarApi.some((a) => a.idSection === section.idSection);
 
-    let descriptionTxt = 'Description non trouvée';
-
-    for (const obj of listDescription.value) {
-      for (const [name, description] of obj.descriptionText) {
-        if (name === section.label) {
-          descriptionTxt = description;
-        }
-      }
-    }
-
     listAllBonus.value.push({
       name: section.label,
       idSection: section.idSection,
       realised: sectionRealised,
       listActivity: listActivityUser,
-      description: descriptionTxt,
     });
   }
-}
-
-function getSectionColor(realised: boolean): string {
-  return realised ? '#d1ffb5' : '#d3d3d3';
-}
-
-function getSectionBadge(name: string): string {
-  const badgeMap: Record<string, string> = {
-    'Automatique': badgeAutomaticien,
-    'Dessinateur': badgeDessinateur,
-    'Electronique': badgeElectronicien,
-    'Horlogerie': badgeHorloger,
-    'Informatique': badgeInformaticien,
-    'Laborantin': badgeLaborentin,
-    'Mécanicien-auto': badgeMecaAuto,
-    'Micromécanique': badgeMicromecanicien,
-    'Qualiticien': badgeQualiticien,
-    'Forum' : badgeForum
-  };
-  return badgeMap[name];
 }
 
 async function getSponsors(carId: string) {

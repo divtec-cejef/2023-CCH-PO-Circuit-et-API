@@ -54,17 +54,18 @@ function getSectionColor(realised: boolean): string {
 
 function getSectionBadge(name: string): string {
   const badgeMap: Record<string, string> = {
-    'Automatique': badgeAutomaticien,
-    'Dessinateur': badgeDessinateur,
+    'Automatisation': badgeAutomaticien,
+    'Dessin technique': badgeDessinateur,
     'Electronique': badgeElectronicien,
     'Horlogerie': badgeHorloger,
     'Informatique': badgeInformaticien,
-    'Laborantin': badgeLaborentin,
+    'Chimie': badgeLaborentin,
     'Mécanicien-auto': badgeMecaAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeQualiticien,
     'Forum' : badgeForum,
   };
+  console.log('Nome = ' + name + '| Liste =' + listAllBonus.value);
   return badgeMap[name];
 }
 
