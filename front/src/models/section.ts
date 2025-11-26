@@ -1,13 +1,13 @@
 export namespace Section {
   export const SectionName = [
-    'dessinateur',
+    'dessin technique',
     'industries4.0',
     'micromecanique',
     'electronique',
-    'automatique',
+    'automatisation',
     'mecatronique',
     'horlogerie',
-    'laborantin',
+    'chimie',
     'informatique',
     'mecanicien-auto',
     'qualiticien',
@@ -15,12 +15,12 @@ export namespace Section {
   ];
 
   export const SectionNameHasActivity = [
-    'dessinateur',
+    'dessin technique',
     'micromecanique',
     'electronique',
-    'automatique',
+    'automatisation',
     'horlogerie',
-    'laborantin',
+    'chimie',
     'informatique', 
     'mecanicien-auto',
     'qualiticien',
@@ -33,12 +33,12 @@ export namespace Section {
     }
 
     const colors: Record<(typeof Section.SectionName)[number], string> = {
-      automatique: '#4e0975',
-      dessinateur: '#42aa2b',
+      automatisation: '#4e0975',
+      'dessin technique': '#42aa2b',
       electronique: '#bd0381',
       horlogerie: '#f4c503',
       'industries4.0': '#56c1f0',
-      laborantin: '#2ccdbd',
+      chimie: '#2ccdbd',
       mecatronique: '#d30369',
       micromecanique: '#099ad9',
       informatique: '#766eb1',
