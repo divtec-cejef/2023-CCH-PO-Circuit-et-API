@@ -7,7 +7,7 @@ import stat2025A2026 from '../../../resultats-statistique/resultatStat_2025-2026
 
 const statistiquesParAnnee = {
   '2024-2025': stat2024A2025,
-  '2025-2026': stat2025A2026
+  '2025-2026': stat2025A2026,
 };
 
 const anneeActif = ref('2024-2025');
