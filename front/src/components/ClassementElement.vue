@@ -145,12 +145,12 @@ const colorScheme = usePreferredColorScheme();
 
 function getSectionBadge(name: string, realised: boolean): string {
   const badgeMap: Record<string, string> = {
-    'Automatique': badgeAutomaticien,
-    'Dessinateur': badgeDessinateur,
+    'Automatisation': badgeAutomaticien,
+    'Dessin technique': badgeDessinateur,
     'Electronique': badgeElectronicien,
     'Horlogerie': badgeHorloger,
     'Informatique': badgeInformaticien,
-    'Laborantin': badgeLaborentin,
+    'Chimie': badgeLaborentin,
     'Mécanicien-auto': badgeMecAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeQualiticien,
