@@ -9,7 +9,7 @@ export namespace Section {
     'horlogerie',
     'chimie',
     'informatique',
-    'mecanicien-auto',
+    'mecanique-auto',
     'qualiticien',
     'forum'
   ];
@@ -22,7 +22,7 @@ export namespace Section {
     'horlogerie',
     'chimie',
     'informatique', 
-    'mecanicien-auto',
+    'mecanique-auto',
     'qualiticien',
     'forum',
   ];
@@ -42,7 +42,7 @@ export namespace Section {
       mecatronique: '#d30369',
       micromecanique: '#099ad9',
       informatique: '#766eb1',
-      'mecanicien-auto': '#f4038c',
+      'mecanique-auto': '#f4038c',
       qualiticien: '#156385',
     };
 
