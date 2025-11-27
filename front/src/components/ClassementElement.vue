@@ -151,7 +151,7 @@ function getSectionBadge(name: string, realised: boolean): string {
     'Horlogerie': badgeHorloger,
     'Informatique': badgeInformaticien,
     'Chimie': badgeLaborentin,
-    'Mécanicien-auto': badgeMecAuto,
+    'Mécanique-auto': badgeMecAuto,
     'Micromécanique': badgeMicromecanicien,
     'Qualiticien': badgeQualiticien,
   };
