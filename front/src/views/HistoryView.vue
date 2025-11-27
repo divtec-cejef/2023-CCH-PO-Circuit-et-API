@@ -392,9 +392,9 @@ const allSections = ref([{
   posX: 22,
   posY: 1.9,
 }, {
-  section: 'Mécatronique',
+  section: 'Mécanique-auto',
   id: -1,
-  labelSection: 'Mécatronique',
+  labelSection: 'Mécanique-auto',
   posX: 20,
   posY: 63,
 }, {
