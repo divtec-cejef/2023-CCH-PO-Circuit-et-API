@@ -63,7 +63,7 @@
         stand
         <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ sponsorName }}</strong>
       </li>
-      <li style="margin-top: 25px">Montrez le bage que vous avez obtenue afin de gagner un prix</li>
+      <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de gagner un prix</li>
     </ol>
   </div>
 
@@ -392,9 +392,9 @@ const allSections = ref([{
   posX: 22,
   posY: 1.9,
 }, {
-  section: 'Mécatronique',
+  section: 'Mécanique-auto',
   id: -1,
-  labelSection: 'Mécatronique',
+  labelSection: 'Mécanique-auto',
   posX: 20,
   posY: 63,
 }, {
