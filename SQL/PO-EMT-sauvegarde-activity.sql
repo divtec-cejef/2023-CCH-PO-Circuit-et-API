@@ -1,0 +1,10 @@
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (26, 'Atelier informatique', 1);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (28, 'Atelier horlogerie', 3);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (29, 'Atelier electronique', 4);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (30, 'Atelier micromécanique', 5);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (33, 'Forum', 10);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (35, 'Atelier qualiticen', 12);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (27, 'Atelier Automatisation', 2);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (32, 'Atelier Dessin technique', 7);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (31, 'Atelier Chimie', 6);
+INSERT INTO cars.activity (id_activity, label, id_section) VALUES (34, 'Atelier mécanique-auto', 11);
