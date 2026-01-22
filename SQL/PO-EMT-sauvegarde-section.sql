@@ -1,0 +1,11 @@
+INSERT INTO cars.section (id_section, label, password) VALUES (1, 'Informatique', '756b86d14c1ea1941e91468ad9838f550ed56d14730a1b86221d187b60b50888');
+INSERT INTO cars.section (id_section, label, password) VALUES (3, 'Horlogerie', 'e229cdd135b8014d69025d7aaf04bd5316e8de9181a2973694de9514b0d40074');
+INSERT INTO cars.section (id_section, label, password) VALUES (4, 'Electronique', 'b614cd5a268540d1ab11aea45bed86ee5002488a32bff0840582a65e6affedcc');
+INSERT INTO cars.section (id_section, label, password) VALUES (5, 'Micromécanique', 'fe829e5c54c84f7e55b5754baea10bc5d8a117c9d66e7c385877d303d44beda1');
+INSERT INTO cars.section (id_section, label, password) VALUES (8, 'Race', 'f79b078fa5eb282f88779f553d1a6abb8e7c46bacae0d399e9bf58e868ab06fe');
+INSERT INTO cars.section (id_section, label, password) VALUES (10, 'Forum', '23');
+INSERT INTO cars.section (id_section, label, password) VALUES (12, 'Qualiticien', '89e3f9ab939937f40b2656de39f1a57408b4e9885050e78a8271c60a4b4479a0');
+INSERT INTO cars.section (id_section, label, password) VALUES (6, 'Chimie', 'a70d7c214b845c2c05a508649250d7707daa35a08c88b42b6c4c4d74589c4713');
+INSERT INTO cars.section (id_section, label, password) VALUES (7, 'Dessin technique', '7117e1cf54893b6c3ec43b1aa59422503a749b5c084d401e9041b4d9105df848');
+INSERT INTO cars.section (id_section, label, password) VALUES (2, 'Automatisation', '45e1a3c5cad23b11382cc7f1af593e80b420a8523855b3f83f698fc0234ca3db');
+INSERT INTO cars.section (id_section, label, password) VALUES (11, 'Mécanique-auto', 'fb607e59d00c0490af932c652265e7910a598209895f8f6cbd5287bd649fbc88');

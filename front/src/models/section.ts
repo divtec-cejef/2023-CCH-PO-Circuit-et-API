@@ -1,30 +1,28 @@
 export namespace Section {
   export const SectionName = [
-    'dessin technique',
+    'dessin & construction',
     'industries4.0',
-    'micromecanique',
+    'mécanique',
     'electronique',
-    'automatisation',
+    'automation',
     'mecatronique',
-    'horlogerie',
-    'chimie',
-    'informatique',
-    'mecanique-auto',
-    'qualiticien',
-    'forum'
+    'horlogerie & polissage',
+    'chimie & galvanoplastie & fonderie',
+    'informatique & multimédia',
+    'le monde de l\'automobile',
+    'formation es + hes'
   ];
 
   export const SectionNameHasActivity = [
-    'dessin technique',
-    'micromecanique',
+    'dessin & construction',
+    'mecanique',
     'electronique',
-    'automatisation',
-    'horlogerie',
-    'chimie',
-    'informatique', 
-    'mecanique-auto',
-    'qualiticien',
-    'forum',
+    'automation',
+    'horlogerie & polissage',
+    'chimie & galvanoplastie & fonderie',
+    'informatique & multimedia',
+    'le monde de l\'automobile',
+    'formation es + hes',
   ];
 
   export const getColor = (sectionName: (typeof Section.SectionName)[number]) => {
@@ -33,17 +31,17 @@ export namespace Section {
     }
 
     const colors: Record<(typeof Section.SectionName)[number], string> = {
-      automatisation: '#4e0975',
-      'dessin technique': '#42aa2b',
+      automation: '#4e0975',
+      'dessin & construction': '#42aa2b',
       electronique: '#bd0381',
-      horlogerie: '#f4c503',
+      'Horlogerie & polissage': '#f4c503',
       'industries4.0': '#56c1f0',
-      chimie: '#2ccdbd',
+      'Chimie & galvanoplastie & fonderie': '#2ccdbd',
       mecatronique: '#d30369',
-      micromecanique: '#099ad9',
-      informatique: '#766eb1',
-      'mecanique-auto': '#f4038c',
-      qualiticien: '#156385',
+      'mécanique': '#099ad9',
+      'informatique & multimédia': '#766eb1',
+      'le monde de l\'automobile': '#f4038c',
+      'formation es + hes': '#156385',
     };
 
     return colors[sectionName];
