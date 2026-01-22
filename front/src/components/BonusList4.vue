@@ -60,7 +60,7 @@ function getSectionBadge(name: string): string {
     'Horlogerie & polissage': badgeHorloger,
     'Informatique & multimédia': badgeInformaticien,
     'Chimie & galvanoplastie & fonderie': badgeLaborentin,
-    'Le monde de l\' automobile': badgeMecaAuto,
+    'Le monde de l\'automobile': badgeMecaAuto,
     'Mécanique': badgeMicromecanicien,
     'Formation ES + HES': badgeForum,
   };
