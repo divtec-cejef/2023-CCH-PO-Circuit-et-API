@@ -82,7 +82,7 @@ import badgeInformaticien from '@/assets/img/informaticien.webp';
 import badgeLaborentin from '@/assets/img/laborentin.webp';
 import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
-import badgeQualiticien from '@/assets/img/qualiticien.webp';
+import badgeForum from '@/assets/img/forum.webp';
 import badgeDessinateur from '@/assets/img/dessinateurs.webp';
 import badgeMecAuto from '@/assets/img/meca-auto.webp';
 import orImg from '@/assets/img/or.png';
@@ -145,15 +145,15 @@ const colorScheme = usePreferredColorScheme();
 
 function getSectionBadge(name: string, realised: boolean): string {
   const badgeMap: Record<string, string> = {
-    'Automatisation': badgeAutomaticien,
-    'Dessin technique': badgeDessinateur,
+    'Automation': badgeAutomaticien,
+    'Dessin & construction': badgeDessinateur,
     'Electronique': badgeElectronicien,
-    'Horlogerie': badgeHorloger,
-    'Informatique': badgeInformaticien,
-    'Chimie': badgeLaborentin,
-    'Mécanique-auto': badgeMecAuto,
-    'Micromécanique': badgeMicromecanicien,
-    'Qualiticien': badgeQualiticien,
+    'Horlogerie & polissage': badgeHorloger,
+    'Informatique & multimédia': badgeInformaticien,
+    'Chimie & galvanoplastie & fonderie': badgeLaborentin,
+    'Le monde de l\'automobile': badgeMecAuto,
+    'Mécanique': badgeMicromecanicien,
+    'Formation ES + HES': badgeForum,
   };
 
   if (!realised) return badgeInconnu;
