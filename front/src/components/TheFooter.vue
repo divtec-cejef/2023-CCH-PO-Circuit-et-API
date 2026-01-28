@@ -1,10 +1,5 @@
 <template>
-  <p class="emt">EMT, Portes ouvertes {{ currentYear }}</p>
-
-  <div class="stage">
-    Inscris toi à un stage
-    <RouterLink to="/stage">ici</RouterLink> !
-  </div>
+  <p class="emt">Salon de la formation {{ currentYear }}</p>
 
   <div class="link">
     <template v-if="display !== 'legacy'">
