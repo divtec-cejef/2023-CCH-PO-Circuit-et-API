@@ -35,16 +35,6 @@
       <li v-if="adminPost.idSection" @click="clickMenu">
         <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
       </li>
-      <li @click="clickMenu">
-        <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
-      </li>
-      <li :class="{ 'active': route.path === '/stage' }" @click="clickMenu">
-        <RouterLink to="/stage">
-          <p>Stage</p>
-          <img :src="stageImg"
-               alt="Icon d'inscription à un stage">
-        </RouterLink>
-      </li>
       <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
         <span>Déconnexion</span>
         <img :src="exitPhoneImg" alt="Icon de déconnexion">
@@ -73,7 +63,6 @@ import carImg from '@/assets/img/car-icon.webp';
 import bonusImg from '@/assets/img/trophy.webp';
 import qrCodeimg from '@/assets/img/qr-code.webp';
 import live from '@/assets/img/live-icon.webp';
-import stageImg from '@/assets/img/contract.webp';
 
 const colorScheme = usePreferredColorScheme();
 const router = useRouter();
@@ -164,31 +153,6 @@ nav.header {
           width: 35px;
           display: block !important;
           margin-left: 0;
-        }
-      }
-
-      &#stage a {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: var(--pink-divtec);
-        border: 2px solid var(--pink-divtec);
-        padding: 7px 10px;
-        border-radius: 30px;
-
-        p {
-          color: var(--white);
-          margin-left: 4px;
-        }
-
-        &:hover {
-          background-color: var(--white);
-
-          p {
-            color: var(--pink-divtec);
-            margin-left: 4px;
-          }
         }
       }
 
