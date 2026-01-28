@@ -35,16 +35,6 @@
       <li v-if="adminPost.idSection" @click="clickMenu">
         <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
       </li>
-      <li @click="clickMenu">
-        <RouterLink class="with-emoji" to="/scanneurQR">Carte Forum</RouterLink>
-      </li>
-      <li :class="{ 'active': route.path === '/stage' }" @click="clickMenu">
-        <RouterLink to="/stage">
-          <p>Stage</p>
-          <img :src="stageImg"
-               alt="Icon d'inscription à un stage">
-        </RouterLink>
-      </li>
       <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
         <span>Déconnexion</span>
         <img :src="exitPhoneImg" alt="Icon de déconnexion">
