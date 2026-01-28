@@ -27,7 +27,6 @@ import badgeLaborentin from '@/assets/img/laborentin.webp';
 import badgeMicromecanicien from '@/assets/img/micromecanicien.webp';
 import badgeDessinateur from  '@/assets/img/dessinateurs.webp';
 import badgeMecaAuto from '@/assets/img/meca-auto.webp';
-import badgeQualiticien from '@/assets/img/qualiticien.webp';
 import badgeForum from '@/assets/img/forum.webp';
 import { onMounted, ref } from 'vue';
 import api, { type models } from '@/models/api';
@@ -54,18 +53,17 @@ function getSectionColor(realised: boolean): string {
 
 function getSectionBadge(name: string): string {
   const badgeMap: Record<string, string> = {
-    'Automatisation': badgeAutomaticien,
-    'Dessin technique': badgeDessinateur,
+    'Automation': badgeAutomaticien,
+    'Dessin & construction': badgeDessinateur,
     'Electronique': badgeElectronicien,
-    'Horlogerie': badgeHorloger,
-    'Informatique': badgeInformaticien,
-    'Chimie': badgeLaborentin,
-    'Mécanique-auto': badgeMecaAuto,
-    'Micromécanique': badgeMicromecanicien,
-    'Qualiticien': badgeQualiticien,
-    'Forum' : badgeForum,
+    'Horlogerie & polissage': badgeHorloger,
+    'Informatique & multimédia': badgeInformaticien,
+    'Chimie & galvanoplastie & fonderie': badgeLaborentin,
+    'Le monde de l\'automobile': badgeMecaAuto,
+    'Mécanique': badgeMicromecanicien,
+    'Formation ES + HES': badgeForum
   };
-  console.log('Nome = ' + name + '| Liste =' + listAllBonus.value);
+  console.log('Name = ' + name + '| Liste =' + listAllBonus.value);
   return badgeMap[name];
 }
 
