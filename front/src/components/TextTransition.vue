@@ -51,6 +51,12 @@ const animateString = (n: Ref<string | null | undefined>, to: string, i?: number
     return;
   }
 
+  // Sécurité : limite le nombre d'itérations
+  if (i > 500) {
+    n.value = to;
+    return;
+  }
+
   const toLength = to.length;
 
   let nVal = n.value ?? '';
