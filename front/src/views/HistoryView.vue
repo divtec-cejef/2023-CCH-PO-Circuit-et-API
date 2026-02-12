@@ -1,6 +1,6 @@
 <template>
   <div class="button-group">
-    <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Sponsor</button>
+    <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Prix - Montre</button>
     <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte</button>
   </div>
 
@@ -55,16 +55,22 @@
       <img :src="imageSponsor" style="margin-top: -165px">
 
       <p style="margin-top: 40px">{{ sponsorName }}</p>
-      <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
+
+      <div v-if="aSponsor">
+        <h2 style="margin-top: 50px">Que dois-je faire pour récupérer ce prix ?</h2>
+        <ol>
+          <li style="line-height: 1.6;">Aller au stand qui distribue les montres (prix)</li>
+          <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de récupérer la montre</li>
+        </ol>
+      </div>
+      <div v-else>
+        <h2 style="margin-top: 50px">Que dois-je faire pour essayer de gagner un prix ?</h2>
+        <ol>
+          <li style="line-height: 1.6;">Réaliser quelques ou toutes les activtés du batiments</li>
+          <li style="margin-top: 25px">Rendez-vous au circuit afin d'effectué une course et tentez de récupérer une montre</li>
+        </ol>
+      </div>
     </div>
-    <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
-    <ol>
-      <li style="line-height: 1.6;">Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au
-        stand
-        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ sponsorName }}</strong>
-      </li>
-      <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de gagner un prix</li>
-    </ol>
   </div>
 
 </template>
@@ -82,11 +88,7 @@ import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
 import plus from '@/assets/img/plus.webp';
 import minus from '@/assets/img/minus.webp';
-import badgeGlobaz from '@/assets/img/globaz.png';
-import badgeDecovi from '@/assets/img/decovi.png';
-import badgeBusch from '@/assets/img/Busch.png';
-import badgeLouisLang from '@/assets/img/Louis lang.png';
-import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
+import badgePrixMontre from '@/assets/img/prix-montre.png';
 import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
@@ -125,11 +127,7 @@ const listAllBonus = ref<{
 }[]>([]);
 
 const sponsors = [
-  { name: 'Globaz', image: badgeGlobaz },
-  { name: 'Décovi', image: badgeDecovi },
-  { name: 'Atelier Busch', image: badgeBusch },
-  { name: 'Louis-lang', image: badgeLouisLang },
-  { name: 'Willemin-Macodel', image: badgeWillemin },
+  { name: 'gagner', description: 'Bien joué, vous avez gagné une montre !', image: badgePrixMontre },
 ];
 
 function mapOnClicked() {
@@ -528,7 +526,7 @@ async function getSponsors(carId: string) {
     if (matchedSponsor) {
       imageSponsor.value = matchedSponsor.image;
       aSponsor.value = true;
-      sponsorName.value = matchedSponsor.name;
+      sponsorName.value = matchedSponsor.description;
     } else {
       imageSponsor.value = badgeInconnu;
     }
