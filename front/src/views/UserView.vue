@@ -114,7 +114,7 @@ import badgePrixMontre from '@/assets/img/prix-montre.png';
 
 // Sponsors
 const sponsors = [
-  { name: 'gagner', description: 'Bien joué, vous avez gagné une montre !', image: badgePrixMontre },
+  { name: 'gagner', description: 'Félicitation, vous avez gagné une montre !', image: badgePrixMontre },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
