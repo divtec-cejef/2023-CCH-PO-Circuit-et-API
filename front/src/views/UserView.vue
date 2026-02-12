@@ -56,8 +56,8 @@
           <img :src="imageSponsor" style="margin-top: -165px">
 
           <p style="margin-top: 40px">{{sponsorName}}</p>
-          <p v-if="!aSponsor">pour gagner un sponsor.</p>
-          <RouterLink v-else class="recompense" to="bonus">Obtenir une récompense</RouterLink>
+          <p v-if="!aSponsor">pour tenter de gagner un prix.</p>
+          <RouterLink v-if="!aSponsor" class="recompense" to="bonus">Comment obtenir un prix ?</RouterLink>
         </div>
 
         <BonusList5 class="bonus" :id-car="car.idCar"/>
@@ -109,20 +109,12 @@ import cesarGris from '@/assets/img/cesar-gris.png';
 import cesarJaune from '@/assets/img/cesar-jaune.png';
 import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
-// Import des images
-import badgeGlobaz from '@/assets/img/globaz.png';
-import badgeDecovi from '@/assets/img/decovi.png';
-import badgeBusch from '@/assets/img/Busch.png';
-import badgeLouisLang from '@/assets/img/Louis lang.png';
-import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
+import badgePrixMontre from '@/assets/img/prix-montre.png';
+
 
 // Sponsors
 const sponsors = [
-  { name: 'Globaz', image: badgeGlobaz },
-  { name: 'Décovi', image: badgeDecovi },
-  { name: 'Atelier Busch', image: badgeBusch },
-  { name: 'Louis-lang', image: badgeLouisLang },
-  { name: 'Willemin-Macodel', image: badgeWillemin },
+  { name: 'gagner', description: 'Félicitation, vous avez gagné une montre !', image: badgePrixMontre },
 ];
 
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -156,7 +148,7 @@ async function getSponsors(carId: string) {
     if (matchedSponsor) {
       imageSponsor.value = matchedSponsor.image;
       aSponsor.value = true;
-      sponsorName.value = matchedSponsor.name;
+      sponsorName.value = matchedSponsor.description;
     } else {
       imageSponsor.value = badgeInconnu;
     }
