@@ -25,3 +25,23 @@ ce script permet d'imprimer une image sur une imprimante Brother modèle ```QL-8
 14. installer les dépendances `pip install -r requirements.txt`
 15. lancer le script
 16. les données contenue dans dataQR.csv seront imprimer sous la forme d'un QRcode avec le text du code en dessus
+
+### En cas de problème
+Si le texte dépasse du qr code :
+Changer le `box_size=X` à la ligne 74
+Example : 40 ou 50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
