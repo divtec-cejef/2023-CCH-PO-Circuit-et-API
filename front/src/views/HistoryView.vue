@@ -1,8 +1,9 @@
 <template>
+<!--
   <div class="button-group">
     <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Prix - Montre</button>
     <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte</button>
-  </div>
+  </div>-->
 
   <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
@@ -26,8 +27,8 @@
       </div>
     </div>
     <div v-if="hasError">
-    <ErrorConnection></ErrorConnection>
-  </div>
+      <ErrorConnection></ErrorConnection>
+    </div>
     <div v-else-if="!hasLoaded" class="loading-map">
       <SpinLoading></SpinLoading>
     </div>
@@ -77,12 +78,12 @@
 
 <script lang="ts" setup>
 
-import type { PanZoom } from 'panzoom';
+import type {PanZoom} from 'panzoom';
 import panzoom from 'panzoom';
-import { defineAsyncComponent, onMounted, ref } from 'vue';
-import api, { type models } from '@/models/api';
-import { useCarStore } from '@/stores/car';
-import { Section } from '@/models/section';
+import {defineAsyncComponent, onMounted, ref} from 'vue';
+import api, {type models} from '@/models/api';
+import {useCarStore} from '@/stores/car';
+import {Section} from '@/models/section';
 
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
@@ -98,10 +99,10 @@ const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 const userCar = useCarStore();
-const { car } = userCar;
+const {car} = userCar;
 
 const aSponsor = ref(false);
-const sponsorName = ref("Vous n'avez pas de sponsor.");
+const sponsorName = ref('Effectue une course pour tenter de gagner un prix');
 const imageSponsor = ref(badgeInconnu);
 
 const label = ref<HTMLDivElement>();
@@ -157,7 +158,7 @@ function getRealisedActivity() {
     getSectionAndActivities();
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
-      const { json: dataActivity, status: status } = v;
+      const {json: dataActivity, status: status} = v;
       if ('message' in dataActivity) {
         hasError.value = true;
         return;
@@ -179,7 +180,7 @@ function getRealisedActivity() {
 function getSectionAndActivities() {
   sectionActivities.value = [];
   api.getAllSections().then(v => {
-    const { json: dataSections, status: statusActivities } = v;
+    const {json: dataSections, status: statusActivities} = v;
 
     if ('message' in dataSections) {
       hasError.value = true;
@@ -195,7 +196,7 @@ function getSectionAndActivities() {
         }
 
         api.getAllActivitiesOneSection(section.idSection).then((v) => {
-          const { json: dataActivities, status: statusActivities } = v;
+          const {json: dataActivities, status: statusActivities} = v;
           if ('message' in dataActivities) {
             hasError.value = true;
             return;
@@ -482,8 +483,8 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 }
 
 async function loadBonusList() {
-  const { json: activities } = await api.getActivityOneCar(car.idCar);
-  const { json: sections } = await api.getAllSections();
+  const {json: activities} = await api.getActivityOneCar(car.idCar);
+  const {json: sections} = await api.getAllSections();
 
   const listActivityOneCarApi = activities;
 
@@ -492,7 +493,7 @@ async function loadBonusList() {
   for (const section of sections) {
     if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
 
-    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const {json: activitiesInSection} = await api.getAllActivitiesOneSection(section.idSection);
     const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
 
     const listActivityUser = activitiesList.map((activity) => ({
@@ -520,7 +521,7 @@ async function getSponsors(carId: string) {
 
     // Trouver l'image correspondante dans ton tableau de sponsors
     const matchedSponsor = sponsors.find(
-      s => s.name === sponsorCar.sponsor_name
+        s => s.name === sponsorCar.sponsor_name
     );
 
     if (matchedSponsor) {

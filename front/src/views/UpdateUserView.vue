@@ -24,7 +24,7 @@
                 <button @click.prevent="closeModal"><img :src="cancelIcon" alt="close"></button>
             </div>
             <div>
-                <p>Tu n'as as enregistré tes modifications!</p>
+                <p>Tu n'as pas enregistré tes modifications!</p>
 
                 <p>Es-tu sûr de vouloir quitter?</p>
             </div>
