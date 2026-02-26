@@ -12,7 +12,7 @@
 
       <div class="button-group">
         <button @click="classementGlobal = true;" :class="{ selected: classementGlobal }">Global</button>
-        <button @click="classementGlobal = false" :class="{ selected: !classementGlobal}">Recent</button>
+        <button @click="classementGlobal = false" :class="{ selected: !classementGlobal}">Récent</button>
       </div>
         <div ref="classment" class="classement">
 

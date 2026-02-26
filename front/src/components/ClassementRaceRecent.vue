@@ -7,7 +7,7 @@
         <SpinLoading></SpinLoading>
     </div>
     <template v-else-if="listRace?.length === 0">
-        <p>Aucune course n'a encore été réalisé !</p>
+        <p>Aucune course n'a encore été réalisée</p>
     </template>
     <template v-else>
       <ClassementElement

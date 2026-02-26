@@ -1,8 +1,8 @@
 <template>
-  <div class="button-group">
+  <!--<div class="button-group">
     <button @click="sponsorOnClicked()" :class="{ selected: sponsorIsShown}">Sponsor</button>
     <button @click="mapOnClicked()" :class="{ selected: mapIsShown }">Carte</button>
-  </div>
+  </div>-->
 
   <div v-if="mapIsShown" class="content bonus-map">
     <div v-if="currentLabel.title !== null" ref="label" :style="{left: divLeft, top: divTop, display: divDisplay}"
@@ -26,8 +26,8 @@
       </div>
     </div>
     <div v-if="hasError">
-    <ErrorConnection></ErrorConnection>
-  </div>
+      <ErrorConnection></ErrorConnection>
+    </div>
     <div v-else-if="!hasLoaded" class="loading-map">
       <SpinLoading></SpinLoading>
     </div>
@@ -55,28 +55,34 @@
       <img :src="imageSponsor" style="margin-top: -165px">
 
       <p style="margin-top: 40px">{{ sponsorName }}</p>
-      <p v-if="!aSponsor">Allez participer à une course au circuit pour en gagner un</p>
     </div>
-    <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
-    <ol>
-      <li style="line-height: 1.6;">Aller à la salle de gym (qui se situe en dehors du batîment principal), puis au
-        stand
-        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ sponsorName }}</strong>
-      </li>
-      <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de gagner un prix</li>
-    </ol>
+    <div v-if="!aSponsor">
+      <h2>Comment obtenir ce badge</h2>
+      <ol>
+        <li style="line-height: 1.6;">Réalise un maximum d'activités proposées dans le village technique</li>
+        <li>Rends-toi au circuit afin d'effectuer une course. Le prix sera peut-être à toi une fois la ligne d'arrivée
+          franchie !
+        </li>
+      </ol>
+    </div>
+    <div v-else>
+      <h2 style="margin-top: 50px">Que dois-je faire avec ce badge ?</h2>
+      <ol>
+        <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de gagner un prix</li>
+      </ol>
+    </div>
   </div>
 
 </template>
 
 <script lang="ts" setup>
 
-import type { PanZoom } from 'panzoom';
+import type {PanZoom} from 'panzoom';
 import panzoom from 'panzoom';
-import { defineAsyncComponent, onMounted, ref } from 'vue';
-import api, { type models } from '@/models/api';
-import { useCarStore } from '@/stores/car';
-import { Section } from '@/models/section';
+import {defineAsyncComponent, onMounted, ref} from 'vue';
+import api, {type models} from '@/models/api';
+import {useCarStore} from '@/stores/car';
+import {Section} from '@/models/section';
 
 import trophy from '@/assets/img/trophy.webp';
 import close from '@/assets/img/close.webp';
@@ -96,10 +102,10 @@ const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.
 const ErrorConnection = defineAsyncComponent(() => import('@/components/ErrorConnection.vue'));
 
 const userCar = useCarStore();
-const { car } = userCar;
+const {car} = userCar;
 
 const aSponsor = ref(false);
-const sponsorName = ref("Vous n'avez pas de sponsor.");
+const sponsorName = ref('Effectue une course pour tenter de gagner un prix');
 const imageSponsor = ref(badgeInconnu);
 
 const label = ref<HTMLDivElement>();
@@ -125,11 +131,11 @@ const listAllBonus = ref<{
 }[]>([]);
 
 const sponsors = [
-  { name: 'Globaz', image: badgeGlobaz },
-  { name: 'Décovi', image: badgeDecovi },
-  { name: 'Atelier Busch', image: badgeBusch },
-  { name: 'Louis-lang', image: badgeLouisLang },
-  { name: 'Willemin-Macodel', image: badgeWillemin },
+  {name: 'Globaz', image: badgeGlobaz},
+  {name: 'Décovi', image: badgeDecovi},
+  {name: 'Atelier Busch', image: badgeBusch},
+  {name: 'Louis-lang', image: badgeLouisLang},
+  {name: 'Willemin-Macodel', image: badgeWillemin},
 ];
 
 function mapOnClicked() {
@@ -159,7 +165,7 @@ function getRealisedActivity() {
     getSectionAndActivities();
   } else {
     api.getActivityOneCar(car.idCar).then((v) => {
-      const { json: dataActivity, status: status } = v;
+      const {json: dataActivity, status: status} = v;
       if ('message' in dataActivity) {
         hasError.value = true;
         return;
@@ -181,7 +187,7 @@ function getRealisedActivity() {
 function getSectionAndActivities() {
   sectionActivities.value = [];
   api.getAllSections().then(v => {
-    const { json: dataSections, status: statusActivities } = v;
+    const {json: dataSections, status: statusActivities} = v;
 
     if ('message' in dataSections) {
       hasError.value = true;
@@ -197,7 +203,7 @@ function getSectionAndActivities() {
         }
 
         api.getAllActivitiesOneSection(section.idSection).then((v) => {
-          const { json: dataActivities, status: statusActivities } = v;
+          const {json: dataActivities, status: statusActivities} = v;
           if ('message' in dataActivities) {
             hasError.value = true;
             return;
@@ -484,8 +490,8 @@ function displayLabel(posx: number, posy: number, sectionLabel: string) {
 }
 
 async function loadBonusList() {
-  const { json: activities } = await api.getActivityOneCar(car.idCar);
-  const { json: sections } = await api.getAllSections();
+  const {json: activities} = await api.getActivityOneCar(car.idCar);
+  const {json: sections} = await api.getAllSections();
 
   const listActivityOneCarApi = activities;
 
@@ -494,7 +500,7 @@ async function loadBonusList() {
   for (const section of sections) {
     if (!Section.SectionNameHasActivity.includes(Section.formatName(section.label))) continue;
 
-    const { json: activitiesInSection } = await api.getAllActivitiesOneSection(section.idSection);
+    const {json: activitiesInSection} = await api.getAllActivitiesOneSection(section.idSection);
     const activitiesList = activitiesInSection as models.parsedData.SectionActivities;
 
     const listActivityUser = activitiesList.map((activity) => ({
@@ -522,7 +528,7 @@ async function getSponsors(carId: string) {
 
     // Trouver l'image correspondante dans ton tableau de sponsors
     const matchedSponsor = sponsors.find(
-      s => s.name === sponsorCar.sponsor_name
+        s => s.name === sponsorCar.sponsor_name
     );
 
     if (matchedSponsor) {
