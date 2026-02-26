@@ -63,7 +63,6 @@
           <img :src="imageSponsor" style="margin-top: -165px">
 
           <p style="margin-top: 40px">{{sponsorName}}</p>
-          <p v-if="!aSponsor">pour tenter de gagner un prix.</p>
           <RouterLink v-if="!aSponsor" class="recompense" to="bonus">Comment obtenir un prix ?</RouterLink>
         </div>
 
@@ -138,7 +137,7 @@ const colorScheme = usePreferredColorScheme();
 const imageSponsor = ref(badgeInconnu);
 
 const aSponsor = ref(false);
-const sponsorName = ref('Tente de ganger un prix');
+const sponsorName = ref('');
 
 async function getSponsors(carId: string) {
   try {
