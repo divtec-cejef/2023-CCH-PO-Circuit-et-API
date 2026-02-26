@@ -18,8 +18,8 @@
           <ul class="list-instruction">
             <li>
               <NumberTime color="var(--blue)" number="1"></NumberTime>
-              <p>Balade toi dans les différents ateliers du bâtiment et
-                réalise des activités pour obtenir des
+              <p>Balade-toi au travers du village techniques, réalise
+                des activités liées aux métiers que tu vas découvrir et collectionne des
                 <RouterLink to="bonus">bonus</RouterLink>
                 !
               </p>
@@ -33,14 +33,21 @@
             </li>
             <li>
               <NumberTime color="var(--blue)" number="3"></NumberTime>
-              <p>Participe à la course de la DIVTEC. Plus tu auras récupéré des bonus,
-                plus tu iras vite !</p>
+              <p>Participe à la course  du village technique. Plus tu auras récupéré des bonus,
+                plus tu franchiras la ligne d'arrivée rapidement !</p>
             </li>
             <li>
               <NumberTime color="var(--blue)" number="4"></NumberTime>
               <p>Analyse ton résultat et récupère la
                 <RouterLink to="course">vidéo</RouterLink>
                 de ta course !
+              </p>
+            </li>
+            <li>
+              <NumberTime color="var(--blue)" number="5"></NumberTime>
+              <p>Tente de ganger un
+                <RouterLink to="bonus">prix</RouterLink>
+                en effectuant la course
               </p>
             </li>
           </ul>
@@ -131,7 +138,7 @@ const colorScheme = usePreferredColorScheme();
 const imageSponsor = ref(badgeInconnu);
 
 const aSponsor = ref(false);
-const sponsorName = ref('Effectuez une course');
+const sponsorName = ref('Tente de ganger un prix');
 
 async function getSponsors(carId: string) {
   try {

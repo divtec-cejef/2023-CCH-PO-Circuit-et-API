@@ -8,7 +8,7 @@
     </div>
     <template v-else-if="listRace?.length === 0">
         <div class="no-race fullscreen">
-            <h2>Aucune course n'a été encore réalisée !</h2>
+            <h2>Aucune course n'a encore été réalisée</h2>
             <p>
                 <br>
                 Soit le premier à prendre le départ !
