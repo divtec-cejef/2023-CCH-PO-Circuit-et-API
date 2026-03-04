@@ -35,7 +35,7 @@
             </div>
         </div>
         <div v-else-if="hasCarRaces" class="content">
-            <h1>Course</h1>
+            <h1>Mes Course</h1>
             <p>Tu n'as encore fait aucune course ! Rends-toi près du circuit situé au milieu du village technique pour y participer !</p>
             <br>
             <p>Si tu veux un avant goût clique
