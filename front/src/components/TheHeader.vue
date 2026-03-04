@@ -32,9 +32,6 @@
         <RouterLink to="/admin">Admin</RouterLink>
         <img :src="qrCodeimg" alt="Image de qr code pour les admins de poste">
       </li>
-      <li v-if="adminPost.idSection" @click="clickMenu">
-        <RouterLink to="/admin/randomly-select-business">Tirage au sort</RouterLink>
-      </li>
       <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
         <span>Déconnexion</span>
         <img :src="exitPhoneImg" alt="Icon de déconnexion">

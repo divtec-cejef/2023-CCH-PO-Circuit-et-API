@@ -55,8 +55,6 @@
       </div>
       <img :src="imageSponsor" style="margin-top: -165px">
 
-      <p style="margin-top: 40px">{{ sponsorName }}</p>
-
       <div v-if="aSponsor">
         <h2 style="margin-top: 50px">Que dois-je faire pour récupérer ce prix ?</h2>
         <ol>
@@ -67,8 +65,8 @@
       <div v-else>
         <h2 style="margin-top: 50px">Que dois-je faire pour essayer de gagner un prix ?</h2>
         <ol>
-          <li style="line-height: 1.6;">Réaliser quelques ou toutes les activtés du batiments</li>
-          <li style="margin-top: 25px">Rendez-vous au circuit afin d'effectué une course et tentez de récupérer une montre</li>
+          <li style="line-height: 1.6;">Réalise un maximum d'activités proposées dans le village technique</li>
+          <li style="margin-top: 25px">Rends-toi au circuit afin d'effectuer une course. Le prix sera peut-être à toi une fois la ligne d'arrivée franchie !</li>
         </ol>
       </div>
     </div>

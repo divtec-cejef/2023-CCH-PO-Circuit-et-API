@@ -18,7 +18,7 @@
           <ul class="list-instruction">
             <li>
               <NumberTime color="var(--blue)" number="1"></NumberTime>
-              <p>Balade-toi au travers du village techniques, réalise
+              <p>Balade-toi au travers du village technique, réalise
                 des activités liées aux métiers que tu vas découvrir et collectionne des
                 <RouterLink to="bonus">bonus</RouterLink>
                 !
@@ -43,13 +43,6 @@
                 de ta course !
               </p>
             </li>
-            <li>
-              <NumberTime color="var(--blue)" number="5"></NumberTime>
-              <p>Tente de ganger un
-                <RouterLink to="bonus">prix</RouterLink>
-                en effectuant la course
-              </p>
-            </li>
           </ul>
         </div>
 
@@ -63,7 +56,7 @@
           <img :src="imageSponsor" style="margin-top: -165px">
 
           <p style="margin-top: 40px">{{sponsorName}}</p>
-          <RouterLink v-if="!aSponsor" class="recompense" to="bonus">Comment obtenir un prix ?</RouterLink>
+          <RouterLink v-if="!aSponsor" class="recompense" to="bonus">Tu as une chance de gagner un prix !</RouterLink>
         </div>
 
         <BonusList5 class="bonus" :id-car="car.idCar"/>
