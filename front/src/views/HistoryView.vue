@@ -55,8 +55,6 @@
       </div>
       <img :src="imageSponsor" style="margin-top: -165px">
 
-      <p style="margin-top: 40px">{{ sponsorName }}</p>
-
       <div v-if="aSponsor">
         <h2 style="margin-top: 50px">Que dois-je faire pour récupérer ce prix ?</h2>
         <ol>

@@ -1,7 +1,7 @@
 <template>
     <template v-if="socketConnected">
         <div v-if="car.listRace!.length > 0" class="content">
-            <h1>Course</h1>
+            <h1>Mes Courses</h1>
             <h2>Meilleure manche</h2>
             <p>Pas mal cette course... Tu y retrouves toutes ses informations !</p>
 
