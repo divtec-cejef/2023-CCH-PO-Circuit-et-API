@@ -21,7 +21,7 @@
         <img :src="carImg" alt="Image de voiture">
       </li>
       <li :class="{ 'active': route.path === '/bonus' }" @click="clickMenu">
-        <RouterLink to="/bonus">Bonus</RouterLink>
+        <RouterLink to="/bonus">Prix</RouterLink>
         <img :src="bonusImg" alt="Image de bonus">
       </li>
       <li :class="{ 'active': route.path === '/classement' }" @click="clickMenu">
