@@ -56,14 +56,14 @@
       <img :src="imageSponsor" style="margin-top: -165px">
 
       <div v-if="aSponsor">
-        <h2 style="margin-top: 50px">Que dois-je faire pour récupérer ce prix ?</h2>
+        <h2 style="margin-top: 50px">Récupérer ton prix !</h2>
         <ol>
-          <li style="line-height: 1.6;">Aller au stand qui distribue les montres (prix)</li>
-          <li style="margin-top: 25px">Montrez le badge que vous avez obtenue afin de récupérer la montre</li>
+          <li style="line-height: 1.6;">Diregez-vous à l'accueil</li>
+          <li style="margin-top: 25px">Réclamez votre prix</li>
         </ol>
       </div>
       <div v-else>
-        <h2 style="margin-top: 50px">Que dois-je faire pour essayer de gagner un prix ?</h2>
+        <h2 style="margin-top: 50px">Tente ta change !</h2>
         <ol>
           <li style="line-height: 1.6;">Réalise un maximum d'activités proposées dans le village technique</li>
           <li style="margin-top: 25px">Rends-toi au circuit afin d'effectuer une course. Le prix sera peut-être à toi une fois la ligne d'arrivée franchie !</li>

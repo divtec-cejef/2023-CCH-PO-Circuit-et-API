@@ -18,29 +18,21 @@
           <ul class="list-instruction">
             <li>
               <NumberTime color="var(--blue)" number="1"></NumberTime>
-              <p>Balade-toi au travers du village technique, réalise
-                des activités liées aux métiers que tu vas découvrir et collectionne des
-                <RouterLink to="bonus">bonus</RouterLink>
-                !
-              </p>
+              <p>Personnalise tes données de <RouterLink to="pilote">pilotes</RouterLink>.</p>
             </li>
             <li>
               <NumberTime color="var(--blue)" number="2"></NumberTime>
-              <p>Modifie tes données de
-                <RouterLink to="pilote">pilotes</RouterLink>
-                .
-              </p>
+              <p>Participe aux activités des métiers à travers le village technique.</p>
             </li>
             <li>
               <NumberTime color="var(--blue)" number="3"></NumberTime>
-              <p>Participe à la course  du village technique. Plus tu auras récupéré des bonus,
-                plus tu franchiras la ligne d'arrivée rapidement !</p>
+              <p>Réalise un chrono sur le circuit du village technique</p>
             </li>
             <li>
               <NumberTime color="var(--blue)" number="4"></NumberTime>
-              <p>Analyse ton résultat et récupère la
+              <p>Contemple ton score et récupère la
                 <RouterLink to="course">vidéo</RouterLink>
-                de ta course !
+                de ta course.
               </p>
             </li>
           </ul>
