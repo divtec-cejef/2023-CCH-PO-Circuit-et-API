@@ -99,7 +99,7 @@ const router = createRouter({
     {
       path: '/live',
       name: 'live',
-      component: LiveView
+      beforeEnter() {window.location.href = 'http://divteccircuit.pythonanywhere.com';}
     },
     {
       name: 'detailJoueur',
