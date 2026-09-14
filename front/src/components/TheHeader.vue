@@ -42,7 +42,7 @@
         <RouterLink to="/stage">
           <p>Stage</p>
           <img :src="stageImg"
-               alt="Icon d'inscription aux stages">
+               alt="Icon d'inscription à un stage">
         </RouterLink>
       </li>
       <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
@@ -86,7 +86,7 @@ const clickMenu = () => {
 };
 
 /**
- * Log out de l'utilisateur
+ * Log out de l'utilisateur connecté
  */
 function logOutUser() {
   const display = displayRef.value;
