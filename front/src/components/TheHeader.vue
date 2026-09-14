@@ -7,7 +7,7 @@
           @click="clickMenu"
       >
         <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
-        <img :src="houseImg" alt="Image d'accueil"/>
+        <img :src="houseImg" alt="Image d'accueil."/>
       </li>
       <li class="logout-big tooltip" :class="{ 'active': route.path === `/${userCar.car.idQuery || ''}`}" @click="clickMenu">
         <RouterLink :to="`/${userCar.car.idQuery || ''}`">Accueil</RouterLink>
