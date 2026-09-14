@@ -72,7 +72,7 @@ const clickMenu = () => {
 };
 
 /**
- * Log out de l'utilisateur
+ * Log out de l'utilisateur connecté
  */
 function logOutUser() {
   const display = displayRef.value;
