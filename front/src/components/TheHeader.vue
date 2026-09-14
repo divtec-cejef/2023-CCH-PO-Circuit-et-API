@@ -42,7 +42,7 @@
         <RouterLink to="/stage">
           <p>Stage</p>
           <img :src="stageImg"
-               alt="Icon d'inscription à un stage">
+               alt="Icon d'inscription aux stages">
         </RouterLink>
       </li>
       <li v-if="userCar.car.idCar" class="logout-phone" @click="logOutUser">
