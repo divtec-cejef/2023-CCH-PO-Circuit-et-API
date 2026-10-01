@@ -4,13 +4,15 @@ import { onMounted, ref, watch, nextTick } from 'vue';
 
 import stat2024A2025 from '../../../resultats-statistique/resultatStat_2024-2025.json';
 import stat2025A2026 from '../../../resultats-statistique/resultatStat_2025-2026.json';
+import stat2026A2027 from '../../../resultats-statistique/resultatStat_2026-2027.json';
 
 const statistiquesParAnnee = {
   '2024-2025': stat2024A2025,
   '2025-2026': stat2025A2026,
+  '2026-2027': stat2026A2027,
 };
 
-const anneeActif = ref('2024-2025');
+const anneeActif = ref('2026-2027');
 
 const dataDisponible = ref(true);
 const nbrActiviteEffectuer = ref(0);
