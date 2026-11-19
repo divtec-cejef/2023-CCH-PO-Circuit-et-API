@@ -3,43 +3,19 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 // Import des images
-import badgeVictorinoxSwissArmy from '@/assets/img/victorinox-swiss-army.png';
-import badgeJAGJakob from '@/assets/img/jag-jakob.png';
-import badgeWilleminMacodel from '@/assets/img/willemin-macodel.png';
-import badgeLouisLang from '@/assets/img/louis-lang.png';
 import badgeGlobaz from '@/assets/img/globaz.png';
-import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
-import badgeSwatchGroup from '@/assets/img/swatch-group.png';
-import badgeRecomatic from '@/assets/img/recomatic.png';
-import badgeBusch from '@/assets/img/busch.png';
-import badgeBaccinex from '@/assets/img/baccinex.png';
-import badgeGroupeTavon from '@/assets/img/groupe-tavon.png';
-import badgeTornos from '@/assets/img/tornos.png';
 import badgeDecovi from '@/assets/img/decovi.png';
-import badgeLemo5 from '@/assets/img/lemo-5.png';
-import badgeManufactureCartierHorlogerie from '@/assets/img/manufacture-cartier-horlogerie.png';
-import badgeBiwi from '@/assets/img/biwi.png';
-import badgeHumardAutomation from '@/assets/img/humard-automation.png';
+import badgeBusch from '@/assets/img/Busch.png';
+import badgeLouisLang from '@/assets/img/Louis lang.png';
+import badgeWillemin from '@/assets/img/badgeWillemin-macodel.png';
 
 // Sponsors
 const sponsors = [
-  { name: 'JAG Jakob SA', image: badgeJAGJakob },
-  { name: 'Louis Lang SA', image: badgeLouisLang },
-  { name: 'Globaz SA', image: badgeGlobaz },
-  { name: 'Biwi SA', image: badgeBiwi },
-  { name: 'Swatch Group', image: badgeSwatchGroup },
-  { name: 'Recomatic SA', image: badgeRecomatic },
-  { name: 'Atelier Busch SA', image: badgeBusch },
-  { name: 'Baccinex SA', image: badgeBaccinex },
-  { name: 'Groupe Tavon', image: badgeGroupeTavon },
-  { name: 'Tornos SA', image: badgeTornos },
-  { name: 'Décovi SA', image: badgeDecovi },
-  { name: 'Lémo 5 SA', image: badgeLemo5 },
-  { name: 'Victorinox Swiss Army SA', image: badgeVictorinoxSwissArmy },
-  { name: 'Manufacture Cartier Horlogerie, Branch of Richemont International SA', image: badgeManufactureCartierHorlogerie},
-  { name: 'Willemin-Macodel SA', image: badgeWilleminMacodel },
-  { name: 'Varin-étampage SA', image: badgeVarinEtampage },
-  { name: 'Humard Automation SA', image: badgeHumardAutomation },
+  { name: 'Globaz', image: badgeGlobaz },
+  { name: 'Décovi', image: badgeDecovi },
+  { name: 'Atelier Busch', image: badgeBusch },
+  { name: 'Louis-lang', image: badgeLouisLang },
+  { name: 'Willemin-Macodel', image: badgeWillemin },
 ];
 
 const currentHighlight = ref(0); // index du logo sur lequel le background est
@@ -57,9 +33,9 @@ function startAnimation() {
   currentHighlight.value = 0;
 
   const targetIndex = Math.floor(Math.random() * sponsors.length);
-  const totalCycles = sponsors.length * 2 + targetIndex;
+  const totalCycles = sponsors.length * 5 + targetIndex;
   let cycle = 0;
-  let speed = Math.max(100, 200 - (sponsors.length * 10));
+  let speed = 150;
   let lastTime = performance.now();
 
   const spin = (time: number) => {
@@ -69,7 +45,7 @@ function startAnimation() {
       lastTime = time;
 
       // Ralentissement progressif à la fin
-      if (cycle > totalCycles - 4) speed += speed;
+      if (cycle > totalCycles - 4) speed += 150;
 
       if (cycle >= totalCycles) {
         isRunning.value = false;
@@ -108,17 +84,6 @@ onMounted(() => startAnimation());
 </script>
 
 <template>
-  <div v-if="winner" class="winner">
-    <div style="margin-top: 30px"><h2 style="text-align: center">Que faut-il faire ?</h2></div>
-    <div style="text-align: center; line-height: 1.6;">
-      Allez à la salle de GYM, au stand
-      <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ winner }}</strong>,
-      pour gagner un prix
-    </div>
-    <div style="color: red; margin-top: 15px">
-      Plus d'information sur la page bonus, dans l'onglet sponsor
-    </div>
-  </div>
   <div class="sponsor-container">
     <div class="sponsor-row">
       <div
@@ -131,48 +96,37 @@ onMounted(() => startAnimation());
         <p class="name">{{ sponsor.name }}</p>
       </div>
     </div>
+
+    <div v-if="winner" class="winner">
+      <div style="margin-top: 30px"><h2 style="text-align: center">Que faut-il faire ?</h2></div>
+      <div style="text-align: center">
+        Allez à la salle de GYM, au stand
+        <strong style="background-color: #28a745; padding: 5px; border-radius: 5%">{{ winner }}</strong>,
+        pour gagner un prix
+      </div>
+      <div style="color: red; margin-top: 15px">
+        Plus d'information sur la page bonus, dans l'onglet sponsor
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
 .sponsor-row {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  justify-items: center;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
   margin-bottom: 1rem;
 }
-
-/* Tablettes */
-@media (max-width: 1024px) {
-  .sponsor-row {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-/* Téléphones */
-@media (max-width: 600px) {
-  .sponsor-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 
 .sponsor-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: background-color 0.3s, transform 0.3s;
-  width: 180px;
-  min-width: 180px;
-  box-sizing: border-box;
 }
-
 
 .sponsor-item img {
   width: 100px;
@@ -184,12 +138,6 @@ onMounted(() => startAnimation());
   font-weight: 600;
   color: white;
   font-size: 1.2rem;
-
-  max-width: 180px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .sponsor-item.highlighted {
@@ -206,6 +154,5 @@ onMounted(() => startAnimation());
   text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 2rem;
 }
 </style>
