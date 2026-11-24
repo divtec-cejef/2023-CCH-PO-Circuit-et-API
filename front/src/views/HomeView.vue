@@ -1,7 +1,8 @@
 <template>
     <div class="home-root">
-        <div>
-            <div class="intro">
+      <video class="bg-video" :src="bgVideo" autoplay muted loop playsinline></video>
+      <div class="explication">
+        <div class="intro">
                 <h1>Bienvenue !</h1>
                 <p v-if="display === 'legacy'">
                     Tu n'est pas connecté...
@@ -97,6 +98,7 @@ import { useLocalStorage } from '@vueuse/core';
 import { formatTime } from '@/models/race';
 
 import qrCodeImg from '@/assets/img/qrCode.gif';
+import bgVideo from '@/assets/video/background.mp4';
 
 const TextTransition = defineAsyncComponent(() => import('@/components/TextTransition.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
@@ -186,6 +188,14 @@ onBeforeUnmount(() => {
 
 </script>
 
+<style lang="scss">
+html:has(.home-root),
+body:has(.home-root),
+#app:has(.home-root) {
+  background: transparent;
+}
+</style>
+
 <style scoped lang="scss">
 @import '@/assets/css/consts.scss';
 @import 'animate.css';
@@ -257,6 +267,28 @@ div.home-root {
     }
   }
 
+  div.explication {
+    background: rgba(#000, 0.3);
+    border-radius: 10px;
+    padding-bottom: 1em;
+
+    @media screen and (prefers-color-scheme: dark) {
+      box-shadow: none;
+      border: $dark-border;
+    }
+  }
+
+  video.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+  }
+
   img.qr-code {
     width: 200px;
     display: block;
@@ -270,6 +302,7 @@ div.home-root {
 
     img {
       opacity: 0.7;
+      border-radius: 10px;
     }
 
     button {
@@ -306,6 +339,7 @@ div.home-root {
         box-shadow: none;
         border: $dark-border;
       }
+      background: rgba(#000, 0.3);
 
       .data {
         font-weight: bold;
