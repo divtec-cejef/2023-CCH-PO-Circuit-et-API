@@ -98,7 +98,7 @@ import { useLocalStorage } from '@vueuse/core';
 import { formatTime } from '@/models/race';
 
 import qrCodeImg from '@/assets/img/qrCode.gif';
-import bgVideo from '@/assets/video/background.mp4';
+import bgVideo from '@/assets/video/background.webm';
 
 const TextTransition = defineAsyncComponent(() => import('@/components/TextTransition.vue'));
 const SpinLoading = defineAsyncComponent(() => import('@/components/SpinLoading.vue'));
