@@ -271,11 +271,12 @@ div.home-root {
     background: rgba(#000, 0.3);
     border-radius: 10px;
     padding-bottom: 1em;
+    color: white;
 
-    @media screen and (prefers-color-scheme: dark) {
+    //@media screen and (prefers-color-scheme: dark) {
       box-shadow: none;
       border: $dark-border;
-    }
+    //}
   }
 
   video.bg-video {
@@ -335,11 +336,12 @@ div.home-root {
       width: 100%;
       overflow: hidden;
 
-      @media screen and (prefers-color-scheme: dark) {
+      //@media screen and (prefers-color-scheme: dark) {
         box-shadow: none;
         border: $dark-border;
-      }
+      //}
       background: rgba(#000, 0.3);
+      color: white;
 
       .data {
         font-weight: bold;
