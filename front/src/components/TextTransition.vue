@@ -37,7 +37,7 @@ const animateNumber = (n: Ref<number | null | undefined>, to: number, i?: number
 };
 
 const animateString = (n: Ref<string | null | undefined>, to: string, i?: number, from?: string) => {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzéàè\'-1234567890 !?:.,;'.split('');
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzéàè\'-1234567890 &!?:.,;'.split('');
   const middle = alphabet.length / 2;
   if (i === undefined) {
     i = 0;
@@ -48,6 +48,12 @@ const animateString = (n: Ref<string | null | undefined>, to: string, i?: number
   }
 
   if (n.value == to) {
+    return;
+  }
+
+  // Sécurité : limite le nombre d'itérations
+  if (i > 100) {
+    n.value = to;
     return;
   }
 
