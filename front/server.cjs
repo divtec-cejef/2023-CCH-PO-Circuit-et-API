@@ -5,8 +5,8 @@ const httpPort = 8080;
 
 const app = express();
 
-// On pointe directement sur /home/jelastic/ROOT/dist
-const distPath = path.join(__dirname, 'dist');
+// On cible explicitement le dossier dist qui est dans le sous-dossier 'front'
+const distPath = path.join(__dirname, 'front', 'dist');
 
 console.log(`Chemin cible du dist : ${distPath}`);
 
