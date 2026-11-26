@@ -5,16 +5,10 @@ const httpPort = 8080;
 
 const app = express();
 
-// Cherche le dossier dist soit à la racine, soit dans un sous-dossier 'front'
-let distPath = path.join(__dirname, 'dist');
-if (!fs.existsSync(distPath)) {
-    const alternativePath = path.join(__dirname, 'front', 'dist');
-    if (fs.existsSync(alternativePath)) {
-        distPath = alternativePath;
-    }
-}
+// On pointe directement sur /home/jelastic/ROOT/dist
+const distPath = path.join(__dirname, 'dist');
 
-console.log(`Using dist path: ${distPath}`);
+console.log(`Chemin cible du dist : ${distPath}`);
 
 if (fs.existsSync(distPath)) {
     fs.readdirSync(distPath).forEach(v => {
@@ -22,6 +16,8 @@ if (fs.existsSync(distPath)) {
             app.use('/' + v, express.static(path.join(distPath, v)));
         }
     });
+} else {
+    console.error(`ATTENTION : Le dossier dist est introuvable à l'emplacement : ${distPath}`);
 }
 
 app.all('*', (req, res) => {
