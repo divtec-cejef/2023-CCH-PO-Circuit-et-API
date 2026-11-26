@@ -5,10 +5,17 @@ const httpPort = 8080;
 
 const app = express();
 
-// Utilise un chemin absolu basé sur l'emplacement de ton script
-const distPath = path.join(__dirname, 'dist');
+// Cherche le dossier dist soit à la racine, soit dans un sous-dossier 'front'
+let distPath = path.join(__dirname, 'dist');
+if (!fs.existsSync(distPath)) {
+    const alternativePath = path.join(__dirname, 'front', 'dist');
+    if (fs.existsSync(alternativePath)) {
+        distPath = alternativePath;
+    }
+}
 
-// Vérifie si le dossier dist existe avant de faire le readdirSync pour éviter un crash total
+console.log(`Using dist path: ${distPath}`);
+
 if (fs.existsSync(distPath)) {
     fs.readdirSync(distPath).forEach(v => {
         if (v !== 'index.html') {
