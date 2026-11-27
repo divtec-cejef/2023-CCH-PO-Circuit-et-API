@@ -3,43 +3,43 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 // Import des images
-import badgeVictorinoxSwissArmy from '@/assets/img/victorinox-swiss-army.png';
-import badgeJAGJakob from '@/assets/img/jag-jakob.png';
+//import badgeVictorinoxSwissArmy from '@/assets/img/victorinox-swiss-army.png';
+//import badgeJAGJakob from '@/assets/img/jag-jakob.png';
 import badgeWilleminMacodel from '@/assets/img/willemin-macodel.png';
 import badgeLouisLang from '@/assets/img/louis-lang.png';
 import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
-import badgeSwatchGroup from '@/assets/img/swatch-group.png';
-import badgeRecomatic from '@/assets/img/recomatic.png';
-import badgeBusch from '@/assets/img/busch.png';
-import badgeBaccinex from '@/assets/img/baccinex.png';
-import badgeGroupeTavon from '@/assets/img/groupe-tavon.png';
-import badgeTornos from '@/assets/img/tornos.png';
-import badgeDecovi from '@/assets/img/decovi.png';
-import badgeLemo5 from '@/assets/img/lemo-5.png';
-import badgeManufactureCartierHorlogerie from '@/assets/img/manufacture-cartier-horlogerie.png';
+//import badgeSwatchGroup from '@/assets/img/swatch-group.png';
+//import badgeRecomatic from '@/assets/img/recomatic.png';
+//import badgeBusch from '@/assets/img/busch.png';
+//import badgeBaccinex from '@/assets/img/baccinex.png';
+//import badgeGroupeTavon from '@/assets/img/groupe-tavon.png';
+//import badgeTornos from '@/assets/img/tornos.png';
+//import badgeDecovi from '@/assets/img/decovi.png';
+//import badgeLemo5 from '@/assets/img/lemo-5.png';
+//import badgeManufactureCartierHorlogerie from '@/assets/img/manufacture-cartier-horlogerie.png';
 import badgeBiwi from '@/assets/img/biwi.png';
-import badgeHumardAutomation from '@/assets/img/humard-automation.png';
+//import badgeHumardAutomation from '@/assets/img/humard-automation.png';
 
 // Sponsors
 const sponsors = [
-  { name: 'JAG Jakob SA', image: badgeJAGJakob },
+  //{ name: 'JAG Jakob SA', image: badgeJAGJakob },
   { name: 'Louis Lang SA', image: badgeLouisLang },
   { name: 'Globaz SA', image: badgeGlobaz },
   { name: 'Biwi SA', image: badgeBiwi },
-  { name: 'Swatch Group', image: badgeSwatchGroup },
-  { name: 'Recomatic SA', image: badgeRecomatic },
-  { name: 'Atelier Busch SA', image: badgeBusch },
-  { name: 'Baccinex SA', image: badgeBaccinex },
-  { name: 'Groupe Tavon', image: badgeGroupeTavon },
-  { name: 'Tornos SA', image: badgeTornos },
-  { name: 'Décovi SA', image: badgeDecovi },
-  { name: 'Lémo 5 SA', image: badgeLemo5 },
-  { name: 'Victorinox Swiss Army SA', image: badgeVictorinoxSwissArmy },
-  { name: 'Manufacture Cartier Horlogerie, Branch of Richemont International SA', image: badgeManufactureCartierHorlogerie},
+  //{ name: 'Swatch Group', image: badgeSwatchGroup },
+  //{ name: 'Recomatic SA', image: badgeRecomatic },
+  //{ name: 'Atelier Busch SA', image: badgeBusch },
+  //{ name: 'Baccinex SA', image: badgeBaccinex },
+  //{ name: 'Groupe Tavon', image: badgeGroupeTavon },
+  //{ name: 'Tornos SA', image: badgeTornos },
+  //{ name: 'Décovi SA', image: badgeDecovi },
+  //{ name: 'Lémo 5 SA', image: badgeLemo5 },
+  //{ name: 'Victorinox Swiss Army SA', image: badgeVictorinoxSwissArmy },
+  //{ name: 'Manufacture Cartier Horlogerie, Branch of Richemont International SA', image: badgeManufactureCartierHorlogerie},
   { name: 'Willemin-Macodel SA', image: badgeWilleminMacodel },
   { name: 'Varin-étampage SA', image: badgeVarinEtampage },
-  { name: 'Humard Automation SA', image: badgeHumardAutomation },
+  //{ name: 'Humard Automation SA', image: badgeHumardAutomation },
 ];
 
 const currentHighlight = ref(0); // index du logo sur lequel le background est
