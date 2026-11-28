@@ -141,8 +141,8 @@ const listAllBonus = ref<{
 const sponsors = [
   { name: 'JAG Jakob SA', image: badgeJAGJakob },
   { name: 'Louis Lang SA', image: badgeLouisLang },
-  { name: 'Globaz SA', image: badgeGlobaz },
-  { name: 'Biwi SA', image: badgeBiwi },
+  //{ name: 'Globaz SA', image: badgeGlobaz },
+  //{ name: 'Biwi SA', image: badgeBiwi },
   //{ name: 'Swatch Group', image: badgeSwatchGroup },
   //{ name: 'Recomatic SA', image: badgeRecomatic },
   //{ name: 'Atelier Busch SA', image: badgeBusch },
