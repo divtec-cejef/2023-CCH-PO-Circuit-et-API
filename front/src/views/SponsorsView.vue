@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router';
 import badgeJAGJakob from '@/assets/img/jag-jakob.png';
 import badgeWilleminMacodel from '@/assets/img/willemin-macodel.png';
 import badgeLouisLang from '@/assets/img/louis-lang.png';
-import badgeGlobaz from '@/assets/img/globaz.png';
+//import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
 //import badgeSwatchGroup from '@/assets/img/swatch-group.png';
 //import badgeRecomatic from '@/assets/img/recomatic.png';
@@ -18,7 +18,7 @@ import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
 //import badgeDecovi from '@/assets/img/decovi.png';
 //import badgeLemo5 from '@/assets/img/lemo-5.png';
 //import badgeManufactureCartierHorlogerie from '@/assets/img/manufacture-cartier-horlogerie.png';
-import badgeBiwi from '@/assets/img/biwi.png';
+//import badgeBiwi from '@/assets/img/biwi.png';
 //import badgeHumardAutomation from '@/assets/img/humard-automation.png';
 
 // Sponsors
