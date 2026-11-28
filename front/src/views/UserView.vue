@@ -114,7 +114,7 @@ import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 import badgeJAGJakob from '@/assets/img/jag-jakob.png';
 import badgeWilleminMacodel from '@/assets/img/willemin-macodel.png';
 import badgeLouisLang from '@/assets/img/louis-lang.png';
-import badgeGlobaz from '@/assets/img/globaz.png';
+//import badgeGlobaz from '@/assets/img/globaz.png';
 import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
 //import badgeSwatchGroup from '@/assets/img/swatch-group.png';
 //import badgeRecomatic from '@/assets/img/recomatic.png';
@@ -125,15 +125,15 @@ import badgeVarinEtampage from '@/assets/img/varin-etampage.png';
 //import badgeDecovi from '@/assets/img/decovi.png';
 //import badgeLemo5 from '@/assets/img/lemo-5.png';
 //import badgeManufactureCartierHorlogerie from '@/assets/img/manufacture-cartier-horlogerie.png';
-import badgeBiwi from '@/assets/img/biwi.png';
+//import badgeBiwi from '@/assets/img/biwi.png';
 //import badgeHumardAutomation from '@/assets/img/humard-automation.png';
 
 // Sponsors
 const sponsors = [
   { name: 'JAG Jakob SA', image: badgeJAGJakob },
   { name: 'Louis Lang SA', image: badgeLouisLang },
-  { name: 'Globaz SA', image: badgeGlobaz },
-  { name: 'Biwi SA', image: badgeBiwi },
+  //{ name: 'Globaz SA', image: badgeGlobaz },
+  //{ name: 'Biwi SA', image: badgeBiwi },
   //{ name: 'Swatch Group', image: badgeSwatchGroup },
   //{ name: 'Recomatic SA', image: badgeRecomatic },
   //{ name: 'Atelier Busch SA', image: badgeBusch },
