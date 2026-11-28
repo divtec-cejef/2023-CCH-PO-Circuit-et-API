@@ -111,7 +111,7 @@ import badgeInconnu from '@/assets/img/sectionInconnu.webp';
 
 // Import des images
 //import badgeVictorinoxSwissArmy from '@/assets/img/victorinox-swiss-army.png';
-//import badgeJAGJakob from '@/assets/img/jag-jakob.png';
+import badgeJAGJakob from '@/assets/img/jag-jakob.png';
 import badgeWilleminMacodel from '@/assets/img/willemin-macodel.png';
 import badgeLouisLang from '@/assets/img/louis-lang.png';
 import badgeGlobaz from '@/assets/img/globaz.png';
@@ -130,7 +130,7 @@ import badgeBiwi from '@/assets/img/biwi.png';
 
 // Sponsors
 const sponsors = [
-  //{ name: 'JAG Jakob SA', image: badgeJAGJakob },
+  { name: 'JAG Jakob SA', image: badgeJAGJakob },
   { name: 'Louis Lang SA', image: badgeLouisLang },
   { name: 'Globaz SA', image: badgeGlobaz },
   { name: 'Biwi SA', image: badgeBiwi },
